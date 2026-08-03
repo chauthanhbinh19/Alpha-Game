@@ -84,6 +84,30 @@ public class CardHeroesService : ICardHeroesService
         return await _cardHeroesRepository.GetCardHeroesCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertCardHeroAsync(CardHeroes entity)
+    {
+        var result = await _cardHeroesRepository.InsertCardHeroAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateCardHeroAsync(CardHeroes entity)
+    {
+        var result = await _cardHeroesRepository.UpdateCardHeroAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<CardHeroes>> GetCardHeroesRandomAsync(string type, int pageSize)
     {
         return await _cardHeroesRepository.GetCardHeroesRandomAsync(type, pageSize);

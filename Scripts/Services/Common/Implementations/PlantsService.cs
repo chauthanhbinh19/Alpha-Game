@@ -24,6 +24,30 @@ public class PlantsService : IPlantsService
         return await _plantsRepository.GetPlantsCountAsync(search, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertPlantAsync(Plants entity)
+    {
+        var result = await _plantsRepository.InsertPlantAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdatePlantAsync(Plants entity)
+    {
+        var result = await _plantsRepository.UpdatePlantAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Plants>> GetPlantsWithPriceAsync(int pageSize, int offset)
     {
         List<Plants> list = await _plantsRepository.GetPlantsWithPriceAsync(pageSize, offset);

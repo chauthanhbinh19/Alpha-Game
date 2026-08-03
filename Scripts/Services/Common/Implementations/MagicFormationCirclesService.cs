@@ -29,6 +29,30 @@ public class MagicFormationCirclesService : IMagicFormationCirclesService
         return await _magicFormationCirclesRepository.GetMagicFormationCirclesCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertMagicFormationCircleAsync(MagicFormationCircles entity)
+    {
+        var result = await _magicFormationCirclesRepository.InsertMagicFormationCircleAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateMagicFormationCircleAsync(MagicFormationCircles entity)
+    {
+        var result = await _magicFormationCirclesRepository.UpdateMagicFormationCircleAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<MagicFormationCircles>> GetMagicFormationCirclesWithPriceAsync(string type, int pageSize, int offset)
     {
         List<MagicFormationCircles> list = await _magicFormationCirclesRepository.GetMagicFormationCirclesWithPriceAsync(type, pageSize, offset);

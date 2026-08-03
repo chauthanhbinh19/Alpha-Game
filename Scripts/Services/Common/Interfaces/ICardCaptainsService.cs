@@ -8,6 +8,8 @@ public interface ICardCaptainsService
     Task<List<CardCaptains>> GetCardCaptainsAsync(string search, string type, string rare, int pageSize, int offset);
     Task<List<CardCaptains>> GetCardCaptainsWithoutLimitAsync();
     Task<int> GetCardCaptainsCountAsync(string search, string type, string rare);
+    Task<InsertOrUpdateResult<bool>> InsertCardCaptainAsync(CardCaptains entity);
+    Task<InsertOrUpdateResult<bool>> UpdateCardCaptainAsync(CardCaptains entity);
     Task<List<CardCaptains>> GetCardCaptainsRandomAsync(string type, int pageSize);
     Task<List<CardCaptains>> GetAllCardCaptainsAsync(string type);
     Task<CardCaptains> GetCardCaptainByIdAsync(string Id);

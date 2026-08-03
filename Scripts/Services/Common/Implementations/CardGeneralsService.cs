@@ -29,6 +29,30 @@ public class CardGeneralsService : ICardGeneralsService
         return await _cardGeneralsRepository.GetCardGeneralsCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertCardGeneralAsync(CardGenerals entity)
+    {
+        var result = await _cardGeneralsRepository.InsertCardGeneralAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateCardGeneralAsync(CardGenerals entity)
+    {
+        var result = await _cardGeneralsRepository.UpdateCardGeneralAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<CardGenerals>> GetCardGeneralsRandomAsync(string type, int pageSize)
     {
         return await _cardGeneralsRepository.GetCardGeneralsRandomAsync(type, pageSize);

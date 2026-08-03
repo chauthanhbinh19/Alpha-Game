@@ -24,6 +24,30 @@ public class CoresService : ICoresService
         return await _coresRepository.GetCoresCountAsync(search, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertCoreAsync(Cores entity)
+    {
+        var result = await _coresRepository.InsertCoreAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateCoreAsync(Cores entity)
+    {
+        var result = await _coresRepository.UpdateCoreAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Cores>> GetCoresWithPriceAsync(int pageSize, int offset)
     {
         List<Cores> list = await _coresRepository.GetCoresWithPriceAsync(pageSize, offset);

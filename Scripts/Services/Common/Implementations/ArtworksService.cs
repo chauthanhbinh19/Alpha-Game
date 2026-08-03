@@ -29,6 +29,30 @@ public class ArtworksService : IArtworksService
         return await _artworksRepository.GetArtworksCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertArtworkAsync(Artworks entity)
+    {
+        var result = await _artworksRepository.InsertArtworkAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateArtworkAsync(Artworks entity)
+    {
+        var result = await _artworksRepository.UpdateArtworkAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Artworks>> GetArtworksWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Artworks> list = await _artworksRepository.GetArtworksWithPriceAsync(type, pageSize, offset);

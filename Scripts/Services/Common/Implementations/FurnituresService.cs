@@ -29,6 +29,30 @@ public class FurnituresService : IFurnituresService
         return await _furnituresRepository.GetFurnituresCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertFurnitureAsync(Furnitures entity)
+    {
+        var result = await _furnituresRepository.InsertFurnitureAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateFurnitureAsync(Furnitures entity)
+    {
+        var result = await _furnituresRepository.UpdateFurnitureAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Furnitures>> GetFurnituresWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Furnitures> list = await _furnituresRepository.GetFurnituresWithPriceAsync(type, pageSize, offset);

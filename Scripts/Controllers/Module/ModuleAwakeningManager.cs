@@ -12,7 +12,7 @@ public class ModuleAwakeningManager : MonoBehaviour
     private Transform MainPanel;
     private GameObject ModulePanelPrefab;
     private GameObject ModuleButtonPrefab;
-    private GameObject PopupModulePanelPrefab;
+    // private GameObject PopupModulePanelPrefab;
     private GameObject PopupModuleQuantityPanelPrefab;
     private GameObject PopupModuleButtonPrefab;
     private GameObject MainModulePanelPrefab;
@@ -42,7 +42,7 @@ public class ModuleAwakeningManager : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         ModulePanelPrefab = UIManager.Instance.Get("ModulePanelPrefab");
         ModuleButtonPrefab = UIManager.Instance.Get("ModuleButtonPrefab");
-        PopupModulePanelPrefab = UIManager.Instance.Get("PopupModulePanelPrefab");
+        // PopupModulePanelPrefab = UIManager.Instance.Get("PopupModulePanelPrefab");
         PopupModuleQuantityPanelPrefab = UIManager.Instance.Get("PopupModuleQuantityPanelPrefab");
         PopupModuleButtonPrefab = UIManager.Instance.Get("PopupModuleButtonPrefab");
         MainModulePanelPrefab = UIManager.Instance.Get("MainModulePanelPrefab");

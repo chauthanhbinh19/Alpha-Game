@@ -24,6 +24,30 @@ public class RobotsService : IRobotsService
         return await _robotsRepository.GetRobotsCountAsync(search, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertRobotAsync(Robots entity)
+    {
+        var result = await _robotsRepository.InsertRobotAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateRobotAsync(Robots entity)
+    {
+        var result = await _robotsRepository.UpdateRobotAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Robots>> GetRobotsWithPriceAsync(int pageSize, int offset)
     {
         List<Robots> list = await _robotsRepository.GetRobotsWithPriceAsync(pageSize, offset);

@@ -24,6 +24,30 @@ public class ArtifactsService : IArtifactsService
         return await _artifactsRepository.GetArtifactsCountAsync(search, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertArtifactAsync(Artifacts entity)
+    {
+        var result = await _artifactsRepository.InsertArtifactAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateArtifactAsync(Artifacts entity)
+    {
+        var result = await _artifactsRepository.UpdateArtifactAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Artifacts>> GetArtifactsWithPriceAsync(int pageSize, int offset)
     {
         List<Artifacts> list = await _artifactsRepository.GetArtifactsWithPriceAsync(pageSize, offset);

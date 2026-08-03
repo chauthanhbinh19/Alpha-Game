@@ -24,6 +24,30 @@ public class BadgesService : IBadgesService
         return await _badgesRepository.GetBadgesCountAsync(search, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertBadgeAsync(Badges entity)
+    {
+        var result = await _badgesRepository.InsertBadgeAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateBadgeAsync(Badges entity)
+    {
+        var result = await _badgesRepository.UpdateBadgeAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Badges>> GetBadgesWithPriceAsync(int pageSize, int offset)
     {
         List<Badges> list = await _badgesRepository.GetBadgesWithPriceAsync(pageSize, offset);

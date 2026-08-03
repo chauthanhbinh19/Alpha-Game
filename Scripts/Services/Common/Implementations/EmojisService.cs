@@ -24,6 +24,30 @@ public class EmojisService : IEmojisService
         return await _emojisRepository.GetEmojisCountAsync(search, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertEmojiAsync(Emojis entity)
+    {
+        var result = await _emojisRepository.InsertEmojiAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateEmojiAsync(Emojis entity)
+    {
+        var result = await _emojisRepository.UpdateEmojiAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Emojis>> GetEmojisWithPriceAsync(int pageSize, int offset)
     {
         List<Emojis> list = await _emojisRepository.GetEmojisWithPriceAsync(pageSize, offset);

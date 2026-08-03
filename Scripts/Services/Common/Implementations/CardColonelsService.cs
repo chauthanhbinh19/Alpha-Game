@@ -29,6 +29,30 @@ public class CardColonelsService : ICardColonelsService
         return await _cardColonelsRepository.GetCardColonelsCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertCardColonelAsync(CardColonels entity)
+    {
+        var result = await _cardColonelsRepository.InsertCardColonelAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateCardColonelAsync(CardColonels entity)
+    {
+        var result = await _cardColonelsRepository.UpdateCardColonelAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<CardColonels>> GetCardColonelsRandomAsync(string type, int pageSize)
     {
         return await _cardColonelsRepository.GetCardColonelsRandomAsync(type, pageSize);

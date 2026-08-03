@@ -24,6 +24,30 @@ public class BeveragesService : IBeveragesService
         return await _beveragesRepository.GetBeveragesCountAsync(search, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertBeverageAsync(Beverages entity)
+    {
+        var result = await _beveragesRepository.InsertBeverageAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateBeverageAsync(Beverages entity)
+    {
+        var result = await _beveragesRepository.UpdateBeverageAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Beverages>> GetBeveragesWithPriceAsync(int pageSize, int offset)
     {
         List<Beverages> list = await _beveragesRepository.GetBeveragesWithPriceAsync(pageSize, offset);

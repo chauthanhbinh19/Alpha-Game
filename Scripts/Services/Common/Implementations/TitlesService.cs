@@ -24,6 +24,30 @@ public class TitlesService : ITitlesService
         return await _titlesRepository.GetTitlesCountAsync(search, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertTitleAsync(Titles entity)
+    {
+        var result = await _titlesRepository.InsertTitleAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateTitleAsync(Titles entity)
+    {
+        var result = await _titlesRepository.UpdateTitleAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Titles>> GetTitlesWithPriceAsync(int pageSize, int offset)
     {
         List<Titles> list = await _titlesRepository.GetTitlesWithPriceAsync(pageSize, offset);

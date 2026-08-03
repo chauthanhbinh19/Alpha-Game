@@ -7,6 +7,8 @@ public interface IPlantsService
     Task<List<Plants>> GetPlantsAsync(string search, string rare, int pageSize, int offset);
     Task<List<Plants>> GetPlantsWithoutLimitAsync();
     Task<int> GetPlantsCountAsync(string search, string rare);
+    Task<InsertOrUpdateResult<bool>> InsertPlantAsync(Plants entity);
+    Task<InsertOrUpdateResult<bool>> UpdatePlantAsync(Plants entity);
     Task<List<Plants>> GetPlantsWithPriceAsync(int pageSize, int offset);
     Task<int> GetPlantsWithPriceCountAsync();
     Task<Plants> GetPlantByIdAsync(string id);

@@ -12,7 +12,7 @@ public class UpgradeAwakeningManager : MonoBehaviour
     private Transform MainPanel;
     private GameObject UpgradePanelPrefab;
     private GameObject UpgradeButtonPrefab;
-    private GameObject PopupUpgradePanelPrefab;
+    // private GameObject PopupUpgradePanelPrefab;
     private GameObject PopupUpgradeQuantityPanelPrefab;
     private GameObject PopupUpgradeButtonPrefab;
     private GameObject MainUpgradePanelPrefab;
@@ -42,7 +42,7 @@ public class UpgradeAwakeningManager : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         UpgradePanelPrefab = UIManager.Instance.Get("UpgradePanelPrefab");
         UpgradeButtonPrefab = UIManager.Instance.Get("UpgradeButtonPrefab");
-        PopupUpgradePanelPrefab = UIManager.Instance.Get("PopupUpgradePanelPrefab");
+        // PopupUpgradePanelPrefab = UIManager.Instance.Get("PopupUpgradePanelPrefab");
         PopupUpgradeQuantityPanelPrefab = UIManager.Instance.Get("PopupUpgradeQuantityPanelPrefab");
         PopupUpgradeButtonPrefab = UIManager.Instance.Get("PopupUpgradeButtonPrefab");
         MainUpgradePanelPrefab = UIManager.Instance.Get("MainUpgradePanelPrefab");
@@ -98,6 +98,7 @@ public class UpgradeAwakeningManager : MonoBehaviour
             levelText.text = currentLevel.ToString();
 
             // 2. Cập nhật Nguyên liệu ở Main Panel dựa theo Level mới (+1 level kế tiếp)
+            // SỬA LỖI: Thay User.CurrentUserLevel bằng (currentLevel + 1)
             List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create()
                 .GetRecipeItemsAsync(featureName, currentLevel + 1, User.CurrentUserId);
 
@@ -143,10 +144,14 @@ public class UpgradeAwakeningManager : MonoBehaviour
             Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
             Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
 
-            // Hiển thị Current Stats (Cột bên trái) cố định ban đầu
             if (userUpgrade != null && currentStatsContent != null)
             {
                 StatsManager.Instance.CreateStatsManager(userUpgrade, currentStatsContent);
+            }
+
+            if (userUpgrade != null && nextStatsContent != null)
+            {
+                StatsManager.Instance.CreateStatsManager(userUpgrade, nextStatsContent);
             }
 
             // Reset Trạng Thái Slider & Text
@@ -228,11 +233,6 @@ public class UpgradeAwakeningManager : MonoBehaviour
                     confirmButton.interactable = false;
                     nextLevelText.text = preview.TargetLevel.ToString();
                     itemUsedQuantityText.text = "0";
-
-                    if (userUpgrade != null && nextStatsContent != null)
-                    {
-                        StatsManager.Instance.CreateStatsManager(userUpgrade, nextStatsContent);
-                    }
                     return;
                 }
 
@@ -264,26 +264,21 @@ public class UpgradeAwakeningManager : MonoBehaviour
                     itemUsedQuantityText.text = "0";
                 }
 
-                // --- XỬ LÝ RENDER PREVIEW STATS CỘT BÊN PHẢI ---
-                int levelsToAdd = preview.UpgradedLevels > 0 ? preview.UpgradedLevels : requested;
-
-                if (userUpgrade != null && nextStatsContent != null)
+                if (preview.UpgradedLevels > 0)
                 {
-                    // Clone hoàn toàn đối tượng userUpgrade
-                    string json = Newtonsoft.Json.JsonConvert.SerializeObject(userUpgrade);
-                    UserUpgrades previewUpgrade = Newtonsoft.Json.JsonConvert.DeserializeObject<UserUpgrades>(json);
-
+                    UserUpgrades previewUpgrade = userUpgrade.CloneUserUpgrade(userUpgrade);
                     if (previewUpgrade != null)
                     {
-                        // Đảm bảo tăng level giả định cho previewUpgrade
-                        previewUpgrade.CurrentLevel += levelsToAdd;
-
-                        // Tính toán tăng chỉ số
-                        EnhanceHelper.EnhanceUpgrades(previewUpgrade, levelsToAdd, upgrade?.BaseMultiplier ?? 1);
-
-                        // Vẽ UI NextStats
-                        StatsManager.Instance.CreateStatsManager(previewUpgrade, nextStatsContent);
+                        EnhanceHelper.EnhanceUpgrades(previewUpgrade, preview.UpgradedLevels, upgrade?.BaseMultiplier ?? 1);
+                        if (nextStatsContent != null)
+                        {
+                            StatsManager.Instance.CreateStatsManager(previewUpgrade, nextStatsContent);
+                        }
                     }
+                }
+                else if (userUpgrade != null && nextStatsContent != null)
+                {
+                    StatsManager.Instance.CreateStatsManager(userUpgrade, nextStatsContent);
                 }
 
                 if (preview.UpgradedLevels > 0 && hasEnough)
@@ -351,12 +346,6 @@ public class UpgradeAwakeningManager : MonoBehaviour
 
                     // Cập nhật lại currentLevel từ data mới nhất vừa fetch
                     currentLevel = userUpgrade?.CurrentLevel ?? 0;
-
-                    // CẬP NHẬT LẠI CỘT STATS HIỆN TẠI BÊN TRÁI
-                    if (userUpgrade != null && currentStatsContent != null)
-                    {
-                        StatsManager.Instance.CreateStatsManager(userUpgrade, currentStatsContent);
-                    }
 
                     // 3. Cập nhật Lực chiến
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);

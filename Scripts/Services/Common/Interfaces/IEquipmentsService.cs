@@ -8,6 +8,8 @@ public interface IEquipmentsService
     Task<List<Equipments>> GetEquipmentsAsync(string search, string rare, string type, int pageSize, int offset);
     Task<List<Equipments>> GetEquipmentsWithoutLimitAsync();
     Task<int> GetEquipmentsCountAsync(string search, string type, string rare);
+    Task<InsertOrUpdateResult<bool>> InsertEquipmentAsync(Equipments entity);
+    Task<InsertOrUpdateResult<bool>> UpdateEquipmentAsync(Equipments entity);
     Task<List<Equipments>> GetEquipmentsWithCurrencyAsync(string type, int pageSize, int offset);
     Task<List<string>> GetEquipmentsSetAsync(string type);
     Task<Equipments> GetEquipmentByIdAsync(string id);

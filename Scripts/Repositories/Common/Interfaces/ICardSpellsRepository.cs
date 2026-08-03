@@ -8,6 +8,8 @@ public interface ICardSpellsRepository
     Task<List<CardSpells>> GetCardSpellsAsync(string search, string type, string rare, int pageSize, int offset);
     Task<List<CardSpells>> GetCardSpellsWithoutLimitAsync();
     Task<int> GetCardSpellsCountAsync(string search, string type, string rare);
+    Task<InsertOrUpdateResult<CardSpells>> InsertCardSpellAsync(CardSpells entity);
+    Task<InsertOrUpdateResult<CardSpells>> UpdateCardSpellAsync(CardSpells entity);
     Task<List<CardSpells>> GetCardSpellsRandomAsync(string type, int pageSize);
     Task<List<CardSpells>> GetAllCardSpellsAsync(string type);
     Task<CardSpells> GetCardSpellByIdAsync(string Id);

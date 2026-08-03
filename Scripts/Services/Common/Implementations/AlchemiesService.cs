@@ -29,6 +29,30 @@ public class AlchemiesService : IAlchemiesService
         return await _alchemiesRepository.GetAlchemiesCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertAlchemyAsync(Alchemies entity)
+    {
+        var result = await _alchemiesRepository.InsertAlchemyAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateAlchemyAsync(Alchemies entity)
+    {
+        var result = await _alchemiesRepository.UpdateAlchemyAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Alchemies>> GetAlchemiesWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Alchemies> list = await _alchemiesRepository.GetAlchemiesWithPriceAsync(type, pageSize, offset);

@@ -29,6 +29,30 @@ public class SymbolsService : ISymbolsService
         return await _symbolsRepository.GetSymbolsCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertSymbolAsync(Symbols entity)
+    {
+        var result = await _symbolsRepository.InsertSymbolAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateSymbolAsync(Symbols entity)
+    {
+        var result = await _symbolsRepository.UpdateSymbolAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Symbols>> GetSymbolsWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Symbols> list = await _symbolsRepository.GetSymbolsWithPriceAsync(type, pageSize, offset);

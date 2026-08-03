@@ -24,6 +24,30 @@ public class TechnologiesService : ITechnologiesService
         return await _technologiesRepository.GetTechnologiesCountAsync(search, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertTechnologyAsync(Technologies entity)
+    {
+        var result = await _technologiesRepository.InsertTechnologyAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateTechnologyAsync(Technologies entity)
+    {
+        var result = await _technologiesRepository.UpdateTechnologyAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Technologies>> GetTechnologiesWithPriceAsync(int pageSize, int offset)
     {
         List<Technologies> list = await _technologiesRepository.GetTechnologiesWithPriceAsync(pageSize, offset);

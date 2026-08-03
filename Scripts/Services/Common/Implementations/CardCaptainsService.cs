@@ -29,6 +29,30 @@ public class CardCaptainsService : ICardCaptainsService
         return await _cardCaptainsRepository.GetCardCaptainsCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertCardCaptainAsync(CardCaptains entity)
+    {
+        var result = await _cardCaptainsRepository.InsertCardCaptainAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateCardCaptainAsync(CardCaptains entity)
+    {
+        var result = await _cardCaptainsRepository.UpdateCardCaptainAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<CardCaptains>> GetCardCaptainsRandomAsync(string type, int pageSize)
     {
         return await _cardCaptainsRepository.GetCardCaptainsRandomAsync(type, pageSize);

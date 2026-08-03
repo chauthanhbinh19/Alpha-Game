@@ -7,6 +7,8 @@ public interface IArchitecturesService
     Task<List<Architectures>> GetArchitecturesAsync(string search, string rare, int pageSize, int offset);
     Task<List<Architectures>> GetArchitecturesWithoutLimitAsync();
     Task<int> GetArchitecturesCountAsync(string search, string rare);
+    Task<InsertOrUpdateResult<bool>> InsertArchitectureAsync(Architectures entity);
+    Task<InsertOrUpdateResult<bool>> UpdateArchitectureAsync(Architectures entity);
     Task<List<Architectures>> GetArchitecturesWithPriceAsync(int pageSize, int offset);
     Task<int> GetArchitecturesWithPriceCountAsync();
     Task<Architectures> GetArchitectureByIdAsync(string id);

@@ -29,6 +29,30 @@ public class VehiclesService : IVehiclesService
         return await _vehiclesRepository.GetVehiclesCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertVehicleAsync(Vehicles entity)
+    {
+        var result = await _vehiclesRepository.InsertVehicleAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateVehicleAsync(Vehicles entity)
+    {
+        var result = await _vehiclesRepository.UpdateVehicleAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Vehicles>> GetVehiclesWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Vehicles> list = await _vehiclesRepository.GetVehiclesWithPriceAsync(type, pageSize, offset);

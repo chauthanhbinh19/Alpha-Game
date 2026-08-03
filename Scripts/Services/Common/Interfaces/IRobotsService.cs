@@ -7,6 +7,8 @@ public interface IRobotsService
     Task<List<Robots>> GetRobotsAsync(string search, string rare, int pageSize, int offset);
     Task<List<Robots>> GetRobotsWithoutLimitAsync();
     Task<int> GetRobotsCountAsync(string search, string rare);
+    Task<InsertOrUpdateResult<bool>> InsertRobotAsync(Robots entity);
+    Task<InsertOrUpdateResult<bool>> UpdateRobotAsync(Robots entity);
     Task<List<Robots>> GetRobotsWithPriceAsync(int pageSize, int offset);
     Task<int> GetRobotsWithPriceCountAsync();
     Task<Robots> GetRobotByIdAsync(string Id);

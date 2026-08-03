@@ -7,6 +7,8 @@ public interface ICoresService
     Task<List<Cores>> GetCoresAsync(string search, string rare, int pageSize, int offset);
     Task<List<Cores>> GetCoresWithoutLimitAsync();
     Task<int> GetCoresCountAsync(string search, string rare);
+    Task<InsertOrUpdateResult<bool>> InsertCoreAsync(Cores entity);
+    Task<InsertOrUpdateResult<bool>> UpdateCoreAsync(Cores entity);
     Task<List<Cores>> GetCoresWithPriceAsync(int pageSize, int offset);
     Task<int> GetCoresWithPriceCountAsync();
     Task<Cores> GetCoreByIdAsync(string Id);

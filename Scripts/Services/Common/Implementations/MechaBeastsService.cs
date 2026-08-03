@@ -24,6 +24,30 @@ public class MechaBeastsService : IMechaBeastsService
         return await _mechaBeastsRepository.GetMechaBeastsCountAsync(search, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertMechaBeastAsync(MechaBeasts entity)
+    {
+        var result = await _mechaBeastsRepository.InsertMechaBeastAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateMechaBeastAsync(MechaBeasts entity)
+    {
+        var result = await _mechaBeastsRepository.UpdateMechaBeastAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<MechaBeasts>> GetMechaBeastsWithPriceAsync(int pageSize, int offset)
     {
         List<MechaBeasts> list = await _mechaBeastsRepository.GetMechaBeastsWithPriceAsync(pageSize, offset);

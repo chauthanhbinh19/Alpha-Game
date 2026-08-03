@@ -29,6 +29,30 @@ public class CardLivesService : ICardLivesService
         return await _cardLivesRepository.GetCardLivesCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertCardLifeAsync(CardLives entity)
+    {
+        var result = await _cardLivesRepository.InsertCardLifeAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateCardLifeAsync(CardLives entity)
+    {
+        var result = await _cardLivesRepository.UpdateCardLifeAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<CardLives>> GetCardLivesWithPriceAsync(string type, int pageSize, int offset)
     {
         List<CardLives> list = await _cardLivesRepository.GetCardLivesWithPriceAsync(type, pageSize, offset);

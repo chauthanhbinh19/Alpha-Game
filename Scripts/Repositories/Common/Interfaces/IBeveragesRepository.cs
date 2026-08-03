@@ -7,6 +7,8 @@ public interface IBeveragesRepository
     Task<List<Beverages>> GetBeveragesAsync(string search, string rare, int pageSize, int offset);
     Task<List<Beverages>> GetBeveragesWithoutLimitAsync();
     Task<int> GetBeveragesCountAsync(string search, string rare);
+    Task<InsertOrUpdateResult<Beverages>> InsertBeverageAsync(Beverages entity);
+    Task<InsertOrUpdateResult<Beverages>> UpdateBeverageAsync(Beverages entity);
     Task<List<Beverages>> GetBeveragesWithPriceAsync(int pageSize, int offset);
     Task<int> GetBeveragesWithPriceCountAsync();
     Task<Beverages> GetBeverageByIdAsync(string id);

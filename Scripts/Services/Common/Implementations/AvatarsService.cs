@@ -24,6 +24,30 @@ public class AvatarsService : IAvatarsService
         return await _avatarsRepository.GetAvatarsCountAsync(search, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertAvatarAsync(Avatars entity)
+    {
+        var result = await _avatarsRepository.InsertAvatarAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateAvatarAsync(Avatars entity)
+    {
+        var result = await _avatarsRepository.UpdateAvatarAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Avatars>> GetAvatarsWithPriceAsync(int pageSize, int offset)
     {
         List<Avatars> list = await _avatarsRepository.GetAvatarsWithPriceAsync(pageSize, offset);

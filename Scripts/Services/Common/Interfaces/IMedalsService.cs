@@ -7,6 +7,8 @@ public interface IMedalsService
     Task<List<Medals>> GetMedalsAsync(string search, string rare, int pageSize, int offset);
     Task<List<Medals>> GetMedalsWithoutLimitAsync();
     Task<int> GetMedalsCountAsync(string search, string rare);
+    Task<InsertOrUpdateResult<bool>> InsertMedalAsync(Medals entity);
+    Task<InsertOrUpdateResult<bool>> UpdateMedalAsync(Medals entity);
     Task<List<Medals>> GetMedalsWithPriceAsync(int pageSize, int offset);
     Task<int> GetMedalsWithPriceCountAsync();
     Task<Medals> GetMedalByIdAsync(string Id);

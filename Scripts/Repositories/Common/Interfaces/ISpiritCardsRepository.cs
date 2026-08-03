@@ -8,6 +8,8 @@ public interface ISpiritCardsRepository
     Task<List<SpiritCards>> GetSpiritCardsAsync(string search, string type, string rare, int pageSize, int offset);
     Task<List<SpiritCards>> GetSpiritCardsWithoutLimitAsync();
     Task<int> GetSpiritCardsCountAsync(string search, string type, string rare);
+    Task<InsertOrUpdateResult<SpiritCards>> InsertSpiritCardAsync(SpiritCards entity);
+    Task<InsertOrUpdateResult<SpiritCards>> UpdateSpiritCardAsync(SpiritCards entity);
     Task<List<SpiritCards>> GetSpiritCardsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetSpiritCardsWithPriceCountAsync(string type);
     Task<SpiritCards> GetSpiritCardByIdAsync(string Id);

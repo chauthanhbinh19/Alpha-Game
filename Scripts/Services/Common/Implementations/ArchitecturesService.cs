@@ -24,6 +24,30 @@ public class ArchitecturesService : IArchitecturesService
         return await _architecturesRepository.GetArchitecturesCountAsync(search, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertArchitectureAsync(Architectures entity)
+    {
+        var result = await _architecturesRepository.InsertArchitectureAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateArchitectureAsync(Architectures entity)
+    {
+        var result = await _architecturesRepository.UpdateArchitectureAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Architectures>> GetArchitecturesWithPriceAsync(int pageSize, int offset)
     {
         List<Architectures> list = await _architecturesRepository.GetArchitecturesWithPriceAsync(pageSize, offset);

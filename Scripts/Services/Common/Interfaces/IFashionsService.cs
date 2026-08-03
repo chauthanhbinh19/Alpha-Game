@@ -8,6 +8,8 @@ public interface IFashionsService
     Task<List<Fashions>> GetFashionsAsync(string search, string rare, string type, int pageSize, int offset);
     Task<List<Fashions>> GetFashionsWithoutLimitAsync();
     Task<int> GetFashionsCountAsync(string search, string type, string rare);
+    Task<InsertOrUpdateResult<bool>> InsertFashionAsync(Fashions entity);
+    Task<InsertOrUpdateResult<bool>> UpdateFashionAsync(Fashions entity);
     Task<List<Fashions>> GetFashionsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetFashionsWithPriceCountAsync(string type);
     Task<Fashions> GetFashionByIdAsync(string Id);

@@ -8,6 +8,8 @@ public interface ICardGeneralsRepository
     Task<List<CardGenerals>> GetCardGeneralsAsync(string search, string type, string rare, int pageSize, int offset);
     Task<List<CardGenerals>> GetCardGeneralsWithoutLimitAsync();
     Task<int> GetCardGeneralsCountAsync(string search, string type, string rare);
+    Task<InsertOrUpdateResult<CardGenerals>> InsertCardGeneralAsync(CardGenerals entity);
+    Task<InsertOrUpdateResult<CardGenerals>> UpdateCardGeneralAsync(CardGenerals entity);
     Task<List<CardGenerals>> GetCardGeneralsRandomAsync(string type, int pageSize);
     Task<List<CardGenerals>> GetAllCardGeneralsAsync(string type);
     Task<CardGenerals> GetCardGeneralByIdAsync(string Id);

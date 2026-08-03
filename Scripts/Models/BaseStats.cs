@@ -6,7 +6,7 @@ public class BaseStats : IStats
 {
     public string Id { get; set; } = string.Empty;
     public string CodeName { get; set; } = string.Empty;
-    public string AvailabilityType { get; set; } = string.Empty;
+    public string AvailabilityType { get; set; } = "Normal";
     public int Star { get; set; } = 0;
     public int CurrentStar { get; set; } = 0;
     public int Level { get; set; } = 0;

@@ -29,6 +29,30 @@ public class FashionsService : IFashionsService
         return await _fashionsRepository.GetFashionsCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertFashionAsync(Fashions entity)
+    {
+        var result = await _fashionsRepository.InsertFashionAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateFashionAsync(Fashions entity)
+    {
+        var result = await _fashionsRepository.UpdateFashionAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Fashions>> GetFashionsWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Fashions> list = await _fashionsRepository.GetFashionsWithPriceAsync(type, pageSize, offset);

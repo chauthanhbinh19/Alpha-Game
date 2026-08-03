@@ -24,6 +24,30 @@ public class FoodsService : IFoodsService
         return await _foodsRepository.GetFoodsCountAsync(search, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertFoodAsync(Foods entity)
+    {
+        var result = await _foodsRepository.InsertFoodAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateFoodAsync(Foods entity)
+    {
+        var result = await _foodsRepository.UpdateFoodAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Foods>> GetFoodsWithPriceAsync(int pageSize, int offset)
     {
         List<Foods> list = await _foodsRepository.GetFoodsWithPriceAsync(pageSize, offset);

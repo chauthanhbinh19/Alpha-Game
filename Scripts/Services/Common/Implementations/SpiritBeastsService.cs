@@ -24,6 +24,30 @@ public class SpiritBeastsService : ISpiritBeastsService
         return await _spiritBeastsRepository.GetSpiritBeastCountAsync(search, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertSpiritBeastAsync(SpiritBeasts entity)
+    {
+        var result = await _spiritBeastsRepository.InsertSpiritBeastAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateSpiritBeastAsync(SpiritBeasts entity)
+    {
+        var result = await _spiritBeastsRepository.UpdateSpiritBeastAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<SpiritBeasts>> GetSpiritBeastsWithPriceAsync(int pageSize, int offset)
     {
         List<SpiritBeasts> list = await _spiritBeastsRepository.GetSpiritBeastsWithPriceAsync(pageSize, offset);

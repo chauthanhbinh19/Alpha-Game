@@ -41,6 +41,30 @@ public class AchievementsService : IAchievementsService
     {
         return await _achievementsRepository.GetAchievementsWithPriceCountAsync();
     }
+
+    public async Task<InsertOrUpdateResult<bool>> InsertAchievementAsync(Achievements entity)
+    {
+        var result = await _achievementsRepository.InsertAchievementAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateAchievementAsync(Achievements entity)
+    {
+        var result = await _achievementsRepository.UpdateAchievementAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
     
     public async Task<Achievements> SumPowerAchievementsPercentAsync(string userId)
     {

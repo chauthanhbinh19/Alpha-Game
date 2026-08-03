@@ -29,6 +29,30 @@ public class EquipmentsService : IEquipmentsService
         return await _equipmentsRepository.GetEquipmentsCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertEquipmentAsync(Equipments entity)
+    {
+        var result = await _equipmentsRepository.InsertEquipmentAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateEquipmentAsync(Equipments entity)
+    {
+        var result = await _equipmentsRepository.UpdateEquipmentAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Equipments>> GetEquipmentsWithCurrencyAsync(string type, int pageSize, int offset)
     {
         return await _equipmentsRepository.GetEquipmentsWithCurrencyAsync(type, pageSize, offset);

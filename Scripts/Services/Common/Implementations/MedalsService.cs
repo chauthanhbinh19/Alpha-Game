@@ -24,6 +24,30 @@ public class MedalsService : IMedalsService
         return await _medalsRepository.GetMedalsCountAsync(search, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertMedalAsync(Medals entity)
+    {
+        var result = await _medalsRepository.InsertMedalAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateMedalAsync(Medals entity)
+    {
+        var result = await _medalsRepository.UpdateMedalAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Medals>> GetMedalsWithPriceAsync(int pageSize, int offset)
     {
         List<Medals> list = await _medalsRepository.GetMedalsWithPriceAsync(pageSize, offset);

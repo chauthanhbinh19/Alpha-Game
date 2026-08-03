@@ -24,6 +24,30 @@ public class RunesService : IRunesService
         return await _runesRepository.GetRunesCountAsync(search, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertRuneAsync(Runes entity)
+    {
+        var result = await _runesRepository.InsertRuneAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateRuneAsync(Runes entity)
+    {
+        var result = await _runesRepository.UpdateRuneAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Runes>> GetRunesWithPriceAsync(int pageSize, int offset)
     {
         List<Runes> list = await _runesRepository.GetRunesWithPriceAsync(pageSize, offset);

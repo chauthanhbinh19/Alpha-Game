@@ -29,6 +29,30 @@ public class ForgesService : IForgesService
         return await _forgesRepository.GetForgesCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertForgeAsync(Forges entity)
+    {
+        var result = await _forgesRepository.InsertForgeAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateForgeAsync(Forges entity)
+    {
+        var result = await _forgesRepository.UpdateForgeAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Forges>> GetForgesWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Forges> list = await _forgesRepository.GetForgesWithPriceAsync(type, pageSize, offset);

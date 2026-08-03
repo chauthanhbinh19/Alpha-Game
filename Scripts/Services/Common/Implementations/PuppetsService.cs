@@ -29,6 +29,30 @@ public class PuppetsService : IPuppetsService
         return await _puppetsRepository.GetPuppetsCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertPuppetAsync(Puppets entity)
+    {
+        var result = await _puppetsRepository.InsertPuppetAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdatePuppetAsync(Puppets entity)
+    {
+        var result = await _puppetsRepository.UpdatePuppetAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Puppets>> GetPuppetsWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Puppets> list = await _puppetsRepository.GetPuppetsWithPriceAsync(type, pageSize, offset);

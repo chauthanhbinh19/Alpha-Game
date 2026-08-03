@@ -8,6 +8,8 @@ public interface IVehiclesService
     Task<List<Vehicles>> GetVehiclesAsync(string search, string type, string rare, int pageSize, int offset);
     Task<List<Vehicles>> GetVehiclesWithoutLimitAsync();
     Task<int> GetVehiclesCountAsync(string search, string type, string rare);
+    Task<InsertOrUpdateResult<bool>> InsertVehicleAsync(Vehicles entity);
+    Task<InsertOrUpdateResult<bool>> UpdateVehicleAsync(Vehicles entity);
     Task<List<Vehicles>> GetVehiclesWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetVehiclesWithPriceCountAsync(string type);
     Task<Vehicles> GetVehicleByIdAsync(string Id);

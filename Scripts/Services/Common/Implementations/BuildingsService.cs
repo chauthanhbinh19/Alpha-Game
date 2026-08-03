@@ -29,6 +29,30 @@ public class BuildingsService : IBuildingsService
         return await _buildingsRepository.GetBuildingsCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertBuildingAsync(Buildings entity)
+    {
+        var result = await _buildingsRepository.InsertBuildingAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateBuildingAsync(Buildings entity)
+    {
+        var result = await _buildingsRepository.UpdateBuildingAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Buildings>> GetBuildingsWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Buildings> list = await _buildingsRepository.GetBuildingsWithPriceAsync(type, pageSize, offset);

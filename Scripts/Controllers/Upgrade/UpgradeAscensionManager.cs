@@ -12,7 +12,7 @@ public class UpgradeAscensionManager : MonoBehaviour
     private Transform MainPanel;
     private GameObject UpgradePanelPrefab;
     private GameObject UpgradeButtonPrefab;
-    private GameObject PopupUpgradePanelPrefab;
+    // private GameObject PopupUpgradePanelPrefab;
     private GameObject PopupUpgradeQuantityPanelPrefab;
     private GameObject PopupUpgradeButtonPrefab;
     private GameObject MainUpgradePanelPrefab;
@@ -42,7 +42,7 @@ public class UpgradeAscensionManager : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         UpgradePanelPrefab = UIManager.Instance.Get("UpgradePanelPrefab");
         UpgradeButtonPrefab = UIManager.Instance.Get("UpgradeButtonPrefab");
-        PopupUpgradePanelPrefab = UIManager.Instance.Get("PopupUpgradePanelPrefab");
+        // PopupUpgradePanelPrefab = UIManager.Instance.Get("PopupUpgradePanelPrefab");
         PopupUpgradeQuantityPanelPrefab = UIManager.Instance.Get("PopupUpgradeQuantityPanelPrefab");
         PopupUpgradeButtonPrefab = UIManager.Instance.Get("PopupUpgradeButtonPrefab");
         MainUpgradePanelPrefab = UIManager.Instance.Get("MainUpgradePanelPrefab");
@@ -147,6 +147,11 @@ public class UpgradeAscensionManager : MonoBehaviour
             if (userUpgrade != null && currentStatsContent != null)
             {
                 StatsManager.Instance.CreateStatsManager(userUpgrade, currentStatsContent);
+            }
+
+            if (userUpgrade != null && nextStatsContent != null)
+            {
+                StatsManager.Instance.CreateStatsManager(userUpgrade, nextStatsContent);
             }
 
             // Reset Trạng Thái Slider & Text
@@ -259,28 +264,21 @@ public class UpgradeAscensionManager : MonoBehaviour
                     itemUsedQuantityText.text = "0";
                 }
 
-                int levelsToAdd = preview.UpgradedLevels > 0 ? preview.UpgradedLevels : requested;
-
-                if (userUpgrade != null && nextStatsContent != null)
+                if (preview.UpgradedLevels > 0)
                 {
-                    // 1. Clone object userUpgrade qua JSON
-                    string json = Newtonsoft.Json.JsonConvert.SerializeObject(userUpgrade);
-                    UserUpgrades previewUpgrade = Newtonsoft.Json.JsonConvert.DeserializeObject<UserUpgrades>(json);
-
+                    UserUpgrades previewUpgrade = userUpgrade.CloneUserUpgrade(userUpgrade);
                     if (previewUpgrade != null)
                     {
-                        // 2. Cập nhật CurrentLevel cho đối tượng preview trước
-                        previewUpgrade.CurrentLevel += levelsToAdd;
-
-                        // 3. Gọi EnhanceUpgrades để tính toán/buff stats cho previewUpgrade
-                        EnhanceHelper.EnhanceUpgrades(previewUpgrade, levelsToAdd, upgrade?.BaseMultiplier ?? 1);
-
-                        // 4. KIỂM TRA: Nếu project của bạn có hàm Re-calculate Stats (ví dụ: CalculateStats, UpdateStats...)
-                        // Hãy chắc chắn previewUpgrade đã chứa giá trị HP/ATK mới trước khi đưa vào đây:
-
-                        // Render UI
-                        StatsManager.Instance.CreateStatsManager(previewUpgrade, nextStatsContent);
+                        EnhanceHelper.EnhanceUpgrades(previewUpgrade, preview.UpgradedLevels, upgrade?.BaseMultiplier ?? 1);
+                        if (nextStatsContent != null)
+                        {
+                            StatsManager.Instance.CreateStatsManager(previewUpgrade, nextStatsContent);
+                        }
                     }
+                }
+                else if (userUpgrade != null && nextStatsContent != null)
+                {
+                    StatsManager.Instance.CreateStatsManager(userUpgrade, nextStatsContent);
                 }
 
                 if (preview.UpgradedLevels > 0 && hasEnough)
@@ -348,9 +346,6 @@ public class UpgradeAscensionManager : MonoBehaviour
 
                     // Cập nhật lại currentLevel từ data mới nhất vừa fetch
                     currentLevel = userUpgrade?.CurrentLevel ?? 0;
-
-                    if (userUpgrade != null && currentStatsContent != null)
-                        StatsManager.Instance.CreateStatsManager(userUpgrade, currentStatsContent);
 
                     // 3. Cập nhật Lực chiến
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);

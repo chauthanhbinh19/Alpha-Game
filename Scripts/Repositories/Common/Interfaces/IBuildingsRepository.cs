@@ -8,6 +8,8 @@ public interface IBuildingsRepository
     Task<List<Buildings>> GetBuildingsAsync(string search, string type, string rare, int pageSize, int offset);
     Task<List<Buildings>> GetBuildingsWithoutLimitAsync();
     Task<int> GetBuildingsCountAsync(string search, string type, string rare);
+    Task<InsertOrUpdateResult<Buildings>> InsertBuildingAsync(Buildings entity);
+    Task<InsertOrUpdateResult<Buildings>> UpdateBuildingAsync(Buildings entity);
     Task<List<Buildings>> GetBuildingsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetBuildingsWithPriceCountAsync(string type);
     Task<Buildings> GetBuildingByIdAsync(string Id);

@@ -890,67 +890,7 @@ public class StatsManager : MonoBehaviour
     public void CreateStatsManager(UserModules userModule, Transform contentTransform)
     {
         // Truyền contentTransform thay vì root transform
-        SetupStat(contentTransform, "Power", AppConstants.StatFields.POWER, AppDisplayConstants.StatFieldsShort.POWER, userModule.Power);
-        SetupStat(contentTransform, "Health", AppConstants.StatFields.HEALTH, AppDisplayConstants.StatFieldsShort.HEALTH, userModule.Health);
-        SetupStat(contentTransform, "PhysicalAttack", AppConstants.StatFields.PHYSICAL_ATTACK, AppDisplayConstants.StatFieldsShort.PHYSICAL_ATTACK, userModule.PhysicalAttack);
-        SetupStat(contentTransform, "PhysicalDefense", AppConstants.StatFields.PHYSICAL_DEFENSE, AppDisplayConstants.StatFieldsShort.PHYSICAL_DEFENSE, userModule.PhysicalDefense);
-        SetupStat(contentTransform, "MagicalAttack", AppConstants.StatFields.MAGICAL_ATTACK, AppDisplayConstants.StatFieldsShort.MAGICAL_ATTACK, userModule.MagicalAttack);
-        SetupStat(contentTransform, "MagicalDefense", AppConstants.StatFields.MAGICAL_DEFENSE, AppDisplayConstants.StatFieldsShort.MAGICAL_DEFENSE, userModule.MagicalDefense);
-        SetupStat(contentTransform, "ChemicalAttack", AppConstants.StatFields.CHEMICAL_ATTACK, AppDisplayConstants.StatFieldsShort.CHEMICAL_ATTACK, userModule.ChemicalAttack);
-        SetupStat(contentTransform, "ChemicalDefense", AppConstants.StatFields.CHEMICAL_DEFENSE, AppDisplayConstants.StatFieldsShort.CHEMICAL_DEFENSE, userModule.ChemicalDefense);
-        SetupStat(contentTransform, "AtomicAttack", AppConstants.StatFields.ATOMIC_ATTACK, AppDisplayConstants.StatFieldsShort.ATOMIC_ATTACK, userModule.AtomicAttack);
-        SetupStat(contentTransform, "AtomicDefense", AppConstants.StatFields.ATOMIC_DEFENSE, AppDisplayConstants.StatFieldsShort.ATOMIC_DEFENSE, userModule.AtomicDefense);
-        SetupStat(contentTransform, "MentalAttack", AppConstants.StatFields.MENTAL_ATTACK, AppDisplayConstants.StatFieldsShort.MENTAL_ATTACK, userModule.MentalAttack);
-        SetupStat(contentTransform, "MentalDefense", AppConstants.StatFields.MENTAL_DEFENSE, AppDisplayConstants.StatFieldsShort.MENTAL_DEFENSE, userModule.MentalDefense);
-        SetupStat(contentTransform, "Speed", AppConstants.StatFields.SPEED, AppDisplayConstants.StatFieldsShort.SPEED, userModule.Speed);
-        SetupStat(contentTransform, "CriticalRate", AppConstants.StatFields.CRITICAL_RATE, AppDisplayConstants.StatFieldsShort.CRITICAL_RATE, userModule.CriticalRate, true);
-        SetupStat(contentTransform, "CriticalDamageRate", AppConstants.StatFields.CRITICAL_DAMAGE_RATE, AppDisplayConstants.StatFieldsShort.CRITICAL_DAMAGE_RATE, userModule.CriticalDamageRate, true);
-        SetupStat(contentTransform, "CriticalResistanceRate", AppConstants.StatFields.CRITICAL_RESISTANCE_RATE, AppDisplayConstants.StatFieldsShort.CRITICAL_RESISTANCE_RATE, userModule.CriticalResistanceRate, true);
-        SetupStat(contentTransform, "IgnoreCriticalRate", AppConstants.StatFields.IGNORE_CRITICAL_RATE, AppDisplayConstants.StatFieldsShort.IGNORE_CRITICAL_RATE, userModule.IgnoreCriticalRate, true);
-        SetupStat(contentTransform, "PenetrationRate", AppConstants.StatFields.PENETRATION_RATE, AppDisplayConstants.StatFieldsShort.PENETRATION_RATE, userModule.PenetrationRate, true);
-        SetupStat(contentTransform, "PenetrationResistanceRate", AppConstants.StatFields.PENETRATION_RESISTANCE_RATE, AppDisplayConstants.StatFieldsShort.PENETRATION_RESISTANCE_RATE, userModule.PenetrationResistanceRate, true);
-        SetupStat(contentTransform, "EvasionRate", AppConstants.StatFields.EVASION_RATE, AppDisplayConstants.StatFieldsShort.EVASION_RATE, userModule.EvasionRate, true);
-        SetupStat(contentTransform, "DamageAbsorptionRate", AppConstants.StatFields.DAMAGE_ABSORPTION_RATE, AppDisplayConstants.StatFieldsShort.DAMAGE_ABSORPTION_RATE, userModule.DamageAbsorptionRate, true);
-        SetupStat(contentTransform, "IgnoreDamageAbsorptionRate", AppConstants.StatFields.IGNORE_DAMAGE_ABSORPTION_RATE, AppDisplayConstants.StatFieldsShort.IGNORE_DAMAGE_ABSORPTION_RATE, userModule.IgnoreDamageAbsorptionRate, true);
-        SetupStat(contentTransform, "AbsorbedDamageRate", AppConstants.StatFields.ABSORBED_DAMAGE_RATE, AppDisplayConstants.StatFieldsShort.ABSORBED_DAMAGE_RATE, userModule.AbsorbedDamageRate, true);
-        SetupStat(contentTransform, "VitalityRegenerationRate", AppConstants.StatFields.VITALITY_REGENERATION_RATE, AppDisplayConstants.StatFieldsShort.VITALITY_REGENERATION_RATE, userModule.VitalityRegenerationRate, true);
-        SetupStat(contentTransform, "VitalityRegenerationResistanceRate", AppConstants.StatFields.VITALITY_REGENERATION_RESISTANCE_RATE, AppDisplayConstants.StatFieldsShort.VITALITY_REGENERATION_RESISTANCE_RATE, userModule.VitalityRegenerationResistanceRate, true);
-        SetupStat(contentTransform, "AccuracyRate", AppConstants.StatFields.ACCURACY_RATE, AppDisplayConstants.StatFieldsShort.ACCURACY_RATE, userModule.AccuracyRate, true);
-        SetupStat(contentTransform, "LifestealRate", AppConstants.StatFields.LIFE_STEAL_RATE, AppDisplayConstants.StatFieldsShort.LIFE_STEAL_RATE, userModule.LifestealRate, true);
-        SetupStat(contentTransform, "Mana", AppConstants.StatFields.MANA, AppDisplayConstants.StatFieldsShort.MANA, userModule.Mana);
-        SetupStat(contentTransform, "ManaRegenerationRate", AppConstants.StatFields.MANA_REGENERATION_RATE, AppDisplayConstants.StatFieldsShort.MANA_REGENERATION_RATE, userModule.ManaRegenerationRate, true);
-        SetupStat(contentTransform, "ShieldStrength", AppConstants.StatFields.SHIELD_STRENGTH, AppDisplayConstants.StatFieldsShort.SHIELD_STRENGTH, userModule.ShieldStrength);
-        SetupStat(contentTransform, "Tenacity", AppConstants.StatFields.TENACITY, AppDisplayConstants.StatFieldsShort.TENACITY, userModule.Tenacity);
-        SetupStat(contentTransform, "ResistanceRate", AppConstants.StatFields.RESISTANCE_RATE, AppDisplayConstants.StatFieldsShort.RESISTANCE_RATE, userModule.ResistanceRate, true);
-        SetupStat(contentTransform, "ComboRate", AppConstants.StatFields.COMBO_RATE, AppDisplayConstants.StatFieldsShort.COMBO_RATE, userModule.ComboRate, true);
-        SetupStat(contentTransform, "IgnoreComboRate", AppConstants.StatFields.IGNORE_COMBO_RATE, AppDisplayConstants.StatFieldsShort.IGNORE_COMBO_RATE, userModule.IgnoreComboRate, true);
-        SetupStat(contentTransform, "ComboDamageRate", AppConstants.StatFields.COMBO_DAMAGE_RATE, AppDisplayConstants.StatFieldsShort.COMBO_DAMAGE_RATE, userModule.ComboDamageRate, true);
-        SetupStat(contentTransform, "ComboResistanceRate", AppConstants.StatFields.COMBO_RESISTANCE_RATE, AppDisplayConstants.StatFieldsShort.COMBO_RESISTANCE_RATE, userModule.ComboResistanceRate, true);
-        SetupStat(contentTransform, "StunRate", AppConstants.StatFields.STUN_RATE, AppDisplayConstants.StatFieldsShort.STUN_RATE, userModule.StunRate, true);
-        SetupStat(contentTransform, "IgnoreStunRate", AppConstants.StatFields.IGNORE_STUN_RATE, AppDisplayConstants.StatFieldsShort.IGNORE_STUN_RATE, userModule.IgnoreStunRate, true);
-        SetupStat(contentTransform, "ReflectionRate", AppConstants.StatFields.REFLECTION_RATE, AppDisplayConstants.StatFieldsShort.REFLECTION_RATE, userModule.ReflectionRate, true);
-        SetupStat(contentTransform, "IgnoreReflectionRate", AppConstants.StatFields.IGNORE_REFLECTION_RATE, AppDisplayConstants.StatFieldsShort.IGNORE_REFLECTION_RATE, userModule.IgnoreReflectionRate, true);
-        SetupStat(contentTransform, "ReflectionDamageRate", AppConstants.StatFields.REFLECTION_DAMAGE_RATE, AppDisplayConstants.StatFieldsShort.REFLECTION_DAMAGE_RATE, userModule.ReflectionDamageRate, true);
-        SetupStat(contentTransform, "ReflectionResistanceRate", AppConstants.StatFields.REFLECTION_RESISTANCE_RATE, AppDisplayConstants.StatFieldsShort.REFLECTION_RESISTANCE_RATE, userModule.ReflectionResistanceRate, true);
-        SetupStat(contentTransform, "DamageToDifferentFactionRate", AppConstants.StatFields.DAMAGE_TO_DIFFERENT_FACTION_RATE, AppDisplayConstants.StatFieldsShort.DAMAGE_TO_DIFFERENT_FACTION_RATE, userModule.DamageToDifferentFactionRate, true);
-        SetupStat(contentTransform, "ResistanceToDifferentFactionRate", AppConstants.StatFields.RESISTANCE_TO_DIFFERENT_FACTION_RATE, AppDisplayConstants.StatFieldsShort.RESISTANCE_TO_DIFFERENT_FACTION_RATE, userModule.ResistanceToDifferentFactionRate, true);
-        SetupStat(contentTransform, "DamageToSameFactionRate", AppConstants.StatFields.DAMAGE_TO_SAME_FACTION_RATE, AppDisplayConstants.StatFieldsShort.DAMAGE_TO_SAME_FACTION_RATE, userModule.DamageToSameFactionRate, true);
-        SetupStat(contentTransform, "ResistanceToSameFactionRate", AppConstants.StatFields.RESISTANCE_TO_SAME_FACTION_RATE, AppDisplayConstants.StatFieldsShort.RESISTANCE_TO_SAME_FACTION_RATE, userModule.ResistanceToSameFactionRate, true);
-        SetupStat(contentTransform, "NormalDamageRate", AppConstants.StatFields.NORMAL_DAMAGE_RATE, AppDisplayConstants.StatFieldsShort.NORMAL_DAMAGE_RATE, userModule.NormalDamageRate, true);
-        SetupStat(contentTransform, "NormalResistanceRate", AppConstants.StatFields.NORMAL_RESISTANCE_RATE, AppDisplayConstants.StatFieldsShort.NORMAL_RESISTANCE_RATE, userModule.NormalResistanceRate, true);
-        SetupStat(contentTransform, "SkillDamageRate", AppConstants.StatFields.SKILL_DAMAGE_RATE, AppDisplayConstants.StatFieldsShort.SKILL_DAMAGE_RATE, userModule.SkillDamageRate, true);
-        SetupStat(contentTransform, "SkillResistanceRate", AppConstants.StatFields.SKILL_RESISTANCE_RATE, AppDisplayConstants.StatFieldsShort.SKILL_RESISTANCE_RATE, userModule.SkillResistanceRate, true);
-        SetupStat(contentTransform, "PercentAllHealth", AppConstants.StatFields.PERCENT_ALL_HEALTH, AppDisplayConstants.StatFieldsShort.PERCENT_ALL_HEALTH, userModule.PercentAllHealth, true);
-        SetupStat(contentTransform, "PercentAllPhysicalAttack", AppConstants.StatFields.PERCENT_ALL_PHYSICAL_ATTACK, AppDisplayConstants.StatFieldsShort.PERCENT_ALL_PHYSICAL_ATTACK, userModule.PercentAllPhysicalAttack, true);
-        SetupStat(contentTransform, "PercentAllPhysicalDefense", AppConstants.StatFields.PERCENT_ALL_PHYSICAL_DEFENSE, AppDisplayConstants.StatFieldsShort.PERCENT_ALL_PHYSICAL_DEFENSE, userModule.PercentAllPhysicalDefense, true);
-        SetupStat(contentTransform, "PercentAllMagicalAttack", AppConstants.StatFields.PERCENT_ALL_MAGICAL_ATTACK, AppDisplayConstants.StatFieldsShort.PERCENT_ALL_MAGICAL_ATTACK, userModule.PercentAllMagicalAttack, true);
-        SetupStat(contentTransform, "PercentAllMagicalDefense", AppConstants.StatFields.PERCENT_ALL_MAGICAL_DEFENSE, AppDisplayConstants.StatFieldsShort.PERCENT_ALL_MAGICAL_DEFENSE, userModule.PercentAllMagicalDefense, true);
-        SetupStat(contentTransform, "PercentAllChemicalAttack", AppConstants.StatFields.PERCENT_ALL_CHEMICAL_ATTACK, AppDisplayConstants.StatFieldsShort.PERCENT_ALL_CHEMICAL_ATTACK, userModule.PercentAllChemicalAttack, true);
-        SetupStat(contentTransform, "PercentAllChemicalDefense", AppConstants.StatFields.PERCENT_ALL_CHEMICAL_DEFENSE, AppDisplayConstants.StatFieldsShort.PERCENT_ALL_CHEMICAL_DEFENSE, userModule.PercentAllChemicalDefense, true);
-        SetupStat(contentTransform, "PercentAllAtomicAttack", AppConstants.StatFields.PERCENT_ALL_ATOMIC_ATTACK, AppDisplayConstants.StatFieldsShort.PERCENT_ALL_ATOMIC_ATTACK, userModule.PercentAllAtomicAttack, true);
-        SetupStat(contentTransform, "PercentAllAtomicDefense", AppConstants.StatFields.PERCENT_ALL_ATOMIC_DEFENSE, AppDisplayConstants.StatFieldsShort.PERCENT_ALL_ATOMIC_DEFENSE, userModule.PercentAllAtomicDefense, true);
-        SetupStat(contentTransform, "PercentAllMentalAttack", AppConstants.StatFields.PERCENT_ALL_MENTAL_ATTACK, AppDisplayConstants.StatFieldsShort.PERCENT_ALL_MENTAL_ATTACK, userModule.PercentAllMentalAttack, true);
-        SetupStat(contentTransform, "PercentAllMentalDefense", AppConstants.StatFields.PERCENT_ALL_MENTAL_DEFENSE, AppDisplayConstants.StatFieldsShort.PERCENT_ALL_MENTAL_DEFENSE, userModule.PercentAllMentalDefense, true);
+        SetupStat(contentTransform, "Multiplier", AppConstants.StatFields.POWER, AppDisplayConstants.StatFieldsShort.POWER, userModule.CurrentMultiplier);
     }
     public void CreateStatsManager(UserRanks userRank, Transform contentTransform)
     {
@@ -1279,67 +1219,7 @@ public class StatsManager : MonoBehaviour
     public void CreateStatsManager(UserUpgrades userUpgrade, Transform contentTransform)
     {
         // Truyền contentTransform thay vì root transform
-        SetupStat(contentTransform, "Power", AppConstants.StatFields.POWER, AppDisplayConstants.StatFieldsShort.POWER, userUpgrade.Power);
-        SetupStat(contentTransform, "Health", AppConstants.StatFields.HEALTH, AppDisplayConstants.StatFieldsShort.HEALTH, userUpgrade.Health);
-        SetupStat(contentTransform, "PhysicalAttack", AppConstants.StatFields.PHYSICAL_ATTACK, AppDisplayConstants.StatFieldsShort.PHYSICAL_ATTACK, userUpgrade.PhysicalAttack);
-        SetupStat(contentTransform, "PhysicalDefense", AppConstants.StatFields.PHYSICAL_DEFENSE, AppDisplayConstants.StatFieldsShort.PHYSICAL_DEFENSE, userUpgrade.PhysicalDefense);
-        SetupStat(contentTransform, "MagicalAttack", AppConstants.StatFields.MAGICAL_ATTACK, AppDisplayConstants.StatFieldsShort.MAGICAL_ATTACK, userUpgrade.MagicalAttack);
-        SetupStat(contentTransform, "MagicalDefense", AppConstants.StatFields.MAGICAL_DEFENSE, AppDisplayConstants.StatFieldsShort.MAGICAL_DEFENSE, userUpgrade.MagicalDefense);
-        SetupStat(contentTransform, "ChemicalAttack", AppConstants.StatFields.CHEMICAL_ATTACK, AppDisplayConstants.StatFieldsShort.CHEMICAL_ATTACK, userUpgrade.ChemicalAttack);
-        SetupStat(contentTransform, "ChemicalDefense", AppConstants.StatFields.CHEMICAL_DEFENSE, AppDisplayConstants.StatFieldsShort.CHEMICAL_DEFENSE, userUpgrade.ChemicalDefense);
-        SetupStat(contentTransform, "AtomicAttack", AppConstants.StatFields.ATOMIC_ATTACK, AppDisplayConstants.StatFieldsShort.ATOMIC_ATTACK, userUpgrade.AtomicAttack);
-        SetupStat(contentTransform, "AtomicDefense", AppConstants.StatFields.ATOMIC_DEFENSE, AppDisplayConstants.StatFieldsShort.ATOMIC_DEFENSE, userUpgrade.AtomicDefense);
-        SetupStat(contentTransform, "MentalAttack", AppConstants.StatFields.MENTAL_ATTACK, AppDisplayConstants.StatFieldsShort.MENTAL_ATTACK, userUpgrade.MentalAttack);
-        SetupStat(contentTransform, "MentalDefense", AppConstants.StatFields.MENTAL_DEFENSE, AppDisplayConstants.StatFieldsShort.MENTAL_DEFENSE, userUpgrade.MentalDefense);
-        SetupStat(contentTransform, "Speed", AppConstants.StatFields.SPEED, AppDisplayConstants.StatFieldsShort.SPEED, userUpgrade.Speed);
-        SetupStat(contentTransform, "CriticalRate", AppConstants.StatFields.CRITICAL_RATE, AppDisplayConstants.StatFieldsShort.CRITICAL_RATE, userUpgrade.CriticalRate, true);
-        SetupStat(contentTransform, "CriticalDamageRate", AppConstants.StatFields.CRITICAL_DAMAGE_RATE, AppDisplayConstants.StatFieldsShort.CRITICAL_DAMAGE_RATE, userUpgrade.CriticalDamageRate, true);
-        SetupStat(contentTransform, "CriticalResistanceRate", AppConstants.StatFields.CRITICAL_RESISTANCE_RATE, AppDisplayConstants.StatFieldsShort.CRITICAL_RESISTANCE_RATE, userUpgrade.CriticalResistanceRate, true);
-        SetupStat(contentTransform, "IgnoreCriticalRate", AppConstants.StatFields.IGNORE_CRITICAL_RATE, AppDisplayConstants.StatFieldsShort.IGNORE_CRITICAL_RATE, userUpgrade.IgnoreCriticalRate, true);
-        SetupStat(contentTransform, "PenetrationRate", AppConstants.StatFields.PENETRATION_RATE, AppDisplayConstants.StatFieldsShort.PENETRATION_RATE, userUpgrade.PenetrationRate, true);
-        SetupStat(contentTransform, "PenetrationResistanceRate", AppConstants.StatFields.PENETRATION_RESISTANCE_RATE, AppDisplayConstants.StatFieldsShort.PENETRATION_RESISTANCE_RATE, userUpgrade.PenetrationResistanceRate, true);
-        SetupStat(contentTransform, "EvasionRate", AppConstants.StatFields.EVASION_RATE, AppDisplayConstants.StatFieldsShort.EVASION_RATE, userUpgrade.EvasionRate, true);
-        SetupStat(contentTransform, "DamageAbsorptionRate", AppConstants.StatFields.DAMAGE_ABSORPTION_RATE, AppDisplayConstants.StatFieldsShort.DAMAGE_ABSORPTION_RATE, userUpgrade.DamageAbsorptionRate, true);
-        SetupStat(contentTransform, "IgnoreDamageAbsorptionRate", AppConstants.StatFields.IGNORE_DAMAGE_ABSORPTION_RATE, AppDisplayConstants.StatFieldsShort.IGNORE_DAMAGE_ABSORPTION_RATE, userUpgrade.IgnoreDamageAbsorptionRate, true);
-        SetupStat(contentTransform, "AbsorbedDamageRate", AppConstants.StatFields.ABSORBED_DAMAGE_RATE, AppDisplayConstants.StatFieldsShort.ABSORBED_DAMAGE_RATE, userUpgrade.AbsorbedDamageRate, true);
-        SetupStat(contentTransform, "VitalityRegenerationRate", AppConstants.StatFields.VITALITY_REGENERATION_RATE, AppDisplayConstants.StatFieldsShort.VITALITY_REGENERATION_RATE, userUpgrade.VitalityRegenerationRate, true);
-        SetupStat(contentTransform, "VitalityRegenerationResistanceRate", AppConstants.StatFields.VITALITY_REGENERATION_RESISTANCE_RATE, AppDisplayConstants.StatFieldsShort.VITALITY_REGENERATION_RESISTANCE_RATE, userUpgrade.VitalityRegenerationResistanceRate, true);
-        SetupStat(contentTransform, "AccuracyRate", AppConstants.StatFields.ACCURACY_RATE, AppDisplayConstants.StatFieldsShort.ACCURACY_RATE, userUpgrade.AccuracyRate, true);
-        SetupStat(contentTransform, "LifestealRate", AppConstants.StatFields.LIFE_STEAL_RATE, AppDisplayConstants.StatFieldsShort.LIFE_STEAL_RATE, userUpgrade.LifestealRate, true);
-        SetupStat(contentTransform, "Mana", AppConstants.StatFields.MANA, AppDisplayConstants.StatFieldsShort.MANA, userUpgrade.Mana);
-        SetupStat(contentTransform, "ManaRegenerationRate", AppConstants.StatFields.MANA_REGENERATION_RATE, AppDisplayConstants.StatFieldsShort.MANA_REGENERATION_RATE, userUpgrade.ManaRegenerationRate, true);
-        SetupStat(contentTransform, "ShieldStrength", AppConstants.StatFields.SHIELD_STRENGTH, AppDisplayConstants.StatFieldsShort.SHIELD_STRENGTH, userUpgrade.ShieldStrength);
-        SetupStat(contentTransform, "Tenacity", AppConstants.StatFields.TENACITY, AppDisplayConstants.StatFieldsShort.TENACITY, userUpgrade.Tenacity);
-        SetupStat(contentTransform, "ResistanceRate", AppConstants.StatFields.RESISTANCE_RATE, AppDisplayConstants.StatFieldsShort.RESISTANCE_RATE, userUpgrade.ResistanceRate, true);
-        SetupStat(contentTransform, "ComboRate", AppConstants.StatFields.COMBO_RATE, AppDisplayConstants.StatFieldsShort.COMBO_RATE, userUpgrade.ComboRate, true);
-        SetupStat(contentTransform, "IgnoreComboRate", AppConstants.StatFields.IGNORE_COMBO_RATE, AppDisplayConstants.StatFieldsShort.IGNORE_COMBO_RATE, userUpgrade.IgnoreComboRate, true);
-        SetupStat(contentTransform, "ComboDamageRate", AppConstants.StatFields.COMBO_DAMAGE_RATE, AppDisplayConstants.StatFieldsShort.COMBO_DAMAGE_RATE, userUpgrade.ComboDamageRate, true);
-        SetupStat(contentTransform, "ComboResistanceRate", AppConstants.StatFields.COMBO_RESISTANCE_RATE, AppDisplayConstants.StatFieldsShort.COMBO_RESISTANCE_RATE, userUpgrade.ComboResistanceRate, true);
-        SetupStat(contentTransform, "StunRate", AppConstants.StatFields.STUN_RATE, AppDisplayConstants.StatFieldsShort.STUN_RATE, userUpgrade.StunRate, true);
-        SetupStat(contentTransform, "IgnoreStunRate", AppConstants.StatFields.IGNORE_STUN_RATE, AppDisplayConstants.StatFieldsShort.IGNORE_STUN_RATE, userUpgrade.IgnoreStunRate, true);
-        SetupStat(contentTransform, "ReflectionRate", AppConstants.StatFields.REFLECTION_RATE, AppDisplayConstants.StatFieldsShort.REFLECTION_RATE, userUpgrade.ReflectionRate, true);
-        SetupStat(contentTransform, "IgnoreReflectionRate", AppConstants.StatFields.IGNORE_REFLECTION_RATE, AppDisplayConstants.StatFieldsShort.IGNORE_REFLECTION_RATE, userUpgrade.IgnoreReflectionRate, true);
-        SetupStat(contentTransform, "ReflectionDamageRate", AppConstants.StatFields.REFLECTION_DAMAGE_RATE, AppDisplayConstants.StatFieldsShort.REFLECTION_DAMAGE_RATE, userUpgrade.ReflectionDamageRate, true);
-        SetupStat(contentTransform, "ReflectionResistanceRate", AppConstants.StatFields.REFLECTION_RESISTANCE_RATE, AppDisplayConstants.StatFieldsShort.REFLECTION_RESISTANCE_RATE, userUpgrade.ReflectionResistanceRate, true);
-        SetupStat(contentTransform, "DamageToDifferentFactionRate", AppConstants.StatFields.DAMAGE_TO_DIFFERENT_FACTION_RATE, AppDisplayConstants.StatFieldsShort.DAMAGE_TO_DIFFERENT_FACTION_RATE, userUpgrade.DamageToDifferentFactionRate, true);
-        SetupStat(contentTransform, "ResistanceToDifferentFactionRate", AppConstants.StatFields.RESISTANCE_TO_DIFFERENT_FACTION_RATE, AppDisplayConstants.StatFieldsShort.RESISTANCE_TO_DIFFERENT_FACTION_RATE, userUpgrade.ResistanceToDifferentFactionRate, true);
-        SetupStat(contentTransform, "DamageToSameFactionRate", AppConstants.StatFields.DAMAGE_TO_SAME_FACTION_RATE, AppDisplayConstants.StatFieldsShort.DAMAGE_TO_SAME_FACTION_RATE, userUpgrade.DamageToSameFactionRate, true);
-        SetupStat(contentTransform, "ResistanceToSameFactionRate", AppConstants.StatFields.RESISTANCE_TO_SAME_FACTION_RATE, AppDisplayConstants.StatFieldsShort.RESISTANCE_TO_SAME_FACTION_RATE, userUpgrade.ResistanceToSameFactionRate, true);
-        SetupStat(contentTransform, "NormalDamageRate", AppConstants.StatFields.NORMAL_DAMAGE_RATE, AppDisplayConstants.StatFieldsShort.NORMAL_DAMAGE_RATE, userUpgrade.NormalDamageRate, true);
-        SetupStat(contentTransform, "NormalResistanceRate", AppConstants.StatFields.NORMAL_RESISTANCE_RATE, AppDisplayConstants.StatFieldsShort.NORMAL_RESISTANCE_RATE, userUpgrade.NormalResistanceRate, true);
-        SetupStat(contentTransform, "SkillDamageRate", AppConstants.StatFields.SKILL_DAMAGE_RATE, AppDisplayConstants.StatFieldsShort.SKILL_DAMAGE_RATE, userUpgrade.SkillDamageRate, true);
-        SetupStat(contentTransform, "SkillResistanceRate", AppConstants.StatFields.SKILL_RESISTANCE_RATE, AppDisplayConstants.StatFieldsShort.SKILL_RESISTANCE_RATE, userUpgrade.SkillResistanceRate, true);
-        SetupStat(contentTransform, "PercentAllHealth", AppConstants.StatFields.PERCENT_ALL_HEALTH, AppDisplayConstants.StatFieldsShort.PERCENT_ALL_HEALTH, userUpgrade.PercentAllHealth, true);
-        SetupStat(contentTransform, "PercentAllPhysicalAttack", AppConstants.StatFields.PERCENT_ALL_PHYSICAL_ATTACK, AppDisplayConstants.StatFieldsShort.PERCENT_ALL_PHYSICAL_ATTACK, userUpgrade.PercentAllPhysicalAttack, true);
-        SetupStat(contentTransform, "PercentAllPhysicalDefense", AppConstants.StatFields.PERCENT_ALL_PHYSICAL_DEFENSE, AppDisplayConstants.StatFieldsShort.PERCENT_ALL_PHYSICAL_DEFENSE, userUpgrade.PercentAllPhysicalDefense, true);
-        SetupStat(contentTransform, "PercentAllMagicalAttack", AppConstants.StatFields.PERCENT_ALL_MAGICAL_ATTACK, AppDisplayConstants.StatFieldsShort.PERCENT_ALL_MAGICAL_ATTACK, userUpgrade.PercentAllMagicalAttack, true);
-        SetupStat(contentTransform, "PercentAllMagicalDefense", AppConstants.StatFields.PERCENT_ALL_MAGICAL_DEFENSE, AppDisplayConstants.StatFieldsShort.PERCENT_ALL_MAGICAL_DEFENSE, userUpgrade.PercentAllMagicalDefense, true);
-        SetupStat(contentTransform, "PercentAllChemicalAttack", AppConstants.StatFields.PERCENT_ALL_CHEMICAL_ATTACK, AppDisplayConstants.StatFieldsShort.PERCENT_ALL_CHEMICAL_ATTACK, userUpgrade.PercentAllChemicalAttack, true);
-        SetupStat(contentTransform, "PercentAllChemicalDefense", AppConstants.StatFields.PERCENT_ALL_CHEMICAL_DEFENSE, AppDisplayConstants.StatFieldsShort.PERCENT_ALL_CHEMICAL_DEFENSE, userUpgrade.PercentAllChemicalDefense, true);
-        SetupStat(contentTransform, "PercentAllAtomicAttack", AppConstants.StatFields.PERCENT_ALL_ATOMIC_ATTACK, AppDisplayConstants.StatFieldsShort.PERCENT_ALL_ATOMIC_ATTACK, userUpgrade.PercentAllAtomicAttack, true);
-        SetupStat(contentTransform, "PercentAllAtomicDefense", AppConstants.StatFields.PERCENT_ALL_ATOMIC_DEFENSE, AppDisplayConstants.StatFieldsShort.PERCENT_ALL_ATOMIC_DEFENSE, userUpgrade.PercentAllAtomicDefense, true);
-        SetupStat(contentTransform, "PercentAllMentalAttack", AppConstants.StatFields.PERCENT_ALL_MENTAL_ATTACK, AppDisplayConstants.StatFieldsShort.PERCENT_ALL_MENTAL_ATTACK, userUpgrade.PercentAllMentalAttack, true);
-        SetupStat(contentTransform, "PercentAllMentalDefense", AppConstants.StatFields.PERCENT_ALL_MENTAL_DEFENSE, AppDisplayConstants.StatFieldsShort.PERCENT_ALL_MENTAL_DEFENSE, userUpgrade.PercentAllMentalDefense, true);
+        SetupStat(contentTransform, "Multiplier", AppConstants.StatFields.POWER, AppDisplayConstants.StatFieldsShort.POWER, userUpgrade.CurrentMultiplier);
     }
     private void SetupStat(Transform contentTransform, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

@@ -8,6 +8,8 @@ public interface IBooksService
     Task<List<Books>> GetBooksAsync(string search, string type, string rare, int pageSize, int offset);
     Task<List<Books>> GetBooksWithoutLimitAsync();
     Task<int> GetBooksCountAsync(string search, string type, string rare);
+    Task<InsertOrUpdateResult<bool>> InsertBookAsync(Books entity);
+    Task<InsertOrUpdateResult<bool>> UpdateBookAsync(Books entity);
     Task<List<Books>> GetBooksRandomAsync(string type, int pageSize);
     Task<List<Books>> GetAllBooksAsync(string type);
     Task<Books> GetBookByIdAsync(string Id);

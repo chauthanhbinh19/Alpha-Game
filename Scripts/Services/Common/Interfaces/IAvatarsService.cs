@@ -7,6 +7,8 @@ public interface IAvatarsService
     Task<List<Avatars>> GetAvatarsAsync(string search, string rare, int pageSize, int offset);
     Task<List<Avatars>> GetAvatarsWithoutLimitAsync();
     Task<int> GetAvatarsCountAsync(string search, string rare);
+    Task<InsertOrUpdateResult<bool>> InsertAvatarAsync(Avatars entity);
+    Task<InsertOrUpdateResult<bool>> UpdateAvatarAsync(Avatars entity);
     Task<List<Avatars>> GetAvatarsWithPriceAsync(int pageSize, int offset);
     Task<int> GetAvatarsWithPriceCountAsync();
     Task<Avatars> GetAvatarByIdAsync(string Id);

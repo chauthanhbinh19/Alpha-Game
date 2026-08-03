@@ -29,6 +29,30 @@ public class SpiritCardsService : ISpiritCardsService
         return await _spiritCardsRepository.GetSpiritCardsCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertSpiritCardAsync(SpiritCards entity)
+    {
+        var result = await _spiritCardsRepository.InsertSpiritCardAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateSpiritCardAsync(SpiritCards entity)
+    {
+        var result = await _spiritCardsRepository.UpdateSpiritCardAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<SpiritCards>> GetSpiritCardsWithPriceAsync(string type, int pageSize, int offset)
     {
         List<SpiritCards> list = await _spiritCardsRepository.GetSpiritCardsWithPriceAsync(type, pageSize, offset);

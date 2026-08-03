@@ -24,6 +24,30 @@ public class TalismansService : ITalismansService
         return await _talismansRepository.GetTalismansCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertTalismanAsync(Talismans entity)
+    {
+        var result = await _talismansRepository.InsertTalismanAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateTalismanAsync(Talismans entity)
+    {
+        var result = await _talismansRepository.UpdateTalismanAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Talismans>> GetTalismansWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Talismans> list = await _talismansRepository.GetTalismansWithPriceAsync(type, pageSize, offset);

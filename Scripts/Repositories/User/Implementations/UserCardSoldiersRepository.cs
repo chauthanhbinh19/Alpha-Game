@@ -1628,7 +1628,7 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                         * (1 + GREATEST(uc.level, 0) / 100.0)
                     ) AS total_multiplier
                 FROM user_card_soldiers uc
-                INNER JOIN teams t ON uc.team_id = t.id
+                INNER JOIN teams t ON uc.team_id = t.team_id AND t.is_main = 1
                 WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL
             )
             SELECT 

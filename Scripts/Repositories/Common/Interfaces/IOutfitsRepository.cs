@@ -8,6 +8,8 @@ public interface IOutfitsRepository
     Task<List<Outfits>> GetOutfitsAsync(string search, string type, string rare, int pageSize, int offset);
     Task<List<Outfits>> GetOutfitsWithoutLimitAsync();
     Task<int> GetOutfitsCountAsync(string search, string type, string rare);
+    Task<InsertOrUpdateResult<Outfits>> InsertOutfitAsync(Outfits entity);
+    Task<InsertOrUpdateResult<Outfits>> UpdateOutfitAsync(Outfits entity);
     Task<List<Outfits>> GetOutfitsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetOutfitsWithPriceCountAsync(string type);
     Task<Outfits> GetOutfitByIdAsync(string id);

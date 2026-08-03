@@ -7,6 +7,8 @@ public interface ITechnologiesRepository
     Task<List<Technologies>> GetTechnologiesAsync(string search, string rare, int pageSize, int offset);
     Task<List<Technologies>> GetTechnologiesWithoutLimitAsync();
     Task<int> GetTechnologiesCountAsync(string search, string rare);
+    Task<InsertOrUpdateResult<Technologies>> InsertTechnologyAsync(Technologies entity);
+    Task<InsertOrUpdateResult<Technologies>> UpdateTechnologyAsync(Technologies entity);
     Task<List<Technologies>> GetTechnologiesWithPriceAsync(int pageSize, int offset);
     Task<int> GetTechnologiesWithPriceCountAsync();
     Task<Technologies> GetTechnologyByIdAsync(string id);

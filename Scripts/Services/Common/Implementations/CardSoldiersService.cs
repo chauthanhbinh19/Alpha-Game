@@ -29,6 +29,30 @@ public class CardSoldiersService : ICardSoldiersService
         return await _cardAdmiralsRepository.GetCardSoldiersCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertCardSoldierAsync(CardSoldiers entity)
+    {
+        var result = await _cardAdmiralsRepository.InsertCardSoldierAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateCardSoldierAsync(CardSoldiers entity)
+    {
+        var result = await _cardAdmiralsRepository.UpdateCardSoldierAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<CardSoldiers>> GetCardSoldiersRandomAsync(string type, int pageSize)
     {
         return await _cardAdmiralsRepository.GetCardSoldiersRandomAsync(type, pageSize);

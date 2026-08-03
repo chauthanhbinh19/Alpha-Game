@@ -24,6 +24,30 @@ public class CollaborationsService : ICollaborationsService
         return await _collaborationsRepository.GetCollaborationsCountAsync(search, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertCollaborationAsync(Collaborations entity)
+    {
+        var result = await _collaborationsRepository.InsertCollaborationAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateCollaborationAsync(Collaborations entity)
+    {
+        var result = await _collaborationsRepository.UpdateCollaborationAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Collaborations>> GetCollaborationsWithPriceAsync(int pageSize, int offset)
     {
         List<Collaborations> list = await _collaborationsRepository.GetCollaborationsWithPriceAsync(pageSize, offset);

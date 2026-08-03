@@ -8,6 +8,8 @@ public interface IPuppetsService
     Task<List<Puppets>> GetPuppetsAsync(string search, string type, string rare, int pageSize, int offset);
     Task<List<Puppets>> GetPuppetsWithoutLimitAsync();
     Task<int> GetPuppetsCountAsync(string search, string type, string rare);
+    Task<InsertOrUpdateResult<bool>> InsertPuppetAsync(Puppets entity);
+    Task<InsertOrUpdateResult<bool>> UpdatePuppetAsync(Puppets entity);
     Task<List<Puppets>> GetPuppetsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetPuppetsWithPriceCountAsync(string type);
     Task<Puppets> GetPuppetByIdAsync(string Id);

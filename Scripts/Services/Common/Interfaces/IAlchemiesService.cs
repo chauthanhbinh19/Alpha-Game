@@ -8,6 +8,8 @@ public interface IAlchemiesService
     Task<List<Alchemies>> GetAlchemiesAsync(string search, string type, string rare, int pageSize, int offset);
     Task<List<Alchemies>> GetAlchemiesWithoutLimitAsync();
     Task<int> GetAlchemiesCountAsync(string search, string type, string rare);
+    Task<InsertOrUpdateResult<bool>> InsertAlchemyAsync(Alchemies entity);
+    Task<InsertOrUpdateResult<bool>> UpdateAlchemyAsync(Alchemies entity);
     Task<List<Alchemies>> GetAlchemiesWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetAlchemiesWithPriceCountAsync(string type);
     Task<Alchemies> GetAlchemyByIdAsync(string id);

@@ -72,7 +72,7 @@ public class AuthenticationManager : MonoBehaviour
             }
 
             startButton.onClick.RemoveAllListeners();
-            startButton.onClick.AddListener(async () =>
+            startButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance?.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 // await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);

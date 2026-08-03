@@ -12,7 +12,7 @@ public class UpgradeRefinementManager : MonoBehaviour
     private Transform MainPanel;
     private GameObject UpgradePanelPrefab;
     private GameObject UpgradeButtonPrefab;
-    private GameObject PopupUpgradePanelPrefab;
+    // private GameObject PopupUpgradePanelPrefab;
     private GameObject PopupUpgradeQuantityPanelPrefab;
     private GameObject PopupUpgradeButtonPrefab;
     private GameObject MainUpgradePanelPrefab;
@@ -42,7 +42,7 @@ public class UpgradeRefinementManager : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         UpgradePanelPrefab = UIManager.Instance.Get("UpgradePanelPrefab");
         UpgradeButtonPrefab = UIManager.Instance.Get("UpgradeButtonPrefab");
-        PopupUpgradePanelPrefab = UIManager.Instance.Get("PopupUpgradePanelPrefab");
+        // PopupUpgradePanelPrefab = UIManager.Instance.Get("PopupUpgradePanelPrefab");
         PopupUpgradeQuantityPanelPrefab = UIManager.Instance.Get("PopupUpgradeQuantityPanelPrefab");
         PopupUpgradeButtonPrefab = UIManager.Instance.Get("PopupUpgradeButtonPrefab");
         MainUpgradePanelPrefab = UIManager.Instance.Get("MainUpgradePanelPrefab");

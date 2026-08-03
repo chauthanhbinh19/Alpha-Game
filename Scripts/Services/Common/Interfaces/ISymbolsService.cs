@@ -8,6 +8,8 @@ public interface ISymbolsService
     Task<List<Symbols>> GetSymbolsAsync(string search, string type, string rare, int pageSize, int offset);
     Task<List<Symbols>> GetSymbolsWithoutLimitAsync();
     Task<int> GetSymbolsCountAsync(string search, string type, string rare);
+    Task<InsertOrUpdateResult<bool>> InsertSymbolAsync(Symbols entity);
+    Task<InsertOrUpdateResult<bool>> UpdateSymbolAsync(Symbols entity);
     Task<List<Symbols>> GetSymbolsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetSymbolsWithPriceCountAsync(string type);
     Task<Symbols> GetSymbolByIdAsync(string Id);

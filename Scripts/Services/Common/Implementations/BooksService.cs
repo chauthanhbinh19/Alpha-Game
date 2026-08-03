@@ -29,6 +29,30 @@ public class BooksService : IBooksService
         return await _booksRepository.GetBooksCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertBookAsync(Books entity)
+    {
+        var result = await _booksRepository.InsertBookAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateBookAsync(Books entity)
+    {
+        var result = await _booksRepository.UpdateBookAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Books>> GetBooksRandomAsync(string type, int pageSize)
     {
         return await _booksRepository.GetBooksRandomAsync(type, pageSize);

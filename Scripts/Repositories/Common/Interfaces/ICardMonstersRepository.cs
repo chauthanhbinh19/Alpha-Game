@@ -8,6 +8,8 @@ public interface ICardMonstersRepository
     Task<List<CardMonsters>> GetCardMonstersAsync(string search, string type, string rare, int pageSize, int offset);
     Task<List<CardMonsters>> GetCardMonstersWithoutLimitAsync();
     Task<int> GetCardMonstersCountAsync(string search, string type, string rare);
+    Task<InsertOrUpdateResult<CardMonsters>> InsertCardMonsterAsync(CardMonsters entity);
+    Task<InsertOrUpdateResult<CardMonsters>> UpdateCardMonsterAsync(CardMonsters entity);
     Task<List<CardMonsters>> GetCardMonstersRandomAsync(string type, int pageSize);
     Task<List<CardMonsters>> GetAllCardMonstersAsync(string type);
     Task<CardMonsters> GetCardMonsterByIdAsync(string id);

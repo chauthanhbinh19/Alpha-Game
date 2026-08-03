@@ -29,6 +29,30 @@ public class CardMonstersService : ICardMonstersService
         return await _cardMonstersRepository.GetCardMonstersCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertCardMonsterAsync(CardMonsters entity)
+    {
+        var result = await _cardMonstersRepository.InsertCardMonsterAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateCardMonsterAsync(CardMonsters entity)
+    {
+        var result = await _cardMonstersRepository.UpdateCardMonsterAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<CardMonsters>> GetCardMonstersRandomAsync(string type, int pageSize)
     {
         return await _cardMonstersRepository.GetCardMonstersRandomAsync(type, pageSize);

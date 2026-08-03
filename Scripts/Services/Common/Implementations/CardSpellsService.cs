@@ -29,6 +29,30 @@ public class CardSpellsService : ICardSpellsService
         return await _cardSpellsRepository.GetCardSpellsCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertCardSpellAsync(CardSpells entity)
+    {
+        var result = await _cardSpellsRepository.InsertCardSpellAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateCardSpellAsync(CardSpells entity)
+    {
+        var result = await _cardSpellsRepository.UpdateCardSpellAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<CardSpells>> GetCardSpellsRandomAsync(string type, int pageSize)
     {
         return await _cardSpellsRepository.GetCardSpellsRandomAsync(type, pageSize);

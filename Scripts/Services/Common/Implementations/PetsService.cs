@@ -29,6 +29,30 @@ public class PetsService : IPetsService
         return await _petsRepository.GetPetsCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertPetAsync(Pets entity)
+    {
+        var result = await _petsRepository.InsertPetAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdatePetAsync(Pets entity)
+    {
+        var result = await _petsRepository.UpdatePetAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Pets>> GetPetsWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Pets> list = await _petsRepository.GetPetsWithPriceAsync(type, pageSize, offset);

@@ -24,6 +24,30 @@ public class BordersService : IBordersService
         return await _bordersRepository.GetBordersCountAsync(search, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertBorderAsync(Borders entity)
+    {
+        var result = await _bordersRepository.InsertBorderAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateBorderAsync(Borders entity)
+    {
+        var result = await _bordersRepository.UpdateBorderAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Borders>> GetBordersWithPriceAsync(int pageSize, int offset)
     {
         List<Borders> list = await _bordersRepository.GetBordersWithPriceAsync(pageSize, offset);

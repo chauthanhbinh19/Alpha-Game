@@ -29,6 +29,30 @@ public class WeaponsService : IWeaponsService
         return await _weaponsRepository.GetWeaponsCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertWeaponAsync(Weapons entity)
+    {
+        var result = await _weaponsRepository.InsertWeaponAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateWeaponAsync(Weapons entity)
+    {
+        var result = await _weaponsRepository.UpdateWeaponAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Weapons>> GetWeaponsWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Weapons> list = await _weaponsRepository.GetWeaponsWithPriceAsync(type, pageSize, offset);

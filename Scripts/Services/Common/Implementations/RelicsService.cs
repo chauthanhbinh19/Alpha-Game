@@ -28,6 +28,30 @@ public class RelicsService : IRelicsService
         return await _relicsRepository.GetRelicsCountAsync(search, type, rare);
     }
 
+    public async Task<InsertOrUpdateResult<bool>> InsertRelicAsync(Relics entity)
+    {
+        var result = await _relicsRepository.InsertRelicAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateRelicAsync(Relics entity)
+    {
+        var result = await _relicsRepository.UpdateRelicAsync(entity);
+
+        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        return InsertOrUpdateResult<bool>.Failure();
+    }
+
     public async Task<List<Relics>> GetRelicsWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Relics> list = await _relicsRepository.GetRelicsWithPriceAsync(type, pageSize, offset);
