@@ -39,7 +39,7 @@ public class ModuleRefinementManager : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
         ModulePanelPrefab = UIManager.Instance.Get("ModulePanelPrefab");
         ModuleButtonPrefab = UIManager.Instance.Get("ModuleButtonPrefab");
         // PopupModulePanelPrefab = UIManager.Instance.Get("PopupModulePanelPrefab");

@@ -16,5 +16,6 @@ public static class AudioConstants
         public const string ALERT_SOUND = "AlertSound";
         public const string REJECT_SOUND = "RejectSound";
         public const string MOVING_SOUND = "MovingSound";
+        public const string SLIDING_SOUND = "SlidingSound";
     }
 }

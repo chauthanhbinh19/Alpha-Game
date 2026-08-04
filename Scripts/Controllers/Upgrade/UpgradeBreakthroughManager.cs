@@ -39,7 +39,7 @@ public class UpgradeBreakthroughManager : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
         UpgradePanelPrefab = UIManager.Instance.Get("UpgradePanelPrefab");
         UpgradeButtonPrefab = UIManager.Instance.Get("UpgradeButtonPrefab");
         // PopupUpgradePanelPrefab = UIManager.Instance.Get("PopupUpgradePanelPrefab");
