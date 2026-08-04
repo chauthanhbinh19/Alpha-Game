@@ -55,10 +55,12 @@ public class UpgradeManager : MonoBehaviour
         CreateUpgradeButtonUI(4, AppDisplayConstants.Upgrade.UPGRADE_RESONANCE, TextureHelper.LoadTexture2DCached(ImageConstants.Upgrade.UPGRADE_RESONANCE_URL), contentPanel);
         CreateUpgradeButtonUI(5, AppDisplayConstants.Upgrade.UPGRADE_ENHANCEMENT, TextureHelper.LoadTexture2DCached(ImageConstants.Upgrade.UPGRADE_ENHANCEMENT_URL), contentPanel);
         CreateUpgradeButtonUI(6, AppDisplayConstants.Upgrade.UPGRADE_REFINEMENT, TextureHelper.LoadTexture2DCached(ImageConstants.Upgrade.UPGRADE_REFINEMENT_URL), contentPanel);
-        // CreateUpgradeButtonUI(7, AppDisplayConstants.Upgrade.Upgrade_VII, TextureHelper.LoadTexture2DCached(ImageConstants.Upgrade.Upgrade_VII_URL), contentPanel);
-        // CreateUpgradeButtonUI(8, AppDisplayConstants.Upgrade.Upgrade_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.Upgrade.Upgrade_VIII_URL), contentPanel);
-        // CreateUpgradeButtonUI(9, AppDisplayConstants.Upgrade.Upgrade_IX, TextureHelper.LoadTexture2DCached(ImageConstants.Upgrade.Upgrade_IX_URL), contentPanel);
-        // CreateUpgradeButtonUI(10, AppDisplayConstants.Upgrade.Upgrade_X, TextureHelper.LoadTexture2DCached(ImageConstants.Upgrade.Upgrade_X_URL), contentPanel);
+        CreateUpgradeButtonUI(7, AppDisplayConstants.Upgrade.UPGRADE_APOTHEOSIS, TextureHelper.LoadTexture2DCached(ImageConstants.Upgrade.UPGRADE_APOTHEOSIS_URL), contentPanel);
+        CreateUpgradeButtonUI(8, AppDisplayConstants.Upgrade.UPGRADE_ENGRAVING, TextureHelper.LoadTexture2DCached(ImageConstants.Upgrade.UPGRADE_ENGRAVING_URL), contentPanel);
+        CreateUpgradeButtonUI(9, AppDisplayConstants.Upgrade.UPGRADE_INTEGRATION, TextureHelper.LoadTexture2DCached(ImageConstants.Upgrade.UPGRADE_INTEGRATION_URL), contentPanel);
+        CreateUpgradeButtonUI(10, AppDisplayConstants.Upgrade.UPGRADE_SANCTIFICATION, TextureHelper.LoadTexture2DCached(ImageConstants.Upgrade.UPGRADE_SANCTIFICATION_URL), contentPanel);
+        CreateUpgradeButtonUI(11, AppDisplayConstants.Upgrade.UPGRADE_SYNCHRONIZATION, TextureHelper.LoadTexture2DCached(ImageConstants.Upgrade.UPGRADE_SYNCHRONIZATION_URL), contentPanel);
+        CreateUpgradeButtonUI(12, AppDisplayConstants.Upgrade.UPGRADE_EVOLUTION, TextureHelper.LoadTexture2DCached(ImageConstants.Upgrade.UPGRADE_EVOLUTION_URL), contentPanel);
 
         CreateUpgradeButtonEvent(stat, contentPanel);
     }
@@ -91,9 +93,11 @@ public class UpgradeManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await UpgradeResonanceManager.Instance.CreateUpgradeResonanceManagerAsync(stat));
         ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await UpgradeEnhancementManager.Instance.CreateUpgradeEnhancementManagerAsync(stat));
         ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await UpgradeRefinementManager.Instance.CreateUpgradeRefinementManagerAsync(stat));
-        // ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await UpgradeVIIManager.Instance.CreateUpgradeVIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await UpgradeVIIIManager.Instance.CreateUpgradeVIIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await UpgradeIXManager.Instance.CreateUpgradeIXManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await UpgradeXManager.Instance.CreateUpgradeXManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await UpgradeApotheosisManager.Instance.CreateUpgradeApotheosisManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await UpgradeEngravingManager.Instance.CreateUpgradeEngravingManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await UpgradeIntegrationManager.Instance.CreateUpgradeIntegrationManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await UpgradeSanctificationManager.Instance.CreateUpgradeSanctificationManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", panel, async () => await UpgradeSynchronizationManager.Instance.CreateUpgradeSynchronizationManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_12", panel, async () => await UpgradeEvolutionManager.Instance.CreateUpgradeEvolutionManagerAsync(stat));
     }
 }

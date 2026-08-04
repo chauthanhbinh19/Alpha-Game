@@ -895,6 +895,12 @@ public static class AppDisplayConstants
         public const string MODULE_RESONANCE = "Module.ModuleResonance";
         public const string MODULE_ENHANCEMENT = "Module.ModuleEnhancement";
         public const string MODULE_REFINEMENT = "Module.ModuleRefinement";
+        public const string MODULE_EVOLUTION = "Module.ModuleEvolution";
+        public const string MODULE_APOTHEOSIS = "Module.ModuleApotheosis";
+        public const string MODULE_ENGRAVING = "Module.ModuleEngraving";
+        public const string MODULE_SANCTIFICATION = "Module.ModuleSanctification";
+        public const string MODULE_SYNCHRONIZATION = "Module.ModuleSynchronization";
+        public const string MODULE_INTEGRATION = "Module.ModuleIntegration";
     }
     public static class Upgrade
     {
@@ -904,6 +910,12 @@ public static class AppDisplayConstants
         public const string UPGRADE_RESONANCE = "Upgrade.UpgradeResonance";
         public const string UPGRADE_ENHANCEMENT = "Upgrade.UpgradeEnhancement";
         public const string UPGRADE_REFINEMENT = "Upgrade.UpgradeRefinement";
+        public const string UPGRADE_EVOLUTION = "Upgrade.UpgradeEvolution";
+        public const string UPGRADE_APOTHEOSIS = "Upgrade.UpgradeApotheosis";
+        public const string UPGRADE_ENGRAVING = "Upgrade.UpgradeEngraving";
+        public const string UPGRADE_SANCTIFICATION = "Upgrade.UpgradeSanctification";
+        public const string UPGRADE_SYNCHRONIZATION = "Upgrade.UpgradeSynchronization";
+        public const string UPGRADE_INTEGRATION = "Upgrade.UpgradeIntegration";
     }
     public static class Message
     {

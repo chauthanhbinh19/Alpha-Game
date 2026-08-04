@@ -2177,11 +2177,12 @@ public static class AppConstants
         public const string MODULE_RESONANCE = "Module Resonance";
         public const string MODULE_ENHANCEMENT = "Module Enhancement";
         public const string MODULE_REFINEMENT = "Module Refinement";
-
-        public static class CodeName
-        {
-
-        }
+        public const string MODULE_EVOLUTION = "Module Evolution";
+        public const string MODULE_APOTHEOSIS = "Module Apotheosis";
+        public const string MODULE_ENGRAVING = "Module Engraving";
+        public const string MODULE_SANCTIFICATION = "Module Sanctification";
+        public const string MODULE_SYNCHRONIZATION = "Module Synchronization";
+        public const string MODULE_INTEGRATION = "Module Integration";
     }
     public static class Upgrade
     {
@@ -2191,6 +2192,12 @@ public static class AppConstants
         public const string UPGRADE_RESONANCE = "Upgrade Resonance";
         public const string UPGRADE_ENHANCEMENT = "Upgrade Enhancement";
         public const string UPGRADE_REFINEMENT = "Upgrade Refinement";
+        public const string UPGRADE_EVOLUTION = "Upgrade Evolution";
+        public const string UPGRADE_APOTHEOSIS = "Upgrade Apotheosis";
+        public const string UPGRADE_ENGRAVING = "Upgrade Engraving";
+        public const string UPGRADE_SANCTIFICATION = "Upgrade Sanctification";
+        public const string UPGRADE_SYNCHRONIZATION = "Upgrade Synchronization";
+        public const string UPGRADE_INTEGRATION = "Upgrade Integration";
     }
     public static class MainMenuSet1
     {

@@ -56,10 +56,12 @@ public class ModuleManager : MonoBehaviour
         CreateModuleButtonUI(4, AppDisplayConstants.Module.MODULE_RESONANCE, TextureHelper.LoadTexture2DCached(ImageConstants.Module.MODULE_RESONANCE_URL), contentPanel);
         CreateModuleButtonUI(5, AppDisplayConstants.Module.MODULE_ENHANCEMENT, TextureHelper.LoadTexture2DCached(ImageConstants.Module.MODULE_ENHANCEMENT_URL), contentPanel);
         CreateModuleButtonUI(6, AppDisplayConstants.Module.MODULE_REFINEMENT, TextureHelper.LoadTexture2DCached(ImageConstants.Module.MODULE_REFINEMENT_URL), contentPanel);
-        // CreateModuleButtonUI(7, AppDisplayConstants.Module.Module_VII, TextureHelper.LoadTexture2DCached(ImageConstants.Module.Module_VII_URL), contentPanel);
-        // CreateModuleButtonUI(8, AppDisplayConstants.Module.Module_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.Module.Module_VIII_URL), contentPanel);
-        // CreateModuleButtonUI(9, AppDisplayConstants.Module.Module_IX, TextureHelper.LoadTexture2DCached(ImageConstants.Module.Module_IX_URL), contentPanel);
-        // CreateModuleButtonUI(10, AppDisplayConstants.Module.Module_X, TextureHelper.LoadTexture2DCached(ImageConstants.Module.Module_X_URL), contentPanel);
+        CreateModuleButtonUI(7, AppDisplayConstants.Module.MODULE_APOTHEOSIS, TextureHelper.LoadTexture2DCached(ImageConstants.Module.MODULE_APOTHEOSIS_URL), contentPanel);
+        CreateModuleButtonUI(8, AppDisplayConstants.Module.MODULE_ENGRAVING, TextureHelper.LoadTexture2DCached(ImageConstants.Module.MODULE_ENGRAVING_URL), contentPanel);
+        CreateModuleButtonUI(9, AppDisplayConstants.Module.MODULE_INTEGRATION, TextureHelper.LoadTexture2DCached(ImageConstants.Module.MODULE_INTEGRATION_URL), contentPanel);
+        CreateModuleButtonUI(10, AppDisplayConstants.Module.MODULE_SANCTIFICATION, TextureHelper.LoadTexture2DCached(ImageConstants.Module.MODULE_SANCTIFICATION_URL), contentPanel);
+        CreateModuleButtonUI(11, AppDisplayConstants.Module.MODULE_SYNCHRONIZATION, TextureHelper.LoadTexture2DCached(ImageConstants.Module.MODULE_SYNCHRONIZATION_URL), contentPanel);
+        CreateModuleButtonUI(12, AppDisplayConstants.Module.MODULE_EVOLUTION, TextureHelper.LoadTexture2DCached(ImageConstants.Module.MODULE_EVOLUTION_URL), contentPanel);
 
         CreateModuleButtonEvent(stat, contentPanel);
     }
@@ -92,9 +94,11 @@ public class ModuleManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await ModuleResonanceManager.Instance.CreateModuleResonanceManagerAsync(stat));
         ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await ModuleEnhancementManager.Instance.CreateModuleEnhancementManagerAsync(stat));
         ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await ModuleRefinementManager.Instance.CreateModuleRefinementManagerAsync(stat));
-        // ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await ModuleVIIManager.Instance.CreateModuleVIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await ModuleVIIIManager.Instance.CreateModuleVIIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await ModuleIXManager.Instance.CreateModuleIXManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await ModuleXManager.Instance.CreateModuleXManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await ModuleApotheosisManager.Instance.CreateModuleApotheosisManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await ModuleEngravingManager.Instance.CreateModuleEngravingManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await ModuleIntegrationManager.Instance.CreateModuleIntegrationManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await ModuleSanctificationManager.Instance.CreateModuleSanctificationManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", panel, async () => await ModuleSynchronizationManager.Instance.CreateModuleSynchronizationManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_12", panel, async () => await ModuleEvolutionManager.Instance.CreateModuleEvolutionManagerAsync(stat));
     }
 }

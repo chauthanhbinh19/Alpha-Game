@@ -1066,6 +1066,12 @@ public static class ImageConstants
         public const string MODULE_RESONANCE_URL = "UI/Icon/Module_Resonance";
         public const string MODULE_ENHANCEMENT_URL = "UI/Icon/Module_Enhancement";
         public const string MODULE_REFINEMENT_URL = "UI/Icon/Module_Refinement";
+        public const string MODULE_EVOLUTION_URL = "UI/Icon/Module_Evolution";
+        public const string MODULE_APOTHEOSIS_URL = "UI/Icon/Module_Apotheosis";
+        public const string MODULE_ENGRAVING_URL = "UI/Icon/Module_Engraving";
+        public const string MODULE_SANCTIFICATION_URL = "UI/Icon/Module_Sanctification";
+        public const string MODULE_SYNCHRONIZATION_URL = "UI/Icon/Module_Synchronization";
+        public const string MODULE_INTEGRATION_URL = "UI/Icon/Module_Integration";
 
         public const string MODULE_BREAKTHROUGH_BACKGROUND_URL = "UI/Background1/Background_V1_261";
         public const string MODULE_AWAKENING_BACKGROUND_URL = "UI/Background1/Background_V1_262";
@@ -1082,6 +1088,12 @@ public static class ImageConstants
         public const string UPGRADE_RESONANCE_URL = "UI/Icon/Upgrade_Resonance";
         public const string UPGRADE_ENHANCEMENT_URL = "UI/Icon/Upgrade_Enhancement";
         public const string UPGRADE_REFINEMENT_URL = "UI/Icon/Upgrade_Refinement";
+        public const string UPGRADE_EVOLUTION_URL = "UI/Icon/Upgrade_Evolution";
+        public const string UPGRADE_APOTHEOSIS_URL = "UI/Icon/Upgrade_Apotheosis";
+        public const string UPGRADE_ENGRAVING_URL = "UI/Icon/Upgrade_Engraving";
+        public const string UPGRADE_SANCTIFICATION_URL = "UI/Icon/Upgrade_Sanctification";
+        public const string UPGRADE_SYNCHRONIZATION_URL = "UI/Icon/Upgrade_Synchronization";
+        public const string UPGRADE_INTEGRATION_URL = "UI/Icon/Upgrade_Integration";
 
         public const string UPGRADE_BREAKTHROUGH_BACKGROUND_URL = "UI/Background1/Background_V1_267";
         public const string UPGRADE_AWAKENING_BACKGROUND_URL = "UI/Background1/Background_V1_268";
