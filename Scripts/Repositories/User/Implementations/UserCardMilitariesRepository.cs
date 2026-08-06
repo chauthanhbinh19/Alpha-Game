@@ -1108,14 +1108,13 @@ public class UserCardMilitariesRepository : IUserCardMilitariesRepository
         }
 
         string connectionString = DatabaseConfig.ConnectionString;
-
         await using var connection = new MySqlConnection(connectionString);
 
         try
         {
             await connection.OpenAsync();
 
-            // 1. Query lấy TOÀN BỘ card_military_id hiện có của User (Cực nhanh nhờ Index user_id)
+            // 1. SELECT chỉ đúng 1 cột ID duy nhất để tối ưu RAM và I/O
             var existingIds = new HashSet<string>();
             string checkSql = "SELECT card_military_id FROM user_card_militaries WHERE user_id = @user_id;";
 
@@ -1129,31 +1128,29 @@ public class UserCardMilitariesRepository : IUserCardMilitariesRepository
                 }
             }
 
-            // 2. Phân loại CardMilitaries giữ NGUYÊN VẸN OBJECT thuộc tính trong RAM C#
+            // 2. Phân loại Card Heroes trong RAM C#
             var batchResult = new BatchOperationResultDTO<CardMilitaries>();
             foreach (var card in cardMilitaries)
             {
                 if (existingIds.Contains(card.Id))
-                {
-                    batchResult.UpdatedItems.Add(card); // Trả về full object card
-                }
+                    batchResult.UpdatedItems.Add(card);
                 else
-                {
-                    batchResult.InsertedItems.Add(card); // Trả về full object card để dùng truyền sang Gallery
-                }
+                    batchResult.InsertedItems.Add(card);
             }
 
             // 3. Thực hiện Bulk Insert/Update
             await using var transaction = await connection.BeginTransactionAsync();
 
-            int batchSize = 300; // Giảm batchSize vì câu lệnh có nhiều cột
+            int batchSize = 200; // Mức an toàn và tối ưu nhất cho ~60 parameters/row
+            int totalCards = cardMilitaries.Count;
 
-            for (int i = 0; i < cardMilitaries.Count; i += batchSize)
+            // Bỏ Skip().Take(), dùng vòng lặp bước nhảy i += batchSize
+            for (int i = 0; i < totalCards; i += batchSize)
             {
-                var batch = cardMilitaries.Skip(i).Take(batchSize).ToList();
+                int currentBatchCount = Math.Min(batchSize, totalCards - i);
 
                 var stringBuilder = new System.Text.StringBuilder();
-                var parameters = new List<MySqlParameter>();
+                await using var command = new MySqlCommand { Connection = connection, Transaction = (MySqlTransaction)transaction };
 
                 stringBuilder.Append(@"
             INSERT INTO user_card_militaries (
@@ -1175,99 +1172,94 @@ public class UserCardMilitariesRepository : IUserCardMilitariesRepository
                 skill_damage_rate, skill_resistance_rate
             ) VALUES ");
 
-                for (int j = 0; j < batch.Count; j++)
+                for (int j = 0; j < currentBatchCount; j++)
                 {
-                    var c = batch[j];
+                    // Truy cập thẳng index O(1) thay vì Skip/Take
+                    var c = cardMilitaries[i + j];
 
-                    stringBuilder.Append($@"
-                (@user_id, @card_military_id_{j}, @rare_{j}, 0, 0, 0, @quality_{j}, 0, @quantity_{j},
-                @power_{j}, @health_{j}, @physical_attack_{j}, @physical_defense_{j}, @magical_attack_{j}, @magical_defense_{j},
-                @chemical_attack_{j}, @chemical_defense_{j}, @atomic_attack_{j}, @atomic_defense_{j}, @mental_attack_{j}, @mental_defense_{j},
-                @speed_{j}, @critical_damage_rate_{j}, @critical_rate_{j}, @critical_resistance_rate_{j}, @ignore_critical_rate_{j},
-                @penetration_rate_{j}, @penetration_resistance_rate_{j},
-                @evasion_rate_{j}, @damage_absorption_rate_{j}, @ignore_damage_absorption_rate_{j}, @absorbed_damage_rate_{j},
-                @vitality_regeneration_rate_{j}, @vitality_regeneration_resistance_rate_{j},
-                @accuracy_rate_{j}, @lifesteal_rate_{j}, @shield_strength_{j}, @tenacity_{j}, @resistance_rate_{j},
-                @combo_rate_{j}, @ignore_combo_rate_{j}, @combo_damage_rate_{j}, @combo_resistance_rate_{j},
-                @stun_rate_{j}, @ignore_stun_rate_{j},
-                @reflection_rate_{j}, @ignore_reflection_rate_{j}, @reflection_damage_rate_{j}, @reflection_resistance_rate_{j},
-                @mana_{j}, @mana_regeneration_rate_{j},
-                @damage_to_different_faction_rate_{j}, @resistance_to_different_faction_rate_{j},
-                @damage_to_same_faction_rate_{j}, @resistance_to_same_faction_rate_{j},
-                @normal_damage_rate_{j}, @normal_resistance_rate_{j},
-                @skill_damage_rate_{j}, @skill_resistance_rate_{j}
-                ),");
+                    stringBuilder.Append($"(@user_id, @card_military_id_{j}, @rare_{j}, 0, 0, 0, @quality_{j}, 0, @quantity_{j}, ")
+                                 .Append($"@power_{j}, @health_{j}, @physical_attack_{j}, @physical_defense_{j}, @magical_attack_{j}, @magical_defense_{j}, ")
+                                 .Append($"@chemical_attack_{j}, @chemical_defense_{j}, @atomic_attack_{j}, @atomic_defense_{j}, @mental_attack_{j}, @mental_defense_{j}, ")
+                                 .Append($"@speed_{j}, @critical_damage_rate_{j}, @critical_rate_{j}, @critical_resistance_rate_{j}, @ignore_critical_rate_{j}, ")
+                                 .Append($"@penetration_rate_{j}, @penetration_resistance_rate_{j}, ")
+                                 .Append($"@evasion_rate_{j}, @damage_absorption_rate_{j}, @ignore_damage_absorption_rate_{j}, @absorbed_damage_rate_{j}, ")
+                                 .Append($"@vitality_regeneration_rate_{j}, @vitality_regeneration_resistance_rate_{j}, ")
+                                 .Append($"@accuracy_rate_{j}, @lifesteal_rate_{j}, @shield_strength_{j}, @tenacity_{j}, @resistance_rate_{j}, ")
+                                 .Append($"@combo_rate_{j}, @ignore_combo_rate_{j}, @combo_damage_rate_{j}, @combo_resistance_rate_{j}, ")
+                                 .Append($"@stun_rate_{j}, @ignore_stun_rate_{j}, ")
+                                 .Append($"@reflection_rate_{j}, @ignore_reflection_rate_{j}, @reflection_damage_rate_{j}, @reflection_resistance_rate_{j}, ")
+                                 .Append($"@mana_{j}, @mana_regeneration_rate_{j}, ")
+                                 .Append($"@damage_to_different_faction_rate_{j}, @resistance_to_different_faction_rate_{j}, ")
+                                 .Append($"@damage_to_same_faction_rate_{j}, @resistance_to_same_faction_rate_{j}, ")
+                                 .Append($"@normal_damage_rate_{j}, @normal_resistance_rate_{j}, ")
+                                 .Append($"@skill_damage_rate_{j}, @skill_resistance_rate_{j}),");
 
-                    parameters.AddRange(new[]
-                    {
-                    new MySqlParameter($"@card_military_id_{j}", c.Id),
-                    new MySqlParameter($"@rare_{j}", c.Rarity),
-                    new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rarity)),
-                    new MySqlParameter($"@quantity_{j}", c.Quantity),
-                    new MySqlParameter($"@power_{j}", c.Power),
-                    new MySqlParameter($"@health_{j}", c.Health),
-                    new MySqlParameter($"@physical_attack_{j}", c.PhysicalAttack),
-                    new MySqlParameter($"@physical_defense_{j}", c.PhysicalDefense),
-                    new MySqlParameter($"@magical_attack_{j}", c.MagicalAttack),
-                    new MySqlParameter($"@magical_defense_{j}", c.MagicalDefense),
-                    new MySqlParameter($"@chemical_attack_{j}", c.ChemicalAttack),
-                    new MySqlParameter($"@chemical_defense_{j}", c.ChemicalDefense),
-                    new MySqlParameter($"@atomic_attack_{j}", c.AtomicAttack),
-                    new MySqlParameter($"@atomic_defense_{j}", c.AtomicDefense),
-                    new MySqlParameter($"@mental_attack_{j}", c.MentalAttack),
-                    new MySqlParameter($"@mental_defense_{j}", c.MentalDefense),
-                    new MySqlParameter($"@speed_{j}", c.Speed),
-                    new MySqlParameter($"@critical_damage_rate_{j}", c.CriticalDamageRate),
-                    new MySqlParameter($"@critical_rate_{j}", c.CriticalRate),
-                    new MySqlParameter($"@critical_resistance_rate_{j}", c.CriticalResistanceRate),
-                    new MySqlParameter($"@ignore_critical_rate_{j}", c.IgnoreCriticalRate),
-                    new MySqlParameter($"@penetration_rate_{j}", c.PenetrationRate),
-                    new MySqlParameter($"@penetration_resistance_rate_{j}", c.PenetrationResistanceRate),
-                    new MySqlParameter($"@evasion_rate_{j}", c.EvasionRate),
-                    new MySqlParameter($"@damage_absorption_rate_{j}", c.DamageAbsorptionRate),
-                    new MySqlParameter($"@ignore_damage_absorption_rate_{j}", c.IgnoreDamageAbsorptionRate),
-                    new MySqlParameter($"@absorbed_damage_rate_{j}", c.AbsorbedDamageRate),
-                    new MySqlParameter($"@vitality_regeneration_rate_{j}", c.VitalityRegenerationRate),
-                    new MySqlParameter($"@vitality_regeneration_resistance_rate_{j}", c.VitalityRegenerationResistanceRate),
-                    new MySqlParameter($"@accuracy_rate_{j}", c.AccuracyRate),
-                    new MySqlParameter($"@lifesteal_rate_{j}", c.LifestealRate),
-                    new MySqlParameter($"@shield_strength_{j}", c.ShieldStrength),
-                    new MySqlParameter($"@tenacity_{j}", c.Tenacity),
-                    new MySqlParameter($"@resistance_rate_{j}", c.ResistanceRate),
-                    new MySqlParameter($"@combo_rate_{j}", c.ComboRate),
-                    new MySqlParameter($"@ignore_combo_rate_{j}", c.IgnoreComboRate),
-                    new MySqlParameter($"@combo_damage_rate_{j}", c.ComboDamageRate),
-                    new MySqlParameter($"@combo_resistance_rate_{j}", c.ComboResistanceRate),
-                    new MySqlParameter($"@stun_rate_{j}", c.StunRate),
-                    new MySqlParameter($"@ignore_stun_rate_{j}", c.IgnoreStunRate),
-                    new MySqlParameter($"@reflection_rate_{j}", c.ReflectionRate),
-                    new MySqlParameter($"@ignore_reflection_rate_{j}", c.IgnoreReflectionRate),
-                    new MySqlParameter($"@reflection_damage_rate_{j}", c.ReflectionDamageRate),
-                    new MySqlParameter($"@reflection_resistance_rate_{j}", c.ReflectionResistanceRate),
-                    new MySqlParameter($"@mana_{j}", c.Mana),
-                    new MySqlParameter($"@mana_regeneration_rate_{j}", c.ManaRegenerationRate),
-                    new MySqlParameter($"@damage_to_different_faction_rate_{j}", c.DamageToDifferentFactionRate),
-                    new MySqlParameter($"@resistance_to_different_faction_rate_{j}", c.ResistanceToDifferentFactionRate),
-                    new MySqlParameter($"@damage_to_same_faction_rate_{j}", c.DamageToSameFactionRate),
-                    new MySqlParameter($"@resistance_to_same_faction_rate_{j}", c.ResistanceToSameFactionRate),
-                    new MySqlParameter($"@normal_damage_rate_{j}", c.NormalDamageRate),
-                    new MySqlParameter($"@normal_resistance_rate_{j}", c.NormalResistanceRate),
-                    new MySqlParameter($"@skill_damage_rate_{j}", c.SkillDamageRate),
-                    new MySqlParameter($"@skill_resistance_rate_{j}", c.SkillResistanceRate),
-                });
+                    // Thêm trực tiếp vào Parameters collection của Command (Không tạo new[] Array phụ)
+                    var p = command.Parameters;
+                    p.AddWithValue($"@card_military_id_{j}", c.Id);
+                    p.AddWithValue($"@rare_{j}", c.Rarity);
+                    p.AddWithValue($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rarity));
+                    p.AddWithValue($"@quantity_{j}", c.Quantity);
+                    p.AddWithValue($"@power_{j}", c.Power);
+                    p.AddWithValue($"@health_{j}", c.Health);
+                    p.AddWithValue($"@physical_attack_{j}", c.PhysicalAttack);
+                    p.AddWithValue($"@physical_defense_{j}", c.PhysicalDefense);
+                    p.AddWithValue($"@magical_attack_{j}", c.MagicalAttack);
+                    p.AddWithValue($"@magical_defense_{j}", c.MagicalDefense);
+                    p.AddWithValue($"@chemical_attack_{j}", c.ChemicalAttack);
+                    p.AddWithValue($"@chemical_defense_{j}", c.ChemicalDefense);
+                    p.AddWithValue($"@atomic_attack_{j}", c.AtomicAttack);
+                    p.AddWithValue($"@atomic_defense_{j}", c.AtomicDefense);
+                    p.AddWithValue($"@mental_attack_{j}", c.MentalAttack);
+                    p.AddWithValue($"@mental_defense_{j}", c.MentalDefense);
+                    p.AddWithValue($"@speed_{j}", c.Speed);
+                    p.AddWithValue($"@critical_damage_rate_{j}", c.CriticalDamageRate);
+                    p.AddWithValue($"@critical_rate_{j}", c.CriticalRate);
+                    p.AddWithValue($"@critical_resistance_rate_{j}", c.CriticalResistanceRate);
+                    p.AddWithValue($"@ignore_critical_rate_{j}", c.IgnoreCriticalRate);
+                    p.AddWithValue($"@penetration_rate_{j}", c.PenetrationRate);
+                    p.AddWithValue($"@penetration_resistance_rate_{j}", c.PenetrationResistanceRate);
+                    p.AddWithValue($"@evasion_rate_{j}", c.EvasionRate);
+                    p.AddWithValue($"@damage_absorption_rate_{j}", c.DamageAbsorptionRate);
+                    p.AddWithValue($"@ignore_damage_absorption_rate_{j}", c.IgnoreDamageAbsorptionRate);
+                    p.AddWithValue($"@absorbed_damage_rate_{j}", c.AbsorbedDamageRate);
+                    p.AddWithValue($"@vitality_regeneration_rate_{j}", c.VitalityRegenerationRate);
+                    p.AddWithValue($"@vitality_regeneration_resistance_rate_{j}", c.VitalityRegenerationResistanceRate);
+                    p.AddWithValue($"@accuracy_rate_{j}", c.AccuracyRate);
+                    p.AddWithValue($"@lifesteal_rate_{j}", c.LifestealRate);
+                    p.AddWithValue($"@shield_strength_{j}", c.ShieldStrength);
+                    p.AddWithValue($"@tenacity_{j}", c.Tenacity);
+                    p.AddWithValue($"@resistance_rate_{j}", c.ResistanceRate);
+                    p.AddWithValue($"@combo_rate_{j}", c.ComboRate);
+                    p.AddWithValue($"@ignore_combo_rate_{j}", c.IgnoreComboRate);
+                    p.AddWithValue($"@combo_damage_rate_{j}", c.ComboDamageRate);
+                    p.AddWithValue($"@combo_resistance_rate_{j}", c.ComboResistanceRate);
+                    p.AddWithValue($"@stun_rate_{j}", c.StunRate);
+                    p.AddWithValue($"@ignore_stun_rate_{j}", c.IgnoreStunRate);
+                    p.AddWithValue($"@reflection_rate_{j}", c.ReflectionRate);
+                    p.AddWithValue($"@ignore_reflection_rate_{j}", c.IgnoreReflectionRate);
+                    p.AddWithValue($"@reflection_damage_rate_{j}", c.ReflectionDamageRate);
+                    p.AddWithValue($"@reflection_resistance_rate_{j}", c.ReflectionResistanceRate);
+                    p.AddWithValue($"@mana_{j}", c.Mana);
+                    p.AddWithValue($"@mana_regeneration_rate_{j}", c.ManaRegenerationRate);
+                    p.AddWithValue($"@damage_to_different_faction_rate_{j}", c.DamageToDifferentFactionRate);
+                    p.AddWithValue($"@resistance_to_different_faction_rate_{j}", c.ResistanceToDifferentFactionRate);
+                    p.AddWithValue($"@damage_to_same_faction_rate_{j}", c.DamageToSameFactionRate);
+                    p.AddWithValue($"@resistance_to_same_faction_rate_{j}", c.ResistanceToSameFactionRate);
+                    p.AddWithValue($"@normal_damage_rate_{j}", c.NormalDamageRate);
+                    p.AddWithValue($"@normal_resistance_rate_{j}", c.NormalResistanceRate);
+                    p.AddWithValue($"@skill_damage_rate_{j}", c.SkillDamageRate);
+                    p.AddWithValue($"@skill_resistance_rate_{j}", c.SkillResistanceRate);
                 }
 
-                stringBuilder.Length--; // remove dấu phẩy thừa
+                stringBuilder.Length--; // Xóa dấu phẩy thừa cuối cùng
 
                 stringBuilder.Append(@"
             ON DUPLICATE KEY UPDATE
-                quantity = COALESCE(user_card_militaries.quantity, 0) + VALUES(quantity);
-            ");
+                quantity = COALESCE(user_card_militaries.quantity, 0) + VALUES(quantity);");
 
-                await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
-
+                command.CommandText = stringBuilder.ToString();
                 command.Parameters.AddWithValue("@user_id", userId);
-                command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
             }
@@ -1276,19 +1268,12 @@ public class UserCardMilitariesRepository : IUserCardMilitariesRepository
 
             // 4. Trả về kết quả
             var operationType = DatabaseOperationType.None;
-
             if (batchResult.InsertedItems.Count > 0 && batchResult.UpdatedItems.Count > 0)
-            {
                 operationType = DatabaseOperationType.Mixed;
-            }
             else if (batchResult.InsertedItems.Count > 0)
-            {
                 operationType = DatabaseOperationType.Inserted;
-            }
             else if (batchResult.UpdatedItems.Count > 0)
-            {
                 operationType = DatabaseOperationType.Updated;
-            }
 
             return new InsertOrUpdateResult<BatchOperationResultDTO<CardMilitaries>>
             {

@@ -466,7 +466,7 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
 
         string connectionString = DatabaseConfig.ConnectionString;
         var insertedList = new List<CardAdmirals>();
-        int batchSize = 500;
+        int batchSize = 300;
         int timeoutSeconds = 120;
 
         await using MySqlConnection connection = new MySqlConnection(connectionString);

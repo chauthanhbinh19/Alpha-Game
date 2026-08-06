@@ -380,7 +380,7 @@ public class RunesGalleryRepository : IRunesGalleryRepository
 
         string connectionString = DatabaseConfig.ConnectionString;
         var insertedList = new List<Runes>();
-        int batchSize = 500;
+        int batchSize = 300;
         int timeoutSeconds = 120;
 
         await using MySqlConnection connection = new MySqlConnection(connectionString);

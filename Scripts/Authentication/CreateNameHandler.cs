@@ -65,8 +65,6 @@ public class CreateNameHandler
 
         if (startButton != null) startButton.interactable = false;
 
-        await GameDataCacheConfig.Instance.LoadDataAsync();
-
         bool isNameExisted = await UserService.Create().CheckNameExistsAsync(inputName);
         if (isNameExisted)
         {
@@ -77,6 +75,8 @@ public class CreateNameHandler
 
         await UserService.Create().UpdateUserNameAsync(User.CurrentUserId, inputName);
         AuthResult authResult = await UserService.Create().SignInWithUsernameAndPasswordAsync(username, password);
+
+        await GameDataCacheConfig.Instance.LoadDataAsync();
 
         AudioManager.Instance?.PlayMusic(AudioConstants.Music.FANTASY_AMBIENT);
         MainMenuManager.Instance.CreateMainPanel();
