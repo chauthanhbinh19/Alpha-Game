@@ -790,7 +790,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             await using var transaction = await connection.BeginTransactionAsync();
 
             // Kích thước batch 100 để an toàn về giới hạn Parameter của MySQL (mỗi item có >70 cols)
-            int batchSize = 100;
+            int batchSize = 300;
 
             for (int i = 0; i < list.Count; i += batchSize)
             {

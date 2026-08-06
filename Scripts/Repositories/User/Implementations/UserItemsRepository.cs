@@ -245,10 +245,10 @@ public class UserItemsRepository : IUserItemsRepository
 
                 string selectSQL = @"
                 SELECT
-                    i.id AS itemId,
-                    i.name AS itemName,
-                    i.code_name AS itemCodeName,
-                    i.image AS itemImage,
+                    i.id AS item_id,
+                    i.name AS item_name,
+                    i.code_name AS item_code_name,
+                    i.image AS item_image,
                     IFNULL(ui.quantity, 0) AS quantity,
                     IFNULL(iec.experience_value, 0) AS experience_value
                 FROM items i
@@ -272,10 +272,10 @@ public class UserItemsRepository : IUserItemsRepository
                         {
                             item = new ItemExperienceDTO
                             {
-                                Id = reader.GetStringSafe("itemId"),
-                                Name = reader["itemName"]?.ToString() ?? "",
-                                CodeName = reader["itemCodeName"]?.ToString() ?? "",
-                                Image = reader["itemImage"]?.ToString() ?? "",
+                                Id = reader.GetStringSafe("item_id"),
+                                Name = reader["item_name"]?.ToString() ?? "",
+                                CodeName = reader["item_code_name"]?.ToString() ?? "",
+                                Image = reader["item_image"]?.ToString() ?? "",
                                 Quantity = reader.GetDoubleSafe("quantity"),
                                 ExperienceValue = Convert.ToDouble(reader["experience_value"])
                             };
@@ -476,7 +476,7 @@ public class UserItemsRepository : IUserItemsRepository
 
             await using var transaction = await connection.BeginTransactionAsync();
 
-            int batchSize = 1000;
+            int batchSize = 300;
 
             for (int i = 0; i < items.Count; i += batchSize)
             {

@@ -459,7 +459,7 @@ public class UserSkillsRepository : IUserSkillsRepository
             // 3. Thực hiện Bulk Insert/Update
             await using var transaction = await connection.BeginTransactionAsync();
 
-            int batchSize = 500; // Giảm batchSize vì câu lệnh có nhiều cột
+            int batchSize = 300; // Giảm batchSize vì câu lệnh có nhiều cột
 
             for (int i = 0; i < skills.Count; i += batchSize)
             {
@@ -7003,7 +7003,7 @@ public class UserSkillsRepository : IUserSkillsRepository
             ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
 
             int totalRowsAffected = 0;
-            int batchSize = 500; // Mỗi đợt xử lý 500 cards để tránh quá tải MySQL
+            int batchSize = 300; // Mỗi đợt xử lý 500 cards để tránh quá tải MySQL
 
             // Bước 3: Chia nhỏ 10,000 cards thành các đợt nhỏ và thực thi
             for (int i = 0; i < cardHeroIds.Count; i += batchSize)
@@ -7117,7 +7117,7 @@ public class UserSkillsRepository : IUserSkillsRepository
             ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
 
             int totalRowsAffected = 0;
-            int batchSize = 500; // Mỗi đợt xử lý 500 cards để tránh quá tải MySQL
+            int batchSize = 300; // Mỗi đợt xử lý 500 cards để tránh quá tải MySQL
 
             // Bước 3: Chia nhỏ 10,000 cards thành các đợt nhỏ và thực thi
             for (int i = 0; i < cardCaptainIds.Count; i += batchSize)
@@ -7231,7 +7231,7 @@ public class UserSkillsRepository : IUserSkillsRepository
             ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
 
             int totalRowsAffected = 0;
-            int batchSize = 500; // Mỗi đợt xử lý 500 cards để tránh quá tải MySQL
+            int batchSize = 300; // Mỗi đợt xử lý 500 cards để tránh quá tải MySQL
 
             // Bước 3: Chia nhỏ 10,000 cards thành các đợt nhỏ và thực thi
             for (int i = 0; i < cardColonelIds.Count; i += batchSize)
@@ -7345,7 +7345,7 @@ public class UserSkillsRepository : IUserSkillsRepository
             ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
 
             int totalRowsAffected = 0;
-            int batchSize = 500; // Mỗi đợt xử lý 500 cards để tránh quá tải MySQL
+            int batchSize = 300; // Mỗi đợt xử lý 500 cards để tránh quá tải MySQL
 
             // Bước 3: Chia nhỏ 10,000 cards thành các đợt nhỏ và thực thi
             for (int i = 0; i < cardGeneralIds.Count; i += batchSize)
@@ -7459,7 +7459,7 @@ public class UserSkillsRepository : IUserSkillsRepository
             ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
 
             int totalRowsAffected = 0;
-            int batchSize = 500; // Mỗi đợt xử lý 500 cards để tránh quá tải MySQL
+            int batchSize = 300; // Mỗi đợt xử lý 500 cards để tránh quá tải MySQL
 
             // Bước 3: Chia nhỏ 10,000 cards thành các đợt nhỏ và thực thi
             for (int i = 0; i < cardAdmiralIds.Count; i += batchSize)
@@ -7573,7 +7573,7 @@ public class UserSkillsRepository : IUserSkillsRepository
             ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
 
             int totalRowsAffected = 0;
-            int batchSize = 500; // Mỗi đợt xử lý 500 cards để tránh quá tải MySQL
+            int batchSize = 300; // Mỗi đợt xử lý 500 cards để tránh quá tải MySQL
 
             // Bước 3: Chia nhỏ 10,000 cards thành các đợt nhỏ và thực thi
             for (int i = 0; i < cardMonsterIds.Count; i += batchSize)
@@ -7687,7 +7687,7 @@ public class UserSkillsRepository : IUserSkillsRepository
             ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
 
             int totalRowsAffected = 0;
-            int batchSize = 500; // Mỗi đợt xử lý 500 cards để tránh quá tải MySQL
+            int batchSize = 300; // Mỗi đợt xử lý 500 cards để tránh quá tải MySQL
 
             // Bước 3: Chia nhỏ 10,000 cards thành các đợt nhỏ và thực thi
             for (int i = 0; i < cardMilitaryIds.Count; i += batchSize)
@@ -7801,7 +7801,7 @@ public class UserSkillsRepository : IUserSkillsRepository
             ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
 
             int totalRowsAffected = 0;
-            int batchSize = 500; // Mỗi đợt xử lý 500 cards để tránh quá tải MySQL
+            int batchSize = 300; // Mỗi đợt xử lý 500 cards để tránh quá tải MySQL
 
             // Bước 3: Chia nhỏ 10,000 cards thành các đợt nhỏ và thực thi
             for (int i = 0; i < cardSoldierIds.Count; i += batchSize)
@@ -7915,7 +7915,7 @@ public class UserSkillsRepository : IUserSkillsRepository
             ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
 
             int totalRowsAffected = 0;
-            int batchSize = 500; // Mỗi đợt xử lý 500 cards để tránh quá tải MySQL
+            int batchSize = 300; // Mỗi đợt xử lý 500 cards để tránh quá tải MySQL
 
             // Bước 3: Chia nhỏ 10,000 cards thành các đợt nhỏ và thực thi
             for (int i = 0; i < cardSpellIds.Count; i += batchSize)
@@ -8001,7 +8001,7 @@ public class UserSkillsRepository : IUserSkillsRepository
 
             // 3. Tiến hành chia Batch và thực hiện Bulk Insert thần tốc
             int totalRowsAffected = 0;
-            int batchSize = 500; // Cân bằng tải hoàn hảo cho bộ nhớ RAM và gói tin MySQL Network Packet
+            int batchSize = 300; // Cân bằng tải hoàn hảo cho bộ nhớ RAM và gói tin MySQL Network Packet
 
             for (int i = 0; i < cardIds.Count; i += batchSize)
             {

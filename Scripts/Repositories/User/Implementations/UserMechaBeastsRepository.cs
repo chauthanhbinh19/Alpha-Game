@@ -375,7 +375,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
             // 3. Thực hiện Bulk Insert/Update
             await using var transaction = await connection.BeginTransactionAsync();
 
-            int batchSize = 500; // Giảm batchSize vì câu lệnh có nhiều cột
+            int batchSize = 300; // Giảm batchSize vì câu lệnh có nhiều cột
 
             for (int i = 0; i < mechaBeasts.Count; i += batchSize)
             {
