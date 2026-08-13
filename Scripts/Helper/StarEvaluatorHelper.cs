@@ -6,10 +6,7 @@ public static class StarEvaluatorHelper
     {
         foreach (var item in list)
         {
-            //if level <= 0 do nothing, skip for this step
-            if (item.Star <= 0) continue;
-
-            double multiplier = item.Star;
+            double multiplier = 1 + item.Star;
 
             item.Health *= multiplier;
             item.PhysicalAttack *= multiplier;
@@ -91,10 +88,7 @@ public static class StarEvaluatorHelper
     {
         if (item == null) return default;
 
-        //if level <= 0 do nothing, skip for this step
-        if (item.Star <= 0) return item;
-
-        double multiplier = item.Star;
+        double multiplier = 1 + item.Star;
 
         item.Health *= multiplier;
         item.PhysicalAttack *= multiplier;
@@ -179,7 +173,7 @@ public static class StarEvaluatorHelper
             //if level <= 0 do nothing, skip for this step
             if (item.CurrentStar <= 0) continue;
 
-            double multiplier = item.CurrentStar;
+            double multiplier = 1 + item.CurrentStar;
 
             item.Health *= multiplier;
             item.PhysicalAttack *= multiplier;
@@ -273,10 +267,7 @@ public static class StarEvaluatorHelper
     {
         if (item == null) return default;
 
-        //if level <= 0 do nothing, skip for this step
-        if (item.CurrentStar <= 0) return item;
-
-        double multiplier = item.CurrentStar;
+        double multiplier = 1 + item.CurrentStar;
 
         item.Health *= multiplier;
         item.PhysicalAttack *= multiplier;

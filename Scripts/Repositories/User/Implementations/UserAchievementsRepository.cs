@@ -766,16 +766,25 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                 WITH CalculatedObjects AS (
                     SELECT 
                         uc.*,
-                        -- TÍNH TOTAL MULTIPLIER CHO TỪNG OBJECT:
-                        -- 1. Quality: (1 + quality / 10.0)
-                        -- 2. Star: GREATEST(star, 1) -> star = 0 hay 1 đều nhân 1
-                        -- 3. Level: (1 + GREATEST(level, 0) / 100.0) -> level <= 0 thì nhân 1.0
                         (
-                            (1 + uc.quality / 10.0) 
-                            * GREATEST(uc.star, 1) 
-                            * (1 + GREATEST(uc.level, 0) / 100.0)
+                            -- Quality: 0 -> 1.0, 1 -> 1.1
+                            (1 + COALESCE(uc.quality, 0) / 10.0) 
+                            
+                            -- Star: 0 -> 1.0, 1 -> 2.0, 2 -> 3.0
+                            * (1 + COALESCE(uc.star, 0)) 
+                            
+                            -- Level: 0 -> 1.0, 10 -> 1.1
+                            * (1 + COALESCE(uc.level, 0) / 100.0) 
+                            
+                            -- Module: 0/NULL -> 1.0
+                            * (1 + COALESCE(ubm.current_multiplier, 0) / 100.0) 
+                            
+                            -- Upgrade: 0/NULL -> 1.0
+                            * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_achievements uc
+                    LEFT JOIN user_achievements_module ubm ON uc.achievement_id = ubm.user_achievement_id
+                    LEFT JOIN user_achievements_upgrade ubu ON uc.achievement_id = ubu.user_achievement_id
                     WHERE uc.user_id = @user_id
                 )
                 SELECT 

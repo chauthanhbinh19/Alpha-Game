@@ -6,10 +6,7 @@ public static class LevelEvaluatorHelper
     {
         foreach (var item in list)
         {
-            //if level <= 0 do nothing, skip for this step
-            if (item.Level <= 0) continue;
-
-            double multiplier = 1 + item.Level / 100.0;
+            double multiplier = 1 + item.Level/100;
 
             item.Health *= multiplier;
             item.PhysicalAttack *= multiplier;
@@ -91,10 +88,7 @@ public static class LevelEvaluatorHelper
     {
         if (item == null) return default;
 
-        //if level <= 0 do nothing, skip for this step
-        if (item.Level <= 0) return item;
-
-        double multiplier = 1 + item.Level / 100.0;
+        double multiplier = 1 + item.Level/100;
 
         item.Health *= multiplier;
         item.PhysicalAttack *= multiplier;
