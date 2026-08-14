@@ -20,10 +20,30 @@ public class UserArtifactsRepository : IUserArtifactsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
-                FROM Artifacts t
-                INNER JOIN user_artifacts ut ON t.id = ut.artifact_id
-                WHERE ut.user_id = @userId";
+                WITH AggregatedModules AS (
+                    SELECT user_artifact_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_artifacts_module
+                    GROUP BY user_artifact_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_artifact_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_artifacts_upgrade
+                    GROUP BY user_artifact_id
+                )
+                SELECT 
+                    uc.*, 
+                    c.id AS base_artifact_id, 
+                    c.name, 
+                    c.image, 
+                    c.rare, 
+                    c.description,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_artifacts uc
+                INNER JOIN artifacts c ON uc.artifact_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.artifact_id = am.user_artifact_id
+                LEFT JOIN AggregatedUpgrades au ON uc.artifact_id = au.user_artifact_id
+                WHERE uc.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -118,6 +138,19 @@ public class UserArtifactsRepository : IUserArtifactsRepository
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                                 Description = reader.GetStringSafe("description")
                             };
+
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            artifact.UserModules = userModule;
+                            artifact.UserUpgrades = userUpgrade;
 
                             artifacts.Add(artifact);
                         }
@@ -661,8 +694,24 @@ public class UserArtifactsRepository : IUserArtifactsRepository
             try
             {
                 await connection.OpenAsync();
-                string selectSQL = @"Select * from user_artifacts where user_artifacts.artifact_id=@id 
-                and user_artifacts.user_id=@user_id";
+                string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_artifact_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_artifacts_module
+                    GROUP BY user_artifact_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_artifact_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_artifacts_upgrade
+                    GROUP BY user_artifact_id
+                )
+                SELECT uc.* ,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_artifacts uc
+                LEFT JOIN AggregatedModules am ON uc.artifact_id = am.user_artifact_id
+                LEFT JOIN AggregatedUpgrades au ON uc.artifact_id = au.user_artifact_id
+                WHERE uc.artifact_id = @id AND uc.user_id = @user_id";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
@@ -730,6 +779,18 @@ public class UserArtifactsRepository : IUserArtifactsRepository
                                 SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                             };
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            artifact.UserModules = userModule;
+                            artifact.UserUpgrades = userUpgrade;
                         }
                     }
                 }

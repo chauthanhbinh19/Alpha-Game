@@ -36,6 +36,8 @@ public class Skills : BaseEntity, IPowerSortable, IStats
     public List<Effects> Effects{ get; set; } = new List<Effects>();
     public Patterns Pattern = new Patterns();
     double IPowerSortable.Power => Power;
+    public UserModules UserModules { get; set; } = new UserModules();
+    public UserUpgrades UserUpgrades { get; set; } = new UserUpgrades();
     public List<CardSkillRelation> cardHeroIds = new List<CardSkillRelation>();
     public List<CardSkillRelation> cardCaptainIds = new List<CardSkillRelation>();
     public List<CardSkillRelation> cardColonelIds = new List<CardSkillRelation>();

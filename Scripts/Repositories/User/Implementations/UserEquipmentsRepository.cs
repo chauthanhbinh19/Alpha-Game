@@ -20,9 +20,33 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT e.id, e.name, ue.*, e.image, e.rare, e.type
-                FROM Equipments e
-                JOIN user_equipments ue ON e.id = ue.equipment_id
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
+                SELECT 
+                    ue.*, 
+                    e.id AS base_equipment_id, 
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type,
+                    
+                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN Equipments e ON ue.equipment_id = e.id
+                LEFT JOIN AggregatedModules am ON ue.id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.id = au.user_equipment_id
+
                 WHERE ue.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -193,6 +217,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 }
                             };
 
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
+
                             equipments.Add(equipment);
                         }
                     }
@@ -222,10 +259,34 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT e.id, e.name, ue.*, e.image, e.rare, e.type
-                FROM Equipments e
-                JOIN user_equipments ue ON e.id = ue.equipment_id
-                WHERE ue.user_id = @userId;
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
+                SELECT 
+                    ue.*, 
+                    e.id AS base_equipment_id, 
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type,
+                    
+                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN Equipments e ON ue.equipment_id = e.id
+                LEFT JOIN AggregatedModules am ON ue.id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.id = au.user_equipment_id
+
+                WHERE ue.user_id = @userId
             ";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -363,6 +424,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 }
                             };
 
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
+
                             equipments.Add(equipment);
                         }
                     }
@@ -457,9 +531,24 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * 
-                             FROM user_equipments 
-                             WHERE equipment_id = @id AND user_id = @user_id";
+                string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
+                SELECT uc.* ,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_equipments uc
+                LEFT JOIN AggregatedModules am ON uc.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON uc.equipment_id = au.user_equipment_id
+                WHERE uc.equipment_id = @id AND uc.user_id = @user_id";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -1769,13 +1858,38 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
                 SELECT 
-                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet
-                FROM Equipments e
-                JOIN user_equipments ue ON e.id = ue.equipment_id
-                JOIN card_heroes_equipment che ON che.equipment_id = ue.equipment_id 
-                WHERE che.card_hero_id = @card_hero_id
-                AND ue.user_id = @user_id
+                    ue.*, 
+                    e.id AS base_equipment_id, 
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type, 
+                    e.equipmentSet,
+                    che.position,
+
+                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN Equipments e ON ue.equipment_id = e.id
+                INNER JOIN card_heroes_equipment che ON che.equipment_id = ue.equipment_id -- HOẶC ue.equipment_id (xem lưu ý 1)
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
+                WHERE ue.user_id = @user_id
+                AND che.card_hero_id = @card_hero_id
                 AND e.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -1863,6 +1977,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position"),
                             };
 
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
+
                             equipments.Add(equipment);
                         }
                     }
@@ -1892,13 +2019,38 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
                 SELECT 
-                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet
-                FROM Equipments e
-                JOIN user_equipments ue ON e.id = ue.equipment_id
-                JOIN card_captains_equipment che ON che.equipment_id = ue.equipment_id 
-                WHERE che.card_captain_id = @card_captain_id
-                AND ue.user_id = @user_id
+                    ue.*, 
+                    e.id AS base_equipment_id, 
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type, 
+                    e.equipmentSet,
+                    che.position,
+
+                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN Equipments e ON ue.equipment_id = e.id
+                INNER JOIN card_captains_equipment che ON che.equipment_id = ue.equipment_id -- HOẶC ue.equipment_id (xem lưu ý 1)
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
+                WHERE ue.user_id = @user_id
+                AND che.card_captain_id = @card_captain_id
                 AND e.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -1986,6 +2138,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position")
                             };
 
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
+
                             equipments.Add(equipment);
                         }
                     }
@@ -2015,13 +2180,38 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
                 SELECT 
-                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet
-                FROM Equipments e
-                JOIN user_equipments ue ON e.id = ue.equipment_id
-                JOIN card_colonels_equipment che ON che.equipment_id = ue.equipment_id 
-                WHERE che.card_colonel_id = @card_colonel_id
-                AND ue.user_id = @user_id
+                    ue.*, 
+                    e.id AS base_equipment_id, 
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type, 
+                    e.equipmentSet,
+                    che.position,
+
+                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN Equipments e ON ue.equipment_id = e.id
+                INNER JOIN card_colonels_equipment che ON che.equipment_id = ue.equipment_id -- HOẶC ue.equipment_id (xem lưu ý 1)
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
+                WHERE ue.user_id = @user_id
+                AND che.card_colonel_id = @card_colonel_id
                 AND e.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2109,6 +2299,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position")
                             };
 
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
+
                             equipments.Add(equipment);
                         }
                     }
@@ -2138,13 +2341,38 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
                 SELECT 
-                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet
-                FROM Equipments e
-                JOIN user_equipments ue ON e.id = ue.equipment_id
-                JOIN card_generals_equipment che ON che.equipment_id = ue.equipment_id 
-                WHERE che.card_general_id = @card_general_id
-                AND ue.user_id = @user_id
+                    ue.*, 
+                    e.id AS base_equipment_id, 
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type, 
+                    e.equipmentSet,
+                    che.position,
+
+                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN Equipments e ON ue.equipment_id = e.id
+                INNER JOIN card_generals_equipment che ON che.equipment_id = ue.equipment_id -- HOẶC ue.equipment_id (xem lưu ý 1)
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
+                WHERE ue.user_id = @user_id
+                AND che.card_general_id = @card_general_id
                 AND e.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2232,6 +2460,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position")
                             };
 
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
+
                             equipments.Add(equipment);
                         }
                     }
@@ -2261,13 +2502,38 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
                 SELECT 
-                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet
-                FROM Equipments e
-                JOIN user_equipments ue ON e.id = ue.equipment_id
-                JOIN card_admirals_equipment che ON che.equipment_id = ue.equipment_id 
-                WHERE che.card_admiral_id = @card_admiral_id
-                AND ue.user_id = @user_id
+                    ue.*, 
+                    e.id AS base_equipment_id, 
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type, 
+                    e.equipmentSet,
+                    che.position,
+
+                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN Equipments e ON ue.equipment_id = e.id
+                INNER JOIN card_admirals_equipment che ON che.equipment_id = ue.equipment_id -- HOẶC ue.equipment_id (xem lưu ý 1)
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
+                WHERE ue.user_id = @user_id
+                AND che.card_admiral_id = @card_admiral_id
                 AND e.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2355,6 +2621,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position")
                             };
 
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
+
                             equipments.Add(equipment);
                         }
                     }
@@ -2384,13 +2663,38 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
                 SELECT 
-                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet
-                FROM Equipments e
-                JOIN user_equipments ue ON e.id = ue.equipment_id
-                JOIN card_monsters_equipment che ON che.equipment_id = ue.equipment_id 
-                WHERE che.card_monster_id = @card_monster_id
-                AND ue.user_id = @user_id
+                    ue.*, 
+                    e.id AS base_equipment_id, 
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type, 
+                    e.equipmentSet,
+                    che.position,
+
+                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN Equipments e ON ue.equipment_id = e.id
+                INNER JOIN card_monsters_equipment che ON che.equipment_id = ue.equipment_id -- HOẶC ue.equipment_id (xem lưu ý 1)
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
+                WHERE ue.user_id = @user_id
+                AND che.card_monster_id = @card_monster_id
                 AND e.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2478,6 +2782,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position")
                             };
 
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
+
                             equipments.Add(equipment);
                         }
                     }
@@ -2507,13 +2824,38 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
                 SELECT 
-                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet
-                FROM Equipments e
-                JOIN user_equipments ue ON e.id = ue.equipment_id
-                JOIN card_military_equipment che ON che.equipment_id = ue.equipment_id 
-                WHERE che.card_military_id = @card_military_id
-                AND ue.user_id = @user_id
+                    ue.*, 
+                    e.id AS base_equipment_id, 
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type, 
+                    e.equipmentSet,
+                    che.position,
+
+                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN Equipments e ON ue.equipment_id = e.id
+                INNER JOIN card_militaries_equipment che ON che.equipment_id = ue.equipment_id -- HOẶC ue.equipment_id (xem lưu ý 1)
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
+                WHERE ue.user_id = @user_id
+                AND che.card_military_id = @card_military_id
                 AND e.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2601,6 +2943,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position")
                             };
 
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
+
                             equipments.Add(equipment);
                         }
                     }
@@ -2626,13 +2981,38 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
                 SELECT 
-                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet
-                FROM Equipments e
-                JOIN user_equipments ue ON e.id = ue.equipment_id
-                JOIN card_spell_equipment che ON che.equipment_id = ue.equipment_id 
-                WHERE che.card_spell_id = @card_spell_id
-                AND ue.user_id = @user_id
+                    ue.*, 
+                    e.id AS base_equipment_id, 
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type, 
+                    e.equipmentSet,
+                    che.position,
+
+                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN Equipments e ON ue.equipment_id = e.id
+                INNER JOIN card_spells_equipment che ON che.equipment_id = ue.equipment_id -- HOẶC ue.equipment_id (xem lưu ý 1)
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
+                WHERE ue.user_id = @user_id
+                AND che.card_spell_id = @card_spell_id
                 AND e.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2720,6 +3100,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position")
                             };
 
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
+
                             equipments.Add(equipment);
                         }
                     }
@@ -2749,13 +3142,38 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
                 SELECT 
-                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet
-                FROM Equipments e
-                JOIN user_equipments ue ON e.id = ue.equipment_id
-                JOIN card_books_equipment che ON che.equipment_id = ue.equipment_id 
-                WHERE che.book_id = @book_id
-                AND ue.user_id = @user_id
+                    ue.*, 
+                    e.id AS base_equipment_id, 
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type, 
+                    e.equipmentSet,
+                    che.position,
+
+                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN Equipments e ON ue.equipment_id = e.id
+                INNER JOIN books_equipment che ON che.equipment_id = ue.equipment_id -- HOẶC ue.equipment_id (xem lưu ý 1)
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
+                WHERE ue.user_id = @user_id
+                AND che.book_id = @book_id
                 AND e.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2843,6 +3261,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position")
                             };
 
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
+
                             equipments.Add(equipment);
                         }
                     }
@@ -2872,13 +3303,38 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
                 SELECT 
-                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet
-                FROM Equipments e
-                JOIN user_equipments ue ON e.id = ue.equipment_id
-                JOIN card_pets_equipment che ON che.equipment_id = ue.equipment_id 
-                WHERE che.pet_id = @pet_id
-                AND ue.user_id = @user_id
+                    ue.*, 
+                    e.id AS base_equipment_id, 
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type, 
+                    e.equipmentSet,
+                    che.position,
+
+                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN Equipments e ON ue.equipment_id = e.id
+                INNER JOIN pets_equipment che ON che.equipment_id = ue.equipment_id -- HOẶC ue.equipment_id (xem lưu ý 1)
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
+                WHERE ue.user_id = @user_id
+                AND che.pet_id = @pet_id
                 AND e.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2966,6 +3422,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position")
                             };
 
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
+
                             equipments.Add(equipment);
                         }
                     }
@@ -2995,19 +3464,44 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
                 SELECT 
-                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet
-                FROM Equipments e
-                JOIN user_equipments ue ON e.id = ue.equipment_id
-                JOIN card_soldiers_equipment che ON che.equipment_id = ue.equipment_id 
-                WHERE che.soldier_id = @soldier_id
-                AND ue.user_id = @user_id
+                    ue.*, 
+                    e.id AS base_equipment_id, 
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type, 
+                    e.equipmentSet,
+                    che.position,
+
+                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN Equipments e ON ue.equipment_id = e.id
+                INNER JOIN card_soldiers_equipment che ON che.equipment_id = ue.equipment_id -- HOẶC ue.equipment_id (xem lưu ý 1)
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
+                WHERE ue.user_id = @user_id
+                AND che.card_soldier_id = @card_soldier_id
                 AND e.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@soldier_id", cardId);
+                    selectCommand.Parameters.AddWithValue("@card_soldier_id", cardId);
                     selectCommand.Parameters.AddWithValue("@type", type);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -3089,6 +3583,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position")
                             };
 
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
+
                             equipments.Add(equipment);
                         }
                     }
@@ -3118,19 +3625,47 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
                 SELECT 
-                    e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet,
-                    CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS STATUS
-                FROM equipments e
-                LEFT JOIN user_equipments ue ON e.id = ue.equipment_id
+                    ue.*, 
+                    e.id AS base_equipment_id,
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type, 
+                    e.equipmentSet,
+                    che.position,
+                    CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS status,
+
+                    -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN equipments e ON ue.equipment_id = e.id
                 LEFT JOIN card_heroes_equipment che 
                     ON che.equipment_id = ue.equipment_id 
-                    AND che.user_id = ue.user_id
+                AND che.user_id = ue.user_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
                 WHERE ue.user_id = @user_id 
-                    AND e.type = @type
-                    AND (@status = 'ALL' 
-                         OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
-                         OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL))
+                AND e.type = @type
+                AND (
+                        @status = 'ALL' 
+                    OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
+                    OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
+                )
+
                 LIMIT @limit OFFSET @offset;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -3219,6 +3754,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 SpecialSpeed = reader.GetDoubleSafe("special_speed"),
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position"),
                             };
+
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
 
                             equipments.Add(equipment);
                         }
@@ -3249,19 +3797,47 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
                 SELECT 
-                    e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet,
-                    CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS STATUS
-                FROM equipments e
-                LEFT JOIN user_equipments ue ON e.id = ue.equipment_id
+                    ue.*, 
+                    e.id AS base_equipment_id,
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type, 
+                    e.equipmentSet,
+                    che.position,
+                    CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS status,
+
+                    -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN equipments e ON ue.equipment_id = e.id
                 LEFT JOIN card_captains_equipment che 
                     ON che.equipment_id = ue.equipment_id 
-                    AND che.user_id = ue.user_id
+                AND che.user_id = ue.user_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
                 WHERE ue.user_id = @user_id 
-                    AND e.type = @type
-                    AND (@status = 'ALL' 
-                         OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
-                         OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL))
+                AND e.type = @type
+                AND (
+                        @status = 'ALL' 
+                    OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
+                    OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
+                )
+
                 LIMIT @limit OFFSET @offset;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -3351,6 +3927,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position"),
                             };
 
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
+
                             equipments.Add(equipment);
                         }
                     }
@@ -3380,19 +3969,48 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet, 
-                       CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS STATUS
-                FROM equipments e
-                LEFT JOIN user_equipments ue ON e.id = ue.equipment_id
-                LEFT JOIN card_colonels_equipment che 
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
+                SELECT 
+                    ue.*, 
+                    e.id AS base_equipment_id,
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type, 
+                    e.equipmentSet,
+                    che.position,
+                    CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS status,
+
+                    -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN equipments e ON ue.equipment_id = e.id
+                LEFT JOIN colonels_equipment che 
                     ON che.equipment_id = ue.equipment_id 
-                   AND che.user_id = ue.user_id
+                AND che.user_id = ue.user_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
                 WHERE ue.user_id = @user_id 
-                  AND e.type = @type 
-                  AND (@status = 'ALL' 
-                       OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
-                       OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL))
-                LIMIT @limit OFFSET @offset";
+                AND e.type = @type
+                AND (
+                        @status = 'ALL' 
+                    OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
+                    OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
+                )
+
+                LIMIT @limit OFFSET @offset;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -3480,6 +4098,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 SpecialSpeed = reader.GetDoubleSafe("special_speed"),
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position"),
                             };
+
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
 
                             equipments.Add(equipment);
                         }
@@ -3510,19 +4141,48 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet, 
-                       CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS STATUS
-                FROM equipments e
-                LEFT JOIN user_equipments ue ON e.id = ue.equipment_id
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
+                SELECT 
+                    ue.*, 
+                    e.id AS base_equipment_id,
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type, 
+                    e.equipmentSet,
+                    che.position,
+                    CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS status,
+
+                    -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN equipments e ON ue.equipment_id = e.id
                 LEFT JOIN card_generals_equipment che 
                     ON che.equipment_id = ue.equipment_id 
-                   AND che.user_id = ue.user_id
+                AND che.user_id = ue.user_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
                 WHERE ue.user_id = @user_id 
-                  AND e.type = @type 
-                  AND (@status = 'ALL' 
-                       OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
-                       OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL))
-                LIMIT @limit OFFSET @offset";
+                AND e.type = @type
+                AND (
+                        @status = 'ALL' 
+                    OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
+                    OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
+                )
+
+                LIMIT @limit OFFSET @offset;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -3610,6 +4270,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 SpecialSpeed = reader.GetDoubleSafe("special_speed"),
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position"),
                             };
+
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
 
                             equipments.Add(equipment);
                         }
@@ -3636,19 +4309,48 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet, 
-                       CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS STATUS
-                FROM equipments e
-                LEFT JOIN user_equipments ue ON e.id = ue.equipment_id
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
+                SELECT 
+                    ue.*, 
+                    e.id AS base_equipment_id,
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type, 
+                    e.equipmentSet,
+                    che.position,
+                    CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS status,
+
+                    -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN equipments e ON ue.equipment_id = e.id
                 LEFT JOIN card_admirals_equipment che 
                     ON che.equipment_id = ue.equipment_id 
-                   AND che.user_id = ue.user_id
+                AND che.user_id = ue.user_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
                 WHERE ue.user_id = @user_id 
-                  AND e.type = @type 
-                  AND (@status = 'ALL' 
-                       OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
-                       OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL))
-                LIMIT @limit OFFSET @offset";
+                AND e.type = @type
+                AND (
+                        @status = 'ALL' 
+                    OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
+                    OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
+                )
+
+                LIMIT @limit OFFSET @offset;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -3736,6 +4438,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 SpecialSpeed = reader.GetDoubleSafe("special_speed"),
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position"),
                             };
+
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
 
                             equipments.Add(equipment);
                         }
@@ -3766,19 +4481,48 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet, 
-                       CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS STATUS
-                FROM equipments e
-                LEFT JOIN user_equipments ue ON e.id = ue.equipment_id
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
+                SELECT 
+                    ue.*, 
+                    e.id AS base_equipment_id,
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type, 
+                    e.equipmentSet,
+                    che.position,
+                    CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS status,
+
+                    -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN equipments e ON ue.equipment_id = e.id
                 LEFT JOIN card_monsters_equipment che 
                     ON che.equipment_id = ue.equipment_id 
-                   AND che.user_id = ue.user_id
+                AND che.user_id = ue.user_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
                 WHERE ue.user_id = @user_id 
-                  AND e.type = @type 
-                  AND (@status = 'ALL' 
-                       OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
-                       OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL))
-                LIMIT @limit OFFSET @offset";
+                AND e.type = @type
+                AND (
+                        @status = 'ALL' 
+                    OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
+                    OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
+                )
+
+                LIMIT @limit OFFSET @offset;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -3866,6 +4610,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 SpecialSpeed = reader.GetDoubleSafe("special_speed"),
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position"),
                             };
+
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
 
                             equipments.Add(equipment);
                         }
@@ -3896,19 +4653,48 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet, 
-                       CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS STATUS
-                FROM equipments e
-                LEFT JOIN user_equipments ue ON e.id = ue.equipment_id
-                LEFT JOIN card_military_equipment che 
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
+                SELECT 
+                    ue.*, 
+                    e.id AS base_equipment_id,
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type, 
+                    e.equipmentSet,
+                    che.position,
+                    CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS status,
+
+                    -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN equipments e ON ue.equipment_id = e.id
+                LEFT JOIN card_militaries_equipment che 
                     ON che.equipment_id = ue.equipment_id 
-                   AND che.user_id = ue.user_id
+                AND che.user_id = ue.user_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
                 WHERE ue.user_id = @user_id 
-                  AND e.type = @type 
-                  AND (@status = 'ALL' 
-                       OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
-                       OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL))
-                LIMIT @limit OFFSET @offset";
+                AND e.type = @type
+                AND (
+                        @status = 'ALL' 
+                    OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
+                    OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
+                )
+
+                LIMIT @limit OFFSET @offset;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -3996,6 +4782,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 SpecialSpeed = reader.GetDoubleSafe("special_speed"),
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position"),
                             };
+
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
 
                             equipments.Add(equipment);
                         }
@@ -4026,19 +4825,48 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet, 
-                       CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS STATUS
-                FROM equipments e
-                LEFT JOIN user_equipments ue ON e.id = ue.equipment_id
-                LEFT JOIN card_spell_equipment che 
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
+                SELECT 
+                    ue.*, 
+                    e.id AS base_equipment_id,
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type, 
+                    e.equipmentSet,
+                    che.position,
+                    CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS status,
+
+                    -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN equipments e ON ue.equipment_id = e.id
+                LEFT JOIN card_spells_equipment che 
                     ON che.equipment_id = ue.equipment_id 
-                   AND che.user_id = ue.user_id
+                AND che.user_id = ue.user_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
                 WHERE ue.user_id = @user_id 
-                  AND e.type = @type 
-                  AND (@status = 'ALL' 
-                       OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
-                       OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL))
-                LIMIT @limit OFFSET @offset";
+                AND e.type = @type
+                AND (
+                        @status = 'ALL' 
+                    OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
+                    OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
+                )
+
+                LIMIT @limit OFFSET @offset;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -4126,6 +4954,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 SpecialSpeed = reader.GetDoubleSafe("special_speed"),
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position"),
                             };
+
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
 
                             equipments.Add(equipment);
                         }
@@ -4156,19 +4997,48 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet, 
-                       CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS STATUS
-                FROM equipments e
-                LEFT JOIN user_equipments ue ON e.id = ue.equipment_id
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
+                SELECT 
+                    ue.*, 
+                    e.id AS base_equipment_id,
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type, 
+                    e.equipmentSet,
+                    che.position,
+                    CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS status,
+
+                    -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN equipments e ON ue.equipment_id = e.id
                 LEFT JOIN books_equipment che 
                     ON che.equipment_id = ue.equipment_id 
-                   AND che.user_id = ue.user_id
+                AND che.user_id = ue.user_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
                 WHERE ue.user_id = @user_id 
-                  AND e.type = @type 
-                  AND (@status = 'ALL' 
-                       OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
-                       OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL))
-                LIMIT @limit OFFSET @offset";
+                AND e.type = @type
+                AND (
+                        @status = 'ALL' 
+                    OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
+                    OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
+                )
+
+                LIMIT @limit OFFSET @offset;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -4256,6 +5126,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 SpecialSpeed = reader.GetDoubleSafe("special_speed"),
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position"),
                             };
+
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
 
                             equipments.Add(equipment);
                         }
@@ -4286,19 +5169,48 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet, 
-                       CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS STATUS
-                FROM equipments e
-                LEFT JOIN user_equipments ue ON e.id = ue.equipment_id
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
+                SELECT 
+                    ue.*, 
+                    e.id AS base_equipment_id,
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type, 
+                    e.equipmentSet,
+                    che.position,
+                    CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS status,
+
+                    -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN equipments e ON ue.equipment_id = e.id
                 LEFT JOIN pets_equipment che 
                     ON che.equipment_id = ue.equipment_id 
-                   AND che.user_id = ue.user_id
+                AND che.user_id = ue.user_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
                 WHERE ue.user_id = @user_id 
-                  AND e.type = @type 
-                  AND (@status = 'ALL' 
-                       OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
-                       OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL))
-                LIMIT @limit OFFSET @offset";
+                AND e.type = @type
+                AND (
+                        @status = 'ALL' 
+                    OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
+                    OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
+                )
+
+                LIMIT @limit OFFSET @offset;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -4386,6 +5298,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 SpecialSpeed = reader.GetDoubleSafe("special_speed"),
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position"),
                             };
+
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
 
                             equipments.Add(equipment);
                         }
@@ -4416,19 +5341,48 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet, 
-                       CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS STATUS
-                FROM equipments e
-                LEFT JOIN user_equipments ue ON e.id = ue.equipment_id
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
+                SELECT 
+                    ue.*, 
+                    e.id AS base_equipment_id,
+                    e.name, 
+                    e.image, 
+                    e.rare, 
+                    e.type, 
+                    e.equipmentSet,
+                    che.position,
+                    CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS status,
+
+                    -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
+                FROM user_equipments ue
+                INNER JOIN equipments e ON ue.equipment_id = e.id
                 LEFT JOIN card_soldiers_equipment che 
                     ON che.equipment_id = ue.equipment_id 
-                   AND che.user_id = ue.user_id
+                AND che.user_id = ue.user_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
                 WHERE ue.user_id = @user_id 
-                  AND e.type = @type 
-                  AND (@status = 'ALL' 
-                       OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
-                       OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL))
-                LIMIT @limit OFFSET @offset";
+                AND e.type = @type
+                AND (
+                        @status = 'ALL' 
+                    OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
+                    OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
+                )
+
+                LIMIT @limit OFFSET @offset;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -4516,6 +5470,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 SpecialSpeed = reader.GetDoubleSafe("special_speed"),
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position"),
                             };
+
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            equipment.UserModules = userModule;
+                            equipment.UserUpgrades = userUpgrade;
 
                             equipments.Add(equipment);
                         }
@@ -4597,12 +5564,36 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT ue.*
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
+                SELECT 
+                    ue.*,
+                    che.position,
+                    
+                    -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
                 FROM user_card_heroes uc
-                JOIN card_heroes c ON uc.card_hero_id = c.id
-                JOIN card_heroes_equipment che ON uc.card_hero_id = che.card_hero_id
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
-                WHERE uc.user_id = @user_id AND uc.card_hero_id = @card_hero_id";
+                INNER JOIN card_heroes_equipment che 
+                    ON uc.card_hero_id = che.card_hero_id 
+                AND uc.user_id = che.user_id
+                INNER JOIN user_equipments ue 
+                    ON che.equipment_id = ue.equipment_id 
+                AND uc.user_id = ue.user_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
+                WHERE uc.user_id = @user_id 
+                AND uc.card_hero_id = @card_hero_id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -4746,6 +5737,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                             equipment.SpecialMentalDefense += e.SpecialMentalDefense;
                             equipment.SpecialSpeed += e.Speed;
                         }
+
+                        UserModules userModule = new UserModules
+                        {
+                            CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                        };
+
+                        UserUpgrades userUpgrade = new UserUpgrades
+                        {
+                            CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                        };
+
+                        equipment.UserModules = userModule;
+                        equipment.UserUpgrades = userUpgrade;
                     }
                 }
             }
@@ -4775,12 +5779,36 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT ue.*
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
+                SELECT 
+                    ue.*,
+                    che.position,
+                    
+                    -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
                 FROM user_card_captains uc
-                JOIN card_captains c ON uc.card_captain_id = c.id
-                JOIN card_captains_equipment che ON uc.card_captain_id = che.card_captain_id
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
-                WHERE uc.user_id = @user_id AND uc.card_captain_id = @card_captain_id";
+                INNER JOIN card_captains_equipment che 
+                    ON uc.card_captain_id = che.card_captain_id 
+                AND uc.user_id = che.user_id
+                INNER JOIN user_equipments ue 
+                    ON che.equipment_id = ue.equipment_id 
+                AND uc.user_id = ue.user_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
+                WHERE uc.user_id = @user_id 
+                AND uc.card_captain_id = @card_captain_id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -4924,6 +5952,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                             equipment.SpecialMentalDefense += e.SpecialMentalDefense;
                             equipment.SpecialSpeed += e.Speed;
                         }
+
+                        UserModules userModule = new UserModules
+                        {
+                            CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                        };
+
+                        UserUpgrades userUpgrade = new UserUpgrades
+                        {
+                            CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                        };
+
+                        equipment.UserModules = userModule;
+                        equipment.UserUpgrades = userUpgrade;
                     }
                 }
             }
@@ -4953,12 +5994,36 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT ue.*
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
+                SELECT 
+                    ue.*,
+                    che.position,
+                    
+                    -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
                 FROM user_card_colonels uc
-                JOIN card_colonels c ON uc.card_colonel_id = c.id
-                JOIN card_colonels_equipment che ON uc.card_colonel_id = che.card_colonel_id
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
-                WHERE uc.user_id = @user_id AND uc.card_colonel_id = @card_colonel_id";
+                INNER JOIN card_colonels_equipment che 
+                    ON uc.card_colonel_id = che.card_colonel_id 
+                AND uc.user_id = che.user_id
+                INNER JOIN user_equipments ue 
+                    ON che.equipment_id = ue.equipment_id 
+                AND uc.user_id = ue.user_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
+                WHERE uc.user_id = @user_id 
+                AND uc.card_colonel_id = @card_colonel_id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -5102,6 +6167,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                             equipment.SpecialMentalDefense += e.SpecialMentalDefense;
                             equipment.SpecialSpeed += e.Speed;
                         }
+
+                        UserModules userModule = new UserModules
+                        {
+                            CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                        };
+
+                        UserUpgrades userUpgrade = new UserUpgrades
+                        {
+                            CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                        };
+
+                        equipment.UserModules = userModule;
+                        equipment.UserUpgrades = userUpgrade;
                     }
                 }
             }
@@ -5131,12 +6209,36 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT ue.*
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
+                SELECT 
+                    ue.*,
+                    che.position,
+                    
+                    -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
                 FROM user_card_generals uc
-                JOIN card_generals c ON uc.card_general_id = c.id
-                JOIN card_generals_equipment che ON uc.card_general_id = che.card_general_id
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
-                WHERE uc.user_id = @user_id AND uc.card_general_id = @card_general_id";
+                INNER JOIN card_generals_equipment che 
+                    ON uc.card_general_id = che.card_general_id 
+                AND uc.user_id = che.user_id
+                INNER JOIN user_equipments ue 
+                    ON che.equipment_id = ue.equipment_id 
+                AND uc.user_id = ue.user_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
+                WHERE uc.user_id = @user_id 
+                AND uc.card_general_id = @card_general_id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -5280,6 +6382,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                             equipment.SpecialMentalDefense += e.SpecialMentalDefense;
                             equipment.SpecialSpeed += e.Speed;
                         }
+
+                        UserModules userModule = new UserModules
+                        {
+                            CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                        };
+
+                        UserUpgrades userUpgrade = new UserUpgrades
+                        {
+                            CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                        };
+
+                        equipment.UserModules = userModule;
+                        equipment.UserUpgrades = userUpgrade;
                     }
                 }
             }
@@ -5309,12 +6424,36 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT ue.*
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
+                SELECT 
+                    ue.*,
+                    che.position,
+                    
+                    -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
                 FROM user_card_admirals uc
-                JOIN card_admirals c ON uc.card_admiral_id = c.id
-                JOIN card_admirals_equipment che ON uc.card_admiral_id = che.card_admiral_id
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
-                WHERE uc.user_id = @user_id AND uc.card_admiral_id = @card_admiral_id";
+                INNER JOIN card_admirals_equipment che 
+                    ON uc.card_admiral_id = che.card_admiral_id 
+                AND uc.user_id = che.user_id
+                INNER JOIN user_equipments ue 
+                    ON che.equipment_id = ue.equipment_id 
+                AND uc.user_id = ue.user_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
+                WHERE uc.user_id = @user_id 
+                AND uc.card_admiral_id = @card_admiral_id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -5458,6 +6597,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                             equipment.SpecialMentalDefense += e.SpecialMentalDefense;
                             equipment.SpecialSpeed += e.Speed;
                         }
+
+                        UserModules userModule = new UserModules
+                        {
+                            CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                        };
+
+                        UserUpgrades userUpgrade = new UserUpgrades
+                        {
+                            CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                        };
+
+                        equipment.UserModules = userModule;
+                        equipment.UserUpgrades = userUpgrade;
                     }
                 }
             }
@@ -5487,12 +6639,36 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT ue.*
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
+                SELECT 
+                    ue.*,
+                    che.position,
+                    
+                    -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
                 FROM user_card_monsters uc
-                JOIN card_monsters c ON uc.card_monster_id = c.id
-                JOIN card_monsters_equipment che ON uc.card_monster_id = che.card_monster_id
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
-                WHERE uc.user_id = @user_id AND uc.card_monster_id = @card_monster_id";
+                INNER JOIN card_monsters_equipment che 
+                    ON uc.card_monster_id = che.card_monster_id 
+                AND uc.user_id = che.user_id
+                INNER JOIN user_equipments ue 
+                    ON che.equipment_id = ue.equipment_id 
+                AND uc.user_id = ue.user_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
+                WHERE uc.user_id = @user_id 
+                AND uc.card_monster_id = @card_monster_id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -5636,6 +6812,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                             equipment.SpecialMentalDefense += e.SpecialMentalDefense;
                             equipment.SpecialSpeed += e.Speed;
                         }
+
+                        UserModules userModule = new UserModules
+                        {
+                            CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                        };
+
+                        UserUpgrades userUpgrade = new UserUpgrades
+                        {
+                            CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                        };
+
+                        equipment.UserModules = userModule;
+                        equipment.UserUpgrades = userUpgrade;
                     }
                 }
             }
@@ -5665,12 +6854,36 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT ue.*
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
+                SELECT 
+                    ue.*,
+                    che.position,
+                    
+                    -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
                 FROM user_card_militaries uc
-                JOIN card_militaries c ON uc.card_military_id = c.id
-                JOIN card_militaries_equipment che ON uc.card_military_id = che.card_military_id
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
-                WHERE uc.user_id = @user_id AND uc.card_military_id = @card_military_id";
+                INNER JOIN card_militaries_equipment che 
+                    ON uc.card_military_id = che.card_military_id 
+                AND uc.user_id = che.user_id
+                INNER JOIN user_equipments ue 
+                    ON che.equipment_id = ue.equipment_id 
+                AND uc.user_id = ue.user_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
+                WHERE uc.user_id = @user_id 
+                AND uc.card_military_id = @card_military_id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -5814,6 +7027,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                             equipment.SpecialMentalDefense += e.SpecialMentalDefense;
                             equipment.SpecialSpeed += e.Speed;
                         }
+
+                        UserModules userModule = new UserModules
+                        {
+                            CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                        };
+
+                        UserUpgrades userUpgrade = new UserUpgrades
+                        {
+                            CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                        };
+
+                        equipment.UserModules = userModule;
+                        equipment.UserUpgrades = userUpgrade;
                     }
                 }
             }
@@ -5843,12 +7069,36 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT ue.*
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
+                SELECT 
+                    ue.*,
+                    che.position,
+                    
+                    -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
                 FROM user_card_spells uc
-                JOIN card_spells c ON uc.card_spell_id = c.id
-                JOIN card_spells_equipment che ON uc.card_spell_id = che.card_spell_id
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
-                WHERE uc.user_id = @user_id AND uc.card_spell_id = @card_spell_id";
+                INNER JOIN card_spells_equipment che 
+                    ON uc.card_spell_id = che.card_spell_id 
+                AND uc.user_id = che.user_id
+                INNER JOIN user_equipments ue 
+                    ON che.equipment_id = ue.equipment_id 
+                AND uc.user_id = ue.user_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
+                WHERE uc.user_id = @user_id 
+                AND uc.card_spell_id = @card_spell_id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -5992,6 +7242,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                             equipment.SpecialMentalDefense += e.SpecialMentalDefense;
                             equipment.SpecialSpeed += e.Speed;
                         }
+
+                        UserModules userModule = new UserModules
+                        {
+                            CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                        };
+
+                        UserUpgrades userUpgrade = new UserUpgrades
+                        {
+                            CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                        };
+
+                        equipment.UserModules = userModule;
+                        equipment.UserUpgrades = userUpgrade;
                     }
                 }
             }
@@ -6021,12 +7284,36 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT ue.*
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
+                SELECT 
+                    ue.*,
+                    che.position,
+                    
+                    -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
                 FROM user_books uc
-                JOIN books c ON uc.book_id = c.id
-                JOIN books_equipment che ON uc.book_id = che.book_id
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
-                WHERE uc.user_id = @user_id AND uc.book_id = @book_id";
+                INNER JOIN books_equipment che 
+                    ON uc.book_id = che.book_id 
+                AND uc.user_id = che.user_id
+                INNER JOIN user_equipments ue 
+                    ON che.equipment_id = ue.equipment_id 
+                AND uc.user_id = ue.user_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
+                WHERE uc.user_id = @user_id 
+                AND uc.book_id = @book_id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -6170,6 +7457,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                             equipment.SpecialMentalDefense += e.SpecialMentalDefense;
                             equipment.SpecialSpeed += e.Speed;
                         }
+
+                        UserModules userModule = new UserModules
+                        {
+                            CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                        };
+
+                        UserUpgrades userUpgrade = new UserUpgrades
+                        {
+                            CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                        };
+
+                        equipment.UserModules = userModule;
+                        equipment.UserUpgrades = userUpgrade;
                     }
                 }
             }
@@ -6199,12 +7499,36 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT ue.*
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
+                SELECT 
+                    ue.*,
+                    che.position,
+                    
+                    -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
                 FROM user_pets uc
-                JOIN pets c ON uc.pet_id = c.id
-                JOIN pets_equipment che ON uc.pet_id = che.pet_id
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
-                WHERE uc.user_id = @user_id AND uc.pet_id = @pet_id";
+                INNER JOIN pets_equipment che 
+                    ON uc.pet_id = che.pet_id 
+                AND uc.user_id = che.user_id
+                INNER JOIN user_equipments ue 
+                    ON che.equipment_id = ue.equipment_id 
+                AND uc.user_id = ue.user_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
+                WHERE uc.user_id = @user_id 
+                AND uc.pet_id = @pet_id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -6348,6 +7672,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                             equipment.SpecialMentalDefense += e.SpecialMentalDefense;
                             equipment.SpecialSpeed += e.Speed;
                         }
+
+                        UserModules userModule = new UserModules
+                        {
+                            CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                        };
+
+                        UserUpgrades userUpgrade = new UserUpgrades
+                        {
+                            CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                        };
+
+                        equipment.UserModules = userModule;
+                        equipment.UserUpgrades = userUpgrade;
                     }
                 }
             }
@@ -6377,12 +7714,36 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT ue.*
+                WITH AggregatedModules AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_equipments_module
+                    GROUP BY user_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_equipments_upgrade
+                    GROUP BY user_equipment_id
+                )
+                SELECT 
+                    ue.*,
+                    che.position,
+                    
+                    -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+
                 FROM user_card_soldiers uc
-                JOIN card_soldiers c ON uc.card_soldier_id = c.id
-                JOIN card_soldiers_equipment che ON uc.card_soldier_id = che.card_soldier_id
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
-                WHERE uc.user_id = @user_id AND uc.card_soldier_id = @card_soldier_id";
+                INNER JOIN card_soldiers_equipment che 
+                    ON uc.card_soldier_id = che.card_soldier_id 
+                AND uc.user_id = che.user_id
+                INNER JOIN user_equipments ue 
+                    ON che.equipment_id = ue.equipment_id 
+                AND uc.user_id = ue.user_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+
+                WHERE uc.user_id = @user_id 
+                AND uc.card_soldier_id = @card_soldier_id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -6526,6 +7887,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                             equipment.SpecialMentalDefense += e.SpecialMentalDefense;
                             equipment.SpecialSpeed += e.Speed;
                         }
+
+                        UserModules userModule = new UserModules
+                        {
+                            CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                        };
+
+                        UserUpgrades userUpgrade = new UserUpgrades
+                        {
+                            CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                        };
+
+                        equipment.UserModules = userModule;
+                        equipment.UserUpgrades = userUpgrade;
                     }
                 }
             }

@@ -20,10 +20,30 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT ut.*, t.id, t.name, t.image, t.rare, t.description 
-                FROM Architectures t
-                JOIN user_architectures ut ON t.id = ut.architecture_id
-                WHERE ut.user_id = @userId ";
+                WITH AggregatedModules AS (
+                    SELECT user_architecture_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_architectures_module
+                    GROUP BY user_architecture_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_architecture_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_architectures_upgrade
+                    GROUP BY user_architecture_id
+                )
+                SELECT 
+                    uc.*, 
+                    c.id AS base_architecture_id, 
+                    c.name, 
+                    c.image, 
+                    c.rare, 
+                    c.description,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_architectures uc
+                INNER JOIN architectures c ON uc.architecture_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.architecture_id = am.user_architecture_id
+                LEFT JOIN AggregatedUpgrades au ON uc.architecture_id = au.user_architecture_id
+                WHERE uc.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -119,6 +139,19 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                                 Description = reader.GetStringSafe("description")
                             };
+
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            architecture.UserModules = userModule;
+                            architecture.UserUpgrades = userUpgrade;
 
                             architectures.Add(architecture);
                         }
@@ -661,9 +694,23 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT * 
-                FROM user_architectures 
-                WHERE architecture_id = @id AND user_id = @user_id";
+                WITH AggregatedModules AS (
+                    SELECT user_architecture_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_architectures_module
+                    GROUP BY user_architecture_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_architecture_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_architectures_upgrade
+                    GROUP BY user_architecture_id
+                )
+                SELECT uc.* ,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_architectures uc
+                LEFT JOIN AggregatedModules am ON uc.architecture_id = am.user_architecture_id
+                LEFT JOIN AggregatedUpgrades au ON uc.architecture_id = au.user_architecture_id
+                WHERE uc.architecture_id = @id AND uc.user_id = @user_id";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -732,6 +779,18 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                                 SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                             };
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            architecture.UserModules = userModule;
+                            architecture.UserUpgrades = userUpgrade;
                         }
                     }
                 }

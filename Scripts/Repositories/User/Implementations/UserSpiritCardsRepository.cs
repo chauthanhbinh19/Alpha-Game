@@ -20,10 +20,30 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                Select ut.*, t.id, t.name, t.image, t.rare, t.type, t.description 
-                from spirit_cards t, user_spirit_cards ut 
-                where t.id = ut.spirit_card_id 
-                    and ut.user_id = @userId ";
+                WITH AggregatedModules AS (
+                    SELECT user_spirit_card_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_spirit_cards_module
+                    GROUP BY user_spirit_card_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_spirit_card_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_spirit_cards_upgrade
+                    GROUP BY user_spirit_card_id
+                )
+                SELECT 
+                    uc.*, 
+                    c.id AS base_spirit_card_id, 
+                    c.name, 
+                    c.image, 
+                    c.rare, 
+                    c.description,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_spirit_cards uc
+                INNER JOIN spirit_cards c ON uc.spirit_card_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.spirit_card_id = am.user_spirit_card_id
+                LEFT JOIN AggregatedUpgrades au ON uc.spirit_card_id = au.user_spirit_card_id
+                WHERE uc.user_id = @userId ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND t.type = @type";
@@ -129,6 +149,18 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                                 Description = reader.GetStringSafe("description")
                             };
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            spiritCard.UserModules = userModule;
+                            spiritCard.UserUpgrades = userUpgrade;
 
                             spiritCards.Add(spiritCard);
                         }
@@ -681,9 +713,23 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT * 
-                FROM user_spirit_cards 
-                WHERE spirit_card_id = @id AND user_id = @user_id;
+                WITH AggregatedModules AS (
+                    SELECT user_spirit_card_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_spirit_cards_module
+                    GROUP BY user_spirit_card_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_spirit_card_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_spirit_cards_upgrade
+                    GROUP BY user_spirit_card_id
+                )
+                SELECT uc.* ,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_spirit_cards uc
+                LEFT JOIN AggregatedModules am ON uc.spirit_card_id = am.user_spirit_card_id
+                LEFT JOIN AggregatedUpgrades au ON uc.spirit_card_id = au.user_spirit_card_id
+                WHERE uc.spirit_card_id = @id AND uc.user_id = @user_id
             ";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -753,6 +799,18 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                                 SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate")
                             };
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            spiritCard.UserModules = userModule;
+                            spiritCard.UserUpgrades = userUpgrade;
                         }
                     }
                 }

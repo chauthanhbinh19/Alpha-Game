@@ -20,10 +20,30 @@ public class UserFashionsRepository : IUserFashionsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT um.*, m.id, m.name, m.image, m.rare, m.type, m.description 
-                FROM Fashions m
-                JOIN user_fashions um ON m.id = um.fashion_id
-                WHERE um.user_id = @userId 
+                WITH AggregatedModules AS (
+                    SELECT user_fashion_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_fashions_module
+                    GROUP BY user_fashion_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_fashion_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_fashions_upgrade
+                    GROUP BY user_fashion_id
+                )
+                SELECT 
+                    uc.*, 
+                    c.id AS base_fashion_id, 
+                    c.name, 
+                    c.image, 
+                    c.rare, 
+                    c.description,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_fashions uc
+                INNER JOIN fashions c ON uc.fashion_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.fashion_id = am.user_fashion_id
+                LEFT JOIN AggregatedUpgrades au ON uc.fashion_id = au.user_fashion_id
+                WHERE uc.user_id = @userId
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -130,6 +150,18 @@ public class UserFashionsRepository : IUserFashionsRepository
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                                 Description = reader.GetStringSafe("description")
                             };
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            fashion.UserModules = userModule;
+                            fashion.UserUpgrades = userUpgrade;
 
                             fashions.Add(fashion);
                         }
@@ -681,8 +713,24 @@ public class UserFashionsRepository : IUserFashionsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM user_fashions 
-                             WHERE fashion_id=@id AND user_id=@user_id";
+                string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_fashion_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_fashions_module
+                    GROUP BY user_fashion_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_fashion_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_fashions_upgrade
+                    GROUP BY user_fashion_id
+                )
+                SELECT uc.* ,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_fashions uc
+                LEFT JOIN AggregatedModules am ON uc.fashion_id = am.user_fashion_id
+                LEFT JOIN AggregatedUpgrades au ON uc.fashion_id = au.user_fashion_id
+                WHERE uc.fashion_id = @id AND uc.user_id = @user_id";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -751,6 +799,18 @@ public class UserFashionsRepository : IUserFashionsRepository
                                 SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate")
                             };
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            fashion.UserModules = userModule;
+                            fashion.UserUpgrades = userUpgrade;
                         }
                     }
                 }

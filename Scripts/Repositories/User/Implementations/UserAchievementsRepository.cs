@@ -19,10 +19,31 @@ public class UserAchievementsRepository : IUserAchievementsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT uc.*, c.id, c.name, c.image, c.rare, c.description 
-                             FROM achievements c, user_achievements uc 
-                             WHERE uc.achievement_id = c.id 
-                               AND uc.user_id = @userId";
+                string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_achievement_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_achievements_module
+                    GROUP BY user_achievement_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_achievement_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_achievements_upgrade
+                    GROUP BY user_achievement_id
+                )
+                SELECT 
+                    uc.*, 
+                    c.id AS base_achievement_id, 
+                    c.name, 
+                    c.image, 
+                    c.rare, 
+                    c.description,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_achievements uc
+                INNER JOIN achievements c ON uc.achievement_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.achievement_id = am.user_achievement_id
+                LEFT JOIN AggregatedUpgrades au ON uc.achievement_id = au.user_achievement_id
+                WHERE uc.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -120,6 +141,19 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                                 Description = reader.GetStringSafe("description")
                             };
+
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            achievement.UserModules = userModule;
+                            achievement.UserUpgrades = userUpgrade;
 
                             achievements.Add(achievement);
                         }
@@ -663,9 +697,23 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT * 
-                FROM user_achievements 
-                WHERE achievement_id = @id AND user_id = @user_id";
+                WITH AggregatedModules AS (
+                    SELECT user_achievement_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_achievements_module
+                    GROUP BY user_achievement_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_achievement_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_achievements_upgrade
+                    GROUP BY user_achievement_id
+                )
+                SELECT uc.* ,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_achievements uc
+                LEFT JOIN AggregatedModules am ON uc.achievement_id = am.user_achievement_id
+                LEFT JOIN AggregatedUpgrades au ON uc.achievement_id = au.user_achievement_id
+                WHERE uc.achievement_id = @id AND uc.user_id = @user_id";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -735,6 +783,19 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                                 SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                             };
+
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            achievement.UserModules = userModule;
+                            achievement.UserUpgrades = userUpgrade;
                         }
                     }
                 }

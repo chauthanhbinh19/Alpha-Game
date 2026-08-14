@@ -20,10 +20,30 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT um.*, m.id, m.name, m.image, m.rare, m.type, m.description 
-                FROM Symbols m
-                JOIN user_symbols um ON m.id = um.symbol_id
-                WHERE um.user_id = @userId 
+                WITH AggregatedModules AS (
+                    SELECT user_symbol_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_symbols_module
+                    GROUP BY user_symbol_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_symbol_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_symbols_upgrade
+                    GROUP BY user_symbol_id
+                )
+                SELECT 
+                    uc.*, 
+                    c.id AS base_symbol_id, 
+                    c.name, 
+                    c.image, 
+                    c.rare, 
+                    c.description,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_symbols uc
+                INNER JOIN symbols c ON uc.symbol_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.symbol_id = am.user_symbol_id
+                LEFT JOIN AggregatedUpgrades au ON uc.symbol_id = au.user_symbol_id
+                WHERE uc.user_id = @userId
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -130,6 +150,18 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                                 Description = reader.GetStringSafe("description")
                             };
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            symbol.UserModules = userModule;
+                            symbol.UserUpgrades = userUpgrade;
 
                             symbols.Add(symbol);
                         }
@@ -681,8 +713,24 @@ public class UserSymbolsRepository : IUserSymbolsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM user_symbols 
-                             WHERE symbol_id=@id AND user_id=@user_id";
+                string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_symbol_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_symbols_module
+                    GROUP BY user_symbol_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_symbol_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_symbols_upgrade
+                    GROUP BY user_symbol_id
+                )
+                SELECT uc.* ,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_symbols uc
+                LEFT JOIN AggregatedModules am ON uc.symbol_id = am.user_symbol_id
+                LEFT JOIN AggregatedUpgrades au ON uc.symbol_id = au.user_symbol_id
+                WHERE uc.symbol_id = @id AND uc.user_id = @user_id";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -751,6 +799,18 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                                 SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate")
                             };
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            symbol.UserModules = userModule;
+                            symbol.UserUpgrades = userUpgrade;
                         }
                     }
                 }

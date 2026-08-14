@@ -19,6 +19,16 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_card_monster_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_card_monsters_module
+                    GROUP BY user_card_monster_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_card_monster_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_card_monsters_upgrade
+                    GROUP BY user_card_monster_id
+                )
                 SELECT 
                 uc.*, 
                 c.name, 
@@ -57,7 +67,9 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                     WHERE chc.card_soldier_id = c.id
                 ) AS classes_json
             FROM user_card_soldiers uc
-            LEFT JOIN card_soldiers c ON c.id = uc.card_soldier_id 
+            INNER JOIN card_monsters c ON uc.card_monster_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.card_soldier_id = am.user_card_monster_id
+                LEFT JOIN AggregatedUpgrades au ON uc.card_soldier_id = au.user_card_monster_id
             LEFT JOIN teams t ON t.team_id = uc.team_id
             WHERE uc.user_id = @userId
             ";
@@ -261,6 +273,18 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                             cardSoldier.Class = new Classes();
                         }
                     }
+                    UserModules userModule = new UserModules
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                    };
+
+                    UserUpgrades userUpgrade = new UserUpgrades
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                    };
+
+                    cardSoldier.UserModules = userModule;
+                    cardSoldier.UserUpgrades = userUpgrade;
 
                     cardSoldiers.Add(cardSoldier);
                 }
@@ -288,6 +312,16 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_card_monster_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_card_monsters_module
+                    GROUP BY user_card_monster_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_card_monster_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_card_monsters_upgrade
+                    GROUP BY user_card_monster_id
+                )
                     SELECT 
                     uc.*, 
                     c.name, 
@@ -325,7 +359,9 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                         WHERE chc.card_soldier_id = c.id
                     ) AS classes_json
                 FROM user_card_soldiers uc
-                LEFT JOIN card_soldiers c ON c.id = uc.card_soldier_id 
+                INNER JOIN card_monsters c ON uc.card_monster_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.card_soldier_id = am.user_card_monster_id
+                LEFT JOIN AggregatedUpgrades au ON uc.card_soldier_id = au.user_card_monster_id
                 LEFT JOIN teams t ON t.team_id = uc.team_id
                 WHERE uc.user_id = @userId AND uc.team_id = @team_id AND SUBSTRING_INDEX(uc.position, '-', 1) = @position
             ";
@@ -494,6 +530,18 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                             cardSoldier.Class = new Classes();
                         }
                     }
+                    UserModules userModule = new UserModules
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                    };
+
+                    UserUpgrades userUpgrade = new UserUpgrades
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                    };
+
+                    cardSoldier.UserModules = userModule;
+                    cardSoldier.UserUpgrades = userUpgrade;
 
                     cardSoldiers.Add(cardSoldier);
                 }
@@ -521,6 +569,16 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_card_monster_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_card_monsters_module
+                    GROUP BY user_card_monster_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_card_monster_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_card_monsters_upgrade
+                    GROUP BY user_card_monster_id
+                )
                 SELECT  distinct
                     uc.*, 
                     c.name, 
@@ -558,7 +616,9 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                         WHERE chc.card_soldier_id = c.id
                     ) AS classes_json
                 FROM user_card_soldiers uc
-                LEFT JOIN card_soldiers c ON c.id = uc.card_soldier_id 
+                INNER JOIN card_monsters c ON uc.card_monster_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.card_soldier_id = am.user_card_monster_id
+                LEFT JOIN AggregatedUpgrades au ON uc.card_soldier_id = au.user_card_monster_id
                 LEFT JOIN teams t ON t.team_id = uc.team_id
                 WHERE uc.user_id = @userId AND uc.team_id = @team_id
             ";
@@ -726,6 +786,18 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                             cardSoldier.Class = new Classes();
                         }
                     }
+                    UserModules userModule = new UserModules
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                    };
+
+                    UserUpgrades userUpgrade = new UserUpgrades
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                    };
+
+                    cardSoldier.UserModules = userModule;
+                    cardSoldier.UserUpgrades = userUpgrade;
 
                     cardSoldiers.Add(cardSoldier);
                 }
@@ -1450,10 +1522,22 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-            SELECT uc.*, c.image
-            FROM user_card_soldiers uc
-            JOIN card_soldiers c ON uc.card_soldier_id = c.id
-            WHERE uc.card_soldier_id = @id AND uc.user_id = @user_id";
+                WITH AggregatedModules AS (
+                    SELECT user_card_monster_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_card_monsters_module
+                    GROUP BY user_card_monster_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_card_monster_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_card_monsters_upgrade
+                    GROUP BY user_card_monster_id
+                )
+                SELECT uc.*, c.image
+                FROM user_card_soldiers uc
+                INNER JOIN card_monsters c ON uc.card_monster_id = c.id
+                    LEFT JOIN AggregatedModules am ON uc.card_soldier_id = am.user_card_monster_id
+                    LEFT JOIN AggregatedUpgrades au ON uc.card_soldier_id = au.user_card_monster_id
+                WHERE uc.card_soldier_id = @id AND uc.user_id = @user_id";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@id", Id);
@@ -1575,6 +1659,18 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                             SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                         }
                     };
+                    UserModules userModule = new UserModules
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                    };
+
+                    UserUpgrades userUpgrade = new UserUpgrades
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                    };
+
+                    cardSoldier.UserModules = userModule;
+                    cardSoldier.UserUpgrades = userUpgrade;
                 }
             }
             catch (MySqlException ex)
@@ -1603,17 +1699,26 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                 WITH CalculatedCards AS (
                 SELECT 
                     uc.*,
-                    -- TÍNH HỆ SỐ TỔNG (TOTAL MULTIPLIER):
-                    -- 1. Quality: (1 + quality / 10.0)
-                    -- 2. Star: GREATEST(star, 1) -> Star <= 1 đều nhân 1 (bỏ qua bonus)
-                    -- 3. Level: (1 + GREATEST(level, 0) / 100.0) -> Level <= 0 nhân 1.0 (bỏ qua bonus)
                     (
-                        (1 + uc.quality / 10.0) 
-                        * GREATEST(uc.star, 1) 
-                        * (1 + GREATEST(uc.level, 0) / 100.0)
+                        -- Quality: 0 -> 1.0, 1 -> 1.1
+                        (1 + COALESCE(uc.quality, 0) / 10.0) 
+                        
+                        -- Star: 0 -> 1.0, 1 -> 2.0, 2 -> 3.0
+                        * (1 + COALESCE(uc.star, 0)) 
+                        
+                        -- Level: 0 -> 1.0, 10 -> 1.1
+                        * (1 + COALESCE(uc.level, 0) / 100.0) 
+                        
+                        -- Module: 0/NULL -> 1.0
+                        * (1 + COALESCE(ubm.current_multiplier, 0) / 100.0) 
+                        
+                        -- Upgrade: 0/NULL -> 1.0
+                        * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                     ) AS total_multiplier
                 FROM user_card_soldiers uc
                 INNER JOIN teams t ON uc.team_id = t.team_id AND t.is_main = 1
+                LEFT JOIN user_card_soldiers_module ubm ON uc.card_soldier_id = ubm.user_card_soldier_id
+                LEFT JOIN user_card_soldiers_upgrade ubu ON uc.card_soldier_id = ubu.user_card_soldier_id
                 WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL
             )
             SELECT 

@@ -41,6 +41,8 @@ public class Equipments : BaseEntity, IPowerSortable, IStats
     public int Position { get; set; }
     public BaseStats BaseStats { get; set; } = new BaseStats();
     double IPowerSortable.Power => Power;
+    public UserModules UserModules { get; set; } = new UserModules();
+    public UserUpgrades UserUpgrades { get; set; } = new UserUpgrades();
     public Equipments()
     {
         PercentAllHealth = -1;

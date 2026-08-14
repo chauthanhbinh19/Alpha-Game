@@ -25,6 +25,8 @@ public class Buildings : BaseEntity, IPowerSortable, IStats
     public Currencies Currency { get; set; }
     public BaseStats BaseStats { get; set; } = new BaseStats();
     double IPowerSortable.Power => Power;
+    public UserModules UserModules { get; set; } = new UserModules();
+    public UserUpgrades UserUpgrades { get; set; } = new UserUpgrades();
     public Buildings()
     {
         PercentAllHealth = -1;

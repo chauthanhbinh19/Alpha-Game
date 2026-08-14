@@ -35,9 +35,31 @@ public class UserSkillsRepository : IUserSkillsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description,
+                WITH AggregatedModules AS (
+                    SELECT user_skill_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
+                    FROM user_skills_module
+                    GROUP BY user_skill_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_skill_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
+                    FROM user_skills_upgrade
+                    GROUP BY user_skill_id
+                )
+                SELECT 
+                    us.*, 
+                    s.name, 
+                    s.image, 
+                    s.rare, 
+                    s.type, 
+                    s.skill_type, 
+                    s.description,
                     sp.pattern_id,
-                    -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
+
+                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier,
+
+                    -- Subquery gom nhóm hiệu ứng thành JSON
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
@@ -66,12 +88,15 @@ public class UserSkillsRepository : IUserSkillsRepository
                         LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
                         LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
                         LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
-                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
+                        WHERE se.skill_id = s.id
                     ) AS skill_effects_json
-                FROM skills s
-                INNER JOIN user_skills us ON s.id = us.skill_id
+
+                FROM user_skills us
+                INNER JOIN skills s ON us.skill_id = s.id
                 LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
-                WHERE us.user_id = @userId";
+                LEFT JOIN AggregatedModules am ON us.skill_id = am.user_skill_id
+                LEFT JOIN AggregatedUpgrades au ON us.skill_id = au.user_skill_id
+                WHERE us.user_id = @userId;";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -198,7 +223,18 @@ public class UserSkillsRepository : IUserSkillsRepository
                             skill.Effects = new List<Effects>();
                         }
                     }
+                    UserModules userModule = new UserModules
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                    };
 
+                    UserUpgrades userUpgrade = new UserUpgrades
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                    };
+
+                    skill.UserModules = userModule;
+                    skill.UserUpgrades = userUpgrade;
 
                     skills.Add(skill);
                 }
@@ -746,7 +782,24 @@ public class UserSkillsRepository : IUserSkillsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM user_skills WHERE skill_id = @id AND user_id = @user_id";
+                string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_skill_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_skills_module
+                    GROUP BY user_skill_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_skill_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_skills_upgrade
+                    GROUP BY user_skill_id
+                )
+                SELECT uc.* ,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_skills uc
+                LEFT JOIN AggregatedModules am ON uc.skill_id = am.user_skill_id
+                LEFT JOIN AggregatedUpgrades au ON uc.skill_id = au.user_skill_id
+                WHERE uc.skill_id = @id AND uc.user_id = @user_id";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@id", Id);
@@ -813,6 +866,18 @@ public class UserSkillsRepository : IUserSkillsRepository
                         SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                         SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                     };
+                    UserModules userModule = new UserModules
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                    };
+
+                    UserUpgrades userUpgrade = new UserUpgrades
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                    };
+
+                    skill.UserModules = userModule;
+                    skill.UserUpgrades = userUpgrade;
                 }
             }
             catch (MySqlException ex)

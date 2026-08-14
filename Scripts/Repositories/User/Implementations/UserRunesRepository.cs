@@ -20,10 +20,30 @@ public class UserRunesRepository : IUserRunesRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
-                FROM Runes t
-                INNER JOIN user_runes ut ON t.id = ut.rune_id
-                WHERE ut.user_id = @userId";
+                WITH AggregatedModules AS (
+                    SELECT user_rune_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_runes_module
+                    GROUP BY user_rune_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_rune_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_runes_upgrade
+                    GROUP BY user_rune_id
+                )
+                SELECT 
+                    uc.*, 
+                    c.id AS base_rune_id, 
+                    c.name, 
+                    c.image, 
+                    c.rare, 
+                    c.description,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_runes uc
+                INNER JOIN runes c ON uc.rune_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.rune_id = am.user_rune_id
+                LEFT JOIN AggregatedUpgrades au ON uc.rune_id = au.user_rune_id
+                WHERE uc.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -120,6 +140,18 @@ public class UserRunesRepository : IUserRunesRepository
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                                 Description = reader.GetStringSafe("description")
                             };
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            rune.UserModules = userModule;
+                            rune.UserUpgrades = userUpgrade;
 
                             runes.Add(rune);
                         }
@@ -660,8 +692,24 @@ public class UserRunesRepository : IUserRunesRepository
             try
             {
                 await connection.OpenAsync();
-                string selectSQL = @"Select * from user_runes where user_runes.rune_id=@id 
-                and user_runes.user_id=@user_id";
+                string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_rune_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_runes_module
+                    GROUP BY user_rune_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_rune_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_runes_upgrade
+                    GROUP BY user_rune_id
+                )
+                SELECT uc.* ,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_runes uc
+                LEFT JOIN AggregatedModules am ON uc.rune_id = am.user_rune_id
+                LEFT JOIN AggregatedUpgrades au ON uc.rune_id = au.user_rune_id
+                WHERE uc.rune_id = @id AND uc.user_id = @user_id";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
@@ -729,6 +777,18 @@ public class UserRunesRepository : IUserRunesRepository
                                 SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                             };
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            rune.UserModules = userModule;
+                            rune.UserUpgrades = userUpgrade;
                         }
                     }
                 }

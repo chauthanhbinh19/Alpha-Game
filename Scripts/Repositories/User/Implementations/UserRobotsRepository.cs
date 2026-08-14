@@ -20,10 +20,30 @@ public class UserRobotsRepository : IUserRobotsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
-                FROM Robots t
-                INNER JOIN user_robots ut ON t.id = ut.robot_id
-                WHERE ut.user_id = @userId";
+                WITH AggregatedModules AS (
+                    SELECT user_robot_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_robots_module
+                    GROUP BY user_robot_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_robot_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_robots_upgrade
+                    GROUP BY user_robot_id
+                )
+                SELECT 
+                    uc.*, 
+                    c.id AS base_robot_id, 
+                    c.name, 
+                    c.image, 
+                    c.rare, 
+                    c.description,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_robots uc
+                INNER JOIN robots c ON uc.robot_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.robot_id = am.user_robot_id
+                LEFT JOIN AggregatedUpgrades au ON uc.robot_id = au.user_robot_id
+                WHERE uc.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -120,6 +140,18 @@ public class UserRobotsRepository : IUserRobotsRepository
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                                 Description = reader.GetStringSafe("description")
                             };
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            robot.UserModules = userModule;
+                            robot.UserUpgrades = userUpgrade;
 
                             robots.Add(robot);
                         }
@@ -660,8 +692,24 @@ public class UserRobotsRepository : IUserRobotsRepository
             try
             {
                 await connection.OpenAsync();
-                string selectSQL = @"Select * from user_robots where user_robots.robot_id=@id 
-                and user_robots.user_id=@user_id";
+                string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_robot_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_robots_module
+                    GROUP BY user_robot_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_robot_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_robots_upgrade
+                    GROUP BY user_robot_id
+                )
+                SELECT uc.* ,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_robots uc
+                LEFT JOIN AggregatedModules am ON uc.robot_id = am.user_robot_id
+                LEFT JOIN AggregatedUpgrades au ON uc.robot_id = au.user_robot_id
+                WHERE uc.robot_id = @id AND uc.user_id = @user_id";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
@@ -729,6 +777,18 @@ public class UserRobotsRepository : IUserRobotsRepository
                                 SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                             };
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            robot.UserModules = userModule;
+                            robot.UserUpgrades = userUpgrade;
                         }
                     }
                 }

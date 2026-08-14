@@ -20,10 +20,30 @@ public class UserMedalsRepository : IUserMedalsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
-                FROM Medals t
-                INNER JOIN user_medals ut ON t.id = ut.medal_id
-                WHERE ut.user_id = @userId";
+                WITH AggregatedModules AS (
+                    SELECT user_medal_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_medals_module
+                    GROUP BY user_medal_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_medal_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_medals_upgrade
+                    GROUP BY user_medal_id
+                )
+                SELECT 
+                    uc.*, 
+                    c.id AS base_medal_id, 
+                    c.name, 
+                    c.image, 
+                    c.rare, 
+                    c.description,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_medals uc
+                INNER JOIN medals c ON uc.medal_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.medal_id = am.user_medal_id
+                LEFT JOIN AggregatedUpgrades au ON uc.medal_id = au.user_medal_id
+                WHERE uc.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -120,6 +140,18 @@ public class UserMedalsRepository : IUserMedalsRepository
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                                 Description = reader.GetStringSafe("description")
                             };
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            medal.UserModules = userModule;
+                            medal.UserUpgrades = userUpgrade;
 
                             medals.Add(medal);
                         }
@@ -659,8 +691,24 @@ public class UserMedalsRepository : IUserMedalsRepository
             try
             {
                 await connection.OpenAsync();
-                string selectSQL = @"Select * from user_medals where user_medals.medal_id=@id 
-                and user_medals.user_id=@user_id";
+                string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_medal_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_medals_module
+                    GROUP BY user_medal_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_medal_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_medals_upgrade
+                    GROUP BY user_medal_id
+                )
+                SELECT uc.* ,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_medals uc
+                LEFT JOIN AggregatedModules am ON uc.medal_id = am.user_medal_id
+                LEFT JOIN AggregatedUpgrades au ON uc.medal_id = au.user_medal_id
+                WHERE uc.medal_id = @id AND uc.user_id = @user_id";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
@@ -728,6 +776,18 @@ public class UserMedalsRepository : IUserMedalsRepository
                                 SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                             };
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            medal.UserModules = userModule;
+                            medal.UserUpgrades = userUpgrade;
                         }
                     }
                 }

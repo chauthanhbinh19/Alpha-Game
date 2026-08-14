@@ -20,9 +20,29 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT uc.*, c.id, c.name, c.image, c.rare, c.description 
-                FROM collaborations c
-                JOIN user_collaborations uc ON uc.collaboration_id = c.id
+                WITH AggregatedModules AS (
+                    SELECT user_collaboration_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_collaborations_module
+                    GROUP BY user_collaboration_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_collaboration_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_collaborations_upgrade
+                    GROUP BY user_collaboration_id
+                )
+                SELECT 
+                    uc.*, 
+                    c.id AS base_collaboration_id, 
+                    c.name, 
+                    c.image, 
+                    c.rare, 
+                    c.description,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_collaborations uc
+                INNER JOIN collaborations c ON uc.collaboration_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.collaboration_id = am.user_collaboration_id
+                LEFT JOIN AggregatedUpgrades au ON uc.collaboration_id = au.user_collaboration_id
                 WHERE uc.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -118,6 +138,18 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                         SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                         Description = reader.GetStringSafe("description")
                     };
+                    UserModules userModule = new UserModules
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                    };
+
+                    UserUpgrades userUpgrade = new UserUpgrades
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                    };
+
+                    collaboration.UserModules = userModule;
+                    collaboration.UserUpgrades = userUpgrade;
 
                     collaborations.Add(collaboration);
                 }
@@ -655,10 +687,23 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT * 
-                FROM user_collaborations 
-                WHERE collaboration_id = @id 
-                AND user_id = @user_id;
+                WITH AggregatedModules AS (
+                    SELECT user_collaboration_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_collaborations_module
+                    GROUP BY user_collaboration_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_collaboration_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_collaborations_upgrade
+                    GROUP BY user_collaboration_id
+                )
+                SELECT uc.* ,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_collaborations uc
+                LEFT JOIN AggregatedModules am ON uc.collaboration_id = am.user_collaboration_id
+                LEFT JOIN AggregatedUpgrades au ON uc.collaboration_id = au.user_collaboration_id
+                WHERE uc.collaboration_id = @id AND uc.user_id = @user_id
             ";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -728,6 +773,18 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                                 SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate")
                             };
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            collaboration.UserModules = userModule;
+                            collaboration.UserUpgrades = userUpgrade;
                         }
                     }
                 }

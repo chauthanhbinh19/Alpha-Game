@@ -34,6 +34,8 @@ public class CardAdmirals : BaseEntity, IPowerSortable, ICard, IStats
     double IPowerSortable.Power => Power;
     public List<Emblems> Emblems { get; set; } = new List<Emblems>();
     public Classes Class { get; set; } = new Classes();
+    public UserModules UserModules { get; set; } = new UserModules();
+    public UserUpgrades UserUpgrades { get; set; } = new UserUpgrades();
     public CardAdmirals()
     {
         Power = -1;

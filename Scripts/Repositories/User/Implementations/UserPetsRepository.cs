@@ -19,10 +19,30 @@ public class UserPetsRepository : IUserPetsRepository
             await connection.OpenAsync();
 
             string selectSQL = @"
-            SELECT up.*, p.name, p.image, p.rare, p.type, p.description
-            FROM user_pets up
-            LEFT JOIN Pets p ON p.id = up.pet_id
-            WHERE up.user_id = @userId 
+            WITH AggregatedModules AS (
+                    SELECT user_pet_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_pets_module
+                    GROUP BY user_pet_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_pet_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_pets_upgrade
+                    GROUP BY user_pet_id
+                )
+                SELECT 
+                    uc.*, 
+                    c.id AS base_pet_id, 
+                    c.name, 
+                    c.image, 
+                    c.rare, 
+                    c.description,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_pets uc
+                INNER JOIN pets c ON uc.pet_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.pet_id = am.user_pet_id
+                LEFT JOIN AggregatedUpgrades au ON uc.pet_id = au.user_pet_id 
+                WHERE uc.user_id = @userId 
         ";
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
@@ -180,6 +200,18 @@ public class UserPetsRepository : IUserPetsRepository
                         SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                     }
                 };
+                UserModules userModule = new UserModules
+                {
+                    CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                };
+
+                UserUpgrades userUpgrade = new UserUpgrades
+                {
+                    CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                };
+
+                pet.UserModules = userModule;
+                pet.UserUpgrades = userUpgrade;
 
                 pets.Add(pet);
             }
@@ -202,11 +234,30 @@ public class UserPetsRepository : IUserPetsRepository
             await connection.OpenAsync();
 
             string selectSQL = @"
-            SELECT up.*, p.image, p.rare, p.type, p.description
-            FROM user_pets up
-            LEFT JOIN Pets p ON p.id = up.pet_id
-            WHERE up.user_id = @userId AND up.team_id = @team_id
-            ORDER BY p.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(p.name, '[0-9]+$') AS UNSIGNED), p.name;
+            WITH AggregatedModules AS (
+                    SELECT user_pet_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_pets_module
+                    GROUP BY user_pet_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_pet_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_pets_upgrade
+                    GROUP BY user_pet_id
+                )
+                SELECT 
+                    uc.*, 
+                    c.id AS base_pet_id, 
+                    c.name, 
+                    c.image, 
+                    c.rare, 
+                    c.description,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_pets uc
+                INNER JOIN pets c ON uc.pet_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.pet_id = am.user_pet_id
+                LEFT JOIN AggregatedUpgrades au ON uc.pet_id = au.user_pet_id
+                WHERE uc.user_id = @userId AND uc.team_id=@team_id
         ";
 
             await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
@@ -333,6 +384,18 @@ public class UserPetsRepository : IUserPetsRepository
                         SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                     }
                 };
+                UserModules userModule = new UserModules
+                {
+                    CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                };
+
+                UserUpgrades userUpgrade = new UserUpgrades
+                {
+                    CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                };
+
+                pet.UserModules = userModule;
+                pet.UserUpgrades = userUpgrade;
 
                 petsList.Add(pet);
             }
@@ -942,8 +1005,24 @@ public class UserPetsRepository : IUserPetsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM user_pets 
-                             WHERE pet_id = @id AND user_id = @user_id";
+                string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_pet_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_pets_module
+                    GROUP BY user_pet_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_pet_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_pets_upgrade
+                    GROUP BY user_pet_id
+                )
+                SELECT uc.* ,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_pets uc
+                LEFT JOIN AggregatedModules am ON uc.pet_id = am.user_pet_id
+                LEFT JOIN AggregatedUpgrades au ON uc.pet_id = au.user_pet_id
+                WHERE uc.pet_id = @id AND uc.user_id = @user_id";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -1066,6 +1145,18 @@ public class UserPetsRepository : IUserPetsRepository
                                     SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                                 }
                             };
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            pet.UserModules = userModule;
+                            pet.UserUpgrades = userUpgrade;
                         }
                     }
                 }
@@ -1092,17 +1183,26 @@ public class UserPetsRepository : IUserPetsRepository
             WITH CalculatedCards AS (
                 SELECT 
                     uc.*,
-                    -- TÍNH HỆ SỐ TỔNG (TOTAL MULTIPLIER):
-                    -- 1. Quality: (1 + quality / 10.0)
-                    -- 2. Star: GREATEST(star, 1) -> Star <= 1 đều nhân 1 (bỏ qua bonus)
-                    -- 3. Level: (1 + GREATEST(level, 0) / 100.0) -> Level <= 0 nhân 1.0 (bỏ qua bonus)
                     (
-                        (1 + uc.quality / 10.0) 
-                        * GREATEST(uc.star, 1) 
-                        * (1 + GREATEST(uc.level, 0) / 100.0)
+                        -- Quality: 0 -> 1.0, 1 -> 1.1
+                        (1 + COALESCE(uc.quality, 0) / 10.0) 
+                        
+                        -- Star: 0 -> 1.0, 1 -> 2.0, 2 -> 3.0
+                        * (1 + COALESCE(uc.star, 0)) 
+                        
+                        -- Level: 0 -> 1.0, 10 -> 1.1
+                        * (1 + COALESCE(uc.level, 0) / 100.0) 
+                        
+                        -- Module: 0/NULL -> 1.0
+                        * (1 + COALESCE(ubm.current_multiplier, 0) / 100.0) 
+                        
+                        -- Upgrade: 0/NULL -> 1.0
+                        * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                     ) AS total_multiplier
                 FROM user_pets uc
                 INNER JOIN teams t ON uc.team_id = t.team_id AND t.is_main = 1
+                LEFT JOIN user_pets_module ubm ON uc.pet_id = ubm.user_pet_id
+                LEFT JOIN user_pets_upgrade ubu ON uc.pet_id = ubu.user_pet_id
                 WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL
             )
             SELECT 

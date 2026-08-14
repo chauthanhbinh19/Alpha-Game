@@ -20,10 +20,30 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT um.*, m.id, m.name, m.image, m.rare, m.type, m.description 
-                FROM puppets m
-                JOIN user_puppets um ON m.id = um.puppet_id
-                WHERE um.user_id = @userId 
+                WITH AggregatedModules AS (
+                    SELECT user_puppet_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_puppets_module
+                    GROUP BY user_puppet_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_puppet_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_puppets_upgrade
+                    GROUP BY user_puppet_id
+                )
+                SELECT 
+                    uc.*, 
+                    c.id AS base_puppet_id, 
+                    c.name, 
+                    c.image, 
+                    c.rare, 
+                    c.description,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_puppets uc
+                INNER JOIN puppets c ON uc.puppet_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.puppet_id = am.user_puppet_id
+                LEFT JOIN AggregatedUpgrades au ON uc.puppet_id = au.user_puppet_id
+                WHERE uc.user_id = @userId
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -130,6 +150,18 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                                 Description = reader.GetStringSafe("description")
                             };
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            puppet.UserModules = userModule;
+                            puppet.UserUpgrades = userUpgrade;
 
                             puppets.Add(puppet);
                         }
@@ -681,8 +713,24 @@ public class UserPuppetsRepository : IUserPuppetsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM user_puppets
-                             WHERE puppet_id=@id AND user_id=@user_id";
+                string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_puppet_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_puppets_module
+                    GROUP BY user_puppet_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_puppet_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_puppets_upgrade
+                    GROUP BY user_puppet_id
+                )
+                SELECT uc.* ,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_puppets uc
+                LEFT JOIN AggregatedModules am ON uc.puppet_id = am.user_puppet_id
+                LEFT JOIN AggregatedUpgrades au ON uc.puppet_id = au.user_puppet_id
+                WHERE uc.puppet_id = @id AND uc.user_id = @user_id";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -751,6 +799,18 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                                 SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate")
                             };
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            puppet.UserModules = userModule;
+                            puppet.UserUpgrades = userUpgrade;
                         }
                     }
                 }

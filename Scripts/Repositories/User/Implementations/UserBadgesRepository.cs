@@ -20,10 +20,30 @@ public class UserBadgesRepository : IUserBadgesRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT ut.*, t.id, t.name, t.image, t.rare, t.description 
-                FROM Badges t
-                JOIN user_badges ut ON t.id = ut.badge_id
-                WHERE ut.user_id = @userId";
+                WITH AggregatedModules AS (
+                    SELECT user_badge_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_badges_module
+                    GROUP BY user_badge_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_badge_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_badges_upgrade
+                    GROUP BY user_badge_id
+                )
+                SELECT 
+                    uc.*, 
+                    c.id AS base_badge_id, 
+                    c.name, 
+                    c.image, 
+                    c.rare, 
+                    c.description,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_badges uc
+                INNER JOIN badges c ON uc.badge_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.badge_id = am.user_badge_id
+                LEFT JOIN AggregatedUpgrades au ON uc.badge_id = au.user_badge_id
+                WHERE uc.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -121,6 +141,19 @@ public class UserBadgesRepository : IUserBadgesRepository
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                                 Description = reader.GetStringSafe("description")
                             };
+
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            badge.UserModules = userModule;
+                            badge.UserUpgrades = userUpgrade;
 
                             badges.Add(badge);
                         }
@@ -663,8 +696,24 @@ public class UserBadgesRepository : IUserBadgesRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM user_badges 
-                             WHERE badge_id = @id AND user_id = @user_id";
+                string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_badge_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_badges_module
+                    GROUP BY user_badge_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_badge_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_badges_upgrade
+                    GROUP BY user_badge_id
+                )
+                SELECT uc.* ,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_badges uc
+                LEFT JOIN AggregatedModules am ON uc.badge_id = am.user_badge_id
+                LEFT JOIN AggregatedUpgrades au ON uc.badge_id = au.user_badge_id
+                WHERE uc.badge_id = @id AND uc.user_id = @user_id";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -733,6 +782,18 @@ public class UserBadgesRepository : IUserBadgesRepository
                                 SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate")
                             };
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            badge.UserModules = userModule;
+                            badge.UserUpgrades = userUpgrade;
                         }
                     }
                 }

@@ -20,10 +20,30 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT ut.*, t.id, t.name, t.image, t.rare, t.type, t.description
-                FROM Weapons t
-                INNER JOIN user_weapons ut ON t.id = ut.weapon_id
-                WHERE ut.user_id = @userId";
+                WITH AggregatedModules AS (
+                    SELECT user_weapon_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_weapons_module
+                    GROUP BY user_weapon_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_weapon_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_weapons_upgrade
+                    GROUP BY user_weapon_id
+                )
+                SELECT 
+                    uc.*, 
+                    c.id AS base_weapon_id, 
+                    c.name, 
+                    c.image, 
+                    c.rare, 
+                    c.description,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_weapons uc
+                INNER JOIN weapons c ON uc.weapon_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.weapon_id = am.user_weapon_id
+                LEFT JOIN AggregatedUpgrades au ON uc.weapon_id = au.user_weapon_id
+                WHERE uc.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -133,6 +153,18 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                                 Description = reader.GetStringSafe("description")
                             };
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            weapon.UserModules = userModule;
+                            weapon.UserUpgrades = userUpgrade;
 
                             weapons.Add(weapon);
                         }
@@ -683,8 +715,24 @@ public class UserWeaponsRepository : IUserWeaponsRepository
             try
             {
                 await connection.OpenAsync();
-                string selectSQL = @"Select * from user_weapons where user_weapons.weapon_id=@id 
-                and user_weapons.user_id=@user_id";
+                string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_weapon_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_weapons_module
+                    GROUP BY user_weapon_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_weapon_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_weapons_upgrade
+                    GROUP BY user_weapon_id
+                )
+                SELECT uc.* ,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_weapons uc
+                LEFT JOIN AggregatedModules am ON uc.weapon_id = am.user_weapon_id
+                LEFT JOIN AggregatedUpgrades au ON uc.weapon_id = au.user_weapon_id
+                WHERE uc.weapon_id = @id AND uc.user_id = @user_id";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
@@ -752,6 +800,18 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                                 SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                             };
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            weapon.UserModules = userModule;
+                            weapon.UserUpgrades = userUpgrade;
                         }
                     }
                 }

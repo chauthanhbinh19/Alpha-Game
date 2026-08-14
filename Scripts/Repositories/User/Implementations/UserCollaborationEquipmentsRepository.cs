@@ -20,10 +20,30 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT um.*, m.id, m.name, m.image, m.rare, m.type, m.description 
-                FROM collaboration_equipments m
-                JOIN user_collaboration_equipments um ON m.id = um.collaboration_equipment_id
-                WHERE um.user_id = @userId 
+                WITH AggregatedModules AS (
+                    SELECT user_collaboration_equipment_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_collaboration_equipments_module
+                    GROUP BY user_collaboration_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_collaboration_equipment_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_collaboration_equipments_upgrade
+                    GROUP BY user_collaboration_equipment_id
+                )
+                SELECT 
+                    uc.*, 
+                    c.id AS base_collaboration_equipment_id, 
+                    c.name, 
+                    c.image, 
+                    c.rare, 
+                    c.description,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_collaboration_equipments uc
+                INNER JOIN collaboration_equipments c ON uc.collaboration_equipment_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.collaboration_equipment_id = am.user_collaboration_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON uc.collaboration_equipment_id = au.user_collaboration_equipment_id
+                WHERE uc.user_id = @userId
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -130,6 +150,19 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                                 Description = reader.GetStringSafe("description")
                             };
+
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            collaborationEquipment.UserModules = userModule;
+                            collaborationEquipment.UserUpgrades = userUpgrade;
 
                             collaborationEquipments.Add(collaborationEquipment);
                         }
@@ -681,8 +714,24 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM user_collaboration_equipments
-                             WHERE collaboration_equipment_id=@id AND user_id=@user_id";
+                string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_collaboration_equipment_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_collaboration_equipments_module
+                    GROUP BY user_collaboration_equipment_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_collaboration_equipment_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_collaboration_equipments_upgrade
+                    GROUP BY user_collaboration_equipment_id
+                )
+                SELECT uc.* ,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_collaboration_equipments uc
+                LEFT JOIN AggregatedModules am ON uc.collaboration_equipment_id = am.user_collaboration_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON uc.collaboration_equipment_id = au.user_collaboration_equipment_id
+                WHERE uc.collaboration_equipment_id = @id AND uc.user_id = @user_id";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -751,6 +800,18 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                                 SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                                 SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate")
                             };
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            collaborationEquipment.UserModules = userModule;
+                            collaborationEquipment.UserUpgrades = userUpgrade;
                         }
                     }
                 }

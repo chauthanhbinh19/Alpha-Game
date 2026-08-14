@@ -19,47 +19,59 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT 
-                uc.*, 
-                c.name, 
-                c.image, 
-                c.type, 
-                c.description, 
-                COALESCE(t.team_number, 0) AS team_number,
-                (
-                    SELECT JSON_ARRAYAGG(
-                        JSON_OBJECT(
-                            'id', e.id,
-                            'name', e.name,
-                            'image', e.image,
-                            'type', e.type
+                WITH AggregatedModules AS (
+                    SELECT user_card_admiral_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_card_admirals_module
+                    GROUP BY user_card_admiral_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_card_admiral_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_card_admirals_upgrade
+                    GROUP BY user_card_admiral_id
+                )
+                    SELECT 
+                    uc.*, 
+                    c.name, 
+                    c.image, 
+                    c.type, 
+                    c.description, 
+                    COALESCE(t.team_number, 0) AS team_number,
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'id', e.id,
+                                'name', e.name,
+                                'image', e.image,
+                                'type', e.type
+                            )
                         )
-                    )
-                    FROM card_admiral_emblem che
-                    JOIN emblems e ON che.emblem_id = e.id
-                    WHERE che.card_admiral_id = c.id
-                ) AS emblems_json,
-                (
-                    SELECT JSON_ARRAYAGG(
-                        JSON_OBJECT(
-                            'id', cl.id,
-                            'sub_type', cl.sub_type,
-                            'sub_image', cl.sub_image,
-                            'main_type', cl.main_type,
-                            'main_image', cl.main_image,
-                            'movement_range', cl.movement_range,
-                                'movement_point', cl.movement_point,
-                                'attack_range', cl.attack_range
+                        FROM card_admiral_emblem che
+                        JOIN emblems e ON che.emblem_id = e.id
+                        WHERE che.card_admiral_id = c.id
+                    ) AS emblems_json,
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'id', cl.id,
+                                'sub_type', cl.sub_type,
+                                'sub_image', cl.sub_image,
+                                'main_type', cl.main_type,
+                                'main_image', cl.main_image,
+                                'movement_range', cl.movement_range,
+                                    'movement_point', cl.movement_point,
+                                    'attack_range', cl.attack_range
+                            )
                         )
-                    )
-                    FROM card_admiral_class chc
-                    JOIN classes cl ON chc.class_id = cl.id
-                    WHERE chc.card_admiral_id = c.id
-                ) AS classes_json
-            FROM user_card_admirals uc
-            LEFT JOIN card_admirals c ON c.id = uc.card_admiral_id 
-            LEFT JOIN teams t ON t.team_id = uc.team_id
-            WHERE uc.user_id = @userId
+                        FROM card_admiral_class chc
+                        JOIN classes cl ON chc.class_id = cl.id
+                        WHERE chc.card_admiral_id = c.id
+                    ) AS classes_json
+                FROM user_card_admirals uc
+                INNER JOIN card_admirals c ON uc.card_admiral_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.card_admiral_id = am.user_card_admiral_id
+                LEFT JOIN AggregatedUpgrades au ON uc.card_admiral_id = au.user_card_admiral_id
+                LEFT JOIN teams t ON t.team_id = uc.team_id
+                WHERE uc.user_id = @userId
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -262,6 +274,19 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                         }
                     }
 
+                    UserModules userModule = new UserModules
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                    };
+
+                    UserUpgrades userUpgrade = new UserUpgrades
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                    };
+
+                    cardAdmiral.UserModules = userModule;
+                    cardAdmiral.UserUpgrades = userUpgrade;
+
                     cardAdmirals.Add(cardAdmiral);
                 }
             }
@@ -288,6 +313,16 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_card_admiral_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_card_admirals_module
+                    GROUP BY user_card_admiral_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_card_admiral_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_card_admirals_upgrade
+                    GROUP BY user_card_admiral_id
+                )
                     SELECT 
                     uc.*, 
                     c.name, 
@@ -325,7 +360,9 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                         WHERE chc.card_admiral_id = c.id
                     ) AS classes_json
                 FROM user_card_admirals uc
-                LEFT JOIN card_admirals c ON c.id = uc.card_admiral_id 
+                INNER JOIN card_admirals c ON uc.card_admiral_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.card_admiral_id = am.user_card_admiral_id
+                LEFT JOIN AggregatedUpgrades au ON uc.card_admiral_id = au.user_card_admiral_id
                 LEFT JOIN teams t ON t.team_id = uc.team_id
                 WHERE uc.user_id = @userId AND uc.team_id = @team_id AND SUBSTRING_INDEX(uc.position, '-', 1) = @position
             ";
@@ -495,6 +532,19 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                         }
                     }
 
+                    UserModules userModule = new UserModules
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                    };
+
+                    UserUpgrades userUpgrade = new UserUpgrades
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                    };
+
+                    cardAdmiral.UserModules = userModule;
+                    cardAdmiral.UserUpgrades = userUpgrade;
+
                     cardAdmirals.Add(cardAdmiral);
                 }
             }
@@ -521,6 +571,16 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_card_admiral_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_card_admirals_module
+                    GROUP BY user_card_admiral_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_card_admiral_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_card_admirals_upgrade
+                    GROUP BY user_card_admiral_id
+                )
                 SELECT  distinct
                     uc.*, 
                     c.name, 
@@ -558,7 +618,9 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                         WHERE chc.card_admiral_id = c.id
                     ) AS classes_json
                 FROM user_card_admirals uc
-                LEFT JOIN card_admirals c ON c.id = uc.card_admiral_id 
+                INNER JOIN card_admirals c ON uc.card_admiral_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.card_admiral_id = am.user_card_admiral_id
+                LEFT JOIN AggregatedUpgrades au ON uc.card_admiral_id = au.user_card_admiral_id
                 LEFT JOIN teams t ON t.team_id = uc.team_id
                 WHERE uc.user_id = @userId AND uc.team_id = @team_id
             ";
@@ -726,6 +788,19 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                             cardAdmiral.Class = new Classes();
                         }
                     }
+
+                    UserModules userModule = new UserModules
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                    };
+
+                    UserUpgrades userUpgrade = new UserUpgrades
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                    };
+
+                    cardAdmiral.UserModules = userModule;
+                    cardAdmiral.UserUpgrades = userUpgrade;
 
                     cardAdmirals.Add(cardAdmiral);
                 }
@@ -1450,10 +1525,22 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-            SELECT uc.*, c.image
-            FROM user_card_admirals uc
-            JOIN card_admirals c ON uc.card_admiral_id = c.id
-            WHERE uc.card_admiral_id = @id AND uc.user_id = @user_id";
+                WITH AggregatedModules AS (
+                    SELECT user_card_admiral_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_card_admirals_module
+                    GROUP BY user_card_admiral_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_card_admiral_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_card_admirals_upgrade
+                    GROUP BY user_card_admiral_id
+                )
+                SELECT uc.*, c.image
+                FROM user_card_admirals uc
+                INNER JOIN card_admirals c ON uc.card_admiral_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.card_admiral_id = am.user_card_admiral_id
+                LEFT JOIN AggregatedUpgrades au ON uc.card_admiral_id = au.user_card_admiral_id
+                WHERE uc.card_admiral_id = @id AND uc.user_id = @user_id";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@id", Id);
@@ -1575,6 +1662,18 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                             SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                         }
                     };
+                    UserModules userModule = new UserModules
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                    };
+
+                    UserUpgrades userUpgrade = new UserUpgrades
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                    };
+
+                    cardAdmiral.UserModules = userModule;
+                    cardAdmiral.UserUpgrades = userUpgrade;
                 }
             }
             catch (MySqlException ex)
@@ -1604,17 +1703,26 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 WITH CalculatedCards AS (
                 SELECT 
                     uc.*,
-                    -- TÍNH HỆ SỐ TỔNG (TOTAL MULTIPLIER):
-                    -- 1. Quality: (1 + quality / 10.0)
-                    -- 2. Star: GREATEST(star, 1) -> Star <= 1 đều nhân 1 (bỏ qua bonus)
-                    -- 3. Level: (1 + GREATEST(level, 0) / 100.0) -> Level <= 0 nhân 1.0 (bỏ qua bonus)
                     (
-                        (1 + uc.quality / 10.0) 
-                        * GREATEST(uc.star, 1) 
-                        * (1 + GREATEST(uc.level, 0) / 100.0)
+                        -- Quality: 0 -> 1.0, 1 -> 1.1
+                        (1 + COALESCE(uc.quality, 0) / 10.0) 
+                        
+                        -- Star: 0 -> 1.0, 1 -> 2.0, 2 -> 3.0
+                        * (1 + COALESCE(uc.star, 0)) 
+                        
+                        -- Level: 0 -> 1.0, 10 -> 1.1
+                        * (1 + COALESCE(uc.level, 0) / 100.0) 
+                        
+                        -- Module: 0/NULL -> 1.0
+                        * (1 + COALESCE(ubm.current_multiplier, 0) / 100.0) 
+                        
+                        -- Upgrade: 0/NULL -> 1.0
+                        * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                     ) AS total_multiplier
                 FROM user_card_admirals uc
                 INNER JOIN teams t ON uc.team_id = t.team_id AND t.is_main = 1
+                LEFT JOIN user_card_admirals_module ubm ON uc.card_admiral_id = ubm.user_card_admiral_id
+                LEFT JOIN user_card_admirals_upgrade ubu ON uc.card_admiral_id = ubu.user_card_admiral_id
                 WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL
             )
             SELECT 
