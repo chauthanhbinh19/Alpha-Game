@@ -268,7 +268,7 @@ public class UserPetsService : IUserPetsService
 
     public async Task<List<Pets>> GetUserPetsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Pets> list = await _userPetsRepository.GetUserPetsAsync(userId, search, type, pageSize, offset, rare);
+        List<Pets> result = await _userPetsRepository.GetUserPetsAsync(userId, search, type, pageSize, offset, rare);
 
         var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(userId);
         var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(userId);
@@ -308,18 +308,20 @@ public class UserPetsService : IUserPetsService
         var hisnData = await hisnTask;
         var animeStatsData = await animeStatsTask;
 
-        foreach (var item in list)
+        foreach (var item in result)
         {
             item.BaseStats = new BaseStats(item);
         }
-        // list = await GetAllSpiritBeastPowerAsync(userId, list);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        // list = await GetAllEquipmentPowerAsync(userId, list);
-        // list = await GetAllRankPowerAsync(userId, list);
-        // list = await GetAllMasterPowerAsync(userId, list);
-        foreach (var pet in list)
+        // result = await GetAllSpiritBeastPowerAsync(userId, result);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        result = ModuleEvaluatorHelper.GetModulePower(result);
+        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        // result = await GetAllEquipmentPowerAsync(userId, result);
+        // result = await GetAllRankPowerAsync(userId, result);
+        // result = await GetAllMasterPowerAsync(userId, result);
+        foreach (var pet in result)
         {
             pet.ApplyPowerStats(powerManagerData);
             pet.ApplyScienceFictionStats(scienceFictionData);
@@ -339,13 +341,13 @@ public class UserPetsService : IUserPetsService
             pet.ApplyAllUserAnimes(animeStatsData);
             pet.RecalculatePower();
         }
-        ListSortHelper.SortByPower(list);
-        return list;
+        ListSortHelper.SortByPower(result);
+        return result;
     }
 
     public async Task<List<Pets>> GetUserPetsTeamAsync(string userId, string teamId)
     {
-        List<Pets> list = await _userPetsRepository.GetUserPetsTeamAsync(userId, teamId);
+        List<Pets> result = await _userPetsRepository.GetUserPetsTeamAsync(userId, teamId);
 
         var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(userId);
         var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(userId);
@@ -385,14 +387,16 @@ public class UserPetsService : IUserPetsService
         var hisnData = await hisnTask;
         var animeStatsData = await animeStatsTask;
 
-        // list = await GetAllSpiritBeastPowerAsync(userId, list);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        // list = await GetAllEquipmentPowerAsync(userId, list);
-        // list = await GetAllRankPowerAsync(userId, list);
-        // list = await GetAllMasterPowerAsync(userId, list);
-        foreach (var pet in list)
+        // result = await GetAllSpiritBeastPowerAsync(userId, result);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        result = ModuleEvaluatorHelper.GetModulePower(result);
+        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        // result = await GetAllEquipmentPowerAsync(userId, result);
+        // result = await GetAllRankPowerAsync(userId, result);
+        // result = await GetAllMasterPowerAsync(userId, result);
+        foreach (var pet in result)
         {
             pet.ApplyPowerStats(powerManagerData);
             pet.ApplyScienceFictionStats(scienceFictionData);
@@ -412,8 +416,8 @@ public class UserPetsService : IUserPetsService
             pet.ApplyAllUserAnimes(animeStatsData);
             pet.RecalculatePower();
         }
-        ListSortHelper.SortByPower(list);
-        return list;
+        ListSortHelper.SortByPower(result);
+        return result;
     }
 
     public async Task<Dictionary<string, int>> GetUniqueUserPetsTypesTeamAsync(string userId, string teamId)
@@ -527,6 +531,8 @@ public class UserPetsService : IUserPetsService
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);
         result = StarEvaluatorHelper.GetStarPower(result);
+        result = ModuleEvaluatorHelper.GetModulePower(result);
+        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
 
         return result;
     }

@@ -11,6 +11,7 @@ public interface IUserBordersService
     Task<bool> UpdateUserBorderLevelAsync(string userId, Borders border);
     Task<bool> UpdateUserBorderStarAsync(string userId, Borders border);
     Task<Borders> GetUserBorderByUsedAsync(string userId);
+    Task<Borders> GetUserBorderByIdAsync(string userId, string Id);
     Task UpdateIsUsedUserBorderAsync(string borderId, string userId, bool is_used);
     Task<Borders> SumPowerUserBordersAsync(string userId);
 }

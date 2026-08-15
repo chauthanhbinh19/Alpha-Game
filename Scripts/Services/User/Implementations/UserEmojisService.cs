@@ -24,18 +24,20 @@ public class UserEmojisService : IUserEmojisService
 
     public async Task<List<Emojis>> GetUserEmojisAsync(string userId, string search, int pageSize, int offset, string rare)
     {
-        List<Emojis> list = await _userEmojisRepository.GetUserEmojisAsync(userId, search, pageSize, offset, rare);
+        List<Emojis> result = await _userEmojisRepository.GetUserEmojisAsync(userId, search, pageSize, offset, rare);
 
 
-        foreach (var item in list)
+        foreach (var item in result)
         {
             item.BaseStats = new BaseStats(item);
         }
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        ListSortHelper.SortByPower(list);
-        return list;
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        result = ModuleEvaluatorHelper.GetModulePower(result);
+        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        ListSortHelper.SortByPower(result);
+        return result;
     }
 
     public async Task<int> GetUserEmojisCountAsync(string userId, string search, string rare)
@@ -215,6 +217,8 @@ public class UserEmojisService : IUserEmojisService
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);
         result = StarEvaluatorHelper.GetStarPower(result);
+        result = ModuleEvaluatorHelper.GetModulePower(result);
+        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
 
         return result;
     }

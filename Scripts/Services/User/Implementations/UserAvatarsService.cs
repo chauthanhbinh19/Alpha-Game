@@ -24,18 +24,20 @@ public class UserAvatarsService : IUserAvatarsService
 
     public async Task<List<Avatars>> GetUserAvatarsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
-        List<Avatars> list = await _userAvatarsRepository.GetUserAvatarsAsync(userId, search, pageSize, offset, rare);
+        List<Avatars> result = await _userAvatarsRepository.GetUserAvatarsAsync(userId, search, pageSize, offset, rare);
 
-        foreach (var item in list)
+        foreach (var item in result)
         {
             item.BaseStats = new BaseStats(item);
         }
 
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        ListSortHelper.SortByPower(list);
-        return list;
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        result = ModuleEvaluatorHelper.GetModulePower(result);
+        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        ListSortHelper.SortByPower(result);
+        return result;
     }
 
     public async Task<int> GetUserAvatarsCountAsync(string userId, string search, string rare)
@@ -228,6 +230,20 @@ public class UserAvatarsService : IUserAvatarsService
     public async Task UpdateIsUsedUserAvatarAsync(string avatarId, string userId, bool is_used)
     {
         await _userAvatarsRepository.UpdateIsUsedUserAvatarAsync(avatarId, userId, is_used);
+    }
+    public async Task<Avatars> GetUserAvatarByIdAsync(string userId, string Id)
+    {
+        var result = await _userAvatarsRepository.GetUserAvatarByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        result = ModuleEvaluatorHelper.GetModulePower(result);
+        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+
+        return result;
     }
 
     public async Task<Avatars> SumPowerUserAvatarsAsync(string userId)

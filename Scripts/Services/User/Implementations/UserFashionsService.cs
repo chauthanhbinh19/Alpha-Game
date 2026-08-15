@@ -24,18 +24,20 @@ public class UserFashionsService : IUserFashionsService
 
     public async Task<List<Fashions>> GetUserFashionsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Fashions> list = await _userFashionsRepository.GetUserFashionsAsync(userId, search, type, pageSize, offset, rare);
+        List<Fashions> result = await _userFashionsRepository.GetUserFashionsAsync(userId, search, type, pageSize, offset, rare);
 
-        foreach (var item in list)
+        foreach (var item in result)
         {
             item.BaseStats = new BaseStats(item);
         }
 
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        ListSortHelper.SortByPower(list);
-        return list;
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        result = ModuleEvaluatorHelper.GetModulePower(result);
+        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        ListSortHelper.SortByPower(result);
+        return result;
     }
 
     public async Task<int> GetUserFashionsCountAsync(string userId, string search, string type, string rare)
@@ -215,6 +217,8 @@ public class UserFashionsService : IUserFashionsService
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);
         result = StarEvaluatorHelper.GetStarPower(result);
+        result = ModuleEvaluatorHelper.GetModulePower(result);
+        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
 
         return result;
     }

@@ -24,25 +24,27 @@ public class UserSkillsService : IUserSkillsService
 
     public async Task<List<Skills>> GetUserSkillsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserSkillsAsync(userId, search, type, pageSize, offset, rare);
+        List<Skills> result = await _userSkillsRepository.GetUserSkillsAsync(userId, search, type, pageSize, offset, rare);
 
-        foreach (var item in list)
+        foreach (var item in result)
         {
             item.BaseStats = new BaseStats(item);
         }
 
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        ListSortHelper.SortByPower(list);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        result = ModuleEvaluatorHelper.GetModulePower(result);
+        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        ListSortHelper.SortByPower(result);
 
-        foreach (var skill in list)
+        foreach (var skill in result)
         {
             // Đọc trực tiếp từ hàm của Interface
             skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
         }
 
-        return list;
+        return result;
     }
 
     public async Task<int> GetUserSkillsCountAsync(string userId, string search, string type, string rare)
@@ -146,314 +148,316 @@ public class UserSkillsService : IUserSkillsService
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);
         result = StarEvaluatorHelper.GetStarPower(result);
+        result = ModuleEvaluatorHelper.GetModulePower(result);
+        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
 
         return result;
     }
 
     public async Task<List<Skills>> GetUserCardHeroesSkillsAsync(string userId, string cardId)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardHeroesSkillsAsync(userId, cardId);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        ListSortHelper.SortByPower(list);
+        List<Skills> result = await _userSkillsRepository.GetUserCardHeroesSkillsAsync(userId, cardId);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        ListSortHelper.SortByPower(result);
 
-        foreach (var skill in list)
+        foreach (var skill in result)
         {
             // Đọc trực tiếp từ hàm của Interface
             skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
         }
 
-        return list;
+        return result;
     }
 
     public async Task<List<Skills>> GetUserCardCaptainsSkillsAsync(string userId, string cardId)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardCaptainsSkillsAsync(userId, cardId);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        ListSortHelper.SortByPower(list);
+        List<Skills> result = await _userSkillsRepository.GetUserCardCaptainsSkillsAsync(userId, cardId);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        ListSortHelper.SortByPower(result);
 
-        foreach (var skill in list)
+        foreach (var skill in result)
         {
             // Đọc trực tiếp từ hàm của Interface
             skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
         }
 
-        return list;
+        return result;
     }
 
     public async Task<List<Skills>> GetUserCardColonelsSkillsAsync(string userId, string cardId)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardColonelsSkillsAsync(userId, cardId);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        ListSortHelper.SortByPower(list);
+        List<Skills> result = await _userSkillsRepository.GetUserCardColonelsSkillsAsync(userId, cardId);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        ListSortHelper.SortByPower(result);
 
-        foreach (var skill in list)
+        foreach (var skill in result)
         {
             // Đọc trực tiếp từ hàm của Interface
             skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
         }
 
-        return list;
+        return result;
     }
 
     public async Task<List<Skills>> GetUserCardGeneralsSkillsAsync(string userId, string cardId)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardGeneralsSkillsAsync(userId, cardId);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        ListSortHelper.SortByPower(list);
+        List<Skills> result = await _userSkillsRepository.GetUserCardGeneralsSkillsAsync(userId, cardId);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        ListSortHelper.SortByPower(result);
 
-        foreach (var skill in list)
+        foreach (var skill in result)
         {
             // Đọc trực tiếp từ hàm của Interface
             skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
         }
 
-        return list;
+        return result;
     }
 
     public async Task<List<Skills>> GetUserCardAdmiralsSkillsAsync(string userId, string cardId)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardAdmiralsSkillsAsync(userId, cardId);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        ListSortHelper.SortByPower(list);
+        List<Skills> result = await _userSkillsRepository.GetUserCardAdmiralsSkillsAsync(userId, cardId);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        ListSortHelper.SortByPower(result);
 
-        foreach (var skill in list)
+        foreach (var skill in result)
         {
             // Đọc trực tiếp từ hàm của Interface
             skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
         }
 
-        return list;
+        return result;
     }
 
     public async Task<List<Skills>> GetUserCardMilitariesSkillsAsync(string userId, string cardId)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardMilitariesSkillsAsync(userId, cardId);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        ListSortHelper.SortByPower(list);
+        List<Skills> result = await _userSkillsRepository.GetUserCardMilitariesSkillsAsync(userId, cardId);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        ListSortHelper.SortByPower(result);
 
-        foreach (var skill in list)
+        foreach (var skill in result)
         {
             // Đọc trực tiếp từ hàm của Interface
             skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
         }
 
-        return list;
+        return result;
     }
 
     public async Task<List<Skills>> GetUserCardMonstersSkillsAsync(string userId, string cardId)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardMonstersSkillsAsync(userId, cardId);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        ListSortHelper.SortByPower(list);
+        List<Skills> result = await _userSkillsRepository.GetUserCardMonstersSkillsAsync(userId, cardId);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        ListSortHelper.SortByPower(result);
 
-        foreach (var skill in list)
+        foreach (var skill in result)
         {
             // Đọc trực tiếp từ hàm của Interface
             skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
         }
 
-        return list;
+        return result;
     }
 
     public async Task<List<Skills>> GetUserCardSpellsSkillsAsync(string userId, string cardId)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardSpellsSkillsAsync(userId, cardId);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        ListSortHelper.SortByPower(list);
+        List<Skills> result = await _userSkillsRepository.GetUserCardSpellsSkillsAsync(userId, cardId);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        ListSortHelper.SortByPower(result);
 
-        foreach (var skill in list)
+        foreach (var skill in result)
         {
             // Đọc trực tiếp từ hàm của Interface
             skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
         }
 
-        return list;
+        return result;
     }
 
     public async Task<List<Skills>> GetUserCardSoldiersSkillsAsync(string userId, string cardId)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardSoldiersSkillsAsync(userId, cardId);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        ListSortHelper.SortByPower(list);
+        List<Skills> result = await _userSkillsRepository.GetUserCardSoldiersSkillsAsync(userId, cardId);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        ListSortHelper.SortByPower(result);
 
-        foreach (var skill in list)
+        foreach (var skill in result)
         {
             // Đọc trực tiếp từ hàm của Interface
             skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
         }
 
-        return list;
+        return result;
     }
 
     public async Task<List<Skills>> GetUserCardHeroesSkillsAsync(string userId, List<string> cardHeroIds)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        ListSortHelper.SortByPower(list);
+        List<Skills> result = await _userSkillsRepository.GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        ListSortHelper.SortByPower(result);
 
-        foreach (var skill in list)
+        foreach (var skill in result)
         {
             // Đọc trực tiếp từ hàm của Interface
             skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
         }
 
-        return list;
+        return result;
     }
 
     public async Task<List<Skills>> GetUserCardCaptainsSkillsAsync(string userId, List<string> cardCaptainIds)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardCaptainsSkillsAsync(userId, cardCaptainIds);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        ListSortHelper.SortByPower(list);
+        List<Skills> result = await _userSkillsRepository.GetUserCardCaptainsSkillsAsync(userId, cardCaptainIds);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        ListSortHelper.SortByPower(result);
 
-        foreach (var skill in list)
+        foreach (var skill in result)
         {
             // Đọc trực tiếp từ hàm của Interface
             skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
         }
 
-        return list;
+        return result;
     }
 
     public async Task<List<Skills>> GetUserCardColonelsSkillsAsync(string userId, List<string> cardColonelIds)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardColonelsSkillsAsync(userId, cardColonelIds);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        ListSortHelper.SortByPower(list);
+        List<Skills> result = await _userSkillsRepository.GetUserCardColonelsSkillsAsync(userId, cardColonelIds);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        ListSortHelper.SortByPower(result);
 
-        foreach (var skill in list)
+        foreach (var skill in result)
         {
             // Đọc trực tiếp từ hàm của Interface
             skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
         }
 
-        return list;
+        return result;
     }
 
     public async Task<List<Skills>> GetUserCardGeneralsSkillsAsync(string userId, List<string> cardGeneralIds)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardGeneralsSkillsAsync(userId, cardGeneralIds);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        ListSortHelper.SortByPower(list);
+        List<Skills> result = await _userSkillsRepository.GetUserCardGeneralsSkillsAsync(userId, cardGeneralIds);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        ListSortHelper.SortByPower(result);
 
-        foreach (var skill in list)
+        foreach (var skill in result)
         {
             // Đọc trực tiếp từ hàm của Interface
             skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
         }
 
-        return list;
+        return result;
     }
 
     public async Task<List<Skills>> GetUserCardAdmiralsSkillsAsync(string userId, List<string> cardAdmiralIds)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardAdmiralsSkillsAsync(userId, cardAdmiralIds);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        ListSortHelper.SortByPower(list);
+        List<Skills> result = await _userSkillsRepository.GetUserCardAdmiralsSkillsAsync(userId, cardAdmiralIds);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        ListSortHelper.SortByPower(result);
 
-        foreach (var skill in list)
+        foreach (var skill in result)
         {
             // Đọc trực tiếp từ hàm của Interface
             skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
         }
 
-        return list;
+        return result;
     }
 
     public async Task<List<Skills>> GetUserCardMilitariesSkillsAsync(string userId, List<string> cardMilitaryIds)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardMilitariesSkillsAsync(userId, cardMilitaryIds);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        ListSortHelper.SortByPower(list);
+        List<Skills> result = await _userSkillsRepository.GetUserCardMilitariesSkillsAsync(userId, cardMilitaryIds);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        ListSortHelper.SortByPower(result);
 
-        foreach (var skill in list)
+        foreach (var skill in result)
         {
             // Đọc trực tiếp từ hàm của Interface
             skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
         }
 
-        return list;
+        return result;
     }
 
     public async Task<List<Skills>> GetUserCardMonstersSkillsAsync(string userId, List<string> cardMonsterIds)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardMonstersSkillsAsync(userId, cardMonsterIds);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        ListSortHelper.SortByPower(list);
+        List<Skills> result = await _userSkillsRepository.GetUserCardMonstersSkillsAsync(userId, cardMonsterIds);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        ListSortHelper.SortByPower(result);
 
-        foreach (var skill in list)
+        foreach (var skill in result)
         {
             // Đọc trực tiếp từ hàm của Interface
             skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
         }
 
-        return list;
+        return result;
     }
 
     public async Task<List<Skills>> GetUserCardSpellsSkillsAsync(string userId, List<string> cardSpellIds)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardSpellsSkillsAsync(userId, cardSpellIds);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        ListSortHelper.SortByPower(list);
+        List<Skills> result = await _userSkillsRepository.GetUserCardSpellsSkillsAsync(userId, cardSpellIds);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        ListSortHelper.SortByPower(result);
 
-        foreach (var skill in list)
+        foreach (var skill in result)
         {
             // Đọc trực tiếp từ hàm của Interface
             skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
         }
 
-        return list;
+        return result;
     }
 
     public async Task<List<Skills>> GetUserCardSoldiersSkillsAsync(string userId, List<string> cardSoldierIds)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardSoldiersSkillsAsync(userId, cardSoldierIds);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
-        ListSortHelper.SortByPower(list);
+        List<Skills> result = await _userSkillsRepository.GetUserCardSoldiersSkillsAsync(userId, cardSoldierIds);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        ListSortHelper.SortByPower(result);
 
-        foreach (var skill in list)
+        foreach (var skill in result)
         {
             // Đọc trực tiếp từ hàm của Interface
             skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
         }
 
-        return list;
+        return result;
     }
 
 

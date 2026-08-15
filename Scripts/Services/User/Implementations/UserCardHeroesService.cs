@@ -275,9 +275,9 @@ public class UserCardHeroesService : IUserCardHeroesService
 
     public async Task<List<CardHeroes>> GetUserCardHeroesAsync(string userId, string search, string type, int pageSize, int offset, string rare, UserStatsContextDTO sharedContext = null)
     {
-        List<CardHeroes> list = await _userCardHeroesRepository.GetUserCardHeroesAsync(userId, search, type, pageSize, offset, rare);
+        List<CardHeroes> result = await _userCardHeroesRepository.GetUserCardHeroesAsync(userId, search, type, pageSize, offset, rare);
 
-        List<string> cardHeroIds = list.Select(hero => hero.Id).ToList();
+        List<string> cardHeroIds = result.Select(hero => hero.Id).ToList();
 
         // var skillsTask = _userSkillsRepository.GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
 
@@ -316,18 +316,20 @@ public class UserCardHeroesService : IUserCardHeroesService
         totalBuffs.AddBuff(context.HisnData);
         totalBuffs.AddBuff(context.AnimeStatsData);
 
-        foreach (var item in list)
+        foreach (var item in result)
         {
             item.BaseStats = new BaseStats(item);
         }
 
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        result = ModuleEvaluatorHelper.GetModulePower(result);
+        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
 
-        foreach (var card in list)
+        foreach (var card in result)
         {
-            if (card == null) continue; // Phòng hờ phần tử trong list bị null
+            if (card == null) continue; // Phòng hờ phần tử trong result bị null
 
             // Áp dụng tổng buff (Flat + % Base stats)
             card.ApplyTotalBuffs(totalBuffs);
@@ -340,15 +342,15 @@ public class UserCardHeroesService : IUserCardHeroesService
             // Tính toán lại tổng lực chiến (Sau khi đã có đầy đủ chỉ số và Skills)
             card.RecalculatePower();
         }
-        ListSortHelper.SortByPower(list);
-        return list;
+        ListSortHelper.SortByPower(result);
+        return result;
     }
 
     public async Task<List<CardHeroes>> GetUserCardHeroesTeamAsync(string userId, string teamId, string position, UserStatsContextDTO sharedContext = null)
     {
-        List<CardHeroes> list = await _userCardHeroesRepository.GetUserCardHeroesTeamAsync(userId, teamId, position);
+        List<CardHeroes> result = await _userCardHeroesRepository.GetUserCardHeroesTeamAsync(userId, teamId, position);
 
-        List<string> cardHeroIds = list.Select(hero => hero.Id).ToList();
+        List<string> cardHeroIds = result.Select(hero => hero.Id).ToList();
 
         // var skillsTask = _userSkillsRepository.GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
 
@@ -387,13 +389,15 @@ public class UserCardHeroesService : IUserCardHeroesService
         totalBuffs.AddBuff(context.HisnData);
         totalBuffs.AddBuff(context.AnimeStatsData);
 
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        result = ModuleEvaluatorHelper.GetModulePower(result);
+        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
 
-        foreach (var card in list)
+        foreach (var card in result)
         {
-            if (card == null) continue; // Phòng hờ phần tử trong list bị null
+            if (card == null) continue; // Phòng hờ phần tử trong result bị null
 
             // Áp dụng tổng buff (Flat + % Base stats)
             card.ApplyTotalBuffs(totalBuffs);
@@ -406,15 +410,15 @@ public class UserCardHeroesService : IUserCardHeroesService
             // Tính toán lại tổng lực chiến (Sau khi đã có đầy đủ chỉ số và Skills)
             card.RecalculatePower();
         }
-        ListSortHelper.SortByPower(list);
-        return list;
+        ListSortHelper.SortByPower(result);
+        return result;
     }
 
     public async Task<List<CardHeroes>> GetUserCardHeroesTeamWithoutPositionAsync(string userId, string teamId, UserStatsContextDTO sharedContext = null)
     {
-        List<CardHeroes> list = await _userCardHeroesRepository.GetUserCardHeroesTeamWithoutPositionAsync(userId, teamId);
+        List<CardHeroes> result = await _userCardHeroesRepository.GetUserCardHeroesTeamWithoutPositionAsync(userId, teamId);
 
-        List<string> cardHeroIds = list.Select(hero => hero.Id).ToList();
+        List<string> cardHeroIds = result.Select(hero => hero.Id).ToList();
 
         // var skillsTask = _userSkillsRepository.GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
 
@@ -453,13 +457,15 @@ public class UserCardHeroesService : IUserCardHeroesService
         totalBuffs.AddBuff(context.HisnData);
         totalBuffs.AddBuff(context.AnimeStatsData);
 
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        result = ModuleEvaluatorHelper.GetModulePower(result);
+        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
 
-        foreach (var card in list)
+        foreach (var card in result)
         {
-            if (card == null) continue; // Phòng hờ phần tử trong list bị null
+            if (card == null) continue; // Phòng hờ phần tử trong result bị null
 
             // Áp dụng tổng buff (Flat + % Base stats)
             card.ApplyTotalBuffs(totalBuffs);
@@ -472,19 +478,19 @@ public class UserCardHeroesService : IUserCardHeroesService
             // Tính toán lại tổng lực chiến (Sau khi đã có đầy đủ chỉ số và Skills)
             card.RecalculatePower();
         }
-        ListSortHelper.SortByPower(list);
-        return list;
+        ListSortHelper.SortByPower(result);
+        return result;
     }
 
     // public async Task<List<CardHeroes>> GetUserCardHeroesTeamWithoutPositionAsync(string userId, string teamId, UserStatsContextDTO sharedContext = null)
     // {
     //     // 1. Đo thời gian lấy danh sách Hero gốc từ DB
     //     var swRepo = Stopwatch.StartNew();
-    //     List<CardHeroes> list = await _userCardHeroesRepository.GetUserCardHeroesTeamWithoutPositionAsync(userId, teamId);
+    //     List<CardHeroes> result = await _userCardHeroesRepository.GetUserCardHeroesTeamWithoutPositionAsync(userId, teamId);
     //     swRepo.Stop();
     //     UnityEngine.Debug.Log($"[Timer] _userCardHeroesRepository: {swRepo.ElapsedMilliseconds} ms");
 
-    //     List<string> cardHeroIds = list.Select(hero => hero.Id).ToList();
+    //     List<string> cardHeroIds = result.Select(hero => hero.Id).ToList();
 
     //     // Khởi tạo các Stopwatch riêng biệt cho từng Task bất đồng bộ
     //     var swSkills = new Stopwatch();
@@ -537,11 +543,11 @@ public class UserCardHeroesService : IUserCardHeroesService
 
     //     // 3. Đo thời gian xử lý logic tính toán Chỉ số sức mạnh & Sắp xếp
     //     var swCalculations = Stopwatch.StartNew();
-    //     list = QualityEvaluatorHelper.GetQualityPower(list);
-        // list = LevelEvaluatorHelper.GetLevelPower(list);
-        // list = StarEvaluatorHelper.GetStarPower(list);
+    //     result = QualityEvaluatorHelper.GetQualityPower(result);
+        // result = LevelEvaluatorHelper.GetLevelPower(result);
+        // result = StarEvaluatorHelper.GetStarPower(result);
 
-    //     foreach (var card in list)
+    //     foreach (var card in result)
     //     {
     //         card.ApplyPowerStats(context.PowerManagerData);
     //         card.ApplyScienceFictionStats(context.ScienceFictionData);
@@ -562,12 +568,12 @@ public class UserCardHeroesService : IUserCardHeroesService
     //         card.Skills = skillData.Where(s => s.CardId == card.Id).ToList();
     //         card.RecalculatePower();
     //     }
-    //     ListSortHelper.SortByPower(list);
+    //     ListSortHelper.SortByPower(result);
     //     swCalculations.Stop();
 
     //     UnityEngine.Debug.Log($"[Timer] Calculate Power & Sort (CPU): {swCalculations.ElapsedMilliseconds} ms");
 
-    //     return list;
+    //     return result;
     // }
 
     public async Task<Dictionary<string, int>> GetUniqueUserCardHeroesTypesTeamAsync(string userId, string teamId)
@@ -687,10 +693,10 @@ public class UserCardHeroesService : IUserCardHeroesService
         CardHeroes cardHero = await _userCardHeroesRepository.GetUserCardHeroByIdAsync(userId, Id);
         if (cardHero == null) return null;
 
-        // Bọc vào list để tái sử dụng logic
-        List<CardHeroes> list = new List<CardHeroes> { cardHero };
+        // Bọc vào result để tái sử dụng logic
+        List<CardHeroes> result = new List<CardHeroes> { cardHero };
 
-        List<string> cardHeroIds = list.Select(hero => hero.Id).ToList();
+        List<string> cardHeroIds = result.Select(hero => hero.Id).ToList();
 
         var skillsTask = _userSkillsRepository.GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
 
@@ -729,18 +735,20 @@ public class UserCardHeroesService : IUserCardHeroesService
         totalBuffs.AddBuff(context.HisnData);
         totalBuffs.AddBuff(context.AnimeStatsData);
 
-        foreach (var item in list)
+        foreach (var item in result)
         {
             item.BaseStats = new BaseStats(item);
         }
         
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        list = LevelEvaluatorHelper.GetLevelPower(list);
-        list = StarEvaluatorHelper.GetStarPower(list);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        result = ModuleEvaluatorHelper.GetModulePower(result);
+        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
 
-        foreach (var card in list)
+        foreach (var card in result)
         {
-            if (card == null) continue; // Phòng hờ phần tử trong list bị null
+            if (card == null) continue; // Phòng hờ phần tử trong result bị null
 
             // Áp dụng tổng buff (Flat + % Base stats)
             card.ApplyTotalBuffs(totalBuffs);
@@ -753,8 +761,8 @@ public class UserCardHeroesService : IUserCardHeroesService
             // Tính toán lại tổng lực chiến (Sau khi đã có đầy đủ chỉ số và Skills)
             card.RecalculatePower();
         }
-        ListSortHelper.SortByPower(list);
-        return list.FirstOrDefault();
+        ListSortHelper.SortByPower(result);
+        return result.FirstOrDefault();
     }
 
     public async Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null)
