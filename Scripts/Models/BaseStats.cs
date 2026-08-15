@@ -74,6 +74,8 @@ public class BaseStats : IStats
     public double PercentAllAtomicDefense { get; set; } = 0;
     public double PercentAllMentalAttack { get; set; } = 0;
     public double PercentAllMentalDefense { get; set; } = 0;
+    public UserModules UserModules { get; set; } = new UserModules();
+    public UserUpgrades UserUpgrades { get; set; } = new UserUpgrades();
 
     public BaseStats()
     {

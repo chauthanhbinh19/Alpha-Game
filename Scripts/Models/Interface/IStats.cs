@@ -75,4 +75,6 @@ public interface IStats
     public double PercentAllMentalDefense { get; set; }
 
     public string StatType => GetType().Name;
+    public UserModules UserModules { get; set; }
+    public UserUpgrades UserUpgrades { get; set; }
 }

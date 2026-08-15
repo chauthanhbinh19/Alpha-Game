@@ -949,6 +949,131 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
         return avatar;
     }
+    public async Task<Avatars> GetUserAvatarByIdAsync(string userId, string Id)
+    {
+        Avatars avatar = null;
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_avatar_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_avatars_module
+                    GROUP BY user_avatar_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_avatar_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_avatars_upgrade
+                    GROUP BY user_avatar_id
+                )
+                SELECT uc.* ,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_avatars uc
+                LEFT JOIN AggregatedModules am ON uc.avatar_id = am.user_avatar_id
+                LEFT JOIN AggregatedUpgrades au ON uc.avatar_id = au.user_avatar_id
+                WHERE uc.avatar_id = @id AND uc.user_id = @user_id";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@id", Id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
+
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            avatar = new Avatars
+                            {
+                                Id = reader.GetStringSafe("avatar_id"),
+                                Level = reader.GetIntSafe("level"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                                Experience = reader.GetDoubleSafe("experience"),
+                                Star = reader.GetIntSafe("star"),
+                                Power = reader.GetDoubleSafe("power"),
+                                Health = reader.GetDoubleSafe("health"),
+                                PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
+                                PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
+                                MagicalAttack = reader.GetDoubleSafe("magical_attack"),
+                                MagicalDefense = reader.GetDoubleSafe("magical_defense"),
+                                ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
+                                ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
+                                AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
+                                AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
+                                MentalAttack = reader.GetDoubleSafe("mental_attack"),
+                                MentalDefense = reader.GetDoubleSafe("mental_defense"),
+                                Speed = reader.GetDoubleSafe("speed"),
+                                CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
+                                CriticalRate = reader.GetDoubleSafe("critical_rate"),
+                                CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
+                                IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
+                                PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
+                                PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
+                                EvasionRate = reader.GetDoubleSafe("evasion_rate"),
+                                DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
+                                IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
+                                AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
+                                VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
+                                VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
+                                AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
+                                LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
+                                ShieldStrength = reader.GetDoubleSafe("shield_strength"),
+                                Tenacity = reader.GetDoubleSafe("tenacity"),
+                                ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
+                                ComboRate = reader.GetDoubleSafe("combo_rate"),
+                                IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
+                                ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
+                                ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
+                                StunRate = reader.GetDoubleSafe("stun_rate"),
+                                IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
+                                ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
+                                IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
+                                ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
+                                ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
+                                Mana = reader.GetDoubleSafe("mana"),
+                                ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
+                                DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
+                                ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
+                                DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
+                                ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
+                                NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
+                                NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
+                                SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
+                                SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate")
+                            };
+                            UserModules userModule = new UserModules
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                            };
+
+                            UserUpgrades userUpgrade = new UserUpgrades
+                            {
+                                CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                            };
+
+                            avatar.UserModules = userModule;
+                            avatar.UserUpgrades = userUpgrade;
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return avatar;
+    }
     public async Task UpdateIsUsedUserAvatarAsync(string avatarId, string userId, bool is_used)
     {
         string connectionString = DatabaseConfig.ConnectionString;
