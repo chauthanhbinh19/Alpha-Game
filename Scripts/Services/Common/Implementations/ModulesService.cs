@@ -20,4 +20,13 @@ public class ModulesService : IModulesService
     {
         return await _modulesRepository.GetModuleByIdAsync(id);
     }
+    public Task<InsertOrUpdateResult<Modules>> InsertModuleAsync(Modules module)
+    {
+        return _modulesRepository.InsertModuleAsync(module);
+    }
+
+    public Task<InsertOrUpdateResult<Modules>> UpdateModuleAsync(Modules module)
+    {
+        return _modulesRepository.UpdateModuleAsync(module);
+    }
 }

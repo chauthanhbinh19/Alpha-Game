@@ -20,4 +20,13 @@ public class SSWNsService : ISSWNsService
     {
         return await _sswnsRepository.GetSSWNByIdAsync(id);
     }
+    public Task<InsertOrUpdateResult<SSWNs>> InsertSSWNAsync(SSWNs sswn)
+    {
+        return _sswnsRepository.InsertSSWNAsync(sswn);
+    }
+
+    public Task<InsertOrUpdateResult<SSWNs>> UpdateSSWNAsync(SSWNs sswn)
+    {
+        return _sswnsRepository.UpdateSSWNAsync(sswn);
+    }
 }

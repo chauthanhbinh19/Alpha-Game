@@ -20,4 +20,13 @@ public class ResearchsService : IResearchsService
     {
         return await _researchsRepository.GetResearchByIdAsync(id);
     }
+    public Task<InsertOrUpdateResult<Researchs>> InsertResearchAsync(Researchs research)
+    {
+        return _researchsRepository.InsertResearchAsync(research);
+    }
+
+    public Task<InsertOrUpdateResult<Researchs>> UpdateResearchAsync(Researchs research)
+    {
+        return _researchsRepository.UpdateResearchAsync(research);
+    }
 }

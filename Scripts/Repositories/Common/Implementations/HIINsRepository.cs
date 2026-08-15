@@ -46,4 +46,75 @@ public class HIINsRepository : IHIINsRepository
 
         return hiin;
     }
+    public async Task<InsertOrUpdateResult<HIINs>> InsertHIINAsync(HIINs hiin)
+    {
+        if (hiin == null || string.IsNullOrEmpty(hiin.Id))
+        {
+            return InsertOrUpdateResult<HIINs>.Failure("Dữ liệu HIIN hoặc ID không hợp lệ.");
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+        string insertSQL = @"INSERT INTO hiins (id, name, base_multiplier, max_level) 
+                        VALUES (@id, @name, @base_multiplier, @max_level);";
+
+        await using MySqlConnection connection = new MySqlConnection(connectionString);
+        try
+        {
+            await connection.OpenAsync();
+            await using var command = new MySqlCommand(insertSQL, connection);
+
+            command.Parameters.AddWithValue("@id", hiin.Id);
+            command.Parameters.AddWithValue("@name", hiin.Name);
+            command.Parameters.AddWithValue("@base_multiplier", hiin.BaseMultiplier);
+            command.Parameters.AddWithValue("@max_level", hiin.MaxLevel);
+
+            int rowsAffected = await command.ExecuteNonQueryAsync();
+
+            return rowsAffected > 0
+                ? InsertOrUpdateResult<HIINs>.Inserted(hiin)
+                : InsertOrUpdateResult<HIINs>.Failure("Thêm mới HIIN thất bại.");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Error InsertHIIN: " + ex.Message);
+            return InsertOrUpdateResult<HIINs>.Failure("Lỗi Insert: " + ex.Message);
+        }
+    }
+    public async Task<InsertOrUpdateResult<HIINs>> UpdateHIINAsync(HIINs hiin)
+    {
+        if (hiin == null || string.IsNullOrEmpty(hiin.Id))
+        {
+            return InsertOrUpdateResult<HIINs>.Failure("Dữ liệu HIIN hoặc ID không hợp lệ.");
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+        string updateSQL = @"UPDATE hiins 
+                        SET name = @name, 
+                            base_multiplier = @base_multiplier, 
+                            max_level = @max_level 
+                        WHERE id = @id;";
+
+        await using MySqlConnection connection = new MySqlConnection(connectionString);
+        try
+        {
+            await connection.OpenAsync();
+            await using var command = new MySqlCommand(updateSQL, connection);
+
+            command.Parameters.AddWithValue("@id", hiin.Id);
+            command.Parameters.AddWithValue("@name", hiin.Name);
+            command.Parameters.AddWithValue("@base_multiplier", hiin.BaseMultiplier);
+            command.Parameters.AddWithValue("@max_level", hiin.MaxLevel);
+
+            int rowsAffected = await command.ExecuteNonQueryAsync();
+
+            return rowsAffected > 0
+                ? InsertOrUpdateResult<HIINs>.Updated(hiin)
+                : InsertOrUpdateResult<HIINs>.Failure("Không tìm thấy HIIN để cập nhật.");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Error UpdateHIIN: " + ex.Message);
+            return InsertOrUpdateResult<HIINs>.Failure("Lỗi Update: " + ex.Message);
+        }
+    }
 }

@@ -20,4 +20,13 @@ public class HICAsService : IHICAsService
     {
         return await _hicasRepository.GetHICAByIdAsync(id);
     }
+    public Task<InsertOrUpdateResult<HICAs>> InsertHICAAsync(HICAs hica)
+    {
+        return _hicasRepository.InsertHICAAsync(hica);
+    }
+
+    public Task<InsertOrUpdateResult<HICAs>> UpdateHICAAsync(HICAs hica)
+    {
+        return _hicasRepository.UpdateHICAAsync(hica);
+    }
 }

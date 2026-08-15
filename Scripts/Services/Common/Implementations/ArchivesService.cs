@@ -20,4 +20,13 @@ public class ArchivesService : IArchivesService
     {
         return await _archivesRepository.GetArchiveByIdAsync(id);
     }
+    public Task<InsertOrUpdateResult<Archives>> InsertArchiveAsync(Archives archive)
+    {
+        return _archivesRepository.InsertArchiveAsync(archive);
+    }
+
+    public Task<InsertOrUpdateResult<Archives>> UpdateArchiveAsync(Archives archive)
+    {
+        return _archivesRepository.UpdateArchiveAsync(archive);
+    }
 }

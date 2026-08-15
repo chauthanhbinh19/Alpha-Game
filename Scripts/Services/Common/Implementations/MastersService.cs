@@ -20,4 +20,13 @@ public class MastersService : IMastersService
     {
         return await _mastersRepository.GetMasterByIdAsync(id);
     }
+    public Task<InsertOrUpdateResult<Masters>> InsertMasterAsync(Masters master)
+    {
+        return _mastersRepository.InsertMasterAsync(master);
+    }
+
+    public Task<InsertOrUpdateResult<Masters>> UpdateMasterAsync(Masters master)
+    {
+        return _mastersRepository.UpdateMasterAsync(master);
+    }
 }

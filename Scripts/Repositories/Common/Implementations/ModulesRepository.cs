@@ -46,4 +46,75 @@ public class ModulesRepository : IModulesRepository
 
         return module;
     }
+    public async Task<InsertOrUpdateResult<Modules>> InsertModuleAsync(Modules module)
+    {
+        if (module == null || string.IsNullOrEmpty(module.Id))
+        {
+            return InsertOrUpdateResult<Modules>.Failure("Dữ liệu Module hoặc ID không hợp lệ.");
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+        string insertSQL = @"INSERT INTO modules (id, name, base_multiplier, max_level) 
+                        VALUES (@id, @name, @base_multiplier, @max_level);";
+
+        await using MySqlConnection connection = new MySqlConnection(connectionString);
+        try
+        {
+            await connection.OpenAsync();
+            await using var command = new MySqlCommand(insertSQL, connection);
+
+            command.Parameters.AddWithValue("@id", module.Id);
+            command.Parameters.AddWithValue("@name", module.Name);
+            command.Parameters.AddWithValue("@base_multiplier", module.BaseMultiplier);
+            command.Parameters.AddWithValue("@max_level", module.MaxLevel);
+
+            int rowsAffected = await command.ExecuteNonQueryAsync();
+
+            return rowsAffected > 0
+                ? InsertOrUpdateResult<Modules>.Inserted(module)
+                : InsertOrUpdateResult<Modules>.Failure("Thêm mới Module thất bại.");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Error InsertModule: " + ex.Message);
+            return InsertOrUpdateResult<Modules>.Failure("Lỗi Insert: " + ex.Message);
+        }
+    }
+    public async Task<InsertOrUpdateResult<Modules>> UpdateModuleAsync(Modules module)
+    {
+        if (module == null || string.IsNullOrEmpty(module.Id))
+        {
+            return InsertOrUpdateResult<Modules>.Failure("Dữ liệu Module hoặc ID không hợp lệ.");
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+        string updateSQL = @"UPDATE modules 
+                        SET name = @name, 
+                            base_multiplier = @base_multiplier, 
+                            max_level = @max_level 
+                        WHERE id = @id;";
+
+        await using MySqlConnection connection = new MySqlConnection(connectionString);
+        try
+        {
+            await connection.OpenAsync();
+            await using var command = new MySqlCommand(updateSQL, connection);
+
+            command.Parameters.AddWithValue("@id", module.Id);
+            command.Parameters.AddWithValue("@name", module.Name);
+            command.Parameters.AddWithValue("@base_multiplier", module.BaseMultiplier);
+            command.Parameters.AddWithValue("@max_level", module.MaxLevel);
+
+            int rowsAffected = await command.ExecuteNonQueryAsync();
+
+            return rowsAffected > 0
+                ? InsertOrUpdateResult<Modules>.Updated(module)
+                : InsertOrUpdateResult<Modules>.Failure("Không tìm thấy Module để cập nhật.");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Error UpdateModule: " + ex.Message);
+            return InsertOrUpdateResult<Modules>.Failure("Lỗi Update: " + ex.Message);
+        }
+    }
 }

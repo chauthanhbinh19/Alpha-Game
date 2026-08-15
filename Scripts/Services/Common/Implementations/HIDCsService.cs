@@ -20,4 +20,13 @@ public class HIDCsService : IHIDCsService
     {
         return await _hidcsRepository.GetHIDCByIdAsync(id);
     }
+    public Task<InsertOrUpdateResult<HIDCs>> InsertHIDCAsync(HIDCs hidc)
+    {
+        return _hidcsRepository.InsertHIDCAsync(hidc);
+    }
+
+    public Task<InsertOrUpdateResult<HIDCs>> UpdateHIDCAsync(HIDCs hidc)
+    {
+        return _hidcsRepository.UpdateHIDCAsync(hidc);
+    }
 }

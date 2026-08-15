@@ -15,4 +15,13 @@ public class ScienceFictionsService : IScienceFictionsService
     {
         return await _scienceFictionsRepository.GetScienceFictionByIdAsync(id);
     }
+    public Task<InsertOrUpdateResult<ScienceFictions>> InsertScienceFictionAsync(ScienceFictions scienceFiction)
+    {
+        return _scienceFictionsRepository.InsertScienceFictionAsync(scienceFiction);
+    }
+
+    public Task<InsertOrUpdateResult<ScienceFictions>> UpdateScienceFictionAsync(ScienceFictions scienceFiction)
+    {
+        return _scienceFictionsRepository.UpdateScienceFictionAsync(scienceFiction);
+    }
 }

@@ -20,4 +20,13 @@ public class HITNsService : IHITNsService
     {
         return await _hitnsRepository.GetHITNByIdAsync(id);
     }
+    public Task<InsertOrUpdateResult<HITNs>> InsertHITNAsync(HITNs hitn)
+    {
+        return _hitnsRepository.InsertHITNAsync(hitn);
+    }
+
+    public Task<InsertOrUpdateResult<HITNs>> UpdateHITNAsync(HITNs hitn)
+    {
+        return _hitnsRepository.UpdateHITNAsync(hitn);
+    }
 }

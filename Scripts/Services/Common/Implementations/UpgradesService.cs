@@ -20,4 +20,13 @@ public class UpgradesService : IUpgradesService
     {
         return await _upgradesRepository.GetUpgradeByIdAsync(id);
     }
+    public Task<InsertOrUpdateResult<Upgrades>> InsertUpgradeAsync(Upgrades upgrade)
+    {
+        return _upgradesRepository.InsertUpgradeAsync(upgrade);
+    }
+
+    public Task<InsertOrUpdateResult<Upgrades>> UpdateUpgradeAsync(Upgrades upgrade)
+    {
+        return _upgradesRepository.UpdateUpgradeAsync(upgrade);
+    }
 }

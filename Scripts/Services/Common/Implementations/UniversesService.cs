@@ -20,4 +20,13 @@ public class UniversesService : IUniversesService
     {
         return await _universesRepository.GetUniverseByIdAsync(id);
     }
+    public Task<InsertOrUpdateResult<Universes>> InsertUniverseAsync(Universes universe)
+    {
+        return _universesRepository.InsertUniverseAsync(universe);
+    }
+
+    public Task<InsertOrUpdateResult<Universes>> UpdateUniverseAsync(Universes universe)
+    {
+        return _universesRepository.UpdateUniverseAsync(universe);
+    }
 }

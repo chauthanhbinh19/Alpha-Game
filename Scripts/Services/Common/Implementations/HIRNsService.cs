@@ -20,4 +20,13 @@ public class HIRNsService : IHIRNsService
     {
         return await _hirnsRepository.GetHIRNByIdAsync(id);
     }
+    public Task<InsertOrUpdateResult<HIRNs>> InsertHIRNAsync(HIRNs hirn)
+    {
+        return _hirnsRepository.InsertHIRNAsync(hirn);
+    }
+
+    public Task<InsertOrUpdateResult<HIRNs>> UpdateHIRNAsync(HIRNs hirn)
+    {
+        return _hirnsRepository.UpdateHIRNAsync(hirn);
+    }
 }

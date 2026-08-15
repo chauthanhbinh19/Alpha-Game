@@ -20,4 +20,14 @@ public class AnimesService : IAnimesService
     {
         return await _animesRepository.GetAnimeByIdAsync(id);
     }
+
+    public Task<InsertOrUpdateResult<Animes>> InsertAnimeAsync(Animes anime)
+    {
+        return _animesRepository.InsertAnimeAsync(anime);
+    }
+
+    public Task<InsertOrUpdateResult<Animes>> UpdateAnimeAsync(Animes anime)
+    {
+        return _animesRepository.UpdateAnimeAsync(anime);
+    }
 }

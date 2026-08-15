@@ -20,4 +20,13 @@ public class HIINsService : IHIINsService
     {
         return await _hiinsRepository.GetHIINByIdAsync(id);
     }
+    public Task<InsertOrUpdateResult<HIINs>> InsertHIINAsync(HIINs hiin)
+    {
+        return _hiinsRepository.InsertHIINAsync(hiin);
+    }
+
+    public Task<InsertOrUpdateResult<HIINs>> UpdateHIINAsync(HIINs hiin)
+    {
+        return _hiinsRepository.UpdateHIINAsync(hiin);
+    }
 }

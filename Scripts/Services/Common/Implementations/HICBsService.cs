@@ -20,4 +20,13 @@ public class HICBsService : IHICBsService
     {
         return await _hicbsRepository.GetHICBByIdAsync(id);
     }
+    public Task<InsertOrUpdateResult<HICBs>> InsertHICBAsync(HICBs hicb)
+    {
+        return _hicbsRepository.InsertHICBAsync(hicb);
+    }
+
+    public Task<InsertOrUpdateResult<HICBs>> UpdateHICBAsync(HICBs hicb)
+    {
+        return _hicbsRepository.UpdateHICBAsync(hicb);
+    }
 }
