@@ -16,9 +16,7 @@ public class UserCardSoldiersController : MonoBehaviour
     private GameObject CardSoldierButtonPrefab;
     private GameObject PositionPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject PopupSpiritBeastPanelPrefab;
     private GameObject EquipmentsWearingPrefab;
-    private GameObject PopupSpiritBeastObject;
     private GameObject TempCurrentObject;
     private GameObject SkillPanelPrefab;
     private GameObject SkillGroupPrefab;
@@ -59,7 +57,6 @@ public class UserCardSoldiersController : MonoBehaviour
         CardSoldierButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.CARD_SOLDIER_BUTTON_PREFAB);
         PositionPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.POSITION_PREFAB);
         MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
-        PopupSpiritBeastPanelPrefab = UIManager.Instance.Get("PopupSpiritBeastPanelPrefab");
         EquipmentsWearingPrefab = UIManager.Instance.Get(AppConstants.Prefab.Equipment.EQUIPMENTS_WEARING_PREFAB);
         SkillPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Skill.SKILL_PANEL_PREFAB);
         SkillGroupPrefab = UIManager.Instance.Get(AppConstants.Prefab.Skill.SKILL_GROUP_PREFAB);
