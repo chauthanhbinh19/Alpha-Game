@@ -6,8 +6,8 @@ public class MasterManager : MonoBehaviour
 {
     public static MasterManager Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject UniversePanelPrefab;
-    private GameObject UniverseButtonPrefab;
+    private GameObject MasterPanelPrefab;
+    private GameObject MasterButtonPrefab;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -28,14 +28,14 @@ public class MasterManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        UniversePanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Master.MASTER_PANEL_PREFAB);
-        UniverseButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Master.MASTER_PANEL_PREFAB);
+        MasterPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Master.MASTER_PANEL_PREFAB);
+        MasterButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Master.MASTER_BUTTON_PREFAB);
     }
-    public void CreateUniverse()
+    public void CreateMaster(IStats stat)
     {
-        GameObject currentObject = Instantiate(UniversePanelPrefab, MainPanel);
+        GameObject currentObject = Instantiate(MasterPanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
-        Transform contentPanel = transform.Find("MasterContent/Content");
+        Transform contentPanel = transform.Find("MasterContent/Scroll View/Viewport/Content");
         Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
@@ -50,34 +50,48 @@ public class MasterManager : MonoBehaviour
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
-        TextMeshProUGUI titleText2 = transform.Find("UniverseContent/TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI titleText2 = transform.Find("MasterContent/TitleText").GetComponent<TextMeshProUGUI>();
         titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
 
-        CreateUniverseButtonUI(1, AppDisplayConstants.Universe.UNIVERSE_I, TextureHelper.LoadTexture2DCached(ImageConstants.Universe.UNIVERSE_I_URL), contentPanel);
-        CreateUniverseButtonUI(2, AppDisplayConstants.Universe.UNIVERSE_II, TextureHelper.LoadTexture2DCached(ImageConstants.Universe.UNIVERSE_II_URL), contentPanel);
-        CreateUniverseButtonUI(3, AppDisplayConstants.Universe.UNIVERSE_III, TextureHelper.LoadTexture2DCached(ImageConstants.Universe.UNIVERSE_III_URL), contentPanel);
-        CreateUniverseButtonUI(4, AppDisplayConstants.Universe.UNIVERSE_IV, TextureHelper.LoadTexture2DCached(ImageConstants.Universe.UNIVERSE_IV_URL), contentPanel);
-        CreateUniverseButtonUI(5, AppDisplayConstants.Universe.UNIVERSE_V, TextureHelper.LoadTexture2DCached(ImageConstants.Universe.UNIVERSE_V_URL), contentPanel);
-        CreateUniverseButtonUI(6, AppDisplayConstants.Universe.UNIVERSE_VI, TextureHelper.LoadTexture2DCached(ImageConstants.Universe.UNIVERSE_VI_URL), contentPanel);
-        CreateUniverseButtonUI(7, AppDisplayConstants.Universe.UNIVERSE_VII, TextureHelper.LoadTexture2DCached(ImageConstants.Universe.UNIVERSE_VII_URL), contentPanel);
-        CreateUniverseButtonUI(8, AppDisplayConstants.Universe.UNIVERSE_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.Universe.UNIVERSE_VIII_URL), contentPanel);
-        CreateUniverseButtonUI(9, AppDisplayConstants.Universe.UNIVERSE_IX, TextureHelper.LoadTexture2DCached(ImageConstants.Universe.UNIVERSE_IX_URL), contentPanel);
-        CreateUniverseButtonUI(10, AppDisplayConstants.Universe.UNIVERSE_X, TextureHelper.LoadTexture2DCached(ImageConstants.Universe.UNIVERSE_X_URL), contentPanel);
+        CreateButtonWithBackgroundUI(1, AppDisplayConstants.Master.MASTER_OF_BEAST, ImageConstants.Background.ADVANCED_BACKGROUND_1_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Zarx"), contentPanel);
+        CreateButtonWithBackgroundUI(2, AppDisplayConstants.Master.MASTER_OF_DRAGON, ImageConstants.Background.ADVANCED_BACKGROUND_2_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Raik"), contentPanel);
+        CreateButtonWithBackgroundUI(3, AppDisplayConstants.Master.MASTER_OF_MAGIC, ImageConstants.Background.ADVANCED_BACKGROUND_3_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Drax"), contentPanel);
+        CreateButtonWithBackgroundUI(4, AppDisplayConstants.Master.MASTER_OF_MUSIC, ImageConstants.Background.ADVANCED_BACKGROUND_4_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Kron"), contentPanel);
+        CreateButtonWithBackgroundUI(5, AppDisplayConstants.Master.MASTER_OF_SCIENCE, ImageConstants.Background.ADVANCED_BACKGROUND_5_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Zolt"), contentPanel);
+        CreateButtonWithBackgroundUI(6, AppDisplayConstants.Master.MASTER_OF_SPIRIT, ImageConstants.Background.ADVANCED_BACKGROUND_6_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Gorr"), contentPanel);
+        CreateButtonWithBackgroundUI(7, AppDisplayConstants.Master.MASTER_OF_WEAPON, ImageConstants.Background.ADVANCED_BACKGROUND_7_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Ryze"), contentPanel);
+        CreateButtonWithBackgroundUI(8, AppDisplayConstants.Master.MASTER_OF_CHEMICAL, ImageConstants.Background.ADVANCED_BACKGROUND_8_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Jaxx"), contentPanel);
+        CreateButtonWithBackgroundUI(9, AppDisplayConstants.Master.MASTER_OF_PHYSICAL, ImageConstants.Background.ADVANCED_BACKGROUND_9_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Thar"), contentPanel);
+        CreateButtonWithBackgroundUI(10, AppDisplayConstants.Master.MASTER_OF_ATOMIC, ImageConstants.Background.ADVANCED_BACKGROUND_10_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Vorn"), contentPanel);
+        CreateButtonWithBackgroundUI(11, AppDisplayConstants.Master.MASTER_OF_MENTAL, ImageConstants.Background.ADVANCED_BACKGROUND_11_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Nyx"), contentPanel);
 
-        CreateUniverseButtonEvent(contentPanel);
+        CreateMasterButtonEvent(stat, contentPanel);
     }
-    private void CreateUniverseButtonUI(int index, string itemName, Texture2D _itemImage, Transform panel)
+    private void CreateButtonWithBackgroundUI(int index, string itemName, string itemBackground, Texture2D itemImage, Transform panel)
     {
+        if (panel == null)
+        {
+            Debug.Log("Panel is null for index: " + index);
+            return;
+        }
         // Tạo button từ prefab
-        GameObject newButton = Instantiate(UniverseButtonPrefab, panel);
-        Transform transform = newButton.transform;
+        GameObject newButton = Instantiate(MasterButtonPrefab, panel);
         newButton.name = "Button_" + index;
+        Transform transform = newButton.transform;
+
+        // Gán màu cho itemBackground
+        RawImage background = transform.Find("Background").GetComponent<RawImage>();
+        Texture texture = TextureHelper.LoadTextureCached($"{itemBackground}");
+        if (background != null && itemBackground != null)
+        {
+            background.texture = texture;
+        }
 
         // Gán hình ảnh cho itemImage
-        RawImage image = transform.Find("Image").GetComponent<RawImage>();
-        if (image != null && _itemImage != null)
+        RawImage image = transform.Find("MainImage").GetComponent<RawImage>();
+        if (image != null && itemImage != null)
         {
-            image.texture = _itemImage;
+            image.texture = itemImage;
         }
 
         // Gán tên cho itemName
@@ -87,17 +101,18 @@ public class MasterManager : MonoBehaviour
             nameText.text = LocalizationManager.Get(itemName);
         }
     }
-    public void CreateUniverseButtonEvent(Transform panel)
+    public void CreateMasterButtonEvent(IStats stat, Transform panel)
     {
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await UniverseIManager.Instance.CreateUniverseIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await UniverseIIManager.Instance.CreateUniverseIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await UniverseIIIManager.Instance.CreateUniverseIIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await UniverseIVManager.Instance.CreateUniverseIVManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await UniverseVManager.Instance.CreateUniverseVManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await UniverseVIManager.Instance.CreateUniverseVIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await UniverseVIIManager.Instance.CreateUniverseVIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await UniverseVIIIManager.Instance.CreateUniverseVIIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await UniverseIXManager.Instance.CreateUniverseIXManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await UniverseXManager.Instance.CreateUniverseXManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await MasterOfBeastManager.Instance.CreateMasterOfBeastManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await MasterOfDragonManager.Instance.CreateMasterOfDragonManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await MasterOfMagicManager.Instance.CreateMasterOfMagicManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await MasterOfMusicManager.Instance.CreateMasterOfMusicManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await MasterOfScienceManager.Instance.CreateMasterOfScienceManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await MasterOfSpiritManager.Instance.CreateMasterOfSpiritManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await MasterOfWeaponManager.Instance.CreateMasterOfWeaponManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await MasterOfChemicalManager.Instance.CreateMasterOfChemicalManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await MasterOfPhysicalManager.Instance.CreateMasterOfPhysicalManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await MasterOfAtomicManager.Instance.CreateMasterOfAtomicManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", panel, async () => await MasterOfMentalManager.Instance.CreateMasterOfMentalManagerAsync(stat));
     }
 }

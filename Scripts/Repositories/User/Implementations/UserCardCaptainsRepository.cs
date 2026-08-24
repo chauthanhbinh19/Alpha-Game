@@ -37,6 +37,8 @@ public class UserCardCaptainsRepository : IUserCardCaptainsRepository
                     c.type, 
                     c.description, 
                     COALESCE(t.team_number, 0) AS team_number,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier,
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
@@ -326,6 +328,8 @@ public class UserCardCaptainsRepository : IUserCardCaptainsRepository
                     c.image, 
                     c.type, 
                     c.description, 
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier,
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
@@ -580,6 +584,8 @@ public class UserCardCaptainsRepository : IUserCardCaptainsRepository
                     c.image, 
                     c.type, 
                     c.description, 
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier,
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
@@ -1504,7 +1510,9 @@ public class UserCardCaptainsRepository : IUserCardCaptainsRepository
                     FROM user_card_captains_upgrade
                     GROUP BY user_card_captain_id
                 )
-            SELECT uc.*, c.image
+            SELECT uc.*, c.image,
+            COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier,
             FROM user_card_captains uc
             INNER JOIN card_captains c ON uc.card_captain_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.card_captain_id = am.user_card_captain_id

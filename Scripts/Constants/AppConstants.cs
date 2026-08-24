@@ -2864,6 +2864,7 @@ public static class AppConstants
             public const string POPUP_RANK_BUTTON_PREFAB = "PopupRankButtonPrefab";
             public const string MAIN_RANK_PANEL_PREFAB = "MainRankPanelPrefab";
             public const string RANK_ITEM_PREFAB = "RankItemPrefab";
+            public const string SET_RANK_BUTTON_PREFAB = "SetRankButtonPrefab";
         }
         public static class Research
         {

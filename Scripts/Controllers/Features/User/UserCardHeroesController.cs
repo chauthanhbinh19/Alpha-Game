@@ -166,7 +166,6 @@ public class UserCardHeroesController : MonoBehaviour
         Transform setButtonGroupPanel = transform.Find("DictionaryCards/SetButtonGroup/Viewport/Content");
         RawImage cardBackground = transform.Find("DictionaryCards/Background").GetComponent<RawImage>();
         RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
-        ButtonLoader.Instance.CreateSetButtonGroup(cardHero, setButtonGroupPanel);
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_HERO);
@@ -274,6 +273,20 @@ public class UserCardHeroesController : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             UpgradeManager.Instance.CreateUpgrade(cardHero);
+        });
+
+        Button masterButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Master").GetComponent<Button>();
+        masterButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            MasterManager.Instance.CreateMaster(cardHero);
+        });
+
+        Button rankButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Rank").GetComponent<Button>();
+        rankButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            RankManager.Instance.CreateRank(cardHero);
         });
     }
     public void RefreshCurrentDetailsUI(CardHeroes cardHero)

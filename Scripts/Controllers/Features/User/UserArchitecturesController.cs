@@ -111,7 +111,6 @@ public class UserArchitecturesController : MonoBehaviour
         Transform setButtonGroupPanel = transform.Find("DictionaryCards/SetButtonGroup/Viewport/Content");
         RawImage cardBackground = transform.Find("DictionaryCards/Background").GetComponent<RawImage>();
         RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
-        ButtonLoader.Instance.CreateSetButtonGroup(architecture, setButtonGroupPanel);
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ARCHITECTURE);

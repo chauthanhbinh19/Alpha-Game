@@ -160,7 +160,6 @@ public class UserCardGeneralsController : MonoBehaviour
         Transform setButtonGroupPanel = transform.Find("DictionaryCards/SetButtonGroup/Viewport/Content");
         RawImage cardBackground = transform.Find("DictionaryCards/Background").GetComponent<RawImage>();
         RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
-        ButtonLoader.Instance.CreateSetButtonGroup(cardGeneral, setButtonGroupPanel);
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_GENERAL);
@@ -268,6 +267,20 @@ public class UserCardGeneralsController : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             UpgradeManager.Instance.CreateUpgrade(cardGeneral);
+        });
+
+        Button masterButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Master").GetComponent<Button>();
+        masterButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            MasterManager.Instance.CreateMaster(cardGeneral);
+        });
+
+        Button rankButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Rank").GetComponent<Button>();
+        rankButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            RankManager.Instance.CreateRank(cardGeneral);
         });
     }
     public void RefreshCurrentDetailsUI(CardGenerals cardGeneral)

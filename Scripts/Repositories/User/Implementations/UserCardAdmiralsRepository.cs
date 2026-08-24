@@ -36,6 +36,8 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                     c.type, 
                     c.description, 
                     COALESCE(t.team_number, 0) AS team_number,
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier,
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
@@ -329,6 +331,8 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                     c.image, 
                     c.type, 
                     c.description, 
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier,
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
@@ -587,6 +591,8 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                     c.image, 
                     c.type, 
                     c.description, 
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier,
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
@@ -1535,7 +1541,9 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                     FROM user_card_admirals_upgrade
                     GROUP BY user_card_admiral_id
                 )
-                SELECT uc.*, c.image
+                SELECT uc.*, c.image,
+                COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier,
                 FROM user_card_admirals uc
                 INNER JOIN card_admirals c ON uc.card_admiral_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.card_admiral_id = am.user_card_admiral_id
