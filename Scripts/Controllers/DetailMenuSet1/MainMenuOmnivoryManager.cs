@@ -237,7 +237,7 @@ public class MainMenuOmnivoryManager : MonoBehaviour
 
         AnimationController.Instance.CreateRankAnimation(currentObject);
         Ranks rank = await RanksService.Create().GetRankByIdAsync(featureId);
-        UserRanks userRank = await UserRanksService.Create().GetUserRanksAsync(User.CurrentUserId, featureId);
+        UserRanks userRank = await UserRanksService.Create().GetUserRanksAsync(User.CurrentUserId, featureId, Stat);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userRank.Level, User.CurrentUserId);
 
         if (recipeItems == null || recipeItems.Count == 0)
@@ -268,7 +268,7 @@ public class MainMenuOmnivoryManager : MonoBehaviour
         levelText.text = currentLevel.ToString();
         async Task RefreshPanelAsync()
         {
-            userRank = await UserRanksService.Create().GetUserRanksAsync(User.CurrentUserId, featureId);
+            userRank = await UserRanksService.Create().GetUserRanksAsync(User.CurrentUserId, featureId, Stat);
             currentLevel = userRank?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 
@@ -521,7 +521,7 @@ public class MainMenuOmnivoryManager : MonoBehaviour
                 if (result.Success)
                 {
                     userRank = EnhanceHelper.EnhanceRanks(userRank, result.UpgradedLevels, rank.BaseMultiplier);
-                    await UserRanksService.Create().InsertOrUpdateUserRanksAsync(User.CurrentUserId, userRank, featureId, Stat);
+                    await UserRanksService.Create().InsertOrUpdateUserRanksAsync(User.CurrentUserId, userRank, Stat);
 
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

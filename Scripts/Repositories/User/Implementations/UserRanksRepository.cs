@@ -6,7 +6,7 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class UserRanksRepository : IUserRanksRepository
 {
-    public async Task<UserRanks> GetUserRanksAsync(string userId, string id)
+    public async Task<UserRanks> GetUserRanksAsync(string userId, string rankId, string objectId, string userTable, string objectColumn)
     {
         UserRanks userRank = new UserRanks();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -19,21 +19,26 @@ public class UserRanksRepository : IUserRanksRepository
 
                 string selectSQL = @"
                 SELECT *
-                FROM user_masters
-                WHERE user_id = @user_id AND master_id = @master_id;
+                FROM ranks u
+                LEFT JOIN {userTable} uchu
+                    ON u.id = uchu.rank_id
+                    AND uchu.user_id = @user_id
+                    AND uchu.{objectColumn} = @object_id
+                WHERE user_id = @user_id AND rank_id = @rank_id;
             ";
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@master_id", id);
+                    selectCommand.Parameters.AddWithValue("@rank_id", rankId);
+                    selectCommand.Parameters.AddWithValue("@object_id", objectId);
 
                     using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            userRank.Id = reader.GetStringSafe("master_id");
-                            userRank.Level = reader.GetIntSafe("master_level");
+                            userRank.Id = reader.GetStringSafe("rank_id");
+                            userRank.Level = reader.GetIntSafe("rank_level");
                             userRank.Power = reader.GetDoubleSafe("power");
                             userRank.Health = reader.GetDoubleSafe("health");
                             userRank.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
@@ -108,7 +113,7 @@ public class UserRanksRepository : IUserRanksRepository
 
         return null;
     }
-    public async Task InsertOrUpdateUserRanksAsync(string userId, UserRanks userRank, string id)
+    public async Task InsertOrUpdateUserRanksAsync(string userId, UserRanks userRank, string objectId, string userTable, string objectColumn)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -118,13 +123,16 @@ public class UserRanksRepository : IUserRanksRepository
             await connection.OpenAsync();
 
             string checkSQL = @"
-            SELECT COUNT(*) FROM user_masters 
-            WHERE user_id = @user_id AND master_id = @master_id";
+            SELECT COUNT(*) FROM {userTable} 
+            WHERE user_id = @user_id 
+                AND rank_id = @rank_id
+                AND {objectColumn} = @object_id";
 
             await using (var checkCommand = new MySqlCommand(checkSQL, connection))
             {
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@master_id", id);
+                checkCommand.Parameters.AddWithValue("@rank_id", userRank.Id);
+                checkCommand.Parameters.AddWithValue("@object_id", objectId);
 
                 int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -132,9 +140,9 @@ public class UserRanksRepository : IUserRanksRepository
                 {
                     // -------- UPDATE ----------
                     string updateSQL = @"
-                    UPDATE user_masters
+                    UPDATE {userTable}
                     SET
-                        master_level = @master_level, power = @power, health = @health, mana = @mana, speed = @speed,
+                        rank_level = @rank_level, power = @power, health = @health, mana = @mana, speed = @speed,
                         physical_attack = @physical_attack, physical_defense = @physical_defense,
                         magical_attack = @magical_attack, magical_defense = @magical_defense,
                         chemical_attack = @chemical_attack, chemical_defense = @chemical_defense,
@@ -178,11 +186,11 @@ public class UserRanksRepository : IUserRanksRepository
                         percent_all_mental_attack = @percent_all_mental_attack,
                         percent_all_mental_defense = @percent_all_mental_defense
                     WHERE user_id = @user_id
-                    AND master_id = @master_id;
+                    AND rank_id = @rank_id;
                 ";
 
                     await using var updateCommand = new MySqlCommand(updateSQL, connection);
-                    AddAllParameters(updateCommand, userRank, userId, id);
+                    AddAllParameters(updateCommand, userRank, userId, userRank.Id, objectId);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }
@@ -190,8 +198,8 @@ public class UserRanksRepository : IUserRanksRepository
                 {
                     // -------- INSERT ----------
                     string insertSQL = @"
-                    INSERT INTO user_masters (
-                    user_id, master_id, master_level, power, health, mana, speed,
+                    INSERT INTO {userTable} (
+                    user_id, {objectColumn}, rank_id, rank_level, power, health, mana, speed,
                     physical_attack, physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense,
                     atomic_attack, atomic_defense, mental_attack, mental_defense,
                     critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -216,7 +224,7 @@ public class UserRanksRepository : IUserRanksRepository
                     percent_all_mental_attack, percent_all_mental_defense
                 )
                 VALUES (
-                    @user_id, @master_id, @master_level, @power, @health, @mana, @speed,
+                    @user_id, @objectId, @rank_id, @rank_level, @power, @health, @mana, @speed,
                     @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                     @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -241,7 +249,7 @@ public class UserRanksRepository : IUserRanksRepository
                 ";
 
                     await using var insertCommand = new MySqlCommand(insertSQL, connection);
-                    AddAllParameters(insertCommand, userRank, userId, id);
+                    AddAllParameters(insertCommand, userRank, userId, userRank.Id, objectId);
 
                     await insertCommand.ExecuteNonQueryAsync();
                 }
@@ -252,7 +260,7 @@ public class UserRanksRepository : IUserRanksRepository
             Debug.LogError("Error: " + ex.Message);
         }
     }
-    public async Task<UserRanks> GetSumUserRanksAsync(string userId)
+    public async Task<UserRanks> GetSumUserRanksAsync(string userId, string objectId, string userTable, string objectColumn)
     {
         UserRanks userRanks = new UserRanks();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -326,13 +334,15 @@ public class UserRanksRepository : IUserRanksRepository
                     SUM(percent_all_atomic_defense) AS percent_all_atomic_defense,
                     SUM(percent_all_mental_attack) AS percent_all_mental_attack,
                     SUM(percent_all_mental_defense) AS percent_all_mental_defense
-                FROM user_masters 
-                WHERE user_id = @user_id;
+                FROM {userTable} 
+                WHERE user_id = @user_id
+                    AND {objectColumn} = @objectId
             ";
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
+                    selectCommand.Parameters.AddWithValue("@objectId", objectId);
 
                     using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
@@ -411,12 +421,13 @@ public class UserRanksRepository : IUserRanksRepository
 
         return userRanks;
     }
-    private void AddAllParameters(MySqlCommand cmd, UserRanks a, string userId, string type)
+    private void AddAllParameters(MySqlCommand cmd, UserRanks a, string userId, string rankId, string objectId)
     {
         cmd.Parameters.AddWithValue("@user_id", userId);
-        cmd.Parameters.AddWithValue("@master_id", type);
+        cmd.Parameters.AddWithValue("@objectId", objectId);
+        cmd.Parameters.AddWithValue("@rank_id", rankId);
 
-        cmd.Parameters.AddWithValue("@master_level", a.Level == 0 ? 1 : a.Level);
+        cmd.Parameters.AddWithValue("@rank_level", a.Level == 0 ? 1 : a.Level);
         cmd.Parameters.AddWithValue("@power", a.Power);
         cmd.Parameters.AddWithValue("@health", a.Health);
         cmd.Parameters.AddWithValue("@mana", a.Mana);

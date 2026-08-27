@@ -1,8 +1,23 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 public class UserRanksService : IUserRanksService
 {
     private readonly IUserRanksRepository _userRanksRepository;
+    private static readonly Dictionary<Type, (string Table, string Column, string CodeName)> ModuleMappings = new()
+    {
+        { typeof(Books), (DataBaseConstants.Table.USER_BOOKS_RANK, DataBaseConstants.Column.USER_BOOK_ID, "books") },
+        { typeof(CardAdmirals), (DataBaseConstants.Table.USER_CARD_ADMIRALS_RANK, DataBaseConstants.Column.USER_CARD_ADMIRAL_ID, "card_admirals") },
+        { typeof(CardCaptains), (DataBaseConstants.Table.USER_CARD_CAPTAINS_RANK, DataBaseConstants.Column.USER_CARD_CAPTAIN_ID, "card_captains") },
+        { typeof(CardColonels), (DataBaseConstants.Table.USER_CARD_COLONELS_RANK, DataBaseConstants.Column.USER_CARD_COLONEL_ID, "card_colonels") },
+        { typeof(CardGenerals), (DataBaseConstants.Table.USER_CARD_GENERALS_RANK, DataBaseConstants.Column.USER_CARD_GENERAL_ID, "card_generals") },
+        { typeof(CardHeroes), (DataBaseConstants.Table.USER_CARD_HEROES_RANK, DataBaseConstants.Column.USER_CARD_HERO_ID, "card_heroes") },
+        { typeof(CardMilitaries), (DataBaseConstants.Table.USER_CARD_MILITARIES_RANK, DataBaseConstants.Column.USER_CARD_MILITARY_ID, "card_militaries") },
+        { typeof(CardMonsters), (DataBaseConstants.Table.USER_CARD_MONSTERS_RANK, DataBaseConstants.Column.USER_CARD_MONSTER_ID, "card_monsters") },
+        { typeof(CardSoldiers), (DataBaseConstants.Table.USER_CARD_SOLDIERS_RANK, DataBaseConstants.Column.USER_CARD_SOLDIER_ID, "card_soldiers") },
+        { typeof(CardSpells), (DataBaseConstants.Table.USER_CARD_SPELLS_RANK, DataBaseConstants.Column.USER_CARD_SPELL_ID, "card_spells") },
+        { typeof(Pets), (DataBaseConstants.Table.USER_PETS_RANK, DataBaseConstants.Column.USER_PET_ID, "pets") },
+    };
 
     public UserRanksService(IUserRanksRepository userRanksRepository)
     {
@@ -11,63 +26,34 @@ public class UserRanksService : IUserRanksService
 
     public static IUserRanksService Create() => ServiceContainer.GetService<IUserRanksService>();
 
-    public async Task<UserRanks> GetUserRanksAsync(string userId, string id)
+    public async Task<UserRanks> GetUserRanksAsync(string userId, string rankId, IStats stat)
     {
-        return await _userRanksRepository.GetUserRanksAsync(userId, id);
+        if (!ModuleMappings.TryGetValue(stat.GetType(), out var mapping))
+        {
+            throw new NotSupportedException(
+                $"Unsupported stat type: {stat.GetType().Name}");
+        }
+        return await _userRanksRepository.GetUserRanksAsync(userId, rankId, stat.Id, mapping.Table, mapping.Column);
     }
 
-    public async Task<UserRanks> GetSumUserRanksAsync(string userId)
+    public async Task<UserRanks> GetSumUserRanksAsync(string userId, IStats stat)
     {
-        return await _userRanksRepository.GetSumUserRanksAsync(userId);
+        if (!ModuleMappings.TryGetValue(stat.GetType(), out var mapping))
+        {
+            throw new NotSupportedException(
+                $"Unsupported stat type: {stat.GetType().Name}");
+        }
+        return await _userRanksRepository.GetSumUserRanksAsync(userId, stat.Id, mapping.Table, mapping.Column);
     }
 
-    public async Task InsertOrUpdateUserRanksAsync(string userId, UserRanks Ranks, string id, IStats stat)
+    public async Task InsertOrUpdateUserRanksAsync(string userId, UserRanks Ranks, IStats stat)
     {
-        if(stat is CardHeroes cardHero)
+        if (!ModuleMappings.TryGetValue(stat.GetType(), out var mapping))
         {
-            await UserCardHeroesRankService.Create().InsertOrUpdateUserCardHeroRankAsync(userId, Ranks, cardHero.Id);
+            throw new NotSupportedException(
+                $"Unsupported stat type: {stat.GetType().Name}");
         }
-        else if (stat is CardCaptains cardCaptain)
-        {
-            await UserCardCaptainsRankService.Create().InsertOrUpdateUserCardCaptainRankAsync(userId, Ranks, cardCaptain.Id);
-        }
-        else if (stat is CardColonels cardColonel)
-        {
-            await UserCardColonelsRankService.Create().InsertOrUpdateUserCardColonelRankAsync(userId, Ranks, cardColonel.Id);
-        }
-        else if (stat is CardGenerals cardGeneral)
-        {
-            await UserCardGeneralsRankService.Create().InsertOrUpdateUserCardGeneralRankAsync(userId, Ranks, cardGeneral.Id);
-        }
-        else if (stat is CardAdmirals cardAdmiral)
-        {
-            await UserCardAdmiralsRankService.Create().InsertOrUpdateUserCardAdmiralRankAsync(userId, Ranks, cardAdmiral.Id);
-        }
-        else if (stat is CardMilitaries cardMilitary)
-        {
-            await UserCardMilitariesRankService.Create().InsertOrUpdateUserCardMilitaryRankAsync(userId, Ranks, cardMilitary.Id);
-        }
-        else if (stat is CardMonsters cardMonster)
-        {
-            await UserCardMonstersRankService.Create().InsertOrUpdateUserCardMonsterRankAsync(userId, Ranks, cardMonster.Id);
-        }
-        else if (stat is CardSpells cardSpell)
-        {
-            await UserCardSpellsRankService.Create().InsertOrUpdateUserCardSpellRankAsync(userId, Ranks, cardSpell.Id);
-        }
-        else if (stat is CardSoldiers cardSoldier)
-        {
-            await UserCardSoldiersRankService.Create().InsertOrUpdateUserCardSoldierRankAsync(userId, Ranks, cardSoldier.Id);
-        }
-        else if (stat is Books book)
-        {
-            await UserBooksRankService.Create().InsertOrUpdateUserBookRankAsync(userId, Ranks, book.Id);
-        }
-        else if (stat is Pets pet)
-        {
-            await UserPetsRankService.Create().InsertOrUpdateUserPetRankAsync(userId, Ranks, pet.Id);
-        }
-        await _userRanksRepository.InsertOrUpdateUserRanksAsync(userId, Ranks, id);
+        await _userRanksRepository.InsertOrUpdateUserRanksAsync(userId, Ranks, stat.Id, mapping.Table, mapping.Column);
     }
 
 }

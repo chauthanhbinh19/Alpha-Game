@@ -236,7 +236,7 @@ public class MasterOfBeastManager : MonoBehaviour
 
         AnimationController.Instance.CreateMasterAnimation(currentObject);
         Masters master = await MastersService.Create().GetMasterByIdAsync(featureId);
-        UserMasters userMaster = await UserMastersService.Create().GetUserMastersAsync(User.CurrentUserId, featureId);
+        UserMasters userMaster = await UserMastersService.Create().GetUserMastersAsync(User.CurrentUserId, featureId, Stat);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userMaster.Level, User.CurrentUserId);
 
         if (recipeItems == null || recipeItems.Count == 0)
@@ -267,7 +267,7 @@ public class MasterOfBeastManager : MonoBehaviour
         levelText.text = currentLevel.ToString();
         async Task RefreshPanelAsync()
         {
-            userMaster = await UserMastersService.Create().GetUserMastersAsync(User.CurrentUserId, featureId);
+            userMaster = await UserMastersService.Create().GetUserMastersAsync(User.CurrentUserId, featureId, Stat);
             currentLevel = userMaster?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 
@@ -520,7 +520,7 @@ public class MasterOfBeastManager : MonoBehaviour
                 if (result.Success)
                 {
                     userMaster = EnhanceHelper.EnhanceMasters(userMaster, result.UpgradedLevels, master.BaseMultiplier);
-                    await UserMastersService.Create().InsertOrUpdateUserMastersAsync(User.CurrentUserId, userMaster, featureId, Stat);
+                    await UserMastersService.Create().InsertOrUpdateUserMastersAsync(User.CurrentUserId, userMaster, Stat);
 
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

@@ -6,7 +6,7 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class UserMastersRepository : IUserMastersRepository
 {
-    public async Task<UserMasters> GetUserMastersAsync(string userId, string id)
+    public async Task<UserMasters> GetUserMastersAsync(string userId, string masterId, string objectId, string userTable, string objectColumn)
     {
         UserMasters userMaster = new UserMasters();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -19,14 +19,19 @@ public class UserMastersRepository : IUserMastersRepository
 
                 string selectSQL = @"
                 SELECT *
-                FROM user_masters
+                FROM masters u
+                LEFT JOIN {userTable} uchu
+                    ON u.id = uchu.master_id
+                    AND uchu.user_id = @user_id
+                    AND uchu.{objectColumn} = @object_id
                 WHERE user_id = @user_id AND master_id = @master_id;
             ";
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@master_id", id);
+                    selectCommand.Parameters.AddWithValue("@master_id", masterId);
+                    selectCommand.Parameters.AddWithValue("@object_id", objectId);
 
                     using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
@@ -108,7 +113,7 @@ public class UserMastersRepository : IUserMastersRepository
 
         return null;
     }
-    public async Task InsertOrUpdateUserMastersAsync(string userId, UserMasters userMaster, string id)
+    public async Task InsertOrUpdateUserMastersAsync(string userId, UserMasters userMaster, string objectId, string userTable, string objectColumn)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -118,13 +123,16 @@ public class UserMastersRepository : IUserMastersRepository
             await connection.OpenAsync();
 
             string checkSQL = @"
-            SELECT COUNT(*) FROM user_masters 
-            WHERE user_id = @user_id AND master_id = @master_id";
+            SELECT COUNT(*) FROM {userTable}  
+            WHERE user_id = @user_id 
+                AND master_id = @master_id
+                AND {objectColumn} = @object_id";
 
             await using (var checkCommand = new MySqlCommand(checkSQL, connection))
             {
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@master_id", id);
+                checkCommand.Parameters.AddWithValue("@master_id", userMaster.Id);
+                checkCommand.Parameters.AddWithValue("@object_id", objectId);
 
                 int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -132,7 +140,7 @@ public class UserMastersRepository : IUserMastersRepository
                 {
                     // -------- UPDATE ----------
                     string updateSQL = @"
-                    UPDATE user_masters
+                    UPDATE {userTable}
                     SET
                         master_level = @master_level, power = @power, health = @health, mana = @mana, speed = @speed,
                         physical_attack = @physical_attack, physical_defense = @physical_defense,
@@ -182,7 +190,7 @@ public class UserMastersRepository : IUserMastersRepository
                 ";
 
                     await using var updateCommand = new MySqlCommand(updateSQL, connection);
-                    AddAllParameters(updateCommand, userMaster, userId, id);
+                    AddAllParameters(updateCommand, userMaster, userId, userMaster.Id, objectId);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }
@@ -190,8 +198,8 @@ public class UserMastersRepository : IUserMastersRepository
                 {
                     // -------- INSERT ----------
                     string insertSQL = @"
-                    INSERT INTO user_masters (
-                    user_id, master_id, master_level, power, health, mana, speed,
+                    INSERT INTO {userTable} (
+                    user_id, {objectColumn}, master_id, master_level, power, health, mana, speed,
                     physical_attack, physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense,
                     atomic_attack, atomic_defense, mental_attack, mental_defense,
                     critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -216,7 +224,7 @@ public class UserMastersRepository : IUserMastersRepository
                     percent_all_mental_attack, percent_all_mental_defense
                 )
                 VALUES (
-                    @user_id, @master_id, @master_level, @power, @health, @mana, @speed,
+                    @user_id, @objectId, @master_id, @master_level, @power, @health, @mana, @speed,
                     @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                     @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -241,7 +249,7 @@ public class UserMastersRepository : IUserMastersRepository
                 ";
 
                     await using var insertCommand = new MySqlCommand(insertSQL, connection);
-                    AddAllParameters(insertCommand, userMaster, userId, id);
+                    AddAllParameters(insertCommand, userMaster, userId, userMaster.Id, objectId);
 
                     await insertCommand.ExecuteNonQueryAsync();
                 }
@@ -252,7 +260,7 @@ public class UserMastersRepository : IUserMastersRepository
             Debug.LogError("Error: " + ex.Message);
         }
     }
-    public async Task<UserMasters> GetSumUserMastersAsync(string userId)
+    public async Task<UserMasters> GetSumUserMastersAsync(string userId, string objectId, string userTable, string objectColumn)
     {
         UserMasters userMasters = new UserMasters();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -326,13 +334,15 @@ public class UserMastersRepository : IUserMastersRepository
                     SUM(percent_all_atomic_defense) AS percent_all_atomic_defense,
                     SUM(percent_all_mental_attack) AS percent_all_mental_attack,
                     SUM(percent_all_mental_defense) AS percent_all_mental_defense
-                FROM user_masters 
-                WHERE user_id = @user_id;
+                FROM {userTable} 
+                WHERE user_id = @user_id
+                    AND {objectColumn} = @objectId
             ";
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
+                    selectCommand.Parameters.AddWithValue("@objectId", objectId);
 
                     using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
@@ -411,10 +421,11 @@ public class UserMastersRepository : IUserMastersRepository
 
         return userMasters;
     }
-    private void AddAllParameters(MySqlCommand cmd, UserMasters a, string userId, string type)
+    private void AddAllParameters(MySqlCommand cmd, UserMasters a, string userId, string masterId, string objectId)
     {
         cmd.Parameters.AddWithValue("@user_id", userId);
-        cmd.Parameters.AddWithValue("@master_id", type);
+        cmd.Parameters.AddWithValue("@objectId", objectId);
+        cmd.Parameters.AddWithValue("@master_id", masterId);
 
         cmd.Parameters.AddWithValue("@master_level", a.Level == 0 ? 1 : a.Level);
         cmd.Parameters.AddWithValue("@power", a.Power);
