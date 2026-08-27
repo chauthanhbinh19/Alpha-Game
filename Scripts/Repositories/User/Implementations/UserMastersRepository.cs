@@ -17,7 +17,7 @@ public class UserMastersRepository : IUserMastersRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"
+                string selectSQL = $@"
                 SELECT *
                 FROM masters u
                 LEFT JOIN {userTable} uchu
@@ -122,7 +122,7 @@ public class UserMastersRepository : IUserMastersRepository
         {
             await connection.OpenAsync();
 
-            string checkSQL = @"
+            string checkSQL = $@"
             SELECT COUNT(*) FROM {userTable}  
             WHERE user_id = @user_id 
                 AND master_id = @master_id
@@ -139,7 +139,7 @@ public class UserMastersRepository : IUserMastersRepository
                 if (count > 0)
                 {
                     // -------- UPDATE ----------
-                    string updateSQL = @"
+                    string updateSQL = $@"
                     UPDATE {userTable}
                     SET
                         master_level = @master_level, power = @power, health = @health, mana = @mana, speed = @speed,
@@ -197,7 +197,7 @@ public class UserMastersRepository : IUserMastersRepository
                 else
                 {
                     // -------- INSERT ----------
-                    string insertSQL = @"
+                    string insertSQL = $@"
                     INSERT INTO {userTable} (
                     user_id, {objectColumn}, master_id, master_level, power, health, mana, speed,
                     physical_attack, physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense,
@@ -271,7 +271,7 @@ public class UserMastersRepository : IUserMastersRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"
+                string selectSQL = $@"
                 SELECT 
                     SUM(power) AS total_power,
                     SUM(health) AS total_health,
