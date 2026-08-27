@@ -377,6 +377,8 @@ public static class AppDisplayConstants
         public const string HIDC = "MainType.HIDC";
         public const string HICB = "MainType.HICB";
         public const string HISN = "MainType.HISN";
+        public const string MASTER = "MainType.Master";
+        public const string RANK = "MainType.Rank";
 
         public const string HIIN_FULLNAME = "MainType.HIIN_FULLNAME";
         public const string SSWN_FULLNAME = "MainType.SSWN_FULLNAME";

@@ -56,17 +56,17 @@ public class RankManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
         TextMeshProUGUI titleText2 = transform.Find("RankContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
 
-        CreateRankButtonUI(1, "Set 1", TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_1_URL), contentPanel);
-        CreateRankButtonUI(2, "Set 2", TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_2_URL), contentPanel);
-        CreateRankButtonUI(3, "Set 3", TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_3_URL), contentPanel);
-        CreateRankButtonUI(4, "Set 4", TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_4_URL), contentPanel);
-        CreateRankButtonUI(5, "Set 5", TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_5_URL), contentPanel);
-        CreateRankButtonUI(6, "Set 6", TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_6_URL), contentPanel);
-        CreateRankButtonUI(7, "Set 7", TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_7_URL), contentPanel);
+        CreateRankButtonUI(1, "Set 1", TextureHelper.LoadTexture2DCached(ImageConstants.Set.SET_1_URL), contentPanel);
+        CreateRankButtonUI(2, "Set 2", TextureHelper.LoadTexture2DCached(ImageConstants.Set.SET_2_URL), contentPanel);
+        CreateRankButtonUI(3, "Set 3", TextureHelper.LoadTexture2DCached(ImageConstants.Set.SET_3_URL), contentPanel);
+        CreateRankButtonUI(4, "Set 4", TextureHelper.LoadTexture2DCached(ImageConstants.Set.SET_4_URL), contentPanel);
+        CreateRankButtonUI(5, "Set 5", TextureHelper.LoadTexture2DCached(ImageConstants.Set.SET_5_URL), contentPanel);
+        CreateRankButtonUI(6, "Set 6", TextureHelper.LoadTexture2DCached(ImageConstants.Set.SET_6_URL), contentPanel);
+        CreateRankButtonUI(7, "Set 7", TextureHelper.LoadTexture2DCached(ImageConstants.Set.SET_7_URL), contentPanel);
 
         CreateRankButtonEvent(stat, contentPanel);
     }
@@ -165,9 +165,9 @@ public class RankManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
         TextMeshProUGUI titleText2 = transform.Find("RankContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
         
         CreateButtonWithBackgroundUI(1, AppDisplayConstants.MainMenuSet1.EQUIPMENTS, ImageConstants.Background.ADVANCED_BACKGROUND_1_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Equipments"), contentPanel);
         CreateButtonWithBackgroundUI(2, AppDisplayConstants.MainMenuSet1.REALM, ImageConstants.Background.ADVANCED_BACKGROUND_2_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Realm"), contentPanel);
@@ -307,9 +307,9 @@ public class RankManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
         TextMeshProUGUI titleText2 = transform.Find("RankContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
 
         CreateButtonWithBackgroundUI(1, AppDisplayConstants.MainMenuSet2.DARK, ImageConstants.Background.ADVANCED_BACKGROUND_1_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Dark"), contentPanel);
         CreateButtonWithBackgroundUI(2, AppDisplayConstants.MainMenuSet2.LIGHT, ImageConstants.Background.ADVANCED_BACKGROUND_2_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Light"), contentPanel);
@@ -448,9 +448,9 @@ public class RankManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
         TextMeshProUGUI titleText2 = transform.Find("RankContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
 
         CreateButtonWithBackgroundUI(1, AppDisplayConstants.MainMenuSet3.AZATHOTH, ImageConstants.Background.ADVANCED_BACKGROUND_1_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Azathoth"), contentPanel);
         CreateButtonWithBackgroundUI(2, AppDisplayConstants.MainMenuSet3.YOG_SOTHOTH, ImageConstants.Background.ADVANCED_BACKGROUND_2_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Yog-Sothoth"), contentPanel);
@@ -590,9 +590,9 @@ public class RankManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
         TextMeshProUGUI titleText2 = transform.Find("RankContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
 
         CreateButtonWithBackgroundUI(1, AppDisplayConstants.MainMenuSet4.ZARX, ImageConstants.Background.ADVANCED_BACKGROUND_1_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Zarx"), contentPanel);
         CreateButtonWithBackgroundUI(2, AppDisplayConstants.MainMenuSet4.RAIK, ImageConstants.Background.ADVANCED_BACKGROUND_2_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Raik"), contentPanel);
@@ -731,9 +731,9 @@ public class RankManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
         TextMeshProUGUI titleText2 = transform.Find("RankContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
 
         CreateButtonWithBackgroundUI(1, AppDisplayConstants.MainMenuSet5.ASTRAL_VOICE, ImageConstants.Background.ADVANCED_BACKGROUND_1_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/AstralVoice"), contentPanel);
         CreateButtonWithBackgroundUI(2, AppDisplayConstants.MainMenuSet5.BRANCH_BLADE_SONG, ImageConstants.Background.ADVANCED_BACKGROUND_2_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/BranchBladeSong"), contentPanel);
@@ -872,9 +872,9 @@ public class RankManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
         TextMeshProUGUI titleText2 = transform.Find("RankContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
 
         CreateButtonWithBackgroundUI(1, AppDisplayConstants.MainMenuSet6.APOTHEON, ImageConstants.Background.ADVANCED_BACKGROUND_1_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Apotheon"), contentPanel);
         CreateButtonWithBackgroundUI(2, AppDisplayConstants.MainMenuSet6.AXIOM, ImageConstants.Background.ADVANCED_BACKGROUND_2_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Axiom"), contentPanel);
@@ -1013,9 +1013,9 @@ public class RankManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
         TextMeshProUGUI titleText2 = transform.Find("RankContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
 
         CreateButtonWithBackgroundUI(1, AppDisplayConstants.MainMenuSet7.ABYSSAL, ImageConstants.Background.ADVANCED_BACKGROUND_1_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Abyssal"), contentPanel);
         CreateButtonWithBackgroundUI(2, AppDisplayConstants.MainMenuSet7.ARCANE, ImageConstants.Background.ADVANCED_BACKGROUND_2_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Arcane"), contentPanel);

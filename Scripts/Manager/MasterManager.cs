@@ -49,21 +49,21 @@ public class MasterManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.MASTER);
         TextMeshProUGUI titleText2 = transform.Find("MasterContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.MASTER);
 
-        CreateButtonWithBackgroundUI(1, AppDisplayConstants.Master.MASTER_OF_BEAST, ImageConstants.Background.ADVANCED_BACKGROUND_1_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Zarx"), contentPanel);
-        CreateButtonWithBackgroundUI(2, AppDisplayConstants.Master.MASTER_OF_DRAGON, ImageConstants.Background.ADVANCED_BACKGROUND_2_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Raik"), contentPanel);
-        CreateButtonWithBackgroundUI(3, AppDisplayConstants.Master.MASTER_OF_MAGIC, ImageConstants.Background.ADVANCED_BACKGROUND_3_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Drax"), contentPanel);
-        CreateButtonWithBackgroundUI(4, AppDisplayConstants.Master.MASTER_OF_MUSIC, ImageConstants.Background.ADVANCED_BACKGROUND_4_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Kron"), contentPanel);
-        CreateButtonWithBackgroundUI(5, AppDisplayConstants.Master.MASTER_OF_SCIENCE, ImageConstants.Background.ADVANCED_BACKGROUND_5_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Zolt"), contentPanel);
-        CreateButtonWithBackgroundUI(6, AppDisplayConstants.Master.MASTER_OF_SPIRIT, ImageConstants.Background.ADVANCED_BACKGROUND_6_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Gorr"), contentPanel);
-        CreateButtonWithBackgroundUI(7, AppDisplayConstants.Master.MASTER_OF_WEAPON, ImageConstants.Background.ADVANCED_BACKGROUND_7_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Ryze"), contentPanel);
-        CreateButtonWithBackgroundUI(8, AppDisplayConstants.Master.MASTER_OF_CHEMICAL, ImageConstants.Background.ADVANCED_BACKGROUND_8_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Jaxx"), contentPanel);
-        CreateButtonWithBackgroundUI(9, AppDisplayConstants.Master.MASTER_OF_PHYSICAL, ImageConstants.Background.ADVANCED_BACKGROUND_9_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Thar"), contentPanel);
-        CreateButtonWithBackgroundUI(10, AppDisplayConstants.Master.MASTER_OF_ATOMIC, ImageConstants.Background.ADVANCED_BACKGROUND_10_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Vorn"), contentPanel);
-        CreateButtonWithBackgroundUI(11, AppDisplayConstants.Master.MASTER_OF_MENTAL, ImageConstants.Background.ADVANCED_BACKGROUND_11_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Nyx"), contentPanel);
+        CreateButtonWithBackgroundUI(1, AppDisplayConstants.Master.MASTER_OF_BEAST, ImageConstants.Background.ADVANCED_BACKGROUND_1_URL, TextureHelper.LoadTexture2DCached(ImageConstants.Master.MASTER_OF_BEAST_URL), contentPanel);
+        CreateButtonWithBackgroundUI(2, AppDisplayConstants.Master.MASTER_OF_DRAGON, ImageConstants.Background.ADVANCED_BACKGROUND_2_URL, TextureHelper.LoadTexture2DCached(ImageConstants.Master.MASTER_OF_DRAGON_URL), contentPanel);
+        CreateButtonWithBackgroundUI(3, AppDisplayConstants.Master.MASTER_OF_MAGIC, ImageConstants.Background.ADVANCED_BACKGROUND_3_URL, TextureHelper.LoadTexture2DCached(ImageConstants.Master.MASTER_OF_MAGIC_URL), contentPanel);
+        CreateButtonWithBackgroundUI(4, AppDisplayConstants.Master.MASTER_OF_MUSIC, ImageConstants.Background.ADVANCED_BACKGROUND_4_URL, TextureHelper.LoadTexture2DCached(ImageConstants.Master.MASTER_OF_MUSIC_URL), contentPanel);
+        CreateButtonWithBackgroundUI(5, AppDisplayConstants.Master.MASTER_OF_SCIENCE, ImageConstants.Background.ADVANCED_BACKGROUND_5_URL, TextureHelper.LoadTexture2DCached(ImageConstants.Master.MASTER_OF_SCIENCE_URL), contentPanel);
+        CreateButtonWithBackgroundUI(6, AppDisplayConstants.Master.MASTER_OF_SPIRIT, ImageConstants.Background.ADVANCED_BACKGROUND_6_URL, TextureHelper.LoadTexture2DCached(ImageConstants.Master.MASTER_OF_SPIRIT_URL), contentPanel);
+        CreateButtonWithBackgroundUI(7, AppDisplayConstants.Master.MASTER_OF_WEAPON, ImageConstants.Background.ADVANCED_BACKGROUND_7_URL, TextureHelper.LoadTexture2DCached(ImageConstants.Master.MASTER_OF_WEAPON_URL), contentPanel);
+        CreateButtonWithBackgroundUI(8, AppDisplayConstants.Master.MASTER_OF_CHEMICAL, ImageConstants.Background.ADVANCED_BACKGROUND_8_URL, TextureHelper.LoadTexture2DCached(ImageConstants.Master.MASTER_OF_CHEMICAL_URL), contentPanel);
+        CreateButtonWithBackgroundUI(9, AppDisplayConstants.Master.MASTER_OF_PHYSICAL, ImageConstants.Background.ADVANCED_BACKGROUND_9_URL, TextureHelper.LoadTexture2DCached(ImageConstants.Master.MASTER_OF_PHYSICAL_URL), contentPanel);
+        CreateButtonWithBackgroundUI(10, AppDisplayConstants.Master.MASTER_OF_ATOMIC, ImageConstants.Background.ADVANCED_BACKGROUND_10_URL, TextureHelper.LoadTexture2DCached(ImageConstants.Master.MASTER_OF_ATOMIC_URL), contentPanel);
+        CreateButtonWithBackgroundUI(11, AppDisplayConstants.Master.MASTER_OF_MENTAL, ImageConstants.Background.ADVANCED_BACKGROUND_11_URL, TextureHelper.LoadTexture2DCached(ImageConstants.Master.MASTER_OF_MENTAL_URL), contentPanel);
 
         CreateMasterButtonEvent(stat, contentPanel);
     }

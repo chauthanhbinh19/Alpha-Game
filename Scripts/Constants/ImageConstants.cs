@@ -224,6 +224,16 @@ public static class ImageConstants
         public const string LEGENDARY_MARKET_URL = "UI/Button/Legendary_Market";
         public const string MYSTIC_MARKET_URL = "UI/Button/Mystic_Market";
     }
+    public static class Set
+    {
+        public const string SET_1_URL = "UI/Button/Main/Set_1";
+        public const string SET_2_URL = "UI/Button/Main/Set_2";
+        public const string SET_3_URL = "UI/Button/Main/Set_3";
+        public const string SET_4_URL = "UI/Button/Main/Set_4";
+        public const string SET_5_URL = "UI/Button/Main/Set_5";
+        public const string SET_6_URL = "UI/Button/Main/Set_6";
+        public const string SET_7_URL = "UI/Button/Main/Set_7";
+    }
     public static class Anime
     {
         public const string ANIME_ICON_URL = "UI/Icon/Anime";
@@ -1060,18 +1070,18 @@ public static class ImageConstants
     }
     public static class Module
     {
-        public const string MODULE_BREAKTHROUGH_URL = "UI/Icon/Module_Breakthrough";
-        public const string MODULE_AWAKENING_URL = "UI/Icon/Module_Awakening";
-        public const string MODULE_ASCENSION_URL = "UI/Icon/Module_Ascension";
-        public const string MODULE_RESONANCE_URL = "UI/Icon/Module_Resonance";
-        public const string MODULE_ENHANCEMENT_URL = "UI/Icon/Module_Enhancement";
-        public const string MODULE_REFINEMENT_URL = "UI/Icon/Module_Refinement";
-        public const string MODULE_EVOLUTION_URL = "UI/Icon/Module_Evolution";
-        public const string MODULE_APOTHEOSIS_URL = "UI/Icon/Module_Apotheosis";
-        public const string MODULE_ENGRAVING_URL = "UI/Icon/Module_Engraving";
-        public const string MODULE_SANCTIFICATION_URL = "UI/Icon/Module_Sanctification";
-        public const string MODULE_SYNCHRONIZATION_URL = "UI/Icon/Module_Synchronization";
-        public const string MODULE_INTEGRATION_URL = "UI/Icon/Module_Integration";
+        public const string MODULE_BREAKTHROUGH_URL = "UI/Button/Main/Module_Breakthrough";
+        public const string MODULE_AWAKENING_URL = "UI/Button/Main/Module_Awakening";
+        public const string MODULE_ASCENSION_URL = "UI/Button/Main/Module_Ascension";
+        public const string MODULE_RESONANCE_URL = "UI/Button/Main/Module_Resonance";
+        public const string MODULE_ENHANCEMENT_URL = "UI/Button/Main/Module_Enhancement";
+        public const string MODULE_REFINEMENT_URL = "UI/Button/Main/Module_Refinement";
+        public const string MODULE_EVOLUTION_URL = "UI/Button/Main/Module_Evolution";
+        public const string MODULE_APOTHEOSIS_URL = "UI/Button/Main/Module_Apotheosis";
+        public const string MODULE_ENGRAVING_URL = "UI/Button/Main/Module_Engraving";
+        public const string MODULE_SANCTIFICATION_URL = "UI/Button/Main/Module_Sanctification";
+        public const string MODULE_SYNCHRONIZATION_URL = "UI/Button/Main/Module_Synchronization";
+        public const string MODULE_INTEGRATION_URL = "UI/Button/Main/Module_Integration";
 
         public const string MODULE_BREAKTHROUGH_BACKGROUND_URL = "UI/Background1/Background_V1_261";
         public const string MODULE_AWAKENING_BACKGROUND_URL = "UI/Background1/Background_V1_262";
@@ -1082,18 +1092,18 @@ public static class ImageConstants
     }
     public static class Upgrade
     {
-        public const string UPGRADE_BREAKTHROUGH_URL = "UI/Icon/Upgrade_Breakthrough";
-        public const string UPGRADE_AWAKENING_URL = "UI/Icon/Upgrade_Awakening";
-        public const string UPGRADE_ASCENSION_URL = "UI/Icon/Upgrade_Ascension";
-        public const string UPGRADE_RESONANCE_URL = "UI/Icon/Upgrade_Resonance";
-        public const string UPGRADE_ENHANCEMENT_URL = "UI/Icon/Upgrade_Enhancement";
-        public const string UPGRADE_REFINEMENT_URL = "UI/Icon/Upgrade_Refinement";
-        public const string UPGRADE_EVOLUTION_URL = "UI/Icon/Upgrade_Evolution";
-        public const string UPGRADE_APOTHEOSIS_URL = "UI/Icon/Upgrade_Apotheosis";
-        public const string UPGRADE_ENGRAVING_URL = "UI/Icon/Upgrade_Engraving";
-        public const string UPGRADE_SANCTIFICATION_URL = "UI/Icon/Upgrade_Sanctification";
-        public const string UPGRADE_SYNCHRONIZATION_URL = "UI/Icon/Upgrade_Synchronization";
-        public const string UPGRADE_INTEGRATION_URL = "UI/Icon/Upgrade_Integration";
+        public const string UPGRADE_BREAKTHROUGH_URL = "UI/Button/Main/Upgrade_Breakthrough";
+        public const string UPGRADE_AWAKENING_URL = "UI/Button/Main/Upgrade_Awakening";
+        public const string UPGRADE_ASCENSION_URL = "UI/Button/Main/Upgrade_Ascension";
+        public const string UPGRADE_RESONANCE_URL = "UI/Button/Main/Upgrade_Resonance";
+        public const string UPGRADE_ENHANCEMENT_URL = "UI/Button/Main/Upgrade_Enhancement";
+        public const string UPGRADE_REFINEMENT_URL = "UI/Button/Main/Upgrade_Refinement";
+        public const string UPGRADE_EVOLUTION_URL = "UI/Button/Main/Upgrade_Evolution";
+        public const string UPGRADE_APOTHEOSIS_URL = "UI/Button/Main/Upgrade_Apotheosis";
+        public const string UPGRADE_ENGRAVING_URL = "UI/Button/Main/Upgrade_Engraving";
+        public const string UPGRADE_SANCTIFICATION_URL = "UI/Button/Main/Upgrade_Sanctification";
+        public const string UPGRADE_SYNCHRONIZATION_URL = "UI/Button/Main/Upgrade_Synchronization";
+        public const string UPGRADE_INTEGRATION_URL = "UI/Button/Main/Upgrade_Integration";
 
         public const string UPGRADE_BREAKTHROUGH_BACKGROUND_URL = "UI/Background1/Background_V1_267";
         public const string UPGRADE_AWAKENING_BACKGROUND_URL = "UI/Background1/Background_V1_268";
@@ -1104,6 +1114,18 @@ public static class ImageConstants
     }
     public static class Master
     {
+        public const string MASTER_OF_BEAST_URL = "UI/Button/Main_Master_Of_Beast";
+        public const string MASTER_OF_DRAGON_URL = "UI/Button/Main_Master_Of_Dragon";
+        public const string MASTER_OF_MAGIC_URL = "UI/Button/Main_Master_Of_Magic";
+        public const string MASTER_OF_MUSIC_URL = "UI/Button/Main_Master_Of_Music";
+        public const string MASTER_OF_SCIENCE_URL = "UI/Button/Main_Master_Of_Science";
+        public const string MASTER_OF_SPIRIT_URL = "UI/Button/Main_Master_Of_Spirit";
+        public const string MASTER_OF_WEAPON_URL = "UI/Button/Main_Master_Of_Weapon";
+        public const string MASTER_OF_CHEMICAL_URL = "UI/Button/Main_Master_Of_Chemical";
+        public const string MASTER_OF_PHYSICAL_URL = "UI/Button/Main_Master_Of_Physical";
+        public const string MASTER_OF_ATOMIC_URL = "UI/Button/Main_Master_Of_Atomic";
+        public const string MASTER_OF_MENTAL_URL = "UI/Button/Main_Master_Of_Mental";
+
         public const string MASTER_OF_BEAST_BACKGROUND_URL = "UI/Background1/Background_V1_317";
         public const string MASTER_OF_DRAGON_BACKGROUND_URL = "UI/Background1/Background_V1_318";
         public const string MASTER_OF_MAGIC_BACKGROUND_URL = "UI/Background1/Background_V1_319";
