@@ -168,6 +168,12 @@ public class RankManager : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
         TextMeshProUGUI titleText2 = transform.Find("RankContent/TitleText").GetComponent<TextMeshProUGUI>();
         titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
+
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(240, 430);
+        }
         
         CreateButtonWithBackgroundUI(1, AppDisplayConstants.MainMenuSet1.EQUIPMENTS, ImageConstants.Background.ADVANCED_BACKGROUND_1_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Equipments"), contentPanel);
         CreateButtonWithBackgroundUI(2, AppDisplayConstants.MainMenuSet1.REALM, ImageConstants.Background.ADVANCED_BACKGROUND_2_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Realm"), contentPanel);
@@ -311,6 +317,12 @@ public class RankManager : MonoBehaviour
         TextMeshProUGUI titleText2 = transform.Find("RankContent/TitleText").GetComponent<TextMeshProUGUI>();
         titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
 
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(240, 430);
+        }
+
         CreateButtonWithBackgroundUI(1, AppDisplayConstants.MainMenuSet2.DARK, ImageConstants.Background.ADVANCED_BACKGROUND_1_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Dark"), contentPanel);
         CreateButtonWithBackgroundUI(2, AppDisplayConstants.MainMenuSet2.LIGHT, ImageConstants.Background.ADVANCED_BACKGROUND_2_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Light"), contentPanel);
         CreateButtonWithBackgroundUI(3, AppDisplayConstants.MainMenuSet2.FIRE, ImageConstants.Background.ADVANCED_BACKGROUND_3_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Fire"), contentPanel);
@@ -451,6 +463,12 @@ public class RankManager : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
         TextMeshProUGUI titleText2 = transform.Find("RankContent/TitleText").GetComponent<TextMeshProUGUI>();
         titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
+
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(240, 430);
+        }
 
         CreateButtonWithBackgroundUI(1, AppDisplayConstants.MainMenuSet3.AZATHOTH, ImageConstants.Background.ADVANCED_BACKGROUND_1_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Azathoth"), contentPanel);
         CreateButtonWithBackgroundUI(2, AppDisplayConstants.MainMenuSet3.YOG_SOTHOTH, ImageConstants.Background.ADVANCED_BACKGROUND_2_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Yog-Sothoth"), contentPanel);
@@ -594,6 +612,12 @@ public class RankManager : MonoBehaviour
         TextMeshProUGUI titleText2 = transform.Find("RankContent/TitleText").GetComponent<TextMeshProUGUI>();
         titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
 
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(240, 430);
+        }
+
         CreateButtonWithBackgroundUI(1, AppDisplayConstants.MainMenuSet4.ZARX, ImageConstants.Background.ADVANCED_BACKGROUND_1_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Zarx"), contentPanel);
         CreateButtonWithBackgroundUI(2, AppDisplayConstants.MainMenuSet4.RAIK, ImageConstants.Background.ADVANCED_BACKGROUND_2_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Raik"), contentPanel);
         CreateButtonWithBackgroundUI(3, AppDisplayConstants.MainMenuSet4.DRAX, ImageConstants.Background.ADVANCED_BACKGROUND_3_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Drax"), contentPanel);
@@ -734,6 +758,12 @@ public class RankManager : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
         TextMeshProUGUI titleText2 = transform.Find("RankContent/TitleText").GetComponent<TextMeshProUGUI>();
         titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
+
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(240, 430);
+        }
 
         CreateButtonWithBackgroundUI(1, AppDisplayConstants.MainMenuSet5.ASTRAL_VOICE, ImageConstants.Background.ADVANCED_BACKGROUND_1_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/AstralVoice"), contentPanel);
         CreateButtonWithBackgroundUI(2, AppDisplayConstants.MainMenuSet5.BRANCH_BLADE_SONG, ImageConstants.Background.ADVANCED_BACKGROUND_2_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/BranchBladeSong"), contentPanel);
@@ -876,6 +906,12 @@ public class RankManager : MonoBehaviour
         TextMeshProUGUI titleText2 = transform.Find("RankContent/TitleText").GetComponent<TextMeshProUGUI>();
         titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
 
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(240, 430);
+        }
+
         CreateButtonWithBackgroundUI(1, AppDisplayConstants.MainMenuSet6.APOTHEON, ImageConstants.Background.ADVANCED_BACKGROUND_1_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Apotheon"), contentPanel);
         CreateButtonWithBackgroundUI(2, AppDisplayConstants.MainMenuSet6.AXIOM, ImageConstants.Background.ADVANCED_BACKGROUND_2_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Axiom"), contentPanel);
         CreateButtonWithBackgroundUI(3, AppDisplayConstants.MainMenuSet6.CATACLYSM, ImageConstants.Background.ADVANCED_BACKGROUND_3_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Cataclysm"), contentPanel);
@@ -1016,6 +1052,12 @@ public class RankManager : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
         TextMeshProUGUI titleText2 = transform.Find("RankContent/TitleText").GetComponent<TextMeshProUGUI>();
         titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
+
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(240, 430);
+        }
 
         CreateButtonWithBackgroundUI(1, AppDisplayConstants.MainMenuSet7.ABYSSAL, ImageConstants.Background.ADVANCED_BACKGROUND_1_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Abyssal"), contentPanel);
         CreateButtonWithBackgroundUI(2, AppDisplayConstants.MainMenuSet7.ARCANE, ImageConstants.Background.ADVANCED_BACKGROUND_2_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Arcane"), contentPanel);

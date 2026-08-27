@@ -283,19 +283,7 @@ public class FeaturesService : IFeaturesService
                 $"Unsupported stat type: {stat.GetType().Name}");
         }
 
-        string prefix = type switch
-        {
-            "Upgrade Breakthrough" => "breakthrough",
-            "Upgrade Awakening" => "awakening",
-            "Upgrade Ascension" => "ascension",
-            "Upgrade Resonance" => "resonance",
-            "Upgrade Enhancement" => "enhancement",
-            "Upgrade Refinement" => "refinement",
-            _ => throw new ArgumentException($"Unknown module type: {type}")
-        };
-        string featureCodeName = $"{prefix}_{mapping.CodeName}";
-
-        return await _featuresRepository.GetMasterFeaturesByTypeAsync(stat.Id, type, featureCodeName, mapping.Table, mapping.Column);
+        return await _featuresRepository.GetMasterFeaturesByTypeAsync(stat.Id, type, mapping.CodeName, mapping.Table, mapping.Column);
     }
 
     public async Task<Dictionary<string, FeatureRankDTO>> GetRankFeaturesByTypeAsync(string type, IStats stat)
@@ -306,19 +294,7 @@ public class FeaturesService : IFeaturesService
                 $"Unsupported stat type: {stat.GetType().Name}");
         }
 
-        string prefix = type switch
-        {
-            "Upgrade Breakthrough" => "breakthrough",
-            "Upgrade Awakening" => "awakening",
-            "Upgrade Ascension" => "ascension",
-            "Upgrade Resonance" => "resonance",
-            "Upgrade Enhancement" => "enhancement",
-            "Upgrade Refinement" => "refinement",
-            _ => throw new ArgumentException($"Unknown module type: {type}")
-        };
-        string featureCodeName = $"{prefix}_{mapping.CodeName}";
-
-        return await _featuresRepository.GetRankFeaturesByTypeAsync(stat.Id, type, featureCodeName, mapping.Table, mapping.Column);
+        return await _featuresRepository.GetRankFeaturesByTypeAsync(stat.Id, type, mapping.CodeName, mapping.Table, mapping.Column);
     }
 
     // Implement other methods from IFeaturesService by calling the repository

@@ -1114,17 +1114,17 @@ public static class ImageConstants
     }
     public static class Master
     {
-        public const string MASTER_OF_BEAST_URL = "UI/Button/Main_Master_Of_Beast";
-        public const string MASTER_OF_DRAGON_URL = "UI/Button/Main_Master_Of_Dragon";
-        public const string MASTER_OF_MAGIC_URL = "UI/Button/Main_Master_Of_Magic";
-        public const string MASTER_OF_MUSIC_URL = "UI/Button/Main_Master_Of_Music";
-        public const string MASTER_OF_SCIENCE_URL = "UI/Button/Main_Master_Of_Science";
-        public const string MASTER_OF_SPIRIT_URL = "UI/Button/Main_Master_Of_Spirit";
-        public const string MASTER_OF_WEAPON_URL = "UI/Button/Main_Master_Of_Weapon";
-        public const string MASTER_OF_CHEMICAL_URL = "UI/Button/Main_Master_Of_Chemical";
-        public const string MASTER_OF_PHYSICAL_URL = "UI/Button/Main_Master_Of_Physical";
-        public const string MASTER_OF_ATOMIC_URL = "UI/Button/Main_Master_Of_Atomic";
-        public const string MASTER_OF_MENTAL_URL = "UI/Button/Main_Master_Of_Mental";
+        public const string MASTER_OF_BEAST_URL = "UI/Button/Main/Master_Of_Beast";
+        public const string MASTER_OF_DRAGON_URL = "UI/Button/Main/Master_Of_Dragon";
+        public const string MASTER_OF_MAGIC_URL = "UI/Button/Main/Master_Of_Magic";
+        public const string MASTER_OF_MUSIC_URL = "UI/Button/Main/Master_Of_Music";
+        public const string MASTER_OF_SCIENCE_URL = "UI/Button/Main/Master_Of_Science";
+        public const string MASTER_OF_SPIRIT_URL = "UI/Button/Main/Master_Of_Spirit";
+        public const string MASTER_OF_WEAPON_URL = "UI/Button/Main/Master_Of_Weapon";
+        public const string MASTER_OF_CHEMICAL_URL = "UI/Button/Main/Master_Of_Chemical";
+        public const string MASTER_OF_PHYSICAL_URL = "UI/Button/Main/Master_Of_Physical";
+        public const string MASTER_OF_ATOMIC_URL = "UI/Button/Main/Master_Of_Atomic";
+        public const string MASTER_OF_MENTAL_URL = "UI/Button/Main/Master_Of_Mental";
 
         public const string MASTER_OF_BEAST_BACKGROUND_URL = "UI/Background1/Background_V1_317";
         public const string MASTER_OF_DRAGON_BACKGROUND_URL = "UI/Background1/Background_V1_318";

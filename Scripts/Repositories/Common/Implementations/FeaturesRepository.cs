@@ -59,7 +59,8 @@ public class FeaturesRepository : IFeaturesRepository
             FROM features f
             LEFT JOIN science_fictions r on f.id = r.id
             LEFT JOIN user_science_fictions ur on r.id = ur.science_fiction_id
-            WHERE type = @type";
+            WHERE type = @type
+            ORDER BY required_level ASC";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
@@ -106,7 +107,8 @@ public class FeaturesRepository : IFeaturesRepository
             FROM features f
             LEFT JOIN researchs r on f.id = r.id
             LEFT JOIN user_researchs ur on r.id = ur.research_id
-            WHERE type = @type";
+            WHERE type = @type
+            ORDER BY required_level ASC";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
@@ -153,7 +155,8 @@ public class FeaturesRepository : IFeaturesRepository
             FROM features f
             LEFT JOIN archives r on f.id = r.id
             LEFT JOIN user_archives ur on r.id = ur.archive_id
-            WHERE type = @type";
+            WHERE type = @type
+            ORDER BY required_level ASC";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
@@ -200,7 +203,8 @@ public class FeaturesRepository : IFeaturesRepository
             FROM features f
             LEFT JOIN universes r on f.id = r.id
             LEFT JOIN user_universes ur on r.id = ur.universe_id
-            WHERE type = @type";
+            WHERE type = @type
+            ORDER BY required_level ASC";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
@@ -247,7 +251,8 @@ public class FeaturesRepository : IFeaturesRepository
             FROM features f
             LEFT JOIN hiins r on f.id = r.id
             LEFT JOIN user_hiins ur on r.id = ur.hiin_id
-            WHERE type = @type";
+            WHERE type = @type
+            ORDER BY required_level ASC";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
@@ -294,7 +299,8 @@ public class FeaturesRepository : IFeaturesRepository
             FROM features f
             LEFT JOIN sswns r on f.id = r.id
             LEFT JOIN user_sswns ur on r.id = ur.sswn_id
-            WHERE type = @type";
+            WHERE type = @type
+            ORDER BY required_level ASC";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
@@ -341,7 +347,8 @@ public class FeaturesRepository : IFeaturesRepository
             FROM features f
             LEFT JOIN hitns r on f.id = r.id
             LEFT JOIN user_hitns ur on r.id = ur.hitn_id
-            WHERE type = @type";
+            WHERE type = @type
+            ORDER BY required_level ASC";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
@@ -388,7 +395,8 @@ public class FeaturesRepository : IFeaturesRepository
             FROM features f
             LEFT JOIN hihns r on f.id = r.id
             LEFT JOIN user_hihns ur on r.id = ur.hihn_id
-            WHERE type = @type";
+            WHERE type = @type
+            ORDER BY required_level ASC";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
@@ -435,7 +443,8 @@ public class FeaturesRepository : IFeaturesRepository
             FROM features f
             LEFT JOIN hiens r on f.id = r.id
             LEFT JOIN user_hiens ur on r.id = ur.hien_id
-            WHERE type = @type";
+            WHERE type = @type
+            ORDER BY required_level ASC";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
@@ -482,7 +491,8 @@ public class FeaturesRepository : IFeaturesRepository
             FROM features f
             LEFT JOIN hicas r on f.id = r.hica_id
             LEFT JOIN user_hicas ur on r.id = ur.hica_id
-            WHERE type = @type";
+            WHERE type = @type
+            ORDER BY required_level ASC";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
@@ -529,7 +539,8 @@ public class FeaturesRepository : IFeaturesRepository
             FROM features f
             LEFT JOIN hirns r on f.id = r.id
             LEFT JOIN user_hirns ur on r.id = ur.hirn_id
-            WHERE type = @type";
+            WHERE type = @type
+            ORDER BY required_level ASC";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
@@ -576,7 +587,8 @@ public class FeaturesRepository : IFeaturesRepository
             FROM features f
             LEFT JOIN hidcs r on f.id = r.id
             LEFT JOIN user_hidcs ur on r.id = ur.hidc_id
-            WHERE type = @type";
+            WHERE type = @type
+            ORDER BY required_level ASC";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
@@ -623,7 +635,8 @@ public class FeaturesRepository : IFeaturesRepository
             FROM features f
             LEFT JOIN hicbs r on f.id = r.id
             LEFT JOIN user_hicbs ur on r.id = ur.hicb_id
-            WHERE type = @type";
+            WHERE type = @type
+            ORDER BY required_level ASC";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
@@ -670,7 +683,8 @@ public class FeaturesRepository : IFeaturesRepository
             FROM features f
             LEFT JOIN hisns r on f.id = r.id
             LEFT JOIN user_hisns ur on r.id = ur.hisn_id
-            WHERE type = @type";
+            WHERE type = @type
+            ORDER BY required_level ASC";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
@@ -721,6 +735,7 @@ public class FeaturesRepository : IFeaturesRepository
             ON m.id = u.module_id
             AND u.{objectColumn} = @object_id
         WHERE f.type = @type
+        ORDER BY required_level ASC
             AND f.code_name = @code_name";
 
         using MySqlCommand command = new(selectSQL, connection);
@@ -770,6 +785,7 @@ public class FeaturesRepository : IFeaturesRepository
             ON m.id = u.upgrade_id
             AND u.{objectColumn} = @object_id
         WHERE f.type = @type
+        ORDER BY required_level ASC
             AND f.code_name = @code_name";
 
         using MySqlCommand command = new(selectSQL, connection);
@@ -815,7 +831,8 @@ public class FeaturesRepository : IFeaturesRepository
             FROM features f
             LEFT JOIN animes r on f.id = r.id
             LEFT JOIN user_animes ur on r.id = ur.anime_id
-            WHERE type = @type";
+            WHERE type = @type
+            ORDER BY required_level ASC";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
@@ -858,7 +875,7 @@ public class FeaturesRepository : IFeaturesRepository
             f.required_level,
             f.code_name,
             m.base_multiplier,
-            COALESCE(u.current_level, 0) AS current_level
+            COALESCE(u.master_level, 0) AS current_level
         FROM features f
         LEFT JOIN masters m
             ON f.id = m.id
@@ -866,6 +883,7 @@ public class FeaturesRepository : IFeaturesRepository
             ON m.id = u.master_id
             AND u.{objectColumn} = @object_id
         WHERE f.type = @type
+        ORDER BY required_level ASC
             -- AND f.code_name = @code_name";
 
         using MySqlCommand command = new(selectSQL, connection);
@@ -907,7 +925,7 @@ public class FeaturesRepository : IFeaturesRepository
             f.required_level,
             f.code_name,
             m.base_multiplier,
-            COALESCE(u.current_level, 0) AS current_level
+            COALESCE(u.rank_level, 0) AS current_level
         FROM features f
         LEFT JOIN ranks m
             ON f.id = m.id
@@ -915,6 +933,7 @@ public class FeaturesRepository : IFeaturesRepository
             ON m.id = u.rank_id
             AND u.{objectColumn} = @object_id
         WHERE f.type = @type
+        ORDER BY required_level ASC
         -- AND f.code_name = @code_name";
 
         using MySqlCommand command = new(selectSQL, connection);
