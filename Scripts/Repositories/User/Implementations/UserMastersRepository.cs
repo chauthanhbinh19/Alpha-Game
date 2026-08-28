@@ -186,7 +186,8 @@ public class UserMastersRepository : IUserMastersRepository
                         percent_all_mental_attack = @percent_all_mental_attack,
                         percent_all_mental_defense = @percent_all_mental_defense
                     WHERE user_id = @user_id
-                    AND master_id = @master_id;
+                        AND master_id = @master_id
+                        AND {objectColumn} = @objectId;
                 ";
 
                     await using var updateCommand = new MySqlCommand(updateSQL, connection);

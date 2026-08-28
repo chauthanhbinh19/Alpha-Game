@@ -186,7 +186,8 @@ public class UserRanksRepository : IUserRanksRepository
                         percent_all_mental_attack = @percent_all_mental_attack,
                         percent_all_mental_defense = @percent_all_mental_defense
                     WHERE user_id = @user_id
-                    AND rank_id = @rank_id;
+                        AND rank_id = @rank_id
+                        AND {objectColumn} = @objectId;
                 ";
 
                     await using var updateCommand = new MySqlCommand(updateSQL, connection);
