@@ -438,7 +438,6 @@ public class UserRanksRepository : IUserRanksRepository
         cmd.Parameters.AddWithValue("@physical_defense", a.PhysicalDefense);
         cmd.Parameters.AddWithValue("@magical_attack", a.MagicalAttack);
         cmd.Parameters.AddWithValue("@magical_defense", a.MagicalDefense);
-
         cmd.Parameters.AddWithValue("@chemical_attack", a.ChemicalAttack);
         cmd.Parameters.AddWithValue("@chemical_defense", a.ChemicalDefense);
         cmd.Parameters.AddWithValue("@atomic_attack", a.AtomicAttack);
