@@ -173,14 +173,14 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
             {
                 await connection.OpenAsync();
 
-                string insertSQL = @"INSERT INTO user_items (user_id, item_id, quantity)
+                string insertSQL = @"INSERT INTO user_currencies (user_id, currency_id, quantity)
                 SELECT
                     @user_id,
                     i.id,
-                    10000000000
-                FROM items i
+                    0
+                FROM currencies i
                 ON DUPLICATE KEY UPDATE
-                    quantity = 10000000000; ";
+                    quantity = user_currencies.quantity; ";
                 await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                 {
                     insertCommand.Parameters.AddWithValue("@user_id", userId);
