@@ -11,6 +11,8 @@ public interface IUserItemsRepository
     Task<bool> InsertUserItemAsync(string userId, Items items, double quantity);
     Task<Items> UpdateUserItemQuantityAsync(string userId, Items items);
     Task<Items> UpdateUserItemQuantityAsync(string userId, Items items, double quantity);
-    Task<bool> InsertOrUpdateUserItemQuantityAsync(string userId, Items item, double quantity);
+    Task<bool> InsertOrUpdateUserItemAsync(string userId, Items item, double quantity);
     Task<bool> InsertOrUpdateUserItemsBatchAsync(string userId, List<(Items item, double quantity)> items);
+    Task<bool> InsertOrUpdateUserItemChestViaProcAsync(string userId, Items item, double quantity);
+    Task<bool> InsertOrUpdateUserItemsChestBatchViaProcAsync(string userId, List<(Items item, double quantity)> items);
 }

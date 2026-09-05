@@ -1178,7 +1178,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         
@@ -1310,7 +1310,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -1447,7 +1447,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -1581,7 +1581,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         
@@ -1710,7 +1710,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         
@@ -1839,7 +1839,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         
@@ -1968,7 +1968,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         
@@ -2097,7 +2097,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         
@@ -2229,7 +2229,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -2363,7 +2363,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         
@@ -2495,7 +2495,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -2632,7 +2632,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -2769,7 +2769,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -2906,7 +2906,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -3043,7 +3043,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -3180,7 +3180,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -3317,7 +3317,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -3454,7 +3454,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -3591,7 +3591,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -3728,7 +3728,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -3865,7 +3865,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -4002,7 +4002,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -4136,7 +4136,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         
@@ -4265,7 +4265,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         
@@ -4394,7 +4394,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         
@@ -4526,7 +4526,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -4663,7 +4663,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -4797,7 +4797,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         
@@ -4929,7 +4929,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -5066,7 +5066,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -5203,7 +5203,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -5337,7 +5337,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         
@@ -5466,7 +5466,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         
@@ -5598,7 +5598,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -5732,7 +5732,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         
@@ -5864,7 +5864,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -6001,7 +6001,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -6135,7 +6135,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         
@@ -6264,7 +6264,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         
@@ -6396,7 +6396,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -6530,7 +6530,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         
@@ -6664,7 +6664,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -6803,7 +6803,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -6942,7 +6942,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -7078,7 +7078,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         
@@ -7209,7 +7209,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         
@@ -7343,7 +7343,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -7482,7 +7482,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type
@@ -7621,7 +7621,7 @@ public class GachaManager : MonoBehaviour
         foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
+                .InsertOrUpdateUserItemAsync(User.CurrentUserId, item, rollNumber);
         }
 
         // Group theo type

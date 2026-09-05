@@ -697,5 +697,22 @@ public class Test : MonoBehaviour
         Program.InitializeServices();
         await UserSkillsService.Create().GetUserSkillsAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare);
     }
+    [ContextMenu("Run Items Initiate Async")]
+    public async Task InitiateItemsAsync()
+    {
+        User.CurrentUserId = userId;
+        Program.InitializeServices();
+        // await PowerManagerService.Create().InsertUserStatsAsync(User.CurrentUserId);
+        Debug.Log("<color=yellow>Start</color>");
+
+        List<Items> items = await ItemsService.Create()
+            .GetItemsAsync();
+        var itemsWithQuantity = items
+            .Select(x => (data: x, quantity: 10000000000d))
+            .ToList();
+        await UserItemsService.Create().InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, itemsWithQuantity);
+        Debug.Log("<color=cyan>Items initiate successfully</color>");
+        Debug.Log("<color=yellow>End</color>");
+    }
 }
 

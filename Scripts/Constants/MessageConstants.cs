@@ -22,8 +22,10 @@ public static class MessageConstants
     public const string EMAIL_ALREADY_EXIST = "Notification.EmailAlreadyExist";
     public const string INVALID_EMAIL_FORMAT = "Notification.InvalidEmailFormat";
     public const string USERNAME_IS_EMPTY = "Notification.UsernameCanNotBeEmpty";
+    public const string USERNAME_LENGTH_INVALID = "Notification.UsernameLengthInvalid";
     public const string EMAIL_IS_EMPTY = "Notification.EmailCanNotBeEmpty";
     public const string PASSWORD_IS_EMPTY = "Notification.PasswordCanNotBeEmpty";
+    public const string PASSWORD_LENGTH_INVALID = "Notification.PasswordLengthInvalid";
     public const string CONFIRM_PASSWORD_IS_EMPTY = "Notification.ConfirmPasswordCanNotBeEmpty";
     public const string PASSWORDS_DO_NOT_MATCH = "Notification.PasswordsDoNotMatch";
     public const string INSERTED_SUCCESSFULLY = "Notification.InsertedSuccessfully";

@@ -4,6 +4,14 @@ using OpenCover.Framework.Model;
 using UnityEditor.PackageManager;
 public static class AppConstants
 {
+    public static class Auth
+    {
+        public const int USERNAME_MIN_LENGTH = 3;
+        public const int USERNAME_MAX_LENGTH = 20;
+        public const int PASSWORD_MIN_LENGTH = 8;
+        public const int PASSWORD_MAX_LENGTH = 32;
+    }
+
     public static class Setting
     {
         public const string RESOLUTION = "Graphic.Resolution";

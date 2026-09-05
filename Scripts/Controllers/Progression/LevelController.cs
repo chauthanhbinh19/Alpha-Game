@@ -708,7 +708,7 @@ public class LevelController : MonoBehaviour
                 double remainingQuantity = Math.Max(0, itemExp.Quantity - currentMaterialCount);
 
                 // Update item
-                await UserItemsService.Create().InsertOrUpdateUserItemQuantityAsync(
+                await UserItemsService.Create().InsertOrUpdateUserItemAsync(
                     User.CurrentUserId,
                     materialItem,
                     remainingQuantity);

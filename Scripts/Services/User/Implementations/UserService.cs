@@ -82,8 +82,10 @@ public class UserService : IUserService
     {
         try
         {
+            string hashedPassword = PasswordHasher.HashPassword(password);
+
             // 1. Thực hiện Đăng ký tài khoản ở Repository
-            AuthResult registerResult = await _userRepository.RegisterUserAsync(username, email, password);
+            AuthResult registerResult = await _userRepository.RegisterUserAsync(username, email, hashedPassword);
 
             // Nếu trùng username / email hoặc có lỗi DB -> Trả AuthResult lỗi về ngay cho UI
             if (!registerResult.Success)
@@ -111,7 +113,7 @@ public class UserService : IUserService
             await _userSettingsService.CreateInitiateUserSettingsAsync(userId);
 
             // Khởi tạo vé mặc định
-            await GiveDefaultTicketsAsync(userId);
+            // await GiveDefaultTicketsAsync(userId);
 
             // Trả về AuthResult thành công cùng thông tin User
             return registerResult;
@@ -149,8 +151,8 @@ public class UserService : IUserService
                 };
             }
 
-            // 2. Kiểm tra Mật khẩu
-            if (!userCheck.Password.Equals(password))
+            // 2. Kiểm tra Mật khẩu đã hash
+            if (!PasswordHasher.VerifyPassword(password, userCheck.Password))
             {
                 return new AuthResult
                 {
@@ -162,7 +164,7 @@ public class UserService : IUserService
             }
 
             // 3. Thực hiện Lấy thông tin User từ DB
-            User user = await _userRepository.SignInWithUsernameAndPasswordAsync(username, password);
+            User user = await _userRepository.SignInWithUsernameAndPasswordAsync(username, userCheck.Password);
             if (user == null)
             {
                 return new AuthResult
@@ -177,15 +179,25 @@ public class UserService : IUserService
             // 4. Load thông tin phụ (Avatar, Border, Daily Checkin, Settings)
             await LoadUserAdditionalDataAsync(user);
 
-            // Lưu Session UserId
-            AuthManager.SaveUserId(user.Id);
+            string token = AuthManager.CreateJwtFromUserId(user.Id);
+            if (!string.IsNullOrWhiteSpace(token))
+            {
+                AuthManager.SaveToken(token);
+            }
+            else
+            {
+                AuthManager.SaveUserId(user.Id);
+            }
+
+            User.CurrentUserId = user.Id;
 
             return new AuthResult
             {
                 Success = true,
                 ErrorField = "",
                 ErrorMessage = "",
-                User = user
+                User = user,
+                Token = token
             };
         }
         catch (Exception ex)

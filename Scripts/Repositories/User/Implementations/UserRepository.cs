@@ -188,7 +188,6 @@ public class UserRepository : IUserRepository
     public async Task<User> SignInWithUsernameAndPasswordAsync(string username, string password)
     {
         if (string.IsNullOrEmpty(username)) username = User.SavedUsername;
-        if (string.IsNullOrEmpty(password)) password = User.SavedPassword;
 
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -198,11 +197,10 @@ public class UserRepository : IUserRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = "SELECT * FROM users WHERE username = @username AND password = @password LIMIT 1";
+                string selectSQL = "SELECT * FROM users WHERE username = @username LIMIT 1";
                 using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@username", username);
-                    selectCommand.Parameters.AddWithValue("@password", password);
 
                     using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

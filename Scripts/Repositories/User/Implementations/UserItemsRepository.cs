@@ -5,6 +5,7 @@ using System;
 using MySqlConnector;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Data;
 
 public class UserItemsRepository : IUserItemsRepository
 {
@@ -415,7 +416,7 @@ public class UserItemsRepository : IUserItemsRepository
 
         return item;
     }
-    public async Task<bool> InsertOrUpdateUserItemQuantityAsync(string userId, Items item, double quantity)
+    public async Task<bool> InsertOrUpdateUserItemAsync(string userId, Items item, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -429,15 +430,18 @@ public class UserItemsRepository : IUserItemsRepository
                     INSERT INTO user_items (
                         user_id,
                         item_id,
+                        sequence_index,
                         quantity
                     )
                     VALUES (
                         @user_id,
                         @item_id,
+                        0,
                         @quantity
                     )
                     ON DUPLICATE KEY UPDATE
-                        quantity = @quantity;
+                        quantity = user_items.quantity + VALUES(quantity),
+                        updated_at = CURRENT_TIMESTAMP;
                 ";
 
                 await using (MySqlCommand insertOrUpdateCommand = new MySqlCommand(insertOrUpdateSQL, connection))
@@ -485,14 +489,14 @@ public class UserItemsRepository : IUserItemsRepository
                 var stringBuilder = new System.Text.StringBuilder();
                 var parameters = new List<MySqlParameter>();
 
-                stringBuilder.Append("INSERT INTO user_items (user_id, item_id, quantity) VALUES ");
+                stringBuilder.Append("INSERT INTO user_items (user_id, item_id, sequence_index, quantity) VALUES ");
 
                 for (int j = 0; j < batch.Count; j++)
                 {
                     string itemIdParam = $"@item_id_{j}";
                     string quantityParam = $"@quantity_{j}";
 
-                    stringBuilder.Append($"(@user_id, {itemIdParam}, {quantityParam}),");
+                    stringBuilder.Append($"(@user_id, {itemIdParam}, 0, {quantityParam}),");
 
                     parameters.Add(new MySqlParameter(itemIdParam, batch[j].item.Id));
                     parameters.Add(new MySqlParameter(quantityParam, batch[j].quantity));
@@ -503,7 +507,8 @@ public class UserItemsRepository : IUserItemsRepository
 
                 stringBuilder.Append(@"
                 ON DUPLICATE KEY UPDATE
-                quantity = quantity + VALUES(quantity);
+                quantity = user_items.quantity + VALUES(quantity),
+                updated_at = CURRENT_TIMESTAMP;
             ");
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
@@ -523,5 +528,76 @@ public class UserItemsRepository : IUserItemsRepository
         }
 
         return true;
+    }
+    public async Task<bool> InsertOrUpdateUserItemChestViaProcAsync(string userId, Items item, double quantity)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                await using (MySqlCommand command = new MySqlCommand("sp_add_user_item_chest", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("p_user_id", userId);
+                    command.Parameters.AddWithValue("p_item_id", item.Id);
+                    command.Parameters.AddWithValue("p_quantity", quantity);
+
+                    await command.ExecuteNonQueryAsync();
+                }
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error executing sp_add_user_item_chest: " + ex.Message);
+                return false;
+            }
+        }
+    }
+    public async Task<bool> InsertOrUpdateUserItemsChestBatchViaProcAsync(string userId, List<(Items item, double quantity)> items)
+    {
+        if (items == null || items.Count == 0)
+            return true;
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using var connection = new MySqlConnection(connectionString);
+
+        try
+        {
+            await connection.OpenAsync();
+            await using var transaction = await connection.BeginTransactionAsync();
+
+            await using (MySqlCommand command = new MySqlCommand("sp_add_user_item_chest", connection, (MySqlTransaction)transaction))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+
+                // Khai báo sẵn tham số để tái sử dụng trong vòng lặp (Tối ưu hiệu năng)
+                command.Parameters.Add("p_user_id", MySqlDbType.VarChar, 32).Value = userId;
+                var paramItemId = command.Parameters.Add("p_item_id", MySqlDbType.VarChar, 32);
+                var paramQuantity = command.Parameters.Add("p_quantity", MySqlDbType.Double);
+
+                foreach (var itemGroup in items.GroupBy(x => x.item.Id))
+                {
+                    paramItemId.Value = itemGroup.Key;
+                    paramQuantity.Value = itemGroup.Sum(x => x.quantity);
+
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
+
+            await transaction.CommitAsync();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Batch Insert Via Proc Error: " + ex.Message);
+            return false;
+        }
     }
 }

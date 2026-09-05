@@ -17,10 +17,10 @@ public class SignUpHandler
     private Button backButton;
     private Button closeButton;
 
-    private Text errorUsernameText;
-    private Text errorEmailText;
-    private Text errorPasswordText;
-    private Text errorConfirmPasswordText;
+    private TextMeshProUGUI errorUsernameText;
+    private TextMeshProUGUI errorEmailText;
+    private TextMeshProUGUI errorPasswordText;
+    private TextMeshProUGUI errorConfirmPasswordText;
 
     public void Show(Transform parentTransform)
     {
@@ -46,10 +46,10 @@ public class SignUpHandler
         backButton = panelTransform.Find("Back")?.GetComponent<Button>();
         closeButton = panelTransform.Find("CloseButton")?.GetComponent<Button>();
 
-        errorUsernameText = panelTransform.Find("ErrorUsername")?.GetComponent<Text>();
-        errorEmailText = panelTransform.Find("ErrorEmail")?.GetComponent<Text>();
-        errorPasswordText = panelTransform.Find("ErrorPassword")?.GetComponent<Text>();
-        errorConfirmPasswordText = panelTransform.Find("ErrorConfirmPassword")?.GetComponent<Text>();
+        errorUsernameText = panelTransform.Find("ErrorUsername")?.GetComponent<TextMeshProUGUI>();
+        errorEmailText = panelTransform.Find("ErrorEmail")?.GetComponent<TextMeshProUGUI>();
+        errorPasswordText = panelTransform.Find("ErrorPassword")?.GetComponent<TextMeshProUGUI>();
+        errorConfirmPasswordText = panelTransform.Find("ErrorConfirmPassword")?.GetComponent<TextMeshProUGUI>();
 
         ClearErrors();
         BindEvents();
@@ -132,6 +132,12 @@ public class SignUpHandler
                 errorUsernameText.text = LocalizationManager.Get(MessageConstants.USERNAME_IS_EMPTY);
             hasError = true;
         }
+        else if (username.Length < AppConstants.Auth.USERNAME_MIN_LENGTH || username.Length > AppConstants.Auth.USERNAME_MAX_LENGTH)
+        {
+            if (errorUsernameText != null)
+                errorUsernameText.text = LocalizationManager.Get(MessageConstants.USERNAME_LENGTH_INVALID);
+            hasError = true;
+        }
 
         // Kiểm tra Email rỗng hoặc sai định dạng
         if (string.IsNullOrEmpty(email))
@@ -152,6 +158,12 @@ public class SignUpHandler
         {
             if (errorPasswordText != null) 
                 errorPasswordText.text = LocalizationManager.Get(MessageConstants.PASSWORD_IS_EMPTY);
+            hasError = true;
+        }
+        else if (password.Length < AppConstants.Auth.PASSWORD_MIN_LENGTH || password.Length > AppConstants.Auth.PASSWORD_MAX_LENGTH)
+        {
+            if (errorPasswordText != null)
+                errorPasswordText.text = LocalizationManager.Get(MessageConstants.PASSWORD_LENGTH_INVALID);
             hasError = true;
         }
 

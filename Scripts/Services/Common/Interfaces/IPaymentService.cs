@@ -19,7 +19,12 @@ public interface IPaymentService
         decimal exchangeRateUsdToLocal = 25000m);
 
     /// <summary>
-    /// Lấy tất cả các gói nạp đang active để hiển thị lên UI Shop
+    /// Lấy tất cả các gói nạp đang active (có thể lọc theo Tab/Category)
     /// </summary>
-    Task<List<ShopPackageModel>> GetActivePackagesAsync();
+    Task<List<ShopPackageModel>> GetAllActivePackagesAsync(string categoryFilter = null);
+
+    /// <summary>
+    /// Lấy chi tiết gói nạp theo packageId
+    /// </summary>
+    Task<ShopPackageModel> GetPackageByIdAsync(string packageId);
 }

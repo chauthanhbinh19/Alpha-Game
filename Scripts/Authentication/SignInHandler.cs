@@ -14,8 +14,8 @@ public class SignInHandler
     private Button signUpButton;
     private Button closeButton;
 
-    private Text errorUsernameText;
-    private Text errorPasswordText;
+    private TextMeshProUGUI errorUsernameText;
+    private TextMeshProUGUI errorPasswordText;
 
     public void Show(Transform parentTransform)
     {
@@ -39,8 +39,8 @@ public class SignInHandler
         signUpButton = panelTransform.Find("Sign Up")?.GetComponent<Button>();
         closeButton = panelTransform.Find("CloseButton")?.GetComponent<Button>();
 
-        errorUsernameText = panelTransform.Find("ErrorUsername")?.GetComponent<Text>();
-        errorPasswordText = panelTransform.Find("ErrorPassword")?.GetComponent<Text>();
+        errorUsernameText = panelTransform.Find("ErrorUsername")?.GetComponent<TextMeshProUGUI>();
+        errorPasswordText = panelTransform.Find("ErrorPassword")?.GetComponent<TextMeshProUGUI>();
 
         ClearErrors();
         BindEvents();

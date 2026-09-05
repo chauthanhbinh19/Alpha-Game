@@ -11,7 +11,7 @@ public interface IUserItemsService
     Task<bool> InsertUserItemAsync(string userId, Items item, double quantity);
     Task<Items> UpdateUserItemQuantityAsync(string userId, Items item);
     Task<Items> UpdateUserItemQuantityAsync(string userId, Items item, double quantity);
-    Task<bool> InsertOrUpdateUserItemQuantityAsync(string userId, Items item, double quantity);
+    Task<bool> InsertOrUpdateUserItemAsync(string userId, Items item, double quantity);
     Task<bool> InsertOrUpdateUserItemsBatchAsync(string userId, List<(Items item, double quantity)> items);
     List<Items> GetItemForLevelAsync(string userId, string type);
     Task<List<Items>> GetItemForBreakthourghAsync(string userId, string type);

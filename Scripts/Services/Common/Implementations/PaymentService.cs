@@ -15,11 +15,41 @@ public class PaymentService : IPaymentService
     public static IPaymentService Create() => ServiceContainer.GetService<IPaymentService>();
 
     /// <summary>
-    /// Lấy danh sách các gói shop từ Repository
+    /// Lấy danh sách các gói nạp đang active, hỗ trợ lọc theo Tab (Category)
     /// </summary>
-    public async Task<List<ShopPackageModel>> GetActivePackagesAsync()
+    public async Task<List<ShopPackageModel>> GetAllActivePackagesAsync(string categoryFilter = null)
     {
-        return await _paymentRepository.GetAllActivePackagesAsync();
+        try
+        {
+            return await _paymentRepository.GetAllActivePackagesAsync(categoryFilter);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[PaymentService] GetActivePackagesAsync Exception: {ex.Message}");
+            return new List<ShopPackageModel>();
+        }
+    }
+
+    /// <summary>
+    /// Lấy thông tin chi tiết của 1 gói nạp theo packageId
+    /// </summary>
+    public async Task<ShopPackageModel> GetPackageByIdAsync(string packageId)
+    {
+        if (string.IsNullOrEmpty(packageId))
+        {
+            Debug.LogWarning("[PaymentService] GetPackageByIdAsync: packageId is null or empty.");
+            return null;
+        }
+
+        try
+        {
+            return await _paymentRepository.GetPackageByIdAsync(packageId);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[PaymentService] GetPackageByIdAsync Exception: {ex.Message}");
+            return null;
+        }
     }
 
     /// <summary>
@@ -88,7 +118,7 @@ public class PaymentService : IPaymentService
 
         if (isSuccess)
         {
-            Debug.Log($"<color=green>[PaymentService] SUCCESS:</color> Granted {package.RewardAmount} {package.RewardCurrencyType} to User {userId}.");
+            Debug.Log($"<color=green>[PaymentService] SUCCESS:</color> Granted {package.RewardAmount} {package.RewardCurrencyId} to User {userId}.");
         }
         else
         {
@@ -108,7 +138,7 @@ public class PaymentService : IPaymentService
     {
         return resultCode switch
         {
-            TopupResultCode.Success => $"Successfully purchased {package.PackageName}! Received {package.RewardAmount} {package.RewardCurrencyType}.",
+            TopupResultCode.Success => $"Successfully purchased {package.PackageName}! Received {package.RewardAmount} {package.RewardCurrencyId}.",
             TopupResultCode.AlreadyProcessed => "This transaction has already been processed.",
             TopupResultCode.PackageNotFound => "The selected package is no longer available.",
             _ => "An error occurred while processing the payment. Please try again."

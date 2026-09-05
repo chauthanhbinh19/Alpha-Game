@@ -78,51 +78,46 @@ public class PaymentRepository : IPaymentRepository
     /// <summary>
     /// Lấy tất cả các gói nạp đang hoạt động (is_active = 1) để hiển thị lên UI Shop
     /// </summary>
-    public async Task<List<ShopPackageModel>> GetAllActivePackagesAsync()
+    public async Task<List<ShopPackageModel>> GetAllActivePackagesAsync(string categoryFilter = null)
     {
         var packages = new List<ShopPackageModel>();
         string connectionString = DatabaseConfig.ConnectionString;
+        // Nếu truyền categoryFilter thì lọc theo tab, không thì lấy hết
         string sql = @"
-                SELECT package_id, package_name, price_usd, reward_currency_type, reward_amount, is_active
-                FROM shop_packages
-                WHERE is_active = 1
-                ORDER BY price_usd ASC;";
+        SELECT package_id, package_name, category, price_usd, original_price_usd, 
+               discount_percent, reward_currency_id, reward_amount, is_active
+        FROM shop_packages
+        WHERE is_active = 1 
+          AND (@Category IS NULL OR category = @Category)
+        ORDER BY category ASC, price_usd ASC;";
 
-        try
+        using (var connection = new MySqlConnection(connectionString))
         {
-            using (var connection = new MySqlConnection(connectionString))
+            await connection.OpenAsync();
+            using (var command = new MySqlCommand(sql, connection))
             {
-                await connection.OpenAsync();
+                command.Parameters.AddWithValue("@Category", string.IsNullOrEmpty(categoryFilter) ? (object)DBNull.Value : categoryFilter);
 
-                using (var command = new MySqlCommand(sql, connection))
+                using (var reader = await command.ExecuteReaderAsync())
                 {
-                    using (var reader = await command.ExecuteReaderAsync())
+                    while (await reader.ReadAsync())
                     {
-                        while (await reader.ReadAsync())
+                        packages.Add(new ShopPackageModel
                         {
-                            var pkg = new ShopPackageModel
-                            {
-                                PackageId = reader.GetString("package_id"),
-                                PackageName = reader.GetString("package_name"),
-                                PriceUsd = reader.GetDecimal("price_usd"),
-                                RewardCurrencyType = reader.GetString("reward_currency_type"),
-                                RewardAmount = reader.GetInt64("reward_amount"),
-                                IsActive = reader.GetBoolean("is_active")
-                            };
-
-                            packages.Add(pkg);
-                        }
+                            PackageId = reader.GetString("package_id"),
+                            PackageName = reader.GetString("package_name"),
+                            Category = reader.GetString("category"),
+                            PriceUsd = reader.GetDecimal("price_usd"),
+                            OriginalPriceUsd = reader.IsDBNull("original_price_usd") ? null : reader.GetDecimal("original_price_usd"),
+                            DiscountPercent = reader.GetInt32("discount_percent"),
+                            RewardCurrencyId = reader.GetString("reward_currency_id"),
+                            RewardAmount = reader.GetInt64("reward_amount"),
+                            IsActive = reader.GetBoolean("is_active")
+                        });
                     }
                 }
             }
-
-            Debug.Log($"<color=green>[PaymentRepository]</color> Fetched {packages.Count} active shop packages successfully.");
         }
-        catch (Exception ex)
-        {
-            Debug.LogError($"[PaymentRepository] GetAllActivePackages Exception: {ex.Message}");
-        }
-
         return packages;
     }
 
@@ -132,10 +127,13 @@ public class PaymentRepository : IPaymentRepository
     public async Task<ShopPackageModel> GetPackageByIdAsync(string packageId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
+
+        // Đã cập nhật tên cột khớp với schema mới
         string sql = @"
-                SELECT package_id, package_name, price_usd, reward_currency_type, reward_amount, is_active
-                FROM shop_packages
-                WHERE package_id = @PackageId AND is_active = 1;";
+        SELECT package_id, package_name, category, price_usd, original_price_usd, 
+               discount_percent, reward_currency_id, reward_amount, is_active
+        FROM shop_packages
+        WHERE package_id = @PackageId AND is_active = 1;";
 
         try
         {
@@ -151,12 +149,21 @@ public class PaymentRepository : IPaymentRepository
                     {
                         if (await reader.ReadAsync())
                         {
+                            // Kiểm tra NULL cho original_price_usd tránh lỗi System.DBNull
+                            int originalPriceIndex = reader.GetOrdinal("original_price_usd");
+                            decimal? originalPriceUsd = reader.IsDBNull(originalPriceIndex)
+                                ? (decimal?)null
+                                : reader.GetDecimal(originalPriceIndex);
+
                             return new ShopPackageModel
                             {
                                 PackageId = reader.GetString("package_id"),
                                 PackageName = reader.GetString("package_name"),
+                                Category = reader.GetString("category"),
                                 PriceUsd = reader.GetDecimal("price_usd"),
-                                RewardCurrencyType = reader.GetString("reward_currency_type"),
+                                OriginalPriceUsd = originalPriceUsd,
+                                DiscountPercent = reader.GetInt32("discount_percent"),
+                                RewardCurrencyId = reader.GetString("reward_currency_id"),
                                 RewardAmount = reader.GetInt64("reward_amount"),
                                 IsActive = reader.GetBoolean("is_active")
                             };
