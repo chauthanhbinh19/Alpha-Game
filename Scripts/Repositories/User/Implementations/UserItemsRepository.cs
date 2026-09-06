@@ -566,38 +566,53 @@ public class UserItemsRepository : IUserItemsRepository
 
         string connectionString = DatabaseConfig.ConnectionString;
 
-        await using var connection = new MySqlConnection(connectionString);
+        var groupedItems = items
+            .GroupBy(x => x.item.Id)
+            .Select(g => (ItemId: g.Key, TotalQuantity: g.Sum(x => x.quantity)))
+            .ToList();
 
-        try
+        int batchSize = 50;
+
+        await using var connection = new MySqlConnection(connectionString);
+        await connection.OpenAsync();
+
+        for (int i = 0; i < groupedItems.Count; i += batchSize)
         {
-            await connection.OpenAsync();
+            var currentBatch = groupedItems.Skip(i).Take(batchSize).ToList();
+
+            // Mở Transaction cho riêng batch này
             await using var transaction = await connection.BeginTransactionAsync();
 
-            await using (MySqlCommand command = new MySqlCommand("sp_add_user_item_chest", connection, (MySqlTransaction)transaction))
+            try
             {
-                command.CommandType = CommandType.StoredProcedure;
-
-                // Khai báo sẵn tham số để tái sử dụng trong vòng lặp (Tối ưu hiệu năng)
-                command.Parameters.Add("p_user_id", MySqlDbType.VarChar, 32).Value = userId;
-                var paramItemId = command.Parameters.Add("p_item_id", MySqlDbType.VarChar, 32);
-                var paramQuantity = command.Parameters.Add("p_quantity", MySqlDbType.Double);
-
-                foreach (var itemGroup in items.GroupBy(x => x.item.Id))
+                await using (MySqlCommand command = new MySqlCommand("sp_add_user_item_chest", connection, (MySqlTransaction)transaction))
                 {
-                    paramItemId.Value = itemGroup.Key;
-                    paramQuantity.Value = itemGroup.Sum(x => x.quantity);
+                    command.CommandType = CommandType.StoredProcedure;
 
-                    await command.ExecuteNonQueryAsync();
+                    command.Parameters.Add("p_user_id", MySqlDbType.VarChar, 32).Value = userId;
+                    var paramItemId = command.Parameters.Add("p_item_id", MySqlDbType.VarChar, 32);
+                    var paramQuantity = command.Parameters.Add("p_quantity", MySqlDbType.Double);
+
+                    foreach (var (itemId, totalQuantity) in currentBatch)
+                    {
+                        paramItemId.Value = itemId;
+                        paramQuantity.Value = totalQuantity;
+
+                        await command.ExecuteNonQueryAsync();
+                    }
                 }
-            }
 
-            await transaction.CommitAsync();
-            return true;
+                // Commit ngay từng batch -> Nhấn Reset trên MySQL client sẽ thấy dữ liệu nhảy dần
+                await transaction.CommitAsync();
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                Debug.LogError($"Batch Insert Error at index {i}: " + ex.Message);
+                return false;
+            }
         }
-        catch (Exception ex)
-        {
-            Debug.LogError("Batch Insert Via Proc Error: " + ex.Message);
-            return false;
-        }
+
+        return true;
     }
 }

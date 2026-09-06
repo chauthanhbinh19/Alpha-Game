@@ -105,13 +105,13 @@ public class RankManager : MonoBehaviour
     }
     public void CreateRankButtonEvent(IStats stat, Transform panel)
     {
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => CreateButtonSet1(stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => CreateButtonSet2(stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => CreateButtonSet3(stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => CreateButtonSet4(stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => CreateButtonSet5(stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => CreateButtonSet6(stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => CreateButtonSet7(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, () => CreateButtonSet1(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, () => CreateButtonSet2(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, () => CreateButtonSet3(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, () => CreateButtonSet4(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, () => CreateButtonSet5(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, () => CreateButtonSet6(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, () => CreateButtonSet7(stat));
     }
     private void CreateButtonWithBackgroundUI(int index, string itemName, string itemBackground, Texture2D itemImage, Transform panel)
     {
