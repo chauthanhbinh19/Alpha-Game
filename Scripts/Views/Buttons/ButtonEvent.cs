@@ -8,6 +8,28 @@ using UnityEngine.EventSystems;
 public class ButtonEvent : MonoBehaviour
 {
     public static ButtonEvent Instance { get; private set; }
+    private const int MaxClicksPerSecond = 5;
+    private const float RateLimitWindowSeconds = 1f;
+    private readonly Queue<float> clickTimes = new Queue<float>();
+
+    private bool TryRegisterClick()
+    {
+        float now = Time.unscaledTime;
+
+        while (clickTimes.Count > 0 && now - clickTimes.Peek() >= RateLimitWindowSeconds)
+        {
+            clickTimes.Dequeue();
+        }
+
+        if (clickTimes.Count >= MaxClicksPerSecond)
+        {
+            return false;
+        }
+
+        clickTimes.Enqueue(now);
+        return true;
+    }
+
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -42,6 +64,9 @@ public class ButtonEvent : MonoBehaviour
                 button.onClick.RemoveAllListeners();
                 button.onClick.AddListener(()=>
                 {
+                    if (!TryRegisterClick())
+                        return;
+
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     action();
                 });
@@ -58,7 +83,11 @@ public class ButtonEvent : MonoBehaviour
         {
             eventID = EventTriggerType.PointerClick
         };
-        entry.callback.AddListener((data) => { callback(); });
+        entry.callback.AddListener((data) =>
+        {
+            if (TryRegisterClick())
+                callback();
+        });
         trigger.triggers.Add(entry);
     }
     public void AddCloseEvent(GameObject obj)
@@ -75,7 +104,8 @@ public class ButtonEvent : MonoBehaviour
         };
         entry.callback.AddListener((data) =>
         {
-            Destroy(obj);
+            if (TryRegisterClick())
+                Destroy(obj);
         });
         trigger.triggers.Add(entry);
     }

@@ -20,9 +20,43 @@ public class UserSettingsManager
     public void LoadUserSettings(List<UserSettings> data)
     {
         settings.Clear();
+        if (data == null)
+        {
+            return;
+        }
+
         foreach (var s in data)
         {
             settings[s.SettingKey] = s;
+        }
+
+        ApplyRuntimeSettings();
+    }
+
+    public void ApplyRuntimeSettings()
+    {
+        if (settings.TryGetValue(AppConstants.Setting.MUSIC, out UserSettings music)
+            && int.TryParse(music.SettingValue, out int musicValue))
+        {
+            AudioManager.Instance?.SetMusicVolume(musicValue / 100f);
+        }
+
+        if (settings.TryGetValue(AppConstants.Setting.SFX, out UserSettings sfx)
+            && int.TryParse(sfx.SettingValue, out int sfxValue))
+        {
+            AudioManager.Instance?.SetSfxVolume(sfxValue / 100f);
+        }
+
+        if (settings.TryGetValue(AppConstants.Setting.VOICE, out UserSettings voice)
+            && int.TryParse(voice.SettingValue, out int voiceValue))
+        {
+            AudioManager.Instance?.SetVoiceVolume(voiceValue / 100f);
+        }
+
+        if (settings.TryGetValue(AppConstants.Setting.LANGUAGE, out UserSettings language)
+            && !string.IsNullOrWhiteSpace(language.SettingValue))
+        {
+            LocalizationManager.LoadLocalization(language.SettingValue);
         }
     }
 
@@ -56,6 +90,11 @@ public class UserSettingsManager
         {
             settings[key].SettingValue = value;
         }
+
+        if (key == AppConstants.Setting.LANGUAGE && !string.IsNullOrWhiteSpace(value))
+        {
+            LocalizationManager.LoadLocalization(value);
+        }
     }
 
     public void SetInt(string key, int value)
@@ -72,6 +111,19 @@ public class UserSettingsManager
         else
         {
             settings[key].SettingValue = value.ToString();
+        }
+
+        if (key == AppConstants.Setting.MUSIC)
+        {
+            AudioManager.Instance?.SetMusicVolume(value / 100f);
+        }
+        else if (key == AppConstants.Setting.SFX)
+        {
+            AudioManager.Instance?.SetSfxVolume(value / 100f);
+        }
+        else if (key == AppConstants.Setting.VOICE)
+        {
+            AudioManager.Instance?.SetVoiceVolume(value / 100f);
         }
     }
 

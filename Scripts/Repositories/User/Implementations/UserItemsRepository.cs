@@ -6,6 +6,7 @@ using MySqlConnector;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Data;
+using System.Text;
 
 public class UserItemsRepository : IUserItemsRepository
 {
@@ -531,32 +532,46 @@ public class UserItemsRepository : IUserItemsRepository
     }
     public async Task<bool> InsertOrUpdateUserItemChestViaProcAsync(string userId, Items item, double quantity)
     {
+        if (item == null || string.IsNullOrEmpty(item.Id) || quantity <= 0)
+            return true;
+
         string connectionString = DatabaseConfig.ConnectionString;
 
-        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        string sql = @"
+        INSERT INTO user_items (user_id, item_id, sequence_index, quantity)
+        SELECT 
+            @p_user_id,
+            @p_item_id,
+            COALESCE(cfg.sequence_index, 0) AS sequence_index,
+            @p_quantity
+        FROM (SELECT 1) AS dummy
+        LEFT JOIN item_chest_configs cfg 
+               ON cfg.item_id = @p_item_id 
+              AND cfg.is_active = TRUE 
+              AND cfg.is_deleted = FALSE
+        ON DUPLICATE KEY UPDATE 
+            quantity = user_items.quantity + VALUES(quantity),
+            updated_at = CURRENT_TIMESTAMP;";
+
+        await using var connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
-            {
-                await connection.OpenAsync();
+            await connection.OpenAsync();
 
-                await using (MySqlCommand command = new MySqlCommand("sp_add_user_item_chest", connection))
-                {
-                    command.CommandType = CommandType.StoredProcedure;
+            await using var command = new MySqlCommand(sql, connection);
 
-                    command.Parameters.AddWithValue("p_user_id", userId);
-                    command.Parameters.AddWithValue("p_item_id", item.Id);
-                    command.Parameters.AddWithValue("p_quantity", quantity);
+            command.Parameters.Add("@p_user_id", MySqlDbType.VarChar, 32).Value = userId;
+            command.Parameters.Add("@p_item_id", MySqlDbType.VarChar, 32).Value = item.Id;
+            command.Parameters.Add("@p_quantity", MySqlDbType.Double).Value = quantity;
 
-                    await command.ExecuteNonQueryAsync();
-                }
-
-                return true;
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error executing sp_add_user_item_chest: " + ex.Message);
-                return false;
-            }
+            await command.ExecuteNonQueryAsync();
+            return true;
+        }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error executing InsertOrUpdateUserItemChest: " + ex.Message);
+            return false;
         }
     }
     public async Task<bool> InsertOrUpdateUserItemsChestBatchViaProcAsync(string userId, List<(Items item, double quantity)> items)
@@ -564,14 +579,14 @@ public class UserItemsRepository : IUserItemsRepository
         if (items == null || items.Count == 0)
             return true;
 
-        string connectionString = DatabaseConfig.ConnectionString;
-
+        // 1. Gom nhóm item trùng lặp và tính tổng quantity
         var groupedItems = items
             .GroupBy(x => x.item.Id)
             .Select(g => (ItemId: g.Key, TotalQuantity: g.Sum(x => x.quantity)))
             .ToList();
 
-        int batchSize = 50;
+        string connectionString = DatabaseConfig.ConnectionString;
+        int batchSize = 100;
 
         await using var connection = new MySqlConnection(connectionString);
         await connection.OpenAsync();
@@ -580,35 +595,52 @@ public class UserItemsRepository : IUserItemsRepository
         {
             var currentBatch = groupedItems.Skip(i).Take(batchSize).ToList();
 
-            // Mở Transaction cho riêng batch này
-            await using var transaction = await connection.BeginTransactionAsync();
+            var sb = new StringBuilder();
+            var parameters = new List<MySqlParameter>();
+
+            parameters.Add(new MySqlParameter("@p_user_id", MySqlDbType.VarChar, 32) { Value = userId });
+
+            // Tạo câu lệnh Bulk INSERT kết hợp LEFT JOIN dạng Subquery UNION ALL
+            sb.AppendLine(@"
+            INSERT INTO user_items (user_id, item_id, sequence_index, quantity)
+            SELECT 
+                @p_user_id,
+                inp.item_id,
+                COALESCE(cfg.sequence_index, 0) AS sequence_index,
+                inp.total_qty
+            FROM (");
+
+            for (int j = 0; j < currentBatch.Count; j++)
+            {
+                string paramItem = $"@item_{j}";
+                string paramQty = $"@qty_{j}";
+
+                if (j > 0) sb.AppendLine(" UNION ALL ");
+                sb.Append($"SELECT {paramItem} AS item_id, {paramQty} AS total_qty");
+
+                parameters.Add(new MySqlParameter(paramItem, MySqlDbType.VarChar, 32) { Value = currentBatch[j].ItemId });
+                parameters.Add(new MySqlParameter(paramQty, MySqlDbType.Double) { Value = currentBatch[j].TotalQuantity });
+            }
+
+            sb.AppendLine(@") inp
+            LEFT JOIN item_chest_configs cfg 
+                   ON inp.item_id = cfg.item_id 
+                  AND cfg.is_active = TRUE 
+                  AND cfg.is_deleted = FALSE
+            ON DUPLICATE KEY UPDATE 
+                quantity = user_items.quantity + VALUES(quantity),
+                updated_at = CURRENT_TIMESTAMP;");
 
             try
             {
-                await using (MySqlCommand command = new MySqlCommand("sp_add_user_item_chest", connection, (MySqlTransaction)transaction))
-                {
-                    command.CommandType = CommandType.StoredProcedure;
+                await using var command = new MySqlCommand(sb.ToString(), connection);
+                command.Parameters.AddRange(parameters.ToArray());
 
-                    command.Parameters.Add("p_user_id", MySqlDbType.VarChar, 32).Value = userId;
-                    var paramItemId = command.Parameters.Add("p_item_id", MySqlDbType.VarChar, 32);
-                    var paramQuantity = command.Parameters.Add("p_quantity", MySqlDbType.Double);
-
-                    foreach (var (itemId, totalQuantity) in currentBatch)
-                    {
-                        paramItemId.Value = itemId;
-                        paramQuantity.Value = totalQuantity;
-
-                        await command.ExecuteNonQueryAsync();
-                    }
-                }
-
-                // Commit ngay từng batch -> Nhấn Reset trên MySQL client sẽ thấy dữ liệu nhảy dần
-                await transaction.CommitAsync();
+                await command.ExecuteNonQueryAsync();
             }
             catch (Exception ex)
             {
-                await transaction.RollbackAsync();
-                Debug.LogError($"Batch Insert Error at index {i}: " + ex.Message);
+                Debug.LogError($"Bulk Insert Error at batch {i}: " + ex.Message);
                 return false;
             }
         }

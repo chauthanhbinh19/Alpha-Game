@@ -244,8 +244,8 @@ public class UserService : IUserService
                 };
             }
 
-            // 2. Load thông tin phụ
-            // await LoadUserAdditionalDataAsync(user);
+            // 2. Load thông tin phụ, bao gồm settings của người chơi
+            await LoadUserAdditionalDataAsync(user);
 
             return new AuthResult
             {
