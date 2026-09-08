@@ -34,6 +34,7 @@ public class UserPetsRepository : IUserPetsRepository
                     c.id AS base_pet_id, 
                     c.name, 
                     c.image, 
+                    c.type,
                     c.rare, 
                     c.description,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
@@ -249,6 +250,7 @@ public class UserPetsRepository : IUserPetsRepository
                     c.id AS base_pet_id, 
                     c.name, 
                     c.image, 
+                    c.type,
                     c.rare, 
                     c.description,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
@@ -458,7 +460,7 @@ public class UserPetsRepository : IUserPetsRepository
             SELECT COUNT(*) 
             FROM Pets p
             JOIN user_pets up ON p.id = up.pet_id AND p.is_active = TRUE AND p.is_deleted = FALSE
-            WHERE up.user_id = @userId  AND c.is_active = TRUE AND c.is_deleted = FALSE
+            WHERE up.user_id = @userId  AND p.is_active = TRUE AND p.is_deleted = FALSE
         ";
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
@@ -865,11 +867,12 @@ public class UserPetsRepository : IUserPetsRepository
             string updateSQL = @"
             UPDATE user_pets uc INNER JOIN pets c ON c.id = uc.pet_id
             SET 
-                level = @level, 
-                experience = @experience
+                uc.level = @level, 
+                uc.experience = @experience
             WHERE uc.user_id = @user_id 
               AND uc.pet_id = @pet_id
-              AND (level != @level OR experience != @experience);
+              AND (uc.level != @level OR uc.experience != @experience)
+              AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -925,11 +928,12 @@ public class UserPetsRepository : IUserPetsRepository
             string updateSQL = @"
             UPDATE user_pets uc INNER JOIN pets c ON c.id = uc.pet_id
             SET 
-                star = @star, 
-                quantity = @quantity
+                uc.star = @star, 
+                uc.quantity = @quantity
             WHERE uc.user_id = @user_id 
               AND uc.pet_id = @pet_id
-              AND (star != @star OR quantity != @quantity);
+              AND (uc.star != @star OR uc.quantity != @quantity)
+              AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);

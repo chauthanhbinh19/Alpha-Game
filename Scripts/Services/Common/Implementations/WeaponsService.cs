@@ -33,7 +33,7 @@ public class WeaponsService : IWeaponsService
     {
         var result = await _weaponsRepository.InsertWeaponAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -45,12 +45,17 @@ public class WeaponsService : IWeaponsService
     {
         var result = await _weaponsRepository.UpdateWeaponAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsWeaponDeletedOrInactiveAsync(string id)
+    {
+        return _weaponsRepository.IsWeaponDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Weapons>> GetWeaponsWithPriceAsync(string type, int pageSize, int offset)

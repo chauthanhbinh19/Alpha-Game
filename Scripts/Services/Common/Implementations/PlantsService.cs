@@ -28,7 +28,7 @@ public class PlantsService : IPlantsService
     {
         var result = await _plantsRepository.InsertPlantAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -40,12 +40,17 @@ public class PlantsService : IPlantsService
     {
         var result = await _plantsRepository.UpdatePlantAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsPlantDeletedOrInactiveAsync(string id)
+    {
+        return _plantsRepository.IsPlantDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Plants>> GetPlantsWithPriceAsync(int pageSize, int offset)

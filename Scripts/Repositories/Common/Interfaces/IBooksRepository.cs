@@ -10,6 +10,7 @@ public interface IBooksRepository
     Task<int> GetBooksCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<Books>> InsertBookAsync(Books entity);
     Task<InsertOrUpdateResult<Books>> UpdateBookAsync(Books entity);
+    Task<bool> IsBookDeletedOrInactiveAsync(string id);
     Task<List<Books>> GetBooksRandomAsync(string type, int pageSize);
     Task<List<Books>> GetAllBooksAsync(string type);
     Task<Books> GetBookByIdAsync(string Id);

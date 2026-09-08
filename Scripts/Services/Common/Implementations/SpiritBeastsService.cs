@@ -28,7 +28,7 @@ public class SpiritBeastsService : ISpiritBeastsService
     {
         var result = await _spiritBeastsRepository.InsertSpiritBeastAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -40,12 +40,17 @@ public class SpiritBeastsService : ISpiritBeastsService
     {
         var result = await _spiritBeastsRepository.UpdateSpiritBeastAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsSpiritBeastDeletedOrInactiveAsync(string id)
+    {
+        return _spiritBeastsRepository.IsSpiritBeastDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<SpiritBeasts>> GetSpiritBeastsWithPriceAsync(int pageSize, int offset)

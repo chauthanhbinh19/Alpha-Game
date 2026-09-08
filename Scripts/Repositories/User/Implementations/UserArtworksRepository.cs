@@ -35,6 +35,7 @@ public class UserArtworksRepository : IUserArtworksRepository
                     c.id AS base_artwork_id, 
                     c.name, 
                     c.image, 
+                    c.type,
                     c.rare, 
                     c.description,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
@@ -87,7 +88,7 @@ public class UserArtworksRepository : IUserArtworksRepository
                         {
                             Artworks artwork = new Artworks
                             {
-                                Id = reader.GetStringSafe("id"),
+                                Id = reader.GetStringSafe("artwork_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
                                 Rarity = reader.GetStringSafe("rare"),
@@ -606,11 +607,11 @@ public class UserArtworksRepository : IUserArtworksRepository
             string updateSQL = @"
             UPDATE user_artworks uc INNER JOIN artworks c ON c.id = uc.artwork_id
             SET 
-                level = @level, 
-                experience = @experience
+                uc.level = @level, 
+                uc.experience = @experience
             WHERE uc.user_id = @user_id 
               AND uc.artwork_id = @artwork_id
-              AND (level != @level OR experience != @experience)
+              AND (uc.level != @level OR uc.experience != @experience)
 
  AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
@@ -668,11 +669,11 @@ public class UserArtworksRepository : IUserArtworksRepository
             string updateSQL = @"
             UPDATE user_artworks uc INNER JOIN artworks c ON c.id = uc.artwork_id
             SET 
-                star = @star, 
-                quantity = @quantity
+                uc.star = @star, 
+                uc.quantity = @quantity
             WHERE uc.user_id = @user_id 
               AND uc.artwork_id = @artwork_id
-              AND (star != @star OR quantity != @quantity)
+              AND (uc.star != @star OR uc.quantity != @quantity)
 
  AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";

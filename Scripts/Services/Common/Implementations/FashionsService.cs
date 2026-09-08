@@ -33,7 +33,7 @@ public class FashionsService : IFashionsService
     {
         var result = await _fashionsRepository.InsertFashionAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -45,12 +45,17 @@ public class FashionsService : IFashionsService
     {
         var result = await _fashionsRepository.UpdateFashionAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsFashionDeletedOrInactiveAsync(string id)
+    {
+        return _fashionsRepository.IsFashionDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Fashions>> GetFashionsWithPriceAsync(string type, int pageSize, int offset)

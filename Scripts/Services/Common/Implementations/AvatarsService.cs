@@ -28,7 +28,7 @@ public class AvatarsService : IAvatarsService
     {
         var result = await _avatarsRepository.InsertAvatarAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -40,12 +40,17 @@ public class AvatarsService : IAvatarsService
     {
         var result = await _avatarsRepository.UpdateAvatarAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsAvatarDeletedOrInactiveAsync(string id)
+    {
+        return _avatarsRepository.IsAvatarDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Avatars>> GetAvatarsWithPriceAsync(int pageSize, int offset)

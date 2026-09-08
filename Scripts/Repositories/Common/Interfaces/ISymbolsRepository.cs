@@ -10,6 +10,7 @@ public interface ISymbolsRepository
     Task<int> GetSymbolsCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<Symbols>> InsertSymbolAsync(Symbols entity);
     Task<InsertOrUpdateResult<Symbols>> UpdateSymbolAsync(Symbols entity);
+    Task<bool> IsSymbolDeletedOrInactiveAsync(string id);
     Task<List<Symbols>> GetSymbolsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetSymbolsWithPriceCountAsync(string type);
     Task<Symbols> GetSymbolByIdAsync(string Id);

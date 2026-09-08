@@ -33,7 +33,7 @@ public class CardMilitariesService : ICardMilitariesService
     {
         var result = await _cardMilitariesRepository.InsertCardMilitaryAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -45,12 +45,17 @@ public class CardMilitariesService : ICardMilitariesService
     {
         var result = await _cardMilitariesRepository.UpdateCardMilitaryAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsCardMilitaryDeletedOrInactiveAsync(string id)
+    {
+        return _cardMilitariesRepository.IsCardMilitaryDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<CardMilitaries>> GetCardMilitariesRandomAsync(string type, int pageSize)

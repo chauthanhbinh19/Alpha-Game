@@ -9,6 +9,7 @@ public interface IRelicsRepository
     Task<int> GetRelicsCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<Relics>> InsertRelicAsync(Relics entity);
     Task<InsertOrUpdateResult<Relics>> UpdateRelicAsync(Relics entity);
+    Task<bool> IsRelicDeletedOrInactiveAsync(string id);
     Task<List<Relics>> GetRelicsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetRelicsWithPriceCountAsync(string type);
     Task<Relics> GetRelicByIdAsync(string id);

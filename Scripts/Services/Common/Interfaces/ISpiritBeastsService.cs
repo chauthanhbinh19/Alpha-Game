@@ -9,6 +9,7 @@ public interface ISpiritBeastsService
     Task<int> GetSpiritBeastsCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<bool>> InsertSpiritBeastAsync(SpiritBeasts entity);
     Task<InsertOrUpdateResult<bool>> UpdateSpiritBeastAsync(SpiritBeasts entity);
+    Task<bool> IsSpiritBeastDeletedOrInactiveAsync(string id);
     Task<List<SpiritBeasts>> GetSpiritBeastsWithPriceAsync(int pageSize, int offset);
     Task<int> GetSpiritBeastsWithPriceCountAsync();
     Task<SpiritBeasts> GetSpiritBeastByIdAsync(string Id);

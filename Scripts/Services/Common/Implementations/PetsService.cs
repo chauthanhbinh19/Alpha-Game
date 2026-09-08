@@ -33,7 +33,7 @@ public class PetsService : IPetsService
     {
         var result = await _petsRepository.InsertPetAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -45,12 +45,17 @@ public class PetsService : IPetsService
     {
         var result = await _petsRepository.UpdatePetAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsPetDeletedOrInactiveAsync(string id)
+    {
+        return _petsRepository.IsPetDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Pets>> GetPetsWithPriceAsync(string type, int pageSize, int offset)

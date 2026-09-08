@@ -77,7 +77,7 @@ public class UserArtifactsRepository : IUserArtifactsRepository
                         {
                             Artifacts artifact = new Artifacts
                             {
-                                Id = reader.GetStringSafe("id"),
+                                Id = reader.GetStringSafe("artifact_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
                                 Rarity = reader.GetStringSafe("rare"),
@@ -589,11 +589,11 @@ public class UserArtifactsRepository : IUserArtifactsRepository
             string updateSQL = @"
             UPDATE user_artifacts uc INNER JOIN artifacts c ON c.id = uc.artifact_id
             SET 
-                level = @level, 
-                experience = @experience
+                uc.level = @level, 
+                uc.experience = @experience
             WHERE uc.user_id = @user_id 
               AND uc.artifact_id = @artifact_id
-              AND (level != @level OR experience != @experience)
+              AND (uc.level != @level OR uc.experience != @experience)
 
  AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
@@ -651,11 +651,11 @@ public class UserArtifactsRepository : IUserArtifactsRepository
             string updateSQL = @"
             UPDATE user_artifacts uc INNER JOIN artifacts c ON c.id = uc.artifact_id
             SET 
-                star = @star, 
-                quantity = @quantity
+                uc.star = @star, 
+                uc.quantity = @quantity
             WHERE uc.user_id = @user_id 
               AND uc.artifact_id = @artifact_id
-              AND (star != @star OR quantity != @quantity)
+              AND (uc.star != @star OR uc.quantity != @quantity)
 
  AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";

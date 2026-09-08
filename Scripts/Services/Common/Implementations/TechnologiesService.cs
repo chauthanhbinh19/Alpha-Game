@@ -28,7 +28,7 @@ public class TechnologiesService : ITechnologiesService
     {
         var result = await _technologiesRepository.InsertTechnologyAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -40,12 +40,17 @@ public class TechnologiesService : ITechnologiesService
     {
         var result = await _technologiesRepository.UpdateTechnologyAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsTechnologyDeletedOrInactiveAsync(string id)
+    {
+        return _technologiesRepository.IsTechnologyDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Technologies>> GetTechnologiesWithPriceAsync(int pageSize, int offset)

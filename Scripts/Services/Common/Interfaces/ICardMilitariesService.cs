@@ -10,6 +10,7 @@ public interface ICardMilitariesService
     Task<int> GetCardMilitariesCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<bool>> InsertCardMilitaryAsync(CardMilitaries entity);
     Task<InsertOrUpdateResult<bool>> UpdateCardMilitaryAsync(CardMilitaries entity);
+    Task<bool> IsCardMilitaryDeletedOrInactiveAsync(string id);
     Task<List<CardMilitaries>> GetCardMilitariesRandomAsync(string type, int pageSize);
     Task<List<CardMilitaries>> GetAllCardMilitariesAsync(string type);
     Task<CardMilitaries> GetCardMilitaryByIdAsync(string Id);

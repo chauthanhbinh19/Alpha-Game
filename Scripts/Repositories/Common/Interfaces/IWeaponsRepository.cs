@@ -10,6 +10,7 @@ public interface IWeaponsRepository
     Task<int> GetWeaponsCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<Weapons>> InsertWeaponAsync(Weapons entity);
     Task<InsertOrUpdateResult<Weapons>> UpdateWeaponAsync(Weapons entity);
+    Task<bool> IsWeaponDeletedOrInactiveAsync(string id);
     Task<List<Weapons>> GetWeaponsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetWeaponsWithPriceCountAsync(string type);
     Task<Weapons> GetWeaponByIdAsync(string id);

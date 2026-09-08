@@ -472,6 +472,29 @@ public class RobotsRepository : IRobotsRepository
             return InsertOrUpdateResult<Robots>.Failure($"Failed When Update Robot: {ex.Message}");
         }
     }
+    public async Task<bool> IsRobotDeletedOrInactiveAsync(string id)
+    {
+        if (string.IsNullOrEmpty(id)) return true;
+
+        string connectionString = DatabaseConfig.ConnectionString;
+        const string sql = "SELECT 1 FROM robots WHERE id = @id AND (is_deleted = TRUE OR is_active = FALSE) LIMIT 1;";
+
+        try
+        {
+            await using var conn = new MySqlConnection(connectionString);
+            await using var cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.Add("@id", MySqlDbType.VarChar, 32).Value = id;
+
+            await conn.OpenAsync();
+            var result = await cmd.ExecuteScalarAsync();
+            return result != null && result != DBNull.Value;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error checking robot status: {ex.Message}");
+            return true;
+        }
+    }
     private void AddParameters(MySqlCommand command, Robots entity)
     {
         command.Parameters.AddWithValue("@id", entity.Id ?? (object)DBNull.Value);

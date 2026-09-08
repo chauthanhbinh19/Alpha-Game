@@ -10,6 +10,7 @@ public interface IVehiclesService
     Task<int> GetVehiclesCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<bool>> InsertVehicleAsync(Vehicles entity);
     Task<InsertOrUpdateResult<bool>> UpdateVehicleAsync(Vehicles entity);
+    Task<bool> IsVehicleDeletedOrInactiveAsync(string id);
     Task<List<Vehicles>> GetVehiclesWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetVehiclesWithPriceCountAsync(string type);
     Task<Vehicles> GetVehicleByIdAsync(string Id);

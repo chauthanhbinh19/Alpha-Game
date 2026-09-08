@@ -9,6 +9,7 @@ public interface IMechaBeastsService
     Task<int> GetMechaBeastsCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<bool>> InsertMechaBeastAsync(MechaBeasts entity);
     Task<InsertOrUpdateResult<bool>> UpdateMechaBeastAsync(MechaBeasts entity);
+    Task<bool> IsMechaBeastDeletedOrInactiveAsync(string id);
     Task<List<MechaBeasts>> GetMechaBeastsWithPriceAsync(int pageSize, int offset);
     Task<int> GetMechaBeastsWithPriceCountAsync();
     Task<MechaBeasts> GetMechaBeastByIdAsync(string Id);

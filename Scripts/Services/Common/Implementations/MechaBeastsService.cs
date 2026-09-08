@@ -28,7 +28,7 @@ public class MechaBeastsService : IMechaBeastsService
     {
         var result = await _mechaBeastsRepository.InsertMechaBeastAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -40,12 +40,17 @@ public class MechaBeastsService : IMechaBeastsService
     {
         var result = await _mechaBeastsRepository.UpdateMechaBeastAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsMechaBeastDeletedOrInactiveAsync(string id)
+    {
+        return _mechaBeastsRepository.IsMechaBeastDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<MechaBeasts>> GetMechaBeastsWithPriceAsync(int pageSize, int offset)

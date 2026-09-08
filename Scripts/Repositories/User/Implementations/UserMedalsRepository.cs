@@ -79,7 +79,7 @@ public class UserMedalsRepository : IUserMedalsRepository
                         {
                             Medals medal = new Medals
                             {
-                                Id = reader.GetStringSafe("id"),
+                                Id = reader.GetStringSafe("medal_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
                                 Rarity = reader.GetStringSafe("rare"),
@@ -586,11 +586,12 @@ public class UserMedalsRepository : IUserMedalsRepository
             string updateSQL = @"
             UPDATE user_medals uc INNER JOIN medals c ON c.id = uc.medal_id
             SET 
-                level = @level, 
-                experience = @experience
+                uc.level = @level, 
+                uc.experience = @experience
             WHERE uc.user_id = @user_id 
               AND uc.medal_id = @medal_id
-              AND (level != @level OR experience != @experience);
+              AND (uc.level != @level OR uc.experience != @experience)
+              AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -646,11 +647,12 @@ public class UserMedalsRepository : IUserMedalsRepository
             string updateSQL = @"
             UPDATE user_medals uc INNER JOIN medals c ON c.id = uc.medal_id
             SET 
-                star = @star, 
-                quantity = @quantity
+                uc.star = @star, 
+                uc.quantity = @quantity
             WHERE uc.user_id = @user_id 
               AND uc.medal_id = @medal_id
-              AND (star != @star OR quantity != @quantity);
+              AND (uc.star != @star OR uc.quantity != @quantity)
+              AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);

@@ -10,6 +10,7 @@ public interface IMagicFormationCirclesRepository
     Task<int> GetMagicFormationCirclesCountAsync(string seach, string type, string rare);
     Task<InsertOrUpdateResult<MagicFormationCircles>> InsertMagicFormationCircleAsync(MagicFormationCircles entity);
     Task<InsertOrUpdateResult<MagicFormationCircles>> UpdateMagicFormationCircleAsync(MagicFormationCircles entity);
+    Task<bool> IsMagicFormationCircleDeletedOrInactiveAsync(string id);
     Task<List<MagicFormationCircles>> GetMagicFormationCirclesWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetMagicFormationCirclesWithPriceCountAsync(string type);
     Task<MagicFormationCircles> GetMagicFormationCircleByIdAsync(string Id);

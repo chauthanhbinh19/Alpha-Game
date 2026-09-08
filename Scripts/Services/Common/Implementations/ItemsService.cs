@@ -26,4 +26,9 @@ public class ItemsService : IItemsService
     {
         return await _itemsRepository.GetUniqueItemsIdAsync();
     }
+
+    public Task<bool> IsItemDeletedOrInactiveAsync(string id)
+    {
+        return _itemsRepository.IsItemDeletedOrInactiveAsync(id);
+    }
 }

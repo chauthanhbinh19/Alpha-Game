@@ -33,7 +33,7 @@ public class SymbolsService : ISymbolsService
     {
         var result = await _symbolsRepository.InsertSymbolAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -45,12 +45,17 @@ public class SymbolsService : ISymbolsService
     {
         var result = await _symbolsRepository.UpdateSymbolAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsSymbolDeletedOrInactiveAsync(string id)
+    {
+        return _symbolsRepository.IsSymbolDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Symbols>> GetSymbolsWithPriceAsync(string type, int pageSize, int offset)

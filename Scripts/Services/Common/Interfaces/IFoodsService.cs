@@ -9,6 +9,7 @@ public interface IFoodsService
     Task<int> GetFoodsCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<bool>> InsertFoodAsync(Foods entity);
     Task<InsertOrUpdateResult<bool>> UpdateFoodAsync(Foods entity);
+    Task<bool> IsFoodDeletedOrInactiveAsync(string id);
     Task<List<Foods>> GetFoodsWithPriceAsync(int pageSize, int offset);
     Task<int> GetFoodsWithPriceCountAsync();
     Task<Foods> GetFoodByIdAsync(string id);

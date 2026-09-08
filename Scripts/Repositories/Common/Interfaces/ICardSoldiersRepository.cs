@@ -10,6 +10,7 @@ public interface ICardSoldiersRepository
     Task<int> GetCardSoldiersCountAsync(string search, string type, string rare);   
     Task<InsertOrUpdateResult<CardSoldiers>> InsertCardSoldierAsync(CardSoldiers entity);
     Task<InsertOrUpdateResult<CardSoldiers>> UpdateCardSoldierAsync(CardSoldiers entity); 
+    Task<bool> IsCardSoldierDeletedOrInactiveAsync(string id);
     Task<List<CardSoldiers>> GetCardSoldiersRandomAsync(string type, int pageSize);
     Task<List<CardSoldiers>> GetAllCardSoldiersAsync(string type);
     Task<CardSoldiers> GetCardSoldierByIdAsync(string Id);

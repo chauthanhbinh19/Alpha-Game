@@ -9,6 +9,7 @@ public interface ITitlesRepository
     Task<int> GetTitlesCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<Titles>> InsertTitleAsync(Titles entity);
     Task<InsertOrUpdateResult<Titles>> UpdateTitleAsync(Titles entity);
+    Task<bool> IsTitleDeletedOrInactiveAsync(string id);
     Task<List<Titles>> GetTitlesWithPriceAsync(int pageSize, int offset);
     Task<int> GetTitlesWithPriceCountAsync();
     Task<Titles> GetTitleByIdAsync(string id);

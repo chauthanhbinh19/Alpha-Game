@@ -9,6 +9,7 @@ public interface IArtifactsRepository
     Task<int> GetArtifactsCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<Artifacts>> InsertArtifactAsync(Artifacts entity);
     Task<InsertOrUpdateResult<Artifacts>> UpdateArtifactAsync(Artifacts entity);
+    Task<bool> IsArtifactDeletedOrInactiveAsync(string id);
     Task<List<Artifacts>> GetArtifactsWithPriceAsync(int pageSize, int offset);
     Task<int> GetArtifactsWithPriceCountAsync();
     Task<Artifacts> GetArtifactByIdAsync(string Id);

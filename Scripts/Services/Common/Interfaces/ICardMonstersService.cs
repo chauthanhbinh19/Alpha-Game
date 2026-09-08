@@ -10,6 +10,7 @@ public interface ICardMonstersService
     Task<int> GetCardMonstersCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<bool>> InsertCardMonsterAsync(CardMonsters entity);
     Task<InsertOrUpdateResult<bool>> UpdateCardMonsterAsync(CardMonsters entity);
+    Task<bool> IsCardMonsterDeletedOrInactiveAsync(string id);
     Task<List<CardMonsters>> GetCardMonstersRandomAsync(string type, int pageSize);
     Task<List<CardMonsters>> GetAllCardMonstersAsync(string type);
     Task<CardMonsters> GetCardMonsterByIdAsync(string id);

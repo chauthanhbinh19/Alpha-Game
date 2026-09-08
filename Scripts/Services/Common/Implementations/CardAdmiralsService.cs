@@ -33,7 +33,7 @@ public class CardAdmiralsService : ICardAdmiralsService
     {
         var result = await _cardAdmiralsRepository.InsertCardAdmiralAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -45,12 +45,17 @@ public class CardAdmiralsService : ICardAdmiralsService
     {
         var result = await _cardAdmiralsRepository.UpdateCardAdmiralAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsCardAdmiralDeletedOrInactiveAsync(string id)
+    {
+        return _cardAdmiralsRepository.IsCardAdmiralDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<CardAdmirals>> GetCardAdmiralsRandomAsync(string type, int pageSize)

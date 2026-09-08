@@ -10,6 +10,7 @@ public interface ITalismansService
     Task<int> GetTalismansCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<bool>> InsertTalismanAsync(Talismans entity);
     Task<InsertOrUpdateResult<bool>> UpdateTalismanAsync(Talismans entity);
+    Task<bool> IsTalismanDeletedOrInactiveAsync(string id);
     Task<List<Talismans>> GetTalismansWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetTalismansWithPriceCountAsync(string type);
     Task<Talismans> GetTalismanByIdAsync(string Id);

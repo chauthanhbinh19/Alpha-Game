@@ -28,7 +28,7 @@ public class CollaborationsService : ICollaborationsService
     {
         var result = await _collaborationsRepository.InsertCollaborationAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -40,12 +40,17 @@ public class CollaborationsService : ICollaborationsService
     {
         var result = await _collaborationsRepository.UpdateCollaborationAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsCollaborationDeletedOrInactiveAsync(string id)
+    {
+        return _collaborationsRepository.IsCollaborationDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Collaborations>> GetCollaborationsWithPriceAsync(int pageSize, int offset)

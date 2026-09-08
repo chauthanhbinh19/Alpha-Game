@@ -9,6 +9,7 @@ public interface IBadgesService
     Task<int> GetBadgesCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<bool>> InsertBadgeAsync(Badges entity);
     Task<InsertOrUpdateResult<bool>> UpdateBadgeAsync(Badges entity);
+    Task<bool> IsBadgeDeletedOrInactiveAsync(string id);
     Task<List<Badges>> GetBadgesWithPriceAsync(int pageSize, int offset);
     Task<int> GetBadgesWithPriceCountAsync();
     Task<Badges> GetBadgeByIdAsync(string id);

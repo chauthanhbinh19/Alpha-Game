@@ -65,6 +65,11 @@ public class AchievementsService : IAchievementsService
 
         return InsertOrUpdateResult<bool>.Failure();
     }
+
+    public Task<bool> IsAchievementDeletedOrInactiveAsync(string id)
+    {
+        return _achievementsRepository.IsAchievementDeletedOrInactiveAsync(id);
+    }
     
     public async Task<Achievements> SumPowerAchievementsPercentAsync(string userId)
     {

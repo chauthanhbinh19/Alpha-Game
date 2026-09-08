@@ -81,7 +81,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                         {
                             Technologies technology = new Technologies
                             {
-                                Id = reader.GetStringSafe("id"),
+                                Id = reader.GetStringSafe("technology_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
                                 Rarity = reader.GetStringSafe("rare"),
@@ -589,11 +589,12 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
             string updateSQL = @"
             UPDATE user_technologies uc INNER JOIN technologies c ON c.id = uc.technology_id
             SET 
-                level = @level, 
-                experience = @experience
+                uc.level = @level, 
+                uc.experience = @experience
             WHERE uc.user_id = @user_id 
               AND uc.technology_id = @technology_id
-              AND (level != @level OR experience != @experience);
+              AND (uc.level != @level OR uc.experience != @experience)
+              AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -649,11 +650,12 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
             string updateSQL = @"
             UPDATE user_technologies uc INNER JOIN technologies c ON c.id = uc.technology_id
             SET 
-                star = @star, 
-                quantity = @quantity
+                uc.star = @star, 
+                uc.quantity = @quantity
             WHERE uc.user_id = @user_id 
               AND uc.technology_id = @technology_id
-              AND (star != @star OR quantity != @quantity);
+              AND (uc.star != @star OR uc.quantity != @quantity)
+              AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);

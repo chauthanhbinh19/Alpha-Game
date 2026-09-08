@@ -258,7 +258,7 @@ public class AchievementsRepository : IAchievementsRepository
             }
 
             await using var selectCommand = new MySqlCommand(selectSQL, connection);
-            
+
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
                 selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -456,6 +456,42 @@ public class AchievementsRepository : IAchievementsRepository
         catch (Exception ex)
         {
             return InsertOrUpdateResult<Achievements>.Failure($"Failed When Update Achievement: {ex.Message}");
+        }
+    }
+    public async Task<bool> IsAchievementDeletedOrInactiveAsync(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+            return true;
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        // Trả về 1 nếu (is_deleted = TRUE) HOẶC (is_active = FALSE)
+        const string sql = @"
+        SELECT 1 
+        FROM achievements 
+        WHERE id = @id 
+          AND (is_deleted = TRUE OR is_active = FALSE) 
+        LIMIT 1;";
+
+        try
+        {
+            await using var conn = new MySqlConnection(connectionString);
+            await using var cmd = new MySqlCommand(sql, conn);
+
+            cmd.Parameters.Add("@id", MySqlDbType.VarChar, 32).Value = id;
+
+            await conn.OpenAsync();
+
+            var result = await cmd.ExecuteScalarAsync();
+
+            // Nếu tìm thấy record thỏa mãn 1 trong 2 điều kiện -> trả về true
+            return result != null && result != DBNull.Value;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error checking achievement status: {ex.Message}");
+            // Mặc định coi như bị khóa/xóa để đảm bảo an toàn logic
+            return true;
         }
     }
     private void AddParameters(MySqlCommand command, Achievements entity)

@@ -480,6 +480,29 @@ public class TechnologiesRepository : ITechnologiesRepository
             return InsertOrUpdateResult<Technologies>.Failure($"Failed When Update Technology: {ex.Message}");
         }
     }
+    public async Task<bool> IsTechnologyDeletedOrInactiveAsync(string id)
+    {
+        if (string.IsNullOrEmpty(id)) return true;
+
+        string connectionString = DatabaseConfig.ConnectionString;
+        const string sql = "SELECT 1 FROM technologies WHERE id = @id AND (is_deleted = TRUE OR is_active = FALSE) LIMIT 1;";
+
+        try
+        {
+            await using var conn = new MySqlConnection(connectionString);
+            await using var cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.Add("@id", MySqlDbType.VarChar, 32).Value = id;
+
+            await conn.OpenAsync();
+            var result = await cmd.ExecuteScalarAsync();
+            return result != null && result != DBNull.Value;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error checking technology status: {ex.Message}");
+            return true;
+        }
+    }
     private void AddParameters(MySqlCommand command, Technologies entity)
     {
         command.Parameters.AddWithValue("@id", entity.Id ?? (object)DBNull.Value);

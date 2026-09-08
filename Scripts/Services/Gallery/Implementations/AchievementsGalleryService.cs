@@ -35,6 +35,12 @@ public class AchievementsGalleryService : IAchievementsGalleryService
 
     public async Task<bool> InsertAchievementGalleryAsync(string userId, string Id)
     {
+        var checkResult = await _achievementsService.IsAchievementDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return false;
+        }
+
         var insertResult = await _achievementsGalleryRepository.InsertAchievementGalleryAsync(userId, Id, await _achievementsService.GetAchievementByIdAsync(Id));
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
@@ -52,11 +58,23 @@ public class AchievementsGalleryService : IAchievementsGalleryService
 
     public async Task UpdateAchievementGalleryPowerAsync(string userId, string Id, Achievements AchievementFromDB)
     {
+        var checkResult = await _achievementsService.IsAchievementDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return;
+        }
+        
         await _achievementsGalleryRepository.UpdateAchievementGalleryPowerAsync(userId, Id, AchievementFromDB);
     }
 
     public async Task<bool> UpdateTempStarAchievementGalleryAsync(string userId, string Id, double star)
     {
+        var checkResult = await _achievementsService.IsAchievementDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return false;
+        }
+
         var updateResult = await _achievementsGalleryRepository.UpdateTempStarAchievementGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -69,6 +87,12 @@ public class AchievementsGalleryService : IAchievementsGalleryService
 
     public async Task<bool> UpdateStatusAchievementGalleryAsync(string userId, string achievementId)
     {
+        var checkResult = await _achievementsService.IsAchievementDeletedOrInactiveAsync(achievementId);
+        if(checkResult)
+        {
+            return false;
+        }
+
         var updateResult = await _achievementsGalleryRepository.UpdateStatusAchievementGalleryAsync(userId, achievementId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -116,6 +140,12 @@ public class AchievementsGalleryService : IAchievementsGalleryService
 
     public async Task<bool> UpdateCurrentStarAchievementGalleryAsync(string userId, string achievementId)
     {
+        var checkResult = await _achievementsService.IsAchievementDeletedOrInactiveAsync(achievementId);
+        if(checkResult)
+        {
+            return false;
+        }
+
         Achievements oldAchievement = await GetAchievementCollectionByIdAsync(userId, achievementId) ?? new Achievements();
 
         var updateResult = await _achievementsGalleryRepository.UpdateCurrentStarAchievementGalleryAsync(userId, achievementId);

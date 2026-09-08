@@ -32,7 +32,7 @@ public class RelicsService : IRelicsService
     {
         var result = await _relicsRepository.InsertRelicAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -44,12 +44,17 @@ public class RelicsService : IRelicsService
     {
         var result = await _relicsRepository.UpdateRelicAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsRelicDeletedOrInactiveAsync(string id)
+    {
+        return _relicsRepository.IsRelicDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Relics>> GetRelicsWithPriceAsync(string type, int pageSize, int offset)

@@ -33,7 +33,7 @@ public class ArtworksService : IArtworksService
     {
         var result = await _artworksRepository.InsertArtworkAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -45,12 +45,17 @@ public class ArtworksService : IArtworksService
     {
         var result = await _artworksRepository.UpdateArtworkAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsArtworkDeletedOrInactiveAsync(string id)
+    {
+        return _artworksRepository.IsArtworkDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Artworks>> GetArtworksWithPriceAsync(string type, int pageSize, int offset)

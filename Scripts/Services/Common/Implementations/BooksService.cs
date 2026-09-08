@@ -33,7 +33,7 @@ public class BooksService : IBooksService
     {
         var result = await _booksRepository.InsertBookAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -45,12 +45,17 @@ public class BooksService : IBooksService
     {
         var result = await _booksRepository.UpdateBookAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsBookDeletedOrInactiveAsync(string id)
+    {
+        return _booksRepository.IsBookDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Books>> GetBooksRandomAsync(string type, int pageSize)

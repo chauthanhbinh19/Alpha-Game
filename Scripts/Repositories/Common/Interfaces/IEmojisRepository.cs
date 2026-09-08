@@ -9,6 +9,7 @@ public interface IEmojisRepository
     Task<int> GetEmojisCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<Emojis>> InsertEmojiAsync(Emojis entity);
     Task<InsertOrUpdateResult<Emojis>> UpdateEmojiAsync(Emojis entity);
+    Task<bool> IsEmojiDeletedOrInactiveAsync(string id);
     Task<List<Emojis>> GetEmojisWithPriceAsync(int pageSize, int offset);
     Task<int> GetEmojisWithPriceCountAsync();
     Task<Emojis> GetEmojiByIdAsync(string Id);

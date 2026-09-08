@@ -32,6 +32,7 @@ public class UserBooksRepository : IUserBooksRepository
                     c.id AS base_book_id, 
                     c.name, 
                     c.image, 
+                    c.type,
                     c.rare, 
                     c.description,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
@@ -258,6 +259,7 @@ public class UserBooksRepository : IUserBooksRepository
                     c.id AS base_book_id, 
                     c.name, 
                     c.image, 
+                    c.type,
                     c.rare, 
                     c.description,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
@@ -485,7 +487,7 @@ public class UserBooksRepository : IUserBooksRepository
                 string selectSQL = @"Select count(*) 
                              from books b, user_books ub 
                              where b.id = ub.book_id 
-                                AND ub.user_id = @userId  AND c.is_active = TRUE AND c.is_deleted = FALSE";
+                                AND ub.user_id = @userId  AND b.is_active = TRUE AND b.is_deleted = FALSE";
                 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -899,13 +901,12 @@ public class UserBooksRepository : IUserBooksRepository
             string updateSQL = @"
             UPDATE user_books uc INNER JOIN books c ON c.id = uc.book_id
             SET 
-                level = @level, 
-                experience = @experience
+                uc.level = @level, 
+                uc.experience = @experience
             WHERE uc.user_id = @user_id 
-              AND uc.book_id = @book_id
-              AND (level != @level OR experience != @experience)
-
- AND c.is_active = TRUE AND c.is_deleted = FALSE;
+                AND uc.book_id = @book_id
+                AND (uc.level != @level OR uc.experience != @experience)
+                AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -961,13 +962,12 @@ public class UserBooksRepository : IUserBooksRepository
             string updateSQL = @"
             UPDATE user_books uc INNER JOIN books c ON c.id = uc.book_id
             SET 
-                star = @star, 
-                quantity = @quantity
+                uc.star = @star, 
+                uc.quantity = @quantity
             WHERE uc.user_id = @user_id 
-              AND uc.book_id = @book_id
-              AND (star != @star OR quantity != @quantity)
-
- AND c.is_active = TRUE AND c.is_deleted = FALSE;
+                AND uc.book_id = @book_id
+                AND (uc.star != @star OR uc.quantity != @quantity)
+                AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);

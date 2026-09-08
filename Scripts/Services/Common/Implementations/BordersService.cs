@@ -28,7 +28,7 @@ public class BordersService : IBordersService
     {
         var result = await _bordersRepository.InsertBorderAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -40,12 +40,17 @@ public class BordersService : IBordersService
     {
         var result = await _bordersRepository.UpdateBorderAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsBorderDeletedOrInactiveAsync(string id)
+    {
+        return _bordersRepository.IsBorderDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Borders>> GetBordersWithPriceAsync(int pageSize, int offset)

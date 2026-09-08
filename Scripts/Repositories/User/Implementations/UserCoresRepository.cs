@@ -77,7 +77,7 @@ public class UserCoresRepository : IUserCoresRepository
                 {
                     Cores core = new Cores
                     {
-                        Id = reader.GetStringSafe("id"),
+                        Id = reader.GetStringSafe("core_id"),
                         Name = reader.GetStringSafe("name"),
                         Image = reader.GetStringSafe("image"),
                         Rarity = reader.GetStringSafe("rare"),
@@ -580,11 +580,12 @@ public class UserCoresRepository : IUserCoresRepository
             string updateSQL = @"
             UPDATE user_cores uc INNER JOIN cores c ON c.id = uc.core_id
             SET 
-                level = @level, 
-                experience = @experience
+                uc.level = @level, 
+                uc.experience = @experience
             WHERE uc.user_id = @user_id 
               AND uc.core_id = @core_id
-              AND (level != @level OR experience != @experience);
+              AND (uc.level != @level OR uc.experience != @experience)
+              AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -640,11 +641,12 @@ public class UserCoresRepository : IUserCoresRepository
             string updateSQL = @"
             UPDATE user_cores uc INNER JOIN cores c ON c.id = uc.core_id
             SET 
-                star = @star, 
-                quantity = @quantity
+                uc.star = @star, 
+                uc.quantity = @quantity
             WHERE uc.user_id = @user_id 
               AND uc.core_id = @core_id
-              AND (star != @star OR quantity != @quantity);
+              AND (uc.star != @star OR uc.quantity != @quantity)
+              AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);

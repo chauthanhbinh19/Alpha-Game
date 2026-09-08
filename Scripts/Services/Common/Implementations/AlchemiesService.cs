@@ -33,7 +33,7 @@ public class AlchemiesService : IAlchemiesService
     {
         var result = await _alchemiesRepository.InsertAlchemyAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -45,12 +45,17 @@ public class AlchemiesService : IAlchemiesService
     {
         var result = await _alchemiesRepository.UpdateAlchemyAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsAlchemyDeletedOrInactiveAsync(string id)
+    {
+        return _alchemiesRepository.IsAlchemyDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Alchemies>> GetAlchemiesWithPriceAsync(string type, int pageSize, int offset)

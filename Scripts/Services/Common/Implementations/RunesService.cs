@@ -28,7 +28,7 @@ public class RunesService : IRunesService
     {
         var result = await _runesRepository.InsertRuneAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -40,12 +40,17 @@ public class RunesService : IRunesService
     {
         var result = await _runesRepository.UpdateRuneAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsRuneDeletedOrInactiveAsync(string id)
+    {
+        return _runesRepository.IsRuneDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Runes>> GetRunesWithPriceAsync(int pageSize, int offset)

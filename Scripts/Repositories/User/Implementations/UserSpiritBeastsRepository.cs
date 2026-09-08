@@ -587,11 +587,12 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             string updateSQL = @"
             UPDATE user_spirit_beasts uc INNER JOIN spirit_beasts c ON c.id = uc.spirit_beast_id
             SET 
-                level = @level, 
-                experience = @experience
+                uc.level = @level, 
+                uc.experience = @experience
             WHERE uc.user_id = @user_id 
               AND uc.spirit_beast_id = @spirit_beast_id
-              AND (level != @level OR experience != @experience);
+              AND (uc.level != @level OR uc.experience != @experience)
+              AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -647,11 +648,12 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             string updateSQL = @"
             UPDATE user_spirit_beasts uc INNER JOIN spirit_beasts c ON c.id = uc.spirit_beast_id
             SET 
-                star = @star, 
-                quantity = @quantity
+                uc.star = @star, 
+                uc.quantity = @quantity
             WHERE uc.user_id = @user_id 
               AND uc.spirit_beast_id = @spirit_beast_id
-              AND (star != @star OR quantity != @quantity);
+              AND c.is_active = TRUE AND c.is_deleted = FALSE
+              AND (uc.star != @star OR uc.quantity != @quantity);
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);

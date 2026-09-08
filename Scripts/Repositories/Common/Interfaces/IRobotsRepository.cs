@@ -9,6 +9,7 @@ public interface IRobotsRepository
     Task<int> GetRobotsCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<Robots>> InsertRobotAsync(Robots entity);
     Task<InsertOrUpdateResult<Robots>> UpdateRobotAsync(Robots entity);
+    Task<bool> IsRobotDeletedOrInactiveAsync(string id);
     Task<List<Robots>> GetRobotsWithPriceAsync(int pageSize, int offset);
     Task<int> GetRobotsWithPriceCountAsync();
     Task<Robots> GetRobotByIdAsync(string Id);

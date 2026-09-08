@@ -76,7 +76,7 @@ public class UserEmojisRepository : IUserEmojisRepository
                 {
                     Emojis emoji = new Emojis
                     {
-                        Id = reader.GetStringSafe("id"),
+                        Id = reader.GetStringSafe("emoji_id"),
                         Name = reader.GetStringSafe("name"),
                         Image = reader.GetStringSafe("image"),
                         Rarity = reader.GetStringSafe("rare"),

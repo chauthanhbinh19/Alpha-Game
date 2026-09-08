@@ -28,7 +28,7 @@ public class ArchitecturesService : IArchitecturesService
     {
         var result = await _architecturesRepository.InsertArchitectureAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -40,12 +40,17 @@ public class ArchitecturesService : IArchitecturesService
     {
         var result = await _architecturesRepository.UpdateArchitectureAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsArchitectureDeletedOrInactiveAsync(string id)
+    {
+        return _architecturesRepository.IsArchitectureDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Architectures>> GetArchitecturesWithPriceAsync(int pageSize, int offset)

@@ -516,6 +516,29 @@ public class TalismansRepository : ITalismansRepository
             return InsertOrUpdateResult<Talismans>.Failure($"Failed When Update Talisman: {ex.Message}");
         }
     }
+    public async Task<bool> IsTalismanDeletedOrInactiveAsync(string id)
+    {
+        if (string.IsNullOrEmpty(id)) return true;
+
+        string connectionString = DatabaseConfig.ConnectionString;
+        const string sql = "SELECT 1 FROM talismans WHERE id = @id AND (is_deleted = TRUE OR is_active = FALSE) LIMIT 1;";
+
+        try
+        {
+            await using var conn = new MySqlConnection(connectionString);
+            await using var cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.Add("@id", MySqlDbType.VarChar, 32).Value = id;
+
+            await conn.OpenAsync();
+            var result = await cmd.ExecuteScalarAsync();
+            return result != null && result != DBNull.Value;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error checking talisman status: {ex.Message}");
+            return true;
+        }
+    }
     private void AddParameters(MySqlCommand command, Talismans entity)
     {
         command.Parameters.AddWithValue("@id", entity.Id ?? (object)DBNull.Value);

@@ -33,7 +33,7 @@ public class CardMonstersService : ICardMonstersService
     {
         var result = await _cardMonstersRepository.InsertCardMonsterAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -45,12 +45,17 @@ public class CardMonstersService : ICardMonstersService
     {
         var result = await _cardMonstersRepository.UpdateCardMonsterAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsCardMonsterDeletedOrInactiveAsync(string id)
+    {
+        return _cardMonstersRepository.IsCardMonsterDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<CardMonsters>> GetCardMonstersRandomAsync(string type, int pageSize)

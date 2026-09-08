@@ -33,7 +33,7 @@ public class FurnituresService : IFurnituresService
     {
         var result = await _furnituresRepository.InsertFurnitureAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -45,12 +45,17 @@ public class FurnituresService : IFurnituresService
     {
         var result = await _furnituresRepository.UpdateFurnitureAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsFurnitureDeletedOrInactiveAsync(string id)
+    {
+        return _furnituresRepository.IsFurnitureDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Furnitures>> GetFurnituresWithPriceAsync(string type, int pageSize, int offset)

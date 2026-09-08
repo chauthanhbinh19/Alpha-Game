@@ -10,6 +10,7 @@ public interface IPuppetsRepository
     Task<int> GetPuppetsCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<Puppets>> InsertPuppetAsync(Puppets entity);
     Task<InsertOrUpdateResult<Puppets>> UpdatePuppetAsync(Puppets entity);
+    Task<bool> IsPuppetDeletedOrInactiveAsync(string id);
     Task<List<Puppets>> GetPuppetsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetPuppetsWithPriceCountAsync(string type);
     Task<Puppets> GetPuppetByIdAsync(string Id);

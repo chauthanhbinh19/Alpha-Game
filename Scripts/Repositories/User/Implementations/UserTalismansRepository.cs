@@ -35,6 +35,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                     c.id AS base_talisman_id, 
                     c.name, 
                     c.image, 
+                    c.type,
                     c.rare, 
                     c.description,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
@@ -94,7 +95,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                         {
                             Talismans talisman = new Talismans
                             {
-                                Id = reader.GetStringSafe("id"),
+                                Id = reader.GetStringSafe("talisman_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
                                 Rarity = reader.GetStringSafe("rare"),
@@ -613,11 +614,12 @@ public class UserTalismansRepository : IUserTalismansRepository
             string updateSQL = @"
             UPDATE user_talismans uc INNER JOIN talismans c ON c.id = uc.talisman_id
             SET 
-                level = @level, 
-                experience = @experience
+                uc.level = @level, 
+                uc.experience = @experience
             WHERE uc.user_id = @user_id 
               AND uc.talisman_id = @talisman_id
-              AND (level != @level OR experience != @experience);
+              AND (uc.level != @level OR uc.experience != @experience)
+              AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);

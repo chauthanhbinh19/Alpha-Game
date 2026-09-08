@@ -9,6 +9,7 @@ public interface IMedalsRepository
     Task<int> GetMedalsCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<Medals>> InsertMedalAsync(Medals entity);
     Task<InsertOrUpdateResult<Medals>> UpdateMedalAsync(Medals entity);
+    Task<bool> IsMedalDeletedOrInactiveAsync(string id);
     Task<List<Medals>> GetMedalsWithPriceAsync(int pageSize, int offset);
     Task<int> GetMedalsWithPriceCountAsync();
     Task<Medals> GetMedalByIdAsync(string Id);

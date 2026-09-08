@@ -79,7 +79,7 @@ public class UserFoodsRepository : IUserFoodsRepository
                         {
                             Foods food = new Foods
                             {
-                                Id = reader.GetStringSafe("id"),
+                                Id = reader.GetStringSafe("food_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
                                 Rarity = reader.GetStringSafe("rare"),
@@ -588,11 +588,11 @@ public class UserFoodsRepository : IUserFoodsRepository
             string updateSQL = @"
             UPDATE user_foods uc INNER JOIN foods c ON c.id = uc.food_id
             SET 
-                level = @level, 
-                experience = @experience
+                uc.level = @level, 
+                uc.experience = @experience
             WHERE uc.user_id = @user_id 
               AND uc.food_id = @food_id
-              AND (level != @level OR experience != @experience)
+              AND (uc.level != @level OR uc.experience != @experience)
 
  AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
@@ -650,11 +650,11 @@ public class UserFoodsRepository : IUserFoodsRepository
             string updateSQL = @"
             UPDATE user_foods uc INNER JOIN foods c ON c.id = uc.food_id
             SET 
-                star = @star, 
-                quantity = @quantity
+                uc.star = @star, 
+                uc.quantity = @quantity
             WHERE uc.user_id = @user_id 
               AND uc.food_id = @food_id
-              AND (star != @star OR quantity != @quantity)
+              AND (uc.star != @star OR uc.quantity != @quantity)
 
  AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";

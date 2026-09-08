@@ -28,7 +28,7 @@ public class RobotsService : IRobotsService
     {
         var result = await _robotsRepository.InsertRobotAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -40,12 +40,17 @@ public class RobotsService : IRobotsService
     {
         var result = await _robotsRepository.UpdateRobotAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsRobotDeletedOrInactiveAsync(string id)
+    {
+        return _robotsRepository.IsRobotDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Robots>> GetRobotsWithPriceAsync(int pageSize, int offset)

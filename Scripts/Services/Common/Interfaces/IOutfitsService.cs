@@ -10,6 +10,7 @@ public interface IOutfitsService
     Task<int> GetOutfitsCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<bool>> InsertOutfitAsync(Outfits entity);
     Task<InsertOrUpdateResult<bool>> UpdateOutfitAsync(Outfits entity);
+    Task<bool> IsOutfitDeletedOrInactiveAsync(string id);
     Task<List<Outfits>> GetOutfitsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetOutfitsWithPriceCountAsync(string type);
     Task<Outfits> GetOutfitByIdAsync(string id);

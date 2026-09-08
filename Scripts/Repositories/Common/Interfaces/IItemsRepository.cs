@@ -6,4 +6,5 @@ public interface IItemsRepository
     Task<List<string>> GetUniqueItemsIdAsync();
     Task<List<string>> GetUniqueItemsTypesAsync();
     Task<List<Items>> GetItemsAsync();
+    Task<bool> IsItemDeletedOrInactiveAsync(string id);
 }

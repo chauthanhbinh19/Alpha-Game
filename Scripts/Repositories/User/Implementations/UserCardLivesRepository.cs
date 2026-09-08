@@ -35,6 +35,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
                     c.id AS base_card_life_id, 
                     c.name, 
                     c.image, 
+                    c.type,
                     c.rare, 
                     c.description,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
@@ -88,7 +89,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
                         {
                             CardLives cardLife = new CardLives
                             {
-                                Id = reader.GetStringSafe("id"),
+                                Id = reader.GetStringSafe("card_life_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
                                 Rarity = reader.GetStringSafe("rare"),
@@ -609,7 +610,8 @@ public class UserCardLivesRepository : IUserCardLivesRepository
                 experience = @experience
             WHERE uc.user_id = @user_id 
               AND uc.card_life_id = @card_life_id
-              AND (level != @level OR experience != @experience);
+              AND (uc.level != @level OR uc.experience != @experience)
+              AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -665,11 +667,12 @@ public class UserCardLivesRepository : IUserCardLivesRepository
             string updateSQL = @"
             UPDATE user_card_lives uc INNER JOIN card_lives c ON c.id = uc.card_life_id
             SET 
-                star = @star, 
-                quantity = @quantity
+                uc.star = @star, 
+                uc.quantity = @quantity
             WHERE uc.user_id = @user_id 
               AND uc.card_life_id = @card_life_id
-              AND (star != @star OR quantity != @quantity);
+              AND (uc.star != @star OR uc.quantity != @quantity)
+              AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);

@@ -35,6 +35,7 @@ public class UserOutfitsRepository : IUserOutfitsRepository
                     c.id AS base_outfit_id, 
                     c.name, 
                     c.image, 
+                    c.type,
                     c.rare, 
                     c.description,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
@@ -91,7 +92,7 @@ public class UserOutfitsRepository : IUserOutfitsRepository
                         {
                             Outfits outfit = new Outfits
                             {
-                                Id = reader.GetStringSafe("id"),
+                                Id = reader.GetStringSafe("outfit_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
                                 Rarity = reader.GetStringSafe("rare"),
@@ -610,11 +611,12 @@ public class UserOutfitsRepository : IUserOutfitsRepository
             string updateSQL = @"
             UPDATE user_outfits uc INNER JOIN outfits c ON c.id = uc.outfit_id
             SET 
-                level = @level, 
-                experience = @experience
+                uc.level = @level, 
+                uc.experience = @experience
             WHERE uc.user_id = @user_id 
               AND uc.outfit_id = @outfit_id
-              AND (level != @level OR experience != @experience);
+              AND (uc.level != @level OR uc.experience != @experience)
+              AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -670,11 +672,12 @@ public class UserOutfitsRepository : IUserOutfitsRepository
             string updateSQL = @"
             UPDATE user_outfits uc INNER JOIN outfits c ON c.id = uc.outfit_id
             SET 
-                star = @star, 
-                quantity = @quantity
+                uc.star = @star, 
+                uc.quantity = @quantity
             WHERE uc.user_id = @user_id 
               AND uc.outfit_id = @outfit_id
-              AND (star != @star OR quantity != @quantity);
+              AND (uc.star != @star OR uc.quantity != @quantity)
+              AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);

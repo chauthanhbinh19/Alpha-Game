@@ -10,6 +10,7 @@ public interface ICardLivesRepository
     Task<int> GetCardLivesCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<CardLives>> InsertCardLifeAsync(CardLives entity);
     Task<InsertOrUpdateResult<CardLives>> UpdateCardLifeAsync(CardLives entity);
+    Task<bool> IsCardLifeDeletedOrInactiveAsync(string id);
     Task<List<CardLives>> GetCardLivesWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetCardLivesWithPriceCountAsync(string type);
     Task<CardLives> GetCardLifeByIdAsync(string Id);

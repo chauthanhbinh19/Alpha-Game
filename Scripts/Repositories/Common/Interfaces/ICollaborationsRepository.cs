@@ -9,6 +9,7 @@ public interface ICollaborationsRepository
     Task<int> GetCollaborationsCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<Collaborations>> InsertCollaborationAsync(Collaborations entity);
     Task<InsertOrUpdateResult<Collaborations>> UpdateCollaborationAsync(Collaborations entity);
+    Task<bool> IsCollaborationDeletedOrInactiveAsync(string id);
     Task<List<Collaborations>> GetCollaborationsWithPriceAsync(int pageSize, int offset);
     Task<int> GetCollaborationsWithPriceCountAsync();
     Task<Collaborations> GetCollaborationByIdAsync(string id);

@@ -9,6 +9,7 @@ public interface IAvatarsRepository
     Task<int> GetAvatarsCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<Avatars>> InsertAvatarAsync(Avatars entity);
     Task<InsertOrUpdateResult<Avatars>> UpdateAvatarAsync(Avatars entity);
+    Task<bool> IsAvatarDeletedOrInactiveAsync(string id);
     Task<List<Avatars>> GetAvatarsWithPriceAsync(int pageSize, int offset);
     Task<int> GetAvatarsWithPriceCountAsync();
     Task<Avatars> GetAvatarByIdAsync(string Id);

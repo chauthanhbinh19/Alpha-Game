@@ -10,6 +10,7 @@ public interface IForgesRepository
     Task<int> GetForgesCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<Forges>> InsertForgeAsync(Forges entity);
     Task<InsertOrUpdateResult<Forges>> UpdateForgeAsync(Forges entity);
+    Task<bool> IsForgeDeletedOrInactiveAsync(string id);
     Task<List<Forges>> GetForgesWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetForgesWithPriceCountAsync(string type);
     Task<Forges> GetForgeByIdAsync(string Id);

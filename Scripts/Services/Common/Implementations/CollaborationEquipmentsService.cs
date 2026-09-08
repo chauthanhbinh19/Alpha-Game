@@ -33,7 +33,7 @@ public class CollaborationEquipmentsService : ICollaborationEquipmentsService
     {
         var result = await _collaborationEquipmentsRepository.InsertCollaborationEquipmentAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -45,12 +45,17 @@ public class CollaborationEquipmentsService : ICollaborationEquipmentsService
     {
         var result = await _collaborationEquipmentsRepository.UpdateCollaborationEquipmentAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsCollaborationEquipmentDeletedOrInactiveAsync(string id)
+    {
+        return _collaborationEquipmentsRepository.IsCollaborationEquipmentDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<CollaborationEquipments>> GetCollaborationEquipmentsWithPriceAsync(string type, int pageSize, int offset)

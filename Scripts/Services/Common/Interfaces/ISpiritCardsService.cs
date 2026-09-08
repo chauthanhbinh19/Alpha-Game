@@ -10,6 +10,7 @@ public interface ISpiritCardsService
     Task<int> GetSpiritCardsCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<bool>> InsertSpiritCardAsync(SpiritCards entity);
     Task<InsertOrUpdateResult<bool>> UpdateSpiritCardAsync(SpiritCards entity);
+    Task<bool> IsSpiritCardDeletedOrInactiveAsync(string id);
     Task<List<SpiritCards>> GetSpiritCardsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetSpiritCardsWithPriceCountAsync(string type);
     Task<SpiritCards> GetSpiritCardByIdAsync(string Id);

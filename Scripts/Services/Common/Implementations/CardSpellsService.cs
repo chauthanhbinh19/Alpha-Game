@@ -33,7 +33,7 @@ public class CardSpellsService : ICardSpellsService
     {
         var result = await _cardSpellsRepository.InsertCardSpellAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -45,12 +45,17 @@ public class CardSpellsService : ICardSpellsService
     {
         var result = await _cardSpellsRepository.UpdateCardSpellAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsCardSpellDeletedOrInactiveAsync(string id)
+    {
+        return _cardSpellsRepository.IsCardSpellDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<CardSpells>> GetCardSpellsRandomAsync(string type, int pageSize)

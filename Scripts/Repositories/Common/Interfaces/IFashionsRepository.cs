@@ -10,6 +10,7 @@ public interface IFashionsRepository
     Task<int> GetFashionsCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<Fashions>> InsertFashionAsync(Fashions entity);
     Task<InsertOrUpdateResult<Fashions>> UpdateFashionAsync(Fashions entity);
+    Task<bool> IsFashionDeletedOrInactiveAsync(string id);
     Task<List<Fashions>> GetFashionsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetFashionsWithPriceCountAsync(string type);
     Task<Fashions> GetFashionByIdAsync(string Id);

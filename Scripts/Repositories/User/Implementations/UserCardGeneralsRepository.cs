@@ -1389,11 +1389,12 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
             string updateSQL = @"
             UPDATE user_card_generals uc INNER JOIN card_generals c ON c.id = uc.card_general_id
             SET 
-                level = @level, 
-                experience = @experience
+                uc.level = @level, 
+                uc.experience = @experience
             WHERE uc.user_id = @user_id 
               AND uc.card_general_id = @card_general_id
-              AND (level != @level OR experience != @experience);
+              AND (uc.level != @level OR uc.experience != @experience)
+              AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -1449,11 +1450,12 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
             string updateSQL = @"
             UPDATE user_card_generals uc INNER JOIN card_generals c ON c.id = uc.card_general_id
             SET 
-                star = @star, 
-                quantity = @quantity
+                uc.star = @star, 
+                uc.quantity = @quantity
             WHERE uc.user_id = @user_id 
               AND uc.card_general_id = @card_general_id
-              AND (star != @star OR quantity != @quantity);
+              AND (uc.star != @star OR uc.quantity != @quantity)
+              AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);

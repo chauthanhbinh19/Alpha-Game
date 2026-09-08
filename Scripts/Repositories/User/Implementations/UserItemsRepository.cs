@@ -59,7 +59,7 @@ public class UserItemsRepository : IUserItemsRepository
                         {
                             Items item = new Items
                             {
-                                Id = reader.GetStringSafe("id"),
+                                Id = reader.GetStringSafe("item_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
                                 Type = reader.GetStringSafe("type"),

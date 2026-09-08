@@ -122,7 +122,8 @@ public class UserDailyCheckinRepository : IUserDailyCheckinRepository
                 SELECT COUNT(*)
                 FROM daily_checkin dc
                 LEFT JOIN user_daily_checkin udc
-                    ON dc.id = udc.daily_checkin_id AND udc.user_id = @user_id AND 
+                    ON dc.id = udc.daily_checkin_id 
+                AND udc.user_id = @user_id
                 WHERE dc.month = @month
                 AND dc.year = @year
                 AND (

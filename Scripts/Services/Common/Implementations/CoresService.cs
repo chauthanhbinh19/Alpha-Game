@@ -12,7 +12,7 @@ public class CoresService : ICoresService
 
     public static ICoresService Create() => ServiceContainer.GetService<ICoresService>();
 
-    public async Task<List<Cores>> GetCoresAsync(string search, string rare,int pageSize, int offset)
+    public async Task<List<Cores>> GetCoresAsync(string search, string rare, int pageSize, int offset)
     {
         List<Cores> list = await _coresRepository.GetCoresAsync(search, rare, pageSize, offset);
         list = QualityEvaluatorHelper.GetQualityPower(list);
@@ -28,7 +28,7 @@ public class CoresService : ICoresService
     {
         var result = await _coresRepository.InsertCoreAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -40,12 +40,17 @@ public class CoresService : ICoresService
     {
         var result = await _coresRepository.UpdateCoreAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsCoreDeletedOrInactiveAsync(string id)
+    {
+        return _coresRepository.IsCoreDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Cores>> GetCoresWithPriceAsync(int pageSize, int offset)

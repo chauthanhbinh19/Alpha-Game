@@ -9,6 +9,7 @@ public interface IPlantsService
     Task<int> GetPlantsCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<bool>> InsertPlantAsync(Plants entity);
     Task<InsertOrUpdateResult<bool>> UpdatePlantAsync(Plants entity);
+    Task<bool> IsPlantDeletedOrInactiveAsync(string id);
     Task<List<Plants>> GetPlantsWithPriceAsync(int pageSize, int offset);
     Task<int> GetPlantsWithPriceCountAsync();
     Task<Plants> GetPlantByIdAsync(string id);

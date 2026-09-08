@@ -529,6 +529,29 @@ public class CardSpellsRepository : ICardSpellsRepository
             return InsertOrUpdateResult<CardSpells>.Failure($"Failed When Update Card Spell: {ex.Message}");
         }
     }
+    public async Task<bool> IsCardSpellDeletedOrInactiveAsync(string id)
+    {
+        if (string.IsNullOrEmpty(id)) return true;
+
+        string connectionString = DatabaseConfig.ConnectionString;
+        const string sql = "SELECT 1 FROM card_spells WHERE id = @id AND (is_deleted = TRUE OR is_active = FALSE) LIMIT 1;";
+
+        try
+        {
+            await using var conn = new MySqlConnection(connectionString);
+            await using var cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.Add("@id", MySqlDbType.VarChar, 32).Value = id;
+
+            await conn.OpenAsync();
+            var result = await cmd.ExecuteScalarAsync();
+            return result != null && result != DBNull.Value;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error checking card spell status: {ex.Message}");
+            return true;
+        }
+    }
     private void AddParameters(MySqlCommand command, CardSpells entity)
     {
         command.Parameters.AddWithValue("@id", entity.Id ?? (object)DBNull.Value);

@@ -675,11 +675,12 @@ public class UserSkillsRepository : IUserSkillsRepository
             string updateSQL = @"
             UPDATE user_skills uc INNER JOIN skills c ON c.id = uc.skill_id
             SET 
-                level = @level, 
-                experience = @experience
+                uc.level = @level, 
+                uc.experience = @experience
             WHERE uc.user_id = @user_id 
               AND uc.skill_id = @skill_id
-              AND (level != @level OR experience != @experience);
+              AND (uc.level != @level OR uc.experience != @experience)
+              AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -735,11 +736,12 @@ public class UserSkillsRepository : IUserSkillsRepository
             string updateSQL = @"
             UPDATE user_skills uc INNER JOIN skills c ON c.id = uc.skill_id
             SET 
-                star = @star, 
-                quantity = @quantity
+                uc.star = @star, 
+                uc.quantity = @quantity
             WHERE uc.user_id = @user_id 
               AND uc.skill_id = @skill_id
-              AND (star != @star OR quantity != @quantity);
+              AND (uc.star != @star OR uc.quantity != @quantity)
+              AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);

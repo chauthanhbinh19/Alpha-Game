@@ -28,7 +28,7 @@ public class TitlesService : ITitlesService
     {
         var result = await _titlesRepository.InsertTitleAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -40,12 +40,17 @@ public class TitlesService : ITitlesService
     {
         var result = await _titlesRepository.UpdateTitleAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsTitleDeletedOrInactiveAsync(string id)
+    {
+        return _titlesRepository.IsTitleDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Titles>> GetTitlesWithPriceAsync(int pageSize, int offset)

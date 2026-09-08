@@ -80,7 +80,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                         {
                             Achievements achievement = new Achievements
                             {
-                                Id = reader.GetStringSafe("id"),
+                                Id = reader.GetStringSafe("achievement_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
                                 Rarity = reader.GetStringSafe("rare"),
@@ -589,13 +589,12 @@ public class UserAchievementsRepository : IUserAchievementsRepository
             string updateSQL = @"
             UPDATE user_achievements uc INNER JOIN achievements c ON c.id = uc.achievement_id
             SET 
-                level = @level, 
-                experience = @experience
+                uc.level = @level, 
+                uc.experience = @experience
             WHERE uc.user_id = @user_id 
               AND uc.achievement_id = @achievement_id
-              AND (level != @level OR experience != @experience)
-
- AND c.is_active = TRUE AND c.is_deleted = FALSE;
+              AND (uc.level != @level OR uc.experience != @experience)
+              AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -651,13 +650,12 @@ public class UserAchievementsRepository : IUserAchievementsRepository
             string updateSQL = @"
             UPDATE user_achievements uc INNER JOIN achievements c ON c.id = uc.achievement_id
             SET 
-                star = @star, 
-                quantity = @quantity
+                uc.star = @star, 
+                uc.quantity = @quantity
             WHERE uc.user_id = @user_id 
               AND uc.achievement_id = @achievement_id
-              AND (star != @star OR quantity != @quantity)
-
- AND c.is_active = TRUE AND c.is_deleted = FALSE;
+              AND (uc.star != @star OR uc.quantity != @quantity)
+              AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);

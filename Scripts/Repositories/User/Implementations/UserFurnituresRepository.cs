@@ -35,6 +35,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                     c.id AS base_furniture_id, 
                     c.name, 
                     c.image, 
+                    c.type,
                     c.rare, 
                     c.description,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
@@ -87,7 +88,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                         {
                             Furnitures furniture = new Furnitures
                             {
-                                Id = reader.GetStringSafe("id"),
+                                Id = reader.GetStringSafe("furniture_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
                                 Rarity = reader.GetStringSafe("rare"),
@@ -604,11 +605,11 @@ public class UserFurnituresRepository : IUserFurnituresRepository
             string updateSQL = @"
             UPDATE user_furnitures uc INNER JOIN furnitures c ON c.id = uc.furniture_id
             SET 
-                level = @level, 
-                experience = @experience
+                uc.level = @level, 
+                uc.experience = @experience
             WHERE uc.user_id = @user_id 
               AND uc.furniture_id = @furniture_id
-              AND (level != @level OR experience != @experience)
+              AND (uc.level != @level OR uc.experience != @experience)
 
  AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
@@ -666,11 +667,11 @@ public class UserFurnituresRepository : IUserFurnituresRepository
             string updateSQL = @"
             UPDATE user_furnitures uc INNER JOIN furnitures c ON c.id = uc.furniture_id
             SET 
-                star = @star, 
-                quantity = @quantity
+                uc.star = @star, 
+                uc.quantity = @quantity
             WHERE uc.user_id = @user_id 
               AND uc.furniture_id = @furniture_id
-              AND (star != @star OR quantity != @quantity)
+              AND (uc.star != @star OR uc.quantity != @quantity)
 
  AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";

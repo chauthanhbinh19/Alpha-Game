@@ -33,7 +33,7 @@ public class CardLivesService : ICardLivesService
     {
         var result = await _cardLivesRepository.InsertCardLifeAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -41,11 +41,16 @@ public class CardLivesService : ICardLivesService
         return InsertOrUpdateResult<bool>.Failure();
     }
 
+    public Task<bool> IsCardLifeDeletedOrInactiveAsync(string id)
+    {
+        return _cardLivesRepository.IsCardLifeDeletedOrInactiveAsync(id);
+    }
+
     public async Task<InsertOrUpdateResult<bool>> UpdateCardLifeAsync(CardLives entity)
     {
         var result = await _cardLivesRepository.UpdateCardLifeAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }

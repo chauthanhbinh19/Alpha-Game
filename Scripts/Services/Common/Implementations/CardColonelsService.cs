@@ -33,7 +33,7 @@ public class CardColonelsService : ICardColonelsService
     {
         var result = await _cardColonelsRepository.InsertCardColonelAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -45,12 +45,17 @@ public class CardColonelsService : ICardColonelsService
     {
         var result = await _cardColonelsRepository.UpdateCardColonelAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsCardColonelDeletedOrInactiveAsync(string id)
+    {
+        return _cardColonelsRepository.IsCardColonelDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<CardColonels>> GetCardColonelsRandomAsync(string type, int pageSize)

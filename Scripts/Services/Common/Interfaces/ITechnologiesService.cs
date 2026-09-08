@@ -9,6 +9,7 @@ public interface ITechnologiesService
     Task<int> GetTechnologiesCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<bool>> InsertTechnologyAsync(Technologies entity);
     Task<InsertOrUpdateResult<bool>> UpdateTechnologyAsync(Technologies entity);
+    Task<bool> IsTechnologyDeletedOrInactiveAsync(string id);
     Task<List<Technologies>> GetTechnologiesWithPriceAsync(int pageSize, int offset);
     Task<int> GetTechnologiesWithPriceCountAsync();
     Task<Technologies> GetTechnologyByIdAsync(string id);

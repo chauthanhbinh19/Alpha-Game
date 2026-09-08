@@ -33,7 +33,7 @@ public class CardGeneralsService : ICardGeneralsService
     {
         var result = await _cardGeneralsRepository.InsertCardGeneralAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -45,12 +45,17 @@ public class CardGeneralsService : ICardGeneralsService
     {
         var result = await _cardGeneralsRepository.UpdateCardGeneralAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsCardGeneralDeletedOrInactiveAsync(string id)
+    {
+        return _cardGeneralsRepository.IsCardGeneralDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<CardGenerals>> GetCardGeneralsRandomAsync(string type, int pageSize)

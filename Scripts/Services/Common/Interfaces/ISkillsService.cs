@@ -9,6 +9,7 @@ public interface ISkillsService
     Task<int> GetSkillsCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<bool>> InsertSkillAsync(Skills entity);
     Task<InsertOrUpdateResult<bool>> UpdateSkillAsync(Skills entity);
+    Task<bool> IsSkillDeletedOrInactiveAsync(string id);
     Task<List<Skills>> GetSkillsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetSkillsWithPriceCountAsync(string type);
     Task<Skills> GetSkillByIdAsync(string Id);

@@ -33,7 +33,7 @@ public class EquipmentsService : IEquipmentsService
     {
         var result = await _equipmentsRepository.InsertEquipmentAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -45,12 +45,17 @@ public class EquipmentsService : IEquipmentsService
     {
         var result = await _equipmentsRepository.UpdateEquipmentAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsEquipmentDeletedOrInactiveAsync(string id)
+    {
+        return _equipmentsRepository.IsEquipmentDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Equipments>> GetEquipmentsWithCurrencyAsync(string type, int pageSize, int offset)

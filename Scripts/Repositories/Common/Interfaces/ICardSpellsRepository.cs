@@ -10,6 +10,7 @@ public interface ICardSpellsRepository
     Task<int> GetCardSpellsCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<CardSpells>> InsertCardSpellAsync(CardSpells entity);
     Task<InsertOrUpdateResult<CardSpells>> UpdateCardSpellAsync(CardSpells entity);
+    Task<bool> IsCardSpellDeletedOrInactiveAsync(string id);
     Task<List<CardSpells>> GetCardSpellsRandomAsync(string type, int pageSize);
     Task<List<CardSpells>> GetAllCardSpellsAsync(string type);
     Task<CardSpells> GetCardSpellByIdAsync(string Id);

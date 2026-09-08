@@ -9,6 +9,7 @@ public interface IRunesService
     Task<int> GetRunesCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<bool>> InsertRuneAsync(Runes entity);
     Task<InsertOrUpdateResult<bool>> UpdateRuneAsync(Runes entity);
+    Task<bool> IsRuneDeletedOrInactiveAsync(string id);
     Task<List<Runes>> GetRunesWithPriceAsync(int pageSize, int offset);
     Task<int> GetRunesWithPriceCountAsync();
     Task<Runes> GetRuneByIdAsync(string id);

@@ -9,6 +9,7 @@ public interface IBeveragesService
     Task<int> GetBeveragesCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<bool>> InsertBeverageAsync(Beverages entity);
     Task<InsertOrUpdateResult<bool>> UpdateBeverageAsync(Beverages entity);
+    Task<bool> IsBeverageDeletedOrInactiveAsync(string id);
     Task<List<Beverages>> GetBeveragesWithPriceAsync(int pageSize, int offset);
     Task<int> GetBeveragesWithPriceCountAsync();
     Task<Beverages> GetBeverageByIdAsync(string id);

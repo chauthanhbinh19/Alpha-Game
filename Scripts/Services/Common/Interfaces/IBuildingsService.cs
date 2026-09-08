@@ -10,6 +10,7 @@ public interface IBuildingsService
     Task<int> GetBuildingsCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<bool>> InsertBuildingAsync(Buildings entity);
     Task<InsertOrUpdateResult<bool>> UpdateBuildingAsync(Buildings entity);
+    Task<bool> IsBuildingDeletedOrInactiveAsync(string id);
     Task<List<Buildings>> GetBuildingsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetBuildingsWithPriceCountAsync(string type);
     Task<Buildings> GetBuildingByIdAsync(string Id);

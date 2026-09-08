@@ -9,6 +9,7 @@ public interface IBordersService
     Task<int> GetBordersCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<bool>> InsertBorderAsync(Borders entity);
     Task<InsertOrUpdateResult<bool>> UpdateBorderAsync(Borders entity);
+    Task<bool> IsBorderDeletedOrInactiveAsync(string id);
     Task<List<Borders>> GetBordersWithPriceAsync(int pageSize, int offset);
     Task<int> GetBordersWithPriceCountAsync();
     Task<Borders> GetBorderByIdAsync(string id);

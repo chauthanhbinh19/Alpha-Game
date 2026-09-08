@@ -28,7 +28,7 @@ public class BeveragesService : IBeveragesService
     {
         var result = await _beveragesRepository.InsertBeverageAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -40,12 +40,17 @@ public class BeveragesService : IBeveragesService
     {
         var result = await _beveragesRepository.UpdateBeverageAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsBeverageDeletedOrInactiveAsync(string id)
+    {
+        return _beveragesRepository.IsBeverageDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Beverages>> GetBeveragesWithPriceAsync(int pageSize, int offset)

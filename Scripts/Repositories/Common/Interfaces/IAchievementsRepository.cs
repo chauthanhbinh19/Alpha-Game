@@ -8,6 +8,7 @@ public interface IAchievementsRepository
     Task<int> GetAchievementsCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<Achievements>> InsertAchievementAsync(Achievements entity);
     Task<InsertOrUpdateResult<Achievements>> UpdateAchievementAsync(Achievements entity);
+    Task<bool> IsAchievementDeletedOrInactiveAsync(string id);
     Task<Achievements> GetAchievementByIdAsync(string id);
     Task<List<Achievements>> GetAchievementsWithPriceAsync(int pageSize, int offset);
     Task<int> GetAchievementsWithPriceCountAsync();

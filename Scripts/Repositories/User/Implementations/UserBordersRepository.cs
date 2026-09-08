@@ -74,7 +74,7 @@ public class UserBordersRepository : IUserBordersRepository
                 {
                     Borders border = new Borders
                     {
-                        Id = reader.GetString("id"),
+                        Id = reader.GetString("border_id"),
                         Name = reader.GetString("name"),
                         Image = reader.GetString("image"),
                         Rarity = reader.GetString("rare"),
@@ -731,11 +731,11 @@ public class UserBordersRepository : IUserBordersRepository
             string updateSQL = @"
             UPDATE user_borders uc INNER JOIN borders c ON c.id = uc.border_id
             SET 
-                level = @level, 
-                experience = @experience
+                uc.level = @level, 
+                uc.experience = @experience
             WHERE uc.user_id = @user_id 
               AND uc.border_id = @border_id
-              AND (level != @level OR experience != @experience)
+              AND (uc.level != @level OR uc.experience != @experience)
 
  AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
@@ -793,11 +793,11 @@ public class UserBordersRepository : IUserBordersRepository
             string updateSQL = @"
             UPDATE user_borders uc INNER JOIN borders c ON c.id = uc.border_id
             SET 
-                star = @star, 
-                quantity = @quantity
+                uc.star = @star, 
+                uc.quantity = @quantity
             WHERE uc.user_id = @user_id 
               AND uc.border_id = @border_id
-              AND (star != @star OR quantity != @quantity)
+              AND (uc.star != @star OR uc.quantity != @quantity)
 
  AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";

@@ -28,7 +28,7 @@ public class TalismansService : ITalismansService
     {
         var result = await _talismansRepository.InsertTalismanAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -36,11 +36,16 @@ public class TalismansService : ITalismansService
         return InsertOrUpdateResult<bool>.Failure();
     }
 
+    public Task<bool> IsTalismanDeletedOrInactiveAsync(string id)
+    {
+        return _talismansRepository.IsTalismanDeletedOrInactiveAsync(id);
+    }
+
     public async Task<InsertOrUpdateResult<bool>> UpdateTalismanAsync(Talismans entity)
     {
         var result = await _talismansRepository.UpdateTalismanAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }

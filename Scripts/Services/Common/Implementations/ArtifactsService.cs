@@ -28,7 +28,7 @@ public class ArtifactsService : IArtifactsService
     {
         var result = await _artifactsRepository.InsertArtifactAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -40,12 +40,17 @@ public class ArtifactsService : IArtifactsService
     {
         var result = await _artifactsRepository.UpdateArtifactAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsArtifactDeletedOrInactiveAsync(string id)
+    {
+        return _artifactsRepository.IsArtifactDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Artifacts>> GetArtifactsWithPriceAsync(int pageSize, int offset)

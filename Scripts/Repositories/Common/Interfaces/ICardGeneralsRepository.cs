@@ -10,6 +10,7 @@ public interface ICardGeneralsRepository
     Task<int> GetCardGeneralsCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<CardGenerals>> InsertCardGeneralAsync(CardGenerals entity);
     Task<InsertOrUpdateResult<CardGenerals>> UpdateCardGeneralAsync(CardGenerals entity);
+    Task<bool> IsCardGeneralDeletedOrInactiveAsync(string id);
     Task<List<CardGenerals>> GetCardGeneralsRandomAsync(string type, int pageSize);
     Task<List<CardGenerals>> GetAllCardGeneralsAsync(string type);
     Task<CardGenerals> GetCardGeneralByIdAsync(string Id);

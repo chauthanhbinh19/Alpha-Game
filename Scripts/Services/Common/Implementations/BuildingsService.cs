@@ -33,7 +33,7 @@ public class BuildingsService : IBuildingsService
     {
         var result = await _buildingsRepository.InsertBuildingAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -45,12 +45,17 @@ public class BuildingsService : IBuildingsService
     {
         var result = await _buildingsRepository.UpdateBuildingAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsBuildingDeletedOrInactiveAsync(string id)
+    {
+        return _buildingsRepository.IsBuildingDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Buildings>> GetBuildingsWithPriceAsync(string type, int pageSize, int offset)

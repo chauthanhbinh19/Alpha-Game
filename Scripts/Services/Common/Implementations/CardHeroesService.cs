@@ -88,7 +88,7 @@ public class CardHeroesService : ICardHeroesService
     {
         var result = await _cardHeroesRepository.InsertCardHeroAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -100,12 +100,17 @@ public class CardHeroesService : ICardHeroesService
     {
         var result = await _cardHeroesRepository.UpdateCardHeroAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsCardHeroDeletedOrInactiveAsync(string id)
+    {
+        return _cardHeroesRepository.IsCardHeroDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<CardHeroes>> GetCardHeroesRandomAsync(string type, int pageSize)

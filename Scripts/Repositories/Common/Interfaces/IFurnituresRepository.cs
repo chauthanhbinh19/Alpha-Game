@@ -10,6 +10,7 @@ public interface IFurnituresRepository
     Task<int> GetFurnituresCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<Furnitures>> InsertFurnitureAsync(Furnitures entity);
     Task<InsertOrUpdateResult<Furnitures>> UpdateFurnitureAsync(Furnitures entity);
+    Task<bool> IsFurnitureDeletedOrInactiveAsync(string id);
     Task<List<Furnitures>> GetFurnituresWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetFurnituresWithPriceCountAsync(string type);
     Task<Furnitures> GetFurnitureByIdAsync(string Id);

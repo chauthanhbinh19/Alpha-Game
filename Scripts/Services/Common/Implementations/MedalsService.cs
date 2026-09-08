@@ -28,7 +28,7 @@ public class MedalsService : IMedalsService
     {
         var result = await _medalsRepository.InsertMedalAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -40,12 +40,17 @@ public class MedalsService : IMedalsService
     {
         var result = await _medalsRepository.UpdateMedalAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsMedalDeletedOrInactiveAsync(string id)
+    {
+        return _medalsRepository.IsMedalDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Medals>> GetMedalsWithPriceAsync(int pageSize, int offset)

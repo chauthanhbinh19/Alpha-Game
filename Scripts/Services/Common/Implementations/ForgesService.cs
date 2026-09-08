@@ -33,7 +33,7 @@ public class ForgesService : IForgesService
     {
         var result = await _forgesRepository.InsertForgeAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -45,12 +45,17 @@ public class ForgesService : IForgesService
     {
         var result = await _forgesRepository.UpdateForgeAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsForgeDeletedOrInactiveAsync(string id)
+    {
+        return _forgesRepository.IsForgeDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Forges>> GetForgesWithPriceAsync(string type, int pageSize, int offset)

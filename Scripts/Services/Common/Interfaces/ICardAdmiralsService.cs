@@ -10,6 +10,7 @@ public interface ICardAdmiralsService
     Task<int> GetCardAdmiralsCountAsync(string search, string type, string rare);    
     Task<InsertOrUpdateResult<bool>> InsertCardAdmiralAsync(CardAdmirals entity);
     Task<InsertOrUpdateResult<bool>> UpdateCardAdmiralAsync(CardAdmirals entity);
+    Task<bool> IsCardAdmiralDeletedOrInactiveAsync(string id);
     Task<List<CardAdmirals>> GetCardAdmiralsRandomAsync(string type, int pageSize);
     Task<List<CardAdmirals>> GetAllCardAdmiralsAsync(string type);
     Task<CardAdmirals> GetCardAdmiralByIdAsync(string Id);

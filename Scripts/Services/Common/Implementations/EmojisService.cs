@@ -12,7 +12,7 @@ public class EmojisService : IEmojisService
 
     public static IEmojisService Create() => ServiceContainer.GetService<IEmojisService>();
 
-    public async Task<List<Emojis>> GetEmojisAsync(string search, string rare,int pageSize, int offset)
+    public async Task<List<Emojis>> GetEmojisAsync(string search, string rare, int pageSize, int offset)
     {
         List<Emojis> list = await _emojisRepository.GetEmojisAsync(search, rare, pageSize, offset);
         list = QualityEvaluatorHelper.GetQualityPower(list);
@@ -28,7 +28,7 @@ public class EmojisService : IEmojisService
     {
         var result = await _emojisRepository.InsertEmojiAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Inserted(true);
         }
@@ -40,12 +40,17 @@ public class EmojisService : IEmojisService
     {
         var result = await _emojisRepository.UpdateEmojiAsync(entity);
 
-        if(result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
+        if (result.Data != null && result.OperationType == DatabaseOperationType.Inserted)
         {
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
         return InsertOrUpdateResult<bool>.Failure();
+    }
+
+    public Task<bool> IsEmojiDeletedOrInactiveAsync(string id)
+    {
+        return _emojisRepository.IsEmojiDeletedOrInactiveAsync(id);
     }
 
     public async Task<List<Emojis>> GetEmojisWithPriceAsync(int pageSize, int offset)

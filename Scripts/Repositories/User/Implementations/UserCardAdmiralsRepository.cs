@@ -1423,11 +1423,12 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
             string updateSQL = @"
             UPDATE user_card_admirals uc INNER JOIN card_admirals c ON c.id = uc.card_admiral_id
             SET 
-                level = @level, 
-                experience = @experience
+                uc.level = @level, 
+                uc.experience = @experience
             WHERE uc.user_id = @user_id 
               AND uc.card_admiral_id = @card_admiral_id
-              AND (level != @level OR experience != @experience);
+              AND (uc.level != @level OR uc.experience != @experience)
+              AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -1483,11 +1484,11 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
             string updateSQL = @"
             UPDATE user_card_admirals uc INNER JOIN card_admirals c ON c.id = uc.card_admiral_id
             SET 
-                star = @star, 
-                quantity = @quantity
+                uc.star = @star, 
+                uc.quantity = @quantity
             WHERE uc.user_id = @user_id 
               AND uc.card_admiral_id = @card_admiral_id
-              AND (star != @star OR quantity != @quantity)
+              AND (uc.star != @star OR uc.quantity != @quantity)
 
  AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
