@@ -30,7 +30,7 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
                 FROM Beverages c 
                 LEFT JOIN beverages_gallery cg 
                        ON c.id = cg.beverage_id AND cg.user_id = @userId 
-                WHERE 1=1";
+                WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -163,7 +163,7 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM Beverages WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Beverages c WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {

@@ -30,7 +30,7 @@ public class MedalsGalleryRepository : IMedalsGalleryRepository
                 FROM Medals c 
                 LEFT JOIN medals_gallery cg 
                        ON c.id = cg.medal_id AND cg.user_id = @userId 
-                WHERE 1=1
+                WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE
             ";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -163,7 +163,7 @@ public class MedalsGalleryRepository : IMedalsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM Medals WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Medals c WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
                     selectSQL += " AND rare = @rare";

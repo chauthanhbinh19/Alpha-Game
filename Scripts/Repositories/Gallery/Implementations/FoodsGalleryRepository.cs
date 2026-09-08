@@ -30,7 +30,7 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
                 FROM Foods c 
                 LEFT JOIN foods_gallery cg 
                        ON c.id = cg.food_id AND cg.user_id = @userId 
-                WHERE 1=1
+                WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE
             ";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -163,8 +163,8 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM Foods 
-                WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Foods c 
+                WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
                     selectSQL += " AND rare = @rare";

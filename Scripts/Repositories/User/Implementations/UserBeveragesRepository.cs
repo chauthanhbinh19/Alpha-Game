@@ -43,16 +43,16 @@ public class UserBeveragesRepository : IUserBeveragesRepository
                 INNER JOIN beverages c ON uc.beverage_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.beverage_id = am.user_beverage_id
                 LEFT JOIN AggregatedUpgrades au ON uc.beverage_id = au.user_beverage_id
-                WHERE uc.user_id = @userId";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    selectSQL += " AND t.rare = @rare";
+                    selectSQL += " AND c.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND c.name LIKE CONCAT('%', @search, '%')";
                 }
 
                 selectSQL += @" LIMIT @limit OFFSET @offset";
@@ -186,7 +186,7 @@ public class UserBeveragesRepository : IUserBeveragesRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Beverages t
-                INNER JOIN user_beverages ut ON t.id = ut.beverage_id
+                INNER JOIN user_beverages ut ON t.id = ut.beverage_id AND t.is_active = TRUE AND t.is_deleted = FALSE
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -587,13 +587,15 @@ public class UserBeveragesRepository : IUserBeveragesRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_beverages
+            UPDATE user_beverages uc INNER JOIN beverages c ON c.id = uc.beverage_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND beverage_id = @beverage_id
-              AND (level != @level OR experience != @experience);
+            WHERE uc.user_id = @user_id 
+              AND uc.beverage_id = @beverage_id
+              AND (level != @level OR experience != @experience)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -647,13 +649,15 @@ public class UserBeveragesRepository : IUserBeveragesRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_beverages
+            UPDATE user_beverages uc INNER JOIN beverages c ON c.id = uc.beverage_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND beverage_id = @beverage_id
-              AND (star != @star OR quantity != @quantity);
+            WHERE uc.user_id = @user_id 
+              AND uc.beverage_id = @beverage_id
+              AND (star != @star OR quantity != @quantity)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -711,7 +715,8 @@ public class UserBeveragesRepository : IUserBeveragesRepository
                 FROM user_beverages uc
                 LEFT JOIN AggregatedModules am ON uc.beverage_id = am.user_beverage_id
                 LEFT JOIN AggregatedUpgrades au ON uc.beverage_id = au.user_beverage_id
-                WHERE uc.beverage_id = @id AND uc.user_id = @user_id";
+                WHERE uc.beverage_id = @id 
+                    AND uc.user_id = @user_id";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
@@ -839,7 +844,7 @@ public class UserBeveragesRepository : IUserBeveragesRepository
                     FROM user_beverages uc
                     LEFT JOIN user_beverages_module ubm ON uc.beverage_id = ubm.user_beverage_id
                     LEFT JOIN user_beverages_upgrade ubu ON uc.beverage_id = ubu.user_beverage_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

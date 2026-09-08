@@ -40,8 +40,7 @@ public class UserBooksRepository : IUserBooksRepository
                 INNER JOIN books c ON uc.book_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.book_id = am.user_book_id
                 LEFT JOIN AggregatedUpgrades au ON uc.book_id = au.user_book_id 
-                WHERE uc.user_id = @userId 
-                ";
+                WHERE uc.user_id = @userId  AND c.is_active = TRUE AND c.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND b.type = @type";
@@ -267,8 +266,7 @@ public class UserBooksRepository : IUserBooksRepository
                 INNER JOIN books c ON uc.book_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.book_id = am.user_book_id
                 LEFT JOIN AggregatedUpgrades au ON uc.book_id = au.user_book_id
-                WHERE uc.user_id = @userId AND uc.team_id=@team_id
-                ";
+                WHERE uc.user_id = @userId AND uc.team_id=@team_id AND c.is_active = TRUE AND c.is_deleted = FALSE";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@userId", userId);
@@ -442,7 +440,7 @@ public class UserBooksRepository : IUserBooksRepository
                 string selectSQL = @"SELECT distinct c.type, count(c.type) as number
                 FROM user_card_books uc
                 LEFT JOIN books c ON uc.book_id = c.id 
-                WHERE uc.user_id =@userId and uc.team_id=@team_id
+                WHERE uc.user_id =@userId and uc.team_id=@team_id AND c.is_active = TRUE AND c.is_deleted = FALSE
                 group by c.type, c.type";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -487,7 +485,7 @@ public class UserBooksRepository : IUserBooksRepository
                 string selectSQL = @"Select count(*) 
                              from books b, user_books ub 
                              where b.id = ub.book_id 
-                               and ub.user_id = @userId ";
+                                AND ub.user_id = @userId  AND c.is_active = TRUE AND c.is_deleted = FALSE";
                 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -899,13 +897,15 @@ public class UserBooksRepository : IUserBooksRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_books
+            UPDATE user_books uc INNER JOIN books c ON c.id = uc.book_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND book_id = @book_id
-              AND (level != @level OR experience != @experience);
+            WHERE uc.user_id = @user_id 
+              AND uc.book_id = @book_id
+              AND (level != @level OR experience != @experience)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -959,13 +959,15 @@ public class UserBooksRepository : IUserBooksRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_books
+            UPDATE user_books uc INNER JOIN books c ON c.id = uc.book_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND book_id = @book_id
-              AND (star != @star OR quantity != @quantity);
+            WHERE uc.user_id = @user_id 
+              AND uc.book_id = @book_id
+              AND (star != @star OR quantity != @quantity)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -1008,9 +1010,11 @@ public class UserBooksRepository : IUserBooksRepository
                 await connection.OpenAsync();
 
                 string updateSQL = @"
-                UPDATE user_books 
+                UPDATE user_books uc INNER JOIN books c ON c.id = uc.book_id 
                 SET team_id = @team_id, position = @position 
-                WHERE user_id = @user_id AND book_id = @book_id;
+                WHERE uc.user_id = @user_id AND uc.book_id = @book_id
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
             ";
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
@@ -1064,8 +1068,7 @@ public class UserBooksRepository : IUserBooksRepository
                 FROM user_books uc
                 LEFT JOIN AggregatedModules am ON uc.book_id = am.user_book_id
                 LEFT JOIN AggregatedUpgrades au ON uc.book_id = au.user_book_id
-                WHERE uc.book_id = @id AND uc.user_id = @user_id
-            ";
+                WHERE uc.book_id = @id AND uc.user_id = @user_id";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -1249,7 +1252,7 @@ public class UserBooksRepository : IUserBooksRepository
                 INNER JOIN teams t ON uc.team_id = t.team_id AND t.is_main = 1
                 LEFT JOIN user_books_module ubm ON uc.book_id = ubm.user_book_id
                 LEFT JOIN user_books_upgrade ubu ON uc.book_id = ubu.user_book_id
-                WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL
+                WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL AND 
             )
             SELECT 
                 SUM(health * total_multiplier) AS health,

@@ -43,7 +43,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                 INNER JOIN weapons c ON uc.weapon_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.weapon_id = am.user_weapon_id
                 LEFT JOIN AggregatedUpgrades au ON uc.weapon_id = au.user_weapon_id
-                WHERE uc.user_id = @userId";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -52,12 +52,12 @@ public class UserWeaponsRepository : IUserWeaponsRepository
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    selectSQL += " AND t.rare = @rare";
+                    selectSQL += " AND c.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND c.name LIKE CONCAT('%', @search, '%')";
                 }
 
                 selectSQL += @"
@@ -197,7 +197,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Weapons t
-                INNER JOIN user_weapons ut ON t.id = ut.weapon_id
+                INNER JOIN user_weapons ut ON t.id = ut.weapon_id AND t.is_active = TRUE AND t.is_deleted = FALSE
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -608,12 +608,12 @@ public class UserWeaponsRepository : IUserWeaponsRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_weapons
+            UPDATE user_weapons uc INNER JOIN weapons c ON c.id = uc.weapon_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND weapon_id = @weapon_id
+            WHERE uc.user_id = @user_id 
+              AND uc.weapon_id = @weapon_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -668,12 +668,12 @@ public class UserWeaponsRepository : IUserWeaponsRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_weapons
+            UPDATE user_weapons uc INNER JOIN weapons c ON c.id = uc.weapon_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND weapon_id = @weapon_id
+            WHERE uc.user_id = @user_id 
+              AND uc.weapon_id = @weapon_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -860,7 +860,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                     FROM user_weapons uc
                     LEFT JOIN user_weapons_module ubm ON uc.weapon_id = ubm.user_weapon_id
                     LEFT JOIN user_weapons_upgrade ubu ON uc.weapon_id = ubu.user_weapon_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

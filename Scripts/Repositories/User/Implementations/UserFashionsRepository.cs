@@ -43,8 +43,7 @@ public class UserFashionsRepository : IUserFashionsRepository
                 INNER JOIN fashions c ON uc.fashion_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.fashion_id = am.user_fashion_id
                 LEFT JOIN AggregatedUpgrades au ON uc.fashion_id = au.user_fashion_id
-                WHERE uc.user_id = @userId
-            ";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -194,9 +193,8 @@ public class UserFashionsRepository : IUserFashionsRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Fashions m
-                JOIN user_fashions um ON m.id = um.fashion_id
-                WHERE um.user_id = @userId 
-            ";
+                JOIN user_fashions um ON m.id = um.fashion_id AND m.is_active = TRUE AND m.is_deleted = FALSE
+                WHERE um.user_id = @userId";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -604,13 +602,15 @@ public class UserFashionsRepository : IUserFashionsRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_fashions
+            UPDATE user_fashions uc INNER JOIN fashions c ON c.id = uc.fashion_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND fashion_id = @fashion_id
-              AND (level != @level OR experience != @experience);
+            WHERE uc.user_id = @user_id 
+              AND uc.fashion_id = @fashion_id
+              AND (level != @level OR experience != @experience)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -664,13 +664,15 @@ public class UserFashionsRepository : IUserFashionsRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_fashions
+            UPDATE user_fashions uc INNER JOIN fashions c ON c.id = uc.fashion_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND fashion_id = @fashion_id
-              AND (star != @star OR quantity != @quantity);
+            WHERE uc.user_id = @user_id 
+              AND uc.fashion_id = @fashion_id
+              AND (star != @star OR quantity != @quantity)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -861,7 +863,7 @@ public class UserFashionsRepository : IUserFashionsRepository
                     FROM user_fashions uc
                     LEFT JOIN user_fashions_module ubm ON uc.fashion_id = ubm.user_fashion_id
                     LEFT JOIN user_fashions_upgrade ubu ON uc.fashion_id = ubu.user_fashion_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

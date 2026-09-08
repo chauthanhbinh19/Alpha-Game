@@ -43,7 +43,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                 INNER JOIN collaborations c ON uc.collaboration_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.collaboration_id = am.user_collaboration_id
                 LEFT JOIN AggregatedUpgrades au ON uc.collaboration_id = au.user_collaboration_id
-                WHERE uc.user_id = @userId";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -180,7 +180,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM collaborations c
-                JOIN user_collaborations uc ON c.id = uc.collaboration_id
+                JOIN user_collaborations uc ON c.id = uc.collaboration_id AND c.is_active = TRUE AND c.is_deleted = FALSE
                 WHERE uc.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -577,12 +577,12 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_collaborations
+            UPDATE user_collaborations uc INNER JOIN collaborations c ON c.id = uc.collaboration_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND collaboration_id = @collaboration_id
+            WHERE uc.user_id = @user_id 
+              AND uc.collaboration_id = @collaboration_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -637,12 +637,12 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_collaborations
+            UPDATE user_collaborations uc INNER JOIN collaborations c ON c.id = uc.collaboration_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND collaboration_id = @collaboration_id
+            WHERE uc.user_id = @user_id 
+              AND uc.collaboration_id = @collaboration_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -703,8 +703,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                 FROM user_collaborations uc
                 LEFT JOIN AggregatedModules am ON uc.collaboration_id = am.user_collaboration_id
                 LEFT JOIN AggregatedUpgrades au ON uc.collaboration_id = au.user_collaboration_id
-                WHERE uc.collaboration_id = @id AND uc.user_id = @user_id
-            ";
+                WHERE uc.collaboration_id = @id AND uc.user_id = @user_id";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -835,7 +834,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                     FROM user_collaborations uc
                     LEFT JOIN user_collaborations_module ubm ON uc.collaboration_id = ubm.user_collaboration_id
                     LEFT JOIN user_collaborations_upgrade ubu ON uc.collaboration_id = ubu.user_collaboration_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

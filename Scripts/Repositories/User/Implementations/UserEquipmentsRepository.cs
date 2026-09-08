@@ -286,8 +286,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.id = au.user_equipment_id
 
-                WHERE ue.user_id = @userId
-            ";
+                WHERE ue.user_id = @userId";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -468,9 +467,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 string selectSQL = @"
                 SELECT COUNT(*)
                 FROM Equipments e
-                JOIN user_equipments ue ON e.id = ue.equipment_id
-                WHERE ue.user_id = @userId
-            ";
+                JOIN user_equipments ue ON e.id = ue.equipment_id AND 
+                WHERE ue.user_id = @userId";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND e.type = @type";
@@ -1068,13 +1066,15 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_equipments
+            UPDATE user_equipments uc INNER JOIN Equipments c ON c.id = uc.equipment_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND equipment_id = @equipment_id
-              AND (level != @level OR experience != @experience);
+            WHERE uc.user_id = @user_id 
+              AND uc.equipment_id = @equipment_id
+              AND (level != @level OR experience != @experience)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -1128,13 +1128,15 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_equipments
+            UPDATE user_equipments uc INNER JOIN Equipments c ON c.id = uc.equipment_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND equipment_id = @equipment_id
-              AND (star != @star OR quantity != @quantity);
+            WHERE uc.user_id = @user_id 
+              AND uc.equipment_id = @equipment_id
+              AND (star != @star OR quantity != @quantity)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -1207,7 +1209,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                             double newQuantity = currentQuantity - amount;
 
                             // Cập nhật quantity mới
-                            string updateSQL = "UPDATE user_currencies SET quantity=@quantity WHERE user_id=@user_id AND currency_id=@currency_id";
+                            string updateSQL = "UPDATE user_currencies uc INNER JOIN currencies c ON c.id = uc.currency_id SET uc.quantity=@quantity WHERE uc.user_id=@user_id AND uc.currency_id=@currency_id AND c.is_active=TRUE AND c.is_deleted=FALSE";
                             await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                             {
                                 updateCommand.Parameters.AddWithValue("@quantity", newQuantity);
@@ -1888,8 +1890,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id
-                AND che.card_hero_id = @card_hero_id
+                WHERE ue.user_id = @user_id AND che.card_hero_id = @card_hero_id
                 AND e.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2049,8 +2050,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id
-                AND che.card_captain_id = @card_captain_id
+                WHERE ue.user_id = @user_id AND che.card_captain_id = @card_captain_id
                 AND e.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2210,8 +2210,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id
-                AND che.card_colonel_id = @card_colonel_id
+                WHERE ue.user_id = @user_id AND che.card_colonel_id = @card_colonel_id
                 AND e.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2371,8 +2370,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id
-                AND che.card_general_id = @card_general_id
+                WHERE ue.user_id = @user_id AND che.card_general_id = @card_general_id
                 AND e.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2532,8 +2530,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id
-                AND che.card_admiral_id = @card_admiral_id
+                WHERE ue.user_id = @user_id AND che.card_admiral_id = @card_admiral_id
                 AND e.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2693,8 +2690,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id
-                AND che.card_monster_id = @card_monster_id
+                WHERE ue.user_id = @user_id AND che.card_monster_id = @card_monster_id
                 AND e.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2854,8 +2850,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id
-                AND che.card_military_id = @card_military_id
+                WHERE ue.user_id = @user_id AND che.card_military_id = @card_military_id
                 AND e.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -3011,8 +3006,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id
-                AND che.card_spell_id = @card_spell_id
+                WHERE ue.user_id = @user_id AND che.card_spell_id = @card_spell_id
                 AND e.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -3172,8 +3166,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id
-                AND che.book_id = @book_id
+                WHERE ue.user_id = @user_id AND che.book_id = @book_id
                 AND e.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -3333,8 +3326,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id
-                AND che.pet_id = @pet_id
+                WHERE ue.user_id = @user_id AND che.pet_id = @pet_id
                 AND e.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -3494,8 +3486,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id
-                AND che.card_soldier_id = @card_soldier_id
+                WHERE ue.user_id = @user_id AND che.card_soldier_id = @card_soldier_id
                 AND e.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -3658,13 +3649,13 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id 
-                AND e.type = @type
+                WHERE ue.user_id = @user_id  AND e.type = @type
                 AND (
                         @status = 'ALL' 
                     OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
                     OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
                 )
+                AND 
 
                 LIMIT @limit OFFSET @offset;";
 
@@ -3830,13 +3821,13 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id 
-                AND e.type = @type
+                WHERE ue.user_id = @user_id  AND e.type = @type
                 AND (
                         @status = 'ALL' 
                     OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
                     OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
                 )
+                AND 
 
                 LIMIT @limit OFFSET @offset;";
 
@@ -4002,13 +3993,13 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id 
-                AND e.type = @type
+                WHERE ue.user_id = @user_id  AND e.type = @type
                 AND (
                         @status = 'ALL' 
                     OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
                     OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
                 )
+                AND 
 
                 LIMIT @limit OFFSET @offset;";
 
@@ -4174,13 +4165,13 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id 
-                AND e.type = @type
+                WHERE ue.user_id = @user_id  AND e.type = @type
                 AND (
                         @status = 'ALL' 
                     OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
                     OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
                 )
+                AND 
 
                 LIMIT @limit OFFSET @offset;";
 
@@ -4342,13 +4333,13 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id 
-                AND e.type = @type
+                WHERE ue.user_id = @user_id  AND e.type = @type
                 AND (
                         @status = 'ALL' 
                     OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
                     OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
                 )
+                AND 
 
                 LIMIT @limit OFFSET @offset;";
 
@@ -4514,13 +4505,13 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id 
-                AND e.type = @type
+                WHERE ue.user_id = @user_id  AND e.type = @type
                 AND (
                         @status = 'ALL' 
                     OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
                     OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
                 )
+                AND 
 
                 LIMIT @limit OFFSET @offset;";
 
@@ -4686,13 +4677,13 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id 
-                AND e.type = @type
+                WHERE ue.user_id = @user_id  AND e.type = @type
                 AND (
                         @status = 'ALL' 
                     OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
                     OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
                 )
+                AND 
 
                 LIMIT @limit OFFSET @offset;";
 
@@ -4858,13 +4849,13 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id 
-                AND e.type = @type
+                WHERE ue.user_id = @user_id  AND e.type = @type
                 AND (
                         @status = 'ALL' 
                     OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
                     OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
                 )
+                AND 
 
                 LIMIT @limit OFFSET @offset;";
 
@@ -5030,13 +5021,13 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id 
-                AND e.type = @type
+                WHERE ue.user_id = @user_id  AND e.type = @type
                 AND (
                         @status = 'ALL' 
                     OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
                     OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
                 )
+                AND 
 
                 LIMIT @limit OFFSET @offset;";
 
@@ -5202,13 +5193,13 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id 
-                AND e.type = @type
+                WHERE ue.user_id = @user_id  AND e.type = @type
                 AND (
                         @status = 'ALL' 
                     OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
                     OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
                 )
+                AND 
 
                 LIMIT @limit OFFSET @offset;";
 
@@ -5374,13 +5365,13 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id 
-                AND e.type = @type
+                WHERE ue.user_id = @user_id  AND e.type = @type
                 AND (
                         @status = 'ALL' 
                     OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
                     OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
                 )
+                AND 
 
                 LIMIT @limit OFFSET @offset;";
 
@@ -5587,13 +5578,11 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     ON uc.card_hero_id = che.card_hero_id 
                 AND uc.user_id = che.user_id
                 INNER JOIN user_equipments ue 
-                    ON che.equipment_id = ue.equipment_id 
-                AND uc.user_id = ue.user_id
+                    ON che.equipment_id = ue.equipment_id  AND uc.user_id = ue.user_id
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE uc.user_id = @user_id 
-                AND uc.card_hero_id = @card_hero_id;";
+                WHERE uc.user_id = @user_id  AND uc.card_hero_id = @card_hero_id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -5802,13 +5791,11 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     ON uc.card_captain_id = che.card_captain_id 
                 AND uc.user_id = che.user_id
                 INNER JOIN user_equipments ue 
-                    ON che.equipment_id = ue.equipment_id 
-                AND uc.user_id = ue.user_id
+                    ON che.equipment_id = ue.equipment_id  AND uc.user_id = ue.user_id
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE uc.user_id = @user_id 
-                AND uc.card_captain_id = @card_captain_id;";
+                WHERE uc.user_id = @user_id  AND uc.card_captain_id = @card_captain_id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -6017,13 +6004,11 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     ON uc.card_colonel_id = che.card_colonel_id 
                 AND uc.user_id = che.user_id
                 INNER JOIN user_equipments ue 
-                    ON che.equipment_id = ue.equipment_id 
-                AND uc.user_id = ue.user_id
+                    ON che.equipment_id = ue.equipment_id  AND uc.user_id = ue.user_id
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE uc.user_id = @user_id 
-                AND uc.card_colonel_id = @card_colonel_id;";
+                WHERE uc.user_id = @user_id  AND uc.card_colonel_id = @card_colonel_id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -6232,13 +6217,11 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     ON uc.card_general_id = che.card_general_id 
                 AND uc.user_id = che.user_id
                 INNER JOIN user_equipments ue 
-                    ON che.equipment_id = ue.equipment_id 
-                AND uc.user_id = ue.user_id
+                    ON che.equipment_id = ue.equipment_id  AND uc.user_id = ue.user_id
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE uc.user_id = @user_id 
-                AND uc.card_general_id = @card_general_id;";
+                WHERE uc.user_id = @user_id  AND uc.card_general_id = @card_general_id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -6447,13 +6430,11 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     ON uc.card_admiral_id = che.card_admiral_id 
                 AND uc.user_id = che.user_id
                 INNER JOIN user_equipments ue 
-                    ON che.equipment_id = ue.equipment_id 
-                AND uc.user_id = ue.user_id
+                    ON che.equipment_id = ue.equipment_id  AND uc.user_id = ue.user_id
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE uc.user_id = @user_id 
-                AND uc.card_admiral_id = @card_admiral_id;";
+                WHERE uc.user_id = @user_id  AND uc.card_admiral_id = @card_admiral_id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -6662,13 +6643,11 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     ON uc.card_monster_id = che.card_monster_id 
                 AND uc.user_id = che.user_id
                 INNER JOIN user_equipments ue 
-                    ON che.equipment_id = ue.equipment_id 
-                AND uc.user_id = ue.user_id
+                    ON che.equipment_id = ue.equipment_id  AND uc.user_id = ue.user_id
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE uc.user_id = @user_id 
-                AND uc.card_monster_id = @card_monster_id;";
+                WHERE uc.user_id = @user_id  AND uc.card_monster_id = @card_monster_id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -6877,13 +6856,11 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     ON uc.card_military_id = che.card_military_id 
                 AND uc.user_id = che.user_id
                 INNER JOIN user_equipments ue 
-                    ON che.equipment_id = ue.equipment_id 
-                AND uc.user_id = ue.user_id
+                    ON che.equipment_id = ue.equipment_id  AND uc.user_id = ue.user_id
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE uc.user_id = @user_id 
-                AND uc.card_military_id = @card_military_id;";
+                WHERE uc.user_id = @user_id  AND uc.card_military_id = @card_military_id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -7092,13 +7069,11 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     ON uc.card_spell_id = che.card_spell_id 
                 AND uc.user_id = che.user_id
                 INNER JOIN user_equipments ue 
-                    ON che.equipment_id = ue.equipment_id 
-                AND uc.user_id = ue.user_id
+                    ON che.equipment_id = ue.equipment_id  AND uc.user_id = ue.user_id
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE uc.user_id = @user_id 
-                AND uc.card_spell_id = @card_spell_id;";
+                WHERE uc.user_id = @user_id  AND uc.card_spell_id = @card_spell_id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -7307,13 +7282,11 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     ON uc.book_id = che.book_id 
                 AND uc.user_id = che.user_id
                 INNER JOIN user_equipments ue 
-                    ON che.equipment_id = ue.equipment_id 
-                AND uc.user_id = ue.user_id
+                    ON che.equipment_id = ue.equipment_id  AND uc.user_id = ue.user_id
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE uc.user_id = @user_id 
-                AND uc.book_id = @book_id;";
+                WHERE uc.user_id = @user_id  AND uc.book_id = @book_id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -7522,13 +7495,11 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     ON uc.pet_id = che.pet_id 
                 AND uc.user_id = che.user_id
                 INNER JOIN user_equipments ue 
-                    ON che.equipment_id = ue.equipment_id 
-                AND uc.user_id = ue.user_id
+                    ON che.equipment_id = ue.equipment_id  AND uc.user_id = ue.user_id
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE uc.user_id = @user_id 
-                AND uc.pet_id = @pet_id;";
+                WHERE uc.user_id = @user_id  AND uc.pet_id = @pet_id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -7737,13 +7708,11 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     ON uc.card_soldier_id = che.card_soldier_id 
                 AND uc.user_id = che.user_id
                 INNER JOIN user_equipments ue 
-                    ON che.equipment_id = ue.equipment_id 
-                AND uc.user_id = ue.user_id
+                    ON che.equipment_id = ue.equipment_id  AND uc.user_id = ue.user_id
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE uc.user_id = @user_id 
-                AND uc.card_soldier_id = @card_soldier_id;";
+                WHERE uc.user_id = @user_id  AND uc.card_soldier_id = @card_soldier_id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -7947,7 +7916,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 string getUsedPositionsQuery = @"
                 SELECT che.position
                 FROM card_heroes_equipment che
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id  AND 
                 JOIN Equipments e ON e.id = ue.equipment_id
                 WHERE che.card_hero_id = @card_hero_id AND e.type = @type AND ue.user_id = @user_id";
                 HashSet<int> usedPositions = new HashSet<int>();
@@ -8114,7 +8083,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 string getUsedPositionsQuery = @"
                 SELECT che.position
                 FROM card_captains_equipment che
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id  AND 
                 JOIN Equipments e ON e.id = ue.equipment_id
                 WHERE che.card_captain_id = @card_captain_id AND e.type = @type AND ue.user_id = @user_id";
                 HashSet<int> usedPositions = new HashSet<int>();
@@ -8281,7 +8250,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 string getUsedPositionsQuery = @"
                 SELECT cce.position
                 FROM card_captains_equipment cce
-                JOIN user_equipments ue ON cce.equipment_id = ue.equipment_id 
+                JOIN user_equipments ue ON cce.equipment_id = ue.equipment_id  AND 
                 JOIN Equipments e ON e.id = ue.equipment_id
                 WHERE cce.card_captain_id = @card_captain_id AND e.type = @type AND ue.user_id = @user_id";
                 HashSet<int> usedPositions = new HashSet<int>();
@@ -8448,7 +8417,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 string getUsedPositionsQuery = @"
                 SELECT cge.position
                 FROM card_generals_equipment cge
-                JOIN user_equipments ue ON cge.equipment_id = ue.equipment_id 
+                JOIN user_equipments ue ON cge.equipment_id = ue.equipment_id  AND 
                 JOIN Equipments e ON e.id = ue.equipment_id
                 WHERE cge.card_general_id = @card_general_id AND e.type = @type AND ue.user_id = @user_id";
                 HashSet<int> usedPositions = new HashSet<int>();
@@ -8615,7 +8584,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 string getUsedPositionsQuery = @"
                 SELECT cge.position
                 FROM card_admirals_equipment cge
-                JOIN user_equipments ue ON cge.equipment_id = ue.equipment_id 
+                JOIN user_equipments ue ON cge.equipment_id = ue.equipment_id  AND 
                 JOIN Equipments e ON e.id = ue.equipment_id
                 WHERE cge.card_admiral_id = @card_admiral_id AND e.type = @type AND ue.user_id = @user_id";
                 HashSet<int> usedPositions = new HashSet<int>();
@@ -8782,7 +8751,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 string getUsedPositionsQuery = @"
                 SELECT che.position
                 FROM card_monsters_equipment che
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id  AND 
                 JOIN Equipments e ON e.id = ue.equipment_id
                 WHERE che.card_monster_id = @card_monster_id AND e.type = @type AND ue.user_id = @user_id";
                 HashSet<int> usedPositions = new HashSet<int>();
@@ -8949,7 +8918,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 string getUsedPositionsQuery = @"
                 SELECT cme.position
                 FROM card_militaries_equipment cme
-                JOIN user_equipments ue ON cme.equipment_id = ue.equipment_id 
+                JOIN user_equipments ue ON cme.equipment_id = ue.equipment_id  AND 
                 JOIN Equipments e ON e.id = ue.equipment_id
                 WHERE cme.card_military_id = @card_military_id AND e.type = @type AND ue.user_id = @user_id";
                 HashSet<int> usedPositions = new HashSet<int>();
@@ -9116,7 +9085,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 string getUsedPositionsQuery = @"
                 SELECT che.position
                 FROM card_spells_equipment che
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id  AND 
                 JOIN Equipments e ON e.id = ue.equipment_id
                 WHERE che.card_spell_id = @card_spell_id AND e.type = @type AND ue.user_id = @user_id";
                 HashSet<int> usedPositions = new HashSet<int>();
@@ -9283,7 +9252,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 string getUsedPositionsQuery = @"
                 SELECT che.position
                 FROM books_equipment che
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id  AND 
                 JOIN Equipments e ON e.id = ue.equipment_id
                 WHERE che.book_id = @book_id AND e.type = @type AND ue.user_id = @user_id";
                 HashSet<int> usedPositions = new HashSet<int>();
@@ -9450,7 +9419,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 string getUsedPositionsQuery = @"
                 SELECT che.position
                 FROM pets_equipment che
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id  AND 
                 JOIN Equipments e ON e.id = ue.equipment_id
                 WHERE che.pet_id = @pet_id AND e.type = @type AND ue.user_id = @user_id";
                 HashSet<int> usedPositions = new HashSet<int>();
@@ -9617,7 +9586,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 string getUsedPositionsQuery = @"
                 SELECT che.position
                 FROM card_soldiers_equipment che
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id  AND 
                 JOIN Equipments e ON e.id = ue.equipment_id
                 WHERE che.card_soldier_id = @card_soldier_id AND e.type = @type AND ue.user_id = @user_id";
                 HashSet<int> usedPositions = new HashSet<int>();

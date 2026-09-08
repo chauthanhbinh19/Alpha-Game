@@ -29,7 +29,7 @@ public class ForgesGalleryRepository : IForgesGalleryRepository
                 FROM Forges m 
                 LEFT JOIN forges_gallery mg 
                     ON m.id = mg.forge_id AND mg.user_id = @userId 
-                WHERE 1=1";
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -175,8 +175,8 @@ public class ForgesGalleryRepository : IForgesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM Forges 
-                WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Forges m 
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND type = @type";

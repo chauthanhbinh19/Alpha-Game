@@ -43,16 +43,16 @@ public class UserRunesRepository : IUserRunesRepository
                 INNER JOIN runes c ON uc.rune_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.rune_id = am.user_rune_id
                 LEFT JOIN AggregatedUpgrades au ON uc.rune_id = au.user_rune_id
-                WHERE uc.user_id = @userId";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    selectSQL += " AND t.rare = @rare";
+                    selectSQL += " AND c.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND c.name LIKE CONCAT('%', @search, '%')";
                 }
 
                 selectSQL += @"
@@ -184,9 +184,8 @@ public class UserRunesRepository : IUserRunesRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Runes t
-                INNER JOIN user_runes ut ON t.id = ut.rune_id
-                WHERE ut.user_id = @userId 
-            ";
+                INNER JOIN user_runes ut ON t.id = ut.rune_id AND t.is_active = TRUE AND t.is_deleted = FALSE
+                WHERE ut.user_id = @userId";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
                     selectSQL += " AND t.rare = @rare";
@@ -585,12 +584,12 @@ public class UserRunesRepository : IUserRunesRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_runes
+            UPDATE user_runes uc INNER JOIN runes c ON c.id = uc.rune_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND rune_id = @rune_id
+            WHERE uc.user_id = @user_id 
+              AND uc.rune_id = @rune_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -645,12 +644,12 @@ public class UserRunesRepository : IUserRunesRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_runes
+            UPDATE user_runes uc INNER JOIN runes c ON c.id = uc.rune_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND rune_id = @rune_id
+            WHERE uc.user_id = @user_id 
+              AND uc.rune_id = @rune_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -837,7 +836,7 @@ public class UserRunesRepository : IUserRunesRepository
                     FROM user_runes uc
                     LEFT JOIN user_runes_module ubm ON uc.rune_id = ubm.user_rune_id
                     LEFT JOIN user_runes_upgrade ubu ON uc.rune_id = ubu.user_rune_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

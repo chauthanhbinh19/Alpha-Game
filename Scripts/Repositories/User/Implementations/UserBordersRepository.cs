@@ -42,7 +42,7 @@ public class UserBordersRepository : IUserBordersRepository
                 INNER JOIN borders c ON uc.border_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.border_id = am.user_border_id
                 LEFT JOIN AggregatedUpgrades au ON uc.border_id = au.user_border_id
-                WHERE uc.user_id = @userId";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -172,8 +172,8 @@ public class UserBordersRepository : IUserBordersRepository
 
                 string selectSQL = @"
                 SELECT COUNT(*) 
-                FROM Medals m
-                JOIN user_medals um ON m.id = um.medal_id
+                FROM borders m
+                JOIN user_borders um ON m.id = um.border_id AND m.is_active = TRUE AND m.is_deleted = FALSE
                 WHERE um.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -347,9 +347,9 @@ public class UserBordersRepository : IUserBordersRepository
                 {
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                     string updateSQL = @"
-                UPDATE user_borders
+                UPDATE user_borders uc INNER JOIN borders c ON c.id = uc.border_id
                 SET quantity = quantity + 1
-                WHERE user_id = @user_id AND border_id = @border_id;";
+                WHERE uc.user_id = @user_id AND uc.border_id = @border_id AND c.is_active = TRUE AND c.is_deleted = FALSE;";
 
                     await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", userId);
@@ -729,13 +729,15 @@ public class UserBordersRepository : IUserBordersRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_borders
+            UPDATE user_borders uc INNER JOIN borders c ON c.id = uc.border_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND border_id = @border_id
-              AND (level != @level OR experience != @experience);
+            WHERE uc.user_id = @user_id 
+              AND uc.border_id = @border_id
+              AND (level != @level OR experience != @experience)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -789,13 +791,15 @@ public class UserBordersRepository : IUserBordersRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_borders
+            UPDATE user_borders uc INNER JOIN borders c ON c.id = uc.border_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND border_id = @border_id
-              AND (star != @star OR quantity != @quantity);
+            WHERE uc.user_id = @user_id 
+              AND uc.border_id = @border_id
+              AND (star != @star OR quantity != @quantity)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -837,7 +841,7 @@ public class UserBordersRepository : IUserBordersRepository
             {
                 await connection.OpenAsync();
 
-                string updateSQL = "UPDATE user_borders SET is_used=@is_used WHERE user_id=@user_id AND border_id=@border_id";
+                string updateSQL = "UPDATE user_borders uc INNER JOIN borders c ON c.id = uc.border_id SET uc.is_used=@is_used WHERE uc.user_id=@user_id AND uc.border_id=@border_id AND c.is_active=TRUE AND c.is_deleted=FALSE;";
 
                 await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
                 updateCommand.Parameters.AddWithValue("@user_id", userId);
@@ -871,7 +875,7 @@ public class UserBordersRepository : IUserBordersRepository
                 SELECT ub.*, b.image, b.rare 
                 FROM user_borders ub
                 JOIN borders b ON ub.border_id = b.id
-                WHERE ub.is_used = TRUE AND ub.user_id = @user_id";
+                WHERE ub.is_used = TRUE AND ub.user_id = @user_id AND b.is_active = TRUE AND b.is_deleted = FALSE";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@user_id", userId);
@@ -1121,7 +1125,7 @@ public class UserBordersRepository : IUserBordersRepository
                     FROM user_borders uc
                     LEFT JOIN user_borders_module ubm ON uc.border_id = ubm.user_border_id
                     LEFT JOIN user_borders_upgrade ubu ON uc.border_id = ubu.user_border_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

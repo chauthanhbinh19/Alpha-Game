@@ -21,12 +21,12 @@ public class UserWorldsRepository : IUserWorldsRepository
                 string selectSQL = @"
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
                 FROM Worlds t
-                INNER JOIN user_worlds ut ON t.id = ut.world_id
+                INNER JOIN user_worlds ut ON t.id = ut.world_id AND t.is_active = TRUE AND t.is_deleted = FALSE
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    selectSQL += " AND t.rare = @rare";
+                    selectSQL += " AND c.rare = @rare";
                 }
 
                 selectSQL += @"
@@ -146,7 +146,7 @@ public class UserWorldsRepository : IUserWorldsRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Worlds t
-                INNER JOIN user_worlds ut ON t.id = ut.world_id
+                INNER JOIN user_worlds ut ON t.id = ut.world_id AND t.is_active = TRUE AND t.is_deleted = FALSE
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -309,9 +309,9 @@ public class UserWorldsRepository : IUserWorldsRepository
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                         string updateSQL = @"
-                        UPDATE user_worlds
+                        UPDATE user_worlds uc INNER JOIN Worlds c ON c.id = uc.world_id
                         SET quantity = @quantity
-                        WHERE user_id = @user_id AND world_id = @world_id;";
+                        WHERE uc.user_id = @user_id AND uc.world_id = @world_id AND c.is_active = TRUE AND c.is_deleted = FALSE;";
 
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                         {
@@ -348,10 +348,10 @@ public class UserWorldsRepository : IUserWorldsRepository
                 await connection.OpenAsync();
 
                 string updateSQL = @"
-                UPDATE user_worlds
+                UPDATE user_worlds uc INNER JOIN Worlds c ON c.id = uc.world_id
                 SET 
                     level = @level, experience = @experience
-                WHERE user_id = @user_id AND world_id = @world_id;
+                WHERE uc.user_id = @user_id AND uc.world_id = @world_id AND c.is_active = TRUE AND c.is_deleted = FALSE;
             ";
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
@@ -388,10 +388,10 @@ public class UserWorldsRepository : IUserWorldsRepository
                 await connection.OpenAsync();
 
                 string updateSQL = @"
-                UPDATE user_worlds
+                UPDATE user_worlds uc INNER JOIN Worlds c ON c.id = uc.world_id
                 SET 
                     star = @star
-                WHERE user_id = @user_id AND world_id = @world_id;
+                WHERE uc.user_id = @user_id AND uc.world_id = @world_id AND c.is_active = TRUE AND c.is_deleted = FALSE;
             ";
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
@@ -425,7 +425,7 @@ public class UserWorldsRepository : IUserWorldsRepository
             {
                 await connection.OpenAsync();
                 string updateSQL = @"
-                UPDATE user_worlds
+                UPDATE user_worlds uc INNER JOIN Worlds c ON c.id = uc.world_id
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -452,7 +452,7 @@ public class UserWorldsRepository : IUserWorldsRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND world_id = @world_id;";
+                WHERE uc.user_id = @user_id AND uc.world_id = @world_id AND c.is_active = TRUE AND c.is_deleted = FALSE;";
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
                     updateCommand.Parameters.AddWithValue("@user_id", userId);
@@ -535,7 +535,7 @@ public class UserWorldsRepository : IUserWorldsRepository
             {
                 await connection.OpenAsync();
                 string selectSQL = @"Select * from user_worlds where user_worlds.world_id=@id 
-                and user_worlds.user_id=@user_id";
+                and user_worlds.user_id=@user_id AND user_worlds.is_active = TRUE AND user_worlds.is_deleted = FALSE";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);

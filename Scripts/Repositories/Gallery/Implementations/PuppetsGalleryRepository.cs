@@ -30,7 +30,7 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
                 FROM Puppets m 
                 LEFT JOIN puppets_gallery mg 
                     ON m.id = mg.puppet_id AND mg.user_id = @userId 
-                WHERE 1=1";
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -176,8 +176,8 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM Puppets 
-                WHERE 1= 1";
+                string selectSQL = @"SELECT COUNT(*) FROM Puppets m 
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND type = @type";

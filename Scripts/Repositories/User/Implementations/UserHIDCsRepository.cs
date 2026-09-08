@@ -18,9 +18,9 @@ public class UserHIDCsRepository : IUserHIDCsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT *
-                FROM user_hidcs
-                WHERE user_id = @user_id AND hidc_id = @hidc_id;
+                SELECT uc.*
+                FROM user_hidcs uc INNER JOIN hidcs c ON c.id = uc.hidc_id
+                WHERE uc.user_id = @user_id AND uc.hidc_id = @hidc_id AND c.is_active = TRUE AND c.is_deleted = FALSE;
             ";
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -118,8 +118,8 @@ public class UserHIDCsRepository : IUserHIDCsRepository
             await connection.OpenAsync();
 
             string checkSQL = @"
-            SELECT COUNT(*) FROM user_hidcs 
-            WHERE user_id = @user_id AND hidc_id = @hidc_id";
+            SELECT COUNT(*) FROM user_hidcs uc INNER JOIN hidcs c ON c.id = uc.hidc_id 
+            WHERE uc.user_id = @user_id AND hidc_id = @hidc_id AND c.is_active = TRUE AND c.is_deleted = FALSE;";
 
             await using (var checkCommand = new MySqlCommand(checkSQL, connection))
             {
@@ -132,7 +132,7 @@ public class UserHIDCsRepository : IUserHIDCsRepository
                 {
                     // -------- UPDATE ----------
                     string updateSQL = @"
-                    UPDATE user_hidcs
+                    UPDATE user_hidcs uc INNER JOIN hidcs c ON c.id = uc.hidc_id
                     SET
                         hidc_level = @hidc_level, power = @power, health = @health, mana = @mana, speed = @speed,
                         physical_attack = @physical_attack, physical_defense = @physical_defense,
@@ -177,8 +177,8 @@ public class UserHIDCsRepository : IUserHIDCsRepository
                         percent_all_atomic_defense = @percent_all_atomic_defense,
                         percent_all_mental_attack = @percent_all_mental_attack,
                         percent_all_mental_defense = @percent_all_mental_defense
-                    WHERE user_id = @user_id
-                    AND hidc_id = @hidc_id;
+                    WHERE uc.user_id = @user_id
+                    AND uc.hidc_id = @hidc_id AND c.is_active = TRUE AND c.is_deleted = FALSE;
                 ";
 
                     await using var updateCommand = new MySqlCommand(updateSQL, connection);
@@ -326,8 +326,8 @@ public class UserHIDCsRepository : IUserHIDCsRepository
                     SUM(percent_all_atomic_defense) AS percent_all_atomic_defense,
                     SUM(percent_all_mental_attack) AS percent_all_mental_attack,
                     SUM(percent_all_mental_defense) AS percent_all_mental_defense
-                FROM user_hidcs 
-                WHERE user_id = @user_id;
+                FROM user_hidcs uc INNER JOIN hidcs c ON c.id = uc.hidc_id 
+                WHERE uc.user_id = @user_id AND c.is_active = TRUE AND c.is_deleted = FALSE;
             ";
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))

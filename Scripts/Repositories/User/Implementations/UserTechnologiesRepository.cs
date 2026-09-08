@@ -43,16 +43,16 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                 INNER JOIN technologies c ON uc.technology_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.technology_id = am.user_technology_id
                 LEFT JOIN AggregatedUpgrades au ON uc.technology_id = au.user_technology_id
-                WHERE uc.user_id = @userId";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    selectSQL += " AND t.rare = @rare";
+                    selectSQL += " AND c.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND c.name LIKE CONCAT('%', @search, '%')";
                 }
 
                 selectSQL += @"
@@ -186,7 +186,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Technologies t
-                INNER JOIN user_technologies ut ON t.id = ut.technology_id
+                INNER JOIN user_technologies ut ON t.id = ut.technology_id AND t.is_active = TRUE AND t.is_deleted = FALSE
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -587,12 +587,12 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_technologies
+            UPDATE user_technologies uc INNER JOIN technologies c ON c.id = uc.technology_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND technology_id = @technology_id
+            WHERE uc.user_id = @user_id 
+              AND uc.technology_id = @technology_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -647,12 +647,12 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_technologies
+            UPDATE user_technologies uc INNER JOIN technologies c ON c.id = uc.technology_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND technology_id = @technology_id
+            WHERE uc.user_id = @user_id 
+              AND uc.technology_id = @technology_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -839,7 +839,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                     FROM user_technologies uc
                     LEFT JOIN user_technologies_module ubm ON uc.technology_id = ubm.user_technology_id
                     LEFT JOIN user_technologies_upgrade ubu ON uc.technology_id = ubu.user_technology_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

@@ -26,8 +26,7 @@ public class UserModulesRepository : IUserModulesRepository
                 FROM modules u
                 LEFT JOIN {userTable} uchu
                     ON u.id = uchu.module_id
-                    AND uchu.user_id = @user_id
-                    AND uchu.{objectColumn} = @object_id
+                    AND uchu.user_id = @user_id AND uchu.{objectColumn} = @object_id
                 WHERE u.id = @module_id;
             ";
 

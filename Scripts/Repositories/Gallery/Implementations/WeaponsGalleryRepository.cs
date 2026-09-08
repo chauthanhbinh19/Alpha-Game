@@ -29,7 +29,7 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
                 FROM Weapons c 
                 LEFT JOIN weapons_gallery cg 
                        ON c.id = cg.weapon_id AND cg.user_id = @userId 
-                WHERE 1=1
+                WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -173,8 +173,8 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM Weapons 
-                WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Weapons c 
+                WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND type = @type";

@@ -43,7 +43,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                 INNER JOIN vehicles c ON uc.vehicle_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.vehicle_id = am.user_vehicle_id
                 LEFT JOIN AggregatedUpgrades au ON uc.vehicle_id = au.user_vehicle_id
-                WHERE uc.user_id = @userId";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -197,7 +197,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM vehicles m
-                JOIN user_vehicles um ON m.id = um.vehicle_id
+                JOIN user_vehicles um ON m.id = um.vehicle_id AND m.is_active = TRUE AND m.is_deleted = FALSE
                 WHERE um.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -608,12 +608,12 @@ public class UserVehiclesRepository : IUserVehiclesRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_vehicles
+            UPDATE user_vehicles uc INNER JOIN vehicles c ON c.id = uc.vehicle_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND vehicle_id = @vehicle_id
+            WHERE uc.user_id = @user_id 
+              AND uc.vehicle_id = @vehicle_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -668,12 +668,12 @@ public class UserVehiclesRepository : IUserVehiclesRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_vehicles
+            UPDATE user_vehicles uc INNER JOIN vehicles c ON c.id = uc.vehicle_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND vehicle_id = @vehicle_id
+            WHERE uc.user_id = @user_id 
+              AND uc.vehicle_id = @vehicle_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -865,7 +865,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                     FROM user_vehicles uc
                     LEFT JOIN user_vehicles_module ubm ON uc.vehicle_id = ubm.user_vehicle_id
                     LEFT JOIN user_vehicles_upgrade ubu ON uc.vehicle_id = ubu.user_vehicle_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

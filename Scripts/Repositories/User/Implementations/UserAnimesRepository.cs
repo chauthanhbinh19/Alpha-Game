@@ -18,9 +18,9 @@ public class UserAnimesRepository : IUserAnimesRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT *
-                FROM user_animes
-                WHERE user_id = @user_id AND anime_id = @anime_id;
+                SELECT uc.*
+                FROM user_animes uc INNER JOIN animes c ON c.id = uc.anime_id
+                WHERE uc.user_id = @user_id AND uc.anime_id = @anime_id AND c.is_active = TRUE AND c.is_deleted = FALSE;
             ";
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -118,8 +118,8 @@ public class UserAnimesRepository : IUserAnimesRepository
             await connection.OpenAsync();
 
             string checkSQL = @"
-            SELECT COUNT(*) FROM user_animes 
-            WHERE user_id = @user_id AND anime_id = @anime_id";
+            SELECT COUNT(*) FROM user_animes uc INNER JOIN animes c ON c.id = uc.anime_id 
+            WHERE uc.user_id = @user_id AND anime_id = @anime_id AND c.is_active = TRUE AND c.is_deleted = FALSE;";
 
             await using (var checkCommand = new MySqlCommand(checkSQL, connection))
             {
@@ -326,8 +326,8 @@ public class UserAnimesRepository : IUserAnimesRepository
                     SUM(percent_all_atomic_defense) AS percent_all_atomic_defense,
                     SUM(percent_all_mental_attack) AS percent_all_mental_attack,
                     SUM(percent_all_mental_defense) AS percent_all_mental_defense
-                FROM user_animes 
-                WHERE user_id = @user_id;
+                FROM user_animes uc INNER JOIN animes c ON c.id = uc.anime_id 
+                WHERE uc.user_id = @user_id AND c.is_active = TRUE AND c.is_deleted = FALSE;
             ";
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))

@@ -30,7 +30,7 @@ public class PlantsGalleryRepository : IPlantsGalleryRepository
                 FROM Plants c 
                 LEFT JOIN plants_gallery cg 
                        ON c.id = cg.plant_id AND cg.user_id = @userId 
-                WHERE 1=1
+                WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE
             ";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -163,7 +163,7 @@ public class PlantsGalleryRepository : IPlantsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM Plants WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Plants c WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {

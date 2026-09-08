@@ -30,7 +30,7 @@ public class CollaborationEquipmentsGalleryRepository : ICollaborationEquipments
                 FROM collaboration_equipments m 
                 LEFT JOIN collaboration_equipments_gallery mg 
                     ON m.id = mg.collaboration_equipment_id AND mg.user_id = @userId 
-                WHERE 1=1";
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -176,8 +176,8 @@ public class CollaborationEquipmentsGalleryRepository : ICollaborationEquipments
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM collaboration_equipments 
-                WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM collaboration_equipments m 
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND type = @type";

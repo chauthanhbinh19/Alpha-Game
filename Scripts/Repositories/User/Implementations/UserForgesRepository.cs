@@ -43,8 +43,7 @@ public class UserForgesRepository : IUserForgesRepository
                 INNER JOIN forges c ON uc.forge_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.forge_id = am.user_forge_id
                 LEFT JOIN AggregatedUpgrades au ON uc.forge_id = au.user_forge_id
-                WHERE uc.user_id = @userId
-            ";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -194,9 +193,8 @@ public class UserForgesRepository : IUserForgesRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Forges m
-                JOIN user_forges um ON m.id = um.forge_id
-                WHERE um.user_id = @userId 
-            ";
+                JOIN user_forges um ON m.id = um.forge_id AND m.is_active = TRUE AND m.is_deleted = FALSE
+                WHERE um.user_id = @userId";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -604,13 +602,15 @@ public class UserForgesRepository : IUserForgesRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_forges
+            UPDATE user_forges uc INNER JOIN forges c ON c.id = uc.forge_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND forge_id = @forge_id
-              AND (level != @level OR experience != @experience);
+            WHERE uc.user_id = @user_id 
+              AND uc.forge_id = @forge_id
+              AND (level != @level OR experience != @experience)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -664,13 +664,15 @@ public class UserForgesRepository : IUserForgesRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_forges
+            UPDATE user_forges uc INNER JOIN forges c ON c.id = uc.forge_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND forge_id = @forge_id
-              AND (star != @star OR quantity != @quantity);
+            WHERE uc.user_id = @user_id 
+              AND uc.forge_id = @forge_id
+              AND (star != @star OR quantity != @quantity)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -861,7 +863,7 @@ public class UserForgesRepository : IUserForgesRepository
                     FROM user_forges uc
                     LEFT JOIN user_forges_module ubm ON uc.forge_id = ubm.user_forge_id
                     LEFT JOIN user_forges_upgrade ubu ON uc.forge_id = ubu.user_forge_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

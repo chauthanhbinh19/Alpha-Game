@@ -30,7 +30,7 @@ public class BuildingsGalleryRepository : IBuildingsGalleryRepository
                 FROM Buildings m 
                 LEFT JOIN buildings_gallery mg 
                     ON m.id = mg.building_id AND mg.user_id = @userId 
-                WHERE 1=1";
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -176,8 +176,8 @@ public class BuildingsGalleryRepository : IBuildingsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM Buildings 
-                WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Buildings m 
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND type = @type";

@@ -30,7 +30,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
                 FROM Emojis c 
                 LEFT JOIN emojis_gallery cg 
                        ON c.id = cg.emoji_id AND cg.user_id = @userId 
-                WHERE 1=1";
+                WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -163,8 +163,8 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM Emojis 
-                WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Emojis c 
+                WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {

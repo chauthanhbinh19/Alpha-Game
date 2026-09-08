@@ -43,7 +43,7 @@ public class UserOutfitsRepository : IUserOutfitsRepository
                 INNER JOIN outfits c ON uc.outfit_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.outfit_id = am.user_outfit_id
                 LEFT JOIN AggregatedUpgrades au ON uc.outfit_id = au.user_outfit_id
-                WHERE uc.user_id = @userId";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -52,12 +52,12 @@ public class UserOutfitsRepository : IUserOutfitsRepository
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    selectSQL += " AND t.rare = @rare";
+                    selectSQL += " AND c.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND c.name LIKE CONCAT('%', @search, '%')";
                 }
 
                 selectSQL += @"
@@ -197,7 +197,7 @@ public class UserOutfitsRepository : IUserOutfitsRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Outfits t
-                INNER JOIN user_outfits ut ON t.id = ut.outfit_id
+                INNER JOIN user_outfits ut ON t.id = ut.outfit_id AND t.is_active = TRUE AND t.is_deleted = FALSE
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -608,12 +608,12 @@ public class UserOutfitsRepository : IUserOutfitsRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_outfits
+            UPDATE user_outfits uc INNER JOIN outfits c ON c.id = uc.outfit_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND outfit_id = @outfit_id
+            WHERE uc.user_id = @user_id 
+              AND uc.outfit_id = @outfit_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -668,12 +668,12 @@ public class UserOutfitsRepository : IUserOutfitsRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_outfits
+            UPDATE user_outfits uc INNER JOIN outfits c ON c.id = uc.outfit_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND outfit_id = @outfit_id
+            WHERE uc.user_id = @user_id 
+              AND uc.outfit_id = @outfit_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -860,7 +860,7 @@ public class UserOutfitsRepository : IUserOutfitsRepository
                     FROM user_outfits uc
                     LEFT JOIN user_outfits_module ubm ON uc.outfit_id = ubm.user_outfit_id
                     LEFT JOIN user_outfits_upgrade ubu ON uc.outfit_id = ubu.user_outfit_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

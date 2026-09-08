@@ -43,16 +43,16 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 INNER JOIN spirit_beasts c ON uc.spirit_beast_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.spirit_beast_id = am.user_spirit_beast_id
                 LEFT JOIN AggregatedUpgrades au ON uc.spirit_beast_id = au.user_spirit_beast_id
-                WHERE uc.user_id = @userId";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    selectSQL += " AND t.rare = @rare";
+                    selectSQL += " AND c.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND c.name LIKE CONCAT('%', @search, '%')";
                 }
 
                 selectSQL += " LIMIT @limit OFFSET @offset";
@@ -585,12 +585,12 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_spirit_beasts
+            UPDATE user_spirit_beasts uc INNER JOIN spirit_beasts c ON c.id = uc.spirit_beast_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND spirit_beast_id = @spirit_beast_id
+            WHERE uc.user_id = @user_id 
+              AND uc.spirit_beast_id = @spirit_beast_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -645,12 +645,12 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_spirit_beasts
+            UPDATE user_spirit_beasts uc INNER JOIN spirit_beasts c ON c.id = uc.spirit_beast_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND spirit_beast_id = @spirit_beast_id
+            WHERE uc.user_id = @user_id 
+              AND uc.spirit_beast_id = @spirit_beast_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -711,8 +711,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 FROM user_spirit_beasts uc
                 LEFT JOIN AggregatedModules am ON uc.spirit_beast_id = am.user_spirit_beast_id
                 LEFT JOIN AggregatedUpgrades au ON uc.spirit_beast_id = au.user_spirit_beast_id
-                WHERE uc.spirit_beast_id = @id AND uc.user_id = @user_id
-            ";
+                WHERE uc.spirit_beast_id = @id AND uc.user_id = @user_id";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -843,7 +842,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     FROM user_spirit_beasts uc
                     LEFT JOIN user_spirit_beasts_module ubm ON uc.spirit_beast_id = ubm.user_spirit_beast_id
                     LEFT JOIN user_spirit_beasts_upgrade ubu ON uc.spirit_beast_id = ubu.user_spirit_beast_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

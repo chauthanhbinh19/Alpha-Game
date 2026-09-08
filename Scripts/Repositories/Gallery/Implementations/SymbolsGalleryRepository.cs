@@ -30,7 +30,7 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
                 FROM Symbols m 
                 LEFT JOIN symbols_gallery mg 
                     ON m.id = mg.symbol_id AND mg.user_id = @userId 
-                WHERE 1=1";
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -176,8 +176,8 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM Symbols 
-                WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Symbols m 
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND type = @type";

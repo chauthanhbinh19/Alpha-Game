@@ -30,7 +30,7 @@ public class SpiritBeastsGalleryRepository : ISpiritBeastsGalleryRepository
                 FROM spirit_beasts c 
                 LEFT JOIN spirit_beasts_gallery cg 
                        ON c.id = cg.spirit_beast_id AND cg.user_id = @userId 
-                WHERE 1=1
+                WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE
             ";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -163,8 +163,8 @@ public class SpiritBeastsGalleryRepository : ISpiritBeastsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM spirit_beasts 
-                WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM spirit_beasts c 
+                WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
                     selectSQL += " AND rare = @rare";

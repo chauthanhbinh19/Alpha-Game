@@ -43,16 +43,16 @@ public class UserTitlesRepository : IUserTitlesRepository
                 INNER JOIN titles c ON uc.title_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.title_id = am.user_title_id
                 LEFT JOIN AggregatedUpgrades au ON uc.title_id = au.user_title_id
-                WHERE uc.user_id = @userId";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    selectSQL += " AND t.rare = @rare";
+                    selectSQL += " AND c.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND c.name LIKE CONCAT('%', @search, '%')";
                 }
 
                 selectSQL += @"
@@ -186,7 +186,7 @@ public class UserTitlesRepository : IUserTitlesRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Titles t
-                INNER JOIN user_titles ut ON t.id = ut.title_id
+                INNER JOIN user_titles ut ON t.id = ut.title_id AND t.is_active = TRUE AND t.is_deleted = FALSE
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -587,12 +587,12 @@ public class UserTitlesRepository : IUserTitlesRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_titles
+            UPDATE user_titles uc INNER JOIN titles c ON c.id = uc.title_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND title_id = @title_id
+            WHERE uc.user_id = @user_id 
+              AND uc.title_id = @title_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -647,12 +647,12 @@ public class UserTitlesRepository : IUserTitlesRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_titles
+            UPDATE user_titles uc INNER JOIN titles c ON c.id = uc.title_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND title_id = @title_id
+            WHERE uc.user_id = @user_id 
+              AND uc.title_id = @title_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -839,7 +839,7 @@ public class UserTitlesRepository : IUserTitlesRepository
                     FROM user_titles uc
                     LEFT JOIN user_titles_module ubm ON uc.title_id = ubm.user_title_id
                     LEFT JOIN user_titles_upgrade ubu ON uc.title_id = ubu.user_title_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

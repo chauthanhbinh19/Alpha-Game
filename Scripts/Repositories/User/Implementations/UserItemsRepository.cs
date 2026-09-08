@@ -24,8 +24,8 @@ public class UserItemsRepository : IUserItemsRepository
                 string selectSQL = @"
                 SELECT ui.*, i.id, i.name, i.type, i.image
                 FROM items i
-                JOIN user_items ui ON i.id = ui.item_id
-                WHERE ui.user_id = @userId ";
+                JOIN user_items ui ON i.id = ui.item_id AND i.is_active = TRUE AND i.is_deleted = FALSE
+                WHERE ui.user_id = @userId";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND i.type = @type";
@@ -97,8 +97,8 @@ public class UserItemsRepository : IUserItemsRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM items i
-                JOIN user_items ui ON i.id = ui.item_id
-                WHERE ui.user_id = @userId ";
+                JOIN user_items ui ON i.id = ui.item_id AND i.is_active = TRUE AND i.is_deleted = FALSE
+                WHERE ui.user_id = @userId";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND i.type = @type";
@@ -154,6 +154,7 @@ public class UserItemsRepository : IUserItemsRepository
                        IFNULL(ui.quantity, 0) AS quantity
                 FROM items i
                 LEFT JOIN user_items ui ON ui.item_id = i.id AND ui.user_id = @userId
+                    AND i.is_active = TRUE AND i.is_deleted = FALSE
                 WHERE i.name = @itemName";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -201,6 +202,7 @@ public class UserItemsRepository : IUserItemsRepository
                        IFNULL(ui.quantity, 0) AS quantity
                 FROM items i
                 LEFT JOIN user_items ui ON ui.item_id = i.id AND ui.user_id = @userId
+                    AND i.is_active = TRUE AND i.is_deleted = FALSE
                 WHERE i.code_name = @code_name";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -255,8 +257,7 @@ public class UserItemsRepository : IUserItemsRepository
                     IFNULL(iec.experience_value, 0) AS experience_value
                 FROM items i
                 LEFT JOIN user_items ui
-                    ON ui.item_id = i.id
-                    AND ui.user_id = @userId
+                    ON ui.item_id = i.id AND ui.user_id = @userId AND 
                 LEFT JOIN item_experience_configs iec
                     ON iec.item_id = i.id
                 WHERE i.code_name = @code_name";
@@ -304,7 +305,7 @@ public class UserItemsRepository : IUserItemsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem item đã tồn tại chưa
-                string selectSQL = @"SELECT COUNT(*) FROM user_items WHERE user_id = @user_id AND item_id = @item_id";
+                string selectSQL = @"SELECT COUNT(*) FROM user_items WHERE user_id = @user_id AND item_id = @item_id AND is_active = TRUE AND is_deleted = FALSE";
                 await using (MySqlCommand checkCommand = new MySqlCommand(selectSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
@@ -357,9 +358,9 @@ public class UserItemsRepository : IUserItemsRepository
             {
                 await connection.OpenAsync();
 
-                string updateSQL = @"UPDATE user_items 
+                string updateSQL = @"UPDATE user_items uc INNER JOIN items c ON c.id = uc.item_id 
                              SET quantity = @quantity
-                             WHERE user_id = @user_id AND item_id = @item_id";
+                             WHERE uc.user_id = @user_id AND uc.item_id = @item_id AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
@@ -392,9 +393,9 @@ public class UserItemsRepository : IUserItemsRepository
             {
                 await connection.OpenAsync();
 
-                string updateSQL = @"UPDATE user_items 
+                string updateSQL = @"UPDATE user_items uc INNER JOIN items c ON c.id = uc.item_id 
                              SET quantity = @quantity
-                             WHERE user_id = @user_id AND item_id = @item_id";
+                             WHERE uc.user_id = @user_id AND uc.item_id = @item_id AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {

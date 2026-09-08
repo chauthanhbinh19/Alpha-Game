@@ -26,8 +26,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                     COALESCE(uc.quantity, 0) AS quantity
                 FROM currencies c
                 LEFT JOIN user_currencies uc
-                    ON c.id = uc.currency_id
-                    AND uc.user_id = @userId;";
+                    ON c.id = uc.currency_id AND uc.user_id = @userId;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -80,7 +79,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                 SELECT c.image, c.name, uc.currency_id, uc.quantity
                 FROM user_currencies uc
                 JOIN currencies c ON uc.currency_id = c.id
-                WHERE uc.user_id = @userId AND c.id = @id";
+                WHERE uc.user_id = @userId AND c.id = @id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -220,7 +219,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                     double newQuantity = currentQuantity - price;
 
                     // Cập nhật quantity mới
-                    string updateSQL = "UPDATE user_currencies SET quantity = @quantity WHERE user_id = @user_id AND currency_id = @currency_id";
+                    string updateSQL = "UPDATE user_currencies uc INNER JOIN currencies c ON c.id = uc.currency_id SET uc.quantity = @quantity WHERE uc.user_id = @user_id AND uc.currency_id = @currency_id AND c.is_active = TRUE AND c.is_deleted = FALSE";
                     await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                     {
                         updateCommand.Parameters.AddWithValue("@quantity", newQuantity);
@@ -256,7 +255,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM equipments e
                              JOIN equipment_trade et ON e.id = et.equipment_id
                              JOIN currencies c ON c.id = et.currency_id
-                             JOIN user_currencies uc ON uc.currency_id = c.id
+                             JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE e.type = @type";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -306,7 +305,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM equipments e
                              JOIN equipment_trade et ON e.id = et.equipment_id
                              JOIN currencies c ON c.id = et.currency_id
-                             JOIN user_currencies uc ON uc.currency_id = c.id
+                             JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE e.type = @type AND e.id = @equipment_id";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -356,7 +355,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM equipments e
                              JOIN equipment_trade et ON e.id = et.equipment_id
                              JOIN currencies c ON c.id = et.currency_id
-                             JOIN user_currencies uc ON uc.currency_id = c.id
+                             JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE e.type = @type AND e.id = @equipment_id";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -406,7 +405,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM avatars ch
                              LEFT JOIN avatars_trade et ON ch.id = et.avatar_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id = @id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -455,7 +454,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM card_heroes ch
                              LEFT JOIN card_hero_trade et ON ch.id = et.card_hero_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id = @id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -504,7 +503,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM card_captains ch
                              LEFT JOIN card_captain_trade et ON ch.id = et.card_captain_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id = @id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -553,7 +552,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM card_colonels ch
                              LEFT JOIN card_colonel_trade et ON ch.id = et.card_colonel_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id = @id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -602,7 +601,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM card_generals ch
                              LEFT JOIN card_general_trade et ON ch.id = et.card_general_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id = @id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -651,7 +650,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM card_admirals ch
                              LEFT JOIN card_admiral_trade et ON ch.id = et.card_admiral_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -700,7 +699,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM card_monsters ch
                              LEFT JOIN card_monster_trade et ON ch.id = et.card_monster_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -749,7 +748,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM card_military ch
                              LEFT JOIN card_military_trade et ON ch.id = et.card_military_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -798,7 +797,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM card_spell ch
                              LEFT JOIN card_spell_trade et ON ch.id = et.card_spell_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -847,7 +846,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM books ch
                              LEFT JOIN book_trade et ON ch.id = et.book_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -896,7 +895,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM achievements ch
                              LEFT JOIN achievement_trade et ON ch.id = et.achievement_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -945,7 +944,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM borders ch
                              LEFT JOIN border_trade et ON ch.id = et.border_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -994,7 +993,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM collaborations ch
                              LEFT JOIN collaboration_trade et ON ch.id = et.collaboration_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -1043,7 +1042,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM collaboration_equipments ch
                              LEFT JOIN collaboration_equipment_trade et ON ch.id = et.collaboration_equipment_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -1092,7 +1091,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM items ch
                              LEFT JOIN item_trade et ON ch.id = et.item_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -1141,7 +1140,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM magic_formation_circle ch
                              LEFT JOIN magic_formation_circle_trade et ON ch.id = et.mfc_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -1190,7 +1189,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM medals ch
                              LEFT JOIN medal_circle_trade et ON ch.id = et.medal_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -1239,7 +1238,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM pets ch
                              LEFT JOIN pet_trade et ON ch.id = et.pet_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -1288,7 +1287,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM relics ch
                              LEFT JOIN relic_trade et ON ch.id = et.relic_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -1337,7 +1336,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM skills ch
                              LEFT JOIN skill_trade et ON ch.id = et.skill_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -1386,7 +1385,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM symbols ch
                              LEFT JOIN symbol_trade et ON ch.id = et.symbol_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -1435,7 +1434,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM titles ch
                              LEFT JOIN title_trade et ON ch.id = et.title_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -1484,7 +1483,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM talisman ch
                              LEFT JOIN talisman_trade et ON ch.id = et.talisman_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -1533,7 +1532,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM puppet ch
                              LEFT JOIN puppet_trade et ON ch.id = et.puppet_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -1582,7 +1581,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM alchemy ch
                              LEFT JOIN alchemy_trade et ON ch.id = et.alchemy_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -1631,7 +1630,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM forge ch
                              LEFT JOIN forge_trade et ON ch.id = et.forge_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -1680,7 +1679,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM card_life ch
                              LEFT JOIN card_life_trade et ON ch.id = et.card_life_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -1729,7 +1728,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM artwork ch
                              LEFT JOIN artwork_trade et ON ch.id = et.artwork_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -1778,7 +1777,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM spirit_beast ch
                              LEFT JOIN spirit_beast_trade et ON ch.id = et.spirit_beast_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -1827,7 +1826,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM spirit_card ch
                              LEFT JOIN spirit_card_trade et ON ch.id = et.spirit_card_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -1876,7 +1875,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM cards ch
                              LEFT JOIN card_trade et ON ch.id = et.card_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -1925,7 +1924,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM architectures ch
                              LEFT JOIN architecture_trade et ON ch.id = et.architecture_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -1974,7 +1973,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM technologies ch
                              LEFT JOIN technology_trade et ON ch.id = et.technology_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2023,7 +2022,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM vehicles ch
                              LEFT JOIN vehicle_trade et ON ch.id = et.vehicle_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2072,7 +2071,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM cores ch
                              LEFT JOIN core_trade et ON ch.id = et.core_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2121,7 +2120,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM weapons ch
                              LEFT JOIN weapon_trade et ON ch.id = et.weapon_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2170,7 +2169,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM robots ch
                              LEFT JOIN robot_trade et ON ch.id = et.robot_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2219,7 +2218,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM badges ch
                              LEFT JOIN badge_trade et ON ch.id = et.badge_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2268,7 +2267,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM mecha_beasts ch
                              LEFT JOIN mecha_beast_trade et ON ch.id = et.mecha_beast_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2317,7 +2316,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM runes ch
                              LEFT JOIN rune_trade et ON ch.id = et.rune_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2366,7 +2365,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM furnitures ch
                              LEFT JOIN furniture_trade et ON ch.id = et.furniture_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2415,7 +2414,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM foods ch
                              LEFT JOIN food_trade et ON ch.id = et.food_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2464,7 +2463,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM beverages ch
                              LEFT JOIN beverage_trade et ON ch.id = et.beverage_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2513,7 +2512,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM buildings ch
                              LEFT JOIN building_trade et ON ch.id = et.building_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2562,7 +2561,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM plants ch
                              LEFT JOIN plant_trade et ON ch.id = et.plant_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2611,7 +2610,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM fashions ch
                              LEFT JOIN fashion_trade et ON ch.id = et.fashion_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2660,7 +2659,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM emojis ch
                              LEFT JOIN emoji_trade et ON ch.id = et.emoji_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2709,7 +2708,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM card_soldiers ch
                              LEFT JOIN card_soldier_trade et ON ch.id = et.card_soldier_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2758,7 +2757,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM outfits ch
                              LEFT JOIN outfit_trade et ON ch.id = et.outfit_id
                              LEFT JOIN currencies c ON c.id = et.currency_id
-                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id AND 
                              WHERE ch.id=@id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2901,7 +2900,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM books a
                              JOIN book_trade at ON a.id = at.book_id
                              JOIN currencies c ON at.currency_id = c.id
-                             JOIN user_currencies uc ON c.id = uc.currency_id
+                             JOIN user_currencies uc ON c.id = uc.currency_id AND 
                              WHERE a.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -2951,7 +2950,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM card_heroes a
                              JOIN card_hero_trade at ON a.id = at.card_hero_id
                              JOIN currencies c ON at.currency_id = c.id
-                             JOIN user_currencies uc ON c.id = uc.currency_id
+                             JOIN user_currencies uc ON c.id = uc.currency_id AND 
                              WHERE a.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -3001,7 +3000,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM card_captains a
                              JOIN card_captain_trade at ON a.id = at.card_captain_id
                              JOIN currencies c ON at.currency_id = c.id
-                             JOIN user_currencies uc ON c.id = uc.currency_id
+                             JOIN user_currencies uc ON c.id = uc.currency_id AND 
                              WHERE a.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -3051,7 +3050,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM card_colonels a
                              JOIN card_colonel_trade at ON a.id = at.card_colonel_id
                              JOIN currencies c ON at.currency_id = c.id
-                             JOIN user_currencies uc ON c.id = uc.currency_id
+                             JOIN user_currencies uc ON c.id = uc.currency_id AND 
                              WHERE a.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -3101,7 +3100,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM card_generals a
                              JOIN card_general_trade at ON a.id = at.card_general_id
                              JOIN currencies c ON at.currency_id = c.id
-                             JOIN user_currencies uc ON c.id = uc.currency_id
+                             JOIN user_currencies uc ON c.id = uc.currency_id AND 
                              WHERE a.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -3151,7 +3150,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM card_admirals a
                              JOIN card_admiral_trade at ON a.id = at.card_admiral_id
                              JOIN currencies c ON at.currency_id = c.id
-                             JOIN user_currencies uc ON c.id = uc.currency_id
+                             JOIN user_currencies uc ON c.id = uc.currency_id AND 
                              WHERE a.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -3246,7 +3245,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM card_militaries a
                              JOIN card_military_trade at ON a.id = at.card_military_id
                              JOIN currencies c ON at.currency_id = c.id
-                             JOIN user_currencies uc ON c.id = uc.currency_id
+                             JOIN user_currencies uc ON c.id = uc.currency_id AND 
                              WHERE a.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -3296,7 +3295,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM card_spells a
                              JOIN card_spell_trade at ON a.id = at.card_spell_id
                              JOIN currencies c ON at.currency_id = c.id
-                             JOIN user_currencies uc ON c.id = uc.currency_id
+                             JOIN user_currencies uc ON c.id = uc.currency_id AND 
                              WHERE a.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -3393,7 +3392,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM collaboration_equipments a
                              JOIN collaboration_equipment_trade at ON a.id = at.collaboration_equipment_id
                              JOIN currencies c ON at.currency_id = c.id
-                             JOIN user_currencies uc ON c.id = uc.currency_id
+                             JOIN user_currencies uc ON c.id = uc.currency_id AND 
                              WHERE a.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -3490,7 +3489,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM items a
                              JOIN item_trade at ON a.id = at.item_id
                              JOIN currencies c ON at.currency_id = c.id
-                             JOIN user_currencies uc ON c.id = uc.currency_id
+                             JOIN user_currencies uc ON c.id = uc.currency_id AND 
                              WHERE a.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -3540,7 +3539,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM magic_formation_circles a
                              JOIN magic_formation_circle_trade at ON a.id = at.mfc_id
                              JOIN currencies c ON at.currency_id = c.id
-                             JOIN user_currencies uc ON c.id = uc.currency_id
+                             JOIN user_currencies uc ON c.id = uc.currency_id AND 
                              WHERE a.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -3637,7 +3636,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM pets a
                              JOIN pet_trade at ON a.id = at.pet_id
                              JOIN currencies c ON at.currency_id = c.id
-                             JOIN user_currencies uc ON c.id = uc.currency_id
+                             JOIN user_currencies uc ON c.id = uc.currency_id AND 
                              WHERE a.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -3687,7 +3686,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM relics a
                              JOIN relic_trade at ON a.id = at.relic_id
                              JOIN currencies c ON at.currency_id = c.id
-                             JOIN user_currencies uc ON c.id = uc.currency_id
+                             JOIN user_currencies uc ON c.id = uc.currency_id AND 
                              WHERE a.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -3737,7 +3736,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM skills a
                              JOIN skill_trade at ON a.id = at.skill_id
                              JOIN currencies c ON at.currency_id = c.id
-                             JOIN user_currencies uc ON c.id = uc.currency_id
+                             JOIN user_currencies uc ON c.id = uc.currency_id AND 
                              WHERE a.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -3787,7 +3786,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM symbols a
                              JOIN symbol_trade at ON a.id = at.symbol_id
                              JOIN currencies c ON at.currency_id = c.id
-                             JOIN user_currencies uc ON c.id = uc.currency_id
+                             JOIN user_currencies uc ON c.id = uc.currency_id AND 
                              WHERE a.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -3886,7 +3885,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM talismans a
                              JOIN talisman_trade at ON a.id = at.talisman_id
                              JOIN currencies c ON at.currency_id = c.id
-                             JOIN user_currencies uc ON c.id = uc.currency_id
+                             JOIN user_currencies uc ON c.id = uc.currency_id AND 
                              WHERE a.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -3936,7 +3935,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM puppets a
                              JOIN puppet_trade at ON a.id = at.puppet_id
                              JOIN currencies c ON at.currency_id = c.id
-                             JOIN user_currencies uc ON c.id = uc.currency_id
+                             JOIN user_currencies uc ON c.id = uc.currency_id AND 
                              WHERE a.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -3986,7 +3985,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM alchemies a
                              JOIN alchemy_trade at ON a.id = at.alchemy_id
                              JOIN currencies c ON at.currency_id = c.id
-                             JOIN user_currencies uc ON c.id = uc.currency_id
+                             JOIN user_currencies uc ON c.id = uc.currency_id AND 
                              WHERE a.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -4036,7 +4035,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM forges a
                              JOIN forge_trade at ON a.id = at.forge_id
                              JOIN currencies c ON at.currency_id = c.id
-                             JOIN user_currencies uc ON c.id = uc.currency_id
+                             JOIN user_currencies uc ON c.id = uc.currency_id AND 
                              WHERE a.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -4086,7 +4085,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM card_lives a
                              JOIN card_life_trade at ON a.id = at.card_life_id
                              JOIN currencies c ON at.currency_id = c.id
-                             JOIN user_currencies uc ON c.id = uc.currency_id
+                             JOIN user_currencies uc ON c.id = uc.currency_id AND 
                              WHERE a.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -4136,7 +4135,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM artworks a
                              JOIN artwork_trade at ON a.id = at.artwork_id
                              JOIN currencies c ON at.currency_id = c.id
-                             JOIN user_currencies uc ON c.id = uc.currency_id
+                             JOIN user_currencies uc ON c.id = uc.currency_id AND 
                              WHERE a.type = @type;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))

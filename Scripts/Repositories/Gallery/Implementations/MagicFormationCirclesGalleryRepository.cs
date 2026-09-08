@@ -30,7 +30,7 @@ public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGall
                 FROM magic_formation_circles m 
                 LEFT JOIN magic_formation_circles_gallery mg 
                     ON m.id = mg.mfc_id AND mg.user_id = @userId 
-                WHERE 1=1";
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -176,8 +176,8 @@ public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGall
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM magic_formation_circles 
-                WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM magic_formation_circles m 
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND type = @type";

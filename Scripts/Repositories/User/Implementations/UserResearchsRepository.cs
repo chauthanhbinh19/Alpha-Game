@@ -18,9 +18,9 @@ public class UserResearchsRepository : IUserResearchsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT *
-                FROM user_researchs
-                WHERE user_id = @user_id AND research_id = @research_id;
+                SELECT uc.*
+                FROM user_researchs uc INNER JOIN researchs c ON c.id = uc.research_id
+                WHERE uc.user_id = @user_id AND uc.research_id = @research_id AND c.is_active = TRUE AND c.is_deleted = FALSE;
             ";
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -118,8 +118,8 @@ public class UserResearchsRepository : IUserResearchsRepository
             await connection.OpenAsync();
 
             string checkSQL = @"
-            SELECT COUNT(*) FROM user_researchs 
-            WHERE user_id = @user_id AND research_id = @research_id";
+            SELECT COUNT(*) FROM user_researchs uc INNER JOIN researchs c ON c.id = uc.research_id 
+            WHERE uc.user_id = @user_id AND research_id = @research_id AND c.is_active = TRUE AND c.is_deleted = FALSE;";
 
             await using (var checkCommand = new MySqlCommand(checkSQL, connection))
             {
@@ -132,7 +132,7 @@ public class UserResearchsRepository : IUserResearchsRepository
                 {
                     // -------- UPDATE ----------
                     string updateSQL = @"
-                    UPDATE user_researchs
+                    UPDATE user_researchs uc INNER JOIN researchs c ON c.id = uc.research_id
                     SET
                         research_level = @research_level, power = @power, health = @health, mana = @mana, speed = @speed,
                         physical_attack = @physical_attack, physical_defense = @physical_defense,
@@ -177,8 +177,8 @@ public class UserResearchsRepository : IUserResearchsRepository
                         percent_all_atomic_defense = @percent_all_atomic_defense,
                         percent_all_mental_attack = @percent_all_mental_attack,
                         percent_all_mental_defense = @percent_all_mental_defense
-                    WHERE user_id = @user_id
-                    AND research_id = @research_id;
+                    WHERE uc.user_id = @user_id
+                    AND uc.research_id = @research_id AND c.is_active = TRUE AND c.is_deleted = FALSE;
                 ";
 
                     await using var updateCommand = new MySqlCommand(updateSQL, connection);
@@ -326,8 +326,8 @@ public class UserResearchsRepository : IUserResearchsRepository
                     SUM(percent_all_atomic_defense) AS percent_all_atomic_defense,
                     SUM(percent_all_mental_attack) AS percent_all_mental_attack,
                     SUM(percent_all_mental_defense) AS percent_all_mental_defense
-                FROM user_researchs 
-                WHERE user_id = @user_id;
+                FROM user_researchs uc INNER JOIN researchs c ON c.id = uc.research_id 
+                WHERE uc.user_id = @user_id AND c.is_active = TRUE AND c.is_deleted = FALSE;
             ";
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))

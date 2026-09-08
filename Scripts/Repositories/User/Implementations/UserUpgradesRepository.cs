@@ -26,8 +26,7 @@ public class UserUpgradesRepository : IUserUpgradesRepository
                 FROM upgrades u
                 LEFT JOIN {userTable} uchu
                     ON u.id = uchu.upgrade_id
-                    AND uchu.user_id = @user_id
-                    AND uchu.{objectColumn} = @object_id
+                    AND uchu.user_id = @user_id AND uchu.{objectColumn} = @object_id
                 WHERE u.id = @upgrade_id;
             ";
 

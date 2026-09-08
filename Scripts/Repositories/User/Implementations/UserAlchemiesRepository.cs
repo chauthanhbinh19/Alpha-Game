@@ -43,8 +43,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                 INNER JOIN alchemies c ON uc.alchemy_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.alchemy_id = am.user_alchemy_id
                 LEFT JOIN AggregatedUpgrades au ON uc.alchemy_id = au.user_alchemy_id
-                WHERE uc.user_id = @userId
-                ";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -195,9 +194,8 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM alchemies m
-                JOIN user_alchemies um ON m.id = um.alchemy_id
-                WHERE um.user_id = @userId 
-            ";
+                JOIN user_alchemies um ON m.id = um.alchemy_id AND m.is_active = TRUE AND m.is_deleted = FALSE
+                WHERE um.user_id = @userId";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -605,13 +603,15 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_alchemies
+            UPDATE user_alchemies uc INNER JOIN alchemies c ON c.id = uc.alchemy_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND alchemy_id = @alchemy_id
-              AND (level != @level OR experience != @experience);
+            WHERE uc.user_id = @user_id 
+              AND uc.alchemy_id = @alchemy_id
+              AND (level != @level OR experience != @experience)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -665,13 +665,15 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_alchemies
+            UPDATE user_alchemies uc INNER JOIN alchemies c ON c.id = uc.alchemy_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND alchemy_id = @alchemy_id
-              AND (star != @star OR quantity != @quantity);
+            WHERE uc.user_id = @user_id 
+              AND uc.alchemy_id = @alchemy_id
+              AND (star != @star OR quantity != @quantity)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -862,7 +864,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                     FROM user_alchemies uc
                     LEFT JOIN user_alchemies_module ubm ON uc.alchemy_id = ubm.user_alchemy_id
                     LEFT JOIN user_alchemies_upgrade ubu ON uc.alchemy_id = ubu.user_alchemy_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

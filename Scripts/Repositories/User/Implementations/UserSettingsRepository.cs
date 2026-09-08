@@ -18,7 +18,7 @@ public class UserSettingsRepository : IUserSettingsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = "SELECT * FROM user_settings WHERE user_id = @userId";
+                string selectSQL = "SELECT * FROM user_settings WHERE user_id = @userId AND is_active = TRUE AND is_deleted = FALSE";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@userId", userId);

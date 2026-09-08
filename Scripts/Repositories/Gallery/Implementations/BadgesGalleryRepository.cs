@@ -30,7 +30,7 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
                     FROM Badges c 
                     LEFT JOIN badges_gallery cg 
                         ON c.id = cg.badge_id AND cg.user_id = @userId 
-                    WHERE 1=1
+                    WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE
                 ";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -163,7 +163,7 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM Badges WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Badges c WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {

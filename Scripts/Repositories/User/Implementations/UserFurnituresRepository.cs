@@ -43,8 +43,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                 INNER JOIN furnitures c ON uc.furniture_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.furniture_id = am.user_furniture_id
                 LEFT JOIN AggregatedUpgrades au ON uc.furniture_id = au.user_furniture_id
-                WHERE uc.user_id = @userId
-            ";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -194,9 +193,8 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Furnitures m
-                JOIN user_furnitures um ON m.id = um.furniture_id
-                WHERE um.user_id = @userId 
-            ";
+                JOIN user_furnitures um ON m.id = um.furniture_id AND m.is_active = TRUE AND m.is_deleted = FALSE
+                WHERE um.user_id = @userId";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -604,13 +602,15 @@ public class UserFurnituresRepository : IUserFurnituresRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_furnitures
+            UPDATE user_furnitures uc INNER JOIN furnitures c ON c.id = uc.furniture_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND furniture_id = @furniture_id
-              AND (level != @level OR experience != @experience);
+            WHERE uc.user_id = @user_id 
+              AND uc.furniture_id = @furniture_id
+              AND (level != @level OR experience != @experience)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -664,13 +664,15 @@ public class UserFurnituresRepository : IUserFurnituresRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_furnitures
+            UPDATE user_furnitures uc INNER JOIN furnitures c ON c.id = uc.furniture_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND furniture_id = @furniture_id
-              AND (star != @star OR quantity != @quantity);
+            WHERE uc.user_id = @user_id 
+              AND uc.furniture_id = @furniture_id
+              AND (star != @star OR quantity != @quantity)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -730,7 +732,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                 FROM user_furnitures uc
                 LEFT JOIN AggregatedModules am ON uc.furniture_id = am.user_furniture_id
                 LEFT JOIN AggregatedUpgrades au ON uc.furniture_id = au.user_furniture_id
-                WHERE uc.furniture_id = @id AND uc.user_id = @user_id";
+                WHERE uc.furniture_id = @id AND uc.user_id = @user_id;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -861,7 +863,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                     FROM user_furnitures uc
                     LEFT JOIN user_furnitures_module ubm ON uc.furniture_id = ubm.user_furniture_id
                     LEFT JOIN user_furnitures_upgrade ubu ON uc.furniture_id = ubu.user_furniture_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

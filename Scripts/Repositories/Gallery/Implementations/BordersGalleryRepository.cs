@@ -29,7 +29,7 @@ public class BordersGalleryRepository : IBordersGalleryRepository
                     FROM Borders c 
                     LEFT JOIN borders_gallery cg 
                         ON c.id = cg.border_id AND cg.user_id = @userId 
-                    WHERE 1=1";
+                    WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -162,7 +162,7 @@ public class BordersGalleryRepository : IBordersGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM Borders WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Borders c WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE";
                 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {

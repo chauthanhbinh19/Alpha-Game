@@ -43,7 +43,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                 INNER JOIN puppets c ON uc.puppet_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.puppet_id = am.user_puppet_id
                 LEFT JOIN AggregatedUpgrades au ON uc.puppet_id = au.user_puppet_id
-                WHERE uc.user_id = @userId
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -194,9 +194,8 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM puppets m
-                JOIN user_puppets um ON m.id = um.puppet_id
-                WHERE um.user_id = @userId 
-            ";
+                JOIN user_puppets um ON m.id = um.puppet_id AND m.is_active = TRUE AND m.is_deleted = FALSE
+                WHERE um.user_id = @userId";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -604,12 +603,12 @@ public class UserPuppetsRepository : IUserPuppetsRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_puppets
+            UPDATE user_puppets uc INNER JOIN puppets c ON c.id = uc.puppet_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND puppet_id = @puppet_id
+            WHERE uc.user_id = @user_id 
+              AND uc.puppet_id = @puppet_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -664,12 +663,12 @@ public class UserPuppetsRepository : IUserPuppetsRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_puppets
+            UPDATE user_puppets uc INNER JOIN puppets c ON c.id = uc.puppet_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND puppet_id = @puppet_id
+            WHERE uc.user_id = @user_id 
+              AND uc.puppet_id = @puppet_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -861,7 +860,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                     FROM user_puppets uc
                     LEFT JOIN user_puppets_module ubm ON uc.puppet_id = ubm.user_puppet_id
                     LEFT JOIN user_puppets_upgrade ubu ON uc.puppet_id = ubu.user_puppet_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

@@ -43,16 +43,16 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
                 INNER JOIN mecha_beasts c ON uc.mecha_beast_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.mecha_beast_id = am.user_mecha_beast_id
                 LEFT JOIN AggregatedUpgrades au ON uc.mecha_beast_id = au.user_mecha_beast_id
-                WHERE uc.user_id = @userId";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    selectSQL += " AND t.rare = @rare";
+                    selectSQL += " AND c.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND c.name LIKE CONCAT('%', @search, '%')";
                 }
 
                 selectSQL += @"
@@ -184,9 +184,8 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM mecha_beasts t
-                INNER JOIN user_mecha_beasts ut ON t.id = ut.mecha_beast_id
-                WHERE ut.user_id = @userId 
-            ";
+                INNER JOIN user_mecha_beasts ut ON t.id = ut.mecha_beast_id AND t.is_active = TRUE AND t.is_deleted = FALSE
+                WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -585,12 +584,12 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_mecha_beasts
+            UPDATE user_mecha_beasts uc INNER JOIN mecha_beasts c ON c.id = uc.mecha_beast_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND mecha_beast_id = @mecha_beast_id
+            WHERE uc.user_id = @user_id 
+              AND uc.mecha_beast_id = @mecha_beast_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -645,12 +644,12 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_mecha_beasts
+            UPDATE user_mecha_beasts uc INNER JOIN mecha_beasts c ON c.id = uc.mecha_beast_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND mecha_beast_id = @mecha_beast_id
+            WHERE uc.user_id = @user_id 
+              AND uc.mecha_beast_id = @mecha_beast_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -692,7 +691,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
             {
                 await connection.OpenAsync();
                 string updateSQL = @"
-                UPDATE user_mecha_beasts
+                UPDATE user_mecha_beasts uc INNER JOIN mecha_beasts c ON c.id = uc.mecha_beast_id
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -719,7 +718,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND mecha_beast_id = @mecha_beast_id;";
+                WHERE uc.user_id = @user_id AND uc.mecha_beast_id = @mecha_beast_id AND c.is_active = TRUE AND c.is_deleted = FALSE;";
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
                     updateCommand.Parameters.AddWithValue("@user_id", userId);
@@ -946,7 +945,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
                     FROM user_mecha_beasts uc
                     LEFT JOIN user_mecha_beasts_module ubm ON uc.mecha_beast_id = ubm.user_mecha_beast_id
                     LEFT JOIN user_mecha_beasts_upgrade ubu ON uc.mecha_beast_id = ubu.user_mecha_beast_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

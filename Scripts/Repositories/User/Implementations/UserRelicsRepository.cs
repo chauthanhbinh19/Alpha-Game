@@ -43,7 +43,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                 INNER JOIN relics c ON uc.relic_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.relic_id = am.user_relic_id
                 LEFT JOIN AggregatedUpgrades au ON uc.relic_id = au.user_relic_id
-                WHERE uc.user_id = @userId
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -194,9 +194,8 @@ public class UserRelicsRepository : IUserRelicsRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM relics m
-                JOIN user_relics um ON m.id = um.relic_id
-                WHERE um.user_id = @userId 
-            ";
+                JOIN user_relics um ON m.id = um.relic_id AND m.is_active = TRUE AND m.is_deleted = FALSE
+                WHERE um.user_id = @userId";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -604,12 +603,12 @@ public class UserRelicsRepository : IUserRelicsRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_relics
+            UPDATE user_relics uc INNER JOIN relics c ON c.id = uc.relic_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND relic_id = @relic_id
+            WHERE uc.user_id = @user_id 
+              AND uc.relic_id = @relic_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -664,12 +663,12 @@ public class UserRelicsRepository : IUserRelicsRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_relics
+            UPDATE user_relics uc INNER JOIN relics c ON c.id = uc.relic_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND relic_id = @relic_id
+            WHERE uc.user_id = @user_id 
+              AND uc.relic_id = @relic_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -861,7 +860,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                     FROM user_relics uc
                     LEFT JOIN user_relics_module ubm ON uc.relic_id = ubm.user_relic_id
                     LEFT JOIN user_relics_upgrade ubu ON uc.relic_id = ubu.user_relic_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

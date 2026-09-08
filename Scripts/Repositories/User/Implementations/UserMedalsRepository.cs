@@ -43,16 +43,16 @@ public class UserMedalsRepository : IUserMedalsRepository
                 INNER JOIN medals c ON uc.medal_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.medal_id = am.user_medal_id
                 LEFT JOIN AggregatedUpgrades au ON uc.medal_id = au.user_medal_id
-                WHERE uc.user_id = @userId";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    selectSQL += " AND t.rare = @rare";
+                    selectSQL += " AND c.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND c.name LIKE CONCAT('%', @search, '%')";
                 }
 
                 selectSQL += @"
@@ -184,7 +184,7 @@ public class UserMedalsRepository : IUserMedalsRepository
                 string selectSQL = @"
                     SELECT COUNT(*) 
                     FROM Medals t
-                    INNER JOIN user_medals ut ON t.id = ut.medal_id
+                    INNER JOIN user_medals ut ON t.id = ut.medal_id AND t.is_active = TRUE AND t.is_deleted = FALSE
                     WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -584,12 +584,12 @@ public class UserMedalsRepository : IUserMedalsRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_medals
+            UPDATE user_medals uc INNER JOIN medals c ON c.id = uc.medal_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND medal_id = @medal_id
+            WHERE uc.user_id = @user_id 
+              AND uc.medal_id = @medal_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -644,12 +644,12 @@ public class UserMedalsRepository : IUserMedalsRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_medals
+            UPDATE user_medals uc INNER JOIN medals c ON c.id = uc.medal_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND medal_id = @medal_id
+            WHERE uc.user_id = @user_id 
+              AND uc.medal_id = @medal_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -836,7 +836,7 @@ public class UserMedalsRepository : IUserMedalsRepository
                     FROM user_medals uc
                     LEFT JOIN user_medals_module ubm ON uc.medal_id = ubm.user_medal_id
                     LEFT JOIN user_medals_upgrade ubu ON uc.medal_id = ubu.user_medal_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

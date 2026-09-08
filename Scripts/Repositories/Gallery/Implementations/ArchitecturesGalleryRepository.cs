@@ -30,7 +30,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
                 FROM Architectures c 
                 LEFT JOIN architectures_gallery cg 
                        ON c.id = cg.architecture_id AND cg.user_id = @userId 
-                WHERE 1=1";
+                WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE";
                 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -163,7 +163,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM Architectures WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Architectures c WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {

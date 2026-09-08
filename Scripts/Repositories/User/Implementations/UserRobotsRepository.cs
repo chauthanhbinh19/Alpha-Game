@@ -43,16 +43,16 @@ public class UserRobotsRepository : IUserRobotsRepository
                 INNER JOIN robots c ON uc.robot_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.robot_id = am.user_robot_id
                 LEFT JOIN AggregatedUpgrades au ON uc.robot_id = au.user_robot_id
-                WHERE uc.user_id = @userId";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    selectSQL += " AND t.rare = @rare";
+                    selectSQL += " AND c.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND c.name LIKE CONCAT('%', @search, '%')";
                 }
 
                 selectSQL += @"
@@ -184,9 +184,8 @@ public class UserRobotsRepository : IUserRobotsRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Robots t
-                INNER JOIN user_robots ut ON t.id = ut.robot_id
-                WHERE ut.user_id = @userId 
-            ";
+                INNER JOIN user_robots ut ON t.id = ut.robot_id AND t.is_active = TRUE AND t.is_deleted = FALSE
+                WHERE ut.user_id = @userId";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
                     selectSQL += " AND m.rare = @rare";
@@ -585,12 +584,12 @@ public class UserRobotsRepository : IUserRobotsRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_robots
+            UPDATE user_robots uc INNER JOIN robots c ON c.id = uc.robot_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND robot_id = @robot_id
+            WHERE uc.user_id = @user_id 
+              AND uc.robot_id = @robot_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -645,12 +644,12 @@ public class UserRobotsRepository : IUserRobotsRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_robots
+            UPDATE user_robots uc INNER JOIN robots c ON c.id = uc.robot_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND robot_id = @robot_id
+            WHERE uc.user_id = @user_id 
+              AND uc.robot_id = @robot_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -837,7 +836,7 @@ public class UserRobotsRepository : IUserRobotsRepository
                     FROM user_robots uc
                     LEFT JOIN user_robots_module ubm ON uc.robot_id = ubm.user_robot_id
                     LEFT JOIN user_robots_upgrade ubu ON uc.robot_id = ubu.user_robot_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

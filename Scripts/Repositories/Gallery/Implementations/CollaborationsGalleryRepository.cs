@@ -30,7 +30,7 @@ public class CollaborationsGalleryRepository : ICollaborationsGalleryRepository
                 FROM Collaborations c 
                 LEFT JOIN collaborations_gallery cg 
                        ON c.id = cg.collaboration_id AND cg.user_id = @userId 
-                WHERE 1=1";
+                WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE";
                 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -163,7 +163,7 @@ public class CollaborationsGalleryRepository : ICollaborationsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM Collaborations WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Collaborations c WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {

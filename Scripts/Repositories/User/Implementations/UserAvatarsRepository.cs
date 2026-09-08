@@ -43,7 +43,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                 INNER JOIN avatars c ON uc.avatar_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.avatar_id = am.user_avatar_id
                 LEFT JOIN AggregatedUpgrades au ON uc.avatar_id = au.user_avatar_id
-                WHERE uc.user_id = @userId";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -179,7 +179,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                 string selectSQL = @"
                 SELECT COUNT(*)
                 FROM avatars m
-                JOIN user_avatars um ON m.id = um.avatar_id
+                JOIN user_avatars um ON m.id = um.avatar_id AND m.is_active = TRUE AND m.is_deleted = FALSE
                 WHERE um.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -354,9 +354,9 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                         string updateSQL = @"
-                        UPDATE user_avatars
+                        UPDATE user_avatars uc INNER JOIN avatars c ON c.id = uc.avatar_id
                         SET quantity = quantity + 1
-                        WHERE user_id = @user_id AND avatar_id = @avatar_id;
+                        WHERE uc.user_id = @user_id AND uc.avatar_id = @avatar_id AND c.is_active = TRUE AND c.is_deleted = FALSE;
                     ";
 
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
@@ -740,13 +740,15 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_avatars
+            UPDATE user_avatars uc INNER JOIN avatars c ON c.id = uc.avatar_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND avatar_id = @avatar_id
-              AND (level != @level OR experience != @experience);
+            WHERE uc.user_id = @user_id 
+              AND uc.avatar_id = @avatar_id
+              AND (level != @level OR experience != @experience)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -800,13 +802,15 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_avatars
+            UPDATE user_avatars uc INNER JOIN avatars c ON c.id = uc.avatar_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND avatar_id = @avatar_id
-              AND (star != @star OR quantity != @quantity);
+            WHERE uc.user_id = @user_id 
+              AND uc.avatar_id = @avatar_id
+              AND (star != @star OR quantity != @quantity)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -853,7 +857,9 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                     SELECT ub.*, b.image, b.rare 
                     FROM user_avatars ub
                     JOIN avatars b ON ub.avatar_id = b.id
-                    WHERE ub.is_used = TRUE AND ub.user_id = @user_id;
+                    WHERE ub.is_used = TRUE 
+                        AND ub.user_id = @user_id AND b.is_active = TRUE AND b.is_deleted = FALSE
+                        AND ;
                 ";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -977,7 +983,8 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                 FROM user_avatars uc
                 LEFT JOIN AggregatedModules am ON uc.avatar_id = am.user_avatar_id
                 LEFT JOIN AggregatedUpgrades au ON uc.avatar_id = au.user_avatar_id
-                WHERE uc.avatar_id = @id AND uc.user_id = @user_id";
+                WHERE uc.avatar_id = @id 
+                    AND uc.user_id = @user_id";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -1085,9 +1092,12 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                 await connection.OpenAsync();
 
                 string updateSQL = @"
-                UPDATE user_avatars 
+                UPDATE user_avatars uc INNER JOIN avatars c ON c.id = uc.avatar_id 
                 SET is_used = @is_used 
-                WHERE user_id = @user_id AND avatar_id = @avatar_id;
+                WHERE uc.user_id = @user_id 
+                    AND uc.avatar_id = @avatar_id
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
             ";
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
@@ -1143,7 +1153,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                     FROM user_avatars uc
                     LEFT JOIN user_avatars_module ubm ON uc.avatar_id = ubm.user_avatar_id
                     LEFT JOIN user_avatars_upgrade ubu ON uc.avatar_id = ubu.user_avatar_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

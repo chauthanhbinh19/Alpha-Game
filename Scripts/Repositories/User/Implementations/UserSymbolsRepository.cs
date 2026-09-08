@@ -43,7 +43,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                 INNER JOIN symbols c ON uc.symbol_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.symbol_id = am.user_symbol_id
                 LEFT JOIN AggregatedUpgrades au ON uc.symbol_id = au.user_symbol_id
-                WHERE uc.user_id = @userId
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -194,9 +194,8 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Symbols m
-                JOIN user_symbols um ON m.id = um.symbol_id
-                WHERE um.user_id = @userId 
-            ";
+                JOIN user_symbols um ON m.id = um.symbol_id AND m.is_active = TRUE AND m.is_deleted = FALSE
+                WHERE um.user_id = @userId";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -604,12 +603,12 @@ public class UserSymbolsRepository : IUserSymbolsRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_symbols
+            UPDATE user_symbols uc INNER JOIN symbols c ON c.id = uc.symbol_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND symbol_id = @symbol_id
+            WHERE uc.user_id = @user_id 
+              AND uc.symbol_id = @symbol_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -664,12 +663,12 @@ public class UserSymbolsRepository : IUserSymbolsRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_symbols
+            UPDATE user_symbols uc INNER JOIN symbols c ON c.id = uc.symbol_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND symbol_id = @symbol_id
+            WHERE uc.user_id = @user_id 
+              AND uc.symbol_id = @symbol_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -861,7 +860,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                     FROM user_symbols uc
                     LEFT JOIN user_symbols_module ubm ON uc.symbol_id = ubm.user_symbol_id
                     LEFT JOIN user_symbols_upgrade ubu ON uc.symbol_id = ubu.user_symbol_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

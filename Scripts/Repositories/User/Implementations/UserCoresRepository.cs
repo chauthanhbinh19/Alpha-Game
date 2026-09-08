@@ -43,16 +43,16 @@ public class UserCoresRepository : IUserCoresRepository
                 INNER JOIN cores c ON uc.core_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.core_id = am.user_core_id
                 LEFT JOIN AggregatedUpgrades au ON uc.core_id = au.user_core_id
-                WHERE uc.user_id = @userId";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    selectSQL += " AND t.rare = @rare";
+                    selectSQL += " AND c.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND c.name LIKE CONCAT('%', @search, '%')";
                 }
 
                 selectSQL += @"
@@ -180,7 +180,7 @@ public class UserCoresRepository : IUserCoresRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Cores t
-                INNER JOIN user_cores ut ON t.id = ut.core_id
+                INNER JOIN user_cores ut ON t.id = ut.core_id AND t.is_active = TRUE AND t.is_deleted = FALSE
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -578,12 +578,12 @@ public class UserCoresRepository : IUserCoresRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_cores
+            UPDATE user_cores uc INNER JOIN cores c ON c.id = uc.core_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND core_id = @core_id
+            WHERE uc.user_id = @user_id 
+              AND uc.core_id = @core_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -638,12 +638,12 @@ public class UserCoresRepository : IUserCoresRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_cores
+            UPDATE user_cores uc INNER JOIN cores c ON c.id = uc.core_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND core_id = @core_id
+            WHERE uc.user_id = @user_id 
+              AND uc.core_id = @core_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -831,7 +831,7 @@ public class UserCoresRepository : IUserCoresRepository
                     FROM user_cores uc
                     LEFT JOIN user_cores_module ubm ON uc.core_id = ubm.user_core_id
                     LEFT JOIN user_cores_upgrade ubu ON uc.core_id = ubu.user_core_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

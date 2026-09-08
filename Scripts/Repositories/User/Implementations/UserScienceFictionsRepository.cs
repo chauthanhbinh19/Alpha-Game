@@ -18,9 +18,11 @@ public class UserScienceFictionsRepository : IUserScienceFictionsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT *
-                FROM user_science_fictions
-                WHERE user_id = @user_id AND science_fiction_id = @type;
+                SELECT uc.*
+                FROM user_science_fictions uc
+                INNER JOIN science_fictions c ON c.id = uc.science_fiction_id
+                WHERE uc.user_id = @user_id AND uc.science_fiction_id = @type
+                    AND c.is_active = TRUE AND c.is_deleted = FALSE;
             ";
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -117,8 +119,8 @@ public class UserScienceFictionsRepository : IUserScienceFictionsRepository
             await connection.OpenAsync();
 
             string checkSQL = @"
-            SELECT COUNT(*) FROM user_science_fictions 
-            WHERE user_id = @user_id AND science_fiction_id = @science_fiction_id";
+            SELECT COUNT(*) FROM user_science_fictions uc INNER JOIN science_fictions c ON c.id = uc.science_fiction_id 
+            WHERE uc.user_id = @user_id AND science_fiction_id = @science_fiction_id AND c.is_active = TRUE AND c.is_deleted = FALSE;";
 
             await using (var checkCommand = new MySqlCommand(checkSQL, connection))
             {
@@ -131,7 +133,7 @@ public class UserScienceFictionsRepository : IUserScienceFictionsRepository
                 {
                     // -------- UPDATE ----------
                     string updateSQL = @"
-                    UPDATE user_science_fictions
+                    UPDATE user_science_fictions uc INNER JOIN science_fictions c ON c.id = uc.science_fiction_id
                     SET
                         science_fiction_level = @science_fiction_level, power = @power, health = @health, mana = @mana, speed = @speed,
                         physical_attack = @physical_attack, physical_defense = @physical_defense,
@@ -176,8 +178,8 @@ public class UserScienceFictionsRepository : IUserScienceFictionsRepository
                         percent_all_atomic_defense = @percent_all_atomic_defense,
                         percent_all_mental_attack = @percent_all_mental_attack,
                         percent_all_mental_defense = @percent_all_mental_defense
-                    WHERE user_id = @user_id
-                    AND science_fiction_id = @science_fiction_id;
+                    WHERE uc.user_id = @user_id
+                    AND uc.science_fiction_id = @science_fiction_id AND c.is_active = TRUE AND c.is_deleted = FALSE;
                 ";
 
                     await using var updateCommand = new MySqlCommand(updateSQL, connection);
@@ -325,8 +327,10 @@ public class UserScienceFictionsRepository : IUserScienceFictionsRepository
                     SUM(percent_all_atomic_defense) AS percent_all_atomic_defense,
                     SUM(percent_all_mental_attack) AS percent_all_mental_attack,
                     SUM(percent_all_mental_defense) AS percent_all_mental_defense
-                FROM user_science_fictions 
-                WHERE user_id = @user_id;
+                FROM user_science_fictions uc
+                INNER JOIN science_fictions c ON c.id = uc.science_fiction_id
+                WHERE uc.user_id = @user_id
+                    AND c.is_active = TRUE AND c.is_deleted = FALSE;
             ";
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))

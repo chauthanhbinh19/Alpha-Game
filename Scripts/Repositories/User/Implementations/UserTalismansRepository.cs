@@ -43,7 +43,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                 INNER JOIN talismans c ON uc.talisman_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.talisman_id = am.user_talisman_id
                 LEFT JOIN AggregatedUpgrades au ON uc.talisman_id = au.user_talisman_id
-                WHERE uc.user_id = @userId";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -200,7 +200,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Talismans m
-                JOIN user_talismans um ON m.id = um.talisman_id
+                JOIN user_talismans um ON m.id = um.talisman_id AND m.is_active = TRUE AND m.is_deleted = FALSE
                 WHERE um.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -611,12 +611,12 @@ public class UserTalismansRepository : IUserTalismansRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_talismans
+            UPDATE user_talismans uc INNER JOIN talismans c ON c.id = uc.talisman_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND talisman_id = @talisman_id
+            WHERE uc.user_id = @user_id 
+              AND uc.talisman_id = @talisman_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -671,12 +671,12 @@ public class UserTalismansRepository : IUserTalismansRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_talismans
+            UPDATE user_talismans uc INNER JOIN talismans c ON c.id = uc.talisman_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND talisman_id = @talisman_id
+            WHERE uc.user_id = @user_id 
+              AND uc.talisman_id = @talisman_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -868,7 +868,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                     FROM user_talismans uc
                     LEFT JOIN user_talismans_module ubm ON uc.talisman_id = ubm.user_talisman_id
                     LEFT JOIN user_talismans_upgrade ubu ON uc.talisman_id = ubu.user_talisman_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

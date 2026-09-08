@@ -43,16 +43,16 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                 INNER JOIN architectures c ON uc.architecture_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.architecture_id = am.user_architecture_id
                 LEFT JOIN AggregatedUpgrades au ON uc.architecture_id = au.user_architecture_id
-                WHERE uc.user_id = @userId";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    selectSQL += " AND t.rare = @rare";
+                    selectSQL += " AND c.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND c.name LIKE CONCAT('%', @search, '%')";
                 }
 
                 selectSQL += " LIMIT @limit OFFSET @offset";
@@ -184,8 +184,8 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Architectures t
-                JOIN user_architectures ut ON t.id = ut.architecture_id
-                WHERE ut.user_id = @userId ";
+                JOIN user_architectures ut ON t.id = ut.architecture_id AND t.is_active = TRUE AND t.is_deleted = FALSE
+                WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -584,13 +584,15 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_architectures
+            UPDATE user_architectures uc INNER JOIN architectures c ON c.id = uc.architecture_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND architecture_id = @architecture_id
-              AND (level != @level OR experience != @experience);
+            WHERE uc.user_id = @user_id 
+              AND uc.architecture_id = @architecture_id
+              AND (level != @level OR experience != @experience)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -644,13 +646,15 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_architectures
+            UPDATE user_architectures uc INNER JOIN architectures c ON c.id = uc.architecture_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND architecture_id = @architecture_id
-              AND (star != @star OR quantity != @quantity);
+            WHERE uc.user_id = @user_id 
+              AND uc.architecture_id = @architecture_id
+              AND (star != @star OR quantity != @quantity)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -841,7 +845,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                     FROM user_architectures uc
                     LEFT JOIN user_architectures_module ubm ON uc.architecture_id = ubm.user_architecture_id
                     LEFT JOIN user_architectures_upgrade ubu ON uc.architecture_id = ubu.user_architecture_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

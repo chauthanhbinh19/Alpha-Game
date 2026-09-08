@@ -96,7 +96,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
                 LEFT JOIN AggregatedModules am ON us.skill_id = am.user_skill_id
                 LEFT JOIN AggregatedUpgrades au ON us.skill_id = au.user_skill_id
-                WHERE us.user_id = @userId;";
+                WHERE us.user_id = @userId AND s.is_active = TRUE AND s.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -265,8 +265,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM skills s
-                INNER JOIN user_skills us ON s.id = us.skill_id
-                WHERE us.user_id = @userId ";
+                INNER JOIN user_skills us ON s.id = us.skill_id AND s.is_active = TRUE AND s.is_deleted = FALSE
+                WHERE us.user_id = @userId";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND s.type = @type";
@@ -673,12 +673,12 @@ public class UserSkillsRepository : IUserSkillsRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_skills
+            UPDATE user_skills uc INNER JOIN skills c ON c.id = uc.skill_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND skill_id = @skill_id
+            WHERE uc.user_id = @user_id 
+              AND uc.skill_id = @skill_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -733,12 +733,12 @@ public class UserSkillsRepository : IUserSkillsRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_skills
+            UPDATE user_skills uc INNER JOIN skills c ON c.id = uc.skill_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND skill_id = @skill_id
+            WHERE uc.user_id = @user_id 
+              AND uc.skill_id = @skill_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -940,7 +940,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
                     ) AS skill_effects_json
                 FROM Skills s
-                JOIN user_skills us ON s.id = us.skill_id
+                JOIN user_skills us ON s.id = us.skill_id AND s.is_active = TRUE AND s.is_deleted = FALSE
                 LEFT JOIN card_heroes_skills chs
                     ON chs.skill_id = us.skill_id AND chs.skill_id = @skill_id
                 LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
@@ -1115,7 +1115,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
                     ) AS skill_effects_json
                 FROM Skills s
-                JOIN user_skills us ON s.id = us.skill_id
+                JOIN user_skills us ON s.id = us.skill_id AND s.is_active = TRUE AND s.is_deleted = FALSE
                 LEFT JOIN card_captains_skills chs
                     ON chs.skill_id = us.skill_id AND chs.card_captain_id = @card_captain_id
                 LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
@@ -1290,7 +1290,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
                     ) AS skill_effects_json
                 FROM Skills s
-                JOIN user_skills us ON s.id = us.skill_id
+                JOIN user_skills us ON s.id = us.skill_id AND s.is_active = TRUE AND s.is_deleted = FALSE
                 LEFT JOIN card_colonels_skills chs
                     ON chs.skill_id = us.skill_id AND chs.card_colonel_id = @card_colonel_id
                 LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
@@ -1465,7 +1465,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
                     ) AS skill_effects_json
                 FROM Skills s
-                JOIN user_skills us ON s.id = us.skill_id
+                JOIN user_skills us ON s.id = us.skill_id AND s.is_active = TRUE AND s.is_deleted = FALSE
                 LEFT JOIN card_generals_skills chs
                     ON chs.skill_id = us.skill_id AND chs.card_general_id = @card_general_id
                 LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
@@ -1640,7 +1640,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
                     ) AS skill_effects_json
                 FROM Skills s
-                JOIN user_skills us ON s.id = us.skill_id
+                JOIN user_skills us ON s.id = us.skill_id AND s.is_active = TRUE AND s.is_deleted = FALSE
                 LEFT JOIN card_admirals_skills chs
                     ON chs.skill_id = us.skill_id AND chs.card_admiral_id = @card_admiral_id
                 LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
@@ -1815,7 +1815,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
                     ) AS skill_effects_json
                 FROM Skills s
-                JOIN user_skills us ON s.id = us.skill_id
+                JOIN user_skills us ON s.id = us.skill_id AND s.is_active = TRUE AND s.is_deleted = FALSE
                 LEFT JOIN card_militaries_skills chs
                     ON chs.skill_id = us.skill_id AND chs.card_military_id = @card_military_id
                 LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
@@ -1990,7 +1990,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
                     ) AS skill_effects_json
                 FROM Skills s
-                JOIN user_skills us ON s.id = us.skill_id
+                JOIN user_skills us ON s.id = us.skill_id AND s.is_active = TRUE AND s.is_deleted = FALSE
                 LEFT JOIN card_monsters_skills chs
                     ON chs.skill_id = us.skill_id AND chs.card_monster_id = @card_monster_id
                 LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
@@ -2165,7 +2165,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
                     ) AS skill_effects_json
                 FROM Skills s
-                JOIN user_skills us ON s.id = us.skill_id
+                JOIN user_skills us ON s.id = us.skill_id AND s.is_active = TRUE AND s.is_deleted = FALSE
                 LEFT JOIN card_spells_skills chs 
                     ON chs.skill_id = us.skill_id AND chs.card_spell_id = @card_spell_id
                 LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
@@ -2340,7 +2340,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
                     ) AS skill_effects_json
                 FROM Skills s
-                JOIN user_skills us ON s.id = us.skill_id
+                JOIN user_skills us ON s.id = us.skill_id AND s.is_active = TRUE AND s.is_deleted = FALSE
                 LEFT JOIN card_soldiers_skills chs 
                     ON chs.skill_id = us.skill_id AND chs.card_soldier_id = @card_soldier_id
                 LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
@@ -2503,8 +2503,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                     SELECT DISTINCT us.skill_id
                     FROM user_skills us
                     JOIN card_heroes_skills chs ON chs.skill_id = us.skill_id
-                    WHERE us.user_id = @userId
-                    AND chs.card_hero_id IN ({inClause})
+                    WHERE us.user_id = @userId AND chs.card_hero_id IN ({inClause})
                 ),
                 BaseEffects AS (
                     -- Bước 2: Lấy thông tin cơ bản của Effect trước để tránh nhân dòng chéo
@@ -2578,7 +2577,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                     chs.card_hero_id,
                     ae.skill_effects_json
                 FROM card_heroes_skills chs
-                JOIN user_skills us ON chs.skill_id = us.skill_id AND us.user_id = @userId
+                JOIN user_skills us ON chs.skill_id = us.skill_id AND us.user_id = @userId AND chs.is_active = TRUE AND chs.is_deleted = FALSE
                 JOIN Skills s ON chs.skill_id = s.id
                 LEFT JOIN skill_patterns sp ON chs.skill_id = sp.skill_id
                 LEFT JOIN AggregatedEffects ae ON chs.skill_id = ae.skill_id
@@ -2848,8 +2847,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                     SELECT DISTINCT us.skill_id
                     FROM user_skills us
                     JOIN card_captains_skills chs ON chs.skill_id = us.skill_id
-                    WHERE us.user_id = @userId
-                    AND chs.card_captain_id IN ({inClause})
+                    WHERE us.user_id = @userId AND chs.card_captain_id IN ({inClause})
                 ),
                 BaseEffects AS (
                     -- Bước 2: Lấy thông tin cơ bản của Effect trước để tránh nhân dòng chéo
@@ -2923,7 +2921,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                     chs.card_captain_id,
                     ae.skill_effects_json
                 FROM card_captains_skills chs
-                JOIN user_skills us ON chs.skill_id = us.skill_id AND us.user_id = @userId
+                JOIN user_skills us ON chs.skill_id = us.skill_id AND us.user_id = @userId AND chs.is_active = TRUE AND chs.is_deleted = FALSE
                 JOIN Skills s ON chs.skill_id = s.id
                 LEFT JOIN skill_patterns sp ON chs.skill_id = sp.skill_id
                 LEFT JOIN AggregatedEffects ae ON chs.skill_id = ae.skill_id
@@ -3197,8 +3195,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                     SELECT DISTINCT us.skill_id
                     FROM user_skills us
                     JOIN card_colonels_skills chs ON chs.skill_id = us.skill_id
-                    WHERE us.user_id = @userId
-                    AND chs.card_colonel_id IN ({inClause})
+                    WHERE us.user_id = @userId AND chs.card_colonel_id IN ({inClause})
                 ),
                 BaseEffects AS (
                     -- Bước 2: Lấy thông tin cơ bản của Effect trước để tránh nhân dòng chéo
@@ -3272,7 +3269,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                     chs.card_colonel_id,
                     ae.skill_effects_json
                 FROM card_colonels_skills chs
-                JOIN user_skills us ON chs.skill_id = us.skill_id AND us.user_id = @userId
+                JOIN user_skills us ON chs.skill_id = us.skill_id AND us.user_id = @userId AND chs.is_active = TRUE AND chs.is_deleted = FALSE
                 JOIN Skills s ON chs.skill_id = s.id
                 LEFT JOIN skill_patterns sp ON chs.skill_id = sp.skill_id
                 LEFT JOIN AggregatedEffects ae ON chs.skill_id = ae.skill_id
@@ -3546,8 +3543,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                     SELECT DISTINCT us.skill_id
                     FROM user_skills us
                     JOIN card_generals_skills chs ON chs.skill_id = us.skill_id
-                    WHERE us.user_id = @userId
-                    AND chs.card_general_id IN ({inClause})
+                    WHERE us.user_id = @userId AND chs.card_general_id IN ({inClause})
                 ),
                 BaseEffects AS (
                     -- Bước 2: Lấy thông tin cơ bản của Effect trước để tránh nhân dòng chéo
@@ -3621,7 +3617,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                     chs.card_general_id,
                     ae.skill_effects_json
                 FROM card_generals_skills chs
-                JOIN user_skills us ON chs.skill_id = us.skill_id AND us.user_id = @userId
+                JOIN user_skills us ON chs.skill_id = us.skill_id AND us.user_id = @userId AND chs.is_active = TRUE AND chs.is_deleted = FALSE
                 JOIN Skills s ON chs.skill_id = s.id
                 LEFT JOIN skill_patterns sp ON chs.skill_id = sp.skill_id
                 LEFT JOIN AggregatedEffects ae ON chs.skill_id = ae.skill_id
@@ -3895,8 +3891,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                     SELECT DISTINCT us.skill_id
                     FROM user_skills us
                     JOIN card_admirals_skills chs ON chs.skill_id = us.skill_id
-                    WHERE us.user_id = @userId
-                    AND chs.card_admiral_id IN ({inClause})
+                    WHERE us.user_id = @userId AND chs.card_admiral_id IN ({inClause})
                 ),
                 BaseEffects AS (
                     -- Bước 2: Lấy thông tin cơ bản của Effect trước để tránh nhân dòng chéo
@@ -3970,7 +3965,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                     chs.card_admiral_id,
                     ae.skill_effects_json
                 FROM card_admirals_skills chs
-                JOIN user_skills us ON chs.skill_id = us.skill_id AND us.user_id = @userId
+                JOIN user_skills us ON chs.skill_id = us.skill_id AND us.user_id = @userId AND chs.is_active = TRUE AND chs.is_deleted = FALSE
                 JOIN Skills s ON chs.skill_id = s.id
                 LEFT JOIN skill_patterns sp ON chs.skill_id = sp.skill_id
                 LEFT JOIN AggregatedEffects ae ON chs.skill_id = ae.skill_id
@@ -4244,8 +4239,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                     SELECT DISTINCT us.skill_id
                     FROM user_skills us
                     JOIN card_monsters_skills chs ON chs.skill_id = us.skill_id
-                    WHERE us.user_id = @userId
-                    AND chs.card_monster_id IN ({inClause})
+                    WHERE us.user_id = @userId AND chs.card_monster_id IN ({inClause})
                 ),
                 BaseEffects AS (
                     -- Bước 2: Lấy thông tin cơ bản của Effect trước để tránh nhân dòng chéo
@@ -4319,7 +4313,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                     chs.card_monster_id,
                     ae.skill_effects_json
                 FROM card_monsters_skills chs
-                JOIN user_skills us ON chs.skill_id = us.skill_id AND us.user_id = @userId
+                JOIN user_skills us ON chs.skill_id = us.skill_id AND us.user_id = @userId AND chs.is_active = TRUE AND chs.is_deleted = FALSE
                 JOIN Skills s ON chs.skill_id = s.id
                 LEFT JOIN skill_patterns sp ON chs.skill_id = sp.skill_id
                 LEFT JOIN AggregatedEffects ae ON chs.skill_id = ae.skill_id
@@ -4593,8 +4587,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                     SELECT DISTINCT us.skill_id
                     FROM user_skills us
                     JOIN card_militaries_skills chs ON chs.skill_id = us.skill_id
-                    WHERE us.user_id = @userId
-                    AND chs.card_military_id IN ({inClause})
+                    WHERE us.user_id = @userId AND chs.card_military_id IN ({inClause})
                 ),
                 BaseEffects AS (
                     -- Bước 2: Lấy thông tin cơ bản của Effect trước để tránh nhân dòng chéo
@@ -4668,7 +4661,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                     chs.card_military_id,
                     ae.skill_effects_json
                 FROM card_militaries_skills chs
-                JOIN user_skills us ON chs.skill_id = us.skill_id AND us.user_id = @userId
+                JOIN user_skills us ON chs.skill_id = us.skill_id AND us.user_id = @userId AND chs.is_active = TRUE AND chs.is_deleted = FALSE
                 JOIN Skills s ON chs.skill_id = s.id
                 LEFT JOIN skill_patterns sp ON chs.skill_id = sp.skill_id
                 LEFT JOIN AggregatedEffects ae ON chs.skill_id = ae.skill_id
@@ -4942,8 +4935,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                     SELECT DISTINCT us.skill_id
                     FROM user_skills us
                     JOIN card_spells_skills chs ON chs.skill_id = us.skill_id
-                    WHERE us.user_id = @userId
-                    AND chs.card_spell_id IN ({inClause})
+                    WHERE us.user_id = @userId AND chs.card_spell_id IN ({inClause})
                 ),
                 BaseEffects AS (
                     -- Bước 2: Lấy thông tin cơ bản của Effect trước để tránh nhân dòng chéo
@@ -5017,7 +5009,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                     chs.card_spell_id,
                     ae.skill_effects_json
                 FROM card_spells_skills chs
-                JOIN user_skills us ON chs.skill_id = us.skill_id AND us.user_id = @userId
+                JOIN user_skills us ON chs.skill_id = us.skill_id AND us.user_id = @userId AND chs.is_active = TRUE AND chs.is_deleted = FALSE
                 JOIN Skills s ON chs.skill_id = s.id
                 LEFT JOIN skill_patterns sp ON chs.skill_id = sp.skill_id
                 LEFT JOIN AggregatedEffects ae ON chs.skill_id = ae.skill_id
@@ -5291,8 +5283,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                     SELECT DISTINCT us.skill_id
                     FROM user_skills us
                     JOIN card_soldiers_skills chs ON chs.skill_id = us.skill_id
-                    WHERE us.user_id = @userId
-                    AND chs.card_soldier_id IN ({inClause})
+                    WHERE us.user_id = @userId AND chs.card_soldier_id IN ({inClause})
                 ),
                 BaseEffects AS (
                     -- Bước 2: Lấy thông tin cơ bản của Effect trước để tránh nhân dòng chéo
@@ -5366,7 +5357,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                     chs.card_soldier_id,
                     ae.skill_effects_json
                 FROM card_soldiers_skills chs
-                JOIN user_skills us ON chs.skill_id = us.skill_id AND us.user_id = @userId
+                JOIN user_skills us ON chs.skill_id = us.skill_id AND us.user_id = @userId AND chs.is_active = TRUE AND chs.is_deleted = FALSE
                 JOIN Skills s ON chs.skill_id = s.id
                 LEFT JOIN skill_patterns sp ON chs.skill_id = sp.skill_id
                 LEFT JOIN AggregatedEffects ae ON chs.skill_id = ae.skill_id
@@ -5646,55 +5637,55 @@ public class UserSkillsRepository : IUserSkillsRepository
                     SELECT us.skill_id, c.card_hero_id AS card_id, 'hero' AS card_type, c.position
                     FROM user_skills us 
                     JOIN card_heroes_skills c ON us.skill_id = c.skill_id AND us.user_id = c.user_id
-                    WHERE us.user_id = @UserId AND c.card_hero_id IN ({heroIn})
+                    WHERE us.user_id = @UserId AND c.card_hero_id IN ({heroIn}) AND 
                     
                     UNION ALL
                     SELECT us.skill_id, c.card_captain_id, 'captain', c.position
                     FROM user_skills us 
                     JOIN card_captains_skills c ON us.skill_id = c.skill_id AND us.user_id = c.user_id
-                    WHERE us.user_id = @UserId AND c.card_captain_id IN ({captainIn})
+                    WHERE us.user_id = @UserId AND c.card_captain_id IN ({captainIn}) AND 
                     
                     UNION ALL
                     SELECT us.skill_id, c.card_colonel_id, 'colonel', c.position
                     FROM user_skills us 
                     JOIN card_colonels_skills c ON us.skill_id = c.skill_id AND us.user_id = c.user_id
-                    WHERE us.user_id = @UserId AND c.card_colonel_id IN ({colonelIn})
+                    WHERE us.user_id = @UserId AND c.card_colonel_id IN ({colonelIn}) AND 
                     
                     UNION ALL
                     SELECT us.skill_id, c.card_general_id, 'general', c.position
                     FROM user_skills us 
                     JOIN card_generals_skills c ON us.skill_id = c.skill_id AND us.user_id = c.user_id
-                    WHERE us.user_id = @UserId AND c.card_general_id IN ({generalIn})
+                    WHERE us.user_id = @UserId AND c.card_general_id IN ({generalIn}) AND 
                     
                     UNION ALL
                     SELECT us.skill_id, c.card_admiral_id, 'admiral', c.position
                     FROM user_skills us 
                     JOIN card_admirals_skills c ON us.skill_id = c.skill_id AND us.user_id = c.user_id
-                    WHERE us.user_id = @UserId AND c.card_admiral_id IN ({admiralIn})
+                    WHERE us.user_id = @UserId AND c.card_admiral_id IN ({admiralIn}) AND 
                     
                     UNION ALL
                     SELECT us.skill_id, c.card_monster_id, 'monster', c.position
                     FROM user_skills us 
                     JOIN card_monsters_skills c ON us.skill_id = c.skill_id AND us.user_id = c.user_id
-                    WHERE us.user_id = @UserId AND c.card_monster_id IN ({monsterIn})
+                    WHERE us.user_id = @UserId AND c.card_monster_id IN ({monsterIn}) AND 
                     
                     UNION ALL
                     SELECT us.skill_id, c.card_military_id, 'military', c.position
                     FROM user_skills us 
                     JOIN card_militaries_skills c ON us.skill_id = c.skill_id AND us.user_id = c.user_id
-                    WHERE us.user_id = @UserId AND c.card_military_id IN ({militaryIn})
+                    WHERE us.user_id = @UserId AND c.card_military_id IN ({militaryIn}) AND 
                     
                     UNION ALL
                     SELECT us.skill_id, c.card_spell_id, 'spell', c.position
                     FROM user_skills us 
                     JOIN card_spells_skills c ON us.skill_id = c.skill_id AND us.user_id = c.user_id
-                    WHERE us.user_id = @UserId AND c.card_spell_id IN ({spellIn})
+                    WHERE us.user_id = @UserId AND c.card_spell_id IN ({spellIn}) AND 
                     
                     UNION ALL
                     SELECT us.skill_id, c.card_soldier_id, 'soldier', c.position
                     FROM user_skills us 
                     JOIN card_soldiers_skills c ON us.skill_id = c.skill_id AND us.user_id = c.user_id
-                    WHERE us.user_id = @UserId AND c.card_soldier_id IN ({soldierIn})
+                    WHERE us.user_id = @UserId AND c.card_soldier_id IN ({soldierIn}) AND 
                 ),
                 UniqueTargetSkills AS (
                     SELECT DISTINCT skill_id FROM TargetSkillsRaw
@@ -5767,7 +5758,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 JOIN Skills s ON us.skill_id = s.id
                 LEFT JOIN AggregatedEffects ae ON us.skill_id = ae.skill_id
                 LEFT JOIN AggregatedCards ac ON us.skill_id = ac.skill_id
-                WHERE us.user_id = @UserId
+                WHERE us.user_id = @UserId AND s.is_active = TRUE AND s.is_deleted = FALSE
                 AND us.skill_id IN (SELECT skill_id FROM UniqueTargetSkills);";
 
             using (var connection = new MySqlConnection(connectionString))
@@ -6011,7 +6002,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 JOIN skills s ON us.skill_id = s.id
                 LEFT JOIN skill_patterns sp ON us.skill_id = sp.skill_id
                 LEFT JOIN AggregatedEffects ae ON us.skill_id = ae.skill_id
-                WHERE us.user_id = @userId AND us.skill_id IN ({skillInClause});";
+                WHERE us.user_id = @userId AND us.skill_id IN ({skillInClause}) AND s.is_active = TRUE AND s.is_deleted = FALSE";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@userId", userId);

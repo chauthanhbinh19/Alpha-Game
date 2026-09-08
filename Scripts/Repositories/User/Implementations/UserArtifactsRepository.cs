@@ -43,16 +43,16 @@ public class UserArtifactsRepository : IUserArtifactsRepository
                 INNER JOIN artifacts c ON uc.artifact_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.artifact_id = am.user_artifact_id
                 LEFT JOIN AggregatedUpgrades au ON uc.artifact_id = au.user_artifact_id
-                WHERE uc.user_id = @userId";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    selectSQL += " AND t.rare = @rare";
+                    selectSQL += " AND c.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND c.name LIKE CONCAT('%', @search, '%')";
                 }
 
                 selectSQL += @" LIMIT @limit OFFSET @offset;";
@@ -188,7 +188,7 @@ public class UserArtifactsRepository : IUserArtifactsRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Artifacts t
-                INNER JOIN user_artifacts ut ON t.id = ut.artifact_id
+                INNER JOIN user_artifacts ut ON t.id = ut.artifact_id AND t.is_active = TRUE AND t.is_deleted = FALSE
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -587,13 +587,15 @@ public class UserArtifactsRepository : IUserArtifactsRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_artifacts
+            UPDATE user_artifacts uc INNER JOIN artifacts c ON c.id = uc.artifact_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND artifact_id = @artifact_id
-              AND (level != @level OR experience != @experience);
+            WHERE uc.user_id = @user_id 
+              AND uc.artifact_id = @artifact_id
+              AND (level != @level OR experience != @experience)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -647,13 +649,15 @@ public class UserArtifactsRepository : IUserArtifactsRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_artifacts
+            UPDATE user_artifacts uc INNER JOIN artifacts c ON c.id = uc.artifact_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND artifact_id = @artifact_id
-              AND (star != @star OR quantity != @quantity);
+            WHERE uc.user_id = @user_id 
+              AND uc.artifact_id = @artifact_id
+              AND (star != @star OR quantity != @quantity)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -839,7 +843,7 @@ public class UserArtifactsRepository : IUserArtifactsRepository
                     FROM user_artifacts uc
                     LEFT JOIN user_artifacts_module ubm ON uc.artifact_id = ubm.user_artifact_id
                     LEFT JOIN user_artifacts_upgrade ubu ON uc.artifact_id = ubu.user_artifact_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

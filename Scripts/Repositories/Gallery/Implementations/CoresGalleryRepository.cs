@@ -30,7 +30,7 @@ public class CoresGalleryRepository : ICoresGalleryRepository
                 FROM Cores c 
                 LEFT JOIN cores_gallery cg 
                        ON c.id = cg.core_id AND cg.user_id = @userId 
-                WHERE 1=1";
+                WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -163,8 +163,8 @@ public class CoresGalleryRepository : ICoresGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM Cores 
-                WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Cores c 
+                WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {

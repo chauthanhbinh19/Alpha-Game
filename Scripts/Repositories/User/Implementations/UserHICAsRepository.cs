@@ -18,9 +18,9 @@ public class UserHICAsRepository : IUserHICAsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT *
-                FROM user_hicas
-                WHERE user_id = @user_id AND hica_id = @hica_id;
+                SELECT uc.*
+                FROM user_hicas uc INNER JOIN hicas c ON c.id = uc.hica_id
+                WHERE uc.user_id = @user_id AND uc.hica_id = @hica_id AND c.is_active = TRUE AND c.is_deleted = FALSE;
             ";
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -118,8 +118,8 @@ public class UserHICAsRepository : IUserHICAsRepository
             await connection.OpenAsync();
 
             string checkSQL = @"
-            SELECT COUNT(*) FROM user_hicas 
-            WHERE user_id = @user_id AND hica_id = @hica_id";
+            SELECT COUNT(*) FROM user_hicas uc INNER JOIN hicas c ON c.id = uc.hica_id 
+            WHERE uc.user_id = @user_id AND hica_id = @hica_id AND c.is_active = TRUE AND c.is_deleted = FALSE;";
 
             await using (var checkCommand = new MySqlCommand(checkSQL, connection))
             {
@@ -132,7 +132,7 @@ public class UserHICAsRepository : IUserHICAsRepository
                 {
                     // -------- UPDATE ----------
                     string updateSQL = @"
-                    UPDATE user_hicas
+                    UPDATE user_hicas uc INNER JOIN hicas c ON c.id = uc.hica_id
                     SET
                         hica_level = @hica_level, power = @power, health = @health, mana = @mana, speed = @speed,
                         physical_attack = @physical_attack, physical_defense = @physical_defense,
@@ -177,8 +177,8 @@ public class UserHICAsRepository : IUserHICAsRepository
                         percent_all_atomic_defense = @percent_all_atomic_defense,
                         percent_all_mental_attack = @percent_all_mental_attack,
                         percent_all_mental_defense = @percent_all_mental_defense
-                    WHERE user_id = @user_id
-                    AND hica_id = @hica_id;
+                    WHERE uc.user_id = @user_id
+                    AND uc.hica_id = @hica_id AND c.is_active = TRUE AND c.is_deleted = FALSE;
                 ";
 
                     await using var updateCommand = new MySqlCommand(updateSQL, connection);
@@ -326,8 +326,8 @@ public class UserHICAsRepository : IUserHICAsRepository
                     SUM(percent_all_atomic_defense) AS percent_all_atomic_defense,
                     SUM(percent_all_mental_attack) AS percent_all_mental_attack,
                     SUM(percent_all_mental_defense) AS percent_all_mental_defense
-                FROM user_hicas 
-                WHERE user_id = @user_id;
+                FROM user_hicas uc INNER JOIN hicas c ON c.id = uc.hica_id 
+                WHERE uc.user_id = @user_id AND c.is_active = TRUE AND c.is_deleted = FALSE;
             ";
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))

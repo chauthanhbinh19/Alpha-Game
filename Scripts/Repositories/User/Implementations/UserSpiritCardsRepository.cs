@@ -43,20 +43,20 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 INNER JOIN spirit_cards c ON uc.spirit_card_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.spirit_card_id = am.user_spirit_card_id
                 LEFT JOIN AggregatedUpgrades au ON uc.spirit_card_id = au.user_spirit_card_id
-                WHERE uc.user_id = @userId ";
+                WHERE uc.user_id = @userId  AND c.is_active = TRUE AND c.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    selectSQL += " AND t.type = @type";
+                    selectSQL += " AND c.type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    selectSQL += " AND t.rare = @rare";
+                    selectSQL += " AND c.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND c.name LIKE CONCAT('%', @search, '%')";
                 }
 
                 selectSQL += " LIMIT @limit OFFSET @offset";
@@ -194,21 +194,20 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 Select count(*) 
                 from spirit_cards t, user_spirit_cards ut
                 where t.id = ut.spirit_card_id
-                    and ut.user_id = @userId
-                ";
+                    and ut.user_id = @userId";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    selectSQL += " AND t.type = @type";
+                    selectSQL += " AND c.type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    selectSQL += " AND t.rare = @rare";
+                    selectSQL += " AND c.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND c.name LIKE CONCAT('%', @search, '%')";
                 }
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -603,12 +602,12 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_spirit_cards
+            UPDATE user_spirit_cards uc INNER JOIN spirit_cards c ON c.id = uc.spirit_card_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND spirit_card_id = @spirit_card_id
+            WHERE uc.user_id = @user_id 
+              AND uc.spirit_card_id = @spirit_card_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -663,12 +662,12 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_spirit_cards
+            UPDATE user_spirit_cards uc INNER JOIN spirit_cards c ON c.id = uc.spirit_card_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND spirit_card_id = @spirit_card_id
+            WHERE uc.user_id = @user_id 
+              AND uc.spirit_card_id = @spirit_card_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -729,8 +728,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 FROM user_spirit_cards uc
                 LEFT JOIN AggregatedModules am ON uc.spirit_card_id = am.user_spirit_card_id
                 LEFT JOIN AggregatedUpgrades au ON uc.spirit_card_id = au.user_spirit_card_id
-                WHERE uc.spirit_card_id = @id AND uc.user_id = @user_id
-            ";
+                WHERE uc.spirit_card_id = @id AND uc.user_id = @user_id";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -861,7 +859,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     FROM user_spirit_cards uc
                     LEFT JOIN user_spirit_cards_module ubm ON uc.spirit_card_id = ubm.user_spirit_card_id
                     LEFT JOIN user_spirit_cards_upgrade ubu ON uc.spirit_card_id = ubu.user_spirit_card_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

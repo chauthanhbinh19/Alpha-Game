@@ -74,7 +74,7 @@ public class UserCardMilitariesRepository : IUserCardMilitariesRepository
                 LEFT JOIN AggregatedModules am ON uc.card_military_id = am.user_card_military_id
                 LEFT JOIN AggregatedUpgrades au ON uc.card_military_id = au.user_card_military_id
                 LEFT JOIN teams t ON t.team_id = uc.team_id
-            WHERE uc.user_id = @userId 
+            WHERE uc.user_id = @userId  AND c.is_active = TRUE AND c.is_deleted = FALSE
         ";
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
@@ -364,7 +364,7 @@ public class UserCardMilitariesRepository : IUserCardMilitariesRepository
                 LEFT JOIN AggregatedModules am ON uc.card_military_id = am.user_card_military_id
                 LEFT JOIN AggregatedUpgrades au ON uc.card_military_id = au.user_card_military_id
                 LEFT JOIN teams t ON t.team_id = uc.team_id
-            WHERE uc.user_id = @userId AND uc.team_id = @team_id AND SUBSTRING_INDEX(uc.position, '-', 1) = @position
+            WHERE uc.user_id = @userId AND uc.team_id = @team_id AND SUBSTRING_INDEX(uc.position, '-', 1) = @position AND c.is_active = TRUE AND c.is_deleted = FALSE
         ";
 
             await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
@@ -619,7 +619,7 @@ public class UserCardMilitariesRepository : IUserCardMilitariesRepository
                 LEFT JOIN AggregatedModules am ON uc.card_military_id = am.user_card_military_id
                 LEFT JOIN AggregatedUpgrades au ON uc.card_military_id = au.user_card_military_id
                 LEFT JOIN teams t ON t.team_id = uc.team_id
-            WHERE uc.user_id = @userId AND uc.team_id = @team_id
+            WHERE uc.user_id = @userId AND uc.team_id = @team_id AND c.is_active = TRUE AND c.is_deleted = FALSE
         ";
 
             await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
@@ -823,7 +823,7 @@ public class UserCardMilitariesRepository : IUserCardMilitariesRepository
             SELECT c.type, COUNT(c.type) AS number
             FROM user_card_militaries uc
             LEFT JOIN card_militaries c ON uc.card_military_id = c.id 
-            WHERE uc.user_id = @userId AND uc.team_id = @team_id
+            WHERE uc.user_id = @userId AND uc.team_id = @team_id AND c.is_active = TRUE AND c.is_deleted = FALSE
             GROUP BY c.type;
         ";
 
@@ -859,9 +859,9 @@ public class UserCardMilitariesRepository : IUserCardMilitariesRepository
             await connection.OpenAsync();
 
             string updateSQL = @"
-            UPDATE user_card_militaries 
+            UPDATE user_card_militaries uc INNER JOIN card_militaries c ON c.id = uc.card_military_id 
             SET team_id = @team_id, position = @position 
-            WHERE user_id = @user_id AND card_military_id = @card_military_id;
+            WHERE uc.user_id = @user_id AND uc.card_military_id = @card_military_id AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -933,8 +933,8 @@ public class UserCardMilitariesRepository : IUserCardMilitariesRepository
             string selectSQL = @"
             SELECT COUNT(*) 
             FROM card_militaries c
-            JOIN user_card_militaries uc ON c.id = uc.card_military_id
-            WHERE uc.user_id = @userId 
+            JOIN user_card_militaries uc ON c.id = uc.card_military_id AND c.is_active = TRUE AND c.is_deleted = FALSE
+            WHERE uc.user_id = @userId  AND c.is_active = TRUE AND c.is_deleted = FALSE
         ";
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
@@ -1387,12 +1387,12 @@ public class UserCardMilitariesRepository : IUserCardMilitariesRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_card_militaries
+            UPDATE user_card_militaries uc INNER JOIN card_militaries c ON c.id = uc.card_military_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND card_military_id = @card_military_id
+            WHERE uc.user_id = @user_id 
+              AND uc.card_military_id = @card_military_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -1447,12 +1447,12 @@ public class UserCardMilitariesRepository : IUserCardMilitariesRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_card_militaries
+            UPDATE user_card_militaries uc INNER JOIN card_militaries c ON c.id = uc.card_military_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND card_military_id = @card_military_id
+            WHERE uc.user_id = @user_id 
+              AND uc.card_military_id = @card_military_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -1514,7 +1514,7 @@ public class UserCardMilitariesRepository : IUserCardMilitariesRepository
             INNER JOIN card_militaries c ON uc.card_military_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.card_military_id = am.user_card_military_id
                 LEFT JOIN AggregatedUpgrades au ON uc.card_military_id = au.user_card_military_id
-            WHERE uc.card_military_id = @id AND uc.user_id = @user_id";
+            WHERE uc.card_military_id = @id AND uc.user_id = @user_id AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
             await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
             selectCommand.Parameters.AddWithValue("@id", Id);
@@ -1691,7 +1691,7 @@ public class UserCardMilitariesRepository : IUserCardMilitariesRepository
                 INNER JOIN teams t ON uc.team_id = t.team_id AND t.is_main = 1
                 LEFT JOIN user_card_militaries_module ubm ON uc.card_military_id = ubm.user_card_military_id
                 LEFT JOIN user_card_militaries_upgrade ubu ON uc.card_military_id = ubu.user_card_military_id
-                WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL
+                WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL AND 
             )
             SELECT 
                 SUM(health * total_multiplier) AS health,

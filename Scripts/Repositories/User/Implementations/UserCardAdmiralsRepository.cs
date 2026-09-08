@@ -73,8 +73,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 LEFT JOIN AggregatedModules am ON uc.card_admiral_id = am.user_card_admiral_id
                 LEFT JOIN AggregatedUpgrades au ON uc.card_admiral_id = au.user_card_admiral_id
                 LEFT JOIN teams t ON t.team_id = uc.team_id
-                WHERE uc.user_id = @userId
-            ";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND c.type = @type";
@@ -368,8 +367,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 LEFT JOIN AggregatedModules am ON uc.card_admiral_id = am.user_card_admiral_id
                 LEFT JOIN AggregatedUpgrades au ON uc.card_admiral_id = au.user_card_admiral_id
                 LEFT JOIN teams t ON t.team_id = uc.team_id
-                WHERE uc.user_id = @userId AND uc.team_id = @team_id AND SUBSTRING_INDEX(uc.position, '-', 1) = @position
-            ";
+                WHERE uc.user_id = @userId AND uc.team_id = @team_id AND SUBSTRING_INDEX(uc.position, '-', 1) = @position AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@userId", userId);
@@ -628,8 +626,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 LEFT JOIN AggregatedModules am ON uc.card_admiral_id = am.user_card_admiral_id
                 LEFT JOIN AggregatedUpgrades au ON uc.card_admiral_id = au.user_card_admiral_id
                 LEFT JOIN teams t ON t.team_id = uc.team_id
-                WHERE uc.user_id = @userId AND uc.team_id = @team_id
-            ";
+                WHERE uc.user_id = @userId AND uc.team_id = @team_id AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@userId", userId);
@@ -837,7 +834,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 SELECT c.type, COUNT(c.type) AS number
                 FROM user_card_admirals uc
                 LEFT JOIN card_admirals c ON uc.card_admiral_id = c.id 
-                WHERE uc.user_id = @userId AND uc.team_id = @team_id
+                WHERE uc.user_id = @userId AND uc.team_id = @team_id AND c.is_active = TRUE AND c.is_deleted = FALSE
                 GROUP BY c.type;
             ";
 
@@ -877,9 +874,9 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 await connection.OpenAsync();
 
                 string updateSQL = @"
-            UPDATE user_card_admirals 
+            UPDATE user_card_admirals uc INNER JOIN card_admirals c ON c.id = uc.card_admiral_id 
             SET team_id = @team_id, position = @position 
-            WHERE user_id = @user_id AND card_admiral_id = @card_admiral_id;
+            WHERE uc.user_id = @user_id AND uc.card_admiral_id = @card_admiral_id AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
                 await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -955,9 +952,8 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM card_admirals c
-                JOIN user_card_admirals uc ON c.id = uc.card_admiral_id
-                WHERE uc.user_id = @userId 
-            ";
+                JOIN user_card_admirals uc ON c.id = uc.card_admiral_id AND c.is_active = TRUE AND c.is_deleted = FALSE
+                WHERE uc.user_id = @userId  AND c.is_active = TRUE AND c.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND c.type = @type";
@@ -1020,7 +1016,9 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 FROM user_card_admirals
                 WHERE team_id = @team_id 
                 AND SUBSTRING_INDEX(position, '-', 1) = @position 
-                AND user_id = @userId;
+                AND user_id = @userId
+                AND is_active = TRUE
+                AND is_deleted = FALSE;
             ";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
@@ -1057,7 +1055,9 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 SELECT COUNT(*) 
                 FROM user_card_admirals
                 WHERE team_id = @team_id 
-                AND user_id = @userId;
+                AND user_id = @userId
+                AND is_active = TRUE
+                AND is_deleted = FALSE;
             ";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
@@ -1421,12 +1421,12 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_card_admirals
+            UPDATE user_card_admirals uc INNER JOIN card_admirals c ON c.id = uc.card_admiral_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND card_admiral_id = @card_admiral_id
+            WHERE uc.user_id = @user_id 
+              AND uc.card_admiral_id = @card_admiral_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -1481,13 +1481,15 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_card_admirals
+            UPDATE user_card_admirals uc INNER JOIN card_admirals c ON c.id = uc.card_admiral_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND card_admiral_id = @card_admiral_id
-              AND (star != @star OR quantity != @quantity);
+            WHERE uc.user_id = @user_id 
+              AND uc.card_admiral_id = @card_admiral_id
+              AND (star != @star OR quantity != @quantity)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -1548,7 +1550,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 INNER JOIN card_admirals c ON uc.card_admiral_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.card_admiral_id = am.user_card_admiral_id
                 LEFT JOIN AggregatedUpgrades au ON uc.card_admiral_id = au.user_card_admiral_id
-                WHERE uc.card_admiral_id = @id AND uc.user_id = @user_id";
+                WHERE uc.card_admiral_id = @id AND uc.user_id = @user_id AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@id", Id);
@@ -1731,7 +1733,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 INNER JOIN teams t ON uc.team_id = t.team_id AND t.is_main = 1
                 LEFT JOIN user_card_admirals_module ubm ON uc.card_admiral_id = ubm.user_card_admiral_id
                 LEFT JOIN user_card_admirals_upgrade ubu ON uc.card_admiral_id = ubu.user_card_admiral_id
-                WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL
+                WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL AND 
             )
             SELECT 
                 SUM(health * total_multiplier) AS health,

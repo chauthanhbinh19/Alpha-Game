@@ -43,7 +43,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
                 INNER JOIN card_lives c ON uc.card_life_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.card_life_id = am.user_card_life_id
                 LEFT JOIN AggregatedUpgrades au ON uc.card_life_id = au.user_card_life_id
-                WHERE uc.user_id = @userId
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -194,9 +194,8 @@ public class UserCardLivesRepository : IUserCardLivesRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM card_lives m
-                JOIN user_card_lives um ON m.id = um.card_life_id
-                WHERE um.user_id = @userId 
-            ";
+                JOIN user_card_lives um ON m.id = um.card_life_id AND m.is_active = TRUE AND m.is_deleted = FALSE
+                WHERE um.user_id = @userId";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -604,12 +603,12 @@ public class UserCardLivesRepository : IUserCardLivesRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_card_lives
+            UPDATE user_card_lives uc INNER JOIN card_lives c ON c.id = uc.card_life_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND card_life_id = @card_life_id
+            WHERE uc.user_id = @user_id 
+              AND uc.card_life_id = @card_life_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -664,12 +663,12 @@ public class UserCardLivesRepository : IUserCardLivesRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_card_lives
+            UPDATE user_card_lives uc INNER JOIN card_lives c ON c.id = uc.card_life_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND card_life_id = @card_life_id
+            WHERE uc.user_id = @user_id 
+              AND uc.card_life_id = @card_life_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -861,7 +860,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
                     FROM user_card_lives uc
                     LEFT JOIN user_card_lives_module ubm ON uc.card_life_id = ubm.user_card_life_id
                     LEFT JOIN user_card_lives_upgrade ubu ON uc.card_life_id = ubu.user_card_life_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

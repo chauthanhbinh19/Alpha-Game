@@ -30,7 +30,7 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
                 FROM Robots c 
                 LEFT JOIN robots_gallery cg 
                        ON c.id = cg.robot_id AND cg.user_id = @userId 
-                WHERE 1=1
+                WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE
             ";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -163,7 +163,7 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM Robots WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Robots c WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
                     selectSQL += " AND rare = @rare";

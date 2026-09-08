@@ -43,8 +43,7 @@ public class UserArtworksRepository : IUserArtworksRepository
                 INNER JOIN artworks c ON uc.artwork_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.artwork_id = am.user_artwork_id
                 LEFT JOIN AggregatedUpgrades au ON uc.artwork_id = au.user_artwork_id
-                WHERE uc.user_id = @userId
-            ";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -195,9 +194,8 @@ public class UserArtworksRepository : IUserArtworksRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM artworks m
-                INNER JOIN user_artworks um ON m.id = um.artwork_id
-                WHERE um.user_id = @userId 
-            ";
+                INNER JOIN user_artworks um ON m.id = um.artwork_id AND m.is_active = TRUE AND m.is_deleted = FALSE
+                WHERE um.user_id = @userId";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -606,13 +604,15 @@ public class UserArtworksRepository : IUserArtworksRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_artworks
+            UPDATE user_artworks uc INNER JOIN artworks c ON c.id = uc.artwork_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND artwork_id = @artwork_id
-              AND (level != @level OR experience != @experience);
+            WHERE uc.user_id = @user_id 
+              AND uc.artwork_id = @artwork_id
+              AND (level != @level OR experience != @experience)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -666,13 +666,15 @@ public class UserArtworksRepository : IUserArtworksRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_artworks
+            UPDATE user_artworks uc INNER JOIN artworks c ON c.id = uc.artwork_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND artwork_id = @artwork_id
-              AND (star != @star OR quantity != @quantity);
+            WHERE uc.user_id = @user_id 
+              AND uc.artwork_id = @artwork_id
+              AND (star != @star OR quantity != @quantity)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -732,7 +734,8 @@ public class UserArtworksRepository : IUserArtworksRepository
                 FROM user_artworks uc
                 LEFT JOIN AggregatedModules am ON uc.artwork_id = am.user_artwork_id
                 LEFT JOIN AggregatedUpgrades au ON uc.artwork_id = au.user_artwork_id
-                WHERE uc.artwork_id = @id AND uc.user_id = @user_id";
+                WHERE uc.artwork_id = @id 
+                    AND uc.user_id = @user_id";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -863,7 +866,7 @@ public class UserArtworksRepository : IUserArtworksRepository
                     FROM user_artworks uc
                     LEFT JOIN user_artworks_module ubm ON uc.artwork_id = ubm.user_artwork_id
                     LEFT JOIN user_artworks_upgrade ubu ON uc.artwork_id = ubu.user_artwork_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

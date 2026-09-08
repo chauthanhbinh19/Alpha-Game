@@ -30,7 +30,7 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
                 FROM Skills m 
                 LEFT JOIN skills_gallery mg 
                     ON m.id = mg.skill_id AND mg.user_id = @userId 
-                WHERE 1=1";
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -176,8 +176,8 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM Skills
-                WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Skills m
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND type = @type";

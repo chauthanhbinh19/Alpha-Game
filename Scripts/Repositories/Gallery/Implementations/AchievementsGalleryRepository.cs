@@ -30,7 +30,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
                     FROM achievements c 
                     LEFT JOIN achievements_gallery cg 
                         ON c.id = cg.achievement_id AND cg.user_id = @userId 
-                    WHERE 1=1
+                    WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE
                 ";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -163,7 +163,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM achievements WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM achievements c WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {

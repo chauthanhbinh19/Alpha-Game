@@ -18,9 +18,9 @@ public class UserArchivesRepository : IUserArchivesRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT *
-                FROM user_archives
-                WHERE user_id = @user_id AND archive_id = @archive_id;
+                SELECT uc.*
+                FROM user_archives uc INNER JOIN archives c ON c.id = uc.archive_id
+                WHERE uc.user_id = @user_id AND uc.archive_id = @archive_id AND c.is_active = TRUE AND c.is_deleted = FALSE;
             ";
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -118,8 +118,8 @@ public class UserArchivesRepository : IUserArchivesRepository
             await connection.OpenAsync();
 
             string selectSQL = @"
-            SELECT COUNT(*) FROM user_archives 
-            WHERE user_id = @user_id AND archive_id = @archive_id";
+            SELECT COUNT(*) FROM user_archives uc INNER JOIN archives c ON c.id = uc.archive_id 
+            WHERE uc.user_id = @user_id AND archive_id = @archive_id AND c.is_active = TRUE AND c.is_deleted = FALSE;";
 
             await using (var selectCommand = new MySqlCommand(selectSQL, connection))
             {
@@ -326,8 +326,8 @@ public class UserArchivesRepository : IUserArchivesRepository
                     SUM(percent_all_atomic_defense) AS percent_all_atomic_defense,
                     SUM(percent_all_mental_attack) AS percent_all_mental_attack,
                     SUM(percent_all_mental_defense) AS percent_all_mental_defense
-                FROM user_archives 
-                WHERE user_id = @user_id;
+                FROM user_archives uc INNER JOIN archives c ON c.id = uc.archive_id 
+                WHERE uc.user_id = @user_id AND c.is_active = TRUE AND c.is_deleted = FALSE;
             ";
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))

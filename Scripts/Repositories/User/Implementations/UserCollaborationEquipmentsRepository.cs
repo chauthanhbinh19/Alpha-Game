@@ -43,7 +43,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                 INNER JOIN collaboration_equipments c ON uc.collaboration_equipment_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.collaboration_equipment_id = am.user_collaboration_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON uc.collaboration_equipment_id = au.user_collaboration_equipment_id
-                WHERE uc.user_id = @userId
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -195,9 +195,8 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM collaboration_equipments m
-                JOIN user_collaboration_equipments um ON m.id = um.collaboration_equipment_id
-                WHERE um.user_id = @userId 
-            ";
+                JOIN user_collaboration_equipments um ON m.id = um.collaboration_equipment_id AND m.is_active = TRUE AND m.is_deleted = FALSE
+                WHERE um.user_id = @userId";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -605,12 +604,12 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_collaboration_equipments
+            UPDATE user_collaboration_equipments uc INNER JOIN collaboration_equipments c ON c.id = uc.collaboration_equipment_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND collaboration_equipment_id = @collaboration_equipment_id
+            WHERE uc.user_id = @user_id 
+              AND uc.collaboration_equipment_id = @collaboration_equipment_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -665,12 +664,12 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_collaboration_equipments
+            UPDATE user_collaboration_equipments uc INNER JOIN collaboration_equipments c ON c.id = uc.collaboration_equipment_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND collaboration_equipment_id = @collaboration_equipment_id
+            WHERE uc.user_id = @user_id 
+              AND uc.collaboration_equipment_id = @collaboration_equipment_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -862,7 +861,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                     FROM user_collaboration_equipments uc
                     LEFT JOIN user_collaboration_equipments_module ubm ON uc.collaboration_equipment_id = ubm.user_collaboration_equipment_id
                     LEFT JOIN user_collaboration_equipments_upgrade ubu ON uc.collaboration_equipment_id = ubu.user_collaboration_equipment_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

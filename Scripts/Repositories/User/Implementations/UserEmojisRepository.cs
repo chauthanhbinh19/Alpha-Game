@@ -43,16 +43,16 @@ public class UserEmojisRepository : IUserEmojisRepository
                 INNER JOIN emojis c ON uc.emoji_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.emoji_id = am.user_emoji_id
                 LEFT JOIN AggregatedUpgrades au ON uc.emoji_id = au.user_emoji_id
-                WHERE uc.user_id = @userId";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    selectSQL += " AND t.rare = @rare";
+                    selectSQL += " AND c.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND c.name LIKE CONCAT('%', @search, '%')";
                 }
 
                 selectSQL += @"
@@ -180,7 +180,7 @@ public class UserEmojisRepository : IUserEmojisRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Emojis t
-                INNER JOIN user_emojis ut ON t.id = ut.emoji_id
+                INNER JOIN user_emojis ut ON t.id = ut.emoji_id AND t.is_active = TRUE AND t.is_deleted = FALSE
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -578,13 +578,16 @@ public class UserEmojisRepository : IUserEmojisRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_emojis
+                        UPDATE user_emojis ue
+                        INNER JOIN emojis c ON c.id = ue.emoji_id
             SET 
-                level = @level, 
-                experience = @experience
-            WHERE user_id = @user_id 
-              AND emoji_id = @emoji_id
-              AND (level != @level OR experience != @experience);
+                                ue.level = @level, 
+                                ue.experience = @experience
+                        WHERE ue.user_id = @user_id 
+                            AND ue.emoji_id = @emoji_id
+                            AND (ue.level != @level OR ue.experience != @experience)
+                            AND c.is_active = TRUE
+                            AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -638,13 +641,16 @@ public class UserEmojisRepository : IUserEmojisRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_emojis
+                        UPDATE user_emojis ue
+                        INNER JOIN emojis c ON c.id = ue.emoji_id
             SET 
-                star = @star, 
-                quantity = @quantity
-            WHERE user_id = @user_id 
-              AND emoji_id = @emoji_id
-              AND (star != @star OR quantity != @quantity);
+                                ue.star = @star, 
+                                ue.quantity = @quantity
+                        WHERE ue.user_id = @user_id 
+                            AND ue.emoji_id = @emoji_id
+                            AND (ue.star != @star OR ue.quantity != @quantity)
+                            AND c.is_active = TRUE
+                            AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -704,7 +710,7 @@ public class UserEmojisRepository : IUserEmojisRepository
                 FROM user_emojis uc
                 LEFT JOIN AggregatedModules am ON uc.emoji_id = am.user_emoji_id
                 LEFT JOIN AggregatedUpgrades au ON uc.emoji_id = au.user_emoji_id
-                WHERE uc.emoji_id = @id AND uc.user_id = @user_id";
+                WHERE uc.emoji_id = @id AND uc.user_id = @user_id;";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@id", Id);
@@ -831,7 +837,7 @@ public class UserEmojisRepository : IUserEmojisRepository
                     FROM user_emojis uc
                     LEFT JOIN user_emojis_module ubm ON uc.emoji_id = ubm.user_emoji_id
                     LEFT JOIN user_emojis_upgrade ubu ON uc.emoji_id = ubu.user_emoji_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

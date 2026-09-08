@@ -30,7 +30,7 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
                 FROM Artworks m 
                 LEFT JOIN artworks_gallery mg 
                     ON m.id = mg.artwork_id AND mg.user_id = @userId 
-                WHERE 1=1";
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -176,8 +176,8 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM Artworks 
-                WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Artworks m 
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND type = @type";

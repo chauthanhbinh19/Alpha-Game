@@ -43,7 +43,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                 INNER JOIN achievements c ON uc.achievement_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.achievement_id = am.user_achievement_id
                 LEFT JOIN AggregatedUpgrades au ON uc.achievement_id = au.user_achievement_id
-                WHERE uc.user_id = @userId";
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -186,7 +186,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM achievements c
-                JOIN user_achievements uc ON c.id = uc.achievement_id
+                JOIN user_achievements uc ON c.id = uc.achievement_id AND c.is_active = TRUE AND c.is_deleted = FALSE
                 WHERE uc.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -587,13 +587,15 @@ public class UserAchievementsRepository : IUserAchievementsRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_achievements
+            UPDATE user_achievements uc INNER JOIN achievements c ON c.id = uc.achievement_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND achievement_id = @achievement_id
-              AND (level != @level OR experience != @experience);
+            WHERE uc.user_id = @user_id 
+              AND uc.achievement_id = @achievement_id
+              AND (level != @level OR experience != @experience)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -647,13 +649,15 @@ public class UserAchievementsRepository : IUserAchievementsRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_achievements
+            UPDATE user_achievements uc INNER JOIN achievements c ON c.id = uc.achievement_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND achievement_id = @achievement_id
-              AND (star != @star OR quantity != @quantity);
+            WHERE uc.user_id = @user_id 
+              AND uc.achievement_id = @achievement_id
+              AND (star != @star OR quantity != @quantity)
+
+ AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -713,7 +717,8 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                 FROM user_achievements uc
                 LEFT JOIN AggregatedModules am ON uc.achievement_id = am.user_achievement_id
                 LEFT JOIN AggregatedUpgrades au ON uc.achievement_id = au.user_achievement_id
-                WHERE uc.achievement_id = @id AND uc.user_id = @user_id";
+                WHERE uc.achievement_id = @id 
+                    AND uc.user_id = @user_id";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
@@ -846,7 +851,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                     FROM user_achievements uc
                     LEFT JOIN user_achievements_module ubm ON uc.achievement_id = ubm.user_achievement_id
                     LEFT JOIN user_achievements_upgrade ubu ON uc.achievement_id = ubu.user_achievement_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

@@ -30,7 +30,7 @@ public class FurnituresGalleryRepository : IFurnituresGalleryRepository
                 FROM Furnitures m 
                 LEFT JOIN furnitures_gallery mg 
                     ON m.id = mg.furniture_id AND mg.user_id = @userId 
-                WHERE 1=1";
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -176,8 +176,8 @@ public class FurnituresGalleryRepository : IFurnituresGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM Furnitures 
-                WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Furnitures m 
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND type = @type";

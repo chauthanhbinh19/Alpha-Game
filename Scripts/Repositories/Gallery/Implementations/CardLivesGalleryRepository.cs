@@ -30,7 +30,7 @@ public class CardLivesGalleryRepository : ICardLivesGalleryRepository
                 FROM card_lives m 
                 LEFT JOIN card_lives_gallery mg 
                     ON m.id = mg.card_life_id AND mg.user_id = @userId 
-                WHERE 1=1";
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -176,8 +176,8 @@ public class CardLivesGalleryRepository : ICardLivesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM card_lives 
-                WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM card_lives m 
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND type = @type";

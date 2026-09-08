@@ -20,14 +20,14 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
 
                 string selectSQL = @"
                 WITH AggregatedModules AS (
-                    SELECT user_card_monster_id, SUM(current_multiplier) AS total_module_mult
-                    FROM user_card_monsters_module
-                    GROUP BY user_card_monster_id
+                    SELECT user_card_soldier_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_card_soldiers_module
+                    GROUP BY user_card_soldier_id
                 ),
                 AggregatedUpgrades AS (
-                    SELECT user_card_monster_id, SUM(current_multiplier) AS total_upgrade_mult
-                    FROM user_card_monsters_upgrade
-                    GROUP BY user_card_monster_id
+                    SELECT user_card_soldier_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_card_soldiers_upgrade
+                    GROUP BY user_card_soldier_id
                 )
                 SELECT 
                 uc.*, 
@@ -69,11 +69,11 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                     WHERE chc.card_soldier_id = c.id
                 ) AS classes_json
             FROM user_card_soldiers uc
-            INNER JOIN card_monsters c ON uc.card_monster_id = c.id
-                LEFT JOIN AggregatedModules am ON uc.card_soldier_id = am.user_card_monster_id
-                LEFT JOIN AggregatedUpgrades au ON uc.card_soldier_id = au.user_card_monster_id
+            INNER JOIN card_soldiers c ON uc.card_soldier_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.card_soldier_id = am.user_card_soldier_id
+                LEFT JOIN AggregatedUpgrades au ON uc.card_soldier_id = au.user_card_soldier_id
             LEFT JOIN teams t ON t.team_id = uc.team_id
-            WHERE uc.user_id = @userId
+            WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -315,14 +315,14 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
 
                 string selectSQL = @"
                 WITH AggregatedModules AS (
-                    SELECT user_card_monster_id, SUM(current_multiplier) AS total_module_mult
-                    FROM user_card_monsters_module
-                    GROUP BY user_card_monster_id
+                    SELECT user_card_soldier_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_card_soldiers_module
+                    GROUP BY user_card_soldier_id
                 ),
                 AggregatedUpgrades AS (
-                    SELECT user_card_monster_id, SUM(current_multiplier) AS total_upgrade_mult
-                    FROM user_card_monsters_upgrade
-                    GROUP BY user_card_monster_id
+                    SELECT user_card_soldier_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_card_soldiers_upgrade
+                    GROUP BY user_card_soldier_id
                 )
                     SELECT 
                     uc.*, 
@@ -363,11 +363,11 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                         WHERE chc.card_soldier_id = c.id
                     ) AS classes_json
                 FROM user_card_soldiers uc
-                INNER JOIN card_monsters c ON uc.card_monster_id = c.id
-                LEFT JOIN AggregatedModules am ON uc.card_soldier_id = am.user_card_monster_id
-                LEFT JOIN AggregatedUpgrades au ON uc.card_soldier_id = au.user_card_monster_id
+                INNER JOIN card_soldiers c ON uc.card_soldier_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.card_soldier_id = am.user_card_soldier_id
+                LEFT JOIN AggregatedUpgrades au ON uc.card_soldier_id = au.user_card_soldier_id
                 LEFT JOIN teams t ON t.team_id = uc.team_id
-                WHERE uc.user_id = @userId AND uc.team_id = @team_id AND SUBSTRING_INDEX(uc.position, '-', 1) = @position
+                WHERE uc.user_id = @userId AND uc.team_id = @team_id AND SUBSTRING_INDEX(uc.position, '-', 1) = @position AND c.is_active = TRUE AND c.is_deleted = FALSE
             ";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
@@ -574,14 +574,14 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
 
                 string selectSQL = @"
                 WITH AggregatedModules AS (
-                    SELECT user_card_monster_id, SUM(current_multiplier) AS total_module_mult
-                    FROM user_card_monsters_module
-                    GROUP BY user_card_monster_id
+                    SELECT user_card_soldier_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_card_soldiers_module
+                    GROUP BY user_card_soldier_id
                 ),
                 AggregatedUpgrades AS (
-                    SELECT user_card_monster_id, SUM(current_multiplier) AS total_upgrade_mult
-                    FROM user_card_monsters_upgrade
-                    GROUP BY user_card_monster_id
+                    SELECT user_card_soldier_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_card_soldiers_upgrade
+                    GROUP BY user_card_soldier_id
                 )
                 SELECT  distinct
                     uc.*, 
@@ -622,11 +622,11 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                         WHERE chc.card_soldier_id = c.id
                     ) AS classes_json
                 FROM user_card_soldiers uc
-                INNER JOIN card_monsters c ON uc.card_monster_id = c.id
-                LEFT JOIN AggregatedModules am ON uc.card_soldier_id = am.user_card_monster_id
-                LEFT JOIN AggregatedUpgrades au ON uc.card_soldier_id = au.user_card_monster_id
+                INNER JOIN card_soldiers c ON uc.card_soldier_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.card_soldier_id = am.user_card_soldier_id
+                LEFT JOIN AggregatedUpgrades au ON uc.card_soldier_id = au.user_card_soldier_id
                 LEFT JOIN teams t ON t.team_id = uc.team_id
-                WHERE uc.user_id = @userId AND uc.team_id = @team_id
+                WHERE uc.user_id = @userId AND uc.team_id = @team_id AND c.is_active = TRUE AND c.is_deleted = FALSE
             ";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
@@ -834,7 +834,7 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                 SELECT c.type, COUNT(c.type) AS number
                 FROM user_card_soldiers uc
                 LEFT JOIN card_soldiers c ON uc.card_soldier_id = c.id 
-                WHERE uc.user_id = @userId AND uc.team_id = @team_id
+                WHERE uc.user_id = @userId AND uc.team_id = @team_id AND c.is_active = TRUE AND c.is_deleted = FALSE
                 GROUP BY c.type;
             ";
 
@@ -874,9 +874,9 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                 await connection.OpenAsync();
 
                 string updateSQL = @"
-            UPDATE user_card_soldiers 
+            UPDATE user_card_soldiers uc INNER JOIN card_soldiers c ON c.id = uc.card_soldier_id 
             SET team_id = @team_id, position = @position 
-            WHERE user_id = @user_id AND card_soldier_id = @card_soldier_id;
+            WHERE uc.user_id = @user_id AND uc.card_soldier_id = @card_soldier_id AND c.is_active = TRUE AND c.is_deleted = FALSE;
         ";
 
                 await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -952,8 +952,8 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM card_soldiers c
-                JOIN user_card_soldiers uc ON c.id = uc.card_soldier_id
-                WHERE uc.user_id = @userId 
+                JOIN user_card_soldiers uc ON c.id = uc.card_soldier_id AND c.is_active = TRUE AND c.is_deleted = FALSE
+                WHERE uc.user_id = @userId  AND c.is_active = TRUE AND c.is_deleted = FALSE
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -1418,12 +1418,12 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_card_soldiers
+            UPDATE user_card_soldiers uc INNER JOIN card_soldiers c ON c.id = uc.card_soldier_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND card_soldier_id = @card_soldier_id
+            WHERE uc.user_id = @user_id 
+              AND uc.card_soldier_id = @card_soldier_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -1478,12 +1478,12 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_card_soldiers
+            UPDATE user_card_soldiers uc INNER JOIN card_soldiers c ON c.id = uc.card_soldier_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND card_soldier_id = @card_soldier_id
+            WHERE uc.user_id = @user_id 
+              AND uc.card_soldier_id = @card_soldier_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -1529,23 +1529,23 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
 
                 string selectSQL = @"
                 WITH AggregatedModules AS (
-                    SELECT user_card_monster_id, SUM(current_multiplier) AS total_module_mult
-                    FROM user_card_monsters_module
-                    GROUP BY user_card_monster_id
+                    SELECT user_card_soldier_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_card_soldiers_module
+                    GROUP BY user_card_soldier_id
                 ),
                 AggregatedUpgrades AS (
-                    SELECT user_card_monster_id, SUM(current_multiplier) AS total_upgrade_mult
-                    FROM user_card_monsters_upgrade
-                    GROUP BY user_card_monster_id
+                    SELECT user_card_soldier_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_card_soldiers_upgrade
+                    GROUP BY user_card_soldier_id
                 )
                 SELECT uc.*, c.image,
                 COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier,
                 FROM user_card_soldiers uc
-                INNER JOIN card_monsters c ON uc.card_monster_id = c.id
-                    LEFT JOIN AggregatedModules am ON uc.card_soldier_id = am.user_card_monster_id
-                    LEFT JOIN AggregatedUpgrades au ON uc.card_soldier_id = au.user_card_monster_id
-                WHERE uc.card_soldier_id = @id AND uc.user_id = @user_id";
+                INNER JOIN card_soldiers c ON uc.card_soldier_id = c.id
+                    LEFT JOIN AggregatedModules am ON uc.card_soldier_id = am.user_card_soldier_id
+                    LEFT JOIN AggregatedUpgrades au ON uc.card_soldier_id = au.user_card_soldier_id
+                WHERE uc.card_soldier_id = @id AND uc.user_id = @user_id AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@id", Id);
@@ -1727,7 +1727,7 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                 INNER JOIN teams t ON uc.team_id = t.team_id AND t.is_main = 1
                 LEFT JOIN user_card_soldiers_module ubm ON uc.card_soldier_id = ubm.user_card_soldier_id
                 LEFT JOIN user_card_soldiers_upgrade ubu ON uc.card_soldier_id = ubu.user_card_soldier_id
-                WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL
+                WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL AND 
             )
             SELECT 
                 SUM(health * total_multiplier) AS health,

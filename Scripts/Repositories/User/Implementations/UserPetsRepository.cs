@@ -42,21 +42,21 @@ public class UserPetsRepository : IUserPetsRepository
                 INNER JOIN pets c ON uc.pet_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.pet_id = am.user_pet_id
                 LEFT JOIN AggregatedUpgrades au ON uc.pet_id = au.user_pet_id 
-                WHERE uc.user_id = @userId 
+                WHERE uc.user_id = @userId  AND c.is_active = TRUE AND c.is_deleted = FALSE
         ";
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
-                selectSQL += " AND p.type = @type";
+                selectSQL += " AND c.type = @type";
             }
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                selectSQL += " AND p.rare = @rare";
+                selectSQL += " AND c.rare = @rare";
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                selectSQL += " AND p.name LIKE CONCAT('%', @search, '%')";
+                selectSQL += " AND c.name LIKE CONCAT('%', @search, '%')";
             }
 
             selectSQL += " LIMIT @limit OFFSET @offset";
@@ -257,7 +257,7 @@ public class UserPetsRepository : IUserPetsRepository
                 INNER JOIN pets c ON uc.pet_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.pet_id = am.user_pet_id
                 LEFT JOIN AggregatedUpgrades au ON uc.pet_id = au.user_pet_id
-                WHERE uc.user_id = @userId AND uc.team_id=@team_id
+                WHERE uc.user_id = @userId AND uc.team_id=@team_id AND c.is_active = TRUE AND c.is_deleted = FALSE
         ";
 
             await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
@@ -421,7 +421,7 @@ public class UserPetsRepository : IUserPetsRepository
             SELECT DISTINCT c.type, COUNT(c.type) AS number
             FROM user_pets uc
             LEFT JOIN pets c ON uc.pet_id = c.id 
-            WHERE uc.user_id = @userId AND uc.team_id = @team_id
+            WHERE uc.user_id = @userId AND uc.team_id = @team_id AND c.is_active = TRUE AND c.is_deleted = FALSE
             GROUP BY c.type;
         ";
 
@@ -457,22 +457,22 @@ public class UserPetsRepository : IUserPetsRepository
             string selectSQL = @"
             SELECT COUNT(*) 
             FROM Pets p
-            JOIN user_pets up ON p.id = up.pet_id
-            WHERE up.user_id = @userId 
+            JOIN user_pets up ON p.id = up.pet_id AND p.is_active = TRUE AND p.is_deleted = FALSE
+            WHERE up.user_id = @userId  AND c.is_active = TRUE AND c.is_deleted = FALSE
         ";
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
-                selectSQL += " AND p.type = @type";
+                selectSQL += " AND c.type = @type";
             }
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                selectSQL += " AND p.rare = @rare";
+                selectSQL += " AND c.rare = @rare";
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                selectSQL += " AND p.name LIKE CONCAT('%', @search, '%')";
+                selectSQL += " AND c.name LIKE CONCAT('%', @search, '%')";
             }
 
             await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
@@ -863,12 +863,12 @@ public class UserPetsRepository : IUserPetsRepository
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_pets
+            UPDATE user_pets uc INNER JOIN pets c ON c.id = uc.pet_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND pet_id = @pet_id
+            WHERE uc.user_id = @user_id 
+              AND uc.pet_id = @pet_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -923,12 +923,12 @@ public class UserPetsRepository : IUserPetsRepository
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_pets
+            UPDATE user_pets uc INNER JOIN pets c ON c.id = uc.pet_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND pet_id = @pet_id
+            WHERE uc.user_id = @user_id 
+              AND uc.pet_id = @pet_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -1203,7 +1203,7 @@ public class UserPetsRepository : IUserPetsRepository
                 INNER JOIN teams t ON uc.team_id = t.team_id AND t.is_main = 1
                 LEFT JOIN user_pets_module ubm ON uc.pet_id = ubm.user_pet_id
                 LEFT JOIN user_pets_upgrade ubu ON uc.pet_id = ubu.user_pet_id
-                WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL
+                WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL AND 
             )
             SELECT 
                 SUM(health * total_multiplier) AS health,

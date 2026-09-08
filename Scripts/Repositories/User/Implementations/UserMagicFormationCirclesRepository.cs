@@ -43,7 +43,7 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
                 INNER JOIN magic_formation_circles c ON uc.mfc_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.mfc_id = am.user_mfc_id
                 LEFT JOIN AggregatedUpgrades au ON uc.mfc_id = au.user_mfc_id
-                WHERE uc.user_id = @userId
+                WHERE uc.user_id = @userId AND c.is_active = TRUE AND c.is_deleted = FALSE
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -194,9 +194,8 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
                 string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM magic_formation_circles m
-                JOIN user_magic_formation_circles um ON m.id = um.mfc_id
-                WHERE um.user_id = @userId 
-            ";
+                JOIN user_magic_formation_circles um ON m.id = um.mfc_id AND m.is_active = TRUE AND m.is_deleted = FALSE
+                WHERE um.user_id = @userId";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -604,12 +603,12 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
 
             // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
             string updateSQL = @"
-            UPDATE user_magic_formation_circles
+            UPDATE user_magic_formation_circles uc INNER JOIN magic_formation_circles c ON c.id = uc.mfc_id
             SET 
                 level = @level, 
                 experience = @experience
-            WHERE user_id = @user_id 
-              AND mfc_id = @mfc_id
+            WHERE uc.user_id = @user_id 
+              AND uc.mfc_id = @mfc_id
               AND (level != @level OR experience != @experience);
         ";
 
@@ -664,12 +663,12 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
 
             // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
             string updateSQL = @"
-            UPDATE user_magic_formation_circles
+            UPDATE user_magic_formation_circles uc INNER JOIN magic_formation_circles c ON c.id = uc.mfc_id
             SET 
                 star = @star, 
                 quantity = @quantity
-            WHERE user_id = @user_id 
-              AND mfc_id = @mfc_id
+            WHERE uc.user_id = @user_id 
+              AND uc.mfc_id = @mfc_id
               AND (star != @star OR quantity != @quantity);
         ";
 
@@ -861,7 +860,7 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
                     FROM user_magic_formation_circles uc
                     LEFT JOIN user_magic_formation_circles_module ubm ON uc.mfc_id = ubm.user_mfc_id
                     LEFT JOIN user_magic_formation_circles_upgrade ubu ON uc.mfc_id = ubu.user_mfc_id
-                    WHERE uc.user_id = @user_id
+                    WHERE uc.user_id = @user_id AND 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

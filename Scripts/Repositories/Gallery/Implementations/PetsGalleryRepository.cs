@@ -30,7 +30,7 @@ public class PetsGalleryRepository : IPetsGalleryRepository
                 FROM Pets m 
                 LEFT JOIN pets_gallery mg 
                     ON m.id = mg.pet_id AND mg.user_id = @userId 
-                WHERE 1=1";
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -176,8 +176,8 @@ public class PetsGalleryRepository : IPetsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM Pets 
-                WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Pets m 
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND type = @type";

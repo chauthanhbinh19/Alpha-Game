@@ -30,7 +30,7 @@ public class AvatarsGalleryRepository : IAvatarsGalleryRepository
                 FROM Avatars c 
                 LEFT JOIN avatars_gallery cg 
                        ON c.id = cg.avatar_id AND cg.user_id = @userId 
-                WHERE 1=1
+                WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE
             ";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -163,7 +163,7 @@ public class AvatarsGalleryRepository : IAvatarsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM Avatars WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Avatars c WHERE 1=1 AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {

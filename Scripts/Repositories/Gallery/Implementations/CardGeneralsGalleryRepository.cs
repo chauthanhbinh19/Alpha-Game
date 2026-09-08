@@ -62,7 +62,7 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
                     ) AS classes_json
                 FROM card_generals m 
                 LEFT JOIN card_generals_gallery mg ON m.id = mg.card_general_id AND mg.user_id = @userId
-                WHERE 1=1";
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND m.type = @type";
@@ -241,8 +241,8 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT COUNT(*) FROM card_generals 
-                WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM card_generals m 
+                WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectSQL += " AND type = @type";
@@ -652,10 +652,10 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
             await connection.OpenAsync();
 
             // Thêm điều kiện (status IS NULL OR status != @status) để tránh update thừa khi status đã đúng sẵn
-            string updateSQL = @"UPDATE card_generals_gallery 
+            string updateSQL = @"UPDATE card_generals_gallery g INNER JOIN card_generals p ON p.id = g.card_general_id 
                              SET status = @status 
-                             WHERE user_id = @user_id 
-                               AND card_general_id = @card_general_id
+                             WHERE g.user_id = @user_id 
+                               AND g.card_general_id = @card_general_id
                                AND (status IS NULL OR status != @status);";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -698,9 +698,9 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
             await connection.OpenAsync();
 
             // Cập nhật tất cả bản ghi của user_id có status khác với status mới (tránh update thừa)
-            string updateSQL = @"UPDATE card_generals_gallery 
+            string updateSQL = @"UPDATE card_generals_gallery g INNER JOIN card_generals p ON p.id = g.card_general_id 
                              SET status = @status 
-                             WHERE user_id = @user_id 
+                             WHERE g.user_id = @user_id 
                                AND (status IS NULL OR status != @status);";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -742,10 +742,10 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
             await connection.OpenAsync();
 
             string updateSQL = @"
-            UPDATE card_generals_gallery 
+            UPDATE card_generals_gallery g INNER JOIN card_generals p ON p.id = g.card_general_id 
             SET temp_star = @temp_star 
-            WHERE user_id = @user_id 
-              AND card_general_id = @card_general_id 
+            WHERE g.user_id = @user_id 
+              AND g.card_general_id = @card_general_id 
               AND (temp_star IS NULL OR temp_star < @temp_star);";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -789,10 +789,10 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
 
             // Bước 1: Update current_star = temp_star
             string updateSQL = @"
-            UPDATE card_generals_gallery 
+            UPDATE card_generals_gallery g INNER JOIN card_generals p ON p.id = g.card_general_id 
             SET current_star = temp_star
-            WHERE user_id = @user_id 
-              AND card_general_id = @card_general_id 
+            WHERE g.user_id = @user_id 
+              AND g.card_general_id = @card_general_id 
               AND temp_star > current_star;";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -843,9 +843,9 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
 
             // Bước 1: Cập nhật tất cả bản ghi có temp_star > current_star của userId
             string updateSQL = @"
-            UPDATE card_generals_gallery 
+            UPDATE card_generals_gallery g INNER JOIN card_generals p ON p.id = g.card_general_id 
             SET current_star = temp_star
-            WHERE user_id = @user_id 
+            WHERE g.user_id = @user_id 
               AND temp_star > current_star;";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
@@ -1003,7 +1003,7 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string updateSQL = @"UPDATE card_generals_gallery
+                string updateSQL = @"UPDATE card_generals_gallery g INNER JOIN card_generals p ON p.id = g.card_general_id
                 SET 
                     status = @status,
                     current_star = @current_star,
@@ -1068,8 +1068,8 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
                     percent_all_atomic_defense = percent_all_atomic_defense + @percent_all_atomic_defense,
                     percent_all_mental_attack = percent_all_mental_attack + @percent_all_mental_attack,
                     percent_all_mental_defense = percent_all_mental_defense + @percent_all_mental_defense
-                WHERE user_id = @user_id
-                AND card_general_id = @card_general_id;
+                WHERE g.user_id = @user_id
+                AND g.card_general_id = @card_general_id;
             ";
 
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
