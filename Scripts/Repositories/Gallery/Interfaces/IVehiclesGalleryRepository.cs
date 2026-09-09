@@ -13,6 +13,6 @@ public interface IVehiclesGalleryRepository
     Task<InsertOrUpdateResult<List<(string VehicleId, double CurrentStar)>>> UpdateBatchCurrentStarVehiclesGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Vehicles>>> InsertBatchVehiclesGalleryAsync(string userId, List<Vehicles> vehicles);
     Task<Vehicles> GetVehicleCollectionByIdAsync(string userId, string objectId);
-    Task UpdateVehicleGalleryPowerAsync(string userId, string Id, Vehicles VehicleFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateVehicleGalleryPowerAsync(string userId, string Id, Vehicles VehicleFromDB);
     Task<Vehicles> SumPowerVehiclesGalleryAsync(string userId);
 }

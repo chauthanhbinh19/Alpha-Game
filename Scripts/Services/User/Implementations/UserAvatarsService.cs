@@ -45,15 +45,82 @@ public class UserAvatarsService : IUserAvatarsService
         return await _userAvatarsRepository.GetUserAvatarsCountAsync(userId, search, rare);
     }
 
-    public async Task<bool> InsertUserAvatarByIdAsync(string avatarId, string userId)
+    public async Task<InsertOrUpdateResult<bool>> InsertUserAvatarByIdAsync(string avatarId, string userId)
     {
-        IAvatarsRepository _repository = new AvatarsRepository();
-        AvatarsService _service = new AvatarsService(_repository);
-        return await _userAvatarsRepository.InsertUserAvatarByIdAsync(await _service.GetAvatarByIdAsync(avatarId), userId);
+        var checkAvatarResult = await _avatarsService.IsAvatarDeletedOrInactiveAsync(avatarId);
+        if (checkAvatarResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var avatar = await _avatarsService.GetAvatarByIdAsync(avatarId);
+
+        var oldAvatarTask = _avatarsService.SumPowerAvatarsPercentAsync(userId);
+        var oldUserAvatarTask = _userAvatarsRepository.SumPowerUserAvatarsAsync(userId);
+
+        await Task.WhenAll(oldAvatarTask, oldUserAvatarTask);
+
+        Avatars oldAvatar = oldAvatarTask.Result;
+        Avatars oldUserAvatar = oldUserAvatarTask.Result;
+
+        var insertOrUpdateResult = await _userAvatarsRepository.InsertOrUpdateUserAvatarAsync(userId, avatar);
+
+        if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        await _avatarsGalleryService.InsertAvatarGalleryAsync(userId, avatar.Id);
+
+        var newAvatarTask = _avatarsService.SumPowerAvatarsPercentAsync(userId);
+        var newUserAvatarTask = _userAvatarsRepository.SumPowerUserAvatarsAsync(userId);
+
+        await Task.WhenAll(newAvatarTask, newUserAvatarTask);
+
+        PowerManager deltaPower = (PowerManager)newAvatarTask.Result - (PowerManager)oldAvatar;
+        PowerManager deltaUserPower = (PowerManager)newUserAvatarTask.Result - (PowerManager)oldUserAvatar;
+
+        PowerManager totalDelta = new PowerManager();
+        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+        if (totalDelta.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+        }
+
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAvatarAsync(string userId, Avatars avatar)
     {
+        var checkAvatarResult = await _avatarsService.IsAvatarDeletedOrInactiveAsync(avatar.Id);
+        if (checkAvatarResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldAvatarTask = _avatarsService.SumPowerAvatarsPercentAsync(userId);
         var oldUserAvatarTask = _userAvatarsRepository.SumPowerUserAvatarsAsync(userId);
 
@@ -165,15 +232,31 @@ public class UserAvatarsService : IUserAvatarsService
         };
     }
 
-    public async Task<bool> UpdateUserAvatarLevelAsync(string userId, Avatars avatar)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserAvatarLevelAsync(string userId, Avatars avatar)
     {
+        var checkAvatarResult = await _avatarsService.IsAvatarDeletedOrInactiveAsync(avatar.Id);
+        if (checkAvatarResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Avatars oldUserAvatar = await _userAvatarsRepository.SumPowerUserAvatarsAsync(userId);
 
         var updateResult = await _userAvatarsRepository.UpdateUserAvatarLevelAsync(userId, avatar);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Avatars newUserAvatar = await _userAvatarsRepository.SumPowerUserAvatarsAsync(userId);
@@ -186,18 +269,34 @@ public class UserAvatarsService : IUserAvatarsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserAvatarStarAsync(string userId, Avatars avatar)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserAvatarStarAsync(string userId, Avatars avatar)
     {
+        var checkAvatarResult = await _avatarsService.IsAvatarDeletedOrInactiveAsync(avatar.Id);
+        if (checkAvatarResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Avatars oldUserAvatar = await _userAvatarsRepository.SumPowerUserAvatarsAsync(userId);
 
         var updateResult = await _userAvatarsRepository.UpdateUserAvatarStarAsync(userId, avatar);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _avatarsGalleryService.UpdateTempStarAvatarGalleryAsync(userId, avatar.Id, avatar.Star);
@@ -212,7 +311,7 @@ public class UserAvatarsService : IUserAvatarsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Avatars> GetUserAvatarByUsedAsync(string userId)

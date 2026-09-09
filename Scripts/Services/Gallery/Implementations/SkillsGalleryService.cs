@@ -32,25 +32,57 @@ public class SkillsGalleryService : ISkillsGalleryService
         return await _skillsGalleryRepository.GetSkillsCountAsync(search, type, rare);
     }
 
-    public async Task<bool> InsertSkillGalleryAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> InsertSkillGalleryAsync(string userId, string Id)
     {
+        var checkResult = await _skillsService.IsSkillDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var insertResult = await _skillsGalleryRepository.InsertSkillGalleryAsync(userId, Id, await _skillsService.GetSkillByIdAsync(Id));
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateStatusSkillGalleryAsync(string userId, string skillId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateStatusSkillGalleryAsync(string userId, string skillId)
     {
+        var checkResult = await _skillsService.IsSkillDeletedOrInactiveAsync(skillId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _skillsGalleryRepository.UpdateStatusSkillGalleryAsync(userId, skillId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
@@ -59,10 +91,10 @@ public class SkillsGalleryService : ISkillsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchStatusSkillsGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusSkillsGalleryAsync(string userId)
     {
         Skills oldSkill = await SumPowerSkillsGalleryAsync(userId);
 
@@ -72,7 +104,12 @@ public class SkillsGalleryService : ISkillsGalleryService
         updateResult.OperationType != DatabaseOperationType.Updated ||
         !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Skills newSkill = await SumPowerSkillsGalleryAsync(userId);
@@ -80,7 +117,12 @@ public class SkillsGalleryService : ISkillsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -88,7 +130,7 @@ public class SkillsGalleryService : ISkillsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Skills> SumPowerSkillsGalleryAsync(string userId)
@@ -96,27 +138,59 @@ public class SkillsGalleryService : ISkillsGalleryService
         return await _skillsGalleryRepository.SumPowerSkillsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateTempStarSkillGalleryAsync(string userId, string Id, double star)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTempStarSkillGalleryAsync(string userId, string Id, double star)
     {
+        var checkResult = await _skillsService.IsSkillDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _skillsGalleryRepository.UpdateTempStarSkillGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateCurrentStarSkillGalleryAsync(string userId, string skillId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateCurrentStarSkillGalleryAsync(string userId, string skillId)
     {
+        var checkResult = await _skillsService.IsSkillDeletedOrInactiveAsync(skillId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Skills oldSkill = await GetSkillCollectionByIdAsync(userId, skillId) ?? new Skills();
 
         var updateResult = await _skillsGalleryRepository.UpdateCurrentStarSkillGalleryAsync(userId, skillId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Skills newSkill = await GetSkillCollectionByIdAsync(userId, skillId) ?? new Skills();
@@ -124,7 +198,12 @@ public class SkillsGalleryService : ISkillsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -132,10 +211,10 @@ public class SkillsGalleryService : ISkillsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchCurrentStarSkillsGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarSkillsGalleryAsync(string userId)
     {
         Skills oldSkill = await SumPowerSkillsGalleryAsync(userId);
 
@@ -146,7 +225,12 @@ public class SkillsGalleryService : ISkillsGalleryService
             updateResult.Data == null ||
             !updateResult.Data.Any())
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Skills newSkill = await SumPowerSkillsGalleryAsync(userId);
@@ -154,7 +238,12 @@ public class SkillsGalleryService : ISkillsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -162,19 +251,24 @@ public class SkillsGalleryService : ISkillsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> InsertBatchSkillsGalleryAsync(string userId, List<Skills> skills)
+    public async Task<InsertOrUpdateResult<bool>> InsertBatchSkillsGalleryAsync(string userId, List<Skills> skills)
     {
         var insertResult = await _skillsGalleryRepository.InsertBatchSkillsGalleryAsync(userId, skills);
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Skills> GetSkillCollectionByIdAsync(string userId, string skillId)
@@ -184,10 +278,22 @@ public class SkillsGalleryService : ISkillsGalleryService
         return result;
     }
 
-    public async Task UpdateSkillGalleryPowerAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> UpdateSkillGalleryPowerAsync(string userId, string Id)
     {
+        var checkResult = await _skillsService.IsSkillDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         ISkillsRepository _repository = new SkillsRepository();
         SkillsService _service = new SkillsService(_repository);
         await _skillsGalleryRepository.UpdateSkillGalleryPowerAsync(userId, Id, await _service.GetSkillByIdAsync(Id));
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 }

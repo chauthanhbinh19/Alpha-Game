@@ -47,6 +47,17 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSpiritBeastAsync(string userId, SpiritBeasts spiritBeast)
     {
+        var checkSpiritBeastResult = await _spiritBeastsService.IsSpiritBeastDeletedOrInactiveAsync(spiritBeast.Id);
+        if (checkSpiritBeastResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldSpiritBeastTask = _spiritBeastsService.SumPowerSpiritBeastsPercentAsync(userId);
         var oldUserSpiritBeastTask = _userSpiritBeastsRepository.SumPowerUserSpiritBeastsAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
         };
     }
 
-    public async Task<bool> UpdateUserSpiritBeastLevelAsync(string userId, SpiritBeasts spiritBeast)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserSpiritBeastLevelAsync(string userId, SpiritBeasts spiritBeast)
     {
+        var checkSpiritBeastResult = await _spiritBeastsService.IsSpiritBeastDeletedOrInactiveAsync(spiritBeast.Id);
+        if (checkSpiritBeastResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         SpiritBeasts oldUserSpiritBeast = await _userSpiritBeastsRepository.SumPowerUserSpiritBeastsAsync(userId);
 
         var updateResult = await _userSpiritBeastsRepository.UpdateUserSpiritBeastLevelAsync(userId, spiritBeast);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         SpiritBeasts newUserSpiritBeast = await _userSpiritBeastsRepository.SumPowerUserSpiritBeastsAsync(userId);
@@ -179,18 +206,34 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserSpiritBeastStarAsync(string userId, SpiritBeasts spiritBeast)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserSpiritBeastStarAsync(string userId, SpiritBeasts spiritBeast)
     {
+        var checkSpiritBeastResult = await _spiritBeastsService.IsSpiritBeastDeletedOrInactiveAsync(spiritBeast.Id);
+        if (checkSpiritBeastResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         SpiritBeasts oldUserSpiritBeast = await _userSpiritBeastsRepository.SumPowerUserSpiritBeastsAsync(userId);
 
         var updateResult = await _userSpiritBeastsRepository.UpdateUserSpiritBeastStarAsync(userId, spiritBeast);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _spiritBeastsGalleryService.UpdateTempStarSpiritBeastGalleryAsync(userId, spiritBeast.Id, spiritBeast.Star);
@@ -205,7 +248,7 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<SpiritBeasts> GetUserSpiritBeastByIdAsync(string userId, string Id)

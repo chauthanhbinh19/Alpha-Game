@@ -14,6 +14,6 @@ public interface IEmojisGalleryRepository
     Task<InsertOrUpdateResult<List<(string EmojiId, double CurrentStar)>>> UpdateBatchCurrentStarEmojisGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Emojis>>> InsertBatchEmojisGalleryAsync(string userId, List<Emojis> emojis);
     Task<Emojis> GetEmojiCollectionByIdAsync(string userId, string objectId);
-    Task UpdateEmojiGalleryPowerAsync(string userId, string id, Emojis EmojiFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateEmojiGalleryPowerAsync(string userId, string id, Emojis EmojiFromDB);
     Task<Emojis> SumPowerEmojisGalleryAsync(string userId);
 }

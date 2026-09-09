@@ -6,6 +6,7 @@ public class UserCardMonstersService : IUserCardMonstersService
 {
     private readonly IUserCardMonstersRepository _userCardMonstersRepository;
     private readonly ICardMonstersGalleryService _cardMonstersGalleryService;
+    private readonly ICardMonstersService _cardMonstersService;
     private readonly IUserSkillsRepository _userSkillsRepository;
     private readonly IPatternsService _patternsService;
     private readonly IUserStatsService _userStatsService;
@@ -13,12 +14,14 @@ public class UserCardMonstersService : IUserCardMonstersService
     public UserCardMonstersService(
         IUserCardMonstersRepository userCardMonstersRepository,
         ICardMonstersGalleryService cardMonstersGalleryService,
+        ICardMonstersService cardMonstersService,
         IUserSkillsRepository userSkillsRepository,
         IPatternsService patternsService,
         IUserStatsService userStatsService)
     {
         _userCardMonstersRepository = userCardMonstersRepository;
         _cardMonstersGalleryService = cardMonstersGalleryService;
+        _cardMonstersService = cardMonstersService;
         _userSkillsRepository = userSkillsRepository;
         _patternsService = patternsService;
         _userStatsService = userStatsService;
@@ -512,6 +515,17 @@ public class UserCardMonstersService : IUserCardMonstersService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardMonsterAsync(string userId, CardMonsters cardMonster)
     {
+        var checkCardMonsterResult = await _cardMonstersService.IsCardMonsterDeletedOrInactiveAsync(cardMonster.Id);
+        if (checkCardMonsterResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var insertOrUpdateResult = await _userCardMonstersRepository.InsertOrUpdateUserCardMonsterAsync(userId, cardMonster);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -571,35 +585,68 @@ public class UserCardMonstersService : IUserCardMonstersService
         };
     }
 
-    public async Task<bool> UpdateUserCardMonsterLevelAsync(string userId, CardMonsters cardMonster)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardMonsterLevelAsync(string userId, CardMonsters cardMonster)
     {
+        var checkCardMonsterResult = await _cardMonstersService.IsCardMonsterDeletedOrInactiveAsync(cardMonster.Id);
+        if (checkCardMonsterResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _userCardMonstersRepository.UpdateUserCardMonsterLevelAsync(userId, cardMonster);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserCardMonsterStarAsync(string userId, CardMonsters cardMonster)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardMonsterStarAsync(string userId, CardMonsters cardMonster)
     {
+        var checkCardMonsterResult = await _cardMonstersService.IsCardMonsterDeletedOrInactiveAsync(cardMonster.Id);
+        if (checkCardMonsterResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _userCardMonstersRepository.UpdateUserCardMonsterStarAsync(userId, cardMonster);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _cardMonstersGalleryService.UpdateTempStarCardMonsterGalleryAsync(userId, cardMonster.Id, cardMonster.Star);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateTeamUserCardMonsterAsync(string userId, string teamId, string position, string cardId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTeamUserCardMonsterAsync(string userId, string teamId, string position, string cardId)
     {
-        return await _userCardMonstersRepository.UpdateTeamUserCardMonsterAsync(userId, teamId, position, cardId);
+        await _userCardMonstersRepository.UpdateTeamUserCardMonsterAsync(userId, teamId, position, cardId);
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<CardMonsters> GetUserCardMonsterByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null)

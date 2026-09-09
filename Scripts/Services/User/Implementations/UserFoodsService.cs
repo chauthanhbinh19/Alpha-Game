@@ -47,6 +47,17 @@ public class UserFoodsService : IUserFoodsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserFoodAsync(string userId, Foods food)
     {
+        var checkFoodResult = await _foodsService.IsFoodDeletedOrInactiveAsync(food.Id);
+        if (checkFoodResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldFoodTask = _foodsService.SumPowerFoodsPercentAsync(userId);
         var oldUserFoodTask = _userFoodsRepository.SumPowerUserFoodsAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserFoodsService : IUserFoodsService
         };
     }
 
-    public async Task<bool> UpdateUserFoodLevelAsync(string userId, Foods food)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserFoodLevelAsync(string userId, Foods food)
     {
+        var checkFoodResult = await _foodsService.IsFoodDeletedOrInactiveAsync(food.Id);
+        if (checkFoodResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Foods oldUserFood = await _userFoodsRepository.SumPowerUserFoodsAsync(userId);
 
         var updateResult = await _userFoodsRepository.UpdateUserFoodLevelAsync(userId, food);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Foods newUserFood = await _userFoodsRepository.SumPowerUserFoodsAsync(userId);
@@ -179,18 +206,34 @@ public class UserFoodsService : IUserFoodsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserFoodStarAsync(string userId, Foods food)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserFoodStarAsync(string userId, Foods food)
     {
+        var checkFoodResult = await _foodsService.IsFoodDeletedOrInactiveAsync(food.Id);
+        if (checkFoodResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Foods oldUserFood = await _userFoodsRepository.SumPowerUserFoodsAsync(userId);
 
         var updateResult = await _userFoodsRepository.UpdateUserFoodStarAsync(userId, food);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _foodsGalleryService.UpdateTempStarFoodGalleryAsync(userId, food.Id, food.Star);
@@ -205,7 +248,7 @@ public class UserFoodsService : IUserFoodsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Foods> GetUserFoodByIdAsync(string userId, string Id)

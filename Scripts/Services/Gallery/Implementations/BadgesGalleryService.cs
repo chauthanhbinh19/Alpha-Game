@@ -32,25 +32,57 @@ public class BadgesGalleryService : IBadgesGalleryService
         return await _badgesGalleryRepository.GetBadgesCountAsync(search, rare);
     }
 
-    public async Task<bool> InsertBadgeGalleryAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> InsertBadgeGalleryAsync(string userId, string Id)
     {
+        var checkResult = await _badgesService.IsBadgeDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var insertResult = await _badgesGalleryRepository.InsertBadgeGalleryAsync(userId, Id, await _badgesService.GetBadgeByIdAsync(Id));
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateStatusBadgeGalleryAsync(string userId, string badgeId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateStatusBadgeGalleryAsync(string userId, string badgeId)
     {
+        var checkResult = await _badgesService.IsBadgeDeletedOrInactiveAsync(badgeId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _badgesGalleryRepository.UpdateStatusBadgeGalleryAsync(userId, badgeId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
@@ -59,10 +91,10 @@ public class BadgesGalleryService : IBadgesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchStatusBadgesGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusBadgesGalleryAsync(string userId)
     {
         Badges oldBadge = await SumPowerBadgesGalleryAsync(userId);
 
@@ -72,7 +104,12 @@ public class BadgesGalleryService : IBadgesGalleryService
         updateResult.OperationType != DatabaseOperationType.Updated ||
         !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Badges newBadge = await SumPowerBadgesGalleryAsync(userId);
@@ -80,7 +117,12 @@ public class BadgesGalleryService : IBadgesGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -88,7 +130,7 @@ public class BadgesGalleryService : IBadgesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Badges> SumPowerBadgesGalleryAsync(string userId)
@@ -96,27 +138,59 @@ public class BadgesGalleryService : IBadgesGalleryService
         return await _badgesGalleryRepository.SumPowerBadgesGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateTempStarBadgeGalleryAsync(string userId, string Id, double star)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTempStarBadgeGalleryAsync(string userId, string Id, double star)
     {
+        var checkResult = await _badgesService.IsBadgeDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _badgesGalleryRepository.UpdateTempStarBadgeGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateCurrentStarBadgeGalleryAsync(string userId, string badgeId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateCurrentStarBadgeGalleryAsync(string userId, string badgeId)
     {
+        var checkResult = await _badgesService.IsBadgeDeletedOrInactiveAsync(badgeId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Badges oldBadge = await GetBadgeCollectionByIdAsync(userId, badgeId) ?? new Badges();
 
         var updateResult = await _badgesGalleryRepository.UpdateCurrentStarBadgeGalleryAsync(userId, badgeId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Badges newBadge = await GetBadgeCollectionByIdAsync(userId, badgeId) ?? new Badges();
@@ -124,7 +198,12 @@ public class BadgesGalleryService : IBadgesGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -132,10 +211,10 @@ public class BadgesGalleryService : IBadgesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchCurrentStarBadgesGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarBadgesGalleryAsync(string userId)
     {
         Badges oldBadge = await SumPowerBadgesGalleryAsync(userId);
 
@@ -146,7 +225,12 @@ public class BadgesGalleryService : IBadgesGalleryService
             updateResult.Data == null ||
             !updateResult.Data.Any())
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Badges newBadge = await SumPowerBadgesGalleryAsync(userId);
@@ -154,7 +238,12 @@ public class BadgesGalleryService : IBadgesGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -162,19 +251,24 @@ public class BadgesGalleryService : IBadgesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> InsertBatchBadgesGalleryAsync(string userId, List<Badges> badges)
+    public async Task<InsertOrUpdateResult<bool>> InsertBatchBadgesGalleryAsync(string userId, List<Badges> badges)
     {
         var insertResult = await _badgesGalleryRepository.InsertBatchBadgesGalleryAsync(userId, badges);
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Badges> GetBadgeCollectionByIdAsync(string userId, string badgeId)
@@ -184,10 +278,22 @@ public class BadgesGalleryService : IBadgesGalleryService
         return result;
     }
 
-    public async Task UpdateBadgeGalleryPowerAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBadgeGalleryPowerAsync(string userId, string Id)
     {
+        var checkResult = await _badgesService.IsBadgeDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         IBadgesRepository _repository = new BadgesRepository();
         BadgesService _service = new BadgesService(_repository);
         await _badgesGalleryRepository.UpdateBadgeGalleryPowerAsync(userId, Id, await _service.GetBadgeByIdAsync(Id));
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 }

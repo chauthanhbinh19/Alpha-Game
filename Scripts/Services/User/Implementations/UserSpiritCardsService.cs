@@ -47,6 +47,17 @@ public class UserSpiritCardsService : IUserSpiritCardsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSpiritCardAsync(string userId, SpiritCards spiritCard)
     {
+        var checkSpiritCardResult = await _spiritCardsService.IsSpiritCardDeletedOrInactiveAsync(spiritCard.Id);
+        if (checkSpiritCardResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldSpiritCardTask = _spiritCardsService.SumPowerSpiritCardsPercentAsync(userId);
         var oldUserSpiritCardTask = _userSpiritCardsRepository.SumPowerUserSpiritCardsAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserSpiritCardsService : IUserSpiritCardsService
         };
     }
 
-    public async Task<bool> UpdateUserSpiritCardLevelAsync(string userId, SpiritCards spiritCard)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserSpiritCardLevelAsync(string userId, SpiritCards spiritCard)
     {
+        var checkSpiritCardResult = await _spiritCardsService.IsSpiritCardDeletedOrInactiveAsync(spiritCard.Id);
+        if (checkSpiritCardResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         SpiritCards oldUserSpiritCard = await _userSpiritCardsRepository.SumPowerUserSpiritCardsAsync(userId);
 
         var updateResult = await _userSpiritCardsRepository.UpdateUserSpiritCardLevelAsync(userId, spiritCard);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         SpiritCards newUserSpiritCard = await _userSpiritCardsRepository.SumPowerUserSpiritCardsAsync(userId);
@@ -179,18 +206,34 @@ public class UserSpiritCardsService : IUserSpiritCardsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserSpiritCardStarAsync(string userId, SpiritCards spiritCard)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserSpiritCardStarAsync(string userId, SpiritCards spiritCard)
     {
+        var checkSpiritCardResult = await _spiritCardsService.IsSpiritCardDeletedOrInactiveAsync(spiritCard.Id);
+        if (checkSpiritCardResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         SpiritCards oldUserSpiritCard = await _userSpiritCardsRepository.SumPowerUserSpiritCardsAsync(userId);
 
         var updateResult = await _userSpiritCardsRepository.UpdateUserSpiritCardStarAsync(userId, spiritCard);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _spiritCardsGalleryService.UpdateTempStarSpiritCardGalleryAsync(userId, spiritCard.Id, spiritCard.Star);
@@ -205,7 +248,7 @@ public class UserSpiritCardsService : IUserSpiritCardsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<SpiritCards> GetUserSpiritCardByIdAsync(string userId, string Id)

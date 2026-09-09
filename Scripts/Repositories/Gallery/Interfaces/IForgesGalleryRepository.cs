@@ -14,6 +14,6 @@ public interface IForgesGalleryRepository
     Task<InsertOrUpdateResult<List<(string ForgeId, double CurrentStar)>>> UpdateBatchCurrentStarForgesGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Forges>>> InsertBatchForgesGalleryAsync(string userId, List<Forges> forges);
     Task<Forges> GetForgeCollectionByIdAsync(string userId, string objectId);
-    Task UpdateForgeGalleryPowerAsync(string userId, string Id, Forges ForgeFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateForgeGalleryPowerAsync(string userId, string Id, Forges ForgeFromDB);
     Task<Forges> SumPowerForgesGalleryAsync(string userId);
 }

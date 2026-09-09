@@ -14,6 +14,6 @@ public interface IRobotsGalleryRepository
     Task<InsertOrUpdateResult<List<(string RobotId, double CurrentStar)>>> UpdateBatchCurrentStarRobotsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Robots>>> InsertBatchRobotsGalleryAsync(string userId, List<Robots> robots);
     Task<Robots> GetRobotCollectionByIdAsync(string userId, string objectId);
-    Task UpdateRobotGalleryPowerAsync(string userId, string id, Robots RobotFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateRobotGalleryPowerAsync(string userId, string id, Robots RobotFromDB);
     Task<Robots> SumPowerRobotsGalleryAsync(string userId);
 }

@@ -14,6 +14,6 @@ public interface ICardGeneralsGalleryRepository
     Task<InsertOrUpdateResult<List<(string CardGeneralId, double CurrentStar)>>> UpdateBatchCurrentStarCardGeneralsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<CardGenerals>>> InsertBatchCardGeneralsGalleryAsync(string userId, List<CardGenerals> cardGenerals);
     Task<CardGenerals> GetCardGeneralCollectionByIdAsync(string userId, string objectId);
-    Task UpdateCardGeneralGalleryPowerAsync(string userId, string Id, CardGenerals CardGeneralFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateCardGeneralGalleryPowerAsync(string userId, string Id, CardGenerals CardGeneralFromDB);
     Task<CardGenerals> SumPowerCardGeneralsGalleryAsync(string userId);
 }

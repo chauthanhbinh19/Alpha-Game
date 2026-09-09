@@ -10,14 +10,14 @@ public interface IUserCardMonstersService
     Task<List<CardMonsters>> GetUserCardMonstersTeamAsync(string userId, string teamId, string position, UserStatsContextDTO sharedContext = null);
     Task<List<CardMonsters>> GetUserCardMonstersTeamWithoutPositionAsync(string userId, string teamId, UserStatsContextDTO sharedContext = null);
     Task<Dictionary<string, int>> GetUniqueUserCardMonstersTypesTeamAsync(string userId, string teamId);
-    Task<bool> UpdateTeamUserCardMonsterAsync(string userId, string teamId, string position, string cardId);
+    Task<InsertOrUpdateResult<bool>> UpdateTeamUserCardMonsterAsync(string userId, string teamId, string position, string cardId);
     Task<int> GetUserCardMonstersCountAsync(string userId, string search, string type, string rare);
     Task<int> GetUserCardMonstersTeamsPositionCountAsync(string userId, string teamId, string position);
     Task<int> GetUserCardMonstersTeamsCountAsync(string userId, string teamId);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardMonsterAsync(string userId, CardMonsters cardMonster);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardMonstersBatchAsync(string userId, List<CardMonsters> cardMonsters);
-    Task<bool> UpdateUserCardMonsterLevelAsync(string userId, CardMonsters cardMonster);
-    Task<bool> UpdateUserCardMonsterStarAsync(string userId, CardMonsters cardMonster);
+    Task<InsertOrUpdateResult<bool>> UpdateUserCardMonsterLevelAsync(string userId, CardMonsters cardMonster);
+    Task<InsertOrUpdateResult<bool>> UpdateUserCardMonsterStarAsync(string userId, CardMonsters cardMonster);
     Task<CardMonsters> GetUserCardMonsterByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null);
     Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null);
 }

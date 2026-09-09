@@ -14,6 +14,6 @@ public interface ISymbolsGalleryRepository
     Task<InsertOrUpdateResult<List<(string SymbolId, double CurrentStar)>>> UpdateBatchCurrentStarSymbolsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Symbols>>> InsertBatchSymbolsGalleryAsync(string userId, List<Symbols> symbols);
     Task<Symbols> GetSymbolCollectionByIdAsync(string userId, string objectId);
-    Task UpdateSymbolGalleryPowerAsync(string userId, string Id, Symbols SymbolFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateSymbolGalleryPowerAsync(string userId, string Id, Symbols SymbolFromDB);
     Task<Symbols> SumPowerSymbolsGalleryAsync(string userId);
 }

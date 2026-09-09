@@ -14,6 +14,6 @@ public interface IFoodsGalleryRepository
     Task<InsertOrUpdateResult<List<(string FoodId, double CurrentStar)>>> UpdateBatchCurrentStarFoodsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Foods>>> InsertBatchFoodsGalleryAsync(string userId, List<Foods> foods);
     Task<Foods> GetFoodCollectionByIdAsync(string userId, string objectId);
-    Task UpdateFoodGalleryPowerAsync(string userId, string id, Foods FoodFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateFoodGalleryPowerAsync(string userId, string id, Foods FoodFromDB);
     Task<Foods> SumPowerFoodsGalleryAsync(string userId);
 }

@@ -47,6 +47,17 @@ public class UserMedalsService : IUserMedalsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMedalAsync(string userId, Medals medal)
     {
+        var checkMedalResult = await _medalsService.IsMedalDeletedOrInactiveAsync(medal.Id);
+        if (checkMedalResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldMedalTask = _medalsService.SumPowerMedalsPercentAsync(userId);
         var oldUserMedalTask = _userMedalsRepository.SumPowerUserMedalsAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserMedalsService : IUserMedalsService
         };
     }
 
-    public async Task<bool> UpdateUserMedalLevelAsync(string userId, Medals medal)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserMedalLevelAsync(string userId, Medals medal)
     {
+        var checkMedalResult = await _medalsService.IsMedalDeletedOrInactiveAsync(medal.Id);
+        if (checkMedalResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Medals oldUserMedal = await _userMedalsRepository.SumPowerUserMedalsAsync(userId);
 
         var updateResult = await _userMedalsRepository.UpdateUserMedalLevelAsync(userId, medal);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Medals newUserMedal = await _userMedalsRepository.SumPowerUserMedalsAsync(userId);
@@ -179,18 +206,34 @@ public class UserMedalsService : IUserMedalsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserMedalStarAsync(string userId, Medals medal)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserMedalStarAsync(string userId, Medals medal)
     {
+        var checkMedalResult = await _medalsService.IsMedalDeletedOrInactiveAsync(medal.Id);
+        if (checkMedalResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Medals oldUserMedal = await _userMedalsRepository.SumPowerUserMedalsAsync(userId);
 
         var updateResult = await _userMedalsRepository.UpdateUserMedalStarAsync(userId, medal);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _medalsGalleryService.UpdateTempStarMedalGalleryAsync(userId, medal.Id, medal.Star);
@@ -205,7 +248,7 @@ public class UserMedalsService : IUserMedalsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Medals> GetUserMedalByIdAsync(string userId, string Id)

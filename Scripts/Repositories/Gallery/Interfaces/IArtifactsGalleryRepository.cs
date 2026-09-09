@@ -14,6 +14,6 @@ public interface IArtifactsGalleryRepository
     Task<InsertOrUpdateResult<List<(string ArtifactId, double CurrentStar)>>> UpdateBatchCurrentStarArtifactsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Artifacts>>> InsertBatchArtifactsGalleryAsync(string userId, List<Artifacts> artifacts);
     Task<Artifacts> GetArtifactCollectionByIdAsync(string userId, string objectId);
-    Task UpdateArtifactGalleryPowerAsync(string userId, string id, Artifacts ArtifactFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateArtifactGalleryPowerAsync(string userId, string id, Artifacts ArtifactFromDB);
     Task<Artifacts> SumPowerArtifactsGalleryAsync(string userId);
 }

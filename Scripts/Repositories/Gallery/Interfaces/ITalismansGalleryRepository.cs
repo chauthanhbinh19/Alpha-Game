@@ -14,6 +14,6 @@ public interface ITalismansGalleryRepository
     Task<InsertOrUpdateResult<List<(string TalismanId, double CurrentStar)>>> UpdateBatchCurrentStarTalismansGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Talismans>>> InsertBatchTalismansGalleryAsync(string userId, List<Talismans> talismans);
     Task<Talismans> GetTalismanCollectionByIdAsync(string userId, string objectId);
-    Task UpdateTalismanGalleryPowerAsync(string userId, string Id, Talismans TalismanFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateTalismanGalleryPowerAsync(string userId, string Id, Talismans TalismanFromDB);
     Task<Talismans> SumPowerTalismansGalleryAsync(string userId);
 }

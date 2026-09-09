@@ -32,25 +32,57 @@ public class EmojisGalleryService : IEmojisGalleryService
         return await _emojisGalleryRepository.GetEmojisCountAsync(search, rare);
     }
 
-    public async Task<bool> InsertEmojiGalleryAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> InsertEmojiGalleryAsync(string userId, string Id)
     {
+        var checkResult = await _emojisService.IsEmojiDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var insertResult = await _emojisGalleryRepository.InsertEmojiGalleryAsync(userId, Id, await _emojisService.GetEmojiByIdAsync(Id));
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateStatusEmojiGalleryAsync(string userId, string emojiId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateStatusEmojiGalleryAsync(string userId, string emojiId)
     {
+        var checkResult = await _emojisService.IsEmojiDeletedOrInactiveAsync(emojiId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _emojisGalleryRepository.UpdateStatusEmojiGalleryAsync(userId, emojiId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
@@ -59,10 +91,10 @@ public class EmojisGalleryService : IEmojisGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchStatusEmojisGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusEmojisGalleryAsync(string userId)
     {
         Emojis oldEmoji = await SumPowerEmojisGalleryAsync(userId);
 
@@ -72,7 +104,12 @@ public class EmojisGalleryService : IEmojisGalleryService
         updateResult.OperationType != DatabaseOperationType.Updated ||
         !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Emojis newEmoji = await SumPowerEmojisGalleryAsync(userId);
@@ -80,7 +117,12 @@ public class EmojisGalleryService : IEmojisGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -88,7 +130,7 @@ public class EmojisGalleryService : IEmojisGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Emojis> SumPowerEmojisGalleryAsync(string userId)
@@ -96,27 +138,59 @@ public class EmojisGalleryService : IEmojisGalleryService
         return await _emojisGalleryRepository.SumPowerEmojisGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateTempStarEmojiGalleryAsync(string userId, string Id, double star)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTempStarEmojiGalleryAsync(string userId, string Id, double star)
     {
+        var checkResult = await _emojisService.IsEmojiDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _emojisGalleryRepository.UpdateTempStarEmojiGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateCurrentStarEmojiGalleryAsync(string userId, string emojiId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateCurrentStarEmojiGalleryAsync(string userId, string emojiId)
     {
+        var checkResult = await _emojisService.IsEmojiDeletedOrInactiveAsync(emojiId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Emojis oldEmoji = await GetEmojiCollectionByIdAsync(userId, emojiId) ?? new Emojis();
 
         var updateResult = await _emojisGalleryRepository.UpdateCurrentStarEmojiGalleryAsync(userId, emojiId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Emojis newEmoji = await GetEmojiCollectionByIdAsync(userId, emojiId) ?? new Emojis();
@@ -124,7 +198,12 @@ public class EmojisGalleryService : IEmojisGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -132,10 +211,10 @@ public class EmojisGalleryService : IEmojisGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchCurrentStarEmojisGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarEmojisGalleryAsync(string userId)
     {
         Emojis oldEmoji = await SumPowerEmojisGalleryAsync(userId);
 
@@ -146,7 +225,12 @@ public class EmojisGalleryService : IEmojisGalleryService
             updateResult.Data == null ||
             !updateResult.Data.Any())
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Emojis newEmoji = await SumPowerEmojisGalleryAsync(userId);
@@ -154,7 +238,12 @@ public class EmojisGalleryService : IEmojisGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -162,19 +251,24 @@ public class EmojisGalleryService : IEmojisGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> InsertBatchEmojisGalleryAsync(string userId, List<Emojis> emojis)
+    public async Task<InsertOrUpdateResult<bool>> InsertBatchEmojisGalleryAsync(string userId, List<Emojis> emojis)
     {
         var insertResult = await _emojisGalleryRepository.InsertBatchEmojisGalleryAsync(userId, emojis);
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Emojis> GetEmojiCollectionByIdAsync(string userId, string emojiId)
@@ -184,10 +278,22 @@ public class EmojisGalleryService : IEmojisGalleryService
         return result;
     }
 
-    public async Task UpdateEmojiGalleryPowerAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> UpdateEmojiGalleryPowerAsync(string userId, string Id)
     {
+        var checkResult = await _emojisService.IsEmojiDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         IEmojisRepository _repository = new EmojisRepository();
         EmojisService _service = new EmojisService(_repository);
         await _emojisGalleryRepository.UpdateEmojiGalleryPowerAsync(userId, Id, await _service.GetEmojiByIdAsync(Id));
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 }

@@ -47,6 +47,17 @@ public class UserWeaponsService : IUserWeaponsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserWeaponAsync(string userId, Weapons weapon)
     {
+        var checkWeaponResult = await _weaponsService.IsWeaponDeletedOrInactiveAsync(weapon.Id);
+        if (checkWeaponResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldWeaponTask = _weaponsService.SumPowerWeaponsPercentAsync(userId);
         var oldUserWeaponTask = _userWeaponsRepository.SumPowerUserWeaponsAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserWeaponsService : IUserWeaponsService
         };
     }
 
-    public async Task<bool> UpdateUserWeaponLevelAsync(string userId, Weapons weapon)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserWeaponLevelAsync(string userId, Weapons weapon)
     {
+        var checkWeaponResult = await _weaponsService.IsWeaponDeletedOrInactiveAsync(weapon.Id);
+        if (checkWeaponResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Weapons oldUserWeapon = await _userWeaponsRepository.SumPowerUserWeaponsAsync(userId);
 
         var updateResult = await _userWeaponsRepository.UpdateUserWeaponLevelAsync(userId, weapon);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Weapons newUserWeapon = await _userWeaponsRepository.SumPowerUserWeaponsAsync(userId);
@@ -179,18 +206,34 @@ public class UserWeaponsService : IUserWeaponsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserWeaponStarAsync(string userId, Weapons weapon)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserWeaponStarAsync(string userId, Weapons weapon)
     {
+        var checkWeaponResult = await _weaponsService.IsWeaponDeletedOrInactiveAsync(weapon.Id);
+        if (checkWeaponResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Weapons oldUserWeapon = await _userWeaponsRepository.SumPowerUserWeaponsAsync(userId);
 
         var updateResult = await _userWeaponsRepository.UpdateUserWeaponStarAsync(userId, weapon);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _weaponsGalleryService.UpdateTempStarWeaponGalleryAsync(userId, weapon.Id, weapon.Star);
@@ -205,7 +248,7 @@ public class UserWeaponsService : IUserWeaponsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Weapons> GetUserWeaponByIdAsync(string userId, string Id)

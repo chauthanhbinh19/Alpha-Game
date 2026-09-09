@@ -32,25 +32,57 @@ public class TitlesGalleryService : ITitlesGalleryService
         return await _titlesGalleryRepository.GetTitlesCountAsync(search, rare);
     }
 
-    public async Task<bool> InsertTitleGalleryAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> InsertTitleGalleryAsync(string userId, string Id)
     {
+        var checkResult = await _titlesService.IsTitleDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var insertResult = await _titlesGalleryRepository.InsertTitleGalleryAsync(userId, Id, await _titlesService.GetTitleByIdAsync(Id));
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateStatusTitleGalleryAsync(string userId, string titleId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateStatusTitleGalleryAsync(string userId, string titleId)
     {
+        var checkResult = await _titlesService.IsTitleDeletedOrInactiveAsync(titleId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _titlesGalleryRepository.UpdateStatusTitleGalleryAsync(userId, titleId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
@@ -59,10 +91,10 @@ public class TitlesGalleryService : ITitlesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchStatusTitlesGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusTitlesGalleryAsync(string userId)
     {
         Titles oldTitle = await SumPowerTitlesGalleryAsync(userId);
 
@@ -72,7 +104,12 @@ public class TitlesGalleryService : ITitlesGalleryService
         updateResult.OperationType != DatabaseOperationType.Updated ||
         !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Titles newTitle = await SumPowerTitlesGalleryAsync(userId);
@@ -80,7 +117,12 @@ public class TitlesGalleryService : ITitlesGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -88,7 +130,7 @@ public class TitlesGalleryService : ITitlesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Titles> SumPowerTitlesGalleryAsync(string userId)
@@ -96,27 +138,59 @@ public class TitlesGalleryService : ITitlesGalleryService
         return await _titlesGalleryRepository.SumPowerTitlesGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateTempStarTitleGalleryAsync(string userId, string Id, double star)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTempStarTitleGalleryAsync(string userId, string Id, double star)
     {
+        var checkResult = await _titlesService.IsTitleDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _titlesGalleryRepository.UpdateTempStarTitleGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateCurrentStarTitleGalleryAsync(string userId, string titleId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateCurrentStarTitleGalleryAsync(string userId, string titleId)
     {
+        var checkResult = await _titlesService.IsTitleDeletedOrInactiveAsync(titleId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Titles oldTitle = await GetTitleCollectionByIdAsync(userId, titleId) ?? new Titles();
 
         var updateResult = await _titlesGalleryRepository.UpdateCurrentStarTitleGalleryAsync(userId, titleId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Titles newTitle = await GetTitleCollectionByIdAsync(userId, titleId) ?? new Titles();
@@ -124,7 +198,12 @@ public class TitlesGalleryService : ITitlesGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -132,10 +211,10 @@ public class TitlesGalleryService : ITitlesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchCurrentStarTitlesGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarTitlesGalleryAsync(string userId)
     {
         Titles oldTitle = await SumPowerTitlesGalleryAsync(userId);
 
@@ -146,7 +225,12 @@ public class TitlesGalleryService : ITitlesGalleryService
             updateResult.Data == null ||
             !updateResult.Data.Any())
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Titles newTitle = await SumPowerTitlesGalleryAsync(userId);
@@ -154,7 +238,12 @@ public class TitlesGalleryService : ITitlesGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -162,19 +251,24 @@ public class TitlesGalleryService : ITitlesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> InsertBatchTitlesGalleryAsync(string userId, List<Titles> titles)
+    public async Task<InsertOrUpdateResult<bool>> InsertBatchTitlesGalleryAsync(string userId, List<Titles> titles)
     {
         var insertResult = await _titlesGalleryRepository.InsertBatchTitlesGalleryAsync(userId, titles);
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Titles> GetTitleCollectionByIdAsync(string userId, string titleId)
@@ -184,10 +278,22 @@ public class TitlesGalleryService : ITitlesGalleryService
         return result;
     }
 
-    public async Task UpdateTitleGalleryPowerAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTitleGalleryPowerAsync(string userId, string Id)
     {
+        var checkResult = await _titlesService.IsTitleDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         ITitlesRepository _repository = new TitlesRepository();
         TitlesService _service = new TitlesService(_repository);
         await _titlesGalleryRepository.UpdateTitleGalleryPowerAsync(userId, Id, await _service.GetTitleByIdAsync(Id));
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 }

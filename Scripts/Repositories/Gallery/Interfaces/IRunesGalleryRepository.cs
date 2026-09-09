@@ -14,6 +14,6 @@ public interface IRunesGalleryRepository
     Task<InsertOrUpdateResult<List<(string RuneId, double CurrentStar)>>> UpdateBatchCurrentStarRunesGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Runes>>> InsertBatchRunesGalleryAsync(string userId, List<Runes> runes);
     Task<Runes> GetRuneCollectionByIdAsync(string userId, string objectId);
-    Task UpdateRuneGalleryPowerAsync(string userId, string id, Runes RuneFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateRuneGalleryPowerAsync(string userId, string id, Runes RuneFromDB);
     Task<Runes> SumPowerRunesGalleryAsync(string userId);
 }

@@ -14,6 +14,6 @@ public interface IArtworksGalleryRepository
     Task<InsertOrUpdateResult<List<(string ArtworkId, double CurrentStar)>>> UpdateBatchCurrentStarArtworksGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Artworks>>> InsertBatchArtworksGalleryAsync(string userId, List<Artworks> artworks);
     Task<Artworks> GetArtworkCollectionByIdAsync(string userId, string objectId);
-    Task UpdateArtworkGalleryPowerAsync(string userId, string Id, Artworks ArtworkFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateArtworkGalleryPowerAsync(string userId, string Id, Artworks ArtworkFromDB);
     Task<Artworks> SumPowerArtworksGalleryAsync(string userId);
 }

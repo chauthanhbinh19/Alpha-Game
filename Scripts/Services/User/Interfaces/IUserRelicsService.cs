@@ -7,8 +7,8 @@ public interface IUserRelicsService
     Task<int> GetUserRelicsCountAsync(string userId, string search, string type, string rare);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserRelicAsync(string userId, Relics relic);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserRelicsBatchAsync(string userId, List<Relics> relics);
-    Task<bool> UpdateUserRelicLevelAsync(string userId, Relics relic);
-    Task<bool> UpdateUserRelicStarAsync(string userId, Relics relic);
+    Task<InsertOrUpdateResult<bool>> UpdateUserRelicLevelAsync(string userId, Relics relic);
+    Task<InsertOrUpdateResult<bool>> UpdateUserRelicStarAsync(string userId, Relics relic);
     Task<Relics> GetUserRelicByIdAsync(string userId, string Id);
     Task<Relics> SumPowerUserRelicsAsync(string userId);
 }

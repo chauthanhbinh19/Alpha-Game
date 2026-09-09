@@ -14,6 +14,6 @@ public interface ISpiritCardsGalleryRepository
     Task<InsertOrUpdateResult<List<(string SpiritCardId, double CurrentStar)>>> UpdateBatchCurrentStarSpiritCardsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<SpiritCards>>> InsertBatchSpiritCardsGalleryAsync(string userId, List<SpiritCards> spiritCards);
     Task<SpiritCards> GetSpiritCardCollectionByIdAsync(string userId, string objectId);
-    Task UpdateSpiritCardGalleryPowerAsync(string userId, string Id, SpiritCards SpiritCardFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateSpiritCardGalleryPowerAsync(string userId, string Id, SpiritCards SpiritCardFromDB);
     Task<SpiritCards> SumPowerSpiritCardsGalleryAsync(string userId);
 }

@@ -13,6 +13,6 @@ public interface ICardHeroesGalleryRepository
     Task<InsertOrUpdateResult<List<(string CardHeroId, double CurrentStar)>>> UpdateBatchCurrentStarCardHeroesGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<CardHeroes>>> InsertBatchCardHeroesGalleryAsync(string userId, List<CardHeroes> cardHeroes);
     Task<CardHeroes> GetCardHeroCollectionByIdAsync(string userId, string objectId);
-    Task UpdateCardHeroGalleryPowerAsync(string userId, string Id, CardHeroes CardHeroFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateCardHeroGalleryPowerAsync(string userId, string Id, CardHeroes CardHeroFromDB);
     Task<CardHeroes> SumPowerCardHeroesGalleryAsync(string userId);
 }

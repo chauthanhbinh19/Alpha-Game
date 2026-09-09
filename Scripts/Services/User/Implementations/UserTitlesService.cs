@@ -47,6 +47,17 @@ public class UserTitlesService : IUserTitlesService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserTitleAsync(string userId, Titles title)
     {
+        var checkTitleResult = await _titlesService.IsTitleDeletedOrInactiveAsync(title.Id);
+        if (checkTitleResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldTitleTask = _titlesService.SumPowerTitlesPercentAsync(userId);
         var oldUserTitleTask = _userTitlesRepository.SumPowerUserTitlesAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserTitlesService : IUserTitlesService
         };
     }
 
-    public async Task<bool> UpdateUserTitleLevelAsync(string userId, Titles title)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserTitleLevelAsync(string userId, Titles title)
     {
+        var checkTitleResult = await _titlesService.IsTitleDeletedOrInactiveAsync(title.Id);
+        if (checkTitleResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Titles oldUserTitle = await _userTitlesRepository.SumPowerUserTitlesAsync(userId);
 
         var updateResult = await _userTitlesRepository.UpdateUserTitleLevelAsync(userId, title);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Titles newUserTitle = await _userTitlesRepository.SumPowerUserTitlesAsync(userId);
@@ -179,18 +206,34 @@ public class UserTitlesService : IUserTitlesService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserTitleStarAsync(string userId, Titles title)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserTitleStarAsync(string userId, Titles title)
     {
+        var checkTitleResult = await _titlesService.IsTitleDeletedOrInactiveAsync(title.Id);
+        if (checkTitleResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Titles oldUserTitle = await _userTitlesRepository.SumPowerUserTitlesAsync(userId);
 
         var updateResult = await _userTitlesRepository.UpdateUserTitleStarAsync(userId, title);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _titlesGalleryService.UpdateTempStarTitleGalleryAsync(userId, title.Id, title.Star);
@@ -205,7 +248,7 @@ public class UserTitlesService : IUserTitlesService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Titles> GetUserTitleByIdAsync(string userId, string Id)

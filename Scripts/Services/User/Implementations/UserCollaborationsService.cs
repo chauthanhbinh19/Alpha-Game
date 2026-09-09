@@ -47,6 +47,17 @@ public class UserCollaborationsService : IUserCollaborationsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCollaborationAsync(string userId, Collaborations collaboration)
     {
+        var checkCollaborationResult = await _collaborationsService.IsCollaborationDeletedOrInactiveAsync(collaboration.Id);
+        if (checkCollaborationResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldCollaborationTask = _collaborationsService.SumPowerCollaborationsPercentAsync(userId);
         var oldUserCollaborationTask = _userCollaborationsRepository.SumPowerUserCollaborationsAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserCollaborationsService : IUserCollaborationsService
         };
     }
 
-    public async Task<bool> UpdateUserCollaborationLevelAsync(string userId, Collaborations collaboration)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationLevelAsync(string userId, Collaborations collaboration)
     {
+        var checkCollaborationResult = await _collaborationsService.IsCollaborationDeletedOrInactiveAsync(collaboration.Id);
+        if (checkCollaborationResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Collaborations oldUserCollaboration = await _userCollaborationsRepository.SumPowerUserCollaborationsAsync(userId);
 
         var updateResult = await _userCollaborationsRepository.UpdateUserCollaborationLevelAsync(userId, collaboration);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Collaborations newUserCollaboration = await _userCollaborationsRepository.SumPowerUserCollaborationsAsync(userId);
@@ -179,18 +206,34 @@ public class UserCollaborationsService : IUserCollaborationsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserCollaborationStarAsync(string userId, Collaborations collaboration)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationStarAsync(string userId, Collaborations collaboration)
     {
+        var checkCollaborationResult = await _collaborationsService.IsCollaborationDeletedOrInactiveAsync(collaboration.Id);
+        if (checkCollaborationResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Collaborations oldUserCollaboration = await _userCollaborationsRepository.SumPowerUserCollaborationsAsync(userId);
 
         var updateResult = await _userCollaborationsRepository.UpdateUserCollaborationStarAsync(userId, collaboration);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _collaborationsGalleryService.UpdateTempStarCollaborationGalleryAsync(userId, collaboration.Id, collaboration.Star);
@@ -205,7 +248,7 @@ public class UserCollaborationsService : IUserCollaborationsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Collaborations> GetUserCollaborationByIdAsync(string userId, string Id)

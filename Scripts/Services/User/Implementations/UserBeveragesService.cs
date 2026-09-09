@@ -47,6 +47,17 @@ public class UserBeveragesService : IUserBeveragesService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBeverageAsync(string userId, Beverages beverage)
     {
+        var checkBeverageResult = await _beveragesService.IsBeverageDeletedOrInactiveAsync(beverage.Id);
+        if (checkBeverageResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldBeverageTask = _beveragesService.SumPowerBeveragesPercentAsync(userId);
         var oldUserBeverageTask = _userBeveragesRepository.SumPowerUserBeveragesAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserBeveragesService : IUserBeveragesService
         };
     }
 
-    public async Task<bool> UpdateUserBeverageLevelAsync(string userId, Beverages beverage)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserBeverageLevelAsync(string userId, Beverages beverage)
     {
+        var checkBeverageResult = await _beveragesService.IsBeverageDeletedOrInactiveAsync(beverage.Id);
+        if (checkBeverageResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Beverages oldUserBeverage = await _userBeveragesRepository.SumPowerUserBeveragesAsync(userId);
 
         var updateResult = await _userBeveragesRepository.UpdateUserBeverageLevelAsync(userId, beverage);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Beverages newUserBeverage = await _userBeveragesRepository.SumPowerUserBeveragesAsync(userId);
@@ -179,18 +206,34 @@ public class UserBeveragesService : IUserBeveragesService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserBeverageStarAsync(string userId, Beverages beverage)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserBeverageStarAsync(string userId, Beverages beverage)
     {
+        var checkBeverageResult = await _beveragesService.IsBeverageDeletedOrInactiveAsync(beverage.Id);
+        if (checkBeverageResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+        
         Beverages oldUserBeverage = await _userBeveragesRepository.SumPowerUserBeveragesAsync(userId);
 
         var updateResult = await _userBeveragesRepository.UpdateUserBeverageStarAsync(userId, beverage);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _beveragesGalleryService.UpdateTempStarBeverageGalleryAsync(userId, beverage.Id, beverage.Star);
@@ -205,7 +248,7 @@ public class UserBeveragesService : IUserBeveragesService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Beverages> GetUserBeverageByIdAsync(string userId, string Id)

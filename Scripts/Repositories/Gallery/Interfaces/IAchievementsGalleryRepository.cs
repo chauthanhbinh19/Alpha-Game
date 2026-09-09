@@ -14,6 +14,6 @@ public interface IAchievementsGalleryRepository
     Task<InsertOrUpdateResult<List<(string AchievementId, double CurrentStar)>>> UpdateBatchCurrentStarAchievementsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Achievements>>> InsertBatchAchievementsGalleryAsync(string userId, List<Achievements> achievements);
     Task<Achievements> GetAchievementCollectionByIdAsync(string userId, string objectId);
-    Task UpdateAchievementGalleryPowerAsync(string userId, string id, Achievements AchievementFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateAchievementGalleryPowerAsync(string userId, string id, Achievements AchievementFromDB);
     Task<Achievements> SumPowerAchievementsGalleryAsync(string userId);
 }

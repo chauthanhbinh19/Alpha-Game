@@ -14,6 +14,6 @@ public interface IPetsGalleryRepository
     Task<InsertOrUpdateResult<List<(string PetId, double CurrentStar)>>> UpdateBatchCurrentStarPetsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Pets>>> InsertBatchPetsGalleryAsync(string userId, List<Pets> pets);
     Task<Pets> GetPetCollectionByIdAsync(string userId, string objectId);
-    Task UpdatePetGalleryPowerAsync(string userId, string Id, Pets PetFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdatePetGalleryPowerAsync(string userId, string Id, Pets PetFromDB);
     Task<Pets> SumPowerPetsGalleryAsync(string userId);
 }

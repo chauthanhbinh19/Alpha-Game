@@ -14,6 +14,6 @@ public interface IAvatarsGalleryRepository
     Task<InsertOrUpdateResult<List<(string AvatarId, double CurrentStar)>>> UpdateBatchCurrentStarAvatarsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Avatars>>> InsertBatchAvatarsGalleryAsync(string userId, List<Avatars> avatars);
     Task<Avatars> GetAvatarCollectionByIdAsync(string userId, string objectId);
-    Task UpdateAvatarGalleryPowerAsync(string userId, string id, Avatars AvatarFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateAvatarGalleryPowerAsync(string userId, string id, Avatars AvatarFromDB);
     Task<Avatars> SumPowerAvatarsGalleryAsync(string userId);
 }

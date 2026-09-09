@@ -9,6 +9,7 @@ public class UserCardHeroesService : IUserCardHeroesService
 {
     private readonly IUserCardHeroesRepository _userCardHeroesRepository;
     private readonly ICardHeroesGalleryService _cardHeroesGalleryService;
+    private readonly ICardHeroesService _cardHeroesService;
     private readonly IUserSkillsRepository _userSkillsRepository;
     private readonly IPatternsService _patternsService;
     private readonly IUserStatsService _userStatsService;
@@ -16,12 +17,14 @@ public class UserCardHeroesService : IUserCardHeroesService
     public UserCardHeroesService(
         IUserCardHeroesRepository userCardHeroesRepository,
         ICardHeroesGalleryService cardHeroesGalleryService,
+        ICardHeroesService cardHeroesService,
         IUserSkillsRepository userSkillsRepository,
         IPatternsService patternsService,
         IUserStatsService userStatsService)
     {
         _userCardHeroesRepository = userCardHeroesRepository;
         _cardHeroesGalleryService = cardHeroesGalleryService;
+        _cardHeroesService = cardHeroesService;
         _userSkillsRepository = userSkillsRepository;
         _patternsService = patternsService;
         _userStatsService = userStatsService;
@@ -544,8 +547,8 @@ public class UserCardHeroesService : IUserCardHeroesService
     //     // 3. Đo thời gian xử lý logic tính toán Chỉ số sức mạnh & Sắp xếp
     //     var swCalculations = Stopwatch.StartNew();
     //     result = QualityEvaluatorHelper.GetQualityPower(result);
-        // result = LevelEvaluatorHelper.GetLevelPower(result);
-        // result = StarEvaluatorHelper.GetStarPower(result);
+    // result = LevelEvaluatorHelper.GetLevelPower(result);
+    // result = StarEvaluatorHelper.GetStarPower(result);
 
     //     foreach (var card in result)
     //     {
@@ -598,6 +601,17 @@ public class UserCardHeroesService : IUserCardHeroesService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardHeroAsync(string userId, CardHeroes cardHero)
     {
+        var checkCardHeroResult = await _cardHeroesService.IsCardHeroDeletedOrInactiveAsync(cardHero.Id);
+        if (checkCardHeroResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var insertOrUpdateResult = await _userCardHeroesRepository.InsertOrUpdateUserCardHeroAsync(userId, cardHero);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -657,35 +671,68 @@ public class UserCardHeroesService : IUserCardHeroesService
         };
     }
 
-    public async Task<bool> UpdateUserCardHeroLevelAsync(string userId, CardHeroes cardHero)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardHeroLevelAsync(string userId, CardHeroes cardHero)
     {
+        var checkCardHeroResult = await _cardHeroesService.IsCardHeroDeletedOrInactiveAsync(cardHero.Id);
+        if (checkCardHeroResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _userCardHeroesRepository.UpdateUserCardHeroLevelAsync(userId, cardHero);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserCardHeroStarAsync(string userId, CardHeroes cardHero)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardHeroStarAsync(string userId, CardHeroes cardHero)
     {
+        var checkCardHeroResult = await _cardHeroesService.IsCardHeroDeletedOrInactiveAsync(cardHero.Id);
+        if (checkCardHeroResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _userCardHeroesRepository.UpdateUserCardHeroStarAsync(userId, cardHero);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _cardHeroesGalleryService.UpdateTempStarCardHeroGalleryAsync(userId, cardHero.Id, cardHero.Star);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateTeamUserCardHeroAsync(string userId, string teamId, string position, string cardId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTeamUserCardHeroAsync(string userId, string teamId, string position, string cardId)
     {
-        return await _userCardHeroesRepository.UpdateTeamUserCardHeroAsync(userId, teamId, position, cardId);
+        await _userCardHeroesRepository.UpdateTeamUserCardHeroAsync(userId, teamId, position, cardId);
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<CardHeroes> GetUserCardHeroByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null)
@@ -739,7 +786,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         {
             item.BaseStats = new BaseStats(item);
         }
-        
+
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);
         result = StarEvaluatorHelper.GetStarPower(result);

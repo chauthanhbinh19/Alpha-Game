@@ -6,6 +6,7 @@ public class UserCardMilitariesService : IUserCardMilitariesService
 {
     private readonly IUserCardMilitariesRepository _userCardMilitariesRepository;
     private readonly ICardMilitariesGalleryService _cardMilitariesGalleryService;
+    private readonly ICardMilitariesService _cardMilitariesService;
     private readonly IUserSkillsRepository _userSkillsRepository;
     private readonly IPatternsService _patternsService;
     private readonly IUserStatsService _userStatsService;
@@ -13,12 +14,14 @@ public class UserCardMilitariesService : IUserCardMilitariesService
     public UserCardMilitariesService(
         IUserCardMilitariesRepository userCardMilitariesRepository,
         ICardMilitariesGalleryService cardMilitariesGalleryService,
+        ICardMilitariesService cardMilitariesService,
         IUserSkillsRepository userSkillsRepository,
         IPatternsService patternsService,
         IUserStatsService userStatsService)
     {
         _userCardMilitariesRepository = userCardMilitariesRepository;
         _cardMilitariesGalleryService = cardMilitariesGalleryService;
+        _cardMilitariesService = cardMilitariesService;
         _userSkillsRepository = userSkillsRepository;
         _patternsService = patternsService;
         _userStatsService = userStatsService;
@@ -495,9 +498,10 @@ public class UserCardMilitariesService : IUserCardMilitariesService
         return await _userCardMilitariesRepository.GetUniqueUserCardMilitariesTypesTeamAsync(userId, teamId);
     }
 
-    public async Task<bool> UpdateTeamUserCardMilitaryAsync(string userId, string teamId, string position, string cardId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTeamUserCardMilitaryAsync(string userId, string teamId, string position, string cardId)
     {
-        return await _userCardMilitariesRepository.UpdateTeamUserCardMilitaryAsync(userId, teamId, position, cardId);
+        await _userCardMilitariesRepository.UpdateTeamUserCardMilitaryAsync(userId, teamId, position, cardId);
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<int> GetUserCardMilitariesCountAsync(string userId, string search, string type, string rare)
@@ -517,6 +521,17 @@ public class UserCardMilitariesService : IUserCardMilitariesService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardMilitaryAsync(string userId, CardMilitaries cardMilitary)
     {
+        var checkCardMilitaryResult = await _cardMilitariesService.IsCardMilitaryDeletedOrInactiveAsync(cardMilitary.Id);
+        if (checkCardMilitaryResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var insertOrUpdateResult = await _userCardMilitariesRepository.InsertOrUpdateUserCardMilitaryAsync(userId, cardMilitary);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -576,30 +591,62 @@ public class UserCardMilitariesService : IUserCardMilitariesService
         };
     }
 
-    public async Task<bool> UpdateUserCardMilitaryLevelAsync(string userId, CardMilitaries cardMilitary)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardMilitaryLevelAsync(string userId, CardMilitaries cardMilitary)
     {
+        var checkCardMilitaryResult = await _cardMilitariesService.IsCardMilitaryDeletedOrInactiveAsync(cardMilitary.Id);
+        if (checkCardMilitaryResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _userCardMilitariesRepository.UpdateUserCardMilitaryLevelAsync(userId, cardMilitary);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserCardMilitaryStarAsync(string userId, CardMilitaries cardMilitary)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardMilitaryStarAsync(string userId, CardMilitaries cardMilitary)
     {
+        var checkCardMilitaryResult = await _cardMilitariesService.IsCardMilitaryDeletedOrInactiveAsync(cardMilitary.Id);
+        if (checkCardMilitaryResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _userCardMilitariesRepository.UpdateUserCardMilitaryStarAsync(userId, cardMilitary);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _cardMilitariesGalleryService.UpdateTempStarCardMilitaryGalleryAsync(userId, cardMilitary.Id, cardMilitary.Star);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<CardMilitaries> GetUserCardMilitaryByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null)

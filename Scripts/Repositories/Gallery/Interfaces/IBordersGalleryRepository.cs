@@ -14,6 +14,6 @@ public interface IBordersGalleryRepository
     Task<InsertOrUpdateResult<List<(string BorderId, double CurrentStar)>>> UpdateBatchCurrentStarBordersGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Borders>>> InsertBatchBordersGalleryAsync(string userId, List<Borders> borders);
     Task<Borders> GetBorderCollectionByIdAsync(string userId, string objectId);
-    Task UpdateBorderGalleryPowerAsync(string userId, string id, Borders BorderFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateBorderGalleryPowerAsync(string userId, string id, Borders BorderFromDB);
     Task<Borders> SumPowerBordersGalleryAsync(string userId);
 }

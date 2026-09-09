@@ -32,25 +32,57 @@ public class CardCaptainsGalleryService : ICardCaptainsGalleryService
         return await _cardCaptainsGalleryRepository.GetCardCaptainsCountAsync(search, type, rare);
     }
 
-    public async Task<bool> InsertCardCaptainGalleryAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> InsertCardCaptainGalleryAsync(string userId, string Id)
     {
+        var checkResult = await _cardCaptainsService.IsCardCaptainDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+        
         var insertResult = await _cardCaptainsGalleryRepository.InsertCardCaptainGalleryAsync(userId, Id, await _cardCaptainsService.GetCardCaptainByIdAsync(Id));
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateStatusCardCaptainGalleryAsync(string userId, string cardCaptainId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateStatusCardCaptainGalleryAsync(string userId, string cardCaptainId)
     {
+        var checkResult = await _cardCaptainsService.IsCardCaptainDeletedOrInactiveAsync(cardCaptainId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _cardCaptainsGalleryRepository.UpdateStatusCardCaptainGalleryAsync(userId, cardCaptainId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
@@ -59,10 +91,10 @@ public class CardCaptainsGalleryService : ICardCaptainsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchStatusCardCaptainsGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusCardCaptainsGalleryAsync(string userId)
     {
         CardCaptains oldCardCaptain = await SumPowerCardCaptainsGalleryAsync(userId);
 
@@ -72,7 +104,12 @@ public class CardCaptainsGalleryService : ICardCaptainsGalleryService
         updateResult.OperationType != DatabaseOperationType.Updated ||
         !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         CardCaptains newCardCaptain = await SumPowerCardCaptainsGalleryAsync(userId);
@@ -80,7 +117,12 @@ public class CardCaptainsGalleryService : ICardCaptainsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -88,7 +130,7 @@ public class CardCaptainsGalleryService : ICardCaptainsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<CardCaptains> SumPowerCardCaptainsGalleryAsync(string userId)
@@ -96,27 +138,59 @@ public class CardCaptainsGalleryService : ICardCaptainsGalleryService
         return await _cardCaptainsGalleryRepository.SumPowerCardCaptainsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateTempStarCardCaptainGalleryAsync(string userId, string Id, double star)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTempStarCardCaptainGalleryAsync(string userId, string Id, double star)
     {
+        var checkResult = await _cardCaptainsService.IsCardCaptainDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _cardCaptainsGalleryRepository.UpdateTempStarCardCaptainGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateCurrentStarCardCaptainGalleryAsync(string userId, string cardCaptainId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateCurrentStarCardCaptainGalleryAsync(string userId, string cardCaptainId)
     {
+        var checkResult = await _cardCaptainsService.IsCardCaptainDeletedOrInactiveAsync(cardCaptainId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         CardCaptains oldCardCaptain = await GetCardCaptainCollectionByIdAsync(userId, cardCaptainId) ?? new CardCaptains();
 
         var updateResult = await _cardCaptainsGalleryRepository.UpdateCurrentStarCardCaptainGalleryAsync(userId, cardCaptainId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         CardCaptains newCardCaptain = await GetCardCaptainCollectionByIdAsync(userId, cardCaptainId) ?? new CardCaptains();
@@ -124,7 +198,12 @@ public class CardCaptainsGalleryService : ICardCaptainsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -132,10 +211,10 @@ public class CardCaptainsGalleryService : ICardCaptainsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchCurrentStarCardCaptainsGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarCardCaptainsGalleryAsync(string userId)
     {
         CardCaptains oldCardCaptain = await SumPowerCardCaptainsGalleryAsync(userId);
 
@@ -146,7 +225,12 @@ public class CardCaptainsGalleryService : ICardCaptainsGalleryService
             updateResult.Data == null ||
             !updateResult.Data.Any())
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         CardCaptains newCardCaptain = await SumPowerCardCaptainsGalleryAsync(userId);
@@ -154,7 +238,12 @@ public class CardCaptainsGalleryService : ICardCaptainsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -162,19 +251,24 @@ public class CardCaptainsGalleryService : ICardCaptainsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> InsertBatchCardCaptainsGalleryAsync(string userId, List<CardCaptains> cardCaptains)
+    public async Task<InsertOrUpdateResult<bool>> InsertBatchCardCaptainsGalleryAsync(string userId, List<CardCaptains> cardCaptains)
     {
         var insertResult = await _cardCaptainsGalleryRepository.InsertBatchCardCaptainsGalleryAsync(userId, cardCaptains);
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<CardCaptains> GetCardCaptainCollectionByIdAsync(string userId, string cardCaptainId)
@@ -184,10 +278,22 @@ public class CardCaptainsGalleryService : ICardCaptainsGalleryService
         return result;
     }
 
-    public async Task UpdateCardCaptainGalleryPowerAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> UpdateCardCaptainGalleryPowerAsync(string userId, string Id)
     {
+        var checkResult = await _cardCaptainsService.IsCardCaptainDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         ICardCaptainsRepository _repository = new CardCaptainsRepository();
         CardCaptainsService _service = new CardCaptainsService(_repository);
         await _cardCaptainsGalleryRepository.UpdateCardCaptainGalleryPowerAsync(userId, Id, await _service.GetCardCaptainByIdAsync(Id));
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 }

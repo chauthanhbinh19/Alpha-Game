@@ -14,6 +14,6 @@ public interface ISkillsGalleryRepository
     Task<InsertOrUpdateResult<List<(string SkillId, double CurrentStar)>>> UpdateBatchCurrentStarSkillsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Skills>>> InsertBatchSkillsGalleryAsync(string userId, List<Skills> skills);
     Task<Skills> GetSkillCollectionByIdAsync(string userId, string objectId);
-    Task UpdateSkillGalleryPowerAsync(string userId, string Id, Skills SkillFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateSkillGalleryPowerAsync(string userId, string Id, Skills SkillFromDB);
     Task<Skills> SumPowerSkillsGalleryAsync(string userId);
 }

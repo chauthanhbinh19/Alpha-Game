@@ -32,25 +32,57 @@ public class BordersGalleryService : IBordersGalleryService
         return await _bordersGalleryRepository.GetBordersCountAsync(search, rare);
     }
 
-    public async Task<bool> InsertBorderGalleryAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> InsertBorderGalleryAsync(string userId, string Id)
     {
+        var checkResult = await _bordersService.IsBorderDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var insertResult = await _bordersGalleryRepository.InsertBorderGalleryAsync(userId, Id, await _bordersService.GetBorderByIdAsync(Id));
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateStatusBorderGalleryAsync(string userId, string borderId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateStatusBorderGalleryAsync(string userId, string borderId)
     {
+        var checkResult = await _bordersService.IsBorderDeletedOrInactiveAsync(borderId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _bordersGalleryRepository.UpdateStatusBorderGalleryAsync(userId, borderId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
@@ -59,10 +91,10 @@ public class BordersGalleryService : IBordersGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchStatusBordersGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusBordersGalleryAsync(string userId)
     {
         Borders oldBorder = await SumPowerBordersGalleryAsync(userId);
 
@@ -72,7 +104,12 @@ public class BordersGalleryService : IBordersGalleryService
         updateResult.OperationType != DatabaseOperationType.Updated ||
         !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Borders newBorder = await SumPowerBordersGalleryAsync(userId);
@@ -80,7 +117,12 @@ public class BordersGalleryService : IBordersGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -88,7 +130,7 @@ public class BordersGalleryService : IBordersGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Borders> SumPowerBordersGalleryAsync(string userId)
@@ -96,27 +138,59 @@ public class BordersGalleryService : IBordersGalleryService
         return await _bordersGalleryRepository.SumPowerBordersGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateTempStarBorderGalleryAsync(string userId, string Id, double star)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTempStarBorderGalleryAsync(string userId, string Id, double star)
     {
+        var checkResult = await _bordersService.IsBorderDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _bordersGalleryRepository.UpdateTempStarBorderGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateCurrentStarBorderGalleryAsync(string userId, string borderId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateCurrentStarBorderGalleryAsync(string userId, string borderId)
     {
+        var checkResult = await _bordersService.IsBorderDeletedOrInactiveAsync(borderId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Borders oldBorder = await GetBorderCollectionByIdAsync(userId, borderId) ?? new Borders();
 
         var updateResult = await _bordersGalleryRepository.UpdateCurrentStarBorderGalleryAsync(userId, borderId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Borders newBorder = await GetBorderCollectionByIdAsync(userId, borderId) ?? new Borders();
@@ -124,7 +198,12 @@ public class BordersGalleryService : IBordersGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -132,10 +211,10 @@ public class BordersGalleryService : IBordersGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchCurrentStarBordersGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarBordersGalleryAsync(string userId)
     {
         Borders oldBorder = await SumPowerBordersGalleryAsync(userId);
 
@@ -146,7 +225,12 @@ public class BordersGalleryService : IBordersGalleryService
             updateResult.Data == null ||
             !updateResult.Data.Any())
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Borders newBorder = await SumPowerBordersGalleryAsync(userId);
@@ -154,7 +238,12 @@ public class BordersGalleryService : IBordersGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -162,19 +251,24 @@ public class BordersGalleryService : IBordersGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> InsertBatchBordersGalleryAsync(string userId, List<Borders> borders)
+    public async Task<InsertOrUpdateResult<bool>> InsertBatchBordersGalleryAsync(string userId, List<Borders> borders)
     {
         var insertResult = await _bordersGalleryRepository.InsertBatchBordersGalleryAsync(userId, borders);
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Borders> GetBorderCollectionByIdAsync(string userId, string borderId)
@@ -184,10 +278,22 @@ public class BordersGalleryService : IBordersGalleryService
         return result;
     }
 
-    public async Task UpdateBorderGalleryPowerAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBorderGalleryPowerAsync(string userId, string Id)
     {
+        var checkResult = await _bordersService.IsBorderDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         IBordersRepository _repository = new BordersRepository();
         BordersService _service = new BordersService(_repository);
         await _bordersGalleryRepository.UpdateBorderGalleryPowerAsync(userId, Id, await _service.GetBorderByIdAsync(Id));
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 }

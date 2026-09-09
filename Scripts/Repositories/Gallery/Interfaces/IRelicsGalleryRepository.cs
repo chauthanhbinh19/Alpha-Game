@@ -14,6 +14,6 @@ public interface IRelicsGalleryRepository
     Task<InsertOrUpdateResult<List<(string RelicId, double CurrentStar)>>> UpdateBatchCurrentStarRelicsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Relics>>> InsertBatchRelicsGalleryAsync(string userId, List<Relics> relics);
     Task<Relics> GetRelicCollectionByIdAsync(string userId, string objectId);
-    Task UpdateRelicGalleryPowerAsync(string userId, string Id, Relics RelicFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateRelicGalleryPowerAsync(string userId, string Id, Relics RelicFromDB);
     Task<Relics> SumPowerRelicsGalleryAsync(string userId);
 }

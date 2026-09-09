@@ -430,9 +430,20 @@ public class UserPetsService : IUserPetsService
         return await _userPetsRepository.GetUserPetsCountAsync(userId, search, type, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPetAsync(string userId, Pets cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPetAsync(string userId, Pets pet)
     {
-        var insertOrUpdateResult = await _userPetsRepository.InsertOrUpdateUserPetAsync(userId, cardLife);
+        var checkPetResult = await _petsService.IsPetDeletedOrInactiveAsync(pet.Id);
+        if (checkPetResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var insertOrUpdateResult = await _userPetsRepository.InsertOrUpdateUserPetAsync(userId, pet);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -449,7 +460,7 @@ public class UserPetsService : IUserPetsService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _petsGalleryService.InsertPetGalleryAsync(userId, cardLife.Id);
+        await _petsGalleryService.InsertPetGalleryAsync(userId, pet.Id);
 
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
@@ -491,35 +502,68 @@ public class UserPetsService : IUserPetsService
         };
     }
 
-    public async Task<bool> UpdateUserPetLevelAsync(string userId, Pets cardLife)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserPetLevelAsync(string userId, Pets pet)
     {
-        var updateResult = await _userPetsRepository.UpdateUserPetLevelAsync(userId, cardLife);
+        var checkPetResult = await _petsService.IsPetDeletedOrInactiveAsync(pet.Id);
+        if (checkPetResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userPetsRepository.UpdateUserPetLevelAsync(userId, pet);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserPetStarAsync(string userId, Pets cardLife)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserPetStarAsync(string userId, Pets pet)
     {
-        var updateResult = await _userPetsRepository.UpdateUserPetStarAsync(userId, cardLife);
+        var checkPetResult = await _petsService.IsPetDeletedOrInactiveAsync(pet.Id);
+        if (checkPetResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userPetsRepository.UpdateUserPetStarAsync(userId, pet);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        await _petsGalleryService.UpdateTempStarPetGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _petsGalleryService.UpdateTempStarPetGalleryAsync(userId, pet.Id, pet.Star);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateTeamUserPetAsync(string userId, string teamId, string cardId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTeamUserPetAsync(string userId, string teamId, string cardId)
     {
-        return await _userPetsRepository.UpdateTeamUserPetAsync(userId, teamId, cardId);
+        await _userPetsRepository.UpdateTeamUserPetAsync(userId, teamId, cardId);
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Pets> GetUserPetByIdAsync(string userId, string Id)

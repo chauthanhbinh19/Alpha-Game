@@ -47,6 +47,17 @@ public class UserFurnituresService : IUserFurnituresService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserFurnitureAsync(string userId, Furnitures furniture)
     {
+        var checkFurnitureResult = await _furnituresService.IsFurnitureDeletedOrInactiveAsync(furniture.Id);
+        if (checkFurnitureResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldFurnitureTask = _furnituresService.SumPowerFurnituresPercentAsync(userId);
         var oldUserFurnitureTask = _userFurnituresRepository.SumPowerUserFurnituresAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserFurnituresService : IUserFurnituresService
         };
     }
 
-    public async Task<bool> UpdateUserFurnitureLevelAsync(string userId, Furnitures furniture)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserFurnitureLevelAsync(string userId, Furnitures furniture)
     {
+        var checkFurnitureResult = await _furnituresService.IsFurnitureDeletedOrInactiveAsync(furniture.Id);
+        if (checkFurnitureResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Furnitures oldUserFurniture = await _userFurnituresRepository.SumPowerUserFurnituresAsync(userId);
 
         var updateResult = await _userFurnituresRepository.UpdateUserFurnitureLevelAsync(userId, furniture);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Furnitures newUserFurniture = await _userFurnituresRepository.SumPowerUserFurnituresAsync(userId);
@@ -179,18 +206,34 @@ public class UserFurnituresService : IUserFurnituresService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserFurnitureStarAsync(string userId, Furnitures furniture)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserFurnitureStarAsync(string userId, Furnitures furniture)
     {
+        var checkFurnitureResult = await _furnituresService.IsFurnitureDeletedOrInactiveAsync(furniture.Id);
+        if (checkFurnitureResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Furnitures oldUserFurniture = await _userFurnituresRepository.SumPowerUserFurnituresAsync(userId);
 
         var updateResult = await _userFurnituresRepository.UpdateUserFurnitureStarAsync(userId, furniture);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _furnituresGalleryService.UpdateTempStarFurnitureGalleryAsync(userId, furniture.Id, furniture.Star);
@@ -205,7 +248,7 @@ public class UserFurnituresService : IUserFurnituresService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Furnitures> GetUserFurnitureByIdAsync(string userId, string Id)

@@ -47,6 +47,17 @@ public class UserMagicFormationCirclesService : IUserMagicFormationCirclesServic
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMagicFormationCircleAsync(string userId, MagicFormationCircles magicFormationCircle)
     {
+        var checkMagicFormationCircleResult = await _magicFormationCirclesService.IsMagicFormationCircleDeletedOrInactiveAsync(magicFormationCircle.Id);
+        if (checkMagicFormationCircleResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldMagicFormationCircleTask = _magicFormationCirclesService.SumPowerMagicFormationCirclesPercentAsync(userId);
         var oldUserMagicFormationCircleTask = _userMagicFormationCirclesRepository.SumPowerUserMagicFormationCirclesAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserMagicFormationCirclesService : IUserMagicFormationCirclesServic
         };
     }
 
-    public async Task<bool> UpdateUserMagicFormationCircleLevelAsync(string userId, MagicFormationCircles magicFormationCircle)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserMagicFormationCircleLevelAsync(string userId, MagicFormationCircles magicFormationCircle)
     {
+        var checkMagicFormationCircleResult = await _magicFormationCirclesService.IsMagicFormationCircleDeletedOrInactiveAsync(magicFormationCircle.Id);
+        if (checkMagicFormationCircleResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         MagicFormationCircles oldUserMagicFormationCircle = await _userMagicFormationCirclesRepository.SumPowerUserMagicFormationCirclesAsync(userId);
 
         var updateResult = await _userMagicFormationCirclesRepository.UpdateUserMagicFormationCircleLevelAsync(userId, magicFormationCircle);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         MagicFormationCircles newUserMagicFormationCircle = await _userMagicFormationCirclesRepository.SumPowerUserMagicFormationCirclesAsync(userId);
@@ -179,18 +206,34 @@ public class UserMagicFormationCirclesService : IUserMagicFormationCirclesServic
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserMagicFormationCircleStarAsync(string userId, MagicFormationCircles magicFormationCircle)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserMagicFormationCircleStarAsync(string userId, MagicFormationCircles magicFormationCircle)
     {
+        var checkMagicFormationCircleResult = await _magicFormationCirclesService.IsMagicFormationCircleDeletedOrInactiveAsync(magicFormationCircle.Id);
+        if (checkMagicFormationCircleResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         MagicFormationCircles oldUserMagicFormationCircle = await _userMagicFormationCirclesRepository.SumPowerUserMagicFormationCirclesAsync(userId);
 
         var updateResult = await _userMagicFormationCirclesRepository.UpdateUserMagicFormationCircleStarAsync(userId, magicFormationCircle);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _magicFormationCirclesGalleryService.UpdateTempStarMagicFormationCircleGalleryAsync(userId, magicFormationCircle.Id, magicFormationCircle.Star);
@@ -205,7 +248,7 @@ public class UserMagicFormationCirclesService : IUserMagicFormationCirclesServic
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<MagicFormationCircles> GetUserMagicFormationCircleByIdAsync(string userId, string Id)

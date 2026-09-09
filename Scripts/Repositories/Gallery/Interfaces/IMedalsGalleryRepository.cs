@@ -14,6 +14,6 @@ public interface IMedalsGalleryRepository
     Task<InsertOrUpdateResult<List<(string MedalId, double CurrentStar)>>> UpdateBatchCurrentStarMedalsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Medals>>> InsertBatchMedalsGalleryAsync(string userId, List<Medals> medals);
     Task<Medals> GetMedalCollectionByIdAsync(string userId, string objectId);
-    Task UpdateMedalGalleryPowerAsync(string userId, string id, Medals MedalFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateMedalGalleryPowerAsync(string userId, string id, Medals MedalFromDB);
     Task<Medals> SumPowerMedalsGalleryAsync(string userId);
 }

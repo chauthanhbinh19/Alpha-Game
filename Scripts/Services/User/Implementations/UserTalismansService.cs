@@ -47,6 +47,17 @@ public class UserTalismansService : IUserTalismansService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserTalismanAsync(string userId, Talismans talisman)
     {
+        var checkTalismanResult = await _talismansService.IsTalismanDeletedOrInactiveAsync(talisman.Id);
+        if (checkTalismanResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldTalismanTask = _talismansService.SumPowerTalismansPercentAsync(userId);
         var oldUserTalismanTask = _userTalismansRepository.SumPowerUserTalismansAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserTalismansService : IUserTalismansService
         };
     }
 
-    public async Task<bool> UpdateUserTalismanLevelAsync(string userId, Talismans talisman)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserTalismanLevelAsync(string userId, Talismans talisman)
     {
+        var checkTalismanResult = await _talismansService.IsTalismanDeletedOrInactiveAsync(talisman.Id);
+        if (checkTalismanResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Talismans oldUserTalisman = await _userTalismansRepository.SumPowerUserTalismansAsync(userId);
 
         var updateResult = await _userTalismansRepository.UpdateUserTalismanLevelAsync(userId, talisman);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Talismans newUserTalisman = await _userTalismansRepository.SumPowerUserTalismansAsync(userId);
@@ -179,18 +206,34 @@ public class UserTalismansService : IUserTalismansService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserTalismanStarAsync(string userId, Talismans talisman)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserTalismanStarAsync(string userId, Talismans talisman)
     {
+        var checkTalismanResult = await _talismansService.IsTalismanDeletedOrInactiveAsync(talisman.Id);
+        if (checkTalismanResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Talismans oldUserTalisman = await _userTalismansRepository.SumPowerUserTalismansAsync(userId);
 
         var updateResult = await _userTalismansRepository.UpdateUserTalismanStarAsync(userId, talisman);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _talismansGalleryService.UpdateTempStarTalismanGalleryAsync(userId, talisman.Id, talisman.Star);
@@ -205,7 +248,7 @@ public class UserTalismansService : IUserTalismansService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Talismans> GetUserTalismanByIdAsync(string userId, string Id)

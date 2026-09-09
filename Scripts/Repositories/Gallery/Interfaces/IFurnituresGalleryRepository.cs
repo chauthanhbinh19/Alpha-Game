@@ -14,6 +14,6 @@ public interface IFurnituresGalleryRepository
     Task<InsertOrUpdateResult<List<(string FurnitureId, double CurrentStar)>>> UpdateBatchCurrentStarFurnituresGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Furnitures>>> InsertBatchFurnituresGalleryAsync(string userId, List<Furnitures> furnitures);
     Task<Furnitures> GetFurnitureCollectionByIdAsync(string userId, string objectId);
-    Task UpdateFurnitureGalleryPowerAsync(string userId, string Id, Furnitures FurnitureFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateFurnitureGalleryPowerAsync(string userId, string Id, Furnitures FurnitureFromDB);
     Task<Furnitures> SumPowerFurnituresGalleryAsync(string userId);
 }

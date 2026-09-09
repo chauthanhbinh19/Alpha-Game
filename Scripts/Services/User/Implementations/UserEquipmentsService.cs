@@ -112,7 +112,7 @@ public class UserEquipmentsService : IUserEquipmentsService
         {
             item.BaseStats = new BaseStats(item);
         }
-        
+
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);
         result = StarEvaluatorHelper.GetStarPower(result);
@@ -144,6 +144,17 @@ public class UserEquipmentsService : IUserEquipmentsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserEquipmentAsync(string userId, Equipments equipment)
     {
+        var checkEquipmentResult = await _equipmentsService.IsEquipmentDeletedOrInactiveAsync(equipment.Id);
+        if (checkEquipmentResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var insertOrUpdateResult = await _userEquipmentsRepository.InsertOrUpdateUserEquipmentAsync(userId, equipment);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -204,30 +215,62 @@ public class UserEquipmentsService : IUserEquipmentsService
         };
     }
 
-    public async Task<bool> UpdateUserEquipmentLevelAsync(string userId, Equipments equipment)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserEquipmentLevelAsync(string userId, Equipments equipment)
     {
+        var checkEquipmentResult = await _equipmentsService.IsEquipmentDeletedOrInactiveAsync(equipment.Id);
+        if (checkEquipmentResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _userEquipmentsRepository.UpdateUserEquipmentLevelAsync(userId, equipment);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> UpdateUserEquipmentStarAsync(string userId, Equipments equipment)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserEquipmentStarAsync(string userId, Equipments equipment)
     {
+        var checkEquipmentResult = await _equipmentsService.IsEquipmentDeletedOrInactiveAsync(equipment.Id);
+        if (checkEquipmentResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _userEquipmentsRepository.UpdateUserEquipmentStarAsync(userId, equipment);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _equipmentsGalleryService.UpdateTempStarEquipmentGalleryAsync(userId, equipment.Id, equipment.Star);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
     public async Task UpdateUserCurrencyAsync(string userId, string Id, double quantity)
@@ -588,145 +631,167 @@ public class UserEquipmentsService : IUserEquipmentsService
     }
 
     // Hàm cho CardHero
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardHeroAsync(string userId, string cardHeroId, string type)
+    public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsOfTypeToCardHeroAsync(string userId, string cardHeroId, string type)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardHeroAsync(userId, cardHeroId, type, allEquipments);
+        await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardHeroAsync(userId, cardHeroId, type, allEquipments);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> EquipAllEquipmentsToCardHeroAsync(string userId, string cardHeroId)
+    public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardHeroAsync(string userId, string cardHeroId)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsToCardHeroAsync(userId, cardHeroId, allEquipments);
+        await _userEquipmentsRepository.EquipAllEquipmentsToCardHeroAsync(userId, cardHeroId, allEquipments);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
     // Hàm cho CardCaptain
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardCaptainAsync(string userId, string cardCaptainId, string type)
+    public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsOfTypeToCardCaptainAsync(string userId, string cardCaptainId, string type)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardCaptainAsync(userId, cardCaptainId, type, allEquipments);
+        await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardCaptainAsync(userId, cardCaptainId, type, allEquipments);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> EquipAllEquipmentsToCardCaptainAsync(string userId, string cardCaptainId)
+    public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardCaptainAsync(string userId, string cardCaptainId)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsToCardCaptainAsync(userId, cardCaptainId, allEquipments);
+        await _userEquipmentsRepository.EquipAllEquipmentsToCardCaptainAsync(userId, cardCaptainId, allEquipments);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
     // Hàm cho CardColonel
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardColonelAsync(string userId, string cardColonelId, string type)
+    public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsOfTypeToCardColonelAsync(string userId, string cardColonelId, string type)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardColonelAsync(userId, cardColonelId, type, allEquipments);
+        await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardColonelAsync(userId, cardColonelId, type, allEquipments);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> EquipAllEquipmentsToCardColonelAsync(string userId, string cardColonelId)
+    public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardColonelAsync(string userId, string cardColonelId)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsToCardColonelAsync(userId, cardColonelId, allEquipments);
+        await _userEquipmentsRepository.EquipAllEquipmentsToCardColonelAsync(userId, cardColonelId, allEquipments);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
     // Hàm cho CardGeneral
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardGeneralAsync(string userId, string cardGeneralId, string type)
+    public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsOfTypeToCardGeneralAsync(string userId, string cardGeneralId, string type)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardGeneralAsync(userId, cardGeneralId, type, allEquipments);
+        await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardGeneralAsync(userId, cardGeneralId, type, allEquipments);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> EquipAllEquipmentsToCardGeneralAsync(string userId, string cardGeneralId)
+    public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardGeneralAsync(string userId, string cardGeneralId)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsToCardGeneralAsync(userId, cardGeneralId, allEquipments);
+        await _userEquipmentsRepository.EquipAllEquipmentsToCardGeneralAsync(userId, cardGeneralId, allEquipments);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
     // Hàm cho CardAdmiral
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardAdmiralAsync(string userId, string cardAdmiralId, string type)
+    public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsOfTypeToCardAdmiralAsync(string userId, string cardAdmiralId, string type)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardAdmiralAsync(userId, cardAdmiralId, type, allEquipments);
+        await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardAdmiralAsync(userId, cardAdmiralId, type, allEquipments);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> EquipAllEquipmentsToCardAdmiralAsync(string userId, string cardAdmiralId)
+    public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardAdmiralAsync(string userId, string cardAdmiralId)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsToCardAdmiralAsync(userId, cardAdmiralId, allEquipments);
+        await _userEquipmentsRepository.EquipAllEquipmentsToCardAdmiralAsync(userId, cardAdmiralId, allEquipments);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
     // Hàm cho CardMonster
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardMonsterAsync(string userId, string cardMonsterId, string type)
+    public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsOfTypeToCardMonsterAsync(string userId, string cardMonsterId, string type)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardMonsterAsync(userId, cardMonsterId, type, allEquipments);
+        await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardMonsterAsync(userId, cardMonsterId, type, allEquipments);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> EquipAllEquipmentsToCardMonsterAsync(string userId, string cardMonsterId)
+    public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardMonsterAsync(string userId, string cardMonsterId)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsToCardMonsterAsync(userId, cardMonsterId, allEquipments);
+        await _userEquipmentsRepository.EquipAllEquipmentsToCardMonsterAsync(userId, cardMonsterId, allEquipments);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
     // Hàm cho CardMilitary
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardMilitaryAsync(string userId, string cardMilitaryId, string type)
+    public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsOfTypeToCardMilitaryAsync(string userId, string cardMilitaryId, string type)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardMilitaryAsync(userId, cardMilitaryId, type, allEquipments);
+        await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardMilitaryAsync(userId, cardMilitaryId, type, allEquipments);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> EquipAllEquipmentsToCardMilitaryAsync(string userId, string cardMilitaryId)
+    public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardMilitaryAsync(string userId, string cardMilitaryId)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsToCardMilitaryAsync(userId, cardMilitaryId, allEquipments);
+        await _userEquipmentsRepository.EquipAllEquipmentsToCardMilitaryAsync(userId, cardMilitaryId, allEquipments);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
     // Hàm cho CardSpell
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardSpellAsync(string userId, string cardSpellId, string type)
+    public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsOfTypeToCardSpellAsync(string userId, string cardSpellId, string type)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardSpellAsync(userId, cardSpellId, type, allEquipments);
+        await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardSpellAsync(userId, cardSpellId, type, allEquipments);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> EquipAllEquipmentsToCardSpellAsync(string userId, string cardSpellId)
+    public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardSpellAsync(string userId, string cardSpellId)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsToCardSpellAsync(userId, cardSpellId, allEquipments);
+        await _userEquipmentsRepository.EquipAllEquipmentsToCardSpellAsync(userId, cardSpellId, allEquipments);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
     // Hàm cho Book
-    public async Task<bool> EquipAllEquipmentsOfTypeToBookAsync(string userId, string bookId, string type)
+    public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsOfTypeToBookAsync(string userId, string bookId, string type)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToBookAsync(userId, bookId, type, allEquipments);
+        await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToBookAsync(userId, bookId, type, allEquipments);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> EquipAllEquipmentsToBookAsync(string userId, string bookId)
+    public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToBookAsync(string userId, string bookId)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsToBookAsync(userId, bookId, allEquipments);
+        await _userEquipmentsRepository.EquipAllEquipmentsToBookAsync(userId, bookId, allEquipments);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
     // Hàm cho Pet
-    public async Task<bool> EquipAllEquipmentsOfTypeToPetAsync(string userId, string petId, string type)
+    public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsOfTypeToPetAsync(string userId, string petId, string type)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToPetAsync(userId, petId, type, allEquipments);
+        await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToPetAsync(userId, petId, type, allEquipments);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> EquipAllEquipmentsToPetAsync(string userId, string petId)
+    public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToPetAsync(string userId, string petId)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsToPetAsync(userId, petId, allEquipments);
+        await _userEquipmentsRepository.EquipAllEquipmentsToPetAsync(userId, petId, allEquipments);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
     // Hàm cho Card Soldier
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardSoldierAsync(string userId, string cardSoldierId, string type)
+    public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsOfTypeToCardSoldierAsync(string userId, string cardSoldierId, string type)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardSoldierAsync(userId, cardSoldierId, type, allEquipments);
+        await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardSoldierAsync(userId, cardSoldierId, type, allEquipments);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> EquipAllEquipmentsToCardSoldierAsync(string userId, string cardSoldierId)
+    public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardSoldierAsync(string userId, string cardSoldierId)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsToCardSoldierAsync(userId, cardSoldierId, allEquipments);
+        await _userEquipmentsRepository.EquipAllEquipmentsToCardSoldierAsync(userId, cardSoldierId, allEquipments);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 }

@@ -10,8 +10,8 @@ public interface IUserEquipmentsService
     Task<Equipments> GetUserEquipmentsByIdAsync(string userId, string Id);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserEquipmentAsync(string userId, Equipments equipment);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserEquipmentsBatchAsync(string userId, List<(Equipments data, double quantity)> list);
-    Task<bool> UpdateUserEquipmentLevelAsync(string userId, Equipments equipment);
-    Task<bool> UpdateUserEquipmentStarAsync(string userId, Equipments equipment);
+    Task<InsertOrUpdateResult<bool>> UpdateUserEquipmentLevelAsync(string userId, Equipments equipment);
+    Task<InsertOrUpdateResult<bool>> UpdateUserEquipmentStarAsync(string userId, Equipments equipment);
     Task UpdateUserCurrencyAsync(string userId, string Id, double amount);
     Task InsertUserCardHeroEquipmentsAsync(string userId, string Id, Equipments equipment, int position);
     Task InsertUserCardCaptainEquipmentsAsync(string userId, string Id, Equipments equipment, int position);
@@ -58,45 +58,45 @@ public interface IUserEquipmentsService
     Task<Equipments> GetAllUserEquipmentsByPetIdAsync(string userId, string petId);
     Task<Equipments> GetAllUserEquipmentsByCardSoldierIdAsync(string userId, string cardSoldierId);
     // Cho CardHero
-    Task<bool> EquipAllEquipmentsOfTypeToCardHeroAsync(string userId, string cardHeroId, string type);
-    Task<bool> EquipAllEquipmentsToCardHeroAsync(string userId, string cardHeroId);
+    Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsOfTypeToCardHeroAsync(string userId, string cardHeroId, string type);
+    Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardHeroAsync(string userId, string cardHeroId);
 
     // Cho CardCaptain
-    Task<bool> EquipAllEquipmentsOfTypeToCardCaptainAsync(string userId, string cardCaptainId, string type);
-    Task<bool> EquipAllEquipmentsToCardCaptainAsync(string userId, string cardCaptainId);
+    Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsOfTypeToCardCaptainAsync(string userId, string cardCaptainId, string type);
+    Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardCaptainAsync(string userId, string cardCaptainId);
 
     // Cho CardColonel
-    Task<bool> EquipAllEquipmentsOfTypeToCardColonelAsync(string userId, string cardColonelId, string type);
-    Task<bool> EquipAllEquipmentsToCardColonelAsync(string userId, string cardColonelId);
+    Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsOfTypeToCardColonelAsync(string userId, string cardColonelId, string type);
+    Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardColonelAsync(string userId, string cardColonelId);
 
     // Cho CardGeneral
-    Task<bool> EquipAllEquipmentsOfTypeToCardGeneralAsync(string userId, string cardGeneralId, string type);
-    Task<bool> EquipAllEquipmentsToCardGeneralAsync(string userId, string cardGeneralId);
+    Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsOfTypeToCardGeneralAsync(string userId, string cardGeneralId, string type);
+    Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardGeneralAsync(string userId, string cardGeneralId);
 
     // Cho CardAdmiral
-    Task<bool> EquipAllEquipmentsOfTypeToCardAdmiralAsync(string userId, string cardAdmiralId, string type);
-    Task<bool> EquipAllEquipmentsToCardAdmiralAsync(string userId, string cardAdmiralId);
+    Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsOfTypeToCardAdmiralAsync(string userId, string cardAdmiralId, string type);
+    Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardAdmiralAsync(string userId, string cardAdmiralId);
 
     // Cho CardMonster
-    Task<bool> EquipAllEquipmentsOfTypeToCardMonsterAsync(string userId, string cardMonsterId, string type);
-    Task<bool> EquipAllEquipmentsToCardMonsterAsync(string userId, string cardMonsterId);
+    Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsOfTypeToCardMonsterAsync(string userId, string cardMonsterId, string type);
+    Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardMonsterAsync(string userId, string cardMonsterId);
 
     // Cho CardMilitary
-    Task<bool> EquipAllEquipmentsOfTypeToCardMilitaryAsync(string userId, string cardMilitaryId, string type);
-    Task<bool> EquipAllEquipmentsToCardMilitaryAsync(string userId, string cardMilitaryId);
+    Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsOfTypeToCardMilitaryAsync(string userId, string cardMilitaryId, string type);
+    Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardMilitaryAsync(string userId, string cardMilitaryId);
 
     // Cho CardSpell
-    Task<bool> EquipAllEquipmentsOfTypeToCardSpellAsync(string userId, string cardSpellId, string type);
-    Task<bool> EquipAllEquipmentsToCardSpellAsync(string userId, string cardSpellId);
+    Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsOfTypeToCardSpellAsync(string userId, string cardSpellId, string type);
+    Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardSpellAsync(string userId, string cardSpellId);
 
     // Cho Book
-    Task<bool> EquipAllEquipmentsOfTypeToBookAsync(string userId, string bookId, string type);
-    Task<bool> EquipAllEquipmentsToBookAsync(string userId, string bookId);
+    Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsOfTypeToBookAsync(string userId, string bookId, string type);
+    Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToBookAsync(string userId, string bookId);
 
     // Cho Pet
-    Task<bool> EquipAllEquipmentsOfTypeToPetAsync(string userId, string petId, string type);
-    Task<bool> EquipAllEquipmentsToPetAsync(string userId, string petId);
+    Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsOfTypeToPetAsync(string userId, string petId, string type);
+    Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToPetAsync(string userId, string petId);
 
-    Task<bool> EquipAllEquipmentsOfTypeToCardSoldierAsync(string userId, string cardSoldierId, string type);
-    Task<bool> EquipAllEquipmentsToCardSoldierAsync(string userId, string cardSoldierId);
+    Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsOfTypeToCardSoldierAsync(string userId, string cardSoldierId, string type);
+    Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardSoldierAsync(string userId, string cardSoldierId);
 }

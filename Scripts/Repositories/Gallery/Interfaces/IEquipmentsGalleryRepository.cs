@@ -14,6 +14,6 @@ public interface IEquipmentsGalleryRepository
     Task<InsertOrUpdateResult<List<(string EquipmentId, double CurrentStar)>>> UpdateBatchCurrentStarEquipmentsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Equipments>>> InsertBatchEquipmentsGalleryAsync(string userId, List<Equipments> equipments);
     Task<Equipments> GetEquipmentCollectionByIdAsync(string userId, string objectId);
-    Task UpdateEquipmentGalleryPowerAsync(string userId, string Id, Equipments EquipmentFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateEquipmentGalleryPowerAsync(string userId, string Id, Equipments EquipmentFromDB);
     Task<Equipments> SumPowerEquipmentsGalleryAsync(string userId);
 }

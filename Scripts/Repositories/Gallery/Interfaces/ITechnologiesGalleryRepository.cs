@@ -13,6 +13,6 @@ public interface ITechnologiesGalleryRepository
     Task<InsertOrUpdateResult<List<(string TechnologyId, double CurrentStar)>>> UpdateBatchCurrentStarTechnologiesGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Technologies>>> InsertBatchTechnologiesGalleryAsync(string userId, List<Technologies> technologies);
     Task<Technologies> GetTechnologyCollectionByIdAsync(string userId, string objectId);
-    Task UpdateTechnologyGalleryPowerAsync(string userId, string id, Technologies TechnologyFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateTechnologyGalleryPowerAsync(string userId, string id, Technologies TechnologyFromDB);
     Task<Technologies> SumPowerTechnologiesGalleryAsync(string userId);
 }

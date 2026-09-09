@@ -929,7 +929,7 @@ public class PetsGalleryRepository : IPetsGalleryRepository
             throw; // Throw lại exception để phía Gọi hàm biết có lỗi DB
         }
     }
-    public async Task UpdatePetGalleryPowerAsync(string userId, string Id, Pets pet)
+    public async Task<InsertOrUpdateResult<bool>> UpdatePetGalleryPowerAsync(string userId, string Id, Pets pet)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1075,15 +1075,28 @@ public class PetsGalleryRepository : IPetsGalleryRepository
                 updateCommand.Parameters.AddWithValue("@percent_all_mental_attack", 5);
                 updateCommand.Parameters.AddWithValue("@percent_all_mental_defense", 5);
 
-                await updateCommand.ExecuteNonQueryAsync();
+                int rowsAffected = await updateCommand.ExecuteNonQueryAsync();
+
+                if (rowsAffected > 0)
+                {
+                    // Cập nhật thành công các bản ghi đủ điều kiện
+                    return InsertOrUpdateResult<bool>.Updated(true);
+                }
+                else
+                {
+                    // Không tìm thấy bản ghi nào cần cập nhật (hoặc tất cả đã ở status này rồi)
+                    return new InsertOrUpdateResult<bool>
+                    {
+                        Data = false,
+                        OperationType = DatabaseOperationType.None,
+                        Message = MessageConstants.NOTHING_WAS_UPDATED
+                    };
+                }
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
-            }
-            finally
-            {
-                await connection.CloseAsync();
+                return InsertOrUpdateResult<bool>.Failure(ex.Message);
             }
         }
     }

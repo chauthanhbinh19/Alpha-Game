@@ -178,7 +178,7 @@ public class AlchemiesGalleryRepository : IAlchemiesGalleryRepository
 
                 string selectSQL = @"SELECT COUNT(*) FROM alchemies m WHERE 1=1 AND m.is_active = TRUE AND m.is_deleted = FALSE";
                 if (!string.IsNullOrEmpty(type) && type != "All")
-            {
+                {
                     selectSQL += " AND type = @type";
                 }
 
@@ -930,7 +930,7 @@ public class AlchemiesGalleryRepository : IAlchemiesGalleryRepository
             throw; // Throw lại exception để phía Gọi hàm biết có lỗi DB
         }
     }
-    public async Task UpdateAlchemyGalleryPowerAsync(string userId, string id, Alchemies alchemy)
+    public async Task<InsertOrUpdateResult<bool>> UpdateAlchemyGalleryPowerAsync(string userId, string id, Alchemies alchemy)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1076,15 +1076,28 @@ public class AlchemiesGalleryRepository : IAlchemiesGalleryRepository
                 updateCommand.Parameters.AddWithValue("@percent_all_mental_attack", 5);
                 updateCommand.Parameters.AddWithValue("@percent_all_mental_defense", 5);
 
-                await updateCommand.ExecuteNonQueryAsync();
+                int rowsAffected = await updateCommand.ExecuteNonQueryAsync();
+
+                if (rowsAffected > 0)
+                {
+                    // Cập nhật thành công các bản ghi đủ điều kiện
+                    return InsertOrUpdateResult<bool>.Updated(true);
+                }
+                else
+                {
+                    // Không tìm thấy bản ghi nào cần cập nhật (hoặc tất cả đã ở status này rồi)
+                    return new InsertOrUpdateResult<bool>
+                    {
+                        Data = false,
+                        OperationType = DatabaseOperationType.None,
+                        Message = MessageConstants.NOTHING_WAS_UPDATED
+                    };
+                }
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
-            }
-            finally
-            {
-                await connection.CloseAsync();
+                return InsertOrUpdateResult<bool>.Failure(ex.Message);
             }
         }
     }

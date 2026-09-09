@@ -14,6 +14,6 @@ public interface IMagicFormationCirclesGalleryRepository
     Task<InsertOrUpdateResult<List<(string MagicFormationCircleId, double CurrentStar)>>> UpdateBatchCurrentStarMagicFormationCirclesGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<MagicFormationCircles>>> InsertBatchMagicFormationCirclesGalleryAsync(string userId, List<MagicFormationCircles> magicFormationCircles);
     Task<MagicFormationCircles> GetMagicFormationCircleCollectionByIdAsync(string userId, string objectId);
-    Task UpdateMagicFormationCircleGalleryPowerAsync(string userId, string Id, MagicFormationCircles MagicFormationCircleFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateMagicFormationCircleGalleryPowerAsync(string userId, string Id, MagicFormationCircles MagicFormationCircleFromDB);
     Task<MagicFormationCircles> SumPowerMagicFormationCirclesGalleryAsync(string userId);
 }

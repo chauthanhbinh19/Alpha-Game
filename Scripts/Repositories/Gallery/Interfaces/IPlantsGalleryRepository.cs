@@ -14,6 +14,6 @@ public interface IPlantsGalleryRepository
     Task<InsertOrUpdateResult<List<(string PlantId, double CurrentStar)>>> UpdateBatchCurrentStarPlantsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Plants>>> InsertBatchPlantsGalleryAsync(string userId, List<Plants> plants);
     Task<Plants> GetPlantCollectionByIdAsync(string userId, string objectId);
-    Task UpdatePlantGalleryPowerAsync(string userId, string id, Plants PlantFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdatePlantGalleryPowerAsync(string userId, string id, Plants PlantFromDB);
     Task<Plants> SumPowerPlantsGalleryAsync(string userId);
 }

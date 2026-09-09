@@ -32,25 +32,57 @@ public class CardSpellsGalleryService : ICardSpellsGalleryService
         return await _cardSpellsGalleryRepository.GetCardSpellsCountAsync(search, type, rare);
     }
 
-    public async Task<bool> InsertCardSpellGalleryAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> InsertCardSpellGalleryAsync(string userId, string Id)
     {
+        var checkResult = await _cardSpellsService.IsCardSpellDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+        
         var insertResult = await _cardSpellsGalleryRepository.InsertCardSpellGalleryAsync(userId, Id, await _cardSpellsService.GetCardSpellByIdAsync(Id));
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateStatusCardSpellGalleryAsync(string userId, string cardSpellId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateStatusCardSpellGalleryAsync(string userId, string cardSpellId)
     {
+        var checkResult = await _cardSpellsService.IsCardSpellDeletedOrInactiveAsync(cardSpellId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _cardSpellsGalleryRepository.UpdateStatusCardSpellGalleryAsync(userId, cardSpellId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
@@ -59,10 +91,10 @@ public class CardSpellsGalleryService : ICardSpellsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchStatusCardSpellsGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusCardSpellsGalleryAsync(string userId)
     {
         CardSpells oldCardSpell = await SumPowerCardSpellsGalleryAsync(userId);
 
@@ -72,7 +104,12 @@ public class CardSpellsGalleryService : ICardSpellsGalleryService
         updateResult.OperationType != DatabaseOperationType.Updated ||
         !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         CardSpells newCardSpell = await SumPowerCardSpellsGalleryAsync(userId);
@@ -80,7 +117,12 @@ public class CardSpellsGalleryService : ICardSpellsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -88,7 +130,7 @@ public class CardSpellsGalleryService : ICardSpellsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<CardSpells> SumPowerCardSpellsGalleryAsync(string userId)
@@ -96,27 +138,59 @@ public class CardSpellsGalleryService : ICardSpellsGalleryService
         return await _cardSpellsGalleryRepository.SumPowerCardSpellsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateTempStarCardSpellGalleryAsync(string userId, string Id, double star)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTempStarCardSpellGalleryAsync(string userId, string Id, double star)
     {
+        var checkResult = await _cardSpellsService.IsCardSpellDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _cardSpellsGalleryRepository.UpdateTempStarCardSpellGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateCurrentStarCardSpellGalleryAsync(string userId, string cardSpellId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateCurrentStarCardSpellGalleryAsync(string userId, string cardSpellId)
     {
+        var checkResult = await _cardSpellsService.IsCardSpellDeletedOrInactiveAsync(cardSpellId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         CardSpells oldCardSpell = await GetCardSpellCollectionByIdAsync(userId, cardSpellId) ?? new CardSpells();
 
         var updateResult = await _cardSpellsGalleryRepository.UpdateCurrentStarCardSpellGalleryAsync(userId, cardSpellId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         CardSpells newCardSpell = await GetCardSpellCollectionByIdAsync(userId, cardSpellId) ?? new CardSpells();
@@ -124,7 +198,12 @@ public class CardSpellsGalleryService : ICardSpellsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -132,10 +211,10 @@ public class CardSpellsGalleryService : ICardSpellsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchCurrentStarCardSpellsGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarCardSpellsGalleryAsync(string userId)
     {
         CardSpells oldCardSpell = await SumPowerCardSpellsGalleryAsync(userId);
 
@@ -146,7 +225,12 @@ public class CardSpellsGalleryService : ICardSpellsGalleryService
             updateResult.Data == null ||
             !updateResult.Data.Any())
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         CardSpells newCardSpell = await SumPowerCardSpellsGalleryAsync(userId);
@@ -154,7 +238,12 @@ public class CardSpellsGalleryService : ICardSpellsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -162,19 +251,24 @@ public class CardSpellsGalleryService : ICardSpellsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> InsertBatchCardSpellsGalleryAsync(string userId, List<CardSpells> cardSpells)
+    public async Task<InsertOrUpdateResult<bool>> InsertBatchCardSpellsGalleryAsync(string userId, List<CardSpells> cardSpells)
     {
         var insertResult = await _cardSpellsGalleryRepository.InsertBatchCardSpellsGalleryAsync(userId, cardSpells);
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<CardSpells> GetCardSpellCollectionByIdAsync(string userId, string cardSpellId)
@@ -184,10 +278,22 @@ public class CardSpellsGalleryService : ICardSpellsGalleryService
         return result;
     }
 
-    public async Task UpdateCardSpellGalleryPowerAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> UpdateCardSpellGalleryPowerAsync(string userId, string Id)
     {
+        var checkResult = await _cardSpellsService.IsCardSpellDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         ICardSpellsRepository _repository = new CardSpellsRepository();
         CardSpellsService _service = new CardSpellsService(_repository);
         await _cardSpellsGalleryRepository.UpdateCardSpellGalleryPowerAsync(userId, Id, await _service.GetCardSpellByIdAsync(Id));
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 }

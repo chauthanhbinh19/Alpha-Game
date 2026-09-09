@@ -32,25 +32,57 @@ public class RelicsGalleryService : IRelicsGalleryService
         return await _relicsGalleryRepository.GetRelicsCountAsync(search, type, rare);
     }
 
-    public async Task<bool> InsertRelicGalleryAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> InsertRelicGalleryAsync(string userId, string Id)
     {
+        var checkResult = await _relicsService.IsRelicDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var insertResult = await _relicsGalleryRepository.InsertRelicGalleryAsync(userId, Id, await _relicsService.GetRelicByIdAsync(Id));
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateStatusRelicGalleryAsync(string userId, string relicId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateStatusRelicGalleryAsync(string userId, string relicId)
     {
+        var checkResult = await _relicsService.IsRelicDeletedOrInactiveAsync(relicId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _relicsGalleryRepository.UpdateStatusRelicGalleryAsync(userId, relicId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
@@ -59,10 +91,10 @@ public class RelicsGalleryService : IRelicsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchStatusRelicsGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusRelicsGalleryAsync(string userId)
     {
         Relics oldRelic = await SumPowerRelicsGalleryAsync(userId);
 
@@ -72,7 +104,12 @@ public class RelicsGalleryService : IRelicsGalleryService
         updateResult.OperationType != DatabaseOperationType.Updated ||
         !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Relics newRelic = await SumPowerRelicsGalleryAsync(userId);
@@ -80,7 +117,12 @@ public class RelicsGalleryService : IRelicsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -88,7 +130,7 @@ public class RelicsGalleryService : IRelicsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Relics> SumPowerRelicsGalleryAsync(string userId)
@@ -96,27 +138,59 @@ public class RelicsGalleryService : IRelicsGalleryService
         return await _relicsGalleryRepository.SumPowerRelicsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateTempStarRelicGalleryAsync(string userId, string Id, double star)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTempStarRelicGalleryAsync(string userId, string Id, double star)
     {
+        var checkResult = await _relicsService.IsRelicDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _relicsGalleryRepository.UpdateTempStarRelicGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateCurrentStarRelicGalleryAsync(string userId, string relicId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateCurrentStarRelicGalleryAsync(string userId, string relicId)
     {
+        var checkResult = await _relicsService.IsRelicDeletedOrInactiveAsync(relicId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Relics oldRelic = await GetRelicCollectionByIdAsync(userId, relicId) ?? new Relics();
 
         var updateResult = await _relicsGalleryRepository.UpdateCurrentStarRelicGalleryAsync(userId, relicId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Relics newRelic = await GetRelicCollectionByIdAsync(userId, relicId) ?? new Relics();
@@ -124,7 +198,12 @@ public class RelicsGalleryService : IRelicsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -132,10 +211,10 @@ public class RelicsGalleryService : IRelicsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchCurrentStarRelicsGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarRelicsGalleryAsync(string userId)
     {
         Relics oldRelic = await SumPowerRelicsGalleryAsync(userId);
 
@@ -146,7 +225,12 @@ public class RelicsGalleryService : IRelicsGalleryService
             updateResult.Data == null ||
             !updateResult.Data.Any())
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Relics newRelic = await SumPowerRelicsGalleryAsync(userId);
@@ -154,7 +238,12 @@ public class RelicsGalleryService : IRelicsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -162,19 +251,24 @@ public class RelicsGalleryService : IRelicsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> InsertBatchRelicsGalleryAsync(string userId, List<Relics> relics)
+    public async Task<InsertOrUpdateResult<bool>> InsertBatchRelicsGalleryAsync(string userId, List<Relics> relics)
     {
         var insertResult = await _relicsGalleryRepository.InsertBatchRelicsGalleryAsync(userId, relics);
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Relics> GetRelicCollectionByIdAsync(string userId, string relicId)
@@ -184,10 +278,22 @@ public class RelicsGalleryService : IRelicsGalleryService
         return result;
     }
 
-    public async Task UpdateRelicGalleryPowerAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> UpdateRelicGalleryPowerAsync(string userId, string Id)
     {
+        var checkResult = await _relicsService.IsRelicDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         IRelicsRepository _repository = new RelicsRepository();
         RelicsService _service = new RelicsService(_repository);
         await _relicsGalleryRepository.UpdateRelicGalleryPowerAsync(userId, Id, await _service.GetRelicByIdAsync(Id));
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 }

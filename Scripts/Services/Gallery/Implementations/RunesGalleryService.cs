@@ -32,25 +32,57 @@ public class RunesGalleryService : IRunesGalleryService
         return await _runesGalleryRepository.GetRunesCountAsync(search, rare);
     }
 
-    public async Task<bool> InsertRuneGalleryAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> InsertRuneGalleryAsync(string userId, string Id)
     {
+        var checkResult = await _runesService.IsRuneDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var insertResult = await _runesGalleryRepository.InsertRuneGalleryAsync(userId, Id, await _runesService.GetRuneByIdAsync(Id));
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateStatusRuneGalleryAsync(string userId, string runeId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateStatusRuneGalleryAsync(string userId, string runeId)
     {
+        var checkResult = await _runesService.IsRuneDeletedOrInactiveAsync(runeId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _runesGalleryRepository.UpdateStatusRuneGalleryAsync(userId, runeId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
@@ -59,10 +91,10 @@ public class RunesGalleryService : IRunesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchStatusRunesGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusRunesGalleryAsync(string userId)
     {
         Runes oldRune = await SumPowerRunesGalleryAsync(userId);
 
@@ -72,7 +104,12 @@ public class RunesGalleryService : IRunesGalleryService
         updateResult.OperationType != DatabaseOperationType.Updated ||
         !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Runes newRune = await SumPowerRunesGalleryAsync(userId);
@@ -80,7 +117,12 @@ public class RunesGalleryService : IRunesGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -88,7 +130,7 @@ public class RunesGalleryService : IRunesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Runes> SumPowerRunesGalleryAsync(string userId)
@@ -96,27 +138,59 @@ public class RunesGalleryService : IRunesGalleryService
         return await _runesGalleryRepository.SumPowerRunesGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateTempStarRuneGalleryAsync(string userId, string Id, double star)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTempStarRuneGalleryAsync(string userId, string Id, double star)
     {
+        var checkResult = await _runesService.IsRuneDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _runesGalleryRepository.UpdateTempStarRuneGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateCurrentStarRuneGalleryAsync(string userId, string runeId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateCurrentStarRuneGalleryAsync(string userId, string runeId)
     {
+        var checkResult = await _runesService.IsRuneDeletedOrInactiveAsync(runeId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Runes oldRune = await GetRuneCollectionByIdAsync(userId, runeId) ?? new Runes();
 
         var updateResult = await _runesGalleryRepository.UpdateCurrentStarRuneGalleryAsync(userId, runeId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Runes newRune = await GetRuneCollectionByIdAsync(userId, runeId) ?? new Runes();
@@ -124,7 +198,12 @@ public class RunesGalleryService : IRunesGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -132,10 +211,10 @@ public class RunesGalleryService : IRunesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchCurrentStarRunesGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarRunesGalleryAsync(string userId)
     {
         Runes oldRune = await SumPowerRunesGalleryAsync(userId);
 
@@ -146,7 +225,12 @@ public class RunesGalleryService : IRunesGalleryService
             updateResult.Data == null ||
             !updateResult.Data.Any())
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Runes newRune = await SumPowerRunesGalleryAsync(userId);
@@ -154,7 +238,12 @@ public class RunesGalleryService : IRunesGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -162,19 +251,24 @@ public class RunesGalleryService : IRunesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> InsertBatchRunesGalleryAsync(string userId, List<Runes> runes)
+    public async Task<InsertOrUpdateResult<bool>> InsertBatchRunesGalleryAsync(string userId, List<Runes> runes)
     {
         var insertResult = await _runesGalleryRepository.InsertBatchRunesGalleryAsync(userId, runes);
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Runes> GetRuneCollectionByIdAsync(string userId, string runeId)
@@ -184,10 +278,22 @@ public class RunesGalleryService : IRunesGalleryService
         return result;
     }
 
-    public async Task UpdateRuneGalleryPowerAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> UpdateRuneGalleryPowerAsync(string userId, string Id)
     {
+        var checkResult = await _runesService.IsRuneDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         IRunesRepository _repository = new RunesRepository();
         RunesService _service = new RunesService(_repository);
         await _runesGalleryRepository.UpdateRuneGalleryPowerAsync(userId, Id, await _service.GetRuneByIdAsync(Id));
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 }

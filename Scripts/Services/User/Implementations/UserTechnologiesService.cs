@@ -47,6 +47,17 @@ public class UserTechnologiesService : IUserTechnologiesService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserTechnologyAsync(string userId, Technologies technology)
     {
+        var checkTechnologyResult = await _technologiesService.IsTechnologyDeletedOrInactiveAsync(technology.Id);
+        if (checkTechnologyResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldTechnologyTask = _technologiesService.SumPowerTechnologiesPercentAsync(userId);
         var oldUserTechnologyTask = _userTechnologiesRepository.SumPowerUserTechnologiesAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserTechnologiesService : IUserTechnologiesService
         };
     }
 
-    public async Task<bool> UpdateUserTechnologyLevelAsync(string userId, Technologies technology)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserTechnologyLevelAsync(string userId, Technologies technology)
     {
+        var checkTechnologyResult = await _technologiesService.IsTechnologyDeletedOrInactiveAsync(technology.Id);
+        if (checkTechnologyResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Technologies oldUserTechnology = await _userTechnologiesRepository.SumPowerUserTechnologiesAsync(userId);
 
         var updateResult = await _userTechnologiesRepository.UpdateUserTechnologyLevelAsync(userId, technology);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Technologies newUserTechnology = await _userTechnologiesRepository.SumPowerUserTechnologiesAsync(userId);
@@ -179,18 +206,34 @@ public class UserTechnologiesService : IUserTechnologiesService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserTechnologyStarAsync(string userId, Technologies technology)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserTechnologyStarAsync(string userId, Technologies technology)
     {
+        var checkTechnologyResult = await _technologiesService.IsTechnologyDeletedOrInactiveAsync(technology.Id);
+        if (checkTechnologyResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Technologies oldUserTechnology = await _userTechnologiesRepository.SumPowerUserTechnologiesAsync(userId);
 
         var updateResult = await _userTechnologiesRepository.UpdateUserTechnologyStarAsync(userId, technology);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _technologiesGalleryService.UpdateTempStarTechnologyGalleryAsync(userId, technology.Id, technology.Star);
@@ -205,7 +248,7 @@ public class UserTechnologiesService : IUserTechnologiesService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Technologies> GetUserTechnologyByIdAsync(string userId, string Id)

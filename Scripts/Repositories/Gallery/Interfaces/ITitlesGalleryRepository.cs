@@ -13,6 +13,6 @@ public interface ITitlesGalleryRepository
     Task<InsertOrUpdateResult<List<(string TitleId, double CurrentStar)>>> UpdateBatchCurrentStarTitlesGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Titles>>> InsertBatchTitlesGalleryAsync(string userId, List<Titles> titles);
     Task<Titles> GetTitleCollectionByIdAsync(string userId, string objectId);
-    Task UpdateTitleGalleryPowerAsync(string userId, string id, Titles TitleFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateTitleGalleryPowerAsync(string userId, string id, Titles TitleFromDB);
     Task<Titles> SumPowerTitlesGalleryAsync(string userId);
 }

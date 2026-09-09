@@ -47,6 +47,17 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCollaborationEquipmentAsync(string userId, CollaborationEquipments collaborationEquipment)
     {
+        var checkCollaborationEquipmentResult = await _collaborationEquipmentsService.IsCollaborationEquipmentDeletedOrInactiveAsync(collaborationEquipment.Id);
+        if (checkCollaborationEquipmentResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldCollaborationEquipmentTask = _collaborationEquipmentsService.SumPowerCollaborationEquipmentsPercentAsync(userId);
         var oldUserCollaborationEquipmentTask = _userCollaborationEquipmentsRepository.SumPowerUserCollaborationEquipmentsAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
         };
     }
 
-    public async Task<bool> UpdateUserCollaborationEquipmentLevelAsync(string userId, CollaborationEquipments collaborationEquipment)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationEquipmentLevelAsync(string userId, CollaborationEquipments collaborationEquipment)
     {
+        var checkCollaborationEquipmentResult = await _collaborationEquipmentsService.IsCollaborationEquipmentDeletedOrInactiveAsync(collaborationEquipment.Id);
+        if (checkCollaborationEquipmentResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         CollaborationEquipments oldUserCollaborationEquipment = await _userCollaborationEquipmentsRepository.SumPowerUserCollaborationEquipmentsAsync(userId);
 
         var updateResult = await _userCollaborationEquipmentsRepository.UpdateUserCollaborationEquipmentLevelAsync(userId, collaborationEquipment);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         CollaborationEquipments newUserCollaborationEquipment = await _userCollaborationEquipmentsRepository.SumPowerUserCollaborationEquipmentsAsync(userId);
@@ -179,18 +206,34 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserCollaborationEquipmentStarAsync(string userId, CollaborationEquipments collaborationEquipment)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationEquipmentStarAsync(string userId, CollaborationEquipments collaborationEquipment)
     {
+        var checkCollaborationEquipmentResult = await _collaborationEquipmentsService.IsCollaborationEquipmentDeletedOrInactiveAsync(collaborationEquipment.Id);
+        if (checkCollaborationEquipmentResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         CollaborationEquipments oldUserCollaborationEquipment = await _userCollaborationEquipmentsRepository.SumPowerUserCollaborationEquipmentsAsync(userId);
 
         var updateResult = await _userCollaborationEquipmentsRepository.UpdateUserCollaborationEquipmentStarAsync(userId, collaborationEquipment);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _collaborationEquipmentsGalleryService.UpdateTempStarCollaborationEquipmentGalleryAsync(userId, collaborationEquipment.Id, collaborationEquipment.Star);
@@ -205,7 +248,7 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<CollaborationEquipments> GetUserCollaborationEquipmentByIdAsync(string userId, string Id)

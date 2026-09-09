@@ -32,25 +32,57 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
         return await _technologiesGalleryRepository.GetTechnologiesCountAsync(search, rare);
     }
 
-    public async Task<bool> InsertTechnologyGalleryAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> InsertTechnologyGalleryAsync(string userId, string Id)
     {
+        var checkResult = await _technologiesService.IsTechnologyDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var insertResult = await _technologiesGalleryRepository.InsertTechnologyGalleryAsync(userId, Id, await _technologiesService.GetTechnologyByIdAsync(Id));
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateStatusTechnologyGalleryAsync(string userId, string technologyId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateStatusTechnologyGalleryAsync(string userId, string technologyId)
     {
+        var checkResult = await _technologiesService.IsTechnologyDeletedOrInactiveAsync(technologyId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _technologiesGalleryRepository.UpdateStatusTechnologyGalleryAsync(userId, technologyId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
@@ -59,10 +91,10 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchStatusTechnologiesGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusTechnologiesGalleryAsync(string userId)
     {
         Technologies oldTechnology = await SumPowerTechnologiesGalleryAsync(userId);
 
@@ -72,7 +104,12 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
         updateResult.OperationType != DatabaseOperationType.Updated ||
         !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Technologies newTechnology = await SumPowerTechnologiesGalleryAsync(userId);
@@ -80,7 +117,12 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -88,7 +130,7 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Technologies> SumPowerTechnologiesGalleryAsync(string userId)
@@ -96,27 +138,59 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
         return await _technologiesGalleryRepository.SumPowerTechnologiesGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateTempStarTechnologyGalleryAsync(string userId, string Id, double star)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTempStarTechnologyGalleryAsync(string userId, string Id, double star)
     {
+        var checkResult = await _technologiesService.IsTechnologyDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _technologiesGalleryRepository.UpdateTempStarTechnologyGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateCurrentStarTechnologyGalleryAsync(string userId, string technologyId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateCurrentStarTechnologyGalleryAsync(string userId, string technologyId)
     {
+        var checkResult = await _technologiesService.IsTechnologyDeletedOrInactiveAsync(technologyId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Technologies oldTechnology = await GetTechnologyCollectionByIdAsync(userId, technologyId) ?? new Technologies();
 
         var updateResult = await _technologiesGalleryRepository.UpdateCurrentStarTechnologyGalleryAsync(userId, technologyId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Technologies newTechnology = await GetTechnologyCollectionByIdAsync(userId, technologyId) ?? new Technologies();
@@ -124,7 +198,12 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -132,10 +211,10 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchCurrentStarTechnologiesGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarTechnologiesGalleryAsync(string userId)
     {
         Technologies oldTechnology = await SumPowerTechnologiesGalleryAsync(userId);
 
@@ -146,7 +225,12 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
             updateResult.Data == null ||
             !updateResult.Data.Any())
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Technologies newTechnology = await SumPowerTechnologiesGalleryAsync(userId);
@@ -154,7 +238,12 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -162,19 +251,24 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> InsertBatchTechnologiesGalleryAsync(string userId, List<Technologies> technologies)
+    public async Task<InsertOrUpdateResult<bool>> InsertBatchTechnologiesGalleryAsync(string userId, List<Technologies> technologies)
     {
         var insertResult = await _technologiesGalleryRepository.InsertBatchTechnologiesGalleryAsync(userId, technologies);
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Technologies> GetTechnologyCollectionByIdAsync(string userId, string technologyId)
@@ -184,10 +278,22 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
         return result;
     }
 
-    public async Task UpdateTechnologyGalleryPowerAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTechnologyGalleryPowerAsync(string userId, string Id)
     {
+        var checkResult = await _technologiesService.IsTechnologyDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         ITechnologiesRepository _repository = new TechnologiesRepository();
         TechnologiesService _service = new TechnologiesService(_repository);
         await _technologiesGalleryRepository.UpdateTechnologyGalleryPowerAsync(userId, Id, await _service.GetTechnologyByIdAsync(Id));
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 }

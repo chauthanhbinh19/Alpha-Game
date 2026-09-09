@@ -6,6 +6,7 @@ public class UserCardSpellsService : IUserCardSpellsService
 {
     private readonly IUserCardSpellsRepository _userCardSpellsRepository;
     private readonly ICardSpellsGalleryService _cardSpellsGalleryService;
+    private readonly ICardSpellsService _cardSpellsService;
     private readonly IUserSkillsRepository _userSkillsRepository;
     private readonly IPatternsService _patternsService;
     private readonly IUserStatsService _userStatsService;
@@ -13,12 +14,14 @@ public class UserCardSpellsService : IUserCardSpellsService
     public UserCardSpellsService(
         IUserCardSpellsRepository userCardSpellsRepository,
         ICardSpellsGalleryService cardSpellsGalleryService,
+        ICardSpellsService cardSpellsService,
         IUserSkillsRepository userSkillsRepository,
         IPatternsService patternsService,
         IUserStatsService userStatsService)
     {
         _userCardSpellsRepository = userCardSpellsRepository;
         _cardSpellsGalleryService = cardSpellsGalleryService;
+        _cardSpellsService = cardSpellsService;
         _userSkillsRepository = userSkillsRepository;
         _patternsService = patternsService;
         _userStatsService = userStatsService;
@@ -495,9 +498,10 @@ public class UserCardSpellsService : IUserCardSpellsService
         return await _userCardSpellsRepository.GetUniqueUserCardSpellsTypesTeamAsync(userId, teamId);
     }
 
-    public async Task<bool> UpdateTeamUserCardSpellAsync(string userId, string teamId, string position, string cardId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTeamUserCardSpellAsync(string userId, string teamId, string position, string cardId)
     {
-        return await _userCardSpellsRepository.UpdateTeamUserCardSpellAsync(userId, teamId, position, cardId);
+        await _userCardSpellsRepository.UpdateTeamUserCardSpellAsync(userId, teamId, position, cardId);
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<int> GetUserCardSpellsCountAsync(string userId, string search, string type, string rare)
@@ -517,6 +521,17 @@ public class UserCardSpellsService : IUserCardSpellsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardSpellAsync(string userId, CardSpells cardSpell)
     {
+        var checkCardSpellResult = await _cardSpellsService.IsCardSpellDeletedOrInactiveAsync(cardSpell.Id);
+        if (checkCardSpellResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var insertOrUpdateResult = await _userCardSpellsRepository.InsertOrUpdateUserCardSpellAsync(userId, cardSpell);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -576,30 +591,62 @@ public class UserCardSpellsService : IUserCardSpellsService
         };
     }
 
-    public async Task<bool> UpdateUserCardSpellLevelAsync(string userId, CardSpells cardSpell)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardSpellLevelAsync(string userId, CardSpells cardSpell)
     {
+        var checkCardSpellResult = await _cardSpellsService.IsCardSpellDeletedOrInactiveAsync(cardSpell.Id);
+        if (checkCardSpellResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _userCardSpellsRepository.UpdateUserCardSpellLevelAsync(userId, cardSpell);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserCardSpellStarAsync(string userId, CardSpells cardSpell)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardSpellStarAsync(string userId, CardSpells cardSpell)
     {
+        var checkCardSpellResult = await _cardSpellsService.IsCardSpellDeletedOrInactiveAsync(cardSpell.Id);
+        if (checkCardSpellResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _userCardSpellsRepository.UpdateUserCardSpellStarAsync(userId, cardSpell);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _cardSpellsGalleryService.UpdateTempStarCardSpellGalleryAsync(userId, cardSpell.Id, cardSpell.Star);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<CardSpells> GetUserCardSpellByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null)

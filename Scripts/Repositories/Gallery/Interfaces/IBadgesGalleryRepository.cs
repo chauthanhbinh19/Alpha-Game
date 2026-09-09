@@ -14,6 +14,6 @@ public interface IBadgesGalleryRepository
     Task<InsertOrUpdateResult<List<(string BadgeId, double CurrentStar)>>> UpdateBatchCurrentStarBadgesGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Badges>>> InsertBatchBadgesGalleryAsync(string userId, List<Badges> badges);
     Task<Badges> GetBadgeCollectionByIdAsync(string userId, string objectId);
-    Task UpdateBadgeGalleryPowerAsync(string userId, string id, Badges BadgeFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateBadgeGalleryPowerAsync(string userId, string id, Badges BadgeFromDB);
     Task<Badges> SumPowerBadgesGalleryAsync(string userId);
 }

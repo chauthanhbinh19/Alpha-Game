@@ -47,6 +47,17 @@ public class UserCardLivesService : IUserCardLivesService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
     {
+        var checkCardLifeResult = await _cardLivesService.IsCardLifeDeletedOrInactiveAsync(cardLife.Id);
+        if (checkCardLifeResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldCardLifeTask = _cardLivesService.SumPowerCardLivesPercentAsync(userId);
         var oldUserCardLifeTask = _userCardLivesRepository.SumPowerUserCardLivesAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserCardLivesService : IUserCardLivesService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
     {
+        var checkCardLifeResult = await _cardLivesService.IsCardLifeDeletedOrInactiveAsync(cardLife.Id);
+        if (checkCardLifeResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         CardLives oldUserCardLife = await _userCardLivesRepository.SumPowerUserCardLivesAsync(userId);
 
         var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         CardLives newUserCardLife = await _userCardLivesRepository.SumPowerUserCardLivesAsync(userId);
@@ -179,18 +206,34 @@ public class UserCardLivesService : IUserCardLivesService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
     {
+        var checkCardLifeResult = await _cardLivesService.IsCardLifeDeletedOrInactiveAsync(cardLife.Id);
+        if (checkCardLifeResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         CardLives oldUserCardLife = await _userCardLivesRepository.SumPowerUserCardLivesAsync(userId);
 
         var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
@@ -205,7 +248,7 @@ public class UserCardLivesService : IUserCardLivesService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<CardLives> GetUserCardLifeByIdAsync(string userId, string Id)

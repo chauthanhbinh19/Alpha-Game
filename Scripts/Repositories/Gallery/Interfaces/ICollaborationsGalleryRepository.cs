@@ -14,6 +14,6 @@ public interface ICollaborationsGalleryRepository
     Task<InsertOrUpdateResult<List<(string CollaborationId, double CurrentStar)>>> UpdateBatchCurrentStarCollaborationsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Collaborations>>> InsertBatchCollaborationsGalleryAsync(string userId, List<Collaborations> collaborations);
     Task<Collaborations> GetCollaborationCollectionByIdAsync(string userId, string objectId);
-    Task UpdateCollaborationGalleryPowerAsync(string userId, string id, Collaborations CollaborationFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateCollaborationGalleryPowerAsync(string userId, string id, Collaborations CollaborationFromDB);
     Task<Collaborations> SumPowerCollaborationsGalleryAsync(string userId);
 }

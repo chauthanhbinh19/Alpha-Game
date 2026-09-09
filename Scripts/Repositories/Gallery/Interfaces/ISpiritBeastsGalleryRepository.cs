@@ -14,6 +14,6 @@ public interface ISpiritBeastsGalleryRepository
     Task<InsertOrUpdateResult<List<(string SpiritBeastId, double CurrentStar)>>> UpdateBatchCurrentStarSpiritBeastsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<SpiritBeasts>>> InsertBatchSpiritBeastsGalleryAsync(string userId, List<SpiritBeasts> spiritBeasts);
     Task<SpiritBeasts> GetSpiritBeastCollectionByIdAsync(string userId, string objectId);
-    Task UpdateSpiritBeastGalleryPowerAsync(string userId, string id, SpiritBeasts SpiritBeastFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateSpiritBeastGalleryPowerAsync(string userId, string id, SpiritBeasts SpiritBeastFromDB);
     Task<SpiritBeasts> SumPowerSpiritBeastsGalleryAsync(string userId);
 }

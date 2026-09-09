@@ -47,6 +47,17 @@ public class UserRunesService : IUserRunesService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserRuneAsync(string userId, Runes rune)
     {
+        var checkRuneResult = await _runesService.IsRuneDeletedOrInactiveAsync(rune.Id);
+        if (checkRuneResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldRuneTask = _runesService.SumPowerRunesPercentAsync(userId);
         var oldUserRuneTask = _userRunesRepository.SumPowerUserRunesAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserRunesService : IUserRunesService
         };
     }
 
-    public async Task<bool> UpdateUserRuneLevelAsync(string userId, Runes rune)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserRuneLevelAsync(string userId, Runes rune)
     {
+        var checkRuneResult = await _runesService.IsRuneDeletedOrInactiveAsync(rune.Id);
+        if (checkRuneResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Runes oldUserRune = await _userRunesRepository.SumPowerUserRunesAsync(userId);
 
         var updateResult = await _userRunesRepository.UpdateUserRuneLevelAsync(userId, rune);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Runes newUserRune = await _userRunesRepository.SumPowerUserRunesAsync(userId);
@@ -179,18 +206,34 @@ public class UserRunesService : IUserRunesService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserRuneStarAsync(string userId, Runes rune)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserRuneStarAsync(string userId, Runes rune)
     {
+        var checkRuneResult = await _runesService.IsRuneDeletedOrInactiveAsync(rune.Id);
+        if (checkRuneResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Runes oldUserRune = await _userRunesRepository.SumPowerUserRunesAsync(userId);
 
         var updateResult = await _userRunesRepository.UpdateUserRuneStarAsync(userId, rune);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _runesGalleryService.UpdateTempStarRuneGalleryAsync(userId, rune.Id, rune.Star);
@@ -205,7 +248,7 @@ public class UserRunesService : IUserRunesService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Runes> GetUserRuneByIdAsync(string userId, string Id)

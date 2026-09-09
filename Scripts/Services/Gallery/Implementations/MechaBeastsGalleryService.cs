@@ -32,25 +32,57 @@ public class MechaBeastsGalleryService : IMechaBeastsGalleryService
         return await _mechaBeastsGalleryRepository.GetMechaBeastsCountAsync(search, rare);
     }
 
-    public async Task<bool> InsertMechaBeastGalleryAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> InsertMechaBeastGalleryAsync(string userId, string Id)
     {
+        var checkResult = await _mechaBeastsService.IsMechaBeastDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var insertResult = await _mechaBeastsGalleryRepository.InsertMechaBeastGalleryAsync(userId, Id, await _mechaBeastsService.GetMechaBeastByIdAsync(Id));
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateStatusMechaBeastGalleryAsync(string userId, string mechaBeastId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateStatusMechaBeastGalleryAsync(string userId, string mechaBeastId)
     {
+        var checkResult = await _mechaBeastsService.IsMechaBeastDeletedOrInactiveAsync(mechaBeastId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _mechaBeastsGalleryRepository.UpdateStatusMechaBeastGalleryAsync(userId, mechaBeastId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
@@ -59,10 +91,10 @@ public class MechaBeastsGalleryService : IMechaBeastsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchStatusMechaBeastsGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusMechaBeastsGalleryAsync(string userId)
     {
         MechaBeasts oldMechaBeast = await SumPowerMechaBeastsGalleryAsync(userId);
 
@@ -72,7 +104,12 @@ public class MechaBeastsGalleryService : IMechaBeastsGalleryService
         updateResult.OperationType != DatabaseOperationType.Updated ||
         !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         MechaBeasts newMechaBeast = await SumPowerMechaBeastsGalleryAsync(userId);
@@ -80,7 +117,12 @@ public class MechaBeastsGalleryService : IMechaBeastsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -88,7 +130,7 @@ public class MechaBeastsGalleryService : IMechaBeastsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<MechaBeasts> SumPowerMechaBeastsGalleryAsync(string userId)
@@ -96,27 +138,59 @@ public class MechaBeastsGalleryService : IMechaBeastsGalleryService
         return await _mechaBeastsGalleryRepository.SumPowerMechaBeastsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateTempStarMechaBeastGalleryAsync(string userId, string Id, double star)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTempStarMechaBeastGalleryAsync(string userId, string Id, double star)
     {
+        var checkResult = await _mechaBeastsService.IsMechaBeastDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _mechaBeastsGalleryRepository.UpdateTempStarMechaBeastGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateCurrentStarMechaBeastGalleryAsync(string userId, string mechaBeastId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateCurrentStarMechaBeastGalleryAsync(string userId, string mechaBeastId)
     {
+        var checkResult = await _mechaBeastsService.IsMechaBeastDeletedOrInactiveAsync(mechaBeastId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         MechaBeasts oldMechaBeast = await GetMechaBeastCollectionByIdAsync(userId, mechaBeastId) ?? new MechaBeasts();
 
         var updateResult = await _mechaBeastsGalleryRepository.UpdateCurrentStarMechaBeastGalleryAsync(userId, mechaBeastId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         MechaBeasts newMechaBeast = await GetMechaBeastCollectionByIdAsync(userId, mechaBeastId) ?? new MechaBeasts();
@@ -124,7 +198,12 @@ public class MechaBeastsGalleryService : IMechaBeastsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -132,10 +211,10 @@ public class MechaBeastsGalleryService : IMechaBeastsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchCurrentStarMechaBeastsGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarMechaBeastsGalleryAsync(string userId)
     {
         MechaBeasts oldMechaBeast = await SumPowerMechaBeastsGalleryAsync(userId);
 
@@ -146,7 +225,12 @@ public class MechaBeastsGalleryService : IMechaBeastsGalleryService
             updateResult.Data == null ||
             !updateResult.Data.Any())
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         MechaBeasts newMechaBeast = await SumPowerMechaBeastsGalleryAsync(userId);
@@ -154,7 +238,12 @@ public class MechaBeastsGalleryService : IMechaBeastsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -162,19 +251,24 @@ public class MechaBeastsGalleryService : IMechaBeastsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> InsertBatchMechaBeastsGalleryAsync(string userId, List<MechaBeasts> mechaBeasts)
+    public async Task<InsertOrUpdateResult<bool>> InsertBatchMechaBeastsGalleryAsync(string userId, List<MechaBeasts> mechaBeasts)
     {
         var insertResult = await _mechaBeastsGalleryRepository.InsertBatchMechaBeastsGalleryAsync(userId, mechaBeasts);
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<MechaBeasts> GetMechaBeastCollectionByIdAsync(string userId, string mechaBeastId)
@@ -184,10 +278,22 @@ public class MechaBeastsGalleryService : IMechaBeastsGalleryService
         return result;
     }
 
-    public async Task UpdateMechaBeastGalleryPowerAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> UpdateMechaBeastGalleryPowerAsync(string userId, string Id)
     {
+        var checkResult = await _mechaBeastsService.IsMechaBeastDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         IMechaBeastsRepository _repository = new MechaBeastsRepository();
         MechaBeastsService _service = new MechaBeastsService(_repository);
         await _mechaBeastsGalleryRepository.UpdateMechaBeastGalleryPowerAsync(userId, Id, await _service.GetMechaBeastByIdAsync(Id));
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 }

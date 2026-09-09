@@ -47,6 +47,17 @@ public class UserPuppetsService : IUserPuppetsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPuppetAsync(string userId, Puppets puppet)
     {
+        var checkPuppetResult = await _puppetsService.IsPuppetDeletedOrInactiveAsync(puppet.Id);
+        if (checkPuppetResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldPuppetTask = _puppetsService.SumPowerPuppetsPercentAsync(userId);
         var oldUserPuppetTask = _userPuppetsRepository.SumPowerUserPuppetsAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserPuppetsService : IUserPuppetsService
         };
     }
 
-    public async Task<bool> UpdateUserPuppetLevelAsync(string userId, Puppets puppet)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserPuppetLevelAsync(string userId, Puppets puppet)
     {
+        var checkPuppetResult = await _puppetsService.IsPuppetDeletedOrInactiveAsync(puppet.Id);
+        if (checkPuppetResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Puppets oldUserPuppet = await _userPuppetsRepository.SumPowerUserPuppetsAsync(userId);
 
         var updateResult = await _userPuppetsRepository.UpdateUserPuppetLevelAsync(userId, puppet);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Puppets newUserPuppet = await _userPuppetsRepository.SumPowerUserPuppetsAsync(userId);
@@ -179,18 +206,34 @@ public class UserPuppetsService : IUserPuppetsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserPuppetStarAsync(string userId, Puppets puppet)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserPuppetStarAsync(string userId, Puppets puppet)
     {
+        var checkPuppetResult = await _puppetsService.IsPuppetDeletedOrInactiveAsync(puppet.Id);
+        if (checkPuppetResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Puppets oldUserPuppet = await _userPuppetsRepository.SumPowerUserPuppetsAsync(userId);
 
         var updateResult = await _userPuppetsRepository.UpdateUserPuppetStarAsync(userId, puppet);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _puppetsGalleryService.UpdateTempStarPuppetGalleryAsync(userId, puppet.Id, puppet.Star);
@@ -205,7 +248,7 @@ public class UserPuppetsService : IUserPuppetsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Puppets> GetUserPuppetByIdAsync(string userId, string Id)

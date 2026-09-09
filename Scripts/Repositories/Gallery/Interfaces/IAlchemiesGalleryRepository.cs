@@ -14,6 +14,6 @@ public interface IAlchemiesGalleryRepository
     Task<InsertOrUpdateResult<List<(string AlchemyId, double CurrentStar)>>> UpdateBatchCurrentStarAlchemiesGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Alchemies>>> InsertBatchAlchemiesGalleryAsync(string userId, List<Alchemies> alchemies);
     Task<Alchemies> GetAlchemyCollectionByIdAsync(string userId, string objectId);
-    Task UpdateAlchemyGalleryPowerAsync(string userId, string Id, Alchemies AlchemyFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateAlchemyGalleryPowerAsync(string userId, string Id, Alchemies AlchemyFromDB);
     Task<Alchemies> SumPowerAlchemyGalleryAsync(string userId);
 }

@@ -32,25 +32,57 @@ public class PuppetsGalleryService : IPuppetsGalleryService
         return await _puppetsGalleryRepository.GetPuppetsCountAsync(search, type, rare);
     }
 
-    public async Task<bool> InsertPuppetGalleryAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> InsertPuppetGalleryAsync(string userId, string Id)
     {
+        var checkResult = await _puppetsService.IsPuppetDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var insertResult = await _puppetsGalleryRepository.InsertPuppetGalleryAsync(userId, Id, await _puppetsService.GetPuppetByIdAsync(Id));
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateStatusPuppetGalleryAsync(string userId, string puppetId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateStatusPuppetGalleryAsync(string userId, string puppetId)
     {
+        var checkResult = await _puppetsService.IsPuppetDeletedOrInactiveAsync(puppetId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _puppetsGalleryRepository.UpdateStatusPuppetGalleryAsync(userId, puppetId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
@@ -59,10 +91,10 @@ public class PuppetsGalleryService : IPuppetsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchStatusPuppetsGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusPuppetsGalleryAsync(string userId)
     {
         Puppets oldPuppet = await SumPowerPuppetsGalleryAsync(userId);
 
@@ -72,7 +104,12 @@ public class PuppetsGalleryService : IPuppetsGalleryService
         updateResult.OperationType != DatabaseOperationType.Updated ||
         !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Puppets newPuppet = await SumPowerPuppetsGalleryAsync(userId);
@@ -80,7 +117,12 @@ public class PuppetsGalleryService : IPuppetsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -88,7 +130,7 @@ public class PuppetsGalleryService : IPuppetsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Puppets> SumPowerPuppetsGalleryAsync(string userId)
@@ -96,27 +138,59 @@ public class PuppetsGalleryService : IPuppetsGalleryService
         return await _puppetsGalleryRepository.SumPowerPuppetsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateTempStarPuppetGalleryAsync(string userId, string Id, double star)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTempStarPuppetGalleryAsync(string userId, string Id, double star)
     {
+        var checkResult = await _puppetsService.IsPuppetDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _puppetsGalleryRepository.UpdateTempStarPuppetGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateCurrentStarPuppetGalleryAsync(string userId, string puppetId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateCurrentStarPuppetGalleryAsync(string userId, string puppetId)
     {
+        var checkResult = await _puppetsService.IsPuppetDeletedOrInactiveAsync(puppetId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Puppets oldPuppet = await GetPuppetCollectionByIdAsync(userId, puppetId) ?? new Puppets();
 
         var updateResult = await _puppetsGalleryRepository.UpdateCurrentStarPuppetGalleryAsync(userId, puppetId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Puppets newPuppet = await GetPuppetCollectionByIdAsync(userId, puppetId) ?? new Puppets();
@@ -124,7 +198,12 @@ public class PuppetsGalleryService : IPuppetsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -132,10 +211,10 @@ public class PuppetsGalleryService : IPuppetsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchCurrentStarPuppetsGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarPuppetsGalleryAsync(string userId)
     {
         Puppets oldPuppet = await SumPowerPuppetsGalleryAsync(userId);
 
@@ -146,7 +225,12 @@ public class PuppetsGalleryService : IPuppetsGalleryService
             updateResult.Data == null ||
             !updateResult.Data.Any())
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Puppets newPuppet = await SumPowerPuppetsGalleryAsync(userId);
@@ -154,7 +238,12 @@ public class PuppetsGalleryService : IPuppetsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -162,19 +251,24 @@ public class PuppetsGalleryService : IPuppetsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> InsertBatchPuppetsGalleryAsync(string userId, List<Puppets> puppets)
+    public async Task<InsertOrUpdateResult<bool>> InsertBatchPuppetsGalleryAsync(string userId, List<Puppets> puppets)
     {
         var insertResult = await _puppetsGalleryRepository.InsertBatchPuppetsGalleryAsync(userId, puppets);
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Puppets> GetPuppetCollectionByIdAsync(string userId, string puppetId)
@@ -184,10 +278,22 @@ public class PuppetsGalleryService : IPuppetsGalleryService
         return result;
     }
 
-    public async Task UpdatePuppetGalleryPowerAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> UpdatePuppetGalleryPowerAsync(string userId, string Id)
     {
+        var checkResult = await _puppetsService.IsPuppetDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         IPuppetsRepository _repository = new PuppetsRepository();
         PuppetsService _service = new PuppetsService(_repository);
         await _puppetsGalleryRepository.UpdatePuppetGalleryPowerAsync(userId, Id, await _service.GetPuppetByIdAsync(Id));
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 }

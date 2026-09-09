@@ -5,14 +5,14 @@ public interface ICardGeneralsGalleryService
 {
     Task<List<CardGenerals>> GetCardGeneralsCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare);
     Task<int> GetCardGeneralsCountAsync(string search, string type, string rare);
-    Task<bool> InsertCardGeneralGalleryAsync(string userId, string Id);
-    Task<bool> UpdateStatusCardGeneralGalleryAsync(string userId, string Id);
-    Task<bool> UpdateBatchStatusCardGeneralsGalleryAsync(string userId);
-    Task<bool> UpdateTempStarCardGeneralGalleryAsync(string userId, string Id, double star);
-    Task<bool> UpdateCurrentStarCardGeneralGalleryAsync(string userId, string cardGeneralId);
-    Task<bool> UpdateBatchCurrentStarCardGeneralsGalleryAsync(string userId);
-    Task<bool> InsertBatchCardGeneralsGalleryAsync(string userId, List<CardGenerals> cardGenerals);
+    Task<InsertOrUpdateResult<bool>> InsertCardGeneralGalleryAsync(string userId, string Id);
+    Task<InsertOrUpdateResult<bool>> UpdateStatusCardGeneralGalleryAsync(string userId, string Id);
+    Task<InsertOrUpdateResult<bool>> UpdateBatchStatusCardGeneralsGalleryAsync(string userId);
+    Task<InsertOrUpdateResult<bool>> UpdateTempStarCardGeneralGalleryAsync(string userId, string Id, double star);
+    Task<InsertOrUpdateResult<bool>> UpdateCurrentStarCardGeneralGalleryAsync(string userId, string cardGeneralId);
+    Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarCardGeneralsGalleryAsync(string userId);
+    Task<InsertOrUpdateResult<bool>> InsertBatchCardGeneralsGalleryAsync(string userId, List<CardGenerals> cardGenerals);
     Task<CardGenerals> GetCardGeneralCollectionByIdAsync(string userId, string objectId);
-    Task UpdateCardGeneralGalleryPowerAsync(string userId, string Id);
+    Task<InsertOrUpdateResult<bool>> UpdateCardGeneralGalleryPowerAsync(string userId, string Id);
     Task<CardGenerals> SumPowerCardGeneralsGalleryAsync(string userId);
 }

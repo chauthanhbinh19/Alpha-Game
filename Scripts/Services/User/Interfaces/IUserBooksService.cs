@@ -12,9 +12,9 @@ public interface IUserBooksService
     Task<int> GetUserBooksCountAsync(string userId, string search, string type, string rare);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBookAsync(string userId, Books book);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBooksBatchAsync(string userId, List<Books> books);
-    Task<bool> UpdateUserBookLevelAsync(string userId, Books book);
-    Task<bool> UpdateUserBookStarAsync(string userId, Books book);
-    Task<bool> UpdateTeamUserBookAsync(string userId, string teamId, string position, string bookId);
+    Task<InsertOrUpdateResult<bool>> UpdateUserBookLevelAsync(string userId, Books book);
+    Task<InsertOrUpdateResult<bool>> UpdateUserBookStarAsync(string userId, Books book);
+    Task<InsertOrUpdateResult<bool>> UpdateTeamUserBookAsync(string userId, string teamId, string position, string bookId);
     Task<Books> GetUserBookByIdAsync(string userId, string Id);
     Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null);
 }

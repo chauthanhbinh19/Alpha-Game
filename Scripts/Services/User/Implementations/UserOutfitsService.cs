@@ -47,6 +47,17 @@ public class UserOutfitsService : IUserOutfitsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserOutfitAsync(string userId, Outfits outfit)
     {
+        var checkOutfitResult = await _outfitsService.IsOutfitDeletedOrInactiveAsync(outfit.Id);
+        if (checkOutfitResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldOutfitTask = _outfitsService.SumPowerOutfitsPercentAsync(userId);
         var oldUserOutfitTask = _userOutfitsRepository.SumPowerUserOutfitsAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserOutfitsService : IUserOutfitsService
         };
     }
 
-    public async Task<bool> UpdateUserOutfitLevelAsync(string userId, Outfits outfit)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserOutfitLevelAsync(string userId, Outfits outfit)
     {
+        var checkOutfitResult = await _outfitsService.IsOutfitDeletedOrInactiveAsync(outfit.Id);
+        if (checkOutfitResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Outfits oldUserOutfit = await _userOutfitsRepository.SumPowerUserOutfitsAsync(userId);
 
         var updateResult = await _userOutfitsRepository.UpdateUserOutfitLevelAsync(userId, outfit);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Outfits newUserOutfit = await _userOutfitsRepository.SumPowerUserOutfitsAsync(userId);
@@ -179,18 +206,34 @@ public class UserOutfitsService : IUserOutfitsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserOutfitStarAsync(string userId, Outfits outfit)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserOutfitStarAsync(string userId, Outfits outfit)
     {
+        var checkOutfitResult = await _outfitsService.IsOutfitDeletedOrInactiveAsync(outfit.Id);
+        if (checkOutfitResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Outfits oldUserOutfit = await _userOutfitsRepository.SumPowerUserOutfitsAsync(userId);
 
         var updateResult = await _userOutfitsRepository.UpdateUserOutfitStarAsync(userId, outfit);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _outfitsGalleryService.UpdateTempStarOutfitGalleryAsync(userId, outfit.Id, outfit.Star);
@@ -205,7 +248,7 @@ public class UserOutfitsService : IUserOutfitsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Outfits> GetUserOutfitByIdAsync(string userId, string Id)

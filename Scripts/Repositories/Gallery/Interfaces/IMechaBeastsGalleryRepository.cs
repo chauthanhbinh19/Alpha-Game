@@ -14,6 +14,6 @@ public interface IMechaBeastsGalleryRepository
     Task<InsertOrUpdateResult<List<(string MechaBeastId, double CurrentStar)>>> UpdateBatchCurrentStarMechaBeastsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<MechaBeasts>>> InsertBatchMechaBeastsGalleryAsync(string userId, List<MechaBeasts> mechaBeasts);
     Task<MechaBeasts> GetMechaBeastCollectionByIdAsync(string userId, string objectId);
-    Task UpdateMechaBeastGalleryPowerAsync(string userId, string id, MechaBeasts MechaBeastFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateMechaBeastGalleryPowerAsync(string userId, string id, MechaBeasts MechaBeastFromDB);
     Task<MechaBeasts> SumPowerMechaBeastsGalleryAsync(string userId);
 }

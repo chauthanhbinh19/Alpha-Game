@@ -54,6 +54,17 @@ public class UserSkillsService : IUserSkillsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSkillAsync(string userId, Skills skill)
     {
+        var checkSkillResult = await _skillsService.IsSkillDeletedOrInactiveAsync(skill.Id);
+        if (checkSkillResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var insertOrUpdateResult = await _userSkillsRepository.InsertOrUpdateUserSkillAsync(userId, skill);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -113,30 +124,62 @@ public class UserSkillsService : IUserSkillsService
         };
     }
 
-    public async Task<bool> UpdateUserSkillLevelAsync(string userId, Skills skill)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserSkillLevelAsync(string userId, Skills skill)
     {
+        var checkSkillResult = await _skillsService.IsSkillDeletedOrInactiveAsync(skill.Id);
+        if (checkSkillResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _userSkillsRepository.UpdateUserSkillLevelAsync(userId, skill);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserSkillStarAsync(string userId, Skills skill)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserSkillStarAsync(string userId, Skills skill)
     {
+        var checkSkillResult = await _skillsService.IsSkillDeletedOrInactiveAsync(skill.Id);
+        if (checkSkillResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _userSkillsRepository.UpdateUserSkillStarAsync(userId, skill);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _skillsGalleryService.UpdateTempStarSkillGalleryAsync(userId, skill.Id, skill.Star);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Skills> GetUserSkillsByIdAsync(string userId, string Id)
@@ -461,94 +504,112 @@ public class UserSkillsService : IUserSkillsService
     }
 
 
-    public async Task<bool> InsertUserCardHeroSkillsAsync(string userId, string cardId, string skillId, int position)
+    public async Task<InsertOrUpdateResult<bool>> InsertUserCardHeroSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return await _userSkillsRepository.InsertUserCardHeroSkillsAsync(userId, cardId, skillId, position);
+        await _userSkillsRepository.InsertUserCardHeroSkillsAsync(userId, cardId, skillId, position);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> InsertUserCardCaptainSkillsAsync(string userId, string cardId, string skillId, int position)
+    public async Task<InsertOrUpdateResult<bool>> InsertUserCardCaptainSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return await _userSkillsRepository.InsertUserCardCaptainSkillsAsync(userId, cardId, skillId, position);
+        await _userSkillsRepository.InsertUserCardCaptainSkillsAsync(userId, cardId, skillId, position);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> InsertUserCardColonelSkillsAsync(string userId, string cardId, string skillId, int position)
+    public async Task<InsertOrUpdateResult<bool>> InsertUserCardColonelSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return await _userSkillsRepository.InsertUserCardColonelSkillsAsync(userId, cardId, skillId, position);
+        await _userSkillsRepository.InsertUserCardColonelSkillsAsync(userId, cardId, skillId, position);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> InsertUserCardGeneralSkillsAsync(string userId, string cardId, string skillId, int position)
+    public async Task<InsertOrUpdateResult<bool>> InsertUserCardGeneralSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return await _userSkillsRepository.InsertUserCardGeneralSkillsAsync(userId, cardId, skillId, position);
+        await _userSkillsRepository.InsertUserCardGeneralSkillsAsync(userId, cardId, skillId, position);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> InsertUserCardAdmiralSkillsAsync(string userId, string cardId, string skillId, int position)
+    public async Task<InsertOrUpdateResult<bool>> InsertUserCardAdmiralSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return await _userSkillsRepository.InsertUserCardAdmiralSkillsAsync(userId, cardId, skillId, position);
+        await _userSkillsRepository.InsertUserCardAdmiralSkillsAsync(userId, cardId, skillId, position);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> InsertUserCardMilitarySkillsAsync(string userId, string cardId, string skillId, int position)
+    public async Task<InsertOrUpdateResult<bool>> InsertUserCardMilitarySkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return await _userSkillsRepository.InsertUserCardMilitarySkillsAsync(userId, cardId, skillId, position);
+        await _userSkillsRepository.InsertUserCardMilitarySkillsAsync(userId, cardId, skillId, position);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> InsertUserCardMonsterSkillsAsync(string userId, string cardId, string skillId, int position)
+    public async Task<InsertOrUpdateResult<bool>> InsertUserCardMonsterSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return await _userSkillsRepository.InsertUserCardMonsterSkillsAsync(userId, cardId, skillId, position);
+        await _userSkillsRepository.InsertUserCardMonsterSkillsAsync(userId, cardId, skillId, position);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> InsertUserCardSpellSkillsAsync(string userId, string cardId, string skillId, int position)
+    public async Task<InsertOrUpdateResult<bool>> InsertUserCardSpellSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return await _userSkillsRepository.InsertUserCardSpellSkillsAsync(userId, cardId, skillId, position);
+        await _userSkillsRepository.InsertUserCardSpellSkillsAsync(userId, cardId, skillId, position);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> InsertUserCardSoldierSkillsAsync(string userId, string cardId, string skillId, int position)
+    public async Task<InsertOrUpdateResult<bool>> InsertUserCardSoldierSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return await _userSkillsRepository.InsertUserCardSoldierSkillsAsync(userId, cardId, skillId, position);
+        await _userSkillsRepository.InsertUserCardSoldierSkillsAsync(userId, cardId, skillId, position);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> DeleteUserCardHeroSkillsAsync(string userId, string cardId, string skillId, int position)
+    public async Task<InsertOrUpdateResult<bool>> DeleteUserCardHeroSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return await _userSkillsRepository.DeleteUserCardHeroSkillsAsync(userId, cardId, skillId, position);
+        await _userSkillsRepository.DeleteUserCardHeroSkillsAsync(userId, cardId, skillId, position);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> DeleteUserCardCaptainSkillsAsync(string userId, string cardId, string skillId, int position)
+    public async Task<InsertOrUpdateResult<bool>> DeleteUserCardCaptainSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return await _userSkillsRepository.DeleteUserCardCaptainSkillsAsync(userId, cardId, skillId, position);
+        await _userSkillsRepository.DeleteUserCardCaptainSkillsAsync(userId, cardId, skillId, position);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> DeleteUserCardColonelSkillsAsync(string userId, string cardId, string skillId, int position)
+    public async Task<InsertOrUpdateResult<bool>> DeleteUserCardColonelSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return await _userSkillsRepository.DeleteUserCardColonelSkillsAsync(userId, cardId, skillId, position);
+        await _userSkillsRepository.DeleteUserCardColonelSkillsAsync(userId, cardId, skillId, position);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> DeleteUserCardGeneralSkillsAsync(string userId, string cardId, string skillId, int position)
+    public async Task<InsertOrUpdateResult<bool>> DeleteUserCardGeneralSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return await _userSkillsRepository.DeleteUserCardGeneralSkillsAsync(userId, cardId, skillId, position);
+        await _userSkillsRepository.DeleteUserCardGeneralSkillsAsync(userId, cardId, skillId, position);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> DeleteUserCardAdmiralSkillsAsync(string userId, string cardId, string skillId, int position)
+    public async Task<InsertOrUpdateResult<bool>> DeleteUserCardAdmiralSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return await _userSkillsRepository.DeleteUserCardAdmiralSkillsAsync(userId, cardId, skillId, position);
+        await _userSkillsRepository.DeleteUserCardAdmiralSkillsAsync(userId, cardId, skillId, position);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> DeleteUserCardMonsterSkillsAsync(string userId, string cardId, string skillId, int position)
+    public async Task<InsertOrUpdateResult<bool>> DeleteUserCardMonsterSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return await _userSkillsRepository.DeleteUserCardMonsterSkillsAsync(userId, cardId, skillId, position);
+        await _userSkillsRepository.DeleteUserCardMonsterSkillsAsync(userId, cardId, skillId, position);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> DeleteUserCardMilitarySkillsAsync(string userId, string cardId, string skillId, int position)
+    public async Task<InsertOrUpdateResult<bool>> DeleteUserCardMilitarySkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return await _userSkillsRepository.DeleteUserCardMilitarySkillsAsync(userId, cardId, skillId, position);
+        await _userSkillsRepository.DeleteUserCardMilitarySkillsAsync(userId, cardId, skillId, position);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> DeleteUserCardSpellSkillsAsync(string userId, string cardId, string skillId, int position)
+    public async Task<InsertOrUpdateResult<bool>> DeleteUserCardSpellSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return await _userSkillsRepository.DeleteUserCardSpellSkillsAsync(userId, cardId, skillId, position);
+        await _userSkillsRepository.DeleteUserCardSpellSkillsAsync(userId, cardId, skillId, position);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> DeleteUserCardSoldierSkillsAsync(string userId, string cardId, string skillId, int position)
+    public async Task<InsertOrUpdateResult<bool>> DeleteUserCardSoldierSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return await _userSkillsRepository.DeleteUserCardSoldierSkillsAsync(userId, cardId, skillId, position);
+        await _userSkillsRepository.DeleteUserCardSoldierSkillsAsync(userId, cardId, skillId, position);
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
     public async Task<int> AssignRandomSkillsToUserCardHeroesAsync(string userId)

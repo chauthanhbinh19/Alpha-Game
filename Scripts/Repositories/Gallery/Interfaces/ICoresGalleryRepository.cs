@@ -14,6 +14,6 @@ public interface ICoresGalleryRepository
     Task<InsertOrUpdateResult<List<(string CoreId, double CurrentStar)>>> UpdateBatchCurrentStarCoresGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Cores>>> InsertBatchCoresGalleryAsync(string userId, List<Cores> cores);
     Task<Cores> GetCoreCollectionByIdAsync(string userId, string objectId);
-    Task UpdateCoreGalleryPowerAsync(string userId, string id, Cores CoreFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateCoreGalleryPowerAsync(string userId, string id, Cores CoreFromDB);
     Task<Cores> SumPowerCoresGalleryAsync(string userId);
 }

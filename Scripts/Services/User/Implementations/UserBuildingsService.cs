@@ -47,6 +47,17 @@ public class UserBuildingsService : IUserBuildingsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBuildingAsync(string userId, Buildings building)
     {
+        var checkBuildingResult = await _buildingsService.IsBuildingDeletedOrInactiveAsync(building.Id);
+        if (checkBuildingResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldBuildingTask = _buildingsService.SumPowerBuildingsPercentAsync(userId);
         var oldUserBuildingTask = _userBuildingsRepository.SumPowerUserBuildingsAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserBuildingsService : IUserBuildingsService
         };
     }
 
-    public async Task<bool> UpdateUserBuildingLevelAsync(string userId, Buildings building)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserBuildingLevelAsync(string userId, Buildings building)
     {
+        var checkBuildingResult = await _buildingsService.IsBuildingDeletedOrInactiveAsync(building.Id);
+        if (checkBuildingResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Buildings oldUserBuilding = await _userBuildingsRepository.SumPowerUserBuildingsAsync(userId);
 
         var updateResult = await _userBuildingsRepository.UpdateUserBuildingLevelAsync(userId, building);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Buildings newUserBuilding = await _userBuildingsRepository.SumPowerUserBuildingsAsync(userId);
@@ -179,18 +206,34 @@ public class UserBuildingsService : IUserBuildingsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserBuildingStarAsync(string userId, Buildings building)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserBuildingStarAsync(string userId, Buildings building)
     {
+        var checkBuildingResult = await _buildingsService.IsBuildingDeletedOrInactiveAsync(building.Id);
+        if (checkBuildingResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+        
         Buildings oldUserBuilding = await _userBuildingsRepository.SumPowerUserBuildingsAsync(userId);
 
         var updateResult = await _userBuildingsRepository.UpdateUserBuildingStarAsync(userId, building);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _buildingsGalleryService.UpdateTempStarBuildingGalleryAsync(userId, building.Id, building.Star);
@@ -205,7 +248,7 @@ public class UserBuildingsService : IUserBuildingsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Buildings> GetUserBuildingByIdAsync(string userId, string Id)

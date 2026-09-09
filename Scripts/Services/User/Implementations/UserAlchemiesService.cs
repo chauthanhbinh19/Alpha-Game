@@ -48,6 +48,17 @@ public class UserAlchemiesService : IUserAlchemiesService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAlchemyAsync(string userId, Alchemies alchemy)
     {
+        var checkAlchemyResult = await _alchemiesService.IsAlchemyDeletedOrInactiveAsync(alchemy.Id);
+        if (checkAlchemyResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldAlchemyTask = _alchemiesService.SumPowerAlchemiesPercentAsync(userId);
         var oldUserAlchemyTask = _userAlchemiesRepository.SumPowerUserAlchemiesAsync(userId);
 
@@ -159,15 +170,31 @@ public class UserAlchemiesService : IUserAlchemiesService
         };
     }
 
-    public async Task<bool> UpdateUserAlchemyLevelAsync(string userId, Alchemies alchemy)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserAlchemyLevelAsync(string userId, Alchemies alchemy)
     {
+        var checkAlchemyResult = await _alchemiesService.IsAlchemyDeletedOrInactiveAsync(alchemy.Id);
+        if (checkAlchemyResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Alchemies oldUserAlchemy = await _userAlchemiesRepository.SumPowerUserAlchemiesAsync(userId);
 
         var updateResult = await _userAlchemiesRepository.UpdateUserAlchemyLevelAsync(userId, alchemy);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Alchemies newUserAlchemy = await _userAlchemiesRepository.SumPowerUserAlchemiesAsync(userId);
@@ -180,18 +207,34 @@ public class UserAlchemiesService : IUserAlchemiesService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserAlchemyStarAsync(string userId, Alchemies alchemy)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserAlchemyStarAsync(string userId, Alchemies alchemy)
     {
+        var checkAlchemyResult = await _alchemiesService.IsAlchemyDeletedOrInactiveAsync(alchemy.Id);
+        if (checkAlchemyResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+        
         Alchemies oldUserAlchemy = await _userAlchemiesRepository.SumPowerUserAlchemiesAsync(userId);
 
         var updateResult = await _userAlchemiesRepository.UpdateUserAlchemyStarAsync(userId, alchemy);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _alchemiesGalleryService.UpdateTempStarAlchemyGalleryAsync(userId, alchemy.Id, alchemy.Star);
@@ -206,7 +249,7 @@ public class UserAlchemiesService : IUserAlchemiesService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Alchemies> GetUserAlchemyByIdAsync(string userId, string Id)

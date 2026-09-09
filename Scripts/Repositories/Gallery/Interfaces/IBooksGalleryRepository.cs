@@ -14,6 +14,6 @@ public interface IBooksGalleryRepository
     Task<InsertOrUpdateResult<List<(string BookId, double CurrentStar)>>> UpdateBatchCurrentStarBooksGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Books>>> InsertBatchBooksGalleryAsync(string userId, List<Books> books);
     Task<Books> GetBookCollectionByIdAsync(string userId, string objectId);
-    Task UpdateBookGalleryPowerAsync(string userId, string Id, Books BookFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateBookGalleryPowerAsync(string userId, string Id, Books BookFromDB);
     Task<Books> SumPowerBooksGalleryAsync(string userId);
 }

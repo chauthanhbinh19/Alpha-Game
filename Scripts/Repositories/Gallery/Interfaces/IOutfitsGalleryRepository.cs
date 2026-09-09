@@ -14,6 +14,6 @@ public interface IOutfitsGalleryRepository
     Task<InsertOrUpdateResult<List<(string OutfitId, double CurrentStar)>>> UpdateBatchCurrentStarOutfitsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Outfits>>> InsertBatchOutfitsGalleryAsync(string userId, List<Outfits> outfits);
     Task<Outfits> GetOutfitCollectionByIdAsync(string userId, string objectId);
-    Task UpdateOutfitGalleryPowerAsync(string userId, string id, Outfits OutfitFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateOutfitGalleryPowerAsync(string userId, string id, Outfits OutfitFromDB);
     Task<Outfits> SumPowerOutfitsGalleryAsync(string userId);
 }

@@ -5,14 +5,14 @@ public interface IEquipmentsGalleryService
 {
     Task<List<Equipments>> GetEquipmentsCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare);
     Task<int> GetEquipmentsCountAsync(string search, string type, string rare);
-    Task<bool> InsertEquipmentGalleryAsync(string userId, string Id);
-    Task<bool> UpdateStatusEquipmentGalleryAsync(string userId, string Id);
-    Task<bool> UpdateBatchStatusEquipmentsGalleryAsync(string userId);
-    Task<bool> UpdateTempStarEquipmentGalleryAsync(string userId, string Id, double star);
-    Task<bool> UpdateCurrentStarEquipmentGalleryAsync(string userId, string equipmentId);
-    Task<bool> UpdateBatchCurrentStarEquipmentsGalleryAsync(string userId);
-    Task<bool> InsertBatchEquipmentsGalleryAsync(string userId, List<Equipments> equipments);
+    Task<InsertOrUpdateResult<bool>> InsertEquipmentGalleryAsync(string userId, string Id);
+    Task<InsertOrUpdateResult<bool>> UpdateStatusEquipmentGalleryAsync(string userId, string Id);
+    Task<InsertOrUpdateResult<bool>> UpdateBatchStatusEquipmentsGalleryAsync(string userId);
+    Task<InsertOrUpdateResult<bool>> UpdateTempStarEquipmentGalleryAsync(string userId, string Id, double star);
+    Task<InsertOrUpdateResult<bool>> UpdateCurrentStarEquipmentGalleryAsync(string userId, string equipmentId);
+    Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarEquipmentsGalleryAsync(string userId);
+    Task<InsertOrUpdateResult<bool>> InsertBatchEquipmentsGalleryAsync(string userId, List<Equipments> equipments);
     Task<Equipments> GetEquipmentCollectionByIdAsync(string userId, string objectId);
-    Task UpdateEquipmentGalleryPowerAsync(string userId, string Id);
+    Task<InsertOrUpdateResult<bool>> UpdateEquipmentGalleryPowerAsync(string userId, string Id);
     Task<Equipments> SumPowerEquipmentsGalleryAsync(string userId);
 }

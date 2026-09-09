@@ -14,6 +14,6 @@ public interface ICardSpellsGalleryRepository
     Task<InsertOrUpdateResult<List<(string CardSpellId, double CurrentStar)>>> UpdateBatchCurrentStarCardSpellsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<CardSpells>>> InsertBatchCardSpellsGalleryAsync(string userId, List<CardSpells> cardSpells);
     Task<CardSpells> GetCardSpellCollectionByIdAsync(string userId, string objectId);
-    Task UpdateCardSpellGalleryPowerAsync(string userId, string Id, CardSpells CardSpellFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateCardSpellGalleryPowerAsync(string userId, string Id, CardSpells CardSpellFromDB);
     Task<CardSpells> SumPowerCardSpellsGalleryAsync(string userId);
 }

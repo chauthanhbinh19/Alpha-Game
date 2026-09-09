@@ -47,6 +47,17 @@ public class UserArtifactsService : IUserArtifactsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArtifactAsync(string userId, Artifacts artifact)
     {
+        var checkArtifactResult = await _artifactsService.IsArtifactDeletedOrInactiveAsync(artifact.Id);
+        if (checkArtifactResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldArtifactTask = _artifactsService.SumPowerArtifactsPercentAsync(userId);
         var oldUserArtifactTask = _userArtifactsRepository.SumPowerUserArtifactsAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserArtifactsService : IUserArtifactsService
         };
     }
 
-    public async Task<bool> UpdateUserArtifactLevelAsync(string userId, Artifacts artifact)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserArtifactLevelAsync(string userId, Artifacts artifact)
     {
+        var checkArtifactResult = await _artifactsService.IsArtifactDeletedOrInactiveAsync(artifact.Id);
+        if (checkArtifactResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Artifacts oldUserArtifact = await _userArtifactsRepository.SumPowerUserArtifactsAsync(userId);
 
         var updateResult = await _userArtifactsRepository.UpdateUserArtifactLevelAsync(userId, artifact);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Artifacts newUserArtifact = await _userArtifactsRepository.SumPowerUserArtifactsAsync(userId);
@@ -179,18 +206,34 @@ public class UserArtifactsService : IUserArtifactsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserArtifactStarAsync(string userId, Artifacts artifact)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserArtifactStarAsync(string userId, Artifacts artifact)
     {
+        var checkArtifactResult = await _artifactsService.IsArtifactDeletedOrInactiveAsync(artifact.Id);
+        if (checkArtifactResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+        
         Artifacts oldUserArtifact = await _userArtifactsRepository.SumPowerUserArtifactsAsync(userId);
 
         var updateResult = await _userArtifactsRepository.UpdateUserArtifactStarAsync(userId, artifact);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _artifactsGalleryService.UpdateTempStarArtifactGalleryAsync(userId, artifact.Id, artifact.Star);
@@ -205,7 +248,7 @@ public class UserArtifactsService : IUserArtifactsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Artifacts> GetUserArtifactByIdAsync(string userId, string Id)

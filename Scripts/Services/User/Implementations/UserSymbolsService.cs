@@ -47,6 +47,17 @@ public class UserSymbolsService : IUserSymbolsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSymbolAsync(string userId, Symbols symbol)
     {
+        var checkSymbolResult = await _symbolsService.IsSymbolDeletedOrInactiveAsync(symbol.Id);
+        if (checkSymbolResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldSymbolTask = _symbolsService.SumPowerSymbolsPercentAsync(userId);
         var oldUserSymbolTask = _userSymbolsRepository.SumPowerUserSymbolsAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserSymbolsService : IUserSymbolsService
         };
     }
 
-    public async Task<bool> UpdateUserSymbolLevelAsync(string userId, Symbols symbol)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserSymbolLevelAsync(string userId, Symbols symbol)
     {
+        var checkSymbolResult = await _symbolsService.IsSymbolDeletedOrInactiveAsync(symbol.Id);
+        if (checkSymbolResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Symbols oldUserSymbol = await _userSymbolsRepository.SumPowerUserSymbolsAsync(userId);
 
         var updateResult = await _userSymbolsRepository.UpdateUserSymbolLevelAsync(userId, symbol);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Symbols newUserSymbol = await _userSymbolsRepository.SumPowerUserSymbolsAsync(userId);
@@ -179,18 +206,34 @@ public class UserSymbolsService : IUserSymbolsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserSymbolStarAsync(string userId, Symbols symbol)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserSymbolStarAsync(string userId, Symbols symbol)
     {
+        var checkSymbolResult = await _symbolsService.IsSymbolDeletedOrInactiveAsync(symbol.Id);
+        if (checkSymbolResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Symbols oldUserSymbol = await _userSymbolsRepository.SumPowerUserSymbolsAsync(userId);
 
         var updateResult = await _userSymbolsRepository.UpdateUserSymbolStarAsync(userId, symbol);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _symbolsGalleryService.UpdateTempStarSymbolGalleryAsync(userId, symbol.Id, symbol.Star);
@@ -205,7 +248,7 @@ public class UserSymbolsService : IUserSymbolsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Symbols> GetUserSymbolByIdAsync(string userId, string Id)

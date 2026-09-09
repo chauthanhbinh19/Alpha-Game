@@ -7,8 +7,8 @@ public interface IUserSpiritBeastsService
     Task<int> GetUserSpiritBeastsCountAsync(string userId, string search, string rare);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSpiritBeastAsync(string userId, SpiritBeasts spiritBeast);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSpiritBeastsBatchAsync(string userId, List<SpiritBeasts> spiritBeasts);
-    Task<bool> UpdateUserSpiritBeastLevelAsync(string userId, SpiritBeasts spiritBeast);
-    Task<bool> UpdateUserSpiritBeastStarAsync(string userId, SpiritBeasts spiritBeast);
+    Task<InsertOrUpdateResult<bool>> UpdateUserSpiritBeastLevelAsync(string userId, SpiritBeasts spiritBeast);
+    Task<InsertOrUpdateResult<bool>> UpdateUserSpiritBeastStarAsync(string userId, SpiritBeasts spiritBeast);
     Task<SpiritBeasts> GetUserSpiritBeastByIdAsync(string userId, string Id);
     Task<SpiritBeasts> SumPowerUserSpiritBeastsAsync(string userId);
 }

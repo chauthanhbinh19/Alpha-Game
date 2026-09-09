@@ -47,6 +47,17 @@ public class UserArchitecturesService : IUserArchitecturesService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArchitectureAsync(string userId, Architectures architecture)
     {
+        var checkArchitectureResult = await _architecturesService.IsArchitectureDeletedOrInactiveAsync(architecture.Id);
+        if (checkArchitectureResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldArchitectureTask = _architecturesService.SumPowerArchitecturesPercentAsync(userId);
         var oldUserArchitectureTask = _userArchitecturesRepository.SumPowerUserArchitecturesAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserArchitecturesService : IUserArchitecturesService
         };
     }
 
-    public async Task<bool> UpdateUserArchitectureLevelAsync(string userId, Architectures architecture)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserArchitectureLevelAsync(string userId, Architectures architecture)
     {
+        var checkArchitectureResult = await _architecturesService.IsArchitectureDeletedOrInactiveAsync(architecture.Id);
+        if (checkArchitectureResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Architectures oldUserArchitecture = await _userArchitecturesRepository.SumPowerUserArchitecturesAsync(userId);
 
         var updateResult = await _userArchitecturesRepository.UpdateUserArchitectureLevelAsync(userId, architecture);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Architectures newUserArchitecture = await _userArchitecturesRepository.SumPowerUserArchitecturesAsync(userId);
@@ -179,18 +206,34 @@ public class UserArchitecturesService : IUserArchitecturesService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserArchitectureStarAsync(string userId, Architectures architecture)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserArchitectureStarAsync(string userId, Architectures architecture)
     {
+        var checkArchitectureResult = await _architecturesService.IsArchitectureDeletedOrInactiveAsync(architecture.Id);
+        if (checkArchitectureResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+        
         Architectures oldUserArchitecture = await _userArchitecturesRepository.SumPowerUserArchitecturesAsync(userId);
 
         var updateResult = await _userArchitecturesRepository.UpdateUserArchitectureStarAsync(userId, architecture);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _architecturesGalleryService.UpdateTempStarArchitectureGalleryAsync(userId, architecture.Id, architecture.Star);
@@ -205,7 +248,7 @@ public class UserArchitecturesService : IUserArchitecturesService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Architectures> GetUserArchitectureByIdAsync(string userId, string Id)

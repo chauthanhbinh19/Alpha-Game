@@ -47,6 +47,17 @@ public class UserRelicsService : IUserRelicsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserRelicAsync(string userId, Relics relic)
     {
+        var checkRelicResult = await _relicsService.IsRelicDeletedOrInactiveAsync(relic.Id);
+        if (checkRelicResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldRelicTask = _relicsService.SumPowerRelicsPercentAsync(userId);
         var oldUserRelicTask = _userRelicsRepository.SumPowerUserRelicsAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserRelicsService : IUserRelicsService
         };
     }
 
-    public async Task<bool> UpdateUserRelicLevelAsync(string userId, Relics relic)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserRelicLevelAsync(string userId, Relics relic)
     {
+        var checkRelicResult = await _relicsService.IsRelicDeletedOrInactiveAsync(relic.Id);
+        if (checkRelicResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Relics oldUserRelic = await _userRelicsRepository.SumPowerUserRelicsAsync(userId);
 
         var updateResult = await _userRelicsRepository.UpdateUserRelicLevelAsync(userId, relic);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Relics newUserRelic = await _userRelicsRepository.SumPowerUserRelicsAsync(userId);
@@ -179,18 +206,34 @@ public class UserRelicsService : IUserRelicsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserRelicStarAsync(string userId, Relics relic)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserRelicStarAsync(string userId, Relics relic)
     {
+        var checkRelicResult = await _relicsService.IsRelicDeletedOrInactiveAsync(relic.Id);
+        if (checkRelicResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Relics oldUserRelic = await _userRelicsRepository.SumPowerUserRelicsAsync(userId);
 
         var updateResult = await _userRelicsRepository.UpdateUserRelicStarAsync(userId, relic);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _relicsGalleryService.UpdateTempStarRelicGalleryAsync(userId, relic.Id, relic.Star);
@@ -205,7 +248,7 @@ public class UserRelicsService : IUserRelicsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Relics> GetUserRelicByIdAsync(string userId, string Id)

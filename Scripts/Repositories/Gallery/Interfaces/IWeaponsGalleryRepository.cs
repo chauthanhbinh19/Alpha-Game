@@ -13,6 +13,6 @@ public interface IWeaponsGalleryRepository
     Task<InsertOrUpdateResult<List<(string WeaponId, double CurrentStar)>>> UpdateBatchCurrentStarWeaponsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Weapons>>> InsertBatchWeaponsGalleryAsync(string userId, List<Weapons> weapons);
     Task<Weapons> GetWeaponCollectionByIdAsync(string userId, string objectId);
-    Task UpdateWeaponGalleryPowerAsync(string userId, string id, Weapons WeaponFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateWeaponGalleryPowerAsync(string userId, string id, Weapons WeaponFromDB);
     Task<Weapons> SumPowerWeaponsGalleryAsync(string userId);
 }

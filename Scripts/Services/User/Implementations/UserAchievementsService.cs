@@ -50,6 +50,17 @@ public class UserAchievementsService : IUserAchievementsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAchievementAsync(string userId, Achievements achievement)
     {
+        var checkResult = await _achievementsService.IsAchievementDeletedOrInactiveAsync(achievement.Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+        
         var oldAchievementTask = _achievementsService.SumPowerAchievementsPercentAsync(userId);
         var oldUserAchievementTask = _userAchievementsRepository.SumPowerUserAchievementsAsync(userId);
 
@@ -161,15 +172,31 @@ public class UserAchievementsService : IUserAchievementsService
         };
     }
 
-    public async Task<bool> UpdateUserAchievementLevelAsync(string userId, Achievements achievement)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserAchievementLevelAsync(string userId, Achievements achievement)
     {
+        var checkResult = await _achievementsService.IsAchievementDeletedOrInactiveAsync(achievement.Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Achievements oldUserAchievement = await _userAchievementsRepository.SumPowerUserAchievementsAsync(userId);
 
         var updateResult = await _userAchievementsRepository.UpdateUserAchievementLevelAsync(userId, achievement);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Achievements newUserAchievement = await _userAchievementsRepository.SumPowerUserAchievementsAsync(userId);
@@ -182,18 +209,34 @@ public class UserAchievementsService : IUserAchievementsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserAchievementStarAsync(string userId, Achievements achievement)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserAchievementStarAsync(string userId, Achievements achievement)
     {
+        var checkResult = await _achievementsService.IsAchievementDeletedOrInactiveAsync(achievement.Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Achievements oldUserAchievement = await _userAchievementsRepository.SumPowerUserAchievementsAsync(userId);
 
         var updateResult = await _userAchievementsRepository.UpdateUserAchievementStarAsync(userId, achievement);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _achievementsGalleryService.UpdateTempStarAchievementGalleryAsync(userId, achievement.Id, achievement.Star);
@@ -208,7 +251,7 @@ public class UserAchievementsService : IUserAchievementsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Achievements> GetUserAchievementByIdAsync(string userId, string Id)

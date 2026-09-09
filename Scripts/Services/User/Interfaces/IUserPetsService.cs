@@ -12,9 +12,9 @@ public interface IUserPetsService
     Task<int> GetUserPetsCountAsync(string userId, string search, string type, string rare);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPetAsync(string userId, Pets pet);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPetsBatchAsync(string userId, List<Pets> pets);
-    Task<bool> UpdateUserPetLevelAsync(string userId, Pets pet);
-    Task<bool> UpdateUserPetStarAsync(string userId, Pets pet);
-    Task<bool> UpdateTeamUserPetAsync(string userId, string teamId, string cardId);
+    Task<InsertOrUpdateResult<bool>> UpdateUserPetLevelAsync(string userId, Pets pet);
+    Task<InsertOrUpdateResult<bool>> UpdateUserPetStarAsync(string userId, Pets pet);
+    Task<InsertOrUpdateResult<bool>> UpdateTeamUserPetAsync(string userId, string teamId, string cardId);
     Task<Pets> GetUserPetByIdAsync(string userId, string Id);
     Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null);
 }

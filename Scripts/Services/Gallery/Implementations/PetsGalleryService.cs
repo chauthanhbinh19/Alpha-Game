@@ -32,25 +32,57 @@ public class PetsGalleryService : IPetsGalleryService
         return await _petsGalleryRepository.GetPetsCountAsync(search, type, rare);
     }
 
-    public async Task<bool> InsertPetGalleryAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> InsertPetGalleryAsync(string userId, string Id)
     {
+        var checkResult = await _petsService.IsPetDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var insertResult = await _petsGalleryRepository.InsertPetGalleryAsync(userId, Id, await _petsService.GetPetByIdAsync(Id));
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateStatusPetGalleryAsync(string userId, string petId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateStatusPetGalleryAsync(string userId, string petId)
     {
+        var checkResult = await _petsService.IsPetDeletedOrInactiveAsync(petId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _petsGalleryRepository.UpdateStatusPetGalleryAsync(userId, petId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
@@ -59,10 +91,10 @@ public class PetsGalleryService : IPetsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchStatusPetsGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusPetsGalleryAsync(string userId)
     {
         Pets oldPet = await SumPowerPetsGalleryAsync(userId);
 
@@ -72,7 +104,12 @@ public class PetsGalleryService : IPetsGalleryService
         updateResult.OperationType != DatabaseOperationType.Updated ||
         !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Pets newPet = await SumPowerPetsGalleryAsync(userId);
@@ -80,7 +117,12 @@ public class PetsGalleryService : IPetsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -88,7 +130,7 @@ public class PetsGalleryService : IPetsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Pets> SumPowerPetsGalleryAsync(string userId)
@@ -96,27 +138,59 @@ public class PetsGalleryService : IPetsGalleryService
         return await _petsGalleryRepository.SumPowerPetsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateTempStarPetGalleryAsync(string userId, string Id, double star)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTempStarPetGalleryAsync(string userId, string Id, double star)
     {
+        var checkResult = await _petsService.IsPetDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _petsGalleryRepository.UpdateTempStarPetGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateCurrentStarPetGalleryAsync(string userId, string petId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateCurrentStarPetGalleryAsync(string userId, string petId)
     {
+        var checkResult = await _petsService.IsPetDeletedOrInactiveAsync(petId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Pets oldPet = await GetPetCollectionByIdAsync(userId, petId) ?? new Pets();
 
         var updateResult = await _petsGalleryRepository.UpdateCurrentStarPetGalleryAsync(userId, petId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Pets newPet = await GetPetCollectionByIdAsync(userId, petId) ?? new Pets();
@@ -124,7 +198,12 @@ public class PetsGalleryService : IPetsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -132,10 +211,10 @@ public class PetsGalleryService : IPetsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchCurrentStarPetsGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarPetsGalleryAsync(string userId)
     {
         Pets oldPet = await SumPowerPetsGalleryAsync(userId);
 
@@ -146,7 +225,12 @@ public class PetsGalleryService : IPetsGalleryService
             updateResult.Data == null ||
             !updateResult.Data.Any())
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Pets newPet = await SumPowerPetsGalleryAsync(userId);
@@ -154,7 +238,12 @@ public class PetsGalleryService : IPetsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -162,19 +251,24 @@ public class PetsGalleryService : IPetsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> InsertBatchPetsGalleryAsync(string userId, List<Pets> pets)
+    public async Task<InsertOrUpdateResult<bool>> InsertBatchPetsGalleryAsync(string userId, List<Pets> pets)
     {
         var insertResult = await _petsGalleryRepository.InsertBatchPetsGalleryAsync(userId, pets);
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Pets> GetPetCollectionByIdAsync(string userId, string petId)
@@ -184,10 +278,22 @@ public class PetsGalleryService : IPetsGalleryService
         return result;
     }
 
-    public async Task UpdatePetGalleryPowerAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> UpdatePetGalleryPowerAsync(string userId, string Id)
     {
+        var checkResult = await _petsService.IsPetDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         IPetsRepository _repository = new PetsRepository();
         PetsService _service = new PetsService(_repository);
         await _petsGalleryRepository.UpdatePetGalleryPowerAsync(userId, Id, await _service.GetPetByIdAsync(Id));
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 }

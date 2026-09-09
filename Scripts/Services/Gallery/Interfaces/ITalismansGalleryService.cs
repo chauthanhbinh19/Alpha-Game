@@ -5,14 +5,14 @@ public interface ITalismansGalleryService
 {
     Task<List<Talismans>> GetTalismansCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare);
     Task<int> GetTalismansCountAsync(string search, string type, string rare);
-    Task<bool> InsertTalismanGalleryAsync(string userId, string Id);
-    Task<bool> UpdateStatusTalismanGalleryAsync(string userId, string Id);
-    Task<bool> UpdateBatchStatusTalismansGalleryAsync(string userId);
-    Task<bool> UpdateTempStarTalismanGalleryAsync(string userId, string Id, double star);
-    Task<bool> UpdateCurrentStarTalismanGalleryAsync(string userId, string talismanId);
-    Task<bool> UpdateBatchCurrentStarTalismansGalleryAsync(string userId);
-    Task<bool> InsertBatchTalismansGalleryAsync(string userId, List<Talismans> talismans);
+    Task<InsertOrUpdateResult<bool>> InsertTalismanGalleryAsync(string userId, string Id);
+    Task<InsertOrUpdateResult<bool>> UpdateStatusTalismanGalleryAsync(string userId, string Id);
+    Task<InsertOrUpdateResult<bool>> UpdateBatchStatusTalismansGalleryAsync(string userId);
+    Task<InsertOrUpdateResult<bool>> UpdateTempStarTalismanGalleryAsync(string userId, string Id, double star);
+    Task<InsertOrUpdateResult<bool>> UpdateCurrentStarTalismanGalleryAsync(string userId, string talismanId);
+    Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarTalismansGalleryAsync(string userId);
+    Task<InsertOrUpdateResult<bool>> InsertBatchTalismansGalleryAsync(string userId, List<Talismans> talismans);
     Task<Talismans> GetTalismanCollectionByIdAsync(string userId, string objectId);
-    Task UpdateTalismanGalleryPowerAsync(string userId, string Id);
+    Task<InsertOrUpdateResult<bool>> UpdateTalismanGalleryPowerAsync(string userId, string Id);
     Task<Talismans> SumPowerTalismansGalleryAsync(string userId);
 }

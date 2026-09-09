@@ -32,25 +32,57 @@ public class CollaborationEquipmentsGalleryService : ICollaborationEquipmentsGal
         return await _collaborationEquipmentsGalleryRepository.GetCollaborationEquipmentsCountAsync(search, type, rare);
     }
 
-    public async Task<bool> InsertCollaborationEquipmentGalleryAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> InsertCollaborationEquipmentGalleryAsync(string userId, string Id)
     {
+        var checkResult = await _collaborationEquipmentsService.IsCollaborationEquipmentDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var insertResult = await _collaborationEquipmentsGalleryRepository.InsertCollaborationEquipmentGalleryAsync(userId, Id, await _collaborationEquipmentsService.GetCollaborationEquipmentByIdAsync(Id));
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateStatusCollaborationEquipmentGalleryAsync(string userId, string collaborationEquipmentId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateStatusCollaborationEquipmentGalleryAsync(string userId, string collaborationEquipmentId)
     {
+        var checkResult = await _collaborationEquipmentsService.IsCollaborationEquipmentDeletedOrInactiveAsync(collaborationEquipmentId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _collaborationEquipmentsGalleryRepository.UpdateStatusCollaborationEquipmentGalleryAsync(userId, collaborationEquipmentId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
@@ -59,10 +91,10 @@ public class CollaborationEquipmentsGalleryService : ICollaborationEquipmentsGal
 
         await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchStatusCollaborationEquipmentsGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusCollaborationEquipmentsGalleryAsync(string userId)
     {
         CollaborationEquipments oldCollaborationEquipment = await SumPowerCollaborationEquipmentsGalleryAsync(userId);
 
@@ -72,7 +104,12 @@ public class CollaborationEquipmentsGalleryService : ICollaborationEquipmentsGal
         updateResult.OperationType != DatabaseOperationType.Updated ||
         !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         CollaborationEquipments newCollaborationEquipment = await SumPowerCollaborationEquipmentsGalleryAsync(userId);
@@ -80,7 +117,12 @@ public class CollaborationEquipmentsGalleryService : ICollaborationEquipmentsGal
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -88,7 +130,7 @@ public class CollaborationEquipmentsGalleryService : ICollaborationEquipmentsGal
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<CollaborationEquipments> SumPowerCollaborationEquipmentsGalleryAsync(string userId)
@@ -96,27 +138,59 @@ public class CollaborationEquipmentsGalleryService : ICollaborationEquipmentsGal
         return await _collaborationEquipmentsGalleryRepository.SumPowerCollaborationEquipmentsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateTempStarCollaborationEquipmentGalleryAsync(string userId, string Id, double star)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTempStarCollaborationEquipmentGalleryAsync(string userId, string Id, double star)
     {
+        var checkResult = await _collaborationEquipmentsService.IsCollaborationEquipmentDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _collaborationEquipmentsGalleryRepository.UpdateTempStarCollaborationEquipmentGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateCurrentStarCollaborationEquipmentGalleryAsync(string userId, string collaborationEquipmentId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateCurrentStarCollaborationEquipmentGalleryAsync(string userId, string collaborationEquipmentId)
     {
+        var checkResult = await _collaborationEquipmentsService.IsCollaborationEquipmentDeletedOrInactiveAsync(collaborationEquipmentId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         CollaborationEquipments oldCollaborationEquipment = await GetCollaborationEquipmentCollectionByIdAsync(userId, collaborationEquipmentId) ?? new CollaborationEquipments();
 
         var updateResult = await _collaborationEquipmentsGalleryRepository.UpdateCurrentStarCollaborationEquipmentGalleryAsync(userId, collaborationEquipmentId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         CollaborationEquipments newCollaborationEquipment = await GetCollaborationEquipmentCollectionByIdAsync(userId, collaborationEquipmentId) ?? new CollaborationEquipments();
@@ -124,7 +198,12 @@ public class CollaborationEquipmentsGalleryService : ICollaborationEquipmentsGal
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -132,10 +211,10 @@ public class CollaborationEquipmentsGalleryService : ICollaborationEquipmentsGal
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchCurrentStarCollaborationEquipmentsGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarCollaborationEquipmentsGalleryAsync(string userId)
     {
         CollaborationEquipments oldCollaborationEquipment = await SumPowerCollaborationEquipmentsGalleryAsync(userId);
 
@@ -146,7 +225,12 @@ public class CollaborationEquipmentsGalleryService : ICollaborationEquipmentsGal
             updateResult.Data == null ||
             !updateResult.Data.Any())
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         CollaborationEquipments newCollaborationEquipment = await SumPowerCollaborationEquipmentsGalleryAsync(userId);
@@ -154,7 +238,12 @@ public class CollaborationEquipmentsGalleryService : ICollaborationEquipmentsGal
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -162,19 +251,24 @@ public class CollaborationEquipmentsGalleryService : ICollaborationEquipmentsGal
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> InsertBatchCollaborationEquipmentsGalleryAsync(string userId, List<CollaborationEquipments> collaborationEquipments)
+    public async Task<InsertOrUpdateResult<bool>> InsertBatchCollaborationEquipmentsGalleryAsync(string userId, List<CollaborationEquipments> collaborationEquipments)
     {
         var insertResult = await _collaborationEquipmentsGalleryRepository.InsertBatchCollaborationEquipmentsGalleryAsync(userId, collaborationEquipments);
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<CollaborationEquipments> GetCollaborationEquipmentCollectionByIdAsync(string userId, string collaborationEquipmentId)
@@ -184,10 +278,22 @@ public class CollaborationEquipmentsGalleryService : ICollaborationEquipmentsGal
         return result;
     }
 
-    public async Task UpdateCollaborationEquipmentGalleryPowerAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> UpdateCollaborationEquipmentGalleryPowerAsync(string userId, string Id)
     {
+        var checkResult = await _collaborationEquipmentsService.IsCollaborationEquipmentDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         ICollaborationEquipmentsRepository _repository = new CollaborationEquipmentsRepository();
         CollaborationEquipmentsService _service = new CollaborationEquipmentsService(_repository);
         await _collaborationEquipmentsGalleryRepository.UpdateCollaborationEquipmentGalleryPowerAsync(userId, Id, await _service.GetCollaborationEquipmentByIdAsync(Id));
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 }

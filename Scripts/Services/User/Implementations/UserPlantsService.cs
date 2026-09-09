@@ -47,6 +47,17 @@ public class UserPlantsService : IUserPlantsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPlantAsync(string userId, Plants plant)
     {
+        var checkPlantResult = await _plantsService.IsPlantDeletedOrInactiveAsync(plant.Id);
+        if (checkPlantResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldPlantTask = _plantsService.SumPowerPlantsPercentAsync(userId);
         var oldUserPlantTask = _userPlantsRepository.SumPowerUserPlantsAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserPlantsService : IUserPlantsService
         };
     }
 
-    public async Task<bool> UpdateUserPlantLevelAsync(string userId, Plants plant)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserPlantLevelAsync(string userId, Plants plant)
     {
+        var checkPlantResult = await _plantsService.IsPlantDeletedOrInactiveAsync(plant.Id);
+        if (checkPlantResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Plants oldUserPlant = await _userPlantsRepository.SumPowerUserPlantsAsync(userId);
 
         var updateResult = await _userPlantsRepository.UpdateUserPlantLevelAsync(userId, plant);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Plants newUserPlant = await _userPlantsRepository.SumPowerUserPlantsAsync(userId);
@@ -179,18 +206,34 @@ public class UserPlantsService : IUserPlantsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserPlantStarAsync(string userId, Plants plant)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserPlantStarAsync(string userId, Plants plant)
     {
+        var checkPlantResult = await _plantsService.IsPlantDeletedOrInactiveAsync(plant.Id);
+        if (checkPlantResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Plants oldUserPlant = await _userPlantsRepository.SumPowerUserPlantsAsync(userId);
 
         var updateResult = await _userPlantsRepository.UpdateUserPlantStarAsync(userId, plant);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _plantsGalleryService.UpdateTempStarPlantGalleryAsync(userId, plant.Id, plant.Star);
@@ -205,7 +248,7 @@ public class UserPlantsService : IUserPlantsService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Plants> GetUserPlantByIdAsync(string userId, string Id)

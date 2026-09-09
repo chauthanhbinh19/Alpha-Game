@@ -14,6 +14,6 @@ public interface IBuildingsGalleryRepository
     Task<InsertOrUpdateResult<List<(string BuildingId, double CurrentStar)>>> UpdateBatchCurrentStarBuildingsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Buildings>>> InsertBatchBuildingsGalleryAsync(string userId, List<Buildings> buildings);
     Task<Buildings> GetBuildingCollectionByIdAsync(string userId, string objectId);
-    Task UpdateBuildingGalleryPowerAsync(string userId, string Id, Buildings BuildingFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateBuildingGalleryPowerAsync(string userId, string Id, Buildings BuildingFromDB);
     Task<Buildings> SumPowerBuildingsGalleryAsync(string userId);
 }

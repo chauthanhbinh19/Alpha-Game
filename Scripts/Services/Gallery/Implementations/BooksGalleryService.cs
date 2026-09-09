@@ -32,25 +32,57 @@ public class BooksGalleryService : IBooksGalleryService
         return await _booksGalleryRepository.GetBooksCountAsync(search, type, rare);
     }
 
-    public async Task<bool> InsertBookGalleryAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> InsertBookGalleryAsync(string userId, string Id)
     {
+        var checkResult = await _booksService.IsBookDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var insertResult = await _booksGalleryRepository.InsertBookGalleryAsync(userId, Id, await _booksService.GetBookByIdAsync(Id));
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateStatusBookGalleryAsync(string userId, string bookId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateStatusBookGalleryAsync(string userId, string bookId)
     {
+        var checkResult = await _booksService.IsBookDeletedOrInactiveAsync(bookId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _booksGalleryRepository.UpdateStatusBookGalleryAsync(userId, bookId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
@@ -59,10 +91,10 @@ public class BooksGalleryService : IBooksGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchStatusBooksGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusBooksGalleryAsync(string userId)
     {
         Books oldBook = await SumPowerBooksGalleryAsync(userId);
 
@@ -72,7 +104,12 @@ public class BooksGalleryService : IBooksGalleryService
         updateResult.OperationType != DatabaseOperationType.Updated ||
         !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Books newBook = await SumPowerBooksGalleryAsync(userId);
@@ -80,7 +117,12 @@ public class BooksGalleryService : IBooksGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -88,7 +130,7 @@ public class BooksGalleryService : IBooksGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Books> SumPowerBooksGalleryAsync(string userId)
@@ -96,27 +138,59 @@ public class BooksGalleryService : IBooksGalleryService
         return await _booksGalleryRepository.SumPowerBooksGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateTempStarBookGalleryAsync(string userId, string Id, double star)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTempStarBookGalleryAsync(string userId, string Id, double star)
     {
+        var checkResult = await _booksService.IsBookDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _booksGalleryRepository.UpdateTempStarBookGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateCurrentStarBookGalleryAsync(string userId, string bookId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateCurrentStarBookGalleryAsync(string userId, string bookId)
     {
+        var checkResult = await _booksService.IsBookDeletedOrInactiveAsync(bookId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Books oldBook = await GetBookCollectionByIdAsync(userId, bookId) ?? new Books();
 
         var updateResult = await _booksGalleryRepository.UpdateCurrentStarBookGalleryAsync(userId, bookId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Books newBook = await GetBookCollectionByIdAsync(userId, bookId) ?? new Books();
@@ -124,7 +198,12 @@ public class BooksGalleryService : IBooksGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -132,10 +211,10 @@ public class BooksGalleryService : IBooksGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchCurrentStarBooksGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarBooksGalleryAsync(string userId)
     {
         Books oldBook = await SumPowerBooksGalleryAsync(userId);
 
@@ -146,7 +225,12 @@ public class BooksGalleryService : IBooksGalleryService
             updateResult.Data == null ||
             !updateResult.Data.Any())
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Books newBook = await SumPowerBooksGalleryAsync(userId);
@@ -154,7 +238,12 @@ public class BooksGalleryService : IBooksGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -162,19 +251,24 @@ public class BooksGalleryService : IBooksGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> InsertBatchBooksGalleryAsync(string userId, List<Books> books)
+    public async Task<InsertOrUpdateResult<bool>> InsertBatchBooksGalleryAsync(string userId, List<Books> books)
     {
         var insertResult = await _booksGalleryRepository.InsertBatchBooksGalleryAsync(userId, books);
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Books> GetBookCollectionByIdAsync(string userId, string bookId)
@@ -184,10 +278,22 @@ public class BooksGalleryService : IBooksGalleryService
         return result;
     }
 
-    public async Task UpdateBookGalleryPowerAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBookGalleryPowerAsync(string userId, string Id)
     {
+        var checkResult = await _booksService.IsBookDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         IBooksRepository _repository = new BooksRepository();
         BooksService _service = new BooksService(_repository);
         await _booksGalleryRepository.UpdateBookGalleryPowerAsync(userId, Id, await _service.GetBookByIdAsync(Id));
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 }

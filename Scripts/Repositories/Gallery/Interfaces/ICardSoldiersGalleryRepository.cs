@@ -14,6 +14,6 @@ public interface ICardSoldiersGalleryRepository
     Task<InsertOrUpdateResult<List<(string CardSoldierId, double CurrentStar)>>> UpdateBatchCurrentStarCardSoldiersGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<CardSoldiers>>> InsertBatchCardSoldiersGalleryAsync(string userId, List<CardSoldiers> cardSoldiers);
     Task<CardSoldiers> GetCardSoldierCollectionByIdAsync(string userId, string objectId);
-    Task UpdateCardSoldierGalleryPowerAsync(string userId, string Id, CardSoldiers CardSoldierFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateCardSoldierGalleryPowerAsync(string userId, string Id, CardSoldiers CardSoldierFromDB);
     Task<CardSoldiers> SumPowerCardSoldiersGalleryAsync(string userId);
 }

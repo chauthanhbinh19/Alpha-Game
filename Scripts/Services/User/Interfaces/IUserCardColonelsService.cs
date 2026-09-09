@@ -10,14 +10,14 @@ public interface IUserCardColonelsService
     Task<List<CardColonels>> GetUserCardColonelsTeamAsync(string userId, string teamId, string position, UserStatsContextDTO sharedContext = null);
     Task<List<CardColonels>> GetUserCardColonelsTeamWithoutPositionAsync(string userId, string teamId, UserStatsContextDTO sharedContext = null);
     Task<Dictionary<string, int>> GetUniqueUserCardColonelsTypesTeamAsync(string userId, string teamId);
-    Task<bool> UpdateTeamUserCardColonelAsync(string userId, string teamId, string position, string cardId);
+    Task<InsertOrUpdateResult<bool>> UpdateTeamUserCardColonelAsync(string userId, string teamId, string position, string cardId);
     Task<int> GetUserCardColonelsCountAsync(string userId, string search, string type, string rare);
     Task<int> GetUserCardColonelsTeamsPositionCountAsync(string userId, string teamId, string position);
     Task<int> GetUserCardColonelsTeamsCountAsync(string userId, string teamId);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardColonelAsync(string userId, CardColonels cardColonel);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardColonelsBatchAsync(string userId, List<CardColonels> cardColonels);
-    Task<bool> UpdateUserCardColonelLevelAsync(string userId, CardColonels cardColonel);
-    Task<bool> UpdateUserCardColonelStarAsync(string userId, CardColonels cardColonel);
+    Task<InsertOrUpdateResult<bool>> UpdateUserCardColonelLevelAsync(string userId, CardColonels cardColonel);
+    Task<InsertOrUpdateResult<bool>> UpdateUserCardColonelStarAsync(string userId, CardColonels cardColonel);
     Task<CardColonels> GetUserCardColonelByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null);
     Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null);
 }

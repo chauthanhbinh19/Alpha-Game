@@ -14,6 +14,6 @@ public interface IBeveragesGalleryRepository
     Task<InsertOrUpdateResult<List<(string BeverageId, double CurrentStar)>>> UpdateBatchCurrentStarBeveragesGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Beverages>>> InsertBatchBeveragesGalleryAsync(string userId, List<Beverages> beverages);
     Task<Beverages> GetBeverageCollectionByIdAsync(string userId, string beverageId);
-    Task UpdateBeverageGalleryPowerAsync(string userId, string id, Beverages BeverageFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateBeverageGalleryPowerAsync(string userId, string id, Beverages BeverageFromDB);
     Task<Beverages> SumPowerBeveragesGalleryAsync(string userId);
 }

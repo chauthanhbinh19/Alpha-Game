@@ -47,6 +47,17 @@ public class UserForgesService : IUserForgesService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserForgeAsync(string userId, Forges forge)
     {
+        var checkForgeResult = await _forgesService.IsForgeDeletedOrInactiveAsync(forge.Id);
+        if (checkForgeResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldForgeTask = _forgesService.SumPowerForgesPercentAsync(userId);
         var oldUserForgeTask = _userForgesRepository.SumPowerUserForgesAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserForgesService : IUserForgesService
         };
     }
 
-    public async Task<bool> UpdateUserForgeLevelAsync(string userId, Forges forge)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserForgeLevelAsync(string userId, Forges forge)
     {
+        var checkForgeResult = await _forgesService.IsForgeDeletedOrInactiveAsync(forge.Id);
+        if (checkForgeResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Forges oldUserForge = await _userForgesRepository.SumPowerUserForgesAsync(userId);
 
         var updateResult = await _userForgesRepository.UpdateUserForgeLevelAsync(userId, forge);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Forges newUserForge = await _userForgesRepository.SumPowerUserForgesAsync(userId);
@@ -179,18 +206,34 @@ public class UserForgesService : IUserForgesService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserForgeStarAsync(string userId, Forges forge)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserForgeStarAsync(string userId, Forges forge)
     {
+        var checkForgeResult = await _forgesService.IsForgeDeletedOrInactiveAsync(forge.Id);
+        if (checkForgeResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Forges oldUserForge = await _userForgesRepository.SumPowerUserForgesAsync(userId);
 
         var updateResult = await _userForgesRepository.UpdateUserForgeStarAsync(userId, forge);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _forgesGalleryService.UpdateTempStarForgeGalleryAsync(userId, forge.Id, forge.Star);
@@ -205,7 +248,7 @@ public class UserForgesService : IUserForgesService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Forges> GetUserForgeByIdAsync(string userId, string Id)

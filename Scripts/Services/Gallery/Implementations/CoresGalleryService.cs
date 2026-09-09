@@ -32,25 +32,57 @@ public class CoresGalleryService : ICoresGalleryService
         return await _coresGalleryRepository.GetCoresCountAsync(search, rare);
     }
 
-    public async Task<bool> InsertCoreGalleryAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> InsertCoreGalleryAsync(string userId, string Id)
     {
+        var checkResult = await _coresService.IsCoreDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var insertResult = await _coresGalleryRepository.InsertCoreGalleryAsync(userId, Id, await _coresService.GetCoreByIdAsync(Id));
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateStatusCoreGalleryAsync(string userId, string coreId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateStatusCoreGalleryAsync(string userId, string coreId)
     {
+        var checkResult = await _coresService.IsCoreDeletedOrInactiveAsync(coreId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _coresGalleryRepository.UpdateStatusCoreGalleryAsync(userId, coreId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
@@ -59,10 +91,10 @@ public class CoresGalleryService : ICoresGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchStatusCoresGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusCoresGalleryAsync(string userId)
     {
         Cores oldCore = await SumPowerCoresGalleryAsync(userId);
 
@@ -72,7 +104,12 @@ public class CoresGalleryService : ICoresGalleryService
         updateResult.OperationType != DatabaseOperationType.Updated ||
         !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Cores newCore = await SumPowerCoresGalleryAsync(userId);
@@ -80,7 +117,12 @@ public class CoresGalleryService : ICoresGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -88,7 +130,7 @@ public class CoresGalleryService : ICoresGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Cores> SumPowerCoresGalleryAsync(string userId)
@@ -96,27 +138,59 @@ public class CoresGalleryService : ICoresGalleryService
         return await _coresGalleryRepository.SumPowerCoresGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateTempStarCoreGalleryAsync(string userId, string Id, double star)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTempStarCoreGalleryAsync(string userId, string Id, double star)
     {
+        var checkResult = await _coresService.IsCoreDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _coresGalleryRepository.UpdateTempStarCoreGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateCurrentStarCoreGalleryAsync(string userId, string coreId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateCurrentStarCoreGalleryAsync(string userId, string coreId)
     {
+        var checkResult = await _coresService.IsCoreDeletedOrInactiveAsync(coreId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Cores oldCore = await GetCoreCollectionByIdAsync(userId, coreId) ?? new Cores();
 
         var updateResult = await _coresGalleryRepository.UpdateCurrentStarCoreGalleryAsync(userId, coreId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Cores newCore = await GetCoreCollectionByIdAsync(userId, coreId) ?? new Cores();
@@ -124,7 +198,12 @@ public class CoresGalleryService : ICoresGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -132,10 +211,10 @@ public class CoresGalleryService : ICoresGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchCurrentStarCoresGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarCoresGalleryAsync(string userId)
     {
         Cores oldCore = await SumPowerCoresGalleryAsync(userId);
 
@@ -146,7 +225,12 @@ public class CoresGalleryService : ICoresGalleryService
             updateResult.Data == null ||
             !updateResult.Data.Any())
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Cores newCore = await SumPowerCoresGalleryAsync(userId);
@@ -154,7 +238,12 @@ public class CoresGalleryService : ICoresGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -162,19 +251,24 @@ public class CoresGalleryService : ICoresGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> InsertBatchCoresGalleryAsync(string userId, List<Cores> cores)
+    public async Task<InsertOrUpdateResult<bool>> InsertBatchCoresGalleryAsync(string userId, List<Cores> cores)
     {
         var insertResult = await _coresGalleryRepository.InsertBatchCoresGalleryAsync(userId, cores);
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Cores> GetCoreCollectionByIdAsync(string userId, string coreId)
@@ -184,10 +278,22 @@ public class CoresGalleryService : ICoresGalleryService
         return result;
     }
 
-    public async Task UpdateCoreGalleryPowerAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> UpdateCoreGalleryPowerAsync(string userId, string Id)
     {
+        var checkResult = await _coresService.IsCoreDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         ICoresRepository _repository = new CoresRepository();
         CoresService _service = new CoresService(_repository);
         await _coresGalleryRepository.UpdateCoreGalleryPowerAsync(userId, Id, await _service.GetCoreByIdAsync(Id));
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 }

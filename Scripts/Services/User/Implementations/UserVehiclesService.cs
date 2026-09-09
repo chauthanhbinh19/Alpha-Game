@@ -47,6 +47,17 @@ public class UserVehiclesService : IUserVehiclesService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserVehicleAsync(string userId, Vehicles vehicle)
     {
+        var checkVehicleResult = await _vehiclesService.IsVehicleDeletedOrInactiveAsync(vehicle.Id);
+        if (checkVehicleResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldVehicleTask = _vehiclesService.SumPowerVehiclesPercentAsync(userId);
         var oldUserVehicleTask = _userVehiclesRepository.SumPowerUserVehiclesAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserVehiclesService : IUserVehiclesService
         };
     }
 
-    public async Task<bool> UpdateUserVehicleLevelAsync(string userId, Vehicles vehicle)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserVehicleLevelAsync(string userId, Vehicles vehicle)
     {
+        var checkVehicleResult = await _vehiclesService.IsVehicleDeletedOrInactiveAsync(vehicle.Id);
+        if (checkVehicleResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Vehicles oldUserVehicle = await _userVehiclesRepository.SumPowerUserVehiclesAsync(userId);
 
         var updateResult = await _userVehiclesRepository.UpdateUserVehicleLevelAsync(userId, vehicle);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Vehicles newUserVehicle = await _userVehiclesRepository.SumPowerUserVehiclesAsync(userId);
@@ -179,18 +206,34 @@ public class UserVehiclesService : IUserVehiclesService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserVehicleStarAsync(string userId, Vehicles vehicle)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserVehicleStarAsync(string userId, Vehicles vehicle)
     {
+        var checkVehicleResult = await _vehiclesService.IsVehicleDeletedOrInactiveAsync(vehicle.Id);
+        if (checkVehicleResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Vehicles oldUserVehicle = await _userVehiclesRepository.SumPowerUserVehiclesAsync(userId);
 
         var updateResult = await _userVehiclesRepository.UpdateUserVehicleStarAsync(userId, vehicle);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _vehiclesGalleryService.UpdateTempStarVehicleGalleryAsync(userId, vehicle.Id, vehicle.Star);
@@ -205,7 +248,7 @@ public class UserVehiclesService : IUserVehiclesService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Vehicles> GetUserVehicleByIdAsync(string userId, string Id)

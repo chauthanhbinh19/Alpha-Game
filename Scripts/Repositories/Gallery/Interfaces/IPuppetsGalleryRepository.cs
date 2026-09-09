@@ -14,6 +14,6 @@ public interface IPuppetsGalleryRepository
     Task<InsertOrUpdateResult<List<(string PuppetId, double CurrentStar)>>> UpdateBatchCurrentStarPuppetsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Puppets>>> InsertBatchPuppetsGalleryAsync(string userId, List<Puppets> puppets);
     Task<Puppets> GetPuppetCollectionByIdAsync(string userId, string objectId);
-    Task UpdatePuppetGalleryPowerAsync(string userId, string Id, Puppets PuppetFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdatePuppetGalleryPowerAsync(string userId, string Id, Puppets PuppetFromDB);
     Task<Puppets> SumPowerPuppetsGalleryAsync(string userId);
 }

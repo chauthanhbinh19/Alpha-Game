@@ -48,6 +48,17 @@ public class UserArtworksService : IUserArtworksService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArtworkAsync(string userId, Artworks artwork)
     {
+        var checkArtworkResult = await _artworksService.IsArtworkDeletedOrInactiveAsync(artwork.Id);
+        if (checkArtworkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldArtworkTask = _artworksService.SumPowerArtworksPercentAsync(userId);
         var oldUserArtworkTask = _userArtworksRepository.SumPowerUserArtworksAsync(userId);
 
@@ -159,15 +170,31 @@ public class UserArtworksService : IUserArtworksService
         };
     }
 
-    public async Task<bool> UpdateUserArtworkLevelAsync(string userId, Artworks artwork)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserArtworkLevelAsync(string userId, Artworks artwork)
     {
+        var checkArtworkResult = await _artworksService.IsArtworkDeletedOrInactiveAsync(artwork.Id);
+        if (checkArtworkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Artworks oldUserArtwork = await _userArtworksRepository.SumPowerUserArtworksAsync(userId);
 
         var updateResult = await _userArtworksRepository.UpdateUserArtworkLevelAsync(userId, artwork);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Artworks newUserArtwork = await _userArtworksRepository.SumPowerUserArtworksAsync(userId);
@@ -180,18 +207,34 @@ public class UserArtworksService : IUserArtworksService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserArtworkStarAsync(string userId, Artworks artwork)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserArtworkStarAsync(string userId, Artworks artwork)
     {
+        var checkArtworkResult = await _artworksService.IsArtworkDeletedOrInactiveAsync(artwork.Id);
+        if (checkArtworkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+        
         Artworks oldUserArtwork = await _userArtworksRepository.SumPowerUserArtworksAsync(userId);
 
         var updateResult = await _userArtworksRepository.UpdateUserArtworkStarAsync(userId, artwork);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _artworksGalleryService.UpdateTempStarArtworkGalleryAsync(userId, artwork.Id, artwork.Star);
@@ -206,7 +249,7 @@ public class UserArtworksService : IUserArtworksService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Artworks> GetUserArtworkByIdAsync(string userId, string Id)

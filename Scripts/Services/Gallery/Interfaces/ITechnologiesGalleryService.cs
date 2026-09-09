@@ -5,14 +5,14 @@ public interface ITechnologiesGalleryService
 {
     Task<List<Technologies>> GetTechnologiesCollectionAsync(string userId, string search, int pageSize, int offset, string rare);
     Task<int> GetTechnologiesCountAsync(string search, string rare);
-    Task<bool> InsertTechnologyGalleryAsync(string userId, string Id);
-    Task<bool> UpdateStatusTechnologyGalleryAsync(string userId, string Id);
-    Task<bool> UpdateBatchStatusTechnologiesGalleryAsync(string userId);
-    Task<bool> UpdateTempStarTechnologyGalleryAsync(string userId, string id, double star);
-    Task<bool> UpdateCurrentStarTechnologyGalleryAsync(string userId, string technologyId);
-    Task<bool> UpdateBatchCurrentStarTechnologiesGalleryAsync(string userId);
-    Task<bool> InsertBatchTechnologiesGalleryAsync(string userId, List<Technologies> technologies);
+    Task<InsertOrUpdateResult<bool>> InsertTechnologyGalleryAsync(string userId, string Id);
+    Task<InsertOrUpdateResult<bool>> UpdateStatusTechnologyGalleryAsync(string userId, string Id);
+    Task<InsertOrUpdateResult<bool>> UpdateBatchStatusTechnologiesGalleryAsync(string userId);
+    Task<InsertOrUpdateResult<bool>> UpdateTempStarTechnologyGalleryAsync(string userId, string id, double star);
+    Task<InsertOrUpdateResult<bool>> UpdateCurrentStarTechnologyGalleryAsync(string userId, string technologyId);
+    Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarTechnologiesGalleryAsync(string userId);
+    Task<InsertOrUpdateResult<bool>> InsertBatchTechnologiesGalleryAsync(string userId, List<Technologies> technologies);
     Task<Technologies> GetTechnologyCollectionByIdAsync(string userId, string objectId);
-    Task UpdateTechnologyGalleryPowerAsync(string userId, string id);
+    Task<InsertOrUpdateResult<bool>> UpdateTechnologyGalleryPowerAsync(string userId, string id);
     Task<Technologies> SumPowerTechnologiesGalleryAsync(string userId);
 }

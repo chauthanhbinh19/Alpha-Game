@@ -32,25 +32,57 @@ public class SymbolsGalleryService : ISymbolsGalleryService
         return await _symbolsGalleryRepository.GetSymbolsCountAsync(search, type, rare);
     }
 
-    public async Task<bool> InsertSymbolGalleryAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> InsertSymbolGalleryAsync(string userId, string Id)
     {
+        var checkResult = await _symbolsService.IsSymbolDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var insertResult = await _symbolsGalleryRepository.InsertSymbolGalleryAsync(userId, Id, await _symbolsService.GetSymbolByIdAsync(Id));
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateStatusSymbolGalleryAsync(string userId, string symbolId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateStatusSymbolGalleryAsync(string userId, string symbolId)
     {
+        var checkResult = await _symbolsService.IsSymbolDeletedOrInactiveAsync(symbolId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _symbolsGalleryRepository.UpdateStatusSymbolGalleryAsync(userId, symbolId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
@@ -59,10 +91,10 @@ public class SymbolsGalleryService : ISymbolsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchStatusSymbolsGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusSymbolsGalleryAsync(string userId)
     {
         Symbols oldSymbol = await SumPowerSymbolsGalleryAsync(userId);
 
@@ -72,7 +104,12 @@ public class SymbolsGalleryService : ISymbolsGalleryService
         updateResult.OperationType != DatabaseOperationType.Updated ||
         !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Symbols newSymbol = await SumPowerSymbolsGalleryAsync(userId);
@@ -80,7 +117,12 @@ public class SymbolsGalleryService : ISymbolsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -88,7 +130,7 @@ public class SymbolsGalleryService : ISymbolsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Symbols> SumPowerSymbolsGalleryAsync(string userId)
@@ -96,27 +138,59 @@ public class SymbolsGalleryService : ISymbolsGalleryService
         return await _symbolsGalleryRepository.SumPowerSymbolsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateTempStarSymbolGalleryAsync(string userId, string Id, double star)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTempStarSymbolGalleryAsync(string userId, string Id, double star)
     {
+        var checkResult = await _symbolsService.IsSymbolDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _symbolsGalleryRepository.UpdateTempStarSymbolGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateCurrentStarSymbolGalleryAsync(string userId, string symbolId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateCurrentStarSymbolGalleryAsync(string userId, string symbolId)
     {
+        var checkResult = await _symbolsService.IsSymbolDeletedOrInactiveAsync(symbolId);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Symbols oldSymbol = await GetSymbolCollectionByIdAsync(userId, symbolId) ?? new Symbols();
 
         var updateResult = await _symbolsGalleryRepository.UpdateCurrentStarSymbolGalleryAsync(userId, symbolId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Symbols newSymbol = await GetSymbolCollectionByIdAsync(userId, symbolId) ?? new Symbols();
@@ -124,7 +198,12 @@ public class SymbolsGalleryService : ISymbolsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -132,10 +211,10 @@ public class SymbolsGalleryService : ISymbolsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateBatchCurrentStarSymbolsGalleryAsync(string userId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarSymbolsGalleryAsync(string userId)
     {
         Symbols oldSymbol = await SumPowerSymbolsGalleryAsync(userId);
 
@@ -146,7 +225,12 @@ public class SymbolsGalleryService : ISymbolsGalleryService
             updateResult.Data == null ||
             !updateResult.Data.Any())
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Symbols newSymbol = await SumPowerSymbolsGalleryAsync(userId);
@@ -154,7 +238,12 @@ public class SymbolsGalleryService : ISymbolsGalleryService
 
         if (deltaPower.Power == 0)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
+            };
         }
 
         PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
@@ -162,19 +251,24 @@ public class SymbolsGalleryService : ISymbolsGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> InsertBatchSymbolsGalleryAsync(string userId, List<Symbols> symbols)
+    public async Task<InsertOrUpdateResult<bool>> InsertBatchSymbolsGalleryAsync(string userId, List<Symbols> symbols)
     {
         var insertResult = await _symbolsGalleryRepository.InsertBatchSymbolsGalleryAsync(userId, symbols);
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Symbols> GetSymbolCollectionByIdAsync(string userId, string symbolId)
@@ -184,10 +278,22 @@ public class SymbolsGalleryService : ISymbolsGalleryService
         return result;
     }
 
-    public async Task UpdateSymbolGalleryPowerAsync(string userId, string Id)
+    public async Task<InsertOrUpdateResult<bool>> UpdateSymbolGalleryPowerAsync(string userId, string Id)
     {
+        var checkResult = await _symbolsService.IsSymbolDeletedOrInactiveAsync(Id);
+        if(checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         ISymbolsRepository _repository = new SymbolsRepository();
         SymbolsService _service = new SymbolsService(_repository);
         await _symbolsGalleryRepository.UpdateSymbolGalleryPowerAsync(userId, Id, await _service.GetSymbolByIdAsync(Id));
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 }

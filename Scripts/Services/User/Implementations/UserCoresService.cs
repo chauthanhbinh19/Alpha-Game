@@ -47,6 +47,17 @@ public class UserCoresService : IUserCoresService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCoreAsync(string userId, Cores core)
     {
+        var checkCoreResult = await _coresService.IsCoreDeletedOrInactiveAsync(core.Id);
+        if (checkCoreResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var oldCoreTask = _coresService.SumPowerCoresPercentAsync(userId);
         var oldUserCoreTask = _userCoresRepository.SumPowerUserCoresAsync(userId);
 
@@ -158,15 +169,31 @@ public class UserCoresService : IUserCoresService
         };
     }
 
-    public async Task<bool> UpdateUserCoreLevelAsync(string userId, Cores core)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCoreLevelAsync(string userId, Cores core)
     {
+        var checkCoreResult = await _coresService.IsCoreDeletedOrInactiveAsync(core.Id);
+        if (checkCoreResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Cores oldUserCore = await _userCoresRepository.SumPowerUserCoresAsync(userId);
 
         var updateResult = await _userCoresRepository.UpdateUserCoreLevelAsync(userId, core);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         Cores newUserCore = await _userCoresRepository.SumPowerUserCoresAsync(userId);
@@ -179,18 +206,34 @@ public class UserCoresService : IUserCoresService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserCoreStarAsync(string userId, Cores core)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCoreStarAsync(string userId, Cores core)
     {
+        var checkCoreResult = await _coresService.IsCoreDeletedOrInactiveAsync(core.Id);
+        if (checkCoreResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         Cores oldUserCore = await _userCoresRepository.SumPowerUserCoresAsync(userId);
 
         var updateResult = await _userCoresRepository.UpdateUserCoreStarAsync(userId, core);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _coresGalleryService.UpdateTempStarCoreGalleryAsync(userId, core.Id, core.Star);
@@ -205,7 +248,7 @@ public class UserCoresService : IUserCoresService
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<Cores> GetUserCoreByIdAsync(string userId, string Id)

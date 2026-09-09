@@ -14,6 +14,6 @@ public interface ICardColonelsGalleryRepository
     Task<InsertOrUpdateResult<List<(string CardColonelId, double CurrentStar)>>> UpdateBatchCurrentStarCardColonelsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<CardColonels>>> InsertBatchCardColonelsGalleryAsync(string userId, List<CardColonels> cardColonels);
     Task<CardColonels> GetCardColonelCollectionByIdAsync(string userId, string objectId);
-    Task UpdateCardColonelGalleryPowerAsync(string userId, string Id, CardColonels CardColonelFromDB);
+    Task<InsertOrUpdateResult<bool>> UpdateCardColonelGalleryPowerAsync(string userId, string Id, CardColonels CardColonelFromDB);
     Task<CardColonels> SumPowerCardColonelsGalleryAsync(string userId);
 }

@@ -5,11 +5,11 @@ public interface IUserAvatarsService
 {
     Task<List<Avatars>> GetUserAvatarsAsync(string userId, string search, int pageSize, int offset, string rare);
     Task<int> GetUserAvatarsCountAsync(string userId, string search, string rare);
-    Task<bool> InsertUserAvatarByIdAsync(string avatarId, string userId);
+    Task<InsertOrUpdateResult<bool>> InsertUserAvatarByIdAsync(string avatarId, string userId);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAvatarAsync(string userId, Avatars avatar);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAvatarsBatchAsync(string userId, List<Avatars> avatars);
-    Task<bool> UpdateUserAvatarLevelAsync(string userId, Avatars avatar);
-    Task<bool> UpdateUserAvatarStarAsync(string userId, Avatars avatar);
+    Task<InsertOrUpdateResult<bool>> UpdateUserAvatarLevelAsync(string userId, Avatars avatar);
+    Task<InsertOrUpdateResult<bool>> UpdateUserAvatarStarAsync(string userId, Avatars avatar);
     Task<Avatars> GetUserAvatarByUsedAsync(string userId);
     Task<Avatars> GetUserAvatarByIdAsync(string userId, string Id);
     Task UpdateIsUsedUserAvatarAsync(string avatarId, string userId, bool is_used);

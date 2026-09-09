@@ -415,6 +415,7 @@ public class UserItemsService : IUserItemsService
 
     public async Task<bool> InsertOrUpdateUserItemAsync(string userId, Items item, double quantity)
     {
+        
         // Kiểm tra nếu item là Chest/Rương (dựa theo trường type hoặc chest_type của entity Items)
         if (IsChestItem(item))
         {

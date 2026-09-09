@@ -35,6 +35,8 @@ public static class MessageConstants
     public const string THIS_RECORD_ALREADY_EXISTS_IN_GALLERY = "Notification.ThisRecordAlreadyExistsInGallery";
     public const string NOTHING_WAS_INSERTED = "Notification.NothingWasInserted";
     public const string NOTHING_WAS_UPDATED = "Notification.NothingWasUpdated";
+    public const string POWER_UNCHANGED_NO_UPDATE_NEEDED = "Notification.PowerUnchangedNoUpdateNeeded";
+    public const string THE_DATA_WAS_DELETED_OR_INACTIVE = "Notification.TheDataWasDeletedOrInactive";
     public const string INSERT_ITEM_INTO_INVENTORY = "Notification.InsertItemIntoInventory";
     public const string UPDATE_ITEM_QUANTITY_IN_INVENTORY = "Notification.UpdateItemQuantityInInventory";
     public const string PURCHASE_FAILED = "Notification.PurchaseFailed";

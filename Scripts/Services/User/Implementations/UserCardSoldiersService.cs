@@ -6,6 +6,7 @@ public class UserCardSoldiersService : IUserCardSoldiersService
 {
     private readonly IUserCardSoldiersRepository _userCardSoldiersRepository;
     private readonly ICardSoldiersGalleryService _cardSoldiersGalleryService;
+    private readonly ICardSoldiersService _cardSoldiersService;
     private readonly IUserSkillsRepository _userSkillsRepository;
     private readonly IPatternsService _patternsService;
     private readonly IUserStatsService _userStatsService;
@@ -13,12 +14,14 @@ public class UserCardSoldiersService : IUserCardSoldiersService
     public UserCardSoldiersService(
         IUserCardSoldiersRepository userCardSoldiersRepository,
         ICardSoldiersGalleryService cardSoldiersGalleryService,
+        ICardSoldiersService cardSoldiersService,
         IUserSkillsRepository userSkillsRepository,
         IPatternsService patternsService,
         IUserStatsService userStatsService)
     {
         _userCardSoldiersRepository = userCardSoldiersRepository;
         _cardSoldiersGalleryService = cardSoldiersGalleryService;
+        _cardSoldiersService = cardSoldiersService;
         _userSkillsRepository = userSkillsRepository;
         _patternsService = patternsService;
         _userStatsService = userStatsService;
@@ -579,9 +582,10 @@ public class UserCardSoldiersService : IUserCardSoldiersService
         return await _userCardSoldiersRepository.GetUniqueCardSoldiersTypesTeamAsync(userId, teamId);
     }
 
-    public async Task<bool> UpdateTeamUserCardSoldierAsync(string userId, string teamId, string position, string cardId)
+    public async Task<InsertOrUpdateResult<bool>> UpdateTeamUserCardSoldierAsync(string userId, string teamId, string position, string cardId)
     {
-        return await _userCardSoldiersRepository.UpdateTeamCardSoldierAsync(userId, teamId, position, cardId);
+        await _userCardSoldiersRepository.UpdateTeamCardSoldierAsync(userId, teamId, position, cardId);
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<int> GetUserCardSoldiersCountAsync(string userId, string search, string type, string rare)
@@ -601,6 +605,17 @@ public class UserCardSoldiersService : IUserCardSoldiersService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardSoldierAsync(string userId, CardSoldiers cardSoldier)
     {
+        var checkCardSoldierResult = await _cardSoldiersService.IsCardSoldierDeletedOrInactiveAsync(cardSoldier.Id);
+        if (checkCardSoldierResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var insertOrUpdateResult = await _userCardSoldiersRepository.InsertOrUpdateUserCardSoldierAsync(userId, cardSoldier);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -660,30 +675,62 @@ public class UserCardSoldiersService : IUserCardSoldiersService
         };
     }
 
-    public async Task<bool> UpdateUserCardSoldierLevelAsync(string userId, CardSoldiers cardSoldier)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardSoldierLevelAsync(string userId, CardSoldiers cardSoldier)
     {
+        var checkCardSoldierResult = await _cardSoldiersService.IsCardSoldierDeletedOrInactiveAsync(cardSoldier.Id);
+        if (checkCardSoldierResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _userCardSoldiersRepository.UpdateUserCardSoldierLevelAsync(userId, cardSoldier);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
-    public async Task<bool> UpdateUserCardSoldierStarAsync(string userId, CardSoldiers cardSoldier)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardSoldierStarAsync(string userId, CardSoldiers cardSoldier)
     {
+        var checkCardSoldierResult = await _cardSoldiersService.IsCardSoldierDeletedOrInactiveAsync(cardSoldier.Id);
+        if (checkCardSoldierResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
         var updateResult = await _userCardSoldiersRepository.UpdateUserCardSoldierStarAsync(userId, cardSoldier);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
-            return false;
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
         await _cardSoldiersGalleryService.UpdateTempStarCardSoldierGalleryAsync(userId, cardSoldier.Id, cardSoldier.Star);
 
-        return true;
+        return InsertOrUpdateResult<bool>.Updated(true);
     }
 
     public async Task<CardSoldiers> GetUserCardSoldierByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null)
