@@ -115,7 +115,7 @@ public class UserSkillsController : MonoBehaviour
         RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SKILL);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SKILL);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SKILL_BACKGROUND_URL);
         cardBackground.texture = texture;
         closeButton.onClick.AddListener(async () =>

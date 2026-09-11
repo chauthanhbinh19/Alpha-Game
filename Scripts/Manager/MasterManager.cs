@@ -49,9 +49,9 @@ public class MasterManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.MASTER);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.MASTER);
         TextMeshProUGUI titleText2 = transform.Find("MasterContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.MASTER);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.MASTER);
 
         CreateButtonWithBackgroundUI(1, AppDisplayConstants.Master.MASTER_OF_BEAST, ImageConstants.Background.ADVANCED_BACKGROUND_1_URL, TextureHelper.LoadTexture2DCached(ImageConstants.Master.MASTER_OF_BEAST_URL), contentPanel);
         CreateButtonWithBackgroundUI(2, AppDisplayConstants.Master.MASTER_OF_DRAGON, ImageConstants.Background.ADVANCED_BACKGROUND_2_URL, TextureHelper.LoadTexture2DCached(ImageConstants.Master.MASTER_OF_DRAGON_URL), contentPanel);

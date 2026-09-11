@@ -53,9 +53,9 @@ public class ScienceFictionManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SCIENCE_FICTION);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SCIENCE_FICTION);
         TextMeshProUGUI titleText2 = transform.Find("ScienceFictionContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.SCIENCE_FICTION);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.SCIENCE_FICTION);
 
         CreateScienceFictionButtonUI(1, AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_1, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_1_URL), contentPanel);
         CreateScienceFictionButtonUI(2, AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_2, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_2_URL), contentPanel);

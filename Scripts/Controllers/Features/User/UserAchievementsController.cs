@@ -113,7 +113,7 @@ public class UserAchievementsController : MonoBehaviour
         RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ACHIEVEMENT);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.ACHIEVEMENT);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.ACHIEVEMENT_BACKGROUND_URL);
         cardBackground.texture = texture;
         closeButton.onClick.AddListener(async () =>

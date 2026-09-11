@@ -410,7 +410,7 @@ public class GalleryManager : MonoBehaviour
         Image topBackgroundImage = transform.Find("DictionaryCards/TitleGroup/TopBackground").GetComponent<Image>();
         topBackgroundImage.material = UI_Blue_Gradient_Radius_Mat_MaskPercent_70;
         TextMeshProUGUI subTitleText = transform.Find("DictionaryCards/TitleGroup/TitleText").GetComponent<TextMeshProUGUI>();
-        subTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.GALLERY);
+        subTitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.GALLERY);
 
         PaginationManager = transform.Find("PaginationPanelPrefab").GetComponent<PaginationManager>();
 

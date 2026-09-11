@@ -66,7 +66,7 @@ public class CardMonstersController : MonoBehaviour
             levelText.text = cardMonster.Level.ToString().Replace("_", " ");
 
             TextMeshProUGUI cardText = transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
-            cardText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MONSTER);
+            cardText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_MONSTER);
 
             TextMeshProUGUI typePanel = transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
             typePanel.text = cardMonster.Type.ToString().Replace("_", " ");
@@ -158,7 +158,7 @@ public class CardMonstersController : MonoBehaviour
 
             Button buyButton = transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
-            buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
+            buttonText.text = LocalizationManager.Get(AppDisplayConstants.Title.BUY);
             Image buttonBackgroundImage = buyButton.transform.Find("Background").GetComponent<Image>();
             buttonBackgroundImage.color = ColorHelper.HexToColor(ColorConstants.PURPLE_COLOR);
             buyButton.onClick.AddListener(() =>
@@ -191,7 +191,7 @@ public class CardMonstersController : MonoBehaviour
         RawImage equipmentImage = quantityObject.transform.Find("Image").GetComponent<RawImage>();
 
         TextMeshProUGUI buttonText = confirmButton.GetComponentInChildren<TextMeshProUGUI>();
-        buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
+        buttonText.text = LocalizationManager.Get(AppDisplayConstants.Title.BUY);
         // Lấy thuộc tính `Id` và `Image` từ object
         var idProperty = obj.GetType().GetProperty(AppConstants.StatFields.ID);
         var imageProperty = obj.GetType().GetProperty(AppConstants.StatFields.IMAGE);

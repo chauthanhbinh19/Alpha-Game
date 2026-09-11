@@ -76,7 +76,7 @@ public class SignUpHandler
         if (signUpButton != null)
         {
             var btnText = signUpButton.GetComponentInChildren<TextMeshProUGUI>();
-            if (btnText != null) btnText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SIGN_UP);
+            if (btnText != null) btnText.text = LocalizationManager.Get(AppDisplayConstants.Title.SIGN_UP);
 
             signUpButton.onClick.RemoveAllListeners();
             signUpButton.onClick.AddListener(async () =>
@@ -89,7 +89,7 @@ public class SignUpHandler
         if (backButton != null)
         {
             var btnText = backButton.GetComponentInChildren<TextMeshProUGUI>();
-            if (btnText != null) btnText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BACK);
+            if (btnText != null) btnText.text = LocalizationManager.Get(AppDisplayConstants.Title.BACK);
 
             backButton.onClick.RemoveAllListeners();
             backButton.onClick.AddListener(() =>

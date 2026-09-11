@@ -49,9 +49,9 @@ public class HICAManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.HICA);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.HICA);
         TextMeshProUGUI titleText2 = transform.Find("HICAContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.HICA);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.HICA);
 
         CreateHICAButtonUI(1, AppDisplayConstants.HICA.HICA_I, TextureHelper.LoadTexture2DCached(ImageConstants.HICA.HICA_I_URL), contentPanel);
         CreateHICAButtonUI(2, AppDisplayConstants.HICA.HICA_II, TextureHelper.LoadTexture2DCached(ImageConstants.HICA.HICA_II_URL), contentPanel);

@@ -113,7 +113,7 @@ public class UserBadgesController : MonoBehaviour
         RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BADGE);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.BADGE);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.BADGE_BACKGROUND_URL);
         cardBackground.texture = texture;
         closeButton.onClick.AddListener(async () =>

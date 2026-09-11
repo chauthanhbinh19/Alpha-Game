@@ -56,7 +56,7 @@ public class FeatureManager : MonoBehaviour
         //     ButtonEvent.Instance.Close(MainPanel);
         // });
 
-        TitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.FEATURE);
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.FEATURE);
         ButtonLoader.Instance.CreateFeatureButton(featureTransform);
         GetButtonEvent(featureTransform);
     }

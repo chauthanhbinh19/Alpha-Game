@@ -88,7 +88,7 @@ public class UserCardMilitariesController : MonoBehaviour
             levelText.text = cardMilitary.Level.ToString().Replace("_", " ");
 
             TextMeshProUGUI cardText = transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
-            cardText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MILITARY);
+            cardText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_MILITARY);
 
             TextMeshProUGUI typePanel = transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
             typePanel.text = cardMilitary.Type.ToString().Replace("_", " ");
@@ -104,7 +104,7 @@ public class UserCardMilitariesController : MonoBehaviour
                 TextMeshProUGUI teamTitleText = transform.Find("Team/TitleText").GetComponent<TextMeshProUGUI>();
                 Texture teamBackgroundTexture = TextureHelper.LoadTextureCached(ImageConstants.Team.TEAM_BACKGROUND_5);
                 teamBackgroundImage.texture = teamBackgroundTexture;
-                teamTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TEAM) + " " + cardMilitary.Team.TeamNumber.ToString();
+                teamTitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.TEAM) + " " + cardMilitary.Team.TeamNumber.ToString();
             }
             else
             {
@@ -167,7 +167,7 @@ public class UserCardMilitariesController : MonoBehaviour
         RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MILITARY);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_MILITARY);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_MILITARY_BACKGROUND_URL);
         cardBackground.texture = texture;
         closeButton.onClick.AddListener(async () =>

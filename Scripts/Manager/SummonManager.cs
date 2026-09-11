@@ -119,12 +119,12 @@ public class SummonManager : MonoBehaviour
             summonOneButtonText.font = EuroStyleNormalFont;
             summonOneButtonText.fontSize = FontSize;
             summonOneButtonText.fontStyle = FontStyles.Bold;
-            summonOneButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SUMMON_ONE);
+            summonOneButtonText.text = LocalizationManager.Get(AppDisplayConstants.Title.SUMMON_ONE);
             TextMeshProUGUI summonTenButtonText = SummonTenButton.GetComponentInChildren<TextMeshProUGUI>();
             summonTenButtonText.font = EuroStyleNormalFont;
             summonTenButtonText.fontSize = FontSize;
             summonTenButtonText.fontStyle = FontStyles.Bold;
-            summonTenButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SUMMON_TEN);
+            summonTenButtonText.text = LocalizationManager.Get(AppDisplayConstants.Title.SUMMON_TEN);
 
             List<string> types = await TypeManager.GetUniqueTypesAsync(MainType);
 

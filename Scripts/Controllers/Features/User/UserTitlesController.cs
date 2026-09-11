@@ -113,7 +113,7 @@ public class UserTitlesController : MonoBehaviour
         RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TITLE);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.TITLE);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.TITLE_BACKGROUND_URL);
         cardBackground.texture = texture;
         closeButton.onClick.AddListener(async () =>

@@ -113,7 +113,7 @@ public class UserSpiritCardsController : MonoBehaviour
         RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SPIRIT_CARD);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SPIRIT_CARD);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SPIRIT_CARD_BACKGROUND_URL);
         cardBackground.texture = texture;
         closeButton.onClick.AddListener(async () =>

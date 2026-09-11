@@ -114,7 +114,7 @@ public class UserPuppetsController : MonoBehaviour
         RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.PUPPET);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.PUPPET);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.PUPPET_BACKGROUND_URL);
         cardBackground.texture = texture;
         closeButton.onClick.AddListener(async () =>

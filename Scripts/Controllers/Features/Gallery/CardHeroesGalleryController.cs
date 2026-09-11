@@ -57,7 +57,7 @@ public class CardHeroesGalleryController : MonoBehaviour
             levelText.text = cardHero.Level.ToString().Replace("_", " ");
 
             TextMeshProUGUI cardText = transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
-            cardText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_HERO);
+            cardText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_HERO);
 
             TextMeshProUGUI typePanel = transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
             typePanel.text = cardHero.Type.ToString().Replace("_", " ");

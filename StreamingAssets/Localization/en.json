@@ -123,7 +123,7 @@
   { "key": "MainType.Emoji", "value": "Emoji" },
   { "key": "MainType.Emojis", "value": "Emojis" },
   { "key": "MainType.MasterBoard", "value": "Master board" },
-  { "key": "enhancement", "value": "Enhancement" },
+  { "key": "MainType.ShopPackage", "value": "Shop Package" },
   { "key": "MainType.DailyCheckin", "value": "Daily Checkin" },
   { "key": "MainType.Buy", "value": "Buy" },
   { "key": "MainType.SignIn", "value": "Sign In" },
@@ -1050,11 +1050,17 @@
   { "key": "Notification.NotEnoughMaterials", "value": "Not enough items to perform the upgrade!" },
   { "key": "Notification.PleaseSelectQuantity", "value": "Please select the quantity of upgrade items." },
   { "key": "Notification.ReadyToUpgrade", "value": "Ready to upgrade." },
-  { "key": "Notification.MaxLevelReached", "value": "Enough items to upgrade to MAX level)!" },
+  { "key": "Notification.MaxLevelReached", "value": "Enough items to upgrade to MAX level!" },
   { "key": "Notification.UpgradeAlreadyMax", "value": "This Upgrade is already max." },
   { "key": "Notification.ProcessingUpgrade", "value": "Processing upgrade from Server..." },
   { "key": "Notification.UpgradeSuccess", "value": "Upgrade successful!" },
   { "key": "Notification.UpgradeFailed", "value": "Upgrade failed!" },
   { "key": "Notification.ServerError", "value": "Server error occurred!" },
-  { "key": "Notification.InvalidFilter", "value": "Invalid filter selected!" }
+  { "key": "Notification.InvalidFilter", "value": "Invalid filter selected!" },
+  { "key": "Notification.InvalidUserId", "value": "Invalid user identification!" },
+  { "key": "Notification.TheDataWasDeletedOrInactive", "value": "The selected package is inactive or no longer exists!" },
+  { "key": "Notification.TransactionProcessing", "value": "Transaction is currently being processed. Please wait!" },
+  { "key": "Notification.TransactionAlreadyProcessed", "value": "This transaction has already been processed successfully." },
+  { "key": "Notification.TransactionPending", "value": "Order created successfully. Please complete your payment!" },
+  { "key": "Notification.PurchaseFailed", "value": "Purchase failed! Please try again later." }
 ]

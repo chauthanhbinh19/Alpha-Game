@@ -49,9 +49,9 @@ public class HIINManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.HIIN);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.HIIN);
         TextMeshProUGUI titleText2 = transform.Find("HIINContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.HIIN);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.HIIN);
 
         CreateHIINButtonUI(1, AppDisplayConstants.HIIN.HIIN_I, TextureHelper.LoadTexture2DCached(ImageConstants.HIIN.HIIN_I_URL), contentPanel);
         CreateHIINButtonUI(2, AppDisplayConstants.HIIN.HIIN_II, TextureHelper.LoadTexture2DCached(ImageConstants.HIIN.HIIN_II_URL), contentPanel);

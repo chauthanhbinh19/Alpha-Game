@@ -49,9 +49,9 @@ public class HICBManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.HICB);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.HICB);
         TextMeshProUGUI titleText2 = transform.Find("HICBContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.HICB);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.HICB);
 
         CreateHICBButtonUI(1, AppDisplayConstants.HICB.HICB_I, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_I_URL), contentPanel);
         CreateHICBButtonUI(2, AppDisplayConstants.HICB.HICB_II, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_II_URL), contentPanel);

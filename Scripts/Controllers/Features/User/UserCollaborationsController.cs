@@ -113,7 +113,7 @@ public class UserCollaborationsController : MonoBehaviour
         RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.COLLABORATION);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.COLLABORATION);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.COLLABORATION_BACKGROUND_URL);
         cardBackground.texture = texture;
         closeButton.onClick.AddListener(async () =>

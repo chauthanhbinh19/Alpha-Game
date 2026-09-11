@@ -49,9 +49,9 @@ public class SSWNManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SSWN);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SSWN);
         TextMeshProUGUI titleText2 = transform.Find("SSWNContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.SSWN);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.SSWN);
 
         CreateSSWNButtonUI(1, AppDisplayConstants.SSWN.SSWN_I, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_I_URL), contentPanel);
         CreateSSWNButtonUI(2, AppDisplayConstants.SSWN.SSWN_II, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_II_URL), contentPanel);

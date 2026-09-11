@@ -58,7 +58,7 @@ public class ResearchManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RESEARCH);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.RESEARCH);
         // TextMeshProUGUI titleText2 = transform.Find("ResearchContent/TitleText").GetComponent<TextMeshProUGUI>();
         // titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RESEARCH);
 

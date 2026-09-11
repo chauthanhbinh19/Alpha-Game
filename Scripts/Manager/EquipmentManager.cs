@@ -311,7 +311,7 @@ public class EquipmentManager : MonoBehaviour
 
             Button buyButton = equipmentObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
-            buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
+            buttonText.text = LocalizationManager.Get(AppDisplayConstants.Title.BUY);
             buyButton.onClick.AddListener(async () =>
             {
                 await GetQuantityAsync(type, equipment);
@@ -490,7 +490,7 @@ public class EquipmentManager : MonoBehaviour
         if (DictionaryPanel != null)
         {
             TextMeshProUGUI titleText = DictionaryPanel.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SHOP);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/Content");
             Button closeButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
             closeButton.onClick.AddListener(() =>

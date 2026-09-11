@@ -125,6 +125,7 @@ public class MainMenuManager : MonoBehaviour
         Button guildButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/SocialContent/GuildButton").GetComponent<Button>();
 
         Button shopButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/ShopButton").GetComponent<Button>();
+        Button shopPackageButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/ShopPackageButton").GetComponent<Button>();
 
         // _ = HomeManager.Instance.CreateHomePanelAsync();
 
@@ -153,7 +154,7 @@ public class MainMenuManager : MonoBehaviour
                 ButtonEvent.Instance.Close(MainPanel);
             });
             TextMeshProUGUI titleText = popupButtonPanel.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.INVENTORY);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.INVENTORY);
             ButtonLoader.Instance.CreateInventoryButton(popupButtonPanel);
             GetMainButtonEvent(popupButtonPanel);
         });
@@ -176,7 +177,7 @@ public class MainMenuManager : MonoBehaviour
                 ButtonEvent.Instance.Close(MainPanel);
             });
             TextMeshProUGUI titleText = popupButtonPanel.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.EVENT);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.EVENT);
             ButtonLoader.Instance.CreateEventButton(popupButtonPanel);
             GetButtonEvent(popupButtonPanel);
             SummonManager.Instance.GetButtonEvent(popupButtonPanel);
@@ -187,6 +188,13 @@ public class MainMenuManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
             await ShopManager.Instance.CreateShopButtonAsync(MainPanel);
+        });
+
+        shopPackageButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+            await PaymentController.Instance.CreateShopPackageAsync();
         });
 
         teamButton.onClick.AddListener(async () =>
@@ -242,7 +250,7 @@ public class MainMenuManager : MonoBehaviour
                 ButtonEvent.Instance.Close(MainPanel);
             });
             TextMeshProUGUI titleText = popupButtonPanel.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.GALLERY);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.GALLERY);
             Transform popupTransform = popupButtonPanel.transform.Find("Scroll View/Viewport/Content");
             GalleryManager.Instance.CreateGalleryButton(popupTransform);
             GalleryManager.Instance.CreateGallery(popupTransform);
@@ -271,7 +279,7 @@ public class MainMenuManager : MonoBehaviour
                 ButtonEvent.Instance.Close(MainPanel);
             });
             TextMeshProUGUI titleText = popupButtonPanel.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.COLLECTION);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.COLLECTION);
             Transform popupTransform = popupButtonPanel.transform.Find("Scroll View/Viewport/Content");
             CollectionManager.Instance.CreateCollectionButton(popupTransform);
             CollectionManager.Instance.CreateCollection(popupTransform);
@@ -300,7 +308,7 @@ public class MainMenuManager : MonoBehaviour
                 ButtonEvent.Instance.Close(MainPanel);
             });
             TextMeshProUGUI titleText = popupButtonPanel.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.GACHA);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.GACHA);
             GachaManager.Instance.CreateGachaButton(popupButtonPanel.transform.Find("Scroll View/Viewport/Content"));
             GachaManager.Instance.CreateGacha(popupButtonPanel.transform.Find("Scroll View/Viewport/Content"));
         });
@@ -632,7 +640,7 @@ public class MainMenuManager : MonoBehaviour
             Image topBackgroundImage = transform.Find("DictionaryCards/TitleGroup/TopBackground").GetComponent<Image>();
             topBackgroundImage.material = UI_Red_Gradient_Radius_Mat_MaskPercent_70;
             TextMeshProUGUI subTitleText = transform.Find("DictionaryCards/TitleGroup/TitleText").GetComponent<TextMeshProUGUI>();
-            subTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.INVENTORY);
+            subTitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.INVENTORY);
 
             // CurrencyPanel = transform.Find("DictionaryCards/Currency");
             PaginationManager = transform.Find("PaginationPanelPrefab").GetComponent<PaginationManager>();

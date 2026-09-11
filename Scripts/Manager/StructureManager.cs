@@ -51,16 +51,16 @@ public class StructureManager : MonoBehaviour
             await HomeManager.Instance.CreateHomePanelAsync();
         });
 
-        CreateStructureButtonUI(1, AppDisplayConstants.MainType.HIIN, AppDisplayConstants.MainType.HIIN_FULLNAME, contentPanel);
-        CreateStructureButtonUI(2, AppDisplayConstants.MainType.SSWN, AppDisplayConstants.MainType.SSWN_FULLNAME, contentPanel);
-        CreateStructureButtonUI(3, AppDisplayConstants.MainType.HITN, AppDisplayConstants.MainType.HITN_FULLNAME, contentPanel);
-        CreateStructureButtonUI(4, AppDisplayConstants.MainType.HIHN, AppDisplayConstants.MainType.HIHN_FULLNAME, contentPanel);
-        CreateStructureButtonUI(5, AppDisplayConstants.MainType.HIEN, AppDisplayConstants.MainType.HIEN_FULLNAME, contentPanel);
-        CreateStructureButtonUI(6, AppDisplayConstants.MainType.HICA, AppDisplayConstants.MainType.HICA_FULLNAME, contentPanel);
-        CreateStructureButtonUI(7, AppDisplayConstants.MainType.HIRN, AppDisplayConstants.MainType.HIRN_FULLNAME, contentPanel);
-        CreateStructureButtonUI(8, AppDisplayConstants.MainType.HIDC, AppDisplayConstants.MainType.HIDC_FULLNAME, contentPanel);
-        CreateStructureButtonUI(9, AppDisplayConstants.MainType.HICB, AppDisplayConstants.MainType.HICB_FULLNAME, contentPanel);
-        CreateStructureButtonUI(10, AppDisplayConstants.MainType.HISN, AppDisplayConstants.MainType.HISN_FULLNAME, contentPanel);
+        CreateStructureButtonUI(1, AppDisplayConstants.Title.HIIN, AppDisplayConstants.Title.HIIN_FULLNAME, contentPanel);
+        CreateStructureButtonUI(2, AppDisplayConstants.Title.SSWN, AppDisplayConstants.Title.SSWN_FULLNAME, contentPanel);
+        CreateStructureButtonUI(3, AppDisplayConstants.Title.HITN, AppDisplayConstants.Title.HITN_FULLNAME, contentPanel);
+        CreateStructureButtonUI(4, AppDisplayConstants.Title.HIHN, AppDisplayConstants.Title.HIHN_FULLNAME, contentPanel);
+        CreateStructureButtonUI(5, AppDisplayConstants.Title.HIEN, AppDisplayConstants.Title.HIEN_FULLNAME, contentPanel);
+        CreateStructureButtonUI(6, AppDisplayConstants.Title.HICA, AppDisplayConstants.Title.HICA_FULLNAME, contentPanel);
+        CreateStructureButtonUI(7, AppDisplayConstants.Title.HIRN, AppDisplayConstants.Title.HIRN_FULLNAME, contentPanel);
+        CreateStructureButtonUI(8, AppDisplayConstants.Title.HIDC, AppDisplayConstants.Title.HIDC_FULLNAME, contentPanel);
+        CreateStructureButtonUI(9, AppDisplayConstants.Title.HICB, AppDisplayConstants.Title.HICB_FULLNAME, contentPanel);
+        CreateStructureButtonUI(10, AppDisplayConstants.Title.HISN, AppDisplayConstants.Title.HISN_FULLNAME, contentPanel);
 
         CreateStructureButtonEvent(contentPanel);
     }

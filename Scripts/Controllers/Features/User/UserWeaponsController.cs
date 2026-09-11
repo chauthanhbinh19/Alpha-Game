@@ -113,7 +113,7 @@ public class UserWeaponsController : MonoBehaviour
         RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.WEAPON);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.WEAPON);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.WEAPON_BACKGROUND_URL);
         cardBackground.texture = texture;
         closeButton.onClick.AddListener(async () =>

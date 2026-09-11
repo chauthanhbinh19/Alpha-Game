@@ -88,7 +88,7 @@ public class UserCardSoldiersController : MonoBehaviour
             levelText.text = cardSoldier.Level.ToString().Replace("_", " ");
 
             TextMeshProUGUI cardText = transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
-            cardText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_ADMIRAL);
+            cardText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_ADMIRAL);
 
             TextMeshProUGUI typePanel = transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
             typePanel.text = cardSoldier.Type.ToString().Replace("_", " ");
@@ -104,7 +104,7 @@ public class UserCardSoldiersController : MonoBehaviour
                 TextMeshProUGUI teamTitleText = transform.Find("Team/TitleText").GetComponent<TextMeshProUGUI>();
                 Texture teamBackgroundTexture = TextureHelper.LoadTextureCached(ImageConstants.Team.TEAM_BACKGROUND_6);
                 teamBackgroundImage.texture = teamBackgroundTexture;
-                teamTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TEAM) + " " + cardSoldier.Team.TeamNumber.ToString();
+                teamTitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.TEAM) + " " + cardSoldier.Team.TeamNumber.ToString();
             }
             else
             {
@@ -161,7 +161,7 @@ public class UserCardSoldiersController : MonoBehaviour
         RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_SOLDIER);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_SOLDIER);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_SOLDIER_BACKGROUND_URL);
         cardBackground.texture = texture;
         closeButton.onClick.AddListener(async () =>

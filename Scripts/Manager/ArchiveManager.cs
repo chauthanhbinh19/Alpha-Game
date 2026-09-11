@@ -49,9 +49,9 @@ public class ArchiveManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ARCHIVE);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.ARCHIVE);
         TextMeshProUGUI titleText2 = transform.Find("ArchiveContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.ARCHIVE);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.ARCHIVE);
 
         CreateArchiveButtonUI(1, AppDisplayConstants.Archive.ARCHIVE_I, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_I_URL), contentPanel);
         CreateArchiveButtonUI(2, AppDisplayConstants.Archive.ARCHIVE_II, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_II_URL), contentPanel);

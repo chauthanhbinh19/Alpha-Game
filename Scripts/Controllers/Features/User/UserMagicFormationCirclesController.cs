@@ -114,7 +114,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
         RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.MAGIC_FORMATION_CIRCLE);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.MAGIC_FORMATION_CIRCLE);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.MAGIC_FORMATION_CIRCLE_BACKGROUND_URL);
         cardBackground.texture = texture;
         closeButton.onClick.AddListener(async () =>

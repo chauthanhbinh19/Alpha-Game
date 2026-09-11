@@ -99,7 +99,7 @@ public class UserArtifactsController : MonoBehaviour
         RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ARTIFACT);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.ARTIFACT);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.ARTIFACT_BACKGROUND_URL);
         cardBackground.texture = texture;
         closeButton.onClick.AddListener(async () =>

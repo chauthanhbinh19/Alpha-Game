@@ -63,7 +63,7 @@ public class PatternController : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.HIEN);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.HIEN);
 
         var patternList = await PatternsService.Create().GetAllPatternsAsync();
         foreach(Patterns pattern in patternList)
@@ -97,7 +97,7 @@ public class PatternController : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.HIEN);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.HIEN);
         
         var pattern = await PatternsService.Create().GetPatternByIdAsync(patternId);
         if (pattern == null)

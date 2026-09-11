@@ -409,7 +409,7 @@ public class CollectionManager : MonoBehaviour
         Image topBackgroundImage = transform.Find("DictionaryCards/TitleGroup/TopBackground").GetComponent<Image>();
         topBackgroundImage.material = UI_Green_Gradient_Radius_Mat_MaskPercent_70;
         TextMeshProUGUI subTitleText = transform.Find("DictionaryCards/TitleGroup/TitleText").GetComponent<TextMeshProUGUI>();
-        subTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.COLLECTION);
+        subTitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.COLLECTION);
 
         PaginationManager = transform.Find("PaginationPanelPrefab").GetComponent<PaginationManager>();
 

@@ -110,7 +110,7 @@ public class UserAvatarsController : MonoBehaviour
         RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.AVATAR);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.AVATAR);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.AVATAR_BACKGROUND_URL);
         cardBackground.texture = texture;
         closeButton.onClick.AddListener(async () =>

@@ -12,11 +12,15 @@ public interface IPaymentService
     /// <param name="currencyCode">Mã tiền tệ quốc gia (mặc định: VND)</param>
     /// <param name="exchangeRateUsdToLocal">Tỷ giá USD quy đổi ra tiền tệ local (mặc định: 25000)</param>
     Task<TopupResponseDTO> ProcessPackagePaymentAsync(
-        long userId,
+        string userId,
         ShopPackageModel package,
+        string idempotencyKey = null,
+        string actionType = "DIRECT_BUY",
+        string providerTxId = null,
         string provider = "GOOGLE_PLAY",
         string currencyCode = "VND",
         decimal exchangeRateUsdToLocal = 25000m);
+    Task<List<string>> GetAllCategoriesAsync();
 
     /// <summary>
     /// Lấy tất cả các gói nạp đang active (có thể lọc theo Tab/Category)

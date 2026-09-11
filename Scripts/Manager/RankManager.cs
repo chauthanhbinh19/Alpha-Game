@@ -56,9 +56,9 @@ public class RankManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.RANK);
         TextMeshProUGUI titleText2 = transform.Find("RankContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.RANK);
 
         CreateRankButtonUI(1, "Set 1", TextureHelper.LoadTexture2DCached(ImageConstants.Set.SET_1_URL), contentPanel);
         CreateRankButtonUI(2, "Set 2", TextureHelper.LoadTexture2DCached(ImageConstants.Set.SET_2_URL), contentPanel);
@@ -165,9 +165,9 @@ public class RankManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.RANK);
         TextMeshProUGUI titleText2 = transform.Find("RankContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.RANK);
 
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -313,9 +313,9 @@ public class RankManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.RANK);
         TextMeshProUGUI titleText2 = transform.Find("RankContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.RANK);
 
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -460,9 +460,9 @@ public class RankManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.RANK);
         TextMeshProUGUI titleText2 = transform.Find("RankContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.RANK);
 
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -608,9 +608,9 @@ public class RankManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.RANK);
         TextMeshProUGUI titleText2 = transform.Find("RankContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.RANK);
 
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -755,9 +755,9 @@ public class RankManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.RANK);
         TextMeshProUGUI titleText2 = transform.Find("RankContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.RANK);
 
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -902,9 +902,9 @@ public class RankManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.RANK);
         TextMeshProUGUI titleText2 = transform.Find("RankContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.RANK);
 
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -1049,9 +1049,9 @@ public class RankManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.RANK);
         TextMeshProUGUI titleText2 = transform.Find("RankContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RANK);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.RANK);
 
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

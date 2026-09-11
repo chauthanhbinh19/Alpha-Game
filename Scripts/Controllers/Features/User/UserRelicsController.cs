@@ -114,7 +114,7 @@ public class UserRelicsController : MonoBehaviour
         RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RELIC);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.RELIC);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.RELIC_BACKGROUND_URL);
         cardBackground.texture = texture;
         closeButton.onClick.AddListener(async () =>

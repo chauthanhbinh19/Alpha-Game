@@ -49,9 +49,9 @@ public class HISNManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.HISN);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.HISN);
         TextMeshProUGUI titleText2 = transform.Find("HISNContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.HISN);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.HISN);
 
         CreateHISNButtonUI(1, AppDisplayConstants.HISN.HISN_I, TextureHelper.LoadTexture2DCached(ImageConstants.HISN.HISN_I_URL), contentPanel);
         CreateHISNButtonUI(2, AppDisplayConstants.HISN.HISN_II, TextureHelper.LoadTexture2DCached(ImageConstants.HISN.HISN_II_URL), contentPanel);

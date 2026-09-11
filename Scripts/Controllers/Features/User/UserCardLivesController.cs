@@ -64,7 +64,7 @@ public class UserCardLivesController : MonoBehaviour
             levelText.text = cardLife.Level.ToString().Replace("_", " ");
 
             TextMeshProUGUI cardText = transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
-            cardText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_LIFE);
+            cardText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_LIFE);
 
             TextMeshProUGUI typePanel = transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
             typePanel.text = cardLife.Type.ToString().Replace("_", " ");
@@ -102,7 +102,7 @@ public class UserCardLivesController : MonoBehaviour
         RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_LIFE);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_LIFE);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_LIFE_BACKGROUND_URL);
         cardBackground.texture = texture;
         closeButton.onClick.AddListener(async () =>

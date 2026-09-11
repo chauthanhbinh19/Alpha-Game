@@ -7,6 +7,7 @@ public static class AudioConstants
     public static class SFX
     {
         public const string BUTTON_CLICK_SOUND = "ButtonClickSound";
+        public const string BUTTON_CLICK_SOUND_2 = "ButtonClickSound2";
         public const string LEVEL_UP_SOUND = "LevelUpSound";
         public const string STAR_UP_SOUND = "StarUpSound";
         public const string SWITCH_CLICK_SOUND = "SwitchClickSound";

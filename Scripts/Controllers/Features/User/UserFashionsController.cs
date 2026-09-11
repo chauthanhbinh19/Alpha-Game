@@ -114,7 +114,7 @@ public class UserFashionsController : MonoBehaviour
         RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.FASHION);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.FASHION);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.FASHION_BACKGROUND_URL);
         cardBackground.texture = texture;
         closeButton.onClick.AddListener(async () =>

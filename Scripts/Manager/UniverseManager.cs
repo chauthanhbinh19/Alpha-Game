@@ -49,9 +49,9 @@ public class UniverseManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.UNIVERSE);
         TextMeshProUGUI titleText2 = transform.Find("UniverseContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.UNIVERSE);
 
         CreateUniverseButtonUI(1, AppDisplayConstants.Universe.UNIVERSE_I, TextureHelper.LoadTexture2DCached(ImageConstants.Universe.UNIVERSE_I_URL), contentPanel);
         CreateUniverseButtonUI(2, AppDisplayConstants.Universe.UNIVERSE_II, TextureHelper.LoadTexture2DCached(ImageConstants.Universe.UNIVERSE_II_URL), contentPanel);

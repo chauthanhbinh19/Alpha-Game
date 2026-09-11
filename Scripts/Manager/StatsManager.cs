@@ -45,7 +45,7 @@ public class StatsManager : MonoBehaviour
         });
 
         TextMeshProUGUI titleText = popupTransform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.STATS);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.STATS);
 
         CreateStatsManager(stat, contentTransform);
     }

@@ -114,7 +114,7 @@ public class UserTalismansController : MonoBehaviour
         RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TALISMAN);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.TALISMAN);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.TALISMAN_BACKGROUND_URL);
         cardBackground.texture = texture;
         closeButton.onClick.AddListener(async () =>

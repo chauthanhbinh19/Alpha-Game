@@ -164,7 +164,7 @@ public static class AppDisplayConstants
         public const string PERCENT_ALL_MENTAL_DEFENSE = "StatFieldsShort.PercentAllMentalDefense";
         public const string DESCRIPTION = "StatFieldsShort.Description";
     }
-    public static class MainType
+    public static class Title
     {
         public const string USERNAME = "username";
         public const string PASSWORD = "password";
@@ -347,10 +347,13 @@ public static class AppDisplayConstants
         public const string DAILY_CHECKIN = "MainType.DailyCheckin";
         public const string EMAIL = "MainType.Email";
         public const string CHAT = "MainType.Chat";
-
+        public const string REWARD = "Title.Reward";
+        public const string BONUS = "Title.Bonus";
+        public const string PRICE = "Title.Price";
 
         public const string BUY = "MainType.Buy";
         public const string PACKAGE_ITEM = "MainType.Package";
+        public const string SHOP_PACKAGE = "MainType.ShopPackage";
         public const string SIGN_IN = "MainType.SignIn";
         public const string SIGN_UP = "MainType.SignUp";
         public const string BACK = "MainType.Back";

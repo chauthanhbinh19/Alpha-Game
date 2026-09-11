@@ -121,7 +121,7 @@ public class TeamsManager : MonoBehaviour
         //     Close(MainPanel);
         // });
 
-        teamsTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TEAM);
+        teamsTitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.TEAM);
         await CreateTeamsPositionAsync(positionTeamsPanel);
     }
     public async Task CreateTeamsPositionAsync(Transform positionTeamsPanel)
@@ -178,10 +178,10 @@ public class TeamsManager : MonoBehaviour
 
             // 3. Khởi tạo UI (Giữ nguyên logic bên dưới của bạn)
             string[] titles = {
-            AppDisplayConstants.MainType.CARD_HEROES, AppDisplayConstants.MainType.CARD_CAPTAINS,
-            AppDisplayConstants.MainType.CARD_COLONELS, AppDisplayConstants.MainType.CARD_GENERALS,
-            AppDisplayConstants.MainType.CARD_ADMIRALS, AppDisplayConstants.MainType.CARD_MONSTERS,
-            AppDisplayConstants.MainType.CARD_MILITARIES, AppDisplayConstants.MainType.CARD_SPELLS
+            AppDisplayConstants.Title.CARD_HEROES, AppDisplayConstants.Title.CARD_CAPTAINS,
+            AppDisplayConstants.Title.CARD_COLONELS, AppDisplayConstants.Title.CARD_GENERALS,
+            AppDisplayConstants.Title.CARD_ADMIRALS, AppDisplayConstants.Title.CARD_MONSTERS,
+            AppDisplayConstants.Title.CARD_MILITARIES, AppDisplayConstants.Title.CARD_SPELLS
         };
 
             string[] backgrounds = {
@@ -709,49 +709,49 @@ public class TeamsManager : MonoBehaviour
             switch (MainType)
             {
                 case AppConstants.MainType.CARD_HERO:
-                    cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_HERO);
+                    cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_HERO);
                     return (await UserCardHeroesService.Create()
                         .GetUserCardHeroesTeamAsync(User.CurrentUserId, TeamId, position))
                         .Cast<ICard>().ToList();
 
                 case AppConstants.MainType.CARD_CAPTAIN:
-                    cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_CAPTAIN);
+                    cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_CAPTAIN);
                     return (await UserCardCaptainsService.Create()
                         .GetUserCardCaptainsTeamAsync(User.CurrentUserId, TeamId, position))
                         .Cast<ICard>().ToList();
 
                 case AppConstants.MainType.CARD_COLONEL:
-                    cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_COLONEL);
+                    cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_COLONEL);
                     return (await UserCardColonelsService.Create()
                         .GetUserCardColonelsTeamAsync(User.CurrentUserId, TeamId, position))
                         .Cast<ICard>().ToList();
 
                 case AppConstants.MainType.CARD_GENERAL:
-                    cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_GENERAL);
+                    cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_GENERAL);
                     return (await UserCardGeneralsService.Create()
                         .GetUserCardGeneralsTeamAsync(User.CurrentUserId, TeamId, position))
                         .Cast<ICard>().ToList();
 
                 case AppConstants.MainType.CARD_ADMIRAL:
-                    cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_ADMIRAL);
+                    cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_ADMIRAL);
                     return (await UserCardAdmiralsService.Create()
                         .GetUserCardAdmiralsTeamAsync(User.CurrentUserId, TeamId, position))
                         .Cast<ICard>().ToList();
 
                 case AppConstants.MainType.CARD_MONSTER:
-                    cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MONSTER);
+                    cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_MONSTER);
                     return (await UserCardMonstersService.Create()
                         .GetUserCardMonstersTeamAsync(User.CurrentUserId, TeamId, position))
                         .Cast<ICard>().ToList();
 
                 case AppConstants.MainType.CARD_MILITARY:
-                    cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MILITARY);
+                    cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_MILITARY);
                     return (await UserCardMilitariesService.Create()
                         .GetUserCardMilitariesTeamAsync(User.CurrentUserId, TeamId, position))
                         .Cast<ICard>().ToList();
 
                 case AppConstants.MainType.CARD_SPELL:
-                    cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_SPELL);
+                    cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_SPELL);
                     return (await UserCardSpellsService.Create()
                         .GetUserCardSpellsTeamAsync(User.CurrentUserId, TeamId, position))
                         .Cast<ICard>().ToList();
@@ -772,7 +772,7 @@ public class TeamsManager : MonoBehaviour
         switch (mainType)
         {
             case AppConstants.MainType.CARD_HERO:
-                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_HERO);
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_HERO);
                 totalRecord = await UserCardHeroesService.Create().GetUserCardHeroesCountAsync(User.CurrentUserId, Search, Type, Rare);
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
                 PageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
@@ -782,7 +782,7 @@ public class TeamsManager : MonoBehaviour
                     .Cast<ICard>().ToList();
 
             case AppConstants.MainType.CARD_CAPTAIN:
-                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_CAPTAIN);
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_CAPTAIN);
                 totalRecord = await UserCardCaptainsService.Create().GetUserCardCaptainsCountAsync(User.CurrentUserId, Search, Type, Rare);
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
                 PageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
@@ -792,7 +792,7 @@ public class TeamsManager : MonoBehaviour
                     .Cast<ICard>().ToList();
 
             case AppConstants.MainType.CARD_COLONEL:
-                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_COLONEL);
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_COLONEL);
                 totalRecord = await UserCardColonelsService.Create().GetUserCardColonelsCountAsync(User.CurrentUserId, Search, Type, Rare);
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
                 PageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
@@ -802,7 +802,7 @@ public class TeamsManager : MonoBehaviour
                     .Cast<ICard>().ToList();
 
             case AppConstants.MainType.CARD_GENERAL:
-                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_GENERAL);
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_GENERAL);
                 totalRecord = await UserCardGeneralsService.Create().GetUserCardGeneralsCountAsync(User.CurrentUserId, Search, Type, Rare);
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
                 PageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
@@ -812,7 +812,7 @@ public class TeamsManager : MonoBehaviour
                     .Cast<ICard>().ToList();
 
             case AppConstants.MainType.CARD_ADMIRAL:
-                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_ADMIRAL);
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_ADMIRAL);
                 totalRecord = await UserCardAdmiralsService.Create().GetUserCardAdmiralsCountAsync(User.CurrentUserId, Search, Type, Rare);
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
                 PageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
@@ -822,7 +822,7 @@ public class TeamsManager : MonoBehaviour
                     .Cast<ICard>().ToList();
 
             case AppConstants.MainType.CARD_MONSTER:
-                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MONSTER);
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_MONSTER);
                 totalRecord = await UserCardMonstersService.Create().GetUserCardMonstersCountAsync(User.CurrentUserId, Search, Type, Rare);
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
                 PageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
@@ -832,7 +832,7 @@ public class TeamsManager : MonoBehaviour
                     .Cast<ICard>().ToList();
 
             case AppConstants.MainType.CARD_MILITARY:
-                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MILITARY);
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_MILITARY);
                 totalRecord = await UserCardMilitariesService.Create().GetUserCardMilitariesCountAsync(User.CurrentUserId, Search, Type, Rare);
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
                 PageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
@@ -842,7 +842,7 @@ public class TeamsManager : MonoBehaviour
                     .Cast<ICard>().ToList();
 
             case AppConstants.MainType.CARD_SPELL:
-                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_SPELL);
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_SPELL);
                 totalRecord = await UserCardSpellsService.Create().GetUserCardSpellsCountAsync(User.CurrentUserId, Search, Type, Rare);
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
                 PageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
@@ -1157,7 +1157,7 @@ public class TeamsManager : MonoBehaviour
             levelText.text = card.Level.ToString().Replace("_", " ");
 
             TextMeshProUGUI cardText = transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
-            cardText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_HERO);
+            cardText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_HERO);
 
             TextMeshProUGUI typePanel = transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
             typePanel.text = card.Type.ToString().Replace("_", " ");

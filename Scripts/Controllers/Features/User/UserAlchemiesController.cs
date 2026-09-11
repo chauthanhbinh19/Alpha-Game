@@ -114,7 +114,7 @@ public class UserAlchemiesController : MonoBehaviour
         RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ALCHEMY);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.ALCHEMY);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.ALCHEMY_BACKGROUND_URL);
         cardBackground.texture = texture;
         closeButton.onClick.AddListener(async () =>

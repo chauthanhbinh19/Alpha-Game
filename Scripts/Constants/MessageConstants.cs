@@ -39,6 +39,10 @@ public static class MessageConstants
     public const string THE_DATA_WAS_DELETED_OR_INACTIVE = "Notification.TheDataWasDeletedOrInactive";
     public const string INSERT_ITEM_INTO_INVENTORY = "Notification.InsertItemIntoInventory";
     public const string UPDATE_ITEM_QUANTITY_IN_INVENTORY = "Notification.UpdateItemQuantityInInventory";
+    public const string INVALID_USER_ID = "Notification.InvalidUserId";
+    public const string TRANSACTION_PROCESSING = "Notification.TransactionProcessing";
+    public const string TRANSACTION_ALREADY_PROCESSED = "Notification.TransactionAlreadyProcessed";
+    public const string TRANSACTION_PENDING = "Notification.TransactionPending";
     public const string PURCHASE_FAILED = "Notification.PurchaseFailed";
     public const string ERROR_UNSUPPORTED_DATA_TYPE = "Unsupported data type!";
     public const string CARD_ALREADY_USED_IN_ANOTHER_POSITION = "Message.MessageNumber1";

@@ -81,7 +81,7 @@ public class ItemsController : MonoBehaviour
 
             Button buy = itemObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
-            buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
+            buttonText.text = LocalizationManager.Get(AppDisplayConstants.Title.BUY);
             Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
             buttonBackgroundImage.color = ColorHelper.HexToColor(ColorConstants.YELLOW_COLOR);
             buy.onClick.AddListener(() =>
@@ -110,7 +110,7 @@ public class ItemsController : MonoBehaviour
         RawImage equipmentImage = quantityObject.transform.Find("Image").GetComponent<RawImage>();
 
         TextMeshProUGUI buttonText = confirmButton.GetComponentInChildren<TextMeshProUGUI>();
-        buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
+        buttonText.text = LocalizationManager.Get(AppDisplayConstants.Title.BUY);
         // Lấy thuộc tính `Id` và `Image` từ object
         var idProperty = obj.GetType().GetProperty(AppConstants.StatFields.ID);
         var imageProperty = obj.GetType().GetProperty(AppConstants.StatFields.IMAGE);
