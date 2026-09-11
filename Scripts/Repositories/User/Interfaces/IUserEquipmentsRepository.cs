@@ -45,6 +45,17 @@ public interface IUserEquipmentsRepository
     Task<List<Equipments>> GetAllUserBooksEquipmentsAsync(string userId, string type, int limit, int offset, string status);
     Task<List<Equipments>> GetAllUserPetsEquipmentsAsync(string userId, string type, int limit, int offset, string status);
     Task<List<Equipments>> GetAllUserCardSoldiersEquipmentsAsync(string userId, string type, int limit, int offset, string status);
+    Task<int> GetUserCardHeroesEquipmentsCountAsync(string userId, string search, string type, string rare, string set);
+    Task<int> GetUserCardCaptainsEquipmentsCountAsync(string userId, string search, string type, string rare, string set);
+    Task<int> GetUserCardColonelsEquipmentsCountAsync(string userId, string search, string type, string rare, string set);
+    Task<int> GetUserCardGeneralsEquipmentsCountAsync(string userId, string search, string type, string rare, string set);
+    Task<int> GetUserCardAdmiralsEquipmentsCountAsync(string userId, string search, string type, string rare, string set);
+    Task<int> GetUserCardMonstersEquipmentsCountAsync(string userId, string search, string type, string rare, string set);
+    Task<int> GetUserCardMilitariesEquipmentsCountAsync(string userId, string search, string type, string rare, string set);
+    Task<int> GetUserCardSoldiersEquipmentsCountAsync(string userId, string search, string type, string rare, string set);
+    Task<int> GetUserCardSpellsEquipmentsCountAsync(string userId, string search, string type, string rare, string set);
+    Task<int> GetUserBooksEquipmentsCountAsync(string userId, string search, string type, string rare, string set);
+    Task<int> GetUserPetsEquipmentsCountAsync(string userId, string search, string type, string rare, string set);
     Task<Equipments> GetAllUserEquipmentsByCardHeroIdAsync(string userId, string cardHeroId);
     Task<Equipments> GetAllUserEquipmentsByCardCaptainIdAsync(string userId, string cardCaptainId);
     Task<Equipments> GetAllUserEquipmentsByCardColonelIdAsync(string userId, string cardColonelId);

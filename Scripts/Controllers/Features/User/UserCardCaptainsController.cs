@@ -287,6 +287,14 @@ public class UserCardCaptainsController : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             RankManager.Instance.CreateRank(cardCaptain);
         });
+
+        Button equipmentButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Equipment").GetComponent<Button>();
+        equipmentButton.gameObject.SetActive(true);
+        equipmentButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            await MainMenuEquipmentManager.Instance.CreateMainMenuEquipmentManagerAsync(cardCaptain);
+        });
     }
     public void RefreshCurrentDetailsUI(CardCaptains cardCaptain)
     {

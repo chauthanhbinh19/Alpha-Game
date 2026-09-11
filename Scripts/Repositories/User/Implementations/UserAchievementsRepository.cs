@@ -849,7 +849,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                     FROM user_achievements uc
                     LEFT JOIN user_achievements_module ubm ON uc.achievement_id = ubm.user_achievement_id
                     LEFT JOIN user_achievements_upgrade ubu ON uc.achievement_id = ubu.user_achievement_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

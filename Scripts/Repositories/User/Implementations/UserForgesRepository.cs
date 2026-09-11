@@ -864,7 +864,7 @@ public class UserForgesRepository : IUserForgesRepository
                     FROM user_forges uc
                     LEFT JOIN user_forges_module ubm ON uc.forge_id = ubm.user_forge_id
                     LEFT JOIN user_forges_upgrade ubu ON uc.forge_id = ubu.user_forge_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

@@ -838,7 +838,7 @@ public class UserRobotsRepository : IUserRobotsRepository
                     FROM user_robots uc
                     LEFT JOIN user_robots_module ubm ON uc.robot_id = ubm.user_robot_id
                     LEFT JOIN user_robots_upgrade ubu ON uc.robot_id = ubu.user_robot_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

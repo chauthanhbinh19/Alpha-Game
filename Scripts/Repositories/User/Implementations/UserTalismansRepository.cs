@@ -870,7 +870,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                     FROM user_talismans uc
                     LEFT JOIN user_talismans_module ubm ON uc.talisman_id = ubm.user_talisman_id
                     LEFT JOIN user_talismans_upgrade ubu ON uc.talisman_id = ubu.user_talisman_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

@@ -863,7 +863,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                     FROM user_symbols uc
                     LEFT JOIN user_symbols_module ubm ON uc.symbol_id = ubm.user_symbol_id
                     LEFT JOIN user_symbols_upgrade ubu ON uc.symbol_id = ubu.user_symbol_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

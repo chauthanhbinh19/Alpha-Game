@@ -864,7 +864,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                     FROM user_furnitures uc
                     LEFT JOIN user_furnitures_module ubm ON uc.furniture_id = ubm.user_furniture_id
                     LEFT JOIN user_furnitures_upgrade ubu ON uc.furniture_id = ubu.user_furniture_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

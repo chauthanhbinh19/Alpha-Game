@@ -845,7 +845,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                     FROM user_architectures uc
                     LEFT JOIN user_architectures_module ubm ON uc.architecture_id = ubm.user_architecture_id
                     LEFT JOIN user_architectures_upgrade ubu ON uc.architecture_id = ubu.user_architecture_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

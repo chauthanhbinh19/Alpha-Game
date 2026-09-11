@@ -947,7 +947,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
                     FROM user_mecha_beasts uc
                     LEFT JOIN user_mecha_beasts_module ubm ON uc.mecha_beast_id = ubm.user_mecha_beast_id
                     LEFT JOIN user_mecha_beasts_upgrade ubu ON uc.mecha_beast_id = ubu.user_mecha_beast_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

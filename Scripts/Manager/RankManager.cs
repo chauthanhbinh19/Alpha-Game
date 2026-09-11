@@ -175,7 +175,7 @@ public class RankManager : MonoBehaviour
             gridLayout.cellSize = new Vector2(240, 430);
         }
         
-        CreateButtonWithBackgroundUI(1, AppDisplayConstants.MainMenuSet1.EQUIPMENTS, ImageConstants.Background.ADVANCED_BACKGROUND_1_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Equipments"), contentPanel);
+        // CreateButtonWithBackgroundUI(1, AppDisplayConstants.MainMenuSet1.EQUIPMENTS, ImageConstants.Background.ADVANCED_BACKGROUND_1_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Equipments"), contentPanel);
         CreateButtonWithBackgroundUI(2, AppDisplayConstants.MainMenuSet1.REALM, ImageConstants.Background.ADVANCED_BACKGROUND_2_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Realm"), contentPanel);
         CreateButtonWithBackgroundUI(3, AppDisplayConstants.MainMenuSet1.UPGRADE, ImageConstants.Background.ADVANCED_BACKGROUND_3_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Upgrade"), contentPanel);
         CreateButtonWithBackgroundUI(4, AppDisplayConstants.MainMenuSet1.APTITUDE, ImageConstants.Background.ADVANCED_BACKGROUND_4_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Aptitude"), contentPanel);
@@ -202,10 +202,10 @@ public class RankManager : MonoBehaviour
         CreateButtonWithBackgroundUI(23, AppDisplayConstants.MainMenuSet1.FAIRY, ImageConstants.Background.ADVANCED_BACKGROUND_23_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Fairy"), contentPanel);
 
 
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManagerAsync(stat);
-        });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManagerAsync(stat);
+        // });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () =>
         {
             await FindAnyObjectByType<MainMenuRealmManager>().CreateMainMenuRealmManagerAsync(stat);

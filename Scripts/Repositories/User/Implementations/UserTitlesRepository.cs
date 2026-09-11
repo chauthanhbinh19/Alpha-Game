@@ -841,7 +841,7 @@ public class UserTitlesRepository : IUserTitlesRepository
                     FROM user_titles uc
                     LEFT JOIN user_titles_module ubm ON uc.title_id = ubm.user_title_id
                     LEFT JOIN user_titles_upgrade ubu ON uc.title_id = ubu.user_title_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

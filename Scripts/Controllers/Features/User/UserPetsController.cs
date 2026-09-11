@@ -224,6 +224,14 @@ public class UserPetsController : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             UpgradeManager.Instance.CreateUpgrade(pet);
         });
+
+        Button equipmentButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Equipment").GetComponent<Button>();
+        equipmentButton.gameObject.SetActive(true);
+        equipmentButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            await MainMenuEquipmentManager.Instance.CreateMainMenuEquipmentManagerAsync(pet);
+        });
     }
     public void RefreshCurrentDetailsUI(Pets pet)
     {

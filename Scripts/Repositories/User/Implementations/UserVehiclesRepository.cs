@@ -868,7 +868,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                     FROM user_vehicles uc
                     LEFT JOIN user_vehicles_module ubm ON uc.vehicle_id = ubm.user_vehicle_id
                     LEFT JOIN user_vehicles_upgrade ubu ON uc.vehicle_id = ubu.user_vehicle_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

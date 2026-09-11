@@ -864,7 +864,7 @@ public class UserFashionsRepository : IUserFashionsRepository
                     FROM user_fashions uc
                     LEFT JOIN user_fashions_module ubm ON uc.fashion_id = ubm.user_fashion_id
                     LEFT JOIN user_fashions_upgrade ubu ON uc.fashion_id = ubu.user_fashion_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

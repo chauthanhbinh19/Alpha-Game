@@ -863,7 +863,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
                     FROM user_card_lives uc
                     LEFT JOIN user_card_lives_module ubm ON uc.card_life_id = ubm.user_card_life_id
                     LEFT JOIN user_card_lives_upgrade ubu ON uc.card_life_id = ubu.user_card_life_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

@@ -863,7 +863,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                     FROM user_relics uc
                     LEFT JOIN user_relics_module ubm ON uc.relic_id = ubm.user_relic_id
                     LEFT JOIN user_relics_upgrade ubu ON uc.relic_id = ubu.user_relic_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

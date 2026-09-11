@@ -990,7 +990,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                     FROM user_avatars uc
                     LEFT JOIN user_avatars_module ubm ON uc.avatar_id = ubm.user_avatar_id
                     LEFT JOIN user_avatars_upgrade ubu ON uc.avatar_id = ubu.user_avatar_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

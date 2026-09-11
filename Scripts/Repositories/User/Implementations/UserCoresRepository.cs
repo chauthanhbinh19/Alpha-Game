@@ -833,7 +833,7 @@ public class UserCoresRepository : IUserCoresRepository
                     FROM user_cores uc
                     LEFT JOIN user_cores_module ubm ON uc.core_id = ubm.user_core_id
                     LEFT JOIN user_cores_upgrade ubu ON uc.core_id = ubu.user_core_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

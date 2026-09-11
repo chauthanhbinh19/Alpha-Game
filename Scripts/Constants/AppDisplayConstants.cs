@@ -168,231 +168,237 @@ public static class AppDisplayConstants
     {
         public const string USERNAME = "username";
         public const string PASSWORD = "password";
-        public const string FEATURE = "MainType.Feature";
+        public const string FEATURE = "Title.Feature";
 
-        public const string ACHIEVEMENT = "MainType.Achievement";
-        public const string ACHIEVEMENTS = "MainType.Achievements";
-        public const string CARD_HERO = "MainType.CardHero";
-        public const string CARD_HEROES = "MainType.CardHeroes";
+        public const string ACHIEVEMENT = "Title.Achievement";
+        public const string ACHIEVEMENTS = "Title.Achievements";
+        public const string CARD_HERO = "Title.CardHero";
+        public const string CARD_HEROES = "Title.CardHeroes";
 
-        public const string ALCHEMY = "MainType.Alchemy";
-        public const string ALCHEMIES = "MainType.Alchemies";
+        public const string ALCHEMY = "Title.Alchemy";
+        public const string ALCHEMIES = "Title.Alchemies";
 
-        public const string AVATAR = "MainType.Avatar";
-        public const string AVATARS = "MainType.Avatars";
+        public const string AVATAR = "Title.Avatar";
+        public const string AVATARS = "Title.Avatars";
 
-        public const string BORDER = "MainType.Border";
-        public const string BORDERS = "MainType.Borders";
+        public const string BORDER = "Title.Border";
+        public const string BORDERS = "Title.Borders";
 
-        public const string BOOK = "MainType.Book";
-        public const string BOOKS = "MainType.Books";
+        public const string BOOK = "Title.Book";
+        public const string BOOKS = "Title.Books";
 
-        public const string CARD_ADMIRAL = "MainType.CardAdmiral";
-        public const string CARD_ADMIRALS = "MainType.CardAdmirals";
+        public const string CARD_ADMIRAL = "Title.CardAdmiral";
+        public const string CARD_ADMIRALS = "Title.CardAdmirals";
 
-        public const string CARD_CAPTAIN = "MainType.CardCaptain";
-        public const string CARD_CAPTAINS = "MainType.CardCaptains";
+        public const string CARD_CAPTAIN = "Title.CardCaptain";
+        public const string CARD_CAPTAINS = "Title.CardCaptains";
 
-        public const string CARD_COLONEL = "MainType.CardColonel";
-        public const string CARD_COLONELS = "MainType.CardColonels";
+        public const string CARD_COLONEL = "Title.CardColonel";
+        public const string CARD_COLONELS = "Title.CardColonels";
 
-        public const string CARD_GENERAL = "MainType.CardGeneral";
-        public const string CARD_GENERALS = "MainType.CardGenerals";
+        public const string CARD_GENERAL = "Title.CardGeneral";
+        public const string CARD_GENERALS = "Title.CardGenerals";
 
-        public const string CARD_LIFE = "MainType.CardLife";
-        public const string CARD_LIVES = "MainType.CardLives";
+        public const string CARD_LIFE = "Title.CardLife";
+        public const string CARD_LIVES = "Title.CardLives";
 
-        public const string CARD_MILITARY = "MainType.CardMilitary";
-        public const string CARD_MILITARIES = "MainType.CardMilitaries";
+        public const string CARD_MILITARY = "Title.CardMilitary";
+        public const string CARD_MILITARIES = "Title.CardMilitaries";
 
-        public const string CARD_MONSTER = "MainType.CardMonster";
-        public const string CARD_MONSTERS = "MainType.CardMonsters";
+        public const string CARD_MONSTER = "Title.CardMonster";
+        public const string CARD_MONSTERS = "Title.CardMonsters";
 
-        public const string CARD_SPELL = "MainType.CardSpell";
-        public const string CARD_SPELLS = "MainType.CardSpells";
+        public const string CARD_SPELL = "Title.CardSpell";
+        public const string CARD_SPELLS = "Title.CardSpells";
 
-        public const string CARD_SOLDIER = "MainType.CardSoldier";
-        public const string CARD_SOLDIERS = "MainType.CardSoldiers";
+        public const string CARD_SOLDIER = "Title.CardSoldier";
+        public const string CARD_SOLDIERS = "Title.CardSoldiers";
 
-        public const string COLLABORATION_EQUIPMENT = "MainType.CollaborationEquipment";
-        public const string COLLABORATION_EQUIPMENTS = "MainType.CollaborationEquipments";
+        public const string COLLABORATION_EQUIPMENT = "Title.CollaborationEquipment";
+        public const string COLLABORATION_EQUIPMENTS = "Title.CollaborationEquipments";
 
-        public const string COLLABORATION = "MainType.Collaboration";
-        public const string COLLABORATIONS = "MainType.Collaborations";
+        public const string COLLABORATION = "Title.Collaboration";
+        public const string COLLABORATIONS = "Title.Collaborations";
 
-        public const string EQUIPMENT = "MainType.Equipment";
-        public const string EQUIPMENTS = "MainType.Equipments"; // nếu bạn cho phép dạng số nhiều của uncountable
+        public const string EQUIPMENT = "Title.Equipment";
+        public const string EQUIPMENTS = "Title.Equipments"; // nếu bạn cho phép dạng số nhiều của uncountable
 
-        public const string FORGE = "MainType.Forge";
-        public const string FORGES = "MainType.Forges";
+        public const string FORGE = "Title.Forge";
+        public const string FORGES = "Title.Forges";
 
-        public const string MAGIC_FORMATION_CIRCLE = "MainType.MagicFormationCircle";
-        public const string MAGIC_FORMATION_CIRCLES = "MainType.MagicFormationCircles";
+        public const string MAGIC_FORMATION_CIRCLE = "Title.MagicFormationCircle";
+        public const string MAGIC_FORMATION_CIRCLES = "Title.MagicFormationCircles";
 
-        public const string MEDAL = "MainType.Medal";
-        public const string MEDALS = "MainType.Medals";
+        public const string MEDAL = "Title.Medal";
+        public const string MEDALS = "Title.Medals";
 
-        public const string PET = "MainType.Pet";
-        public const string PETS = "MainType.Pets";
+        public const string PET = "Title.Pet";
+        public const string PETS = "Title.Pets";
 
-        public const string PUPPET = "MainType.Puppet";
-        public const string PUPPETS = "MainType.Puppets";
+        public const string PUPPET = "Title.Puppet";
+        public const string PUPPETS = "Title.Puppets";
 
-        public const string RELIC = "MainType.Relic";
-        public const string RELICS = "MainType.Relics";
+        public const string RELIC = "Title.Relic";
+        public const string RELICS = "Title.Relics";
 
-        public const string SKILL = "MainType.Skill";
-        public const string SKILLS = "MainType.Skills";
+        public const string SKILL = "Title.Skill";
+        public const string SKILLS = "Title.Skills";
 
-        public const string SYMBOL = "MainType.Symbol";
-        public const string SYMBOLS = "MainType.Symbols";
+        public const string SYMBOL = "Title.Symbol";
+        public const string SYMBOLS = "Title.Symbols";
 
-        public const string TALISMAN = "MainType.Talisman";
-        public const string TALISMANS = "MainType.Talismans";
+        public const string TALISMAN = "Title.Talisman";
+        public const string TALISMANS = "Title.Talismans";
 
-        public const string TITLE = "MainType.Title";
-        public const string TITLES = "MainType.Titles";
+        public const string TITLE = "Title.Title";
+        public const string TITLES = "Title.Titles";
 
         public const string ITEM = "item";
         public const string ITEMS = "items";
 
-        public const string ARTWORK = "MainType.Artwork";
-        public const string ARTWORKS = "MainType.Artworks";
+        public const string ARTWORK = "Title.Artwork";
+        public const string ARTWORKS = "Title.Artworks";
 
-        public const string SPIRIT_BEAST = "MainType.SpiritBeast";
-        public const string SPIRIT_BEASTS = "MainType.SpiritBeasts";
+        public const string SPIRIT_BEAST = "Title.SpiritBeast";
+        public const string SPIRIT_BEASTS = "Title.SpiritBeasts";
 
-        public const string SPIRIT_CARD = "MainType.SpiritCard";
-        public const string SPIRIT_CARDS = "MainType.SpiritCards";
+        public const string SPIRIT_CARD = "Title.SpiritCard";
+        public const string SPIRIT_CARDS = "Title.SpiritCards";
 
-        public const string ARCHITECTURE = "MainType.Architecture";
-        public const string ARCHITECTURES = "MainType.Architectures";
+        public const string ARCHITECTURE = "Title.Architecture";
+        public const string ARCHITECTURES = "Title.Architectures";
 
-        public const string TECHNOLOGY = "MainType.Technology";
-        public const string TECHNOLOGIES = "MainType.Technologies";
+        public const string TECHNOLOGY = "Title.Technology";
+        public const string TECHNOLOGIES = "Title.Technologies";
 
-        public const string VEHICLE = "MainType.Vehicle";
-        public const string VEHICLES = "MainType.Vehicles";
+        public const string VEHICLE = "Title.Vehicle";
+        public const string VEHICLES = "Title.Vehicles";
 
-        public const string ARTIFACT = "MainType.Artifact";
-        public const string ARTIFACTS = "MainType.Artifacts";
+        public const string ARTIFACT = "Title.Artifact";
+        public const string ARTIFACTS = "Title.Artifacts";
 
-        public const string CORE = "MainType.Core";
-        public const string CORES = "MainType.Cores";
+        public const string CORE = "Title.Core";
+        public const string CORES = "Title.Cores";
 
-        public const string WEAPON = "MainType.Weapon";
-        public const string WEAPONS = "MainType.Weapons";
+        public const string WEAPON = "Title.Weapon";
+        public const string WEAPONS = "Title.Weapons";
 
-        public const string ROBOT = "MainType.Robot";
-        public const string ROBOTS = "MainType.Robots";
+        public const string ROBOT = "Title.Robot";
+        public const string ROBOTS = "Title.Robots";
 
-        public const string BADGE = "MainType.Badge";
-        public const string BADGES = "MainType.Badges";
+        public const string BADGE = "Title.Badge";
+        public const string BADGES = "Title.Badges";
 
-        public const string MECHA_BEAST = "MainType.MechaBeast";
-        public const string MECHA_BEASTS = "MainType.MechaBeasts";
+        public const string MECHA_BEAST = "Title.MechaBeast";
+        public const string MECHA_BEASTS = "Title.MechaBeasts";
 
-        public const string RUNE = "MainType.Rune";
-        public const string RUNES = "MainType.Runes";
+        public const string RUNE = "Title.Rune";
+        public const string RUNES = "Title.Runes";
 
-        public const string FURNITURE = "MainType.Furniture";
-        public const string FURNITURES = "MainType.Furnitures";
+        public const string FURNITURE = "Title.Furniture";
+        public const string FURNITURES = "Title.Furnitures";
 
-        public const string FOOD = "MainType.Food";
-        public const string FOODS = "MainType.Foods";
+        public const string FOOD = "Title.Food";
+        public const string FOODS = "Title.Foods";
 
-        public const string BEVERAGE = "MainType.Beverage";
-        public const string BEVERAGES = "MainType.Beverages";
+        public const string BEVERAGE = "Title.Beverage";
+        public const string BEVERAGES = "Title.Beverages";
 
-        public const string BUILDING = "MainType.Building";
-        public const string BUILDINGS = "MainType.Buildings";
+        public const string BUILDING = "Title.Building";
+        public const string BUILDINGS = "Title.Buildings";
 
-        public const string PLANT = "MainType.Plant";
-        public const string PLANTS = "MainType.Plants";
+        public const string PLANT = "Title.Plant";
+        public const string PLANTS = "Title.Plants";
 
-        public const string FASHION = "MainType.Fashion";
-        public const string FASHIONS = "MainType.Fashions";
+        public const string FASHION = "Title.Fashion";
+        public const string FASHIONS = "Title.Fashions";
 
-        public const string EMOJI = "MainType.Emoji";
-        public const string EMOJIS = "MainType.Emojis";
+        public const string EMOJI = "Title.Emoji";
+        public const string EMOJIS = "Title.Emojis";
 
-        public const string OUTFIT = "MainType.Outfit";
-        public const string OUTFITS = "MainType.Outfits";
+        public const string OUTFIT = "Title.Outfit";
+        public const string OUTFITS = "Title.Outfits";
 
-        public const string SUMMON_CARD_HERO = "MainType.SummonCardHero";
-        public const string SUMMON_BOOK = "MainType.SummonBook";
-        public const string SUMMON_CARD_CAPTAIN = "MainType.SummonCardCaptain";
-        public const string SUMMON_CARD_MONSTER = "MainType.SummonCardMonster";
-        public const string SUMMON_CARD_MILITARY= "MainType.SummonCardMilitary";
-        public const string SUMMON_CARD_SPELL = "MainType.SummonCardSpell";
-        public const string SUMMON_CARD_COLONEL = "MainType.SummonCardColonel";
-        public const string SUMMON_CARD_GENERAL = "MainType.SummonCardGeneral";
-        public const string SUMMON_CARD_ADMIRAL = "MainType.SummonCardAdmiral";
+        public const string SUMMON_CARD_HERO = "Title.SummonCardHero";
+        public const string SUMMON_BOOK = "Title.SummonBook";
+        public const string SUMMON_CARD_CAPTAIN = "Title.SummonCardCaptain";
+        public const string SUMMON_CARD_MONSTER = "Title.SummonCardMonster";
+        public const string SUMMON_CARD_MILITARY= "Title.SummonCardMilitary";
+        public const string SUMMON_CARD_SPELL = "Title.SummonCardSpell";
+        public const string SUMMON_CARD_COLONEL = "Title.SummonCardColonel";
+        public const string SUMMON_CARD_GENERAL = "Title.SummonCardGeneral";
+        public const string SUMMON_CARD_ADMIRAL = "Title.SummonCardAdmiral";
 
         public const string CAMPAIGN = "campaign";
         public const string CAMPAIGNS = "campaigns";
-        public const string BAG = "MainType.Bag";
-        public const string TEAMS = "MainType.Teams";
-        public const string MORE = "MainType.More";
-        public const string SHOP = "MainType.Shop";
-        public const string GALLERY = "MainType.Gallery";
-        public const string COLLECTION = "MainType.Collection";
-        public const string ANIME = "MainType.Anime";
-        public const string ARENA = "MainType.Arena";
-        public const string GUILD = "MainType.Guild";
-        public const string TOWER = "MainType.Tower";
-        public const string EVENT = "MainType.Event";
-        public const string GACHA = "MainType.Gacha";
-        public const string MASTER_BOARD = "MainType.MasterBoard";
-        public const string DAILY_CHECKIN = "MainType.DailyCheckin";
-        public const string EMAIL = "MainType.Email";
-        public const string CHAT = "MainType.Chat";
+        public const string BAG = "Title.Bag";
+        public const string TEAMS = "Title.Teams";
+        public const string MORE = "Title.More";
+        public const string SHOP = "Title.Shop";
+        public const string GALLERY = "Title.Gallery";
+        public const string COLLECTION = "Title.Collection";
+        public const string ANIME = "Title.Anime";
+        public const string ARENA = "Title.Arena";
+        public const string GUILD = "Title.Guild";
+        public const string TOWER = "Title.Tower";
+        public const string EVENT = "Title.Event";
+        public const string GACHA = "Title.Gacha";
+        public const string MASTER_BOARD = "Title.MasterBoard";
+        public const string DAILY_CHECKIN = "Title.DailyCheckin";
+        public const string EMAIL = "Title.Email";
+        public const string CHAT = "Title.Chat";
         public const string REWARD = "Title.Reward";
         public const string BONUS = "Title.Bonus";
         public const string PRICE = "Title.Price";
+        public const string RARE = "Title.Rare";
+        public const string LOCK = "Title.Lock";
+        public const string STAR = "Title.Star";
+        public const string POWER = "Title.Power";
+        public const string SET = "Title.Set";
+        public const string POSITION = "Title.Position";
 
-        public const string BUY = "MainType.Buy";
-        public const string PACKAGE_ITEM = "MainType.Package";
-        public const string SHOP_PACKAGE = "MainType.ShopPackage";
-        public const string SIGN_IN = "MainType.SignIn";
-        public const string SIGN_UP = "MainType.SignUp";
-        public const string BACK = "MainType.Back";
-        public const string SUMMON_ONE = "MainType.SummonOne";
-        public const string SUMMON_TEN = "MainType.SummonTen";
-        public const string UP_ONE_LEVEL = "MainType.UpOneLevel";
-        public const string UP_MAX_LEVEL = "MainType.UpMaxLevel";
-        public const string TEAM = "MainType.Team";
+        public const string BUY = "Title.Buy";
+        public const string PACKAGE_ITEM = "Title.Package";
+        public const string SHOP_PACKAGE = "Title.ShopPackage";
+        public const string SIGN_IN = "Title.SignIn";
+        public const string SIGN_UP = "Title.SignUp";
+        public const string BACK = "Title.Back";
+        public const string SUMMON_ONE = "Title.SummonOne";
+        public const string SUMMON_TEN = "Title.SummonTen";
+        public const string UP_ONE_LEVEL = "Title.UpOneLevel";
+        public const string UP_MAX_LEVEL = "Title.UpMaxLevel";
+        public const string TEAM = "Title.Team";
 
-        public const string INVENTORY = "MainType.Inventory";
-        public const string SCIENCE_FICTION = "MainType.ScienceFiction";
-        public const string STATS = "MainType.Stats";
+        public const string INVENTORY = "Title.Inventory";
+        public const string SCIENCE_FICTION = "Title.ScienceFiction";
+        public const string STATS = "Title.Stats";
 
-        public const string ARCHIVE = "MainType.Archive";
-        public const string UNIVERSE = "MainType.Universe";
-        public const string RESEARCH = "MainType.Research";
-        public const string HIIN = "MainType.HIIN";
-        public const string SSWN = "MainType.SSWN";
-        public const string HITN = "MainType.HITN";
-        public const string HIHN = "MainType.HIHN";
-        public const string HIEN = "MainType.HIEN";
-        public const string HICA = "MainType.HICA";
-        public const string HIRN = "MainType.HIRN";
-        public const string HIDC = "MainType.HIDC";
-        public const string HICB = "MainType.HICB";
-        public const string HISN = "MainType.HISN";
-        public const string MASTER = "MainType.Master";
-        public const string RANK = "MainType.Rank";
+        public const string ARCHIVE = "Title.Archive";
+        public const string UNIVERSE = "Title.Universe";
+        public const string RESEARCH = "Title.Research";
+        public const string HIIN = "Title.HIIN";
+        public const string SSWN = "Title.SSWN";
+        public const string HITN = "Title.HITN";
+        public const string HIHN = "Title.HIHN";
+        public const string HIEN = "Title.HIEN";
+        public const string HICA = "Title.HICA";
+        public const string HIRN = "Title.HIRN";
+        public const string HIDC = "Title.HIDC";
+        public const string HICB = "Title.HICB";
+        public const string HISN = "Title.HISN";
+        public const string MASTER = "Title.Master";
+        public const string RANK = "Title.Rank";
 
-        public const string HIIN_FULLNAME = "MainType.HIIN_FULLNAME";
-        public const string SSWN_FULLNAME = "MainType.SSWN_FULLNAME";
-        public const string HITN_FULLNAME = "MainType.HITN_FULLNAME";
-        public const string HIHN_FULLNAME = "MainType.HIHN_FULLNAME";
-        public const string HIEN_FULLNAME = "MainType.HIEN_FULLNAME";
-        public const string HICA_FULLNAME = "MainType.HICA_FULLNAME";
-        public const string HIRN_FULLNAME = "MainType.HIRN_FULLNAME";
-        public const string HIDC_FULLNAME = "MainType.HIDC_FULLNAME";
-        public const string HICB_FULLNAME = "MainType.HICB_FULLNAME";
-        public const string HISN_FULLNAME = "MainType.HISN_FULLNAME";
+        public const string HIIN_FULLNAME = "Title.HIIN_FULLNAME";
+        public const string SSWN_FULLNAME = "Title.SSWN_FULLNAME";
+        public const string HITN_FULLNAME = "Title.HITN_FULLNAME";
+        public const string HIHN_FULLNAME = "Title.HIHN_FULLNAME";
+        public const string HIEN_FULLNAME = "Title.HIEN_FULLNAME";
+        public const string HICA_FULLNAME = "Title.HICA_FULLNAME";
+        public const string HIRN_FULLNAME = "Title.HIRN_FULLNAME";
+        public const string HIDC_FULLNAME = "Title.HIDC_FULLNAME";
+        public const string HICB_FULLNAME = "Title.HICB_FULLNAME";
+        public const string HISN_FULLNAME = "Title.HISN_FULLNAME";
     }
     public static class Gallery
     {
@@ -1188,9 +1194,5 @@ public static class AppDisplayConstants
         public const string Yvarion = "Equipment.YvarionEquipment";
         public const string Zodiac = "Equipment.ZodiacEquipment";
         public const string Zerox = "Equipment.ZeroxEquipment";
-    }
-    public static class Notification
-    {
-        public const string PURCHASE_FAILED = "Notification.MessageNumber1";
     }
 }

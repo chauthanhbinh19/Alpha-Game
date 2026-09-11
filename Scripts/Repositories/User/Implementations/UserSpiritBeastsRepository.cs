@@ -844,7 +844,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     FROM user_spirit_beasts uc
                     LEFT JOIN user_spirit_beasts_module ubm ON uc.spirit_beast_id = ubm.user_spirit_beast_id
                     LEFT JOIN user_spirit_beasts_upgrade ubu ON uc.spirit_beast_id = ubu.user_spirit_beast_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

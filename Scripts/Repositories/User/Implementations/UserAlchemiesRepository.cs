@@ -865,7 +865,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                     FROM user_alchemies uc
                     LEFT JOIN user_alchemies_module ubm ON uc.alchemy_id = ubm.user_alchemy_id
                     LEFT JOIN user_alchemies_upgrade ubu ON uc.alchemy_id = ubu.user_alchemy_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

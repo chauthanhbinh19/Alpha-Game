@@ -863,7 +863,7 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
                     FROM user_magic_formation_circles uc
                     LEFT JOIN user_magic_formation_circles_module ubm ON uc.mfc_id = ubm.user_mfc_id
                     LEFT JOIN user_magic_formation_circles_upgrade ubu ON uc.mfc_id = ubu.user_mfc_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

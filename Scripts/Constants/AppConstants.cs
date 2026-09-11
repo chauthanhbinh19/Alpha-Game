@@ -2554,6 +2554,9 @@ public static class AppConstants
             public const string SUMMON_TAB_BUTTON_PREFAB = "SummonTabButtonPrefab";
             public const string TOPUP_TAB_BUTTON_PREFAB = "TopupTabButtonPrefab";
             public const string TOPUP_BUTTON_PREFAB = "TopupButtonPrefab";
+            public const string EQUIPMENT_TAB_BUTTON_PREFAB = "EquipmentTabButtonPrefab";
+            public const string EQUIPMENT_SET_BUTTON_PREFAB = "EquipmentSetButtonPrefab";
+            public const string EQUIPMENT_DETAIL_BUTTON_PREFAB = "EquipmentDetailButtonPrefab";
 
             public const string ACHIEVEMENT_BUTTON_PREFAB = "AchievementButtonPrefab";
             public const string ACHIEVEMENT_BLOCK_BUTTON_PREFAB = "AchievementBlockButtonPrefab";

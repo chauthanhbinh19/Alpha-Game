@@ -841,7 +841,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                     FROM user_technologies uc
                     LEFT JOIN user_technologies_module ubm ON uc.technology_id = ubm.user_technology_id
                     LEFT JOIN user_technologies_upgrade ubu ON uc.technology_id = ubu.user_technology_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

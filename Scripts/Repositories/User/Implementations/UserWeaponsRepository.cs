@@ -863,7 +863,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                     FROM user_weapons uc
                     LEFT JOIN user_weapons_module ubm ON uc.weapon_id = ubm.user_weapon_id
                     LEFT JOIN user_weapons_upgrade ubu ON uc.weapon_id = ubu.user_weapon_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

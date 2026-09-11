@@ -838,7 +838,7 @@ public class UserRunesRepository : IUserRunesRepository
                     FROM user_runes uc
                     LEFT JOIN user_runes_module ubm ON uc.rune_id = ubm.user_rune_id
                     LEFT JOIN user_runes_upgrade ubu ON uc.rune_id = ubu.user_rune_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

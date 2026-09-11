@@ -8277,12 +8277,12 @@ GameObject:
   - component: {fileID: 8161279078047808683}
   - component: {fileID: 7059744552407991210}
   m_Layer: 5
-  m_Name: EnhancementButton
+  m_Name: Equipment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8161279078047808683
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19185,7 +19185,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enhancement
+  m_text: Equipment
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d9c6885c4b2207f45926cee0d9617cec, type: 2}
   m_sharedMaterial: {fileID: -5273589510770900895, guid: d9c6885c4b2207f45926cee0d9617cec, type: 2}

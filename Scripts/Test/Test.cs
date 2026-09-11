@@ -172,7 +172,7 @@ public class Test : MonoBehaviour
         Debug.Log("<color=cyan>Emojis initiate successfully</color>");
 
         List<Equipments> equipments = await EquipmentsService.Create()
-            .GetEquipmentsAsync(Search, Type, Rare, PAGE_SIZE, Offset);
+            .GetEquipmentsAsync(Search, Type, Rare, 31000, Offset);
         var equipmentsWithQuantity = equipments
             .Select(x => (data: x, quantity: 1000000d))
             .ToList();

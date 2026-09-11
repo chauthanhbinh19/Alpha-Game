@@ -3,16 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Bson;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MainMenuEquipmentManager : MonoBehaviour
 {
+    public static MainMenuEquipmentManager Instance { get; private set; }
     private Transform MainPanel;
     private Transform TabButtonPanel;
     private Transform SlotPanel;
     private Transform SetPanel;
+    private GameObject EquipmentTabButtonPrefab;
+    private GameObject EquipmentSetButtonPrefab;
+    private GameObject EquipmentDetailButtonPrefab;
     private GameObject TypeButtonPrefab;
     private GameObject MainMenuEquipmentPanelPrefab;
     private GameObject PopupEquipmentsPanelPrefab;
@@ -33,17 +39,35 @@ public class MainMenuEquipmentManager : MonoBehaviour
     private Button EquipOneTypeButton;
     private Button EquipAllTypeButton;
     private RawImage MainImage;
+    private PaginationManager PaginationManager;
     private string MainType;
-    private int PageSize;
-    private int Offset;
-    private int CurrentPage;
+    private const int PAGE_SIZE = 100;
+    private int Offset = 0;
+    private int CurrentPage = 1;
+    private int TotalItems;
     private int TotalPage;
     private string StatusToggle;
     private string Set;
-    private string Search;
-    // private string type;
-    private string Rare;
+    private string Search = "";
+    private string Type = AppConstants.Type.ALL;
+    private string Rare = AppConstants.Rare.ALL;
+    private bool IsSearchingOrFiltering = false;
     EquipmentType EquipmentType;
+
+    private void Awake()
+    {
+        // Ensure there's only one instance of PanelManager
+        if (Instance == null)
+        {
+            Instance = this;
+            // DontDestroyOnLoad(gameObject); // Keep this object across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,11 +75,6 @@ public class MainMenuEquipmentManager : MonoBehaviour
     }
     public void Initialize()
     {
-        PageSize = 100;
-        Offset = 0;
-        CurrentPage = 1;
-        Set = "set1";
-        Search = "";
         // type = AppConstants.Type.ALL;
         Rare = AppConstants.Rare.ALL;
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
@@ -73,501 +92,318 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Slot16Prefab = UIManager.Instance.Get("Slot16Prefab");
         SetButtonPrefab = UIManager.Instance.Get("SetButtonPrefab");
         StarPrefab = UIManager.Instance.Get("StarPrefab");
+        EquipmentTabButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.EQUIPMENT_TAB_BUTTON_PREFAB);
+        EquipmentSetButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.EQUIPMENT_SET_BUTTON_PREFAB);
+        EquipmentDetailButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.EQUIPMENT_DETAIL_BUTTON_PREFAB);
     }
     public async Task CreateMainMenuEquipmentManagerAsync(object data)
     {
-        CurrentObject = Instantiate(MainMenuEquipmentPanelPrefab, MainPanel);
-        Transform transform = CurrentObject.transform;
-        TabButtonPanel = transform.Find("Scroll View/Viewport/Content");
-        SlotPanel = transform.Find("DictionaryCards/Slot");
-        TextMeshProUGUI titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainMenuSet1.EQUIPMENTS);
-        SetPanel = transform.Find("DictionaryCards/SetGroup/Viewport/Content");
-        MainImage = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        Button homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        GameObject topupPanelObject = Instantiate(MainMenuEquipmentPanelPrefab, MainPanel);
+        Transform transform = topupPanelObject.transform;
+        Transform tabButtonTransform = transform.Find("Tab Scroll View/Viewport/Content");
+        Transform setButtonTransform = transform.Find("Set Scroll View/Viewport/Content");
+        Transform contentTransform = transform.Find("Scroll View/Viewport/Content");
+        TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP_PACKAGE);
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(topupPanelObject);
+        });
         homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
         });
-        closeButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(CurrentObject);
-        });
-        RawImage background = transform.Find("DictionaryBackground").GetComponent<RawImage>();
-        background.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.BACKGROUND_58_URL);
-        RawImage closeButtonBackground = closeButton.GetComponent<RawImage>();
-        RawImage homeButtonBackground = homeButton.GetComponent<RawImage>();
-        closeButtonBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Button.BACK_BUTTON_BACKGROUND_URL);
-        homeButtonBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Button.HOME_BUTTON_BACKGROUND_URL);
-        RawImage scrollViewBackground = transform.Find("DictionaryCards/ScrollViewBackground").GetComponent<RawImage>();
-        scrollViewBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SCROLLVIEW_BACKGROUND_1_URL);
-        RawImage titleBackground = transform.Find("DictionaryCards/TitleBackground").GetComponent<RawImage>();
-        titleBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Button.TITLE_BUTTON_BACKGROUND_URL);
-        EquipOneTypeButton = transform.Find("DictionaryCards/EquipOneTypeButton").GetComponent<Button>();
-        EquipAllTypeButton = transform.Find("DictionaryCards/EquipAllTypeButton").GetComponent<Button>();
 
-        List<string> uniqueTypes = await EquipmentsService.Create().GetUniqueEquipmentsTypesAsync();
-        if (uniqueTypes.Count > 0)
+        List<string> typeList = await EquipmentsService.Create().GetUniqueEquipmentsTypesAsync();
+        // Danh sách lưu trữ các UI Tab để quản lý toggle trạng thái Selected / Default
+        List<(GameObject defaultObj, GameObject selectedObj)> tabUIList = new List<(GameObject, GameObject)>();
+
+        for (int i = 0; i < typeList.Count; i++)
         {
-            for (int i = 0; i < uniqueTypes.Count; i++)
+            string type = typeList[i];
+
+            // Instantiate tab button và đặt parent vào Content của Tab Scroll View
+            GameObject topupTabButtonObject = Instantiate(EquipmentTabButtonPrefab, tabButtonTransform);
+
+            GameObject defaultObj = topupTabButtonObject.transform.Find("Default").gameObject;
+            GameObject selectedObj = topupTabButtonObject.transform.Find("Selected").gameObject;
+
+            TextMeshProUGUI titleText1 = defaultObj.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText2 = selectedObj.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+
+            titleText1.text = type.Replace("_", " ");
+            titleText2.text = type.Replace("_", " ");
+
+            // Trạng thái mặc định: Phần tử đầu tiên (i == 0) sẽ Active Selected, còn lại Active Default
+            bool isFirst = (i == 0);
+            defaultObj.SetActive(!isFirst);
+            selectedObj.SetActive(isFirst);
+
+            tabUIList.Add((defaultObj, selectedObj));
+
+            // Đăng ký sự kiện Click cho Tab Button
+            Button tabBtn = topupTabButtonObject.GetComponent<Button>();
+            tabBtn.onClick.AddListener(async () =>
             {
-                // Tạo một nút mới từ prefab
-                string subtype = uniqueTypes[i];
-                GameObject button = Instantiate(TypeButtonPrefab, TabButtonPanel);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND_2);
 
-                TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
-                buttonText.text = subtype.Replace("_", " ");
-
-                Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(async () =>
+                // 1. Chuyển tất cả các Tab về dạng Default
+                foreach (var tabUI in tabUIList)
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await OnButtonClickAsync(button, data, subtype);
-                });
-
-                if (i == 0)
-                {
-                    MainType = subtype;
-                    ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
-                    if (data is CardHeroes cardHero)
-                    {
-                        await CreateCardHeroesEquipmentsAsync(cardHero);
-                    }
-                    else if (data is Books book)
-                    {
-                        await CreateBooksEquipmentsAsync(book);
-                    }
-                    else if (data is CardCaptains cardCaptain)
-                    {
-                        await CreateCardCaptainsEquipmentsAsync(cardCaptain);
-                    }
-                    else if (data is Pets pet)
-                    {
-                        await CreatePetsEquipmentsAsync(pet);
-                    }
-                    else if (data is CardMilitaries cardMilitary)
-                    {
-                        await CreateCardMilitaryEquipmentsAsync(cardMilitary);
-                    }
-                    else if (data is CardSpells cardSpell)
-                    {
-                        await CreateCardSpellEquipmentsAsync(cardSpell);
-                    }
-                    else if (data is CardMonsters cardMonster)
-                    {
-                        await CreateCardMonstersEquipmentsAsync(cardMonster);
-                    }
-                    else if (data is CardColonels cardColonel)
-                    {
-                        await CreateCardColonelsEquipmentsAsync(cardColonel);
-                    }
-                    else if (data is CardGenerals cardGeneral)
-                    {
-                        await CreateCardGeneralsEquipmentsAsync(cardGeneral);
-                    }
-                    else if (data is CardAdmirals cardAdmiral)
-                    {
-                        await CreateCardAdmiralsEquipmentsAsync(cardAdmiral);
-                    }
+                    tabUI.defaultObj.SetActive(true);
+                    tabUI.selectedObj.SetActive(false);
                 }
-                else
-                {
-                    ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_BEFORE_CLICK_URL);
-                }
-            }
-            LoadAnimation();
+
+                // 2. Bật dạng Selected cho Tab vừa được click
+                defaultObj.SetActive(false);
+                selectedObj.SetActive(true);
+
+                // TODO: Gọi hàm load/filter danh sách gói nạp theo category này vào contentTransform
+                await CreateSetButtonAsync(data, type, setButtonTransform, contentTransform);
+            });
         }
 
-        EquipOneTypeButton.onClick.AddListener((UnityEngine.Events.UnityAction)(async () =>
+        // Load gói nạp của Tab đầu tiên nếu có danh mục
+        if (typeList.Count > 0)
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            if (data is CardHeroes cardHero)
-            {
-                var success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardHeroAsync(User.CurrentUserId, (string)cardHero.Id, MainType);
-                if (success.IsSuccess)
-                {
-                    await CreateCardHeroesEquipmentsAsync(cardHero);
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-                }
-                else
-                {
-                    Debug.LogError("Failed to equip all equipments of type to CardHero.");
-                }
-            }
-            else if (data is CardCaptains cardCaptain)
-            {
-                var success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardCaptainAsync(User.CurrentUserId, cardCaptain.Id, MainType);
-                if (success.IsSuccess)
-                {
-                    await CreateCardCaptainsEquipmentsAsync(cardCaptain);
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-                }
-                else
-                {
-                    Debug.LogError("Failed to equip all equipments of type to CardCaptain.");
-                }
-            }
-            else if (data is CardColonels cardColonel)
-            {
-                var success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardColonelAsync(User.CurrentUserId, cardColonel.Id, MainType);
-                if (success.IsSuccess)
-                {
-                    await CreateCardColonelsEquipmentsAsync(cardColonel);
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-                }
-                else
-                {
-                    Debug.LogError("Failed to equip all equipments of type to CardColonel.");
-                }
-            }
-            else if (data is CardGenerals cardGeneral)
-            {
-                var success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardGeneralAsync(User.CurrentUserId, cardGeneral.Id, MainType);
-                if (success.IsSuccess)
-                {
-                    await CreateCardGeneralsEquipmentsAsync(cardGeneral);
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-                }
-                else
-                {
-                    Debug.LogError("Failed to equip all equipments of type to CardGeneral.");
-                }
-            }
-            else if (data is CardAdmirals cardAdmiral)
-            {
-                var success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardAdmiralAsync(User.CurrentUserId, cardAdmiral.Id, MainType);
-                if (success.IsSuccess)
-                {
-                    await CreateCardAdmiralsEquipmentsAsync(cardAdmiral);
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-                }
-                else
-                {
-                    Debug.LogError("Failed to equip all equipments of type to CardAdmiral.");
-                }
-            }
-            else if (data is CardMonsters cardMonster)
-            {
-                var success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardMonsterAsync(User.CurrentUserId, cardMonster.Id, MainType);
-                if (success.IsSuccess)
-                {
-                    await CreateCardMonstersEquipmentsAsync(cardMonster);
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-                }
-                else
-                {
-                    Debug.LogError("Failed to equip all equipments of type to CardMonster.");
-                }
-            }
-            else if (data is CardMilitaries cardMilitary)
-            {
-                var success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardMilitaryAsync(User.CurrentUserId, cardMilitary.Id, MainType);
-                if (success.IsSuccess)
-                {
-                    await CreateCardMilitaryEquipmentsAsync(cardMilitary);
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-                }
-                else
-                {
-                    Debug.LogError("Failed to equip all equipments of type to CardMilitary.");
-                }
-            }
-            else if (data is CardSpells cardSpell)
-            {
-                var success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardSpellAsync(User.CurrentUserId, cardSpell.Id, MainType);
-                if (success.IsSuccess)
-                {
-                    await CreateCardSpellEquipmentsAsync(cardSpell);
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-                }
-                else
-                {
-                    Debug.LogError("Failed to equip all equipments of type to CardSpell.");
-                }
-            }
-            else if (data is Books book)
-            {
-                var success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToBookAsync(User.CurrentUserId, book.Id, MainType);
-                if (success.IsSuccess)
-                {
-                    await CreateBooksEquipmentsAsync(book);
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-                }
-                else
-                {
-                    Debug.LogError("Failed to equip all equipments of type to Book.");
-                }
-            }
-            else if (data is Pets pet)
-            {
-                var success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToPetAsync(User.CurrentUserId, pet.Id, MainType);
-                if (success.IsSuccess)
-                {
-                    await CreatePetsEquipmentsAsync(pet);
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-                }
-                else
-                {
-                    Debug.LogError("Failed to equip all equipments of type to Pet.");
-                }
-            }
-        }));
-
-        EquipAllTypeButton.onClick.AddListener((UnityEngine.Events.UnityAction)(async () =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            if (data is CardHeroes cardHero)
-            {
-                var success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardHeroAsync(User.CurrentUserId, (string)cardHero.Id);
-                if (success.IsSuccess)
-                {
-                    await CreateCardHeroesEquipmentsAsync(cardHero);
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-                }
-                else
-                {
-                    Debug.LogError("Failed to equip all equipments to CardHero.");
-                }
-            }
-            else if (data is CardCaptains cardCaptain)
-            {
-                var success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardCaptainAsync(User.CurrentUserId, cardCaptain.Id);
-                if (success.IsSuccess)
-                {
-                    await CreateCardCaptainsEquipmentsAsync(cardCaptain);
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-                }
-                else
-                {
-                    Debug.LogError("Failed to equip all equipments to CardCaptain.");
-                }
-            }
-            else if (data is CardColonels cardColonel)
-            {
-                var success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardColonelAsync(User.CurrentUserId, cardColonel.Id);
-                if (success.IsSuccess)
-                {
-                    await CreateCardColonelsEquipmentsAsync(cardColonel);
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-                }
-                else
-                {
-                    Debug.LogError("Failed to equip all equipments to CardColonel.");
-                }
-            }
-            else if (data is CardGenerals cardGeneral)
-            {
-                var success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardGeneralAsync(User.CurrentUserId, cardGeneral.Id);
-                if (success.IsSuccess)
-                {
-                    await CreateCardGeneralsEquipmentsAsync(cardGeneral);
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-                }
-                else
-                {
-                    Debug.LogError("Failed to equip all equipments to CardGeneral.");
-                }
-            }
-            else if (data is CardAdmirals cardAdmiral)
-            {
-                var success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardAdmiralAsync(User.CurrentUserId, cardAdmiral.Id);
-                if (success.IsSuccess)
-                {
-                    await CreateCardAdmiralsEquipmentsAsync(cardAdmiral);
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-                }
-                else
-                {
-                    Debug.LogError("Failed to equip all equipments to CardAdmiral.");
-                }
-            }
-            else if (data is CardMonsters cardMonster)
-            {
-                var success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardMonsterAsync(User.CurrentUserId, cardMonster.Id);
-                if (success.IsSuccess)
-                {
-                    await CreateCardMonstersEquipmentsAsync(cardMonster);
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-                }
-                else
-                {
-                    Debug.LogError("Failed to equip all equipments to CardMonster.");
-                }
-            }
-            else if (data is CardMilitaries cardMilitary)
-            {
-                var success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardMilitaryAsync(User.CurrentUserId, cardMilitary.Id);
-                if (success.IsSuccess)
-                {
-                    await CreateCardMilitaryEquipmentsAsync(cardMilitary);
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-                }
-                else
-                {
-                    Debug.LogError("Failed to equip all equipments to CardMilitary.");
-                }
-            }
-            else if (data is CardSpells cardSpell)
-            {
-                var success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardSpellAsync(User.CurrentUserId, cardSpell.Id);
-                if (success.IsSuccess)
-                {
-                    await CreateCardSpellEquipmentsAsync(cardSpell);
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-                }
-                else
-                {
-                    Debug.LogError("Failed to equip all equipments to CardSpell.");
-                }
-            }
-            else if (data is Books book)
-            {
-                var success = await UserEquipmentsService.Create().EquipAllEquipmentsToBookAsync(User.CurrentUserId, book.Id);
-                if (success.IsSuccess)
-                {
-                    await CreateBooksEquipmentsAsync(book);
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-                }
-                else
-                {
-                    Debug.LogError("Failed to equip all equipments to Book.");
-                }
-            }
-            else if (data is Pets pet)
-            {
-                var success = await UserEquipmentsService.Create().EquipAllEquipmentsToPetAsync(User.CurrentUserId, pet.Id);
-                if (success.IsSuccess)
-                {
-                    await CreatePetsEquipmentsAsync(pet);
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-                }
-                else
-                {
-                    Debug.LogError("Failed to equip all equipments to Pet.");
-                }
-            }
-        }));
-
-        _ = CreateSetButtonAsync(data);
+            await CreateSetButtonAsync(data, typeList[0], setButtonTransform, contentTransform);
+        }
     }
-    public async Task OnButtonClickAsync(GameObject clickedButton, object data, string type)
+    public async Task CreateSetButtonAsync(object data, string type, Transform setButtonTransform, Transform contentTransform)
     {
-        foreach (Transform child in TabButtonPanel)
+        // Dọn dẹp các item cũ trong ScrollView
+        for (int i = setButtonTransform.childCount - 1; i >= 0; i--)
         {
-            // Lấy component Button từ con cái
-            Button button = child.GetComponent<Button>();
-            if (button != null)
-            {
-                // Gọi hàm ChangeButtonBackground với màu trắng
-                ChangeButtonBackground(button.gameObject, ImageConstants.Button.TAB_BUTTON_BEFORE_CLICK_URL); // Giả sử bạn có texture trắng
-            }
+            Transform child = setButtonTransform.GetChild(i);
+            child.SetParent(null);
+            Destroy(child.gameObject);
         }
 
-        MainType = type;
-        ChangeButtonBackground(clickedButton, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
-        _ = CreateSetButtonAsync(data);
-        if (data is CardHeroes cardHeroes)
+        List<string> setList = await EquipmentsService.Create().GetEquipmentsSetAsync(type);
+        setList = setList
+            .OrderBy(x => int.Parse(x.Replace("set", "")))
+            .ToList();
+        // Danh sách lưu trữ các UI Tab để quản lý toggle trạng thái Selected / Default
+        List<(GameObject defaultObj, GameObject selectedObj)> tabUIList = new List<(GameObject, GameObject)>();
+
+        for (int i = 0; i < setList.Count; i++)
         {
-            await CreateCardHeroesEquipmentsAsync(cardHeroes);
+            string set = setList[i];
+
+            // Instantiate tab button và đặt parent vào Content của Tab Scroll View
+            GameObject topupTabButtonObject = Instantiate(EquipmentSetButtonPrefab, setButtonTransform);
+
+            GameObject defaultObj = topupTabButtonObject.transform.Find("Default").gameObject;
+            GameObject selectedObj = topupTabButtonObject.transform.Find("Selected").gameObject;
+
+            TextMeshProUGUI titleText1 = defaultObj.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText2 = selectedObj.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+
+            string setNumber = set.Replace("set", "");
+
+            titleText1.text = setNumber;
+            titleText2.text = setNumber;
+
+            // Trạng thái mặc định: Phần tử đầu tiên (i == 0) sẽ Active Selected, còn lại Active Default
+            bool isFirst = (i == 0);
+            defaultObj.SetActive(!isFirst);
+            selectedObj.SetActive(isFirst);
+
+            tabUIList.Add((defaultObj, selectedObj));
+
+            // Đăng ký sự kiện Click cho Tab Button
+            Button tabBtn = topupTabButtonObject.GetComponent<Button>();
+            tabBtn.onClick.AddListener(async () =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND_2);
+
+                // 1. Chuyển tất cả các Tab về dạng Default
+                foreach (var tabUI in tabUIList)
+                {
+                    tabUI.defaultObj.SetActive(true);
+                    tabUI.selectedObj.SetActive(false);
+                }
+
+                // 2. Bật dạng Selected cho Tab vừa được click
+                defaultObj.SetActive(false);
+                selectedObj.SetActive(true);
+
+                // TODO: Gọi hàm load/filter danh sách gói nạp theo category này vào contentTransform
+                await LoadPackagesByCategoryAsync(data, type, set, contentTransform);
+            });
         }
-        else if (data is Books books)
+
+        // Load gói nạp của Tab đầu tiên nếu có danh mục
+        if (setList.Count > 0)
         {
-            await CreateBooksEquipmentsAsync(books);
+            await LoadPackagesByCategoryAsync(data, type, setList[0], contentTransform);
         }
-        else if (data is CardCaptains cardCaptains)
+    }
+    public async Task LoadPackagesByCategoryAsync(object data, string type, string set, Transform contentTransform)
+    {
+        // Dọn dẹp các item cũ trong ScrollView
+        for (int i = contentTransform.childCount - 1; i >= 0; i--)
         {
-            await CreateCardCaptainsEquipmentsAsync(cardCaptains);
+            Transform child = contentTransform.GetChild(i);
+            child.SetParent(null);
+            Destroy(child.gameObject);
         }
-        else if (data is Pets pets)
+
+        EquipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(type);
+
+        if (EquipmentType == null)
         {
-            await CreatePetsEquipmentsAsync(pets);
+            return;
+        }
+
+        List<Equipments> equipments = new List<Equipments>();
+
+        if (data is CardHeroes cardHero)
+        {
+            equipments = await UserEquipmentsService.Create().GetUserCardHeroesEquipmentsAsync(User.CurrentUserId, cardHero.Id, type);
+            equipments = equipments.Where(e => e.Set == set).ToList();
+        }
+        else if (data is Books book)
+        {
+            equipments = await UserEquipmentsService.Create().GetUserBooksEquipmentsAsync(User.CurrentUserId, book.Id, type);
+            equipments = equipments.Where(e => e.Set == set).ToList();
+        }
+        else if (data is CardCaptains cardCaptain)
+        {
+            equipments = await UserEquipmentsService.Create().GetUserCardCaptainsEquipmentsAsync(User.CurrentUserId, cardCaptain.Id, type);
+            equipments = equipments.Where(e => e.Set == set).ToList();
+        }
+        else if (data is Pets pet)
+        {
+            equipments = await UserEquipmentsService.Create().GetUserPetsEquipmentsAsync(User.CurrentUserId, pet.Id, type);
+            equipments = equipments.Where(e => e.Set == set).ToList();
         }
         else if (data is CardMilitaries cardMilitary)
         {
-            await CreateCardMilitaryEquipmentsAsync(cardMilitary);
+            equipments = await UserEquipmentsService.Create().GetUserCardMilitariesEquipmentsAsync(User.CurrentUserId, cardMilitary.Id, type);
+            equipments = equipments.Where(e => e.Set == set).ToList();
         }
         else if (data is CardSpells cardSpell)
         {
-            await CreateCardSpellEquipmentsAsync(cardSpell);
+            equipments = await UserEquipmentsService.Create().GetUserCardSpellsEquipmentsAsync(User.CurrentUserId, cardSpell.Id, type);
+            equipments = equipments.Where(e => e.Set == set).ToList();
         }
-        else if (data is CardMonsters cardMonsters)
+        else if (data is CardMonsters cardMonster)
         {
-            await CreateCardMonstersEquipmentsAsync(cardMonsters);
+            equipments = await UserEquipmentsService.Create().GetUserCardMonstersEquipmentsAsync(User.CurrentUserId, cardMonster.Id, type);
+            equipments = equipments.Where(e => e.Set == set).ToList();
         }
-        else if (data is CardColonels cardColonels)
+        else if (data is CardColonels cardColonel)
         {
-            await CreateCardColonelsEquipmentsAsync(cardColonels);
+            equipments = await UserEquipmentsService.Create().GetUserCardColonelsEquipmentsAsync(User.CurrentUserId, cardColonel.Id, type);
+            equipments = equipments.Where(e => e.Set == set).ToList();
         }
-        else if (data is CardGenerals cardGenerals)
+        else if (data is CardGenerals cardGeneral)
         {
-            await CreateCardGeneralsEquipmentsAsync(cardGenerals);
+            equipments = await UserEquipmentsService.Create().GetUserCardGeneralsEquipmentsAsync(User.CurrentUserId, cardGeneral.Id, type);
+            equipments = equipments.Where(e => e.Set == set).ToList();
         }
-        else if (data is CardAdmirals cardAdmirals)
+        else if (data is CardAdmirals cardAdmiral)
         {
-            await CreateCardAdmiralsEquipmentsAsync(cardAdmirals);
+            equipments = await UserEquipmentsService.Create().GetUserCardAdmiralsEquipmentsAsync(User.CurrentUserId, cardAdmiral.Id, type);
+            equipments = equipments.Where(e => e.Set == set).ToList();
+        }
+
+        for (int i = 1; i <= EquipmentType.SlotValue; i++)
+        {
+            GameObject equipmentDetailButtonObject = Instantiate(EquipmentDetailButtonPrefab, contentTransform);
+            RawImage image = equipmentDetailButtonObject.transform.Find("Image").GetComponent<RawImage>();
+            TextMeshProUGUI titleText = equipmentDetailButtonObject.transform.Find("Content/TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI typeText = equipmentDetailButtonObject.transform.Find("Content/TypeText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI nameText = equipmentDetailButtonObject.transform.Find("Content/NameText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI rareTitleText = equipmentDetailButtonObject.transform.Find("Content/RareTitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI rareText = equipmentDetailButtonObject.transform.Find("Content/RareText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI lockTitleText = equipmentDetailButtonObject.transform.Find("Content/LockTitleText").GetComponent<TextMeshProUGUI>();
+            RawImage lockImage = equipmentDetailButtonObject.transform.Find("Content/LockImage").GetComponent<RawImage>();
+            TextMeshProUGUI starTitleText = equipmentDetailButtonObject.transform.Find("Content/StarTitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI starText = equipmentDetailButtonObject.transform.Find("Content/StarText").GetComponent<TextMeshProUGUI>();
+            Transform starTransform = equipmentDetailButtonObject.transform.Find("Content/Star");
+            TextMeshProUGUI powerTitleText = equipmentDetailButtonObject.transform.Find("Content/PowerTitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI powerText = equipmentDetailButtonObject.transform.Find("Content/PowerText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI setTitleText = equipmentDetailButtonObject.transform.Find("Content/SetTitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI setText = equipmentDetailButtonObject.transform.Find("Content/SetText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI positionTitleText = equipmentDetailButtonObject.transform.Find("Content/PositionTitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI positionText = equipmentDetailButtonObject.transform.Find("Content/PositionText").GetComponent<TextMeshProUGUI>();
+            Button addButton = equipmentDetailButtonObject.transform.Find("Content/AddButton").GetComponent<Button>();
+            Button changeButton = equipmentDetailButtonObject.transform.Find("Content/ChangeButton").GetComponent<Button>();
+            Button removeButton = equipmentDetailButtonObject.transform.Find("Content/RemoveButton").GetComponent<Button>();
+            // if()
+            rareTitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.RARE);
+            lockTitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.LOCK);
+            starTitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.STAR);
+            powerTitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.POWER);
+            setTitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SET);
+            positionTitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.POSITION);
+
+            var equipment = equipments.FirstOrDefault(x => x.Position == i);
+            positionText.text = i.ToString();
+            setText.text = set.Replace("set", "");
+
+            if (equipment != null)
+            {
+                // Có equipment
+                typeText.text = equipment.Type;
+                nameText.text = equipment.Name;
+                rareText.text = equipment.Rarity;
+                powerText.text = NumberFormatterHelper.FormatNumber(equipment.Power);
+                starText.text = equipment.Star.ToString();
+
+                image.texture = TextureHelper.LoadTextureCached(ImageHelper.RemoveImageExtension(equipment.Image));
+
+                if (equipment.Block > 0)
+                {
+                    lockImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Main.PADLOCK_UNLOCK_URL);
+                }
+                else
+                {
+                    lockImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Main.PADLOCK_URL);
+                }
+
+                addButton.gameObject.SetActive(false);
+                changeButton.gameObject.SetActive(true);
+                removeButton.gameObject.SetActive(true);
+
+                changeButton.onClick.AddListener(() =>
+                {
+                    
+                });
+
+                removeButton.onClick.AddListener(() =>
+                {
+                    
+                });
+            }
+            else
+            {
+                // Không có equipment
+                typeText.text = "NULL";
+                nameText.text = "NULL";
+                rareText.text = "NULL";
+                powerText.text = "0000-0000-0000-0000";
+                starText.text = "0";
+
+                image.texture = TextureHelper.LoadTextureCached("UI/Icon/new-page");
+
+                lockImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Main.PADLOCK_URL);
+
+                addButton.gameObject.SetActive(true);
+                changeButton.gameObject.SetActive(false);
+                removeButton.gameObject.SetActive(false);
+
+                addButton.onClick.AddListener(() =>
+                {
+                    
+                });
+            }
         }
     }
     private void ChangeButtonBackground(GameObject button, string image)
@@ -1843,59 +1679,98 @@ public class MainMenuEquipmentManager : MonoBehaviour
             Destroy(PopupEquipmentObject);
             await CreatePopupEquipmentsAsync(data, position, newStatusToggle); // Gọi lại nhưng giữ statusToggle mới
         });
-        Button nextButton = PopupEquipmentObject.transform.Find("Pagination/Next").GetComponent<Button>();
-        Button previousButton = PopupEquipmentObject.transform.Find("Pagination/Previous").GetComponent<Button>();
         Button closeButton = PopupEquipmentObject.transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() => Destroy(PopupEquipmentObject));
+
+        PaginationManager = transform.Find("PaginationPanelPrefab").GetComponent<PaginationManager>();
+
+        
+        // equipments = equipments.Where(e => e.Set == Set).ToList();
+        // int totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, MainType, Rare);
+        // TotalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
+
+        PageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
+        // CreatePopupEquipmentsUI(data, equipments, contentPanel, position);
+    }
+    public async Task LoadCurrentPageAsync(object data)
+    {
+        int totalRecord = 0;
         List<Equipments> equipments = new List<Equipments>();
         if (data is CardHeroes cardHero)
         {
-            equipments = await UserEquipmentsService.Create().GetAllUserCardHeroesEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
+            equipments = await UserEquipmentsService.Create().GetAllUserCardHeroesEquipmentsAsync(User.CurrentUserId, MainType, PAGE_SIZE, Offset, "statusToggle");
+
+            totalRecord = await UserEquipmentsService.Create().GetUserCardHeroesEquipmentsCountAsync(User.CurrentUserId, Search, Type, Rare, Set);
         }
         else if (data is CardCaptains cardCaptain)
         {
-            equipments = await UserEquipmentsService.Create().GetAllUserCardCaptainsEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
+            equipments = await UserEquipmentsService.Create().GetAllUserCardCaptainsEquipmentsAsync(User.CurrentUserId, MainType, PAGE_SIZE, Offset, "statusToggle");
+
+            totalRecord = await UserEquipmentsService.Create().GetUserCardCaptainsEquipmentsCountAsync(User.CurrentUserId, Search, Type, Rare, Set);
         }
         else if (data is CardColonels cardColonel)
         {
-            equipments = await UserEquipmentsService.Create().GetAllUserCardColonelsEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
+            equipments = await UserEquipmentsService.Create().GetAllUserCardColonelsEquipmentsAsync(User.CurrentUserId, MainType, PAGE_SIZE, Offset, "statusToggle");
+
+            totalRecord = await UserEquipmentsService.Create().GetUserCardColonelsEquipmentsCountAsync(User.CurrentUserId, Search, Type, Rare, Set);
         }
         else if (data is CardGenerals cardGeneral)
         {
-            equipments = await UserEquipmentsService.Create().GetAllUserCardGeneralsEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
+            equipments = await UserEquipmentsService.Create().GetAllUserCardGeneralsEquipmentsAsync(User.CurrentUserId, MainType, PAGE_SIZE, Offset, "statusToggle");
+
+            totalRecord = await UserEquipmentsService.Create().GetUserCardGeneralsEquipmentsCountAsync(User.CurrentUserId, Search, Type, Rare, Set);
         }
         else if (data is CardAdmirals cardAdmiral)
         {
-            equipments = await UserEquipmentsService.Create().GetAllUserCardAdmiralsEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
+            equipments = await UserEquipmentsService.Create().GetAllUserCardAdmiralsEquipmentsAsync(User.CurrentUserId, MainType, PAGE_SIZE, Offset, "statusToggle");
+
+            totalRecord = await UserEquipmentsService.Create().GetUserCardAdmiralsEquipmentsCountAsync(User.CurrentUserId, Search, Type, Rare, Set);
         }
         else if (data is CardMonsters cardMonster)
         {
-            equipments = await UserEquipmentsService.Create().GetAllUserCardMonstersEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
+            equipments = await UserEquipmentsService.Create().GetAllUserCardMonstersEquipmentsAsync(User.CurrentUserId, MainType, PAGE_SIZE, Offset, "statusToggle");
+
+            totalRecord = await UserEquipmentsService.Create().GetUserCardMonstersEquipmentsCountAsync(User.CurrentUserId, Search, Type, Rare, Set);
         }
         else if (data is CardMilitaries cardMilitary)
         {
-            equipments = await UserEquipmentsService.Create().GetAllUserCardMilitariesEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
+            equipments = await UserEquipmentsService.Create().GetAllUserCardMilitariesEquipmentsAsync(User.CurrentUserId, MainType, PAGE_SIZE, Offset, "statusToggle");
+
+            totalRecord = await UserEquipmentsService.Create().GetUserCardMilitariesEquipmentsCountAsync(User.CurrentUserId, Search, Type, Rare, Set);
         }
         else if (data is CardSpells cardSpell)
         {
-            equipments = await UserEquipmentsService.Create().GetAllUserCardSpellsEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
+            equipments = await UserEquipmentsService.Create().GetAllUserCardSpellsEquipmentsAsync(User.CurrentUserId, MainType, PAGE_SIZE, Offset, "statusToggle");
+
+            totalRecord = await UserEquipmentsService.Create().GetUserCardSpellsEquipmentsCountAsync(User.CurrentUserId, Search, Type, Rare, Set);
         }
         else if (data is Books book)
         {
-            equipments = await UserEquipmentsService.Create().GetAllUserBooksEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
+            equipments = await UserEquipmentsService.Create().GetAllUserBooksEquipmentsAsync(User.CurrentUserId, MainType, PAGE_SIZE, Offset, "statusToggle");
+
+            totalRecord = await UserEquipmentsService.Create().GetUserBooksEquipmentsCountAsync(User.CurrentUserId, Search, Type, Rare, Set);
         }
         else if (data is Pets pet)
         {
-            equipments = await UserEquipmentsService.Create().GetAllUserPetsEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
-        }
-        equipments = equipments.Where(e => e.Set == Set).ToList();
-        int totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, MainType, Rare);
-        TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
+            equipments = await UserEquipmentsService.Create().GetAllUserPetsEquipmentsAsync(User.CurrentUserId, MainType, PAGE_SIZE, Offset, "statusToggle");
 
-        PageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
-        CreatePopupEquipmentsUI(data, equipments, contentPanel, position);
-        nextButton.onClick.AddListener(async () => { await ChangeNextPageAsync(data, PageText, contentPanel, MainType, position); });
-        previousButton.onClick.AddListener(async () => { await ChangePreviousPageAsync(data, PageText, contentPanel, MainType, position); });
+            totalRecord = await UserEquipmentsService.Create().GetUserPetsEquipmentsCountAsync(User.CurrentUserId, Search, Type, Rare, Set);
+        }
+
+        TotalItems = totalRecord;
+
+        if (IsSearchingOrFiltering && PaginationManager != null)
+        {
+            // Tạm thời gỡ sự kiện để việc Init không kích hoạt ngược lại hàm Load lần nữa
+            PaginationManager.OnPageChanged -= OnPageSelected;
+
+            // Vẽ lại dải nút số dựa trên TotalItems mới sau khi đã Lọc/Search
+            // Luôn ép về Trang 1 vì mỗi lần Search/Filter là tính lại từ đầu
+            PaginationManager.InitPagination(TotalItems, PAGE_SIZE, CurrentPage);
+
+            // Đăng ký lại sự kiện sau khi Init đã hoàn tất sạch sẽ
+            PaginationManager.OnPageChanged += OnPageSelected;
+        }
     }
     public void CreatePopupEquipmentsUI(object data, List<Equipments> equipmentsList, Transform content, int position)
     {
@@ -2023,209 +1898,20 @@ public class MainMenuEquipmentManager : MonoBehaviour
             gridLayout.cellSize = new Vector2(340, 130);
         }
     }
-    public async Task ChangeNextPageAsync(object data, Text PageText, Transform content, string subType, int position)
+    private void OnPageSelected(int pageNumber)
     {
-        if (CurrentPage < TotalPage)
-        {
-            ButtonEvent.Instance.Close(content);
-            int totalRecord = 0;
-
-            if (data is CardHeroes cardHero)
-            {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, subType, Rare);
-                TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
-                CurrentPage = CurrentPage + 1;
-                Offset = Offset + PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardHeroesEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
-                CreatePopupEquipmentsUI(data, equipments, content, position);
-            }
-            else if (data is CardCaptains cardCaptain)
-            {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, subType, Rare);
-                TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
-                CurrentPage = CurrentPage + 1;
-                Offset = Offset + PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardCaptainsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
-                CreatePopupEquipmentsUI(data, equipments, content, position);
-            }
-            else if (data is CardColonels cardColonel)
-            {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, subType, Rare);
-                TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
-                CurrentPage = CurrentPage + 1;
-                Offset = Offset + PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardColonelsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
-                CreatePopupEquipmentsUI(data, equipments, content, position);
-            }
-            else if (data is CardGenerals cardGeneral)
-            {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, subType, Rare);
-                TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
-                CurrentPage = CurrentPage + 1;
-                Offset = Offset + PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardGeneralsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
-                CreatePopupEquipmentsUI(data, equipments, content, position);
-            }
-            else if (data is CardAdmirals cardAdmiral)
-            {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, subType, Rare);
-                TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
-                CurrentPage = CurrentPage + 1;
-                Offset = Offset + PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardAdmiralsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
-                CreatePopupEquipmentsUI(data, equipments, content, position);
-            }
-            else if (data is CardMonsters cardMonster)
-            {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, subType, Rare);
-                TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
-                CurrentPage = CurrentPage + 1;
-                Offset = Offset + PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardMonstersEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
-                CreatePopupEquipmentsUI(data, equipments, content, position);
-            }
-            else if (data is CardMilitaries cardMilitary)
-            {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, subType, Rare);
-                TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
-                CurrentPage = CurrentPage + 1;
-                Offset = Offset + PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardMilitariesEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
-                CreatePopupEquipmentsUI(data, equipments, content, position);
-            }
-            else if (data is CardSpells cardSpell)
-            {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, subType, Rare);
-                TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
-                CurrentPage = CurrentPage + 1;
-                Offset = Offset + PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardSpellsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
-                CreatePopupEquipmentsUI(data, equipments, content, position);
-            }
-            else if (data is Books book)
-            {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, subType, Rare);
-                TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
-                CurrentPage = CurrentPage + 1;
-                Offset = Offset + PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserBooksEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
-                CreatePopupEquipmentsUI(data, equipments, content, position);
-            }
-            else if (data is Pets pet)
-            {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, subType, Rare);
-                TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
-                CurrentPage = CurrentPage + 1;
-                Offset = Offset + PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserPetsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
-                CreatePopupEquipmentsUI(data, equipments, content, position);
-            }
-
-            PageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
-
-        }
+        CurrentPage = pageNumber;
+        Offset = (CurrentPage - 1) * PAGE_SIZE;
+        IsSearchingOrFiltering = false;
+        // _ = LoadCurrentPageAsync();
     }
-    public async Task ChangePreviousPageAsync(object data, Text PageText, Transform content, string subType, int position)
+
+    private void OnDestroy()
     {
-        if (CurrentPage > 1)
+        // Luôn luôn hủy đăng ký sự kiện khi Object bị xóa để tránh lỗi bộ nhớ
+        if (PaginationManager != null)
         {
-            ButtonEvent.Instance.Close(content);
-            int totalRecord = 0;
-
-            if (data is CardHeroes cardHero)
-            {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, subType, Rare);
-                TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
-                CurrentPage = CurrentPage - 1;
-                Offset = Offset - PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardHeroesEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
-                CreatePopupEquipmentsUI(data, equipments, content, position);
-            }
-            else if (data is CardCaptains cardCaptain)
-            {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, subType, Rare);
-                TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
-                CurrentPage = CurrentPage - 1;
-                Offset = Offset - PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardCaptainsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
-                CreatePopupEquipmentsUI(data, equipments, content, position);
-            }
-            else if (data is CardColonels cardColonel)
-            {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, subType, Rare);
-                TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
-                CurrentPage = CurrentPage - 1;
-                Offset = Offset - PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardColonelsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
-                CreatePopupEquipmentsUI(data, equipments, content, position);
-            }
-            else if (data is CardGenerals cardGeneral)
-            {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, subType, Rare);
-                TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
-                CurrentPage = CurrentPage - 1;
-                Offset = Offset - PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardGeneralsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
-                CreatePopupEquipmentsUI(data, equipments, content, position);
-            }
-            else if (data is CardAdmirals cardAdmiral)
-            {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, subType, Rare);
-                TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
-                CurrentPage = CurrentPage - 1;
-                Offset = Offset - PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardAdmiralsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
-                CreatePopupEquipmentsUI(data, equipments, content, position);
-            }
-            else if (data is CardMonsters cardMonster)
-            {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, subType, Rare);
-                TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
-                CurrentPage = CurrentPage - 1;
-                Offset = Offset - PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardMonstersEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
-                CreatePopupEquipmentsUI(data, equipments, content, position);
-            }
-            else if (data is CardMilitaries cardMilitary)
-            {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, subType, Rare);
-                TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
-                CurrentPage = CurrentPage - 1;
-                Offset = Offset - PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardMilitariesEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
-                CreatePopupEquipmentsUI(data, equipments, content, position);
-            }
-            else if (data is CardSpells cardSpell)
-            {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, subType, Rare);
-                TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
-                CurrentPage = CurrentPage - 1;
-                Offset = Offset - PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardSpellsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
-                CreatePopupEquipmentsUI(data, equipments, content, position);
-            }
-            else if (data is Books book)
-            {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, subType, Rare);
-                TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
-                CurrentPage = CurrentPage - 1;
-                Offset = Offset - PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserBooksEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
-                CreatePopupEquipmentsUI(data, equipments, content, position);
-            }
-            else if (data is Pets pet)
-            {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, subType, Rare);
-                TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
-                CurrentPage = CurrentPage - 1;
-                Offset = Offset - PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserPetsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
-                CreatePopupEquipmentsUI(data, equipments, content, position);
-            }
-
-
-            PageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
-
+            PaginationManager.OnPageChanged -= OnPageSelected;
         }
     }
     public void CreateStarUI(int star, Transform currentStar)

@@ -867,7 +867,7 @@ public class UserArtworksRepository : IUserArtworksRepository
                     FROM user_artworks uc
                     LEFT JOIN user_artworks_module ubm ON uc.artwork_id = ubm.user_artwork_id
                     LEFT JOIN user_artworks_upgrade ubu ON uc.artwork_id = ubu.user_artwork_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

@@ -45,7 +45,6 @@ public static class MessageConstants
     public const string TRANSACTION_PENDING = "Notification.TransactionPending";
     public const string PURCHASE_FAILED = "Notification.PurchaseFailed";
     public const string ERROR_UNSUPPORTED_DATA_TYPE = "Unsupported data type!";
-    public const string CARD_ALREADY_USED_IN_ANOTHER_POSITION = "Message.MessageNumber1";
 
     #region Hệ Thống Thông Báo Nâng Cấp (Upgrade System Keys)
     // Các Key dùng để tra cứu trong file ngôn ngữ (JSON/Database)

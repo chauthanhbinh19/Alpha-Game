@@ -844,7 +844,7 @@ public class UserBeveragesRepository : IUserBeveragesRepository
                     FROM user_beverages uc
                     LEFT JOIN user_beverages_module ubm ON uc.beverage_id = ubm.user_beverage_id
                     LEFT JOIN user_beverages_upgrade ubu ON uc.beverage_id = ubu.user_beverage_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

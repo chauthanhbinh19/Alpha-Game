@@ -794,4 +794,59 @@ public class UserEquipmentsService : IUserEquipmentsService
         await _userEquipmentsRepository.EquipAllEquipmentsToCardSoldierAsync(userId, cardSoldierId, allEquipments);
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
+
+    public async Task<int> GetUserCardHeroesEquipmentsCountAsync(string userId, string search, string type, string rare, string set)
+    {
+        return await GetUserCardHeroesEquipmentsCountAsync(userId, search, type, rare, set);
+    }
+
+    public async Task<int> GetUserCardCaptainsEquipmentsCountAsync(string userId, string search, string type, string rare, string set)
+    {
+        return await GetUserCardCaptainsEquipmentsCountAsync(userId, search, type, rare, set);
+    }
+
+    public async Task<int> GetUserCardColonelsEquipmentsCountAsync(string userId, string search, string type, string rare, string set)
+    {
+        return await GetUserCardColonelsEquipmentsCountAsync(userId, search, type, rare, set);
+    }
+
+    public async Task<int> GetUserCardGeneralsEquipmentsCountAsync(string userId, string search, string type, string rare, string set)
+    {
+        return await GetUserCardGeneralsEquipmentsCountAsync(userId, search, type, rare, set);
+    }
+
+    public async Task<int> GetUserCardAdmiralsEquipmentsCountAsync(string userId, string search, string type, string rare, string set)
+    {
+        return await GetUserCardAdmiralsEquipmentsCountAsync(userId, search, type, rare, set);
+    }
+
+    public async Task<int> GetUserCardMonstersEquipmentsCountAsync(string userId, string search, string type, string rare, string set)
+    {
+        return await GetUserCardMonstersEquipmentsCountAsync(userId, search, type, rare, set);
+    }
+
+    public async Task<int> GetUserCardMilitariesEquipmentsCountAsync(string userId, string search, string type, string rare, string set)
+    {
+        return await GetUserCardMilitariesEquipmentsCountAsync(userId, search, type, rare, set);
+    }
+
+    public async Task<int> GetUserCardSoldiersEquipmentsCountAsync(string userId, string search, string type, string rare, string set)
+    {
+        return await GetUserCardSoldiersEquipmentsCountAsync(userId, search, type, rare, set);
+    }
+
+    public async Task<int> GetUserCardSpellsEquipmentsCountAsync(string userId, string search, string type, string rare, string set)
+    {
+        return await GetUserCardSpellsEquipmentsCountAsync(userId, search, type, rare, set);
+    }
+
+    public async Task<int> GetUserBooksEquipmentsCountAsync(string userId, string search, string type, string rare, string set)
+    {
+        return await GetUserBooksEquipmentsCountAsync(userId, search, type, rare, set);
+    }
+
+    public async Task<int> GetUserPetsEquipmentsCountAsync(string userId, string search, string type, string rare, string set)
+    {
+        return await GetUserPetsEquipmentsCountAsync(userId, search, type, rare, set);
+    }
 }

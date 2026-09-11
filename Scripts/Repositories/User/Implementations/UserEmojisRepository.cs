@@ -837,7 +837,7 @@ public class UserEmojisRepository : IUserEmojisRepository
                     FROM user_emojis uc
                     LEFT JOIN user_emojis_module ubm ON uc.emoji_id = ubm.user_emoji_id
                     LEFT JOIN user_emojis_upgrade ubu ON uc.emoji_id = ubu.user_emoji_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

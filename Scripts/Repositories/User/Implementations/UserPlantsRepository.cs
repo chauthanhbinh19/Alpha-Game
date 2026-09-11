@@ -837,7 +837,7 @@ public class UserPlantsRepository : IUserPlantsRepository
                     FROM user_plants uc
                     LEFT JOIN user_plants_module ubm ON uc.plant_id = ubm.user_plant_id
                     LEFT JOIN user_plants_upgrade ubu ON uc.plant_id = ubu.user_plant_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

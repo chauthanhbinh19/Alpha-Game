@@ -467,7 +467,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 string selectSQL = @"
                 SELECT COUNT(*)
                 FROM Equipments e
-                JOIN user_equipments ue ON e.id = ue.equipment_id AND 
+                JOIN user_equipments ue ON e.id = ue.equipment_id
                 WHERE ue.user_id = @userId";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -5491,6 +5491,832 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
 
         return equipments;
+    }
+    public async Task<int> GetUserCardHeroesEquipmentsCountAsync(string userId, string search, string type, string rare, string set)
+    {
+        int count = 0;
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT COUNT(*)
+                FROM equipments e
+                JOIN user_equipments ue ON e.id = ue.equipment_id
+                WHERE ue.user_id = @userId";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    selectSQL += " AND e.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(set) && set != "All")
+                {
+                    selectSQL += " AND e.equipmentSet = @set";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    selectSQL += " AND e.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(set) && set != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@set", set);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        selectCommand.Parameters.AddWithValue("@search", search);
+                    }
+
+                    object result = await selectCommand.ExecuteScalarAsync();
+                    count = Convert.ToInt32(result);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return count;
+    }
+    public async Task<int> GetUserCardCaptainsEquipmentsCountAsync(string userId, string search, string type, string rare, string set)
+    {
+        int count = 0;
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT COUNT(*)
+                FROM equipments e
+                JOIN user_equipments ue ON e.id = ue.equipment_id
+                WHERE ue.user_id = @userId";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    selectSQL += " AND e.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(set) && set != "All")
+                {
+                    selectSQL += " AND e.equipmentSet = @set";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    selectSQL += " AND e.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(set) && set != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@set", set);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        selectCommand.Parameters.AddWithValue("@search", search);
+                    }
+
+                    object result = await selectCommand.ExecuteScalarAsync();
+                    count = Convert.ToInt32(result);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return count;
+    }
+    public async Task<int> GetUserCardColonelsEquipmentsCountAsync(string userId, string search, string type, string rare, string set)
+    {
+        int count = 0;
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT COUNT(*)
+                FROM equipments e
+                JOIN user_equipments ue ON e.id = ue.equipment_id
+                WHERE ue.user_id = @userId";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    selectSQL += " AND e.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(set) && set != "All")
+                {
+                    selectSQL += " AND e.equipmentSet = @set";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    selectSQL += " AND e.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(set) && set != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@set", set);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        selectCommand.Parameters.AddWithValue("@search", search);
+                    }
+
+                    object result = await selectCommand.ExecuteScalarAsync();
+                    count = Convert.ToInt32(result);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return count;
+    }
+    public async Task<int> GetUserCardGeneralsEquipmentsCountAsync(string userId, string search, string type, string rare, string set)
+    {
+        int count = 0;
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT COUNT(*)
+                FROM equipments e
+                JOIN user_equipments ue ON e.id = ue.equipment_id
+                WHERE ue.user_id = @userId";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    selectSQL += " AND e.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(set) && set != "All")
+                {
+                    selectSQL += " AND e.equipmentSet = @set";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    selectSQL += " AND e.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(set) && set != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@set", set);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        selectCommand.Parameters.AddWithValue("@search", search);
+                    }
+
+                    object result = await selectCommand.ExecuteScalarAsync();
+                    count = Convert.ToInt32(result);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return count;
+    }
+    public async Task<int> GetUserCardAdmiralsEquipmentsCountAsync(string userId, string search, string type, string rare, string set)
+    {
+        int count = 0;
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT COUNT(*)
+                FROM equipments e
+                JOIN user_equipments ue ON e.id = ue.equipment_id
+                WHERE ue.user_id = @userId";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    selectSQL += " AND e.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(set) && set != "All")
+                {
+                    selectSQL += " AND e.equipmentSet = @set";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    selectSQL += " AND e.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(set) && set != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@set", set);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        selectCommand.Parameters.AddWithValue("@search", search);
+                    }
+
+                    object result = await selectCommand.ExecuteScalarAsync();
+                    count = Convert.ToInt32(result);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return count;
+    }
+    public async Task<int> GetUserCardMonstersEquipmentsCountAsync(string userId, string search, string type, string rare, string set)
+    {
+        int count = 0;
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT COUNT(*)
+                FROM equipments e
+                JOIN user_equipments ue ON e.id = ue.equipment_id
+                WHERE ue.user_id = @userId";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    selectSQL += " AND e.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(set) && set != "All")
+                {
+                    selectSQL += " AND e.equipmentSet = @set";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    selectSQL += " AND e.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(set) && set != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@set", set);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        selectCommand.Parameters.AddWithValue("@search", search);
+                    }
+
+                    object result = await selectCommand.ExecuteScalarAsync();
+                    count = Convert.ToInt32(result);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return count;
+    }
+    public async Task<int> GetUserCardMilitariesEquipmentsCountAsync(string userId, string search, string type, string rare, string set)
+    {
+        int count = 0;
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT COUNT(*)
+                FROM equipments e
+                JOIN user_equipments ue ON e.id = ue.equipment_id
+                WHERE ue.user_id = @userId";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    selectSQL += " AND e.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(set) && set != "All")
+                {
+                    selectSQL += " AND e.equipmentSet = @set";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    selectSQL += " AND e.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(set) && set != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@set", set);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        selectCommand.Parameters.AddWithValue("@search", search);
+                    }
+
+                    object result = await selectCommand.ExecuteScalarAsync();
+                    count = Convert.ToInt32(result);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return count;
+    }
+    public async Task<int> GetUserCardSoldiersEquipmentsCountAsync(string userId, string search, string type, string rare, string set)
+    {
+        int count = 0;
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT COUNT(*)
+                FROM equipments e
+                JOIN user_equipments ue ON e.id = ue.equipment_id
+                WHERE ue.user_id = @userId";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    selectSQL += " AND e.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(set) && set != "All")
+                {
+                    selectSQL += " AND e.equipmentSet = @set";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    selectSQL += " AND e.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(set) && set != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@set", set);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        selectCommand.Parameters.AddWithValue("@search", search);
+                    }
+
+                    object result = await selectCommand.ExecuteScalarAsync();
+                    count = Convert.ToInt32(result);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return count;
+    }
+    public async Task<int> GetUserCardSpellsEquipmentsCountAsync(string userId, string search, string type, string rare, string set)
+    {
+        int count = 0;
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT COUNT(*)
+                FROM equipments e
+                JOIN user_equipments ue ON e.id = ue.equipment_id
+                WHERE ue.user_id = @userId";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    selectSQL += " AND e.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(set) && set != "All")
+                {
+                    selectSQL += " AND e.equipmentSet = @set";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    selectSQL += " AND e.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(set) && set != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@set", set);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        selectCommand.Parameters.AddWithValue("@search", search);
+                    }
+
+                    object result = await selectCommand.ExecuteScalarAsync();
+                    count = Convert.ToInt32(result);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+        
+
+        return count;
+    }
+    public async Task<int> GetUserBooksEquipmentsCountAsync(string userId, string search, string type, string rare, string set)
+    {
+        int count = 0;
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT COUNT(*)
+                FROM equipments e
+                JOIN user_equipments ue ON e.id = ue.equipment_id
+                WHERE ue.user_id = @userId";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    selectSQL += " AND e.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(set) && set != "All")
+                {
+                    selectSQL += " AND e.equipmentSet = @set";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    selectSQL += " AND e.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(set) && set != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@set", set);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        selectCommand.Parameters.AddWithValue("@search", search);
+                    }
+
+                    object result = await selectCommand.ExecuteScalarAsync();
+                    count = Convert.ToInt32(result);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return count;
+    }
+    public async Task<int> GetUserPetsEquipmentsCountAsync(string userId, string search, string type, string rare, string set)
+    {
+        int count = 0;
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT COUNT(*)
+                FROM equipments e
+                JOIN user_equipments ue ON e.id = ue.equipment_id
+                WHERE ue.user_id = @userId";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    selectSQL += " AND e.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(set) && set != "All")
+                {
+                    selectSQL += " AND e.equipmentSet = @set";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    selectSQL += " AND e.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(set) && set != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@set", set);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        selectCommand.Parameters.AddWithValue("@search", search);
+                    }
+
+                    object result = await selectCommand.ExecuteScalarAsync();
+                    count = Convert.ToInt32(result);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return count;
     }
     public Equipments ChangeValueToZero(Equipments equipment)
     {

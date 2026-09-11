@@ -103,6 +103,8 @@ public static class ImageConstants
 
         public const string EMAIL_URL = "UI/Button/Mail";
         public const string CHAT_URL = "UI/Button/Chat";
+        public const string PADLOCK_URL = "UI/Icon/padlock";
+        public const string PADLOCK_UNLOCK_URL = "UI/Icon/padlock-unlock";
     }
     public static class Feature
     {

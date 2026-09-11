@@ -862,7 +862,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     FROM user_spirit_cards uc
                     LEFT JOIN user_spirit_cards_module ubm ON uc.spirit_card_id = ubm.user_spirit_card_id
                     LEFT JOIN user_spirit_cards_upgrade ubu ON uc.spirit_card_id = ubu.user_spirit_card_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

@@ -848,7 +848,7 @@ public class UserBadgesRepository : IUserBadgesRepository
                     FROM user_badges uc
                     LEFT JOIN user_badges_module ubm ON uc.badge_id = ubm.user_badge_id
                     LEFT JOIN user_badges_upgrade ubu ON uc.badge_id = ubu.user_badge_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

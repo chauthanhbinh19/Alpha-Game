@@ -863,7 +863,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                     FROM user_puppets uc
                     LEFT JOIN user_puppets_module ubm ON uc.puppet_id = ubm.user_puppet_id
                     LEFT JOIN user_puppets_upgrade ubu ON uc.puppet_id = ubu.user_puppet_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

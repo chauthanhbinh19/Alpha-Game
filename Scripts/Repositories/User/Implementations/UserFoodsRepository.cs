@@ -842,7 +842,7 @@ public class UserFoodsRepository : IUserFoodsRepository
                     FROM user_foods uc
                     LEFT JOIN user_foods_module ubm ON uc.food_id = ubm.user_food_id
                     LEFT JOIN user_foods_upgrade ubu ON uc.food_id = ubu.user_food_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

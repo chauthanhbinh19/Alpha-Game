@@ -838,7 +838,7 @@ public class UserMedalsRepository : IUserMedalsRepository
                     FROM user_medals uc
                     LEFT JOIN user_medals_module ubm ON uc.medal_id = ubm.user_medal_id
                     LEFT JOIN user_medals_upgrade ubu ON uc.medal_id = ubu.user_medal_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

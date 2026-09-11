@@ -864,7 +864,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                     FROM user_collaboration_equipments uc
                     LEFT JOIN user_collaboration_equipments_module ubm ON uc.collaboration_equipment_id = ubm.user_collaboration_equipment_id
                     LEFT JOIN user_collaboration_equipments_upgrade ubu ON uc.collaboration_equipment_id = ubu.user_collaboration_equipment_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,
