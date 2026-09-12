@@ -865,7 +865,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
                     FROM user_buildings uc
                     LEFT JOIN user_buildings_module ubm ON uc.building_id = ubm.user_building_id
                     LEFT JOIN user_buildings_upgrade ubu ON uc.building_id = ubu.user_building_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

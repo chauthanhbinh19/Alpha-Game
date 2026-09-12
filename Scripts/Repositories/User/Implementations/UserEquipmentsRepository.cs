@@ -1848,10 +1848,15 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task<List<Equipments>> GetUserCardHeroesEquipmentsAsync(string userId, string cardId, string type)
+    public async Task<List<Equipments>> GetUserCardHeroesEquipmentsAsync(string userId, List<string> cardIdList, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
+
+        if (cardIdList == null || !cardIdList.Any())
+        {
+            return equipments;
+        }
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1859,18 +1864,16 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"
-                WITH AggregatedModules AS (
-                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
-                    FROM user_equipments_module
-                    GROUP BY user_equipment_id
-                ),
-                AggregatedUpgrades AS (
-                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
-                    FROM user_equipments_upgrade
-                    GROUP BY user_equipment_id
-                )
+                var cardIdParameters = cardIdList
+                .Select((id, index) => $"@card_hero_id_{index}")
+                .ToList();
+
+                string inClause = string.Join(", ", cardIdParameters);
+
+                string selectSQL = $@"
                 SELECT 
+                    che.card_hero_id, -- Nhận biết trang bị thuộc về Card Hero nào
+                    che.position,
                     ue.*, 
                     e.id AS base_equipment_id, 
                     e.name, 
@@ -1878,26 +1881,26 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     e.rare, 
                     e.type, 
                     e.equipmentSet,
-                    che.position,
-
-                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
-                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
-                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id
-                INNER JOIN card_heroes_equipment che ON che.equipment_id = ue.equipment_id -- HOẶC ue.equipment_id (xem lưu ý 1)
-                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
-                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+                INNER JOIN card_heroes_equipment che ON che.equipment_id = ue.equipment_id
 
-                WHERE ue.user_id = @user_id AND che.card_hero_id = @card_hero_id
-                AND e.type = @type;";
+                WHERE ue.user_id = @user_id 
+                AND che.card_hero_id IN ({inClause})
+                AND (@type IS NULL OR e.type = @type);";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@card_hero_id", cardId);
                     selectCommand.Parameters.AddWithValue("@type", type);
+
+                    for (int i = 0; i < cardIdList.Count; i++)
+                    {
+                        selectCommand.Parameters.AddWithValue(cardIdParameters[i], cardIdList[i]);
+                    }
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
@@ -1908,6 +1911,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Id = reader.GetStringSafe("equipment_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
+                                ObjectId = reader.GetStringSafe("card_hero_id"),
                                 Rarity = reader.GetStringSafe("rare"),
                                 Type = reader.GetStringSafe("type"),
                                 Set = reader.GetStringSafe("equipmentSet"),
@@ -2000,18 +2004,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-            finally
-            {
-                await connection.CloseAsync();
-            }
         }
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetUserCardCaptainsEquipmentsAsync(string userId, string cardId, string type)
+    public async Task<List<Equipments>> GetUserCardCaptainsEquipmentsAsync(string userId, List<string> cardIdList, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
+
+        if (cardIdList == null || !cardIdList.Any())
+        {
+            return equipments;
+        }
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -2019,18 +2024,16 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"
-                WITH AggregatedModules AS (
-                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
-                    FROM user_equipments_module
-                    GROUP BY user_equipment_id
-                ),
-                AggregatedUpgrades AS (
-                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
-                    FROM user_equipments_upgrade
-                    GROUP BY user_equipment_id
-                )
+                var cardIdParameters = cardIdList
+                .Select((id, index) => $"@card_captain_id_{index}")
+                .ToList();
+
+                string inClause = string.Join(", ", cardIdParameters);
+
+                string selectSQL = $@"
                 SELECT 
+                    che.card_captain_id, -- Nhận biết trang bị thuộc về Card Hero nào
+                    che.position,
                     ue.*, 
                     e.id AS base_equipment_id, 
                     e.name, 
@@ -2038,26 +2041,26 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     e.rare, 
                     e.type, 
                     e.equipmentSet,
-                    che.position,
-
-                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
-                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
-                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id
-                INNER JOIN card_captains_equipment che ON che.equipment_id = ue.equipment_id -- HOẶC ue.equipment_id (xem lưu ý 1)
-                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
-                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+                INNER JOIN card_captains_equipment che ON che.equipment_id = ue.equipment_id
 
-                WHERE ue.user_id = @user_id AND che.card_captain_id = @card_captain_id
-                AND e.type = @type;";
+                WHERE ue.user_id = @user_id 
+                AND che.card_captain_id IN ({inClause})
+                AND (@type IS NULL OR e.type = @type);";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@card_captain_id", cardId);
                     selectCommand.Parameters.AddWithValue("@type", type);
+
+                    for (int i = 0; i < cardIdList.Count; i++)
+                    {
+                        selectCommand.Parameters.AddWithValue(cardIdParameters[i], cardIdList[i]);
+                    }
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
@@ -2068,6 +2071,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Id = reader.GetStringSafe("equipment_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
+                                ObjectId = reader.GetStringSafe("card_captain_id"),
                                 Rarity = reader.GetStringSafe("rare"),
                                 Type = reader.GetStringSafe("type"),
                                 Set = reader.GetStringSafe("equipmentSet"),
@@ -2135,7 +2139,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 SpecialMentalAttack = reader.GetDoubleSafe("special_mental_attack"),
                                 SpecialMentalDefense = reader.GetDoubleSafe("special_mental_defense"),
                                 SpecialSpeed = reader.GetDoubleSafe("special_speed"),
-                                Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position")
+                                Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position"),
                             };
 
                             UserModules userModule = new UserModules
@@ -2160,18 +2164,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-            finally
-            {
-                await connection.CloseAsync();
-            }
         }
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetUserCardColonelsEquipmentsAsync(string userId, string cardId, string type)
+    public async Task<List<Equipments>> GetUserCardColonelsEquipmentsAsync(string userId, List<string> cardIdList, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
+
+        if (cardIdList == null || !cardIdList.Any())
+        {
+            return equipments;
+        }
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -2179,18 +2184,16 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"
-                WITH AggregatedModules AS (
-                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
-                    FROM user_equipments_module
-                    GROUP BY user_equipment_id
-                ),
-                AggregatedUpgrades AS (
-                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
-                    FROM user_equipments_upgrade
-                    GROUP BY user_equipment_id
-                )
+                var cardIdParameters = cardIdList
+                .Select((id, index) => $"@card_hero_id_{index}")
+                .ToList();
+
+                string inClause = string.Join(", ", cardIdParameters);
+
+                string selectSQL = $@"
                 SELECT 
+                    che.card_colonel_id, -- Nhận biết trang bị thuộc về Card Hero nào
+                    che.position,
                     ue.*, 
                     e.id AS base_equipment_id, 
                     e.name, 
@@ -2198,26 +2201,26 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     e.rare, 
                     e.type, 
                     e.equipmentSet,
-                    che.position,
-
-                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
-                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
-                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id
-                INNER JOIN card_colonels_equipment che ON che.equipment_id = ue.equipment_id -- HOẶC ue.equipment_id (xem lưu ý 1)
-                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
-                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+                INNER JOIN card_colonels_equipment che ON che.equipment_id = ue.equipment_id
 
-                WHERE ue.user_id = @user_id AND che.card_colonel_id = @card_colonel_id
-                AND e.type = @type;";
+                WHERE ue.user_id = @user_id 
+                AND che.card_colonel_id IN ({inClause})
+                AND (@type IS NULL OR e.type = @type);";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@card_colonel_id", cardId);
                     selectCommand.Parameters.AddWithValue("@type", type);
+
+                    for (int i = 0; i < cardIdList.Count; i++)
+                    {
+                        selectCommand.Parameters.AddWithValue(cardIdParameters[i], cardIdList[i]);
+                    }
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
@@ -2228,6 +2231,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Id = reader.GetStringSafe("equipment_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
+                                ObjectId = reader.GetStringSafe("card_colonel_id"),
                                 Rarity = reader.GetStringSafe("rare"),
                                 Type = reader.GetStringSafe("type"),
                                 Set = reader.GetStringSafe("equipmentSet"),
@@ -2295,7 +2299,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 SpecialMentalAttack = reader.GetDoubleSafe("special_mental_attack"),
                                 SpecialMentalDefense = reader.GetDoubleSafe("special_mental_defense"),
                                 SpecialSpeed = reader.GetDoubleSafe("special_speed"),
-                                Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position")
+                                Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position"),
                             };
 
                             UserModules userModule = new UserModules
@@ -2320,18 +2324,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-            finally
-            {
-                await connection.CloseAsync();
-            }
         }
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetUserCardGeneralsEquipmentsAsync(string userId, string cardId, string type)
+    public async Task<List<Equipments>> GetUserCardGeneralsEquipmentsAsync(string userId, List<string> cardIdList, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
+
+        if (cardIdList == null || !cardIdList.Any())
+        {
+            return equipments;
+        }
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -2339,18 +2344,16 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"
-                WITH AggregatedModules AS (
-                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
-                    FROM user_equipments_module
-                    GROUP BY user_equipment_id
-                ),
-                AggregatedUpgrades AS (
-                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
-                    FROM user_equipments_upgrade
-                    GROUP BY user_equipment_id
-                )
+                var cardIdParameters = cardIdList
+                .Select((id, index) => $"@card_hero_id_{index}")
+                .ToList();
+
+                string inClause = string.Join(", ", cardIdParameters);
+
+                string selectSQL = $@"
                 SELECT 
+                    che.card_general_id, -- Nhận biết trang bị thuộc về Card Hero nào
+                    che.position,
                     ue.*, 
                     e.id AS base_equipment_id, 
                     e.name, 
@@ -2358,26 +2361,26 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     e.rare, 
                     e.type, 
                     e.equipmentSet,
-                    che.position,
-
-                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
-                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
-                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id
-                INNER JOIN card_generals_equipment che ON che.equipment_id = ue.equipment_id -- HOẶC ue.equipment_id (xem lưu ý 1)
-                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
-                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+                INNER JOIN card_generals_equipment che ON che.equipment_id = ue.equipment_id
 
-                WHERE ue.user_id = @user_id AND che.card_general_id = @card_general_id
-                AND e.type = @type;";
+                WHERE ue.user_id = @user_id 
+                AND che.card_general_id IN ({inClause})
+                AND (@type IS NULL OR e.type = @type);";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@card_general_id", cardId);
                     selectCommand.Parameters.AddWithValue("@type", type);
+
+                    for (int i = 0; i < cardIdList.Count; i++)
+                    {
+                        selectCommand.Parameters.AddWithValue(cardIdParameters[i], cardIdList[i]);
+                    }
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
@@ -2388,6 +2391,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Id = reader.GetStringSafe("equipment_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
+                                ObjectId = reader.GetStringSafe("card_general_id"),
                                 Rarity = reader.GetStringSafe("rare"),
                                 Type = reader.GetStringSafe("type"),
                                 Set = reader.GetStringSafe("equipmentSet"),
@@ -2455,7 +2459,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 SpecialMentalAttack = reader.GetDoubleSafe("special_mental_attack"),
                                 SpecialMentalDefense = reader.GetDoubleSafe("special_mental_defense"),
                                 SpecialSpeed = reader.GetDoubleSafe("special_speed"),
-                                Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position")
+                                Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position"),
                             };
 
                             UserModules userModule = new UserModules
@@ -2480,18 +2484,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-            finally
-            {
-                await connection.CloseAsync();
-            }
         }
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetUserCardAdmiralsEquipmentsAsync(string userId, string cardId, string type)
+    public async Task<List<Equipments>> GetUserCardAdmiralsEquipmentsAsync(string userId, List<string> cardIdList, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
+
+        if (cardIdList == null || !cardIdList.Any())
+        {
+            return equipments;
+        }
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -2499,18 +2504,16 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"
-                WITH AggregatedModules AS (
-                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
-                    FROM user_equipments_module
-                    GROUP BY user_equipment_id
-                ),
-                AggregatedUpgrades AS (
-                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
-                    FROM user_equipments_upgrade
-                    GROUP BY user_equipment_id
-                )
+                var cardIdParameters = cardIdList
+                .Select((id, index) => $"@card_hero_id_{index}")
+                .ToList();
+
+                string inClause = string.Join(", ", cardIdParameters);
+
+                string selectSQL = $@"
                 SELECT 
+                    che.card_admiral_id, -- Nhận biết trang bị thuộc về Card Hero nào
+                    che.position,
                     ue.*, 
                     e.id AS base_equipment_id, 
                     e.name, 
@@ -2518,26 +2521,26 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     e.rare, 
                     e.type, 
                     e.equipmentSet,
-                    che.position,
-
-                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
-                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
-                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id
-                INNER JOIN card_admirals_equipment che ON che.equipment_id = ue.equipment_id -- HOẶC ue.equipment_id (xem lưu ý 1)
-                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
-                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+                INNER JOIN card_admirals_equipment che ON che.equipment_id = ue.equipment_id
 
-                WHERE ue.user_id = @user_id AND che.card_admiral_id = @card_admiral_id
-                AND e.type = @type;";
+                WHERE ue.user_id = @user_id 
+                AND che.card_admiral_id IN ({inClause})
+                AND (@type IS NULL OR e.type = @type);";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@card_admiral_id", cardId);
                     selectCommand.Parameters.AddWithValue("@type", type);
+
+                    for (int i = 0; i < cardIdList.Count; i++)
+                    {
+                        selectCommand.Parameters.AddWithValue(cardIdParameters[i], cardIdList[i]);
+                    }
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
@@ -2548,6 +2551,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Id = reader.GetStringSafe("equipment_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
+                                ObjectId = reader.GetStringSafe("card_admiral_id"),
                                 Rarity = reader.GetStringSafe("rare"),
                                 Type = reader.GetStringSafe("type"),
                                 Set = reader.GetStringSafe("equipmentSet"),
@@ -2615,7 +2619,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 SpecialMentalAttack = reader.GetDoubleSafe("special_mental_attack"),
                                 SpecialMentalDefense = reader.GetDoubleSafe("special_mental_defense"),
                                 SpecialSpeed = reader.GetDoubleSafe("special_speed"),
-                                Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position")
+                                Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position"),
                             };
 
                             UserModules userModule = new UserModules
@@ -2640,18 +2644,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-            finally
-            {
-                await connection.CloseAsync();
-            }
         }
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetUserCardMonstersEquipmentsAsync(string userId, string cardId, string type)
+    public async Task<List<Equipments>> GetUserCardMonstersEquipmentsAsync(string userId, List<string> cardIdList, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
+
+        if (cardIdList == null || !cardIdList.Any())
+        {
+            return equipments;
+        }
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -2659,18 +2664,16 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"
-                WITH AggregatedModules AS (
-                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
-                    FROM user_equipments_module
-                    GROUP BY user_equipment_id
-                ),
-                AggregatedUpgrades AS (
-                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
-                    FROM user_equipments_upgrade
-                    GROUP BY user_equipment_id
-                )
+                var cardIdParameters = cardIdList
+                .Select((id, index) => $"@card_monster_id_{index}")
+                .ToList();
+
+                string inClause = string.Join(", ", cardIdParameters);
+
+                string selectSQL = $@"
                 SELECT 
+                    che.card_monster_id, -- Nhận biết trang bị thuộc về Card Hero nào
+                    che.position,
                     ue.*, 
                     e.id AS base_equipment_id, 
                     e.name, 
@@ -2678,26 +2681,26 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     e.rare, 
                     e.type, 
                     e.equipmentSet,
-                    che.position,
-
-                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
-                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
-                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id
-                INNER JOIN card_monsters_equipment che ON che.equipment_id = ue.equipment_id -- HOẶC ue.equipment_id (xem lưu ý 1)
-                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
-                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+                INNER JOIN card_monsters_equipment che ON che.equipment_id = ue.equipment_id
 
-                WHERE ue.user_id = @user_id AND che.card_monster_id = @card_monster_id
-                AND e.type = @type;";
+                WHERE ue.user_id = @user_id 
+                AND che.card_monster_id IN ({inClause})
+                AND (@type IS NULL OR e.type = @type);";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@card_monster_id", cardId);
                     selectCommand.Parameters.AddWithValue("@type", type);
+
+                    for (int i = 0; i < cardIdList.Count; i++)
+                    {
+                        selectCommand.Parameters.AddWithValue(cardIdParameters[i], cardIdList[i]);
+                    }
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
@@ -2708,6 +2711,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Id = reader.GetStringSafe("equipment_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
+                                ObjectId = reader.GetStringSafe("card_monster_id"),
                                 Rarity = reader.GetStringSafe("rare"),
                                 Type = reader.GetStringSafe("type"),
                                 Set = reader.GetStringSafe("equipmentSet"),
@@ -2775,7 +2779,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 SpecialMentalAttack = reader.GetDoubleSafe("special_mental_attack"),
                                 SpecialMentalDefense = reader.GetDoubleSafe("special_mental_defense"),
                                 SpecialSpeed = reader.GetDoubleSafe("special_speed"),
-                                Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position")
+                                Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position"),
                             };
 
                             UserModules userModule = new UserModules
@@ -2800,18 +2804,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-            finally
-            {
-                await connection.CloseAsync();
-            }
         }
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetUserCardMilitariesEquipmentsAsync(string userId, string cardId, string type)
+    public async Task<List<Equipments>> GetUserCardMilitariesEquipmentsAsync(string userId, List<string> cardIdList, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
+
+        if (cardIdList == null || !cardIdList.Any())
+        {
+            return equipments;
+        }
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -2819,18 +2824,16 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"
-                WITH AggregatedModules AS (
-                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
-                    FROM user_equipments_module
-                    GROUP BY user_equipment_id
-                ),
-                AggregatedUpgrades AS (
-                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
-                    FROM user_equipments_upgrade
-                    GROUP BY user_equipment_id
-                )
+                var cardIdParameters = cardIdList
+                .Select((id, index) => $"@card_military_id_{index}")
+                .ToList();
+
+                string inClause = string.Join(", ", cardIdParameters);
+
+                string selectSQL = $@"
                 SELECT 
+                    che.card_military_id, -- Nhận biết trang bị thuộc về Card Hero nào
+                    che.position,
                     ue.*, 
                     e.id AS base_equipment_id, 
                     e.name, 
@@ -2838,26 +2841,26 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     e.rare, 
                     e.type, 
                     e.equipmentSet,
-                    che.position,
-
-                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
-                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
-                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id
-                INNER JOIN card_militaries_equipment che ON che.equipment_id = ue.equipment_id -- HOẶC ue.equipment_id (xem lưu ý 1)
-                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
-                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+                INNER JOIN card_militaries_equipment che ON che.equipment_id = ue.equipment_id
 
-                WHERE ue.user_id = @user_id AND che.card_military_id = @card_military_id
-                AND e.type = @type;";
+                WHERE ue.user_id = @user_id 
+                AND che.card_military_id IN ({inClause})
+                AND (@type IS NULL OR e.type = @type);";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@card_military_id", cardId);
                     selectCommand.Parameters.AddWithValue("@type", type);
+
+                    for (int i = 0; i < cardIdList.Count; i++)
+                    {
+                        selectCommand.Parameters.AddWithValue(cardIdParameters[i], cardIdList[i]);
+                    }
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
@@ -2868,6 +2871,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Id = reader.GetStringSafe("equipment_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
+                                ObjectId = reader.GetStringSafe("card_military_id"),
                                 Rarity = reader.GetStringSafe("rare"),
                                 Type = reader.GetStringSafe("type"),
                                 Set = reader.GetStringSafe("equipmentSet"),
@@ -2935,7 +2939,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 SpecialMentalAttack = reader.GetDoubleSafe("special_mental_attack"),
                                 SpecialMentalDefense = reader.GetDoubleSafe("special_mental_defense"),
                                 SpecialSpeed = reader.GetDoubleSafe("special_speed"),
-                                Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position")
+                                Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position"),
                             };
 
                             UserModules userModule = new UserModules
@@ -2964,10 +2968,15 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetUserCardSpellsEquipmentsAsync(string userId, string cardId, string type)
+    public async Task<List<Equipments>> GetUserCardSoldiersEquipmentsAsync(string userId, List<string> cardIdList, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
+
+        if (cardIdList == null || !cardIdList.Any())
+        {
+            return equipments;
+        }
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -2975,18 +2984,16 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"
-                WITH AggregatedModules AS (
-                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
-                    FROM user_equipments_module
-                    GROUP BY user_equipment_id
-                ),
-                AggregatedUpgrades AS (
-                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
-                    FROM user_equipments_upgrade
-                    GROUP BY user_equipment_id
-                )
+                var cardIdParameters = cardIdList
+                .Select((id, index) => $"@card_soldier_id_{index}")
+                .ToList();
+
+                string inClause = string.Join(", ", cardIdParameters);
+
+                string selectSQL = $@"
                 SELECT 
+                    che.card_soldier_id, -- Nhận biết trang bị thuộc về Card Hero nào
+                    che.position,
                     ue.*, 
                     e.id AS base_equipment_id, 
                     e.name, 
@@ -2994,26 +3001,26 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     e.rare, 
                     e.type, 
                     e.equipmentSet,
-                    che.position,
-
-                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
-                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
-                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id
-                INNER JOIN card_spells_equipment che ON che.equipment_id = ue.equipment_id -- HOẶC ue.equipment_id (xem lưu ý 1)
-                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
-                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+                INNER JOIN card_soldiers_equipment che ON che.equipment_id = ue.equipment_id
 
-                WHERE ue.user_id = @user_id AND che.card_spell_id = @card_spell_id
-                AND e.type = @type;";
+                WHERE ue.user_id = @user_id 
+                AND che.card_soldier_id IN ({inClause})
+                AND (@type IS NULL OR e.type = @type);";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@card_spell_id", cardId);
                     selectCommand.Parameters.AddWithValue("@type", type);
+
+                    for (int i = 0; i < cardIdList.Count; i++)
+                    {
+                        selectCommand.Parameters.AddWithValue(cardIdParameters[i], cardIdList[i]);
+                    }
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
@@ -3024,6 +3031,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Id = reader.GetStringSafe("equipment_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
+                                ObjectId = reader.GetStringSafe("card_soldier_id"),
                                 Rarity = reader.GetStringSafe("rare"),
                                 Type = reader.GetStringSafe("type"),
                                 Set = reader.GetStringSafe("equipmentSet"),
@@ -3091,7 +3099,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 SpecialMentalAttack = reader.GetDoubleSafe("special_mental_attack"),
                                 SpecialMentalDefense = reader.GetDoubleSafe("special_mental_defense"),
                                 SpecialSpeed = reader.GetDoubleSafe("special_speed"),
-                                Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position")
+                                Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position"),
                             };
 
                             UserModules userModule = new UserModules
@@ -3116,18 +3124,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-            finally
-            {
-                await connection.CloseAsync();
-            }
         }
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetUserBooksEquipmentsAsync(string userId, string cardId, string type)
+    public async Task<List<Equipments>> GetUserCardSpellsEquipmentsAsync(string userId, List<string> cardIdList, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
+
+        if (cardIdList == null || !cardIdList.Any())
+        {
+            return equipments;
+        }
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -3135,18 +3144,16 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"
-                WITH AggregatedModules AS (
-                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
-                    FROM user_equipments_module
-                    GROUP BY user_equipment_id
-                ),
-                AggregatedUpgrades AS (
-                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
-                    FROM user_equipments_upgrade
-                    GROUP BY user_equipment_id
-                )
+                var cardIdParameters = cardIdList
+                .Select((id, index) => $"@card_spell_id_{index}")
+                .ToList();
+
+                string inClause = string.Join(", ", cardIdParameters);
+
+                string selectSQL = $@"
                 SELECT 
+                    che.card_spell_id, -- Nhận biết trang bị thuộc về Card Hero nào
+                    che.position,
                     ue.*, 
                     e.id AS base_equipment_id, 
                     e.name, 
@@ -3154,26 +3161,26 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     e.rare, 
                     e.type, 
                     e.equipmentSet,
-                    che.position,
-
-                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
-                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
-                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id
-                INNER JOIN books_equipment che ON che.equipment_id = ue.equipment_id -- HOẶC ue.equipment_id (xem lưu ý 1)
-                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
-                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+                INNER JOIN card_spells_equipment che ON che.equipment_id = ue.equipment_id
 
-                WHERE ue.user_id = @user_id AND che.book_id = @book_id
-                AND e.type = @type;";
+                WHERE ue.user_id = @user_id 
+                AND che.card_spell_id IN ({inClause})
+                AND (@type IS NULL OR e.type = @type);";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@book_id", cardId);
                     selectCommand.Parameters.AddWithValue("@type", type);
+
+                    for (int i = 0; i < cardIdList.Count; i++)
+                    {
+                        selectCommand.Parameters.AddWithValue(cardIdParameters[i], cardIdList[i]);
+                    }
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
@@ -3184,6 +3191,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Id = reader.GetStringSafe("equipment_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
+                                ObjectId = reader.GetStringSafe("card_spell_id"),
                                 Rarity = reader.GetStringSafe("rare"),
                                 Type = reader.GetStringSafe("type"),
                                 Set = reader.GetStringSafe("equipmentSet"),
@@ -3251,7 +3259,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 SpecialMentalAttack = reader.GetDoubleSafe("special_mental_attack"),
                                 SpecialMentalDefense = reader.GetDoubleSafe("special_mental_defense"),
                                 SpecialSpeed = reader.GetDoubleSafe("special_speed"),
-                                Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position")
+                                Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position"),
                             };
 
                             UserModules userModule = new UserModules
@@ -3276,18 +3284,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-            finally
-            {
-                await connection.CloseAsync();
-            }
         }
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetUserPetsEquipmentsAsync(string userId, string cardId, string type)
+    public async Task<List<Equipments>> GetUserBooksEquipmentsAsync(string userId, List<string> cardIdList, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
+
+        if (cardIdList == null || !cardIdList.Any())
+        {
+            return equipments;
+        }
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -3295,18 +3304,16 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"
-                WITH AggregatedModules AS (
-                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
-                    FROM user_equipments_module
-                    GROUP BY user_equipment_id
-                ),
-                AggregatedUpgrades AS (
-                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
-                    FROM user_equipments_upgrade
-                    GROUP BY user_equipment_id
-                )
+                var cardIdParameters = cardIdList
+                .Select((id, index) => $"@book_id_{index}")
+                .ToList();
+
+                string inClause = string.Join(", ", cardIdParameters);
+
+                string selectSQL = $@"
                 SELECT 
+                    che.book_id, -- Nhận biết trang bị thuộc về Card Hero nào
+                    che.position,
                     ue.*, 
                     e.id AS base_equipment_id, 
                     e.name, 
@@ -3314,26 +3321,26 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     e.rare, 
                     e.type, 
                     e.equipmentSet,
-                    che.position,
-
-                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
-                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
-                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id
-                INNER JOIN pets_equipment che ON che.equipment_id = ue.equipment_id -- HOẶC ue.equipment_id (xem lưu ý 1)
-                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
-                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+                INNER JOIN books_equipment che ON che.equipment_id = ue.equipment_id
 
-                WHERE ue.user_id = @user_id AND che.pet_id = @pet_id
-                AND e.type = @type;";
+                WHERE ue.user_id = @user_id 
+                AND che.book_id IN ({inClause})
+                AND (@type IS NULL OR e.type = @type);";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@pet_id", cardId);
                     selectCommand.Parameters.AddWithValue("@type", type);
+
+                    for (int i = 0; i < cardIdList.Count; i++)
+                    {
+                        selectCommand.Parameters.AddWithValue(cardIdParameters[i], cardIdList[i]);
+                    }
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
@@ -3344,6 +3351,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Id = reader.GetStringSafe("equipment_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
+                                ObjectId = reader.GetStringSafe("book_id"),
                                 Rarity = reader.GetStringSafe("rare"),
                                 Type = reader.GetStringSafe("type"),
                                 Set = reader.GetStringSafe("equipmentSet"),
@@ -3411,7 +3419,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 SpecialMentalAttack = reader.GetDoubleSafe("special_mental_attack"),
                                 SpecialMentalDefense = reader.GetDoubleSafe("special_mental_defense"),
                                 SpecialSpeed = reader.GetDoubleSafe("special_speed"),
-                                Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position")
+                                Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position"),
                             };
 
                             UserModules userModule = new UserModules
@@ -3436,18 +3444,19 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-            finally
-            {
-                await connection.CloseAsync();
-            }
         }
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetUserCardSoldiersEquipmentsAsync(string userId, string cardId, string type)
+    public async Task<List<Equipments>> GetUserPetsEquipmentsAsync(string userId, List<string> cardIdList, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
+
+        if (cardIdList == null || !cardIdList.Any())
+        {
+            return equipments;
+        }
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -3455,18 +3464,16 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"
-                WITH AggregatedModules AS (
-                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_module_mult
-                    FROM user_equipments_module
-                    GROUP BY user_equipment_id
-                ),
-                AggregatedUpgrades AS (
-                    SELECT user_equipment_id, SUM(COALESCE(current_multiplier, 0)) AS total_upgrade_mult
-                    FROM user_equipments_upgrade
-                    GROUP BY user_equipment_id
-                )
+                var cardIdParameters = cardIdList
+                .Select((id, index) => $"@pet_id_{index}")
+                .ToList();
+
+                string inClause = string.Join(", ", cardIdParameters);
+
+                string selectSQL = $@"
                 SELECT 
+                    che.pet_id, -- Nhận biết trang bị thuộc về Card Hero nào
+                    che.position,
                     ue.*, 
                     e.id AS base_equipment_id, 
                     e.name, 
@@ -3474,26 +3481,26 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     e.rare, 
                     e.type, 
                     e.equipmentSet,
-                    che.position,
-
-                    -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
-                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
-                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id
-                INNER JOIN card_soldiers_equipment che ON che.equipment_id = ue.equipment_id -- HOẶC ue.equipment_id (xem lưu ý 1)
-                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
-                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
+                INNER JOIN pets_equipment che ON che.equipment_id = ue.equipment_id
 
-                WHERE ue.user_id = @user_id AND che.card_soldier_id = @card_soldier_id
-                AND e.type = @type;";
+                WHERE ue.user_id = @user_id 
+                AND che.pet_id IN ({inClause})
+                AND (@type IS NULL OR e.type = @type);";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@card_soldier_id", cardId);
                     selectCommand.Parameters.AddWithValue("@type", type);
+
+                    for (int i = 0; i < cardIdList.Count; i++)
+                    {
+                        selectCommand.Parameters.AddWithValue(cardIdParameters[i], cardIdList[i]);
+                    }
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
@@ -3504,6 +3511,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Id = reader.GetStringSafe("equipment_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
+                                ObjectId = reader.GetStringSafe("pet_id"),
                                 Rarity = reader.GetStringSafe("rare"),
                                 Type = reader.GetStringSafe("type"),
                                 Set = reader.GetStringSafe("equipmentSet"),
@@ -3571,7 +3579,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 SpecialMentalAttack = reader.GetDoubleSafe("special_mental_attack"),
                                 SpecialMentalDefense = reader.GetDoubleSafe("special_mental_defense"),
                                 SpecialSpeed = reader.GetDoubleSafe("special_speed"),
-                                Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position")
+                                Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position"),
                             };
 
                             UserModules userModule = new UserModules
@@ -3596,15 +3604,11 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-            finally
-            {
-                await connection.CloseAsync();
-            }
         }
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllUserCardHeroesEquipmentsAsync(string userId, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllUserCardHeroesEquipmentsAsync(string userId, string search, string type, string rare, string set, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3649,20 +3653,58 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id  AND e.type = @type
+                WHERE ue.user_id = @user_id
                 AND (
                         @status = 'ALL' 
                     OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
                     OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
-                )
-                AND 
+                )";
 
-                LIMIT @limit OFFSET @offset;";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    selectSQL += " AND e.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(set) && set != "All")
+                {
+                    selectSQL += " AND e.equipmentSet = @set";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    selectSQL += " AND e.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(set) && set != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@set", set);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        selectCommand.Parameters.AddWithValue("@search", search);
+                    }
+
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@type", type);
                     selectCommand.Parameters.AddWithValue("@limit", limit);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
                     selectCommand.Parameters.AddWithValue("@status", status);
@@ -3776,7 +3818,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllUserCardCaptainsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllUserCardCaptainsEquipmentsAsync(string userId, string search, string type, string rare, string set, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3821,20 +3863,58 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id  AND e.type = @type
+                WHERE ue.user_id = @user_id
                 AND (
                         @status = 'ALL' 
                     OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
                     OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
-                )
-                AND 
+                )";
 
-                LIMIT @limit OFFSET @offset;";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    selectSQL += " AND e.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(set) && set != "All")
+                {
+                    selectSQL += " AND e.equipmentSet = @set";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    selectSQL += " AND e.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(set) && set != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@set", set);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        selectCommand.Parameters.AddWithValue("@search", search);
+                    }
+
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@type", type);
                     selectCommand.Parameters.AddWithValue("@limit", limit);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
                     selectCommand.Parameters.AddWithValue("@status", status);
@@ -3948,7 +4028,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllUserCardColonelsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllUserCardColonelsEquipmentsAsync(string userId, string search, string type, string rare, string set, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3993,20 +4073,58 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id  AND e.type = @type
+                WHERE ue.user_id = @user_id
                 AND (
                         @status = 'ALL' 
                     OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
                     OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
-                )
-                AND 
+                )";
 
-                LIMIT @limit OFFSET @offset;";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    selectSQL += " AND e.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(set) && set != "All")
+                {
+                    selectSQL += " AND e.equipmentSet = @set";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    selectSQL += " AND e.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(set) && set != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@set", set);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        selectCommand.Parameters.AddWithValue("@search", search);
+                    }
+
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@type", type);
                     selectCommand.Parameters.AddWithValue("@limit", limit);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
                     selectCommand.Parameters.AddWithValue("@status", status);
@@ -4120,7 +4238,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllUserCardGeneralsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllUserCardGeneralsEquipmentsAsync(string userId, string search, string type, string rare, string set, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -4165,20 +4283,58 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id  AND e.type = @type
+                WHERE ue.user_id = @user_id
                 AND (
                         @status = 'ALL' 
                     OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
                     OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
-                )
-                AND 
+                )";
 
-                LIMIT @limit OFFSET @offset;";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    selectSQL += " AND e.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(set) && set != "All")
+                {
+                    selectSQL += " AND e.equipmentSet = @set";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    selectSQL += " AND e.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(set) && set != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@set", set);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        selectCommand.Parameters.AddWithValue("@search", search);
+                    }
+
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@type", type);
                     selectCommand.Parameters.AddWithValue("@limit", limit);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
                     selectCommand.Parameters.AddWithValue("@status", status);
@@ -4288,7 +4444,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllUserCardAdmiralsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllUserCardAdmiralsEquipmentsAsync(string userId, string search, string type, string rare, string set, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -4333,20 +4489,58 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id  AND e.type = @type
+                WHERE ue.user_id = @user_id
                 AND (
                         @status = 'ALL' 
                     OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
                     OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
-                )
-                AND 
+                )";
 
-                LIMIT @limit OFFSET @offset;";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    selectSQL += " AND e.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(set) && set != "All")
+                {
+                    selectSQL += " AND e.equipmentSet = @set";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    selectSQL += " AND e.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(set) && set != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@set", set);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        selectCommand.Parameters.AddWithValue("@search", search);
+                    }
+
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@type", type);
                     selectCommand.Parameters.AddWithValue("@limit", limit);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
                     selectCommand.Parameters.AddWithValue("@status", status);
@@ -4460,7 +4654,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllUserCardMonstersEquipmentsAsync(string userId, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllUserCardMonstersEquipmentsAsync(string userId, string search, string type, string rare, string set, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -4505,20 +4699,58 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id  AND e.type = @type
+                WHERE ue.user_id = @user_id
                 AND (
                         @status = 'ALL' 
                     OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
                     OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
-                )
-                AND 
+                )";
 
-                LIMIT @limit OFFSET @offset;";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    selectSQL += " AND e.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(set) && set != "All")
+                {
+                    selectSQL += " AND e.equipmentSet = @set";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    selectSQL += " AND e.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(set) && set != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@set", set);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        selectCommand.Parameters.AddWithValue("@search", search);
+                    }
+
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@type", type);
                     selectCommand.Parameters.AddWithValue("@limit", limit);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
                     selectCommand.Parameters.AddWithValue("@status", status);
@@ -4632,7 +4864,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllUserCardMilitariesEquipmentsAsync(string userId, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllUserCardMilitariesEquipmentsAsync(string userId, string search, string type, string rare, string set, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -4677,20 +4909,58 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id  AND e.type = @type
+                WHERE ue.user_id = @user_id
                 AND (
                         @status = 'ALL' 
                     OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
                     OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
-                )
-                AND 
+                )";
 
-                LIMIT @limit OFFSET @offset;";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    selectSQL += " AND e.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(set) && set != "All")
+                {
+                    selectSQL += " AND e.equipmentSet = @set";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    selectSQL += " AND e.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(set) && set != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@set", set);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        selectCommand.Parameters.AddWithValue("@search", search);
+                    }
+
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@type", type);
                     selectCommand.Parameters.AddWithValue("@limit", limit);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
                     selectCommand.Parameters.AddWithValue("@status", status);
@@ -4804,7 +5074,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllUserCardSpellsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllUserCardSpellsEquipmentsAsync(string userId, string search, string type, string rare, string set, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -4849,20 +5119,58 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id  AND e.type = @type
+                WHERE ue.user_id = @user_id
                 AND (
                         @status = 'ALL' 
                     OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
                     OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
-                )
-                AND 
+                )";
 
-                LIMIT @limit OFFSET @offset;";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    selectSQL += " AND e.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(set) && set != "All")
+                {
+                    selectSQL += " AND e.equipmentSet = @set";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    selectSQL += " AND e.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(set) && set != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@set", set);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        selectCommand.Parameters.AddWithValue("@search", search);
+                    }
+
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@type", type);
                     selectCommand.Parameters.AddWithValue("@limit", limit);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
                     selectCommand.Parameters.AddWithValue("@status", status);
@@ -4976,7 +5284,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllUserBooksEquipmentsAsync(string userId, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllUserBooksEquipmentsAsync(string userId, string search, string type, string rare, string set, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -5021,20 +5329,58 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id  AND e.type = @type
+                WHERE ue.user_id = @user_id
                 AND (
                         @status = 'ALL' 
                     OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
                     OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
-                )
-                AND 
+                )";
 
-                LIMIT @limit OFFSET @offset;";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    selectSQL += " AND e.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(set) && set != "All")
+                {
+                    selectSQL += " AND e.equipmentSet = @set";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    selectSQL += " AND e.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(set) && set != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@set", set);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        selectCommand.Parameters.AddWithValue("@search", search);
+                    }
+
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@type", type);
                     selectCommand.Parameters.AddWithValue("@limit", limit);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
                     selectCommand.Parameters.AddWithValue("@status", status);
@@ -5148,7 +5494,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllUserPetsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllUserPetsEquipmentsAsync(string userId, string search, string type, string rare, string set, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -5193,20 +5539,58 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id  AND e.type = @type
+                WHERE ue.user_id = @user_id
                 AND (
                         @status = 'ALL' 
                     OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
                     OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
-                )
-                AND 
+                )";
 
-                LIMIT @limit OFFSET @offset;";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    selectSQL += " AND e.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(set) && set != "All")
+                {
+                    selectSQL += " AND e.equipmentSet = @set";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    selectSQL += " AND e.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(set) && set != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@set", set);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        selectCommand.Parameters.AddWithValue("@search", search);
+                    }
+
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@type", type);
                     selectCommand.Parameters.AddWithValue("@limit", limit);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
                     selectCommand.Parameters.AddWithValue("@status", status);
@@ -5320,7 +5704,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllUserCardSoldiersEquipmentsAsync(string userId, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllUserCardSoldiersEquipmentsAsync(string userId, string search, string type, string rare, string set, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -5365,20 +5749,58 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
-                WHERE ue.user_id = @user_id  AND e.type = @type
+                WHERE ue.user_id = @user_id
                 AND (
                         @status = 'ALL' 
                     OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
                     OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)
-                )
-                AND 
+                )";
 
-                LIMIT @limit OFFSET @offset;";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    selectSQL += " AND e.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(set) && set != "All")
+                {
+                    selectSQL += " AND e.equipmentSet = @set";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    selectSQL += " AND e.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(set) && set != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@set", set);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        selectCommand.Parameters.AddWithValue("@search", search);
+                    }
+
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@type", type);
                     selectCommand.Parameters.AddWithValue("@limit", limit);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
                     selectCommand.Parameters.AddWithValue("@status", status);
@@ -6164,7 +6586,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await connection.CloseAsync();
             }
         }
-        
+
 
         return count;
     }

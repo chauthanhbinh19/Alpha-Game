@@ -40,6 +40,10 @@ public class MainMenuEquipmentManager : MonoBehaviour
     private Button EquipAllTypeButton;
     private RawImage MainImage;
     private PaginationManager PaginationManager;
+    private Transform ContentTransform;
+    TextMeshProUGUI TotalSlotText;
+    private object Data;
+    private int Position;
     private string MainType;
     private const int PAGE_SIZE = 100;
     private int Offset = 0;
@@ -51,6 +55,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
     private string Search = "";
     private string Type = AppConstants.Type.ALL;
     private string Rare = AppConstants.Rare.ALL;
+    private string PopupType = "ADD";
     private bool IsSearchingOrFiltering = false;
     EquipmentType EquipmentType;
 
@@ -75,8 +80,6 @@ public class MainMenuEquipmentManager : MonoBehaviour
     }
     public void Initialize()
     {
-        // type = AppConstants.Type.ALL;
-        Rare = AppConstants.Rare.ALL;
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuEquipmentPanelPrefab = UIManager.Instance.Get("MainMenuEquipmentPanelPrefab");
         PopupEquipmentsPanelPrefab = UIManager.Instance.Get("PopupEquipmentsPanelPrefab");
@@ -104,6 +107,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Transform setButtonTransform = transform.Find("Set Scroll View/Viewport/Content");
         Transform contentTransform = transform.Find("Scroll View/Viewport/Content");
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
+        TotalSlotText = transform.Find("TotalSlotText").GetComponent<TextMeshProUGUI>();
         titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP_PACKAGE);
         Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
@@ -163,6 +167,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 selectedObj.SetActive(true);
 
                 // TODO: Gọi hàm load/filter danh sách gói nạp theo category này vào contentTransform
+                Type = type;
                 await CreateSetButtonAsync(data, type, setButtonTransform, contentTransform);
             });
         }
@@ -170,6 +175,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         // Load gói nạp của Tab đầu tiên nếu có danh mục
         if (typeList.Count > 0)
         {
+            Type = typeList[0];
             await CreateSetButtonAsync(data, typeList[0], setButtonTransform, contentTransform);
         }
     }
@@ -233,17 +239,19 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 selectedObj.SetActive(true);
 
                 // TODO: Gọi hàm load/filter danh sách gói nạp theo category này vào contentTransform
-                await LoadPackagesByCategoryAsync(data, type, set, contentTransform);
+                Set = set;
+                await LoadEquipmentAsync(data, type, set, contentTransform);
             });
         }
 
         // Load gói nạp của Tab đầu tiên nếu có danh mục
         if (setList.Count > 0)
         {
-            await LoadPackagesByCategoryAsync(data, type, setList[0], contentTransform);
+            Set = setList[0];
+            await LoadEquipmentAsync(data, type, setList[0], contentTransform);
         }
     }
-    public async Task LoadPackagesByCategoryAsync(object data, string type, string set, Transform contentTransform)
+    public async Task LoadEquipmentAsync(object data, string type, string set, Transform contentTransform)
     {
         // Dọn dẹp các item cũ trong ScrollView
         for (int i = contentTransform.childCount - 1; i >= 0; i--)
@@ -260,56 +268,70 @@ public class MainMenuEquipmentManager : MonoBehaviour
             return;
         }
 
+        TotalSlotText.text = EquipmentType.SlotValue.ToString();
+
         List<Equipments> equipments = new List<Equipments>();
+        List<string> cardIdList = new List<string>();
+        
 
         if (data is CardHeroes cardHero)
         {
-            equipments = await UserEquipmentsService.Create().GetUserCardHeroesEquipmentsAsync(User.CurrentUserId, cardHero.Id, type);
+            cardIdList.Add(cardHero.Id);
+            equipments = await UserEquipmentsService.Create().GetUserCardHeroesEquipmentsAsync(User.CurrentUserId, cardIdList, type);
             equipments = equipments.Where(e => e.Set == set).ToList();
         }
         else if (data is Books book)
         {
-            equipments = await UserEquipmentsService.Create().GetUserBooksEquipmentsAsync(User.CurrentUserId, book.Id, type);
+            cardIdList.Add(book.Id);
+            equipments = await UserEquipmentsService.Create().GetUserBooksEquipmentsAsync(User.CurrentUserId, cardIdList, type);
             equipments = equipments.Where(e => e.Set == set).ToList();
         }
         else if (data is CardCaptains cardCaptain)
         {
-            equipments = await UserEquipmentsService.Create().GetUserCardCaptainsEquipmentsAsync(User.CurrentUserId, cardCaptain.Id, type);
+            cardIdList.Add(cardCaptain.Id);
+            equipments = await UserEquipmentsService.Create().GetUserCardCaptainsEquipmentsAsync(User.CurrentUserId, cardIdList, type);
             equipments = equipments.Where(e => e.Set == set).ToList();
         }
         else if (data is Pets pet)
         {
-            equipments = await UserEquipmentsService.Create().GetUserPetsEquipmentsAsync(User.CurrentUserId, pet.Id, type);
+            cardIdList.Add(pet.Id);
+            equipments = await UserEquipmentsService.Create().GetUserPetsEquipmentsAsync(User.CurrentUserId, cardIdList, type);
             equipments = equipments.Where(e => e.Set == set).ToList();
         }
         else if (data is CardMilitaries cardMilitary)
         {
-            equipments = await UserEquipmentsService.Create().GetUserCardMilitariesEquipmentsAsync(User.CurrentUserId, cardMilitary.Id, type);
+            cardIdList.Add(cardMilitary.Id);
+            equipments = await UserEquipmentsService.Create().GetUserCardMilitariesEquipmentsAsync(User.CurrentUserId, cardIdList, type);
             equipments = equipments.Where(e => e.Set == set).ToList();
         }
         else if (data is CardSpells cardSpell)
         {
-            equipments = await UserEquipmentsService.Create().GetUserCardSpellsEquipmentsAsync(User.CurrentUserId, cardSpell.Id, type);
+            cardIdList.Add(cardSpell.Id);
+            equipments = await UserEquipmentsService.Create().GetUserCardSpellsEquipmentsAsync(User.CurrentUserId, cardIdList, type);
             equipments = equipments.Where(e => e.Set == set).ToList();
         }
         else if (data is CardMonsters cardMonster)
         {
-            equipments = await UserEquipmentsService.Create().GetUserCardMonstersEquipmentsAsync(User.CurrentUserId, cardMonster.Id, type);
+            cardIdList.Add(cardMonster.Id);
+            equipments = await UserEquipmentsService.Create().GetUserCardMonstersEquipmentsAsync(User.CurrentUserId, cardIdList, type);
             equipments = equipments.Where(e => e.Set == set).ToList();
         }
         else if (data is CardColonels cardColonel)
         {
-            equipments = await UserEquipmentsService.Create().GetUserCardColonelsEquipmentsAsync(User.CurrentUserId, cardColonel.Id, type);
+            cardIdList.Add(cardColonel.Id);
+            equipments = await UserEquipmentsService.Create().GetUserCardColonelsEquipmentsAsync(User.CurrentUserId, cardIdList, type);
             equipments = equipments.Where(e => e.Set == set).ToList();
         }
         else if (data is CardGenerals cardGeneral)
         {
-            equipments = await UserEquipmentsService.Create().GetUserCardGeneralsEquipmentsAsync(User.CurrentUserId, cardGeneral.Id, type);
+            cardIdList.Add(cardGeneral.Id);
+            equipments = await UserEquipmentsService.Create().GetUserCardGeneralsEquipmentsAsync(User.CurrentUserId, cardIdList, type);
             equipments = equipments.Where(e => e.Set == set).ToList();
         }
         else if (data is CardAdmirals cardAdmiral)
         {
-            equipments = await UserEquipmentsService.Create().GetUserCardAdmiralsEquipmentsAsync(User.CurrentUserId, cardAdmiral.Id, type);
+            cardIdList.Add(cardAdmiral.Id);
+            equipments = await UserEquipmentsService.Create().GetUserCardAdmiralsEquipmentsAsync(User.CurrentUserId, cardIdList, type);
             equipments = equipments.Where(e => e.Set == set).ToList();
         }
 
@@ -345,7 +367,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
             positionTitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.POSITION);
 
             var equipment = equipments.FirstOrDefault(x => x.Position == i);
-            positionText.text = i.ToString();
+            int position = i;
+            positionText.text = position.ToString();
             setText.text = set.Replace("set", "");
 
             if (equipment != null)
@@ -368,18 +391,22 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     lockImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Main.PADLOCK_URL);
                 }
 
+                CreateStarUI(equipment.Star, starTransform);
+
                 addButton.gameObject.SetActive(false);
                 changeButton.gameObject.SetActive(true);
                 removeButton.gameObject.SetActive(true);
 
-                changeButton.onClick.AddListener(() =>
+                changeButton.onClick.AddListener(async () =>
                 {
-                    
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    PopupType = "CHANGE";
+                    await CreatePopupEquipmentsAsync(data, position);
                 });
 
                 removeButton.onClick.AddListener(() =>
                 {
-                    
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 });
             }
             else
@@ -399,1365 +426,194 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 changeButton.gameObject.SetActive(false);
                 removeButton.gameObject.SetActive(false);
 
-                addButton.onClick.AddListener(() =>
-                {
-                    
-                });
-            }
-        }
-    }
-    private void ChangeButtonBackground(GameObject button, string image)
-    {
-        RawImage buttonImage = button.GetComponent<RawImage>();
-        if (buttonImage != null)
-        {
-            Texture texture = TextureHelper.LoadTextureCached($"{image}");
-            if (texture != null)
-            {
-                buttonImage.texture = texture;
-            }
-            else
-            {
-                Debug.LogError($"Texture '{image}' not found in Resources.");
-            }
-        }
-        else
-        {
-            Debug.LogError("Button does not have a RawImage component.");
-        }
-    }
-    public async Task CreateSetButtonAsync(object data)
-    {
-        ButtonEvent.Instance.Close(SetPanel);
-        List<string> uniqueSet = await EquipmentsService.Create().GetEquipmentsSetAsync(MainType);
-        if (uniqueSet.Count > 0)
-        {
-            for (int i = 0; i < uniqueSet.Count; i++)
-            {
-                string subtype = uniqueSet[i];
-                GameObject button = Instantiate(SetButtonPrefab, SetPanel);
-
-                TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
-                buttonText.text = subtype.Replace("set", "");
-
-                Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(async () =>
+                addButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await OnSetButtonClickAsync(button, data, subtype);
+                    PopupType = "ADD";
+                    await CreatePopupEquipmentsAsync(data, position);
                 });
-                if (i == 0)
-                {
-                    Set = subtype;
-                    ChangeButtonBackground(button, ImageConstants.Button.SET_BUTTON_AFTER_CLICK_URL);
-                }
-                else
-                {
-                    ChangeButtonBackground(button, ImageConstants.Button.SET_BUTTON_BEFORE_CLICK_URL);
-                }
             }
-        }
-    }
-    public async Task OnSetButtonClickAsync(GameObject clickedButton, object data, string type)
-    {
-        foreach (Transform child in SetPanel)
-        {
-            // Lấy component Button từ con cái
-            Button button = child.GetComponent<Button>();
-            if (button != null)
-            {
-                // Gọi hàm ChangeButtonBackground với màu trắng
-                ChangeButtonBackground(button.gameObject, ImageConstants.Button.SET_BUTTON_BEFORE_CLICK_URL); // Giả sử bạn có texture trắng
-            }
-        }
-
-        Set = type;
-        ChangeButtonBackground(clickedButton, ImageConstants.Button.SET_BUTTON_AFTER_CLICK_URL);
-        // CreateSetButton();
-        if (data is CardHeroes cardHero)
-        {
-            await CreateCardHeroesEquipmentsAsync(cardHero);
-        }
-        else if (data is Books book)
-        {
-            await CreateBooksEquipmentsAsync(book);
-        }
-        else if (data is CardCaptains cardCaptain)
-        {
-            await CreateCardCaptainsEquipmentsAsync(cardCaptain);
-        }
-        else if (data is Pets pet)
-        {
-            await CreatePetsEquipmentsAsync(pet);
-        }
-        else if (data is CardMilitaries cardMilitary)
-        {
-            await CreateCardMilitaryEquipmentsAsync(cardMilitary);
-        }
-        else if (data is CardSpells cardSpell)
-        {
-            await CreateCardSpellEquipmentsAsync(cardSpell);
-        }
-        else if (data is CardMonsters cardMonster)
-        {
-            await CreateCardMonstersEquipmentsAsync(cardMonster);
-        }
-        else if (data is CardColonels cardColonel)
-        {
-            await CreateCardColonelsEquipmentsAsync(cardColonel);
-        }
-        else if (data is CardGenerals cardGeneral)
-        {
-            await CreateCardGeneralsEquipmentsAsync(cardGeneral);
-        }
-        else if (data is CardAdmirals cardAdmiral)
-        {
-            await CreateCardAdmiralsEquipmentsAsync(cardAdmiral);
-        }
-    }
-    public async Task CreateCardHeroesEquipmentsAsync(CardHeroes cardHero)
-    {
-        ButtonEvent.Instance.Close(SlotPanel);
-
-        List<Equipments> equipments = new List<Equipments>();
-        equipments = await UserEquipmentsService.Create().GetUserCardHeroesEquipmentsAsync(User.CurrentUserId, cardHero.Id, MainType);
-        equipments = equipments.Where(e => e.Set == Set).ToList();
-        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardHero.Image);
-        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        MainImage.texture = texture;
-        EquipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(MainType);
-        if (EquipmentType.SlotValue == 1)
-        {
-            MainImage.gameObject.SetActive(false);
-        }
-        else
-        {
-            MainImage.gameObject.SetActive(true);
-        }
-        if (EquipmentType.SlotValue == 1)
-        {
-            SlotObject = Instantiate(Slot1Prefab, SlotPanel);
-            Button EquipmentSlot1Button = SlotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
-            ApplyEquipmentImage(cardHero, EquipmentSlot1Button, 1, equipments);
-        }
-        else if (EquipmentType.SlotValue == 4)
-        {
-            SlotObject = Instantiate(Slot4Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardHero, slotButtons[i], i + 1, equipments); // i + 1 vì vị trí bắt đầu từ 1
-            }
-        }
-        else if (EquipmentType.SlotValue == 6)
-        {
-            SlotObject = Instantiate(Slot6Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardHero, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 8)
-        {
-            SlotObject = Instantiate(Slot8Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardHero, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 10)
-        {
-            SlotObject = Instantiate(Slot10Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardHero, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 12)
-        {
-            SlotObject = Instantiate(Slot12Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardHero, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 14)
-        {
-            SlotObject = Instantiate(Slot14Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardHero, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 16)
-        {
-            SlotObject = Instantiate(Slot16Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardHero, slotButtons[i], i + 1, equipments);
-            }
-        }
-    }
-    public async Task CreateCardCaptainsEquipmentsAsync(CardCaptains cardCaptain)
-    {
-        ButtonEvent.Instance.Close(SlotPanel);
-
-        List<Equipments> equipments = new List<Equipments>();
-        equipments = await UserEquipmentsService.Create().GetUserCardCaptainsEquipmentsAsync(User.CurrentUserId, cardCaptain.Id, MainType);
-        equipments = equipments.Where(e => e.Set == Set).ToList();
-        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardCaptain.Image);
-        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        MainImage.texture = texture;
-        EquipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(MainType);
-        if (EquipmentType.SlotValue == 1)
-        {
-            MainImage.gameObject.SetActive(false);
-        }
-        else
-        {
-            MainImage.gameObject.SetActive(true);
-        }
-        if (EquipmentType.SlotValue == 1)
-        {
-            SlotObject = Instantiate(Slot1Prefab, SlotPanel);
-            Button EquipmentSlot1Button = SlotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
-            ApplyEquipmentImage(cardCaptain, EquipmentSlot1Button, 1, equipments);
-        }
-        else if (EquipmentType.SlotValue == 4)
-        {
-            SlotObject = Instantiate(Slot4Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardCaptain, slotButtons[i], i + 1, equipments); // i + 1 vì vị trí bắt đầu từ 1
-            }
-        }
-        else if (EquipmentType.SlotValue == 6)
-        {
-            SlotObject = Instantiate(Slot6Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardCaptain, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 8)
-        {
-            SlotObject = Instantiate(Slot8Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardCaptain, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 10)
-        {
-            SlotObject = Instantiate(Slot10Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardCaptain, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 12)
-        {
-            SlotObject = Instantiate(Slot12Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardCaptain, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 14)
-        {
-            SlotObject = Instantiate(Slot14Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardCaptain, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 16)
-        {
-            GameObject slotObject = Instantiate(Slot16Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardCaptain, slotButtons[i], i + 1, equipments);
-            }
-        }
-    }
-    public async Task CreateCardColonelsEquipmentsAsync(CardColonels cardColonel)
-    {
-        ButtonEvent.Instance.Close(SlotPanel);
-
-        List<Equipments> equipments = new List<Equipments>();
-        equipments = await UserEquipmentsService.Create().GetUserCardColonelsEquipmentsAsync(User.CurrentUserId, cardColonel.Id, MainType);
-        equipments = equipments.Where(e => e.Set == Set).ToList();
-        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardColonel.Image);
-        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        MainImage.texture = texture;
-        EquipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(MainType);
-        if (EquipmentType.SlotValue == 1)
-        {
-            MainImage.gameObject.SetActive(false);
-        }
-        else
-        {
-            MainImage.gameObject.SetActive(true);
-        }
-        if (EquipmentType.SlotValue == 1)
-        {
-            SlotObject = Instantiate(Slot1Prefab, SlotPanel);
-            Button EquipmentSlot1Button = SlotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
-            ApplyEquipmentImage(cardColonel, EquipmentSlot1Button, 1, equipments);
-        }
-        else if (EquipmentType.SlotValue == 4)
-        {
-            SlotObject = Instantiate(Slot4Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardColonel, slotButtons[i], i + 1, equipments); // i + 1 vì vị trí bắt đầu từ 1
-            }
-        }
-        else if (EquipmentType.SlotValue == 6)
-        {
-            SlotObject = Instantiate(Slot6Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardColonel, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 8)
-        {
-            SlotObject = Instantiate(Slot8Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardColonel, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 10)
-        {
-            SlotObject = Instantiate(Slot10Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardColonel, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 12)
-        {
-            SlotObject = Instantiate(Slot12Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardColonel, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 14)
-        {
-            SlotObject = Instantiate(Slot14Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardColonel, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 16)
-        {
-            GameObject slotObject = Instantiate(Slot16Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardColonel, slotButtons[i], i + 1, equipments);
-            }
-        }
-    }
-    public async Task CreateCardGeneralsEquipmentsAsync(CardGenerals cardGeneral)
-    {
-        ButtonEvent.Instance.Close(SlotPanel);
-
-        List<Equipments> equipments = new List<Equipments>();
-        equipments = await UserEquipmentsService.Create().GetUserCardGeneralsEquipmentsAsync(User.CurrentUserId, cardGeneral.Id, MainType);
-        equipments = equipments.Where(e => e.Set == Set).ToList();
-        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardGeneral.Image);
-        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        MainImage.texture = texture;
-        EquipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(MainType);
-        if (EquipmentType.SlotValue == 1)
-        {
-            MainImage.gameObject.SetActive(false);
-        }
-        else
-        {
-            MainImage.gameObject.SetActive(true);
-        }
-        if (EquipmentType.SlotValue == 1)
-        {
-            SlotObject = Instantiate(Slot1Prefab, SlotPanel);
-            Button EquipmentSlot1Button = SlotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
-            ApplyEquipmentImage(cardGeneral, EquipmentSlot1Button, 1, equipments);
-        }
-        else if (EquipmentType.SlotValue == 4)
-        {
-            SlotObject = Instantiate(Slot4Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardGeneral, slotButtons[i], i + 1, equipments); // i + 1 vì vị trí bắt đầu từ 1
-            }
-        }
-        else if (EquipmentType.SlotValue == 6)
-        {
-            SlotObject = Instantiate(Slot6Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardGeneral, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 8)
-        {
-            SlotObject = Instantiate(Slot8Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardGeneral, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 10)
-        {
-            SlotObject = Instantiate(Slot10Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardGeneral, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 12)
-        {
-            SlotObject = Instantiate(Slot12Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardGeneral, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 14)
-        {
-            SlotObject = Instantiate(Slot14Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardGeneral, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 16)
-        {
-            GameObject slotObject = Instantiate(Slot16Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardGeneral, slotButtons[i], i + 1, equipments);
-            }
-        }
-    }
-    public async Task CreateCardAdmiralsEquipmentsAsync(CardAdmirals cardAdmiral)
-    {
-        ButtonEvent.Instance.Close(SlotPanel);
-
-        List<Equipments> equipments = new List<Equipments>();
-        equipments = await UserEquipmentsService.Create().GetUserCardAdmiralsEquipmentsAsync(User.CurrentUserId, cardAdmiral.Id, MainType);
-        equipments = equipments.Where(e => e.Set == Set).ToList();
-        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardAdmiral.Image);
-        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        MainImage.texture = texture;
-        EquipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(MainType);
-        if (EquipmentType.SlotValue == 1)
-        {
-            MainImage.gameObject.SetActive(false);
-        }
-        else
-        {
-            MainImage.gameObject.SetActive(true);
-        }
-        if (EquipmentType.SlotValue == 1)
-        {
-            SlotObject = Instantiate(Slot1Prefab, SlotPanel);
-            Button EquipmentSlot1Button = SlotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
-            ApplyEquipmentImage(cardAdmiral, EquipmentSlot1Button, 1, equipments);
-        }
-        else if (EquipmentType.SlotValue == 4)
-        {
-            SlotObject = Instantiate(Slot4Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardAdmiral, slotButtons[i], i + 1, equipments); // i + 1 vì vị trí bắt đầu từ 1
-            }
-        }
-        else if (EquipmentType.SlotValue == 6)
-        {
-            SlotObject = Instantiate(Slot6Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardAdmiral, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 8)
-        {
-            SlotObject = Instantiate(Slot8Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardAdmiral, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 10)
-        {
-            SlotObject = Instantiate(Slot10Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardAdmiral, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 12)
-        {
-            SlotObject = Instantiate(Slot12Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardAdmiral, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 14)
-        {
-            SlotObject = Instantiate(Slot14Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardAdmiral, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 16)
-        {
-            GameObject slotObject = Instantiate(Slot16Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardAdmiral, slotButtons[i], i + 1, equipments);
-            }
-        }
-    }
-    public async Task CreateCardMonstersEquipmentsAsync(CardMonsters cardMonster)
-    {
-        ButtonEvent.Instance.Close(SlotPanel);
-
-        List<Equipments> equipments = new List<Equipments>();
-        equipments = await UserEquipmentsService.Create().GetUserCardMonstersEquipmentsAsync(User.CurrentUserId, cardMonster.Id, MainType);
-        equipments = equipments.Where(e => e.Set == Set).ToList();
-        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardMonster.Image);
-        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        MainImage.texture = texture;
-        EquipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(MainType);
-        if (EquipmentType.SlotValue == 1)
-        {
-            MainImage.gameObject.SetActive(false);
-        }
-        else
-        {
-            MainImage.gameObject.SetActive(true);
-        }
-        if (EquipmentType.SlotValue == 1)
-        {
-            SlotObject = Instantiate(Slot1Prefab, SlotPanel);
-            Button EquipmentSlot1Button = SlotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
-            ApplyEquipmentImage(cardMonster, EquipmentSlot1Button, 1, equipments);
-        }
-        else if (EquipmentType.SlotValue == 4)
-        {
-            SlotObject = Instantiate(Slot4Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardMonster, slotButtons[i], i + 1, equipments); // i + 1 vì vị trí bắt đầu từ 1
-            }
-        }
-        else if (EquipmentType.SlotValue == 6)
-        {
-            SlotObject = Instantiate(Slot6Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardMonster, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 8)
-        {
-            SlotObject = Instantiate(Slot8Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardMonster, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 10)
-        {
-            SlotObject = Instantiate(Slot10Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardMonster, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 12)
-        {
-            SlotObject = Instantiate(Slot12Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardMonster, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 14)
-        {
-            SlotObject = Instantiate(Slot14Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardMonster, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 16)
-        {
-            GameObject slotObject = Instantiate(Slot16Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardMonster, slotButtons[i], i + 1, equipments);
-            }
-        }
-    }
-    public async Task CreateCardMilitaryEquipmentsAsync(CardMilitaries cardMilitary)
-    {
-        ButtonEvent.Instance.Close(SlotPanel);
-
-        List<Equipments> equipments = new List<Equipments>();
-        equipments = await UserEquipmentsService.Create().GetUserCardMilitariesEquipmentsAsync(User.CurrentUserId, cardMilitary.Id, MainType);
-        equipments = equipments.Where(e => e.Set == Set).ToList();
-        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardMilitary.Image);
-        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        MainImage.texture = texture;
-        EquipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(MainType);
-        if (EquipmentType.SlotValue == 1)
-        {
-            MainImage.gameObject.SetActive(false);
-        }
-        else
-        {
-            MainImage.gameObject.SetActive(true);
-        }
-        if (EquipmentType.SlotValue == 1)
-        {
-            SlotObject = Instantiate(Slot1Prefab, SlotPanel);
-            Button EquipmentSlot1Button = SlotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
-            ApplyEquipmentImage(cardMilitary, EquipmentSlot1Button, 1, equipments);
-        }
-        else if (EquipmentType.SlotValue == 4)
-        {
-            SlotObject = Instantiate(Slot4Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardMilitary, slotButtons[i], i + 1, equipments); // i + 1 vì vị trí bắt đầu từ 1
-            }
-        }
-        else if (EquipmentType.SlotValue == 6)
-        {
-            SlotObject = Instantiate(Slot6Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardMilitary, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 8)
-        {
-            SlotObject = Instantiate(Slot8Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardMilitary, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 10)
-        {
-            SlotObject = Instantiate(Slot10Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardMilitary, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 12)
-        {
-            SlotObject = Instantiate(Slot12Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardMilitary, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 14)
-        {
-            SlotObject = Instantiate(Slot14Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardMilitary, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 16)
-        {
-            GameObject slotObject = Instantiate(Slot16Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardMilitary, slotButtons[i], i + 1, equipments);
-            }
-        }
-    }
-    public async Task CreateCardSpellEquipmentsAsync(CardSpells cardSpell)
-    {
-        ButtonEvent.Instance.Close(SlotPanel);
-
-        List<Equipments> equipments = new List<Equipments>();
-        equipments = await UserEquipmentsService.Create().GetUserCardSpellsEquipmentsAsync(User.CurrentUserId, cardSpell.Id, MainType);
-        equipments = equipments.Where(e => e.Set == Set).ToList();
-        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardSpell.Image);
-        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        MainImage.texture = texture;
-        EquipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(MainType);
-        if (EquipmentType.SlotValue == 1)
-        {
-            MainImage.gameObject.SetActive(false);
-        }
-        else
-        {
-            MainImage.gameObject.SetActive(true);
-        }
-        if (EquipmentType.SlotValue == 1)
-        {
-            SlotObject = Instantiate(Slot1Prefab, SlotPanel);
-            Button EquipmentSlot1Button = SlotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
-            ApplyEquipmentImage(cardSpell, EquipmentSlot1Button, 1, equipments);
-        }
-        else if (EquipmentType.SlotValue == 4)
-        {
-            SlotObject = Instantiate(Slot4Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardSpell, slotButtons[i], i + 1, equipments); // i + 1 vì vị trí bắt đầu từ 1
-            }
-        }
-        else if (EquipmentType.SlotValue == 6)
-        {
-            SlotObject = Instantiate(Slot6Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardSpell, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 8)
-        {
-            SlotObject = Instantiate(Slot8Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardSpell, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 10)
-        {
-            SlotObject = Instantiate(Slot10Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardSpell, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 12)
-        {
-            SlotObject = Instantiate(Slot12Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardSpell, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 14)
-        {
-            SlotObject = Instantiate(Slot14Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardSpell, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 16)
-        {
-            GameObject slotObject = Instantiate(Slot16Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(cardSpell, slotButtons[i], i + 1, equipments);
-            }
-        }
-    }
-    public async Task CreateBooksEquipmentsAsync(Books book)
-    {
-        ButtonEvent.Instance.Close(SlotPanel);
-
-        List<Equipments> equipments = new List<Equipments>();
-        equipments = await UserEquipmentsService.Create().GetUserBooksEquipmentsAsync(User.CurrentUserId, book.Id, MainType);
-        equipments = equipments.Where(e => e.Set == Set).ToList();
-        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(book.Image);
-        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        MainImage.texture = texture;
-        EquipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(MainType);
-        if (EquipmentType.SlotValue == 1)
-        {
-            MainImage.gameObject.SetActive(false);
-        }
-        else
-        {
-            MainImage.gameObject.SetActive(true);
-        }
-        if (EquipmentType.SlotValue == 1)
-        {
-            SlotObject = Instantiate(Slot1Prefab, SlotPanel);
-            Button EquipmentSlot1Button = SlotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
-            ApplyEquipmentImage(book, EquipmentSlot1Button, 1, equipments);
-        }
-        else if (EquipmentType.SlotValue == 4)
-        {
-            SlotObject = Instantiate(Slot4Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(book, slotButtons[i], i + 1, equipments); // i + 1 vì vị trí bắt đầu từ 1
-            }
-        }
-        else if (EquipmentType.SlotValue == 6)
-        {
-            SlotObject = Instantiate(Slot6Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(book, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 8)
-        {
-            SlotObject = Instantiate(Slot8Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(book, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 10)
-        {
-            SlotObject = Instantiate(Slot10Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(book, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 12)
-        {
-            SlotObject = Instantiate(Slot12Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(book, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 14)
-        {
-            SlotObject = Instantiate(Slot14Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(book, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 16)
-        {
-            GameObject slotObject = Instantiate(Slot16Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(book, slotButtons[i], i + 1, equipments);
-            }
-        }
-    }
-    public async Task CreatePetsEquipmentsAsync(Pets pet)
-    {
-        ButtonEvent.Instance.Close(SlotPanel);
-
-        List<Equipments> equipments = new List<Equipments>();
-        equipments = await UserEquipmentsService.Create().GetUserPetsEquipmentsAsync(User.CurrentUserId, pet.Id, MainType);
-        equipments = equipments.Where(e => e.Set == Set).ToList();
-        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(pet.Image);
-        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        MainImage.texture = texture;
-        EquipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(MainType);
-        if (EquipmentType.SlotValue == 1)
-        {
-            MainImage.gameObject.SetActive(false);
-        }
-        else
-        {
-            MainImage.gameObject.SetActive(true);
-        }
-        if (EquipmentType.SlotValue == 1)
-        {
-            SlotObject = Instantiate(Slot1Prefab, SlotPanel);
-            Button EquipmentSlot1Button = SlotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
-            ApplyEquipmentImage(pet, EquipmentSlot1Button, 1, equipments);
-        }
-        else if (EquipmentType.SlotValue == 4)
-        {
-            SlotObject = Instantiate(Slot4Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(pet, slotButtons[i], i + 1, equipments); // i + 1 vì vị trí bắt đầu từ 1
-            }
-        }
-        else if (EquipmentType.SlotValue == 6)
-        {
-            SlotObject = Instantiate(Slot6Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(pet, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 8)
-        {
-            SlotObject = Instantiate(Slot8Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(pet, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 10)
-        {
-            SlotObject = Instantiate(Slot10Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(pet, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 12)
-        {
-            SlotObject = Instantiate(Slot12Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(pet, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 14)
-        {
-            SlotObject = Instantiate(Slot14Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(pet, slotButtons[i], i + 1, equipments);
-            }
-        }
-        else if (EquipmentType.SlotValue == 16)
-        {
-            GameObject slotObject = Instantiate(Slot16Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EquipmentType.SlotValue);
-            // Duyệt danh sách thiết bị và áp hình ảnh
-            for (int i = 0; i < slotButtons.Length; i++)
-            {
-                ApplyEquipmentImage(pet, slotButtons[i], i + 1, equipments);
-            }
-        }
-    }
-    public Button[] CreateButtonArray(int numberOfSlot)
-    {
-        Button[] slotButtons;
-        if (numberOfSlot == 4)
-        {
-            slotButtons = new Button[]
-            {
-                SlotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot2Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot3Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot4Button").GetComponent<Button>()
-            };
-            return slotButtons;
-        }
-        else if (numberOfSlot == 6)
-        {
-            slotButtons = new Button[]
-            {
-                SlotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot2Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot3Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot4Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot5Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot6Button").GetComponent<Button>(),
-            };
-            return slotButtons;
-        }
-        else if (numberOfSlot == 8)
-        {
-            slotButtons = new Button[]
-            {
-                SlotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot2Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot3Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot4Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot5Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot6Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot7Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot8Button").GetComponent<Button>()
-            };
-            return slotButtons;
-        }
-        else if (numberOfSlot == 10)
-        {
-            slotButtons = new Button[]
-            {
-                SlotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot2Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot3Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot4Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot5Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot6Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot7Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot8Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot9Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot10Button").GetComponent<Button>(),
-            };
-            return slotButtons;
-        }
-        else if (numberOfSlot == 12)
-        {
-            slotButtons = new Button[]
-            {
-                SlotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot2Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot3Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot4Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot5Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot6Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot7Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot8Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot9Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot10Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot11Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot12Button").GetComponent<Button>(),
-            };
-            return slotButtons;
-        }
-        else if (numberOfSlot == 14)
-        {
-            slotButtons = new Button[]
-            {
-                SlotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot2Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot3Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot4Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot5Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot6Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot7Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot8Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot9Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot10Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot11Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot12Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot13Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot14Button").GetComponent<Button>(),
-            };
-            return slotButtons;
-        }
-        else if (numberOfSlot == 16)
-        {
-            slotButtons = new Button[]
-            {
-                SlotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot2Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot3Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot4Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot5Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot6Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot7Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot8Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot9Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot10Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot11Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot12Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot13Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot14Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot15Button").GetComponent<Button>(),
-                SlotObject.transform.Find("EquipmentSlot16Button").GetComponent<Button>(),
-            };
-            return slotButtons;
-        }
-        return null;
-    }
-    public void ApplyEquipmentImage(object data, Button button, int position, List<Equipments> equipmentList)
-    {
-        bool foundEquipment = false;
-        Equipments foundEquip = null;
-        foreach (Equipments equipment in equipmentList)
-        {
-            if (equipment.Position == position)
-            {
-                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(equipment.Image);
-                Texture equipmentTexture = TextureHelper.LoadTextureCached(fileNameWithoutExtension);
-
-                if (equipmentTexture != null)
-                {
-                    RawImage rawImage = button.GetComponent<RawImage>();
-                    rawImage.texture = equipmentTexture;
-
-                    TextMeshProUGUI LevelText = button.transform.Find("Level").GetComponent<TextMeshProUGUI>();
-                    if (LevelText != null)
-                    {
-                        if (equipment.Level != 0)
-                        {
-                            LevelText.text = equipment.Level.ToString();
-                        }
-                    }
-                    else
-                    {
-                        Debug.LogError("Không tìm thấy TextMeshProUGUI trong button: " + button.name);
-                    }
-
-                    Transform currentStar = button.transform.Find("Star");
-                    CreateStarUI(equipment.Star, currentStar);
-
-                    Transform borderEffect = button.transform.Find("BorderEffect");
-                    if (borderEffect != null)
-                    {
-                        if (EquipmentType.CanUseBorderEffect)
-                        {
-                            borderEffect.gameObject.SetActive(true);
-                        }
-                    }
-                }
-
-                foundEquipment = true; // Đánh dấu là đã tìm thấy thiết bị
-                foundEquip = equipment; // Lưu lại equipment
-                break;
-            }
-        }
-        // Nếu không tìm thấy thiết bị nào, thêm sự kiện onClick
-        if (!foundEquipment)
-        {
-            // button.onClick.RemoveAllListeners(); // Xóa các sự kiện trước đó (nếu có)
-            button.onClick.AddListener(async () =>
-            {
-                await CreatePopupEquipmentsAsync(data, position);
-            });
-        }
-        else
-        {
-            // Đã tìm thấy equipment
-            Equipments tempEquip = foundEquip;
-            button.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                // MainMenuDetailsManager.Instance.PopupDetails(tempEquip, MainPanel);
-            });
         }
     }
     public async Task CreatePopupEquipmentsAsync(object data, int position, string statusToggle = "NOT EQUIP")
     {
         PopupEquipmentObject = Instantiate(PopupEquipmentsPanelPrefab, MainPanel);
-        Transform contentPanel = PopupEquipmentObject.transform.Find("Scroll View/Viewport/Content");
-        Text PageText = PopupEquipmentObject.transform.Find("Pagination/Page").GetComponent<Text>();
-        Toggle toggle = PopupEquipmentObject.transform.Find("Toggle").GetComponent<Toggle>();
-        toggle.isOn = (statusToggle == "ALL");
-        toggle.onValueChanged.AddListener(async (bool isOn) =>
-        {
-            string newStatusToggle = isOn ? "ALL" : "NOT EQUIP";
-            Destroy(PopupEquipmentObject);
-            await CreatePopupEquipmentsAsync(data, position, newStatusToggle); // Gọi lại nhưng giữ statusToggle mới
-        });
+        Transform contentTransform = PopupEquipmentObject.transform.Find("Scroll View/Viewport/Content");
+        // Toggle toggle = PopupEquipmentObject.transform.Find("Toggle").GetComponent<Toggle>();
+        // toggle.isOn = (statusToggle == "ALL");
+        // toggle.onValueChanged.AddListener(async (bool isOn) =>
+        // {
+        //     string newStatusToggle = isOn ? "ALL" : "NOT EQUIP";
+        //     Destroy(PopupEquipmentObject);
+        //     await CreatePopupEquipmentsAsync(data, position, newStatusToggle); // Gọi lại nhưng giữ statusToggle mới
+        // });
         Button closeButton = PopupEquipmentObject.transform.Find("CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => Destroy(PopupEquipmentObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(PopupEquipmentObject);
+        });
 
-        PaginationManager = transform.Find("PaginationPanelPrefab").GetComponent<PaginationManager>();
+        PaginationManager = PopupEquipmentObject.transform.Find("PaginationPanelPrefab").GetComponent<PaginationManager>();
 
-        
+
         // equipments = equipments.Where(e => e.Set == Set).ToList();
         // int totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, MainType, Rare);
-        // TotalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
 
-        PageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
         // CreatePopupEquipmentsUI(data, equipments, contentPanel, position);
+        Data = data;
+        ContentTransform = contentTransform;
+        Position = position;
+        IsSearchingOrFiltering = true;
+        await LoadCurrentPageAsync(data, position, contentTransform);
     }
-    public async Task LoadCurrentPageAsync(object data)
+    public async Task LoadCurrentPageAsync(object data, int position, Transform contentTransform)
     {
         int totalRecord = 0;
         List<Equipments> equipments = new List<Equipments>();
         if (data is CardHeroes cardHero)
         {
-            equipments = await UserEquipmentsService.Create().GetAllUserCardHeroesEquipmentsAsync(User.CurrentUserId, MainType, PAGE_SIZE, Offset, "statusToggle");
-
+            equipments = await UserEquipmentsService.Create().GetAllUserCardHeroesEquipmentsAsync(User.CurrentUserId, Search, Type, Rare, Set, PAGE_SIZE, Offset, "ALL");
             totalRecord = await UserEquipmentsService.Create().GetUserCardHeroesEquipmentsCountAsync(User.CurrentUserId, Search, Type, Rare, Set);
+
+            if (!PopupType.Equals("ADD", StringComparison.OrdinalIgnoreCase))
+            {
+                equipments = equipments
+                    .Where(e => e.Id != cardHero.Id)
+                    .ToList();
+
+                totalRecord = totalRecord - 1;
+            }
         }
         else if (data is CardCaptains cardCaptain)
         {
-            equipments = await UserEquipmentsService.Create().GetAllUserCardCaptainsEquipmentsAsync(User.CurrentUserId, MainType, PAGE_SIZE, Offset, "statusToggle");
-
+            equipments = await UserEquipmentsService.Create().GetAllUserCardCaptainsEquipmentsAsync(User.CurrentUserId, Search, Type, Rare, Set, PAGE_SIZE, Offset, "ALL");
             totalRecord = await UserEquipmentsService.Create().GetUserCardCaptainsEquipmentsCountAsync(User.CurrentUserId, Search, Type, Rare, Set);
+
+            if (!PopupType.Equals("ADD", StringComparison.OrdinalIgnoreCase))
+            {
+                equipments = equipments
+                    .Where(e => e.Id != cardCaptain.Id)
+                    .ToList();
+
+                totalRecord = totalRecord - 1;
+            }
         }
         else if (data is CardColonels cardColonel)
         {
-            equipments = await UserEquipmentsService.Create().GetAllUserCardColonelsEquipmentsAsync(User.CurrentUserId, MainType, PAGE_SIZE, Offset, "statusToggle");
-
+            equipments = await UserEquipmentsService.Create().GetAllUserCardColonelsEquipmentsAsync(User.CurrentUserId, Search, Type, Rare, Set, PAGE_SIZE, Offset, "ALL");
             totalRecord = await UserEquipmentsService.Create().GetUserCardColonelsEquipmentsCountAsync(User.CurrentUserId, Search, Type, Rare, Set);
+
+            if (!PopupType.Equals("ADD", StringComparison.OrdinalIgnoreCase))
+            {
+                equipments = equipments
+                    .Where(e => e.Id != cardColonel.Id)
+                    .ToList();
+
+                totalRecord = totalRecord - 1;
+            }
         }
         else if (data is CardGenerals cardGeneral)
         {
-            equipments = await UserEquipmentsService.Create().GetAllUserCardGeneralsEquipmentsAsync(User.CurrentUserId, MainType, PAGE_SIZE, Offset, "statusToggle");
-
+            equipments = await UserEquipmentsService.Create().GetAllUserCardGeneralsEquipmentsAsync(User.CurrentUserId, Search, Type, Rare, Set, PAGE_SIZE, Offset, "ALL");
             totalRecord = await UserEquipmentsService.Create().GetUserCardGeneralsEquipmentsCountAsync(User.CurrentUserId, Search, Type, Rare, Set);
+
+            if (!PopupType.Equals("ADD", StringComparison.OrdinalIgnoreCase))
+            {
+                equipments = equipments
+                    .Where(e => e.Id != cardGeneral.Id)
+                    .ToList();
+
+                totalRecord = totalRecord - 1;
+            }
         }
         else if (data is CardAdmirals cardAdmiral)
         {
-            equipments = await UserEquipmentsService.Create().GetAllUserCardAdmiralsEquipmentsAsync(User.CurrentUserId, MainType, PAGE_SIZE, Offset, "statusToggle");
-
+            equipments = await UserEquipmentsService.Create().GetAllUserCardAdmiralsEquipmentsAsync(User.CurrentUserId, Search, Type, Rare, Set, PAGE_SIZE, Offset, "ALL");
             totalRecord = await UserEquipmentsService.Create().GetUserCardAdmiralsEquipmentsCountAsync(User.CurrentUserId, Search, Type, Rare, Set);
+
+            if (!PopupType.Equals("ADD", StringComparison.OrdinalIgnoreCase))
+            {
+                equipments = equipments
+                    .Where(e => e.Id != cardAdmiral.Id)
+                    .ToList();
+
+                totalRecord = totalRecord - 1;
+            }
         }
         else if (data is CardMonsters cardMonster)
         {
-            equipments = await UserEquipmentsService.Create().GetAllUserCardMonstersEquipmentsAsync(User.CurrentUserId, MainType, PAGE_SIZE, Offset, "statusToggle");
-
+            equipments = await UserEquipmentsService.Create().GetAllUserCardMonstersEquipmentsAsync(User.CurrentUserId, Search, Type, Rare, Set, PAGE_SIZE, Offset, "ALL");
             totalRecord = await UserEquipmentsService.Create().GetUserCardMonstersEquipmentsCountAsync(User.CurrentUserId, Search, Type, Rare, Set);
+
+            if (!PopupType.Equals("ADD", StringComparison.OrdinalIgnoreCase))
+            {
+                equipments = equipments
+                    .Where(e => e.Id != cardMonster.Id)
+                    .ToList();
+
+                totalRecord = totalRecord - 1;
+            }
         }
         else if (data is CardMilitaries cardMilitary)
         {
-            equipments = await UserEquipmentsService.Create().GetAllUserCardMilitariesEquipmentsAsync(User.CurrentUserId, MainType, PAGE_SIZE, Offset, "statusToggle");
-
+            equipments = await UserEquipmentsService.Create().GetAllUserCardMilitariesEquipmentsAsync(User.CurrentUserId, Search, Type, Rare, Set, PAGE_SIZE, Offset, "ALL");
             totalRecord = await UserEquipmentsService.Create().GetUserCardMilitariesEquipmentsCountAsync(User.CurrentUserId, Search, Type, Rare, Set);
+
+            if (!PopupType.Equals("ADD", StringComparison.OrdinalIgnoreCase))
+            {
+                equipments = equipments
+                    .Where(e => e.Id != cardMilitary.Id)
+                    .ToList();
+
+                totalRecord = totalRecord - 1;
+            }
         }
         else if (data is CardSpells cardSpell)
         {
-            equipments = await UserEquipmentsService.Create().GetAllUserCardSpellsEquipmentsAsync(User.CurrentUserId, MainType, PAGE_SIZE, Offset, "statusToggle");
-
+            equipments = await UserEquipmentsService.Create().GetAllUserCardSpellsEquipmentsAsync(User.CurrentUserId, Search, Type, Rare, Set, PAGE_SIZE, Offset, "ALL");
             totalRecord = await UserEquipmentsService.Create().GetUserCardSpellsEquipmentsCountAsync(User.CurrentUserId, Search, Type, Rare, Set);
+
+            if (!PopupType.Equals("ADD", StringComparison.OrdinalIgnoreCase))
+            {
+                equipments = equipments
+                    .Where(e => e.Id != cardSpell.Id)
+                    .ToList();
+
+                totalRecord = totalRecord - 1;
+            }
         }
         else if (data is Books book)
         {
-            equipments = await UserEquipmentsService.Create().GetAllUserBooksEquipmentsAsync(User.CurrentUserId, MainType, PAGE_SIZE, Offset, "statusToggle");
-
+            equipments = await UserEquipmentsService.Create().GetAllUserBooksEquipmentsAsync(User.CurrentUserId, Search, Type, Rare, Set, PAGE_SIZE, Offset, "ALL");
             totalRecord = await UserEquipmentsService.Create().GetUserBooksEquipmentsCountAsync(User.CurrentUserId, Search, Type, Rare, Set);
+
+            if (!PopupType.Equals("ADD", StringComparison.OrdinalIgnoreCase))
+            {
+                equipments = equipments
+                    .Where(e => e.Id != book.Id)
+                    .ToList();
+
+                totalRecord = totalRecord - 1;
+            }
         }
         else if (data is Pets pet)
         {
-            equipments = await UserEquipmentsService.Create().GetAllUserPetsEquipmentsAsync(User.CurrentUserId, MainType, PAGE_SIZE, Offset, "statusToggle");
-
+            equipments = await UserEquipmentsService.Create().GetAllUserPetsEquipmentsAsync(User.CurrentUserId, Search, Type, Rare, Set, PAGE_SIZE, Offset, "ALL");
             totalRecord = await UserEquipmentsService.Create().GetUserPetsEquipmentsCountAsync(User.CurrentUserId, Search, Type, Rare, Set);
+
+            if (!PopupType.Equals("ADD", StringComparison.OrdinalIgnoreCase))
+            {
+                equipments = equipments
+                    .Where(e => e.Id != pet.Id)
+                    .ToList();
+
+                totalRecord = totalRecord - 1;
+            }
         }
 
         TotalItems = totalRecord;
+        CreatePopupEquipmentsUI(data, equipments, position, contentTransform);
 
         if (IsSearchingOrFiltering && PaginationManager != null)
         {
@@ -1772,11 +628,11 @@ public class MainMenuEquipmentManager : MonoBehaviour
             PaginationManager.OnPageChanged += OnPageSelected;
         }
     }
-    public void CreatePopupEquipmentsUI(object data, List<Equipments> equipmentsList, Transform content, int position)
+    public void CreatePopupEquipmentsUI(object data, List<Equipments> equipmentsList, int position, Transform contentTransform)
     {
         foreach (var equipment in equipmentsList)
         {
-            GameObject equipmentObject = Instantiate(EquipmentsWearingPrefab, content);
+            GameObject equipmentObject = Instantiate(EquipmentsWearingPrefab, contentTransform);
 
             TextMeshProUGUI titleText = equipmentObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             titleText.text = equipment.Name.Replace("_", " ");
@@ -1795,104 +651,104 @@ public class MainMenuEquipmentManager : MonoBehaviour
             rareImage.texture = rareTexture;
 
             Button equipButton = equipmentObject.transform.Find("EquipButton").GetComponent<Button>();
-            equipButton.onClick.AddListener((UnityEngine.Events.UnityAction)(async () =>
+            equipButton.onClick.AddListener((async () =>
             {
-                Destroy(PopupEquipmentObject);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 if (data is CardHeroes cardHero)
                 {
-                    await UserEquipmentsService.Create().InsertUserCardHeroEquipmentsAsync(User.CurrentUserId, (string)cardHero.Id, equipment, position);
-                    await CreateCardHeroesEquipmentsAsync(cardHero);
+                    await UserEquipmentsService.Create().InsertUserCardHeroEquipmentsAsync(User.CurrentUserId, cardHero.Id, equipment, position);
+                    // await CreateCardHeroesEquipmentsAsync(cardHero);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+                    PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is CardCaptains cardCaptain)
                 {
                     await UserEquipmentsService.Create().InsertUserCardCaptainEquipmentsAsync(User.CurrentUserId, cardCaptain.Id, equipment, position);
-                    await CreateCardCaptainsEquipmentsAsync(cardCaptain);
+                    // await CreateCardCaptainsEquipmentsAsync(cardCaptain);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+                    PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is CardColonels cardColonel)
                 {
                     await UserEquipmentsService.Create().InsertUserCardColonelEquipmentsAsync(User.CurrentUserId, cardColonel.Id, equipment, position);
-                    await CreateCardColonelsEquipmentsAsync(cardColonel);
+                    // await CreateCardColonelsEquipmentsAsync(cardColonel);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+                    PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is CardGenerals cardGeneral)
                 {
                     await UserEquipmentsService.Create().InsertUserCardGeneralEquipmentsAsync(User.CurrentUserId, cardGeneral.Id, equipment, position);
-                    await CreateCardGeneralsEquipmentsAsync(cardGeneral);
+                    // await CreateCardGeneralsEquipmentsAsync(cardGeneral);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+                    PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is CardAdmirals cardAdmiral)
                 {
                     await UserEquipmentsService.Create().InsertUserCardAdmiralEquipmentsAsync(User.CurrentUserId, cardAdmiral.Id, equipment, position);
-                    await CreateCardAdmiralsEquipmentsAsync(cardAdmiral);
+                    // await CreateCardAdmiralsEquipmentsAsync(cardAdmiral);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+                    PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is CardMonsters cardMonster)
                 {
                     await UserEquipmentsService.Create().InsertUserCardMonsterEquipmentsAsync(User.CurrentUserId, cardMonster.Id, equipment, position);
-                    await CreateCardMonstersEquipmentsAsync(cardMonster);
+                    // await CreateCardMonstersEquipmentsAsync(cardMonster);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+                    PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is CardMilitaries cardMilitary)
                 {
                     await UserEquipmentsService.Create().InsertUserCardMilitaryEquipmentsAsync(User.CurrentUserId, cardMilitary.Id, equipment, position);
-                    await CreateCardMilitaryEquipmentsAsync(cardMilitary);
+                    // await CreateCardMilitaryEquipmentsAsync(cardMilitary);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+                    PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is CardSpells cardSpell)
                 {
                     await UserEquipmentsService.Create().InsertUserCardSpellEquipmentsAsync(User.CurrentUserId, cardSpell.Id, equipment, position);
-                    await CreateCardSpellEquipmentsAsync(cardSpell);
+                    // await CreateCardSpellEquipmentsAsync(cardSpell);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+                    PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is Books book)
                 {
                     await UserEquipmentsService.Create().InsertUserBookEquipmentsAsync(User.CurrentUserId, book.Id, equipment, position);
-                    await CreateBooksEquipmentsAsync(book);
+                    // await CreateBooksEquipmentsAsync(book);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+                    PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is Pets pet)
                 {
                     await UserEquipmentsService.Create().InsertUserPetEquipmentsAsync(User.CurrentUserId, pet.Id, equipment, position);
-                    await CreatePetsEquipmentsAsync(pet);
+                    // await CreatePetsEquipmentsAsync(pet);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+                    PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
                 }
 
                 Destroy(PopupEquipmentObject);
             }));
         }
-        GridLayoutGroup gridLayout = content.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentTransform.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(340, 130);
@@ -1903,7 +759,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         CurrentPage = pageNumber;
         Offset = (CurrentPage - 1) * PAGE_SIZE;
         IsSearchingOrFiltering = false;
-        // _ = LoadCurrentPageAsync();
+        _ = LoadCurrentPageAsync(Data, Position, ContentTransform);
     }
 
     private void OnDestroy()
@@ -1914,18 +770,18 @@ public class MainMenuEquipmentManager : MonoBehaviour
             PaginationManager.OnPageChanged -= OnPageSelected;
         }
     }
-    public void CreateStarUI(int star, Transform currentStar)
+    public void CreateStarUI(int star, Transform contentTransform)
     {
         int imageIndex = (star == 0) ? 0 : ((star - 1) % 10) + 1;
         int starIndex = (star == 0) ? 1 : (star - 1) / 10;
         for (int i = 0; i < imageIndex; i++)
         {
-            GameObject starObject = Instantiate(StarPrefab, currentStar);
+            GameObject starObject = Instantiate(StarPrefab, contentTransform);
 
             RawImage starImage = starObject.transform.Find("ItemImage").GetComponent<RawImage>();
             GetStarImage(starImage, starIndex);
         }
-        GridLayoutGroup GridLayout = currentStar.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup GridLayout = contentTransform.GetComponent<GridLayoutGroup>();
         if (GridLayout != null)
         {
             GridLayout.cellSize = new Vector2(20, 20);
