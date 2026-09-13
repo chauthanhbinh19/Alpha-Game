@@ -13,6 +13,7 @@ public class UserCardHeroesService : IUserCardHeroesService
     private readonly IUserSkillsRepository _userSkillsRepository;
     private readonly IPatternsService _patternsService;
     private readonly IUserStatsService _userStatsService;
+    private readonly IUserEquipmentsService _userEquipmentsService;
 
     public UserCardHeroesService(
         IUserCardHeroesRepository userCardHeroesRepository,
@@ -20,7 +21,8 @@ public class UserCardHeroesService : IUserCardHeroesService
         ICardHeroesService cardHeroesService,
         IUserSkillsRepository userSkillsRepository,
         IPatternsService patternsService,
-        IUserStatsService userStatsService)
+        IUserStatsService userStatsService,
+        IUserEquipmentsService userEquipmentsService)
     {
         _userCardHeroesRepository = userCardHeroesRepository;
         _cardHeroesGalleryService = cardHeroesGalleryService;
@@ -28,6 +30,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         _userSkillsRepository = userSkillsRepository;
         _patternsService = patternsService;
         _userStatsService = userStatsService;
+        _userEquipmentsService = userEquipmentsService;
     }
 
     public static IUserCardHeroesService Create() => ServiceContainer.GetService<IUserCardHeroesService>();
@@ -816,12 +819,15 @@ public class UserCardHeroesService : IUserCardHeroesService
     {
         var totalStats = await _userCardHeroesRepository.GetTeamTotalStatsAsync(userId);
         var baseStats = await _userCardHeroesRepository.GetTeamTotalStatsWithoutQualityAsync(userId);
+        var idList = await _userCardHeroesRepository.GetTeamIdsAsync(userId);
 
         UserStatsContextDTO context = sharedContext;
         if (context == null)
         {
             context = await _userStatsService.GetUserStatsContextAsync(userId);
         }
+
+        var equipments = await _userEquipmentsService.GetUserCardHeroesEquipmentsAsync(userId, idList, "All");
 
         TotalBuffs totalBuffs = new TotalBuffs();
         totalBuffs.AddBuff(context.PowerManagerData);

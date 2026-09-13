@@ -13,6 +13,7 @@ public interface IUserBooksRepository
     Task<InsertOrUpdateResult<bool>> UpdateUserBookStarAsync(string userId, Books book);
     Task<bool> UpdateTeamUserBookAsync(string userId, string team_id, string position, string book_id);
     Task<Books> GetUserBookByIdAsync(string userId, string Id);
+    Task<List<string>> GetTeamIdsAsync(string userId);
     Task<BaseStats> GetTeamTotalStatsAsync(string userId);
     Task<BaseStats> GetTeamTotalStatsWithoutQualityAsync(string userId);
 }

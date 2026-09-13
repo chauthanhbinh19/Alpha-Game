@@ -1889,13 +1889,20 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 INNER JOIN card_heroes_equipment che ON che.equipment_id = ue.equipment_id
 
                 WHERE ue.user_id = @user_id 
-                AND che.card_hero_id IN ({inClause})
-                AND (@type IS NULL OR e.type = @type);";
+                AND che.card_hero_id IN ({inClause})";
+
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@type", type);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
 
                     for (int i = 0; i < cardIdList.Count; i++)
                     {
@@ -2049,13 +2056,20 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 INNER JOIN card_captains_equipment che ON che.equipment_id = ue.equipment_id
 
                 WHERE ue.user_id = @user_id 
-                AND che.card_captain_id IN ({inClause})
-                AND (@type IS NULL OR e.type = @type);";
+                AND che.card_captain_id IN ({inClause})";
+
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@type", type);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
 
                     for (int i = 0; i < cardIdList.Count; i++)
                     {
@@ -2209,13 +2223,20 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 INNER JOIN card_colonels_equipment che ON che.equipment_id = ue.equipment_id
 
                 WHERE ue.user_id = @user_id 
-                AND che.card_colonel_id IN ({inClause})
-                AND (@type IS NULL OR e.type = @type);";
+                AND che.card_colonel_id IN ({inClause})";
+
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@type", type);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
 
                     for (int i = 0; i < cardIdList.Count; i++)
                     {
@@ -2369,13 +2390,20 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 INNER JOIN card_generals_equipment che ON che.equipment_id = ue.equipment_id
 
                 WHERE ue.user_id = @user_id 
-                AND che.card_general_id IN ({inClause})
-                AND (@type IS NULL OR e.type = @type);";
+                AND che.card_general_id IN ({inClause})";
+
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@type", type);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
 
                     for (int i = 0; i < cardIdList.Count; i++)
                     {
@@ -2529,13 +2557,20 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 INNER JOIN card_admirals_equipment che ON che.equipment_id = ue.equipment_id
 
                 WHERE ue.user_id = @user_id 
-                AND che.card_admiral_id IN ({inClause})
-                AND (@type IS NULL OR e.type = @type);";
+                AND che.card_admiral_id IN ({inClause})";
+
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@type", type);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
 
                     for (int i = 0; i < cardIdList.Count; i++)
                     {
@@ -2689,13 +2724,20 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 INNER JOIN card_monsters_equipment che ON che.equipment_id = ue.equipment_id
 
                 WHERE ue.user_id = @user_id 
-                AND che.card_monster_id IN ({inClause})
-                AND (@type IS NULL OR e.type = @type);";
+                AND che.card_monster_id IN ({inClause})";
+
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@type", type);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
 
                     for (int i = 0; i < cardIdList.Count; i++)
                     {
@@ -2849,13 +2891,20 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 INNER JOIN card_militaries_equipment che ON che.equipment_id = ue.equipment_id
 
                 WHERE ue.user_id = @user_id 
-                AND che.card_military_id IN ({inClause})
-                AND (@type IS NULL OR e.type = @type);";
+                AND che.card_military_id IN ({inClause})";
+
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@type", type);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
 
                     for (int i = 0; i < cardIdList.Count; i++)
                     {
@@ -3009,13 +3058,20 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 INNER JOIN card_soldiers_equipment che ON che.equipment_id = ue.equipment_id
 
                 WHERE ue.user_id = @user_id 
-                AND che.card_soldier_id IN ({inClause})
-                AND (@type IS NULL OR e.type = @type);";
+                AND che.card_soldier_id IN ({inClause})";
+
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@type", type);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
 
                     for (int i = 0; i < cardIdList.Count; i++)
                     {
@@ -3169,13 +3225,20 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 INNER JOIN card_spells_equipment che ON che.equipment_id = ue.equipment_id
 
                 WHERE ue.user_id = @user_id 
-                AND che.card_spell_id IN ({inClause})
-                AND (@type IS NULL OR e.type = @type);";
+                AND che.card_spell_id IN ({inClause})";
+
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@type", type);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
 
                     for (int i = 0; i < cardIdList.Count; i++)
                     {
@@ -3329,13 +3392,20 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 INNER JOIN books_equipment che ON che.equipment_id = ue.equipment_id
 
                 WHERE ue.user_id = @user_id 
-                AND che.book_id IN ({inClause})
-                AND (@type IS NULL OR e.type = @type);";
+                AND che.book_id IN ({inClause})";
+
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@type", type);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
 
                     for (int i = 0; i < cardIdList.Count; i++)
                     {
@@ -3489,13 +3559,20 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 INNER JOIN pets_equipment che ON che.equipment_id = ue.equipment_id
 
                 WHERE ue.user_id = @user_id 
-                AND che.pet_id IN ({inClause})
-                AND (@type IS NULL OR e.type = @type);";
+                AND che.pet_id IN ({inClause})";
+
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    selectSQL += " AND e.type = @type";
+                }
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
-                    selectCommand.Parameters.AddWithValue("@type", type);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        selectCommand.Parameters.AddWithValue("@type", type);
+                    }
 
                     for (int i = 0; i < cardIdList.Count; i++)
                     {

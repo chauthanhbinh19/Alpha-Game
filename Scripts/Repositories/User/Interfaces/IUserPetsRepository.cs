@@ -13,6 +13,7 @@ public interface IUserPetsRepository
     Task<InsertOrUpdateResult<bool>> UpdateUserPetStarAsync(string userId, Pets pet);
     Task<bool> UpdateTeamUserPetAsync(string userId, string team_id, string cardId);
     Task<Pets> GetUserPetByIdAsync(string userId, string Id);
+    Task<List<string>> GetTeamIdsAsync(string userId);
     Task<BaseStats> GetTeamTotalStatsAsync(string userId);
     Task<BaseStats> GetTeamTotalStatsWithoutQualityAsync(string userId);
 }

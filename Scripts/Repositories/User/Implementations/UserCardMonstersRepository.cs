@@ -1659,6 +1659,46 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
 
         return cardMonster;
     }
+    public async Task<List<string>> GetTeamIdsAsync(string userId)
+    {
+        List<string> cardMonsterIds = new List<string>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        string selectSQL = @"
+        SELECT uc.card_monster_id
+        FROM user_card_monsters uc
+        INNER JOIN teams t ON uc.team_id = t.team_id AND t.is_main = 1
+        WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL;";
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
+
+                    await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            if (!reader.IsDBNull(reader.GetOrdinal("card_monster_id")))
+                            {
+                                cardMonsterIds.Add(reader.GetString("card_monster_id"));
+                            }
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                UnityEngine.Debug.LogError("Error getting team hero IDs: " + ex.Message);
+            }
+        }
+
+        return cardMonsterIds;
+    }
     public async Task<BaseStats> GetTeamTotalStatsAsync(string userId)
     {
         BaseStats totalStats = new BaseStats();

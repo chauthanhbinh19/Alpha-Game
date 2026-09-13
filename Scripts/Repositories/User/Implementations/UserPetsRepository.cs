@@ -1173,6 +1173,46 @@ public class UserPetsRepository : IUserPetsRepository
 
         return pet;
     }
+    public async Task<List<string>> GetTeamIdsAsync(string userId)
+    {
+        List<string> petIds = new List<string>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        string selectSQL = @"
+        SELECT uc.pet_id
+        FROM user_pets uc
+        INNER JOIN teams t ON uc.team_id = t.team_id AND t.is_main = 1
+        WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL;";
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
+
+                    await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            if (!reader.IsDBNull(reader.GetOrdinal("pet_id")))
+                            {
+                                petIds.Add(reader.GetString("pet_id"));
+                            }
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                UnityEngine.Debug.LogError("Error getting team hero IDs: " + ex.Message);
+            }
+        }
+
+        return petIds;
+    }
     public async Task<BaseStats> GetTeamTotalStatsAsync(string userId)
     {
         BaseStats totalStats = new BaseStats();

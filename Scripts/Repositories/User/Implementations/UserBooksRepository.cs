@@ -1218,6 +1218,46 @@ public class UserBooksRepository : IUserBooksRepository
 
         return book;
     }
+    public async Task<List<string>> GetTeamIdsAsync(string userId)
+    {
+        List<string> bookIds = new List<string>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        string selectSQL = @"
+        SELECT uc.book_id
+        FROM user_books uc
+        INNER JOIN teams t ON uc.team_id = t.team_id AND t.is_main = 1
+        WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL;";
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
+
+                    await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            if (!reader.IsDBNull(reader.GetOrdinal("book_id")))
+                            {
+                                bookIds.Add(reader.GetString("book_id"));
+                            }
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                UnityEngine.Debug.LogError("Error getting team hero IDs: " + ex.Message);
+            }
+        }
+
+        return bookIds;
+    }
     public async Task<BaseStats> GetTeamTotalStatsAsync(string userId)
     {
         BaseStats totalStats = new BaseStats();

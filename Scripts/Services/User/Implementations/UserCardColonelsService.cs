@@ -10,6 +10,7 @@ public class UserCardColonelsService : IUserCardColonelsService
     private readonly IUserSkillsRepository _userSkillsRepository;
     private readonly IPatternsService _patternsService;
     private readonly IUserStatsService _userStatsService;
+    private readonly IUserEquipmentsService _userEquipmentsService;
 
     public UserCardColonelsService(
         IUserCardColonelsRepository userCardColonelsRepository,
@@ -17,7 +18,8 @@ public class UserCardColonelsService : IUserCardColonelsService
         ICardColonelsService cardColonelsService,
         IUserSkillsRepository userSkillsRepository,
         IPatternsService patternsService,
-        IUserStatsService userStatsService)
+        IUserStatsService userStatsService,
+        IUserEquipmentsService userEquipmentsService)
     {
         _userCardColonelsRepository = userCardColonelsRepository;
         _cardColonelsGalleryService = cardColonelsGalleryService;
@@ -25,6 +27,7 @@ public class UserCardColonelsService : IUserCardColonelsService
         _userSkillsRepository = userSkillsRepository;
         _patternsService = patternsService;
         _userStatsService = userStatsService;
+        _userEquipmentsService = userEquipmentsService;
     }
 
     public static IUserCardColonelsService Create() => ServiceContainer.GetService<IUserCardColonelsService>();

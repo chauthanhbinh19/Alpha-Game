@@ -17,6 +17,7 @@ public interface IUserCardGeneralsRepository
     Task<InsertOrUpdateResult<bool>> UpdateUserCardGeneralLevelAsync(string userId, CardGenerals cardGeneral);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardGeneralStarAsync(string userId, CardGenerals cardGeneral);
     Task<CardGenerals> GetUserCardGeneralByIdAsync(string userId, string Id);
+    Task<List<string>> GetTeamIdsAsync(string userId);
     Task<BaseStats> GetTeamTotalStatsAsync(string userId);
     Task<BaseStats> GetTeamTotalStatsWithoutQualityAsync(string userId);
 }

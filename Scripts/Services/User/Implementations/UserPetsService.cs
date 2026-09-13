@@ -7,17 +7,20 @@ public class UserPetsService : IUserPetsService
     private readonly IPetsGalleryService _petsGalleryService;
     private readonly IPetsService _petsService;
     private readonly IPowerManagerService _powerManagerService;
+    private readonly IUserEquipmentsService _userEquipmentsService;
 
     public UserPetsService(
         IUserPetsRepository userPetsRepository,
         IPetsGalleryService petsGalleryService,
         IPetsService petsService,
-        IPowerManagerService powerManagerService)
+        IPowerManagerService powerManagerService,
+        IUserEquipmentsService userEquipmentsService)
     {
         _userPetsRepository = userPetsRepository;
         _petsGalleryService = petsGalleryService;
         _petsService = petsService;
         _powerManagerService = powerManagerService;
+        _userEquipmentsService = userEquipmentsService;
     }
 
     public static IUserPetsService Create() => ServiceContainer.GetService<IUserPetsService>();

@@ -7,17 +7,20 @@ public class UserBooksService : IUserBooksService
     private readonly IBooksGalleryService _booksGalleryService;
     private readonly IBooksService _booksService;
     private readonly IPowerManagerService _powerManagerService;
+    private readonly IUserEquipmentsService _userEquipmentsService;
 
     public UserBooksService(
         IUserBooksRepository userBooksRepository,
         IBooksGalleryService booksGalleryService,
         IBooksService booksService,
-        IPowerManagerService powerManagerService)
+        IPowerManagerService powerManagerService,
+        IUserEquipmentsService userEquipmentsService)
     {
         _userBooksRepository = userBooksRepository;
         _booksGalleryService = booksGalleryService;
         _booksService = booksService;
         _powerManagerService = powerManagerService;
+        _userEquipmentsService = userEquipmentsService;
     }
 
     public static IUserBooksService Create() => ServiceContainer.GetService<IUserBooksService>();
