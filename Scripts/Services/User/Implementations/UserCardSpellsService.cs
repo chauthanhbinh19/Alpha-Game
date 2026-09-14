@@ -496,6 +496,83 @@ public class UserCardSpellsService : IUserCardSpellsService
         return result;
     }
 
+    public async Task<List<CardSpells>> GetUserCardSpellsInTeamAsync(string userId, UserStatsContextDTO sharedContext = null)
+    {
+        List<CardSpells> result = await _userCardSpellsRepository.GetUserCardSpellsInTeamAsync(userId);
+
+        List<string> cardSpellIds = result.Select(hero => hero.Id).ToList();
+
+        // var skillsTask = _userSkillsRepository.GetUserCardSpellsSkillsAsync(userId, cardSpellIds);
+
+        // var skillData = await skillsTask;
+        // foreach (var skill in skillData)
+        // {
+        //     if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
+        //     {
+        //         skill.Pattern = _patternsService.GetPatternFromCache(skill.Pattern.Id);
+        //     }
+        // }
+
+        UserStatsContextDTO context = sharedContext;
+        if (context == null)
+        {
+            context = await _userStatsService.GetUserStatsContextAsync(userId);
+        }
+
+        // var skillsLookup = skillData.ToLookup(s => s.CardId);
+
+        TotalBuffs totalBuffs = new TotalBuffs();
+        totalBuffs.AddBuff(context.PowerManagerData);
+        totalBuffs.AddBuff(context.ScienceFictionData);
+        totalBuffs.AddBuff(context.ResearchData);
+        totalBuffs.AddBuff(context.ArchiveData);
+        totalBuffs.AddBuff(context.UniverseData);
+        totalBuffs.AddBuff(context.HiinData);
+        totalBuffs.AddBuff(context.SswnData);
+        totalBuffs.AddBuff(context.HitnData);
+        totalBuffs.AddBuff(context.HihnData);
+        totalBuffs.AddBuff(context.HienData);
+        totalBuffs.AddBuff(context.HicaData);
+        totalBuffs.AddBuff(context.HirnData);
+        totalBuffs.AddBuff(context.HidcData);
+        totalBuffs.AddBuff(context.HicbData);
+        totalBuffs.AddBuff(context.HisnData);
+        totalBuffs.AddBuff(context.AnimeStatsData);
+
+        // result = await GetAllSpiritBeastPowerAsync(userId, result);
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        result = ModuleEvaluatorHelper.GetModulePower(result);
+        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        // result = await GetAllEquipmentPowerAsync(userId, result);
+        // result = await GetAllRankPowerAsync(userId, result);
+        // result = await GetAllMasterPowerAsync(userId, result);
+        // result = await GetSkillsAsync(userId, result);
+        foreach (var card in result)
+        {
+            if (card == null) continue; // Phòng hờ phần tử trong result bị null
+
+            // Áp dụng tổng buff (Flat + % Base stats)
+            card.ApplyTotalBuffs(totalBuffs);
+
+            // Gán Skills an toàn, tránh tạo List thừa
+            // card.Skills = skillsLookup.Contains(card.Id)
+            //     ? skillsLookup[card.Id].ToList()
+            //     : new List<Skills>();
+
+            // Tính toán lại tổng lực chiến (Sau khi đã có đầy đủ chỉ số và Skills)
+            card.RecalculatePower();
+        }
+        ListSortHelper.SortByPower(result);
+        return result;
+    }
+
+    public async Task<List<CardSpells>> GetUserCardSpellsInTeamSimpleAsync(string userId)
+    {
+        return await _userCardSpellsRepository.GetUserCardSpellsInTeamSimpleAsync(userId);
+    }
+
     public async Task<Dictionary<string, int>> GetUniqueUserCardSpellsTypesTeamAsync(string userId, string teamId)
     {
         return await _userCardSpellsRepository.GetUniqueUserCardSpellsTypesTeamAsync(userId, teamId);

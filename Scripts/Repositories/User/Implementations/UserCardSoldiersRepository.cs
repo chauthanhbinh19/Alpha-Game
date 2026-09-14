@@ -37,37 +37,7 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                 c.description, 
                 COALESCE(t.team_number, 0) AS team_number,
                 COALESCE(am.total_module_mult, 0) AS module_multiplier,
-                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier,
-                (
-                    SELECT JSON_ARRAYAGG(
-                        JSON_OBJECT(
-                            'id', e.id,
-                            'name', e.name,
-                            'image', e.image,
-                            'type', e.type
-                        )
-                    )
-                    FROM card_soldier_emblem che
-                    JOIN emblems e ON che.emblem_id = e.id
-                    WHERE che.card_soldier_id = c.id
-                ) AS emblems_json,
-                (
-                    SELECT JSON_ARRAYAGG(
-                        JSON_OBJECT(
-                            'id', cl.id,
-                            'sub_type', cl.sub_type,
-                            'sub_image', cl.sub_image,
-                            'main_type', cl.main_type,
-                            'main_image', cl.main_image,
-                            'movement_range', cl.movement_range,
-                                'movement_point', cl.movement_point,
-                                'attack_range', cl.attack_range
-                        )
-                    )
-                    FROM card_soldier_class chc
-                    JOIN classes cl ON chc.class_id = cl.id
-                    WHERE chc.card_soldier_id = c.id
-                ) AS classes_json
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
             FROM user_card_soldiers uc
             INNER JOIN card_soldiers c ON uc.card_soldier_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.card_soldier_id = am.user_card_soldier_id
@@ -244,37 +214,37 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                     };
 
                     // Đọc chuỗi JSON từ Database
-                    string emblemsJson = reader.GetStringSafe("emblems_json");
+                    // string emblemsJson = reader.GetStringSafe("emblems_json");
 
-                    if (!string.IsNullOrEmpty(emblemsJson))
-                    {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
-                            cardSoldier.Emblems = JsonHelper.DeserializeEmblems(emblemsJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
-                            cardSoldier.Emblems = new List<Emblems>();
-                        }
-                    }
+                    // if (!string.IsNullOrEmpty(emblemsJson))
+                    // {
+                    //     try
+                    //     {
+                    //         // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                    //         cardSoldier.Emblems = JsonHelper.DeserializeEmblems(emblemsJson);
+                    //     }
+                    //     catch
+                    //     {
+                    //         // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                    //         cardSoldier.Emblems = new List<Emblems>();
+                    //     }
+                    // }
 
-                    string classesJson = reader.GetStringSafe("classes_json");
+                    // string classesJson = reader.GetStringSafe("classes_json");
 
-                    if (!string.IsNullOrEmpty(classesJson))
-                    {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Classes> trong C#
-                            cardSoldier.Class = JsonHelper.DeserializeClasses(classesJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có class, MySQL sinh ra chuỗi "[null]"
-                            cardSoldier.Class = new Classes();
-                        }
-                    }
+                    // if (!string.IsNullOrEmpty(classesJson))
+                    // {
+                    //     try
+                    //     {
+                    //         // Chuyển đổi chuỗi JSON thành List<Classes> trong C#
+                    //         cardSoldier.Class = JsonHelper.DeserializeClasses(classesJson);
+                    //     }
+                    //     catch
+                    //     {
+                    //         // Phòng trường hợp Hero không có class, MySQL sinh ra chuỗi "[null]"
+                    //         cardSoldier.Class = new Classes();
+                    //     }
+                    // }
                     UserModules userModule = new UserModules
                     {
                         CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
@@ -331,37 +301,7 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                     c.type, 
                     c.description, 
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
-                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier,
-                    (
-                        SELECT JSON_ARRAYAGG(
-                            JSON_OBJECT(
-                                'id', e.id,
-                                'name', e.name,
-                                'image', e.image,
-                                'type', e.type
-                            )
-                        )
-                        FROM card_soldier_emblem che
-                        JOIN emblems e ON che.emblem_id = e.id
-                        WHERE che.card_soldier_id = c.id
-                    ) AS emblems_json,
-                    (
-                        SELECT JSON_ARRAYAGG(
-                            JSON_OBJECT(
-                                'id', cl.id,
-                                'sub_type', cl.sub_type,
-                                'sub_image', cl.sub_image,
-                                'main_type', cl.main_type,
-                                'main_image', cl.main_image,
-                                'movement_range', cl.movement_range,
-                                'movement_point', cl.movement_point,
-                                'attack_range', cl.attack_range
-                            )
-                        )
-                        FROM card_soldier_class chc
-                        JOIN classes cl ON chc.class_id = cl.id
-                        WHERE chc.card_soldier_id = c.id
-                    ) AS classes_json
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_card_soldiers uc
                 INNER JOIN card_soldiers c ON uc.card_soldier_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.card_soldier_id = am.user_card_soldier_id
@@ -503,37 +443,37 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                     };
 
                     // Đọc chuỗi JSON từ Database
-                    string emblemsJson = reader.GetStringSafe("emblems_json");
+                    // string emblemsJson = reader.GetStringSafe("emblems_json");
 
-                    if (!string.IsNullOrEmpty(emblemsJson))
-                    {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
-                            cardSoldier.Emblems = JsonHelper.DeserializeEmblems(emblemsJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
-                            cardSoldier.Emblems = new List<Emblems>();
-                        }
-                    }
+                    // if (!string.IsNullOrEmpty(emblemsJson))
+                    // {
+                    //     try
+                    //     {
+                    //         // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                    //         cardSoldier.Emblems = JsonHelper.DeserializeEmblems(emblemsJson);
+                    //     }
+                    //     catch
+                    //     {
+                    //         // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                    //         cardSoldier.Emblems = new List<Emblems>();
+                    //     }
+                    // }
 
-                    string classesJson = reader.GetStringSafe("classes_json");
+                    // string classesJson = reader.GetStringSafe("classes_json");
 
-                    if (!string.IsNullOrEmpty(classesJson))
-                    {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Classes> trong C#
-                            cardSoldier.Class = JsonHelper.DeserializeClasses(classesJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có class, MySQL sinh ra chuỗi "[null]"
-                            cardSoldier.Class = new Classes();
-                        }
-                    }
+                    // if (!string.IsNullOrEmpty(classesJson))
+                    // {
+                    //     try
+                    //     {
+                    //         // Chuyển đổi chuỗi JSON thành List<Classes> trong C#
+                    //         cardSoldier.Class = JsonHelper.DeserializeClasses(classesJson);
+                    //     }
+                    //     catch
+                    //     {
+                    //         // Phòng trường hợp Hero không có class, MySQL sinh ra chuỗi "[null]"
+                    //         cardSoldier.Class = new Classes();
+                    //     }
+                    // }
                     UserModules userModule = new UserModules
                     {
                         CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
@@ -590,37 +530,7 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                     c.type, 
                     c.description, 
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
-                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier,
-                    (
-                        SELECT JSON_ARRAYAGG(
-                            JSON_OBJECT(
-                                'id', e.id,
-                                'name', e.name,
-                                'image', e.image,
-                                'type', e.type
-                            )
-                        )
-                        FROM card_soldier_emblem che
-                        JOIN emblems e ON che.emblem_id = e.id
-                        WHERE che.card_soldier_id = c.id
-                    ) AS emblems_json,
-                    (
-                        SELECT JSON_ARRAYAGG(
-                            JSON_OBJECT(
-                                'id', cl.id,
-                                'sub_type', cl.sub_type,
-                                'sub_image', cl.sub_image,
-                                'main_type', cl.main_type,
-                                'main_image', cl.main_image,
-                                'movement_range', cl.movement_range,
-                                'movement_point', cl.movement_point,
-                                'attack_range', cl.attack_range
-                            )
-                        )
-                        FROM card_soldier_class chc
-                        JOIN classes cl ON chc.class_id = cl.id
-                        WHERE chc.card_soldier_id = c.id
-                    ) AS classes_json
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_card_soldiers uc
                 INNER JOIN card_soldiers c ON uc.card_soldier_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.card_soldier_id = am.user_card_soldier_id
@@ -761,37 +671,37 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                     };
 
                     // Đọc chuỗi JSON từ Database
-                    string emblemsJson = reader.GetStringSafe("emblems_json");
+                    // string emblemsJson = reader.GetStringSafe("emblems_json");
 
-                    if (!string.IsNullOrEmpty(emblemsJson))
-                    {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
-                            cardSoldier.Emblems = JsonHelper.DeserializeEmblems(emblemsJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
-                            cardSoldier.Emblems = new List<Emblems>();
-                        }
-                    }
+                    // if (!string.IsNullOrEmpty(emblemsJson))
+                    // {
+                    //     try
+                    //     {
+                    //         // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                    //         cardSoldier.Emblems = JsonHelper.DeserializeEmblems(emblemsJson);
+                    //     }
+                    //     catch
+                    //     {
+                    //         // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                    //         cardSoldier.Emblems = new List<Emblems>();
+                    //     }
+                    // }
 
-                    string classesJson = reader.GetStringSafe("classes_json");
+                    // string classesJson = reader.GetStringSafe("classes_json");
 
-                    if (!string.IsNullOrEmpty(classesJson))
-                    {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Classes> trong C#
-                            cardSoldier.Class = JsonHelper.DeserializeClasses(classesJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có class, MySQL sinh ra chuỗi "[null]"
-                            cardSoldier.Class = new Classes();
-                        }
-                    }
+                    // if (!string.IsNullOrEmpty(classesJson))
+                    // {
+                    //     try
+                    //     {
+                    //         // Chuyển đổi chuỗi JSON thành List<Classes> trong C#
+                    //         cardSoldier.Class = JsonHelper.DeserializeClasses(classesJson);
+                    //     }
+                    //     catch
+                    //     {
+                    //         // Phòng trường hợp Hero không có class, MySQL sinh ra chuỗi "[null]"
+                    //         cardSoldier.Class = new Classes();
+                    //     }
+                    // }
                     UserModules userModule = new UserModules
                     {
                         CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
@@ -817,6 +727,303 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                 await connection.CloseAsync();
             }
         }
+        return cardSoldiers;
+    }
+    public async Task<List<CardSoldiers>> GetUserCardSoldiersInTeamAsync(string userId)
+    {
+        List<CardSoldiers> cardSoldiers = new List<CardSoldiers>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                WITH AggregatedModules AS (
+                    SELECT user_card_soldier_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_card_soldiers_module
+                    GROUP BY user_card_soldier_id
+                ),
+                AggregatedUpgrades AS (
+                    SELECT user_card_soldier_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_card_soldiers_upgrade
+                    GROUP BY user_card_soldier_id
+                )
+                SELECT  distinct
+                    uc.*, 
+                    c.name, 
+                    c.image, 
+                    c.type, 
+                    c.description, 
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier,
+                    COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
+                FROM user_card_soldiers uc
+                INNER JOIN card_soldiers c ON uc.card_soldier_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.card_soldier_id = am.user_card_soldier_id
+                LEFT JOIN AggregatedUpgrades au ON uc.card_soldier_id = au.user_card_soldier_id
+                LEFT JOIN teams t ON t.team_id = uc.team_id
+                WHERE uc.user_id = @userId 
+                    AND uc.is_main = 1
+                    AND c.is_active = TRUE AND c.is_deleted = FALSE
+            ";
+
+                await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
+
+                await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
+
+                while (await reader.ReadAsync())
+                {
+                    CardSoldiers cardSoldier = new CardSoldiers
+                    {
+                        Id = reader.GetStringSafe("card_soldier_id"),
+                        Name = reader.GetStringSafe("name"),
+                        Image = reader.GetStringSafe("image"),
+                        Rarity = reader.GetStringSafe("rare"),
+                        Quality = reader.GetDoubleSafe("quality"),
+                        Type = reader.GetStringSafe("type"),
+                        Star = reader.GetIntSafe("star"),
+                        Level = reader.GetIntSafe("level"),
+                        Experience = reader.GetDoubleSafe("experience"),
+                        Quantity = reader.GetIntSafe("quantity"),
+                        Block = reader.GetBoolean("block"),
+                        TeamId = reader.IsDBNull(reader.GetOrdinal("team_id")) ? null : reader.GetStringSafe("team_id"),
+                        Position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetStringSafe("position"),
+
+                        Power = reader.GetDoubleSafe("power"),
+                        Health = reader.GetDoubleSafe("health"),
+                        PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
+                        PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
+                        MagicalAttack = reader.GetDoubleSafe("magical_attack"),
+                        MagicalDefense = reader.GetDoubleSafe("magical_defense"),
+                        ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
+                        ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
+                        AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
+                        AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
+                        MentalAttack = reader.GetDoubleSafe("mental_attack"),
+                        MentalDefense = reader.GetDoubleSafe("mental_defense"),
+                        Speed = reader.GetDoubleSafe("speed"),
+                        CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
+                        CriticalRate = reader.GetDoubleSafe("critical_rate"),
+                        CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDoubleSafe("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
+                        LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
+                        ShieldStrength = reader.GetDoubleSafe("shield_strength"),
+                        Tenacity = reader.GetDoubleSafe("tenacity"),
+                        ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
+                        ComboRate = reader.GetDoubleSafe("combo_rate"),
+                        IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
+                        StunRate = reader.GetDoubleSafe("stun_rate"),
+                        IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
+                        Mana = reader.GetDoubleSafe("mana"),
+                        ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
+                        Description = reader.GetStringSafe("description"),
+
+                        BaseStats = new BaseStats
+                        {
+                            Power = reader.GetDoubleSafe("power"),
+                            Health = reader.GetDoubleSafe("health"),
+                            PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
+                            PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
+                            MagicalAttack = reader.GetDoubleSafe("magical_attack"),
+                            MagicalDefense = reader.GetDoubleSafe("magical_defense"),
+                            ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
+                            ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
+                            AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
+                            AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
+                            MentalAttack = reader.GetDoubleSafe("mental_attack"),
+                            MentalDefense = reader.GetDoubleSafe("mental_defense"),
+                            Speed = reader.GetDoubleSafe("speed"),
+                            CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
+                            CriticalRate = reader.GetDoubleSafe("critical_rate"),
+                            CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
+                            IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
+                            PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
+                            PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
+                            EvasionRate = reader.GetDoubleSafe("evasion_rate"),
+                            DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
+                            IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
+                            AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
+                            VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
+                            VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
+                            AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
+                            LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
+                            ShieldStrength = reader.GetDoubleSafe("shield_strength"),
+                            Tenacity = reader.GetDoubleSafe("tenacity"),
+                            ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
+                            ComboRate = reader.GetDoubleSafe("combo_rate"),
+                            IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
+                            ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
+                            ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
+                            StunRate = reader.GetDoubleSafe("stun_rate"),
+                            IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
+                            ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
+                            IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
+                            ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
+                            ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
+                            Mana = reader.GetDoubleSafe("mana"),
+                            ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
+                            DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
+                            ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
+                            DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
+                            ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
+                            NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
+                            NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
+                            SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
+                            SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
+                        }
+                    };
+
+                    // Đọc chuỗi JSON từ Database
+                    // string emblemsJson = reader.GetStringSafe("emblems_json");
+
+                    // if (!string.IsNullOrEmpty(emblemsJson))
+                    // {
+                    //     try
+                    //     {
+                    //         // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                    //         cardSoldier.Emblems = JsonHelper.DeserializeEmblems(emblemsJson);
+                    //     }
+                    //     catch
+                    //     {
+                    //         // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                    //         cardSoldier.Emblems = new List<Emblems>();
+                    //     }
+                    // }
+
+                    // string classesJson = reader.GetStringSafe("classes_json");
+
+                    // if (!string.IsNullOrEmpty(classesJson))
+                    // {
+                    //     try
+                    //     {
+                    //         // Chuyển đổi chuỗi JSON thành List<Classes> trong C#
+                    //         cardSoldier.Class = JsonHelper.DeserializeClasses(classesJson);
+                    //     }
+                    //     catch
+                    //     {
+                    //         // Phòng trường hợp Hero không có class, MySQL sinh ra chuỗi "[null]"
+                    //         cardSoldier.Class = new Classes();
+                    //     }
+                    // }
+                    UserModules userModule = new UserModules
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                    };
+
+                    UserUpgrades userUpgrade = new UserUpgrades
+                    {
+                        CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                    };
+
+                    cardSoldier.UserModules = userModule;
+                    cardSoldier.UserUpgrades = userUpgrade;
+
+                    cardSoldiers.Add(cardSoldier);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+        return cardSoldiers;
+    }
+    public async Task<List<CardSoldiers>> GetUserCardSoldiersInTeamSimpleAsync(string userId)
+    {
+        List<CardSoldiers> cardSoldiers = new List<CardSoldiers>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using MySqlConnection connection = new MySqlConnection(connectionString);
+
+        try
+        {
+            await connection.OpenAsync();
+
+            string selectSQL = @"
+            SELECT distinct
+                    uc.card_soldier_id, 
+                    c.name, 
+                    c.image, 
+                    c.type,
+                    uc.rare,
+                    uc.quality,
+                    uc.star,
+                    uc.level,
+                    uc.experience,
+                    uc.quantity,
+                    uc.block,
+                    uc.team_id,
+                    uc.position
+                FROM user_card_soldiers uc
+                INNER JOIN card_soldiers c ON uc.card_soldier_id = c.id
+                LEFT JOIN teams t ON t.team_id = uc.team_id
+            WHERE uc.user_id = @userId 
+                AND t.is_main = 1
+                AND c.is_active = TRUE AND c.is_deleted = FALSE
+        ";
+
+            await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@userId", userId);
+
+            await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
+            {
+                CardSoldiers cardSoldier = new CardSoldiers
+                {
+                    Id = reader.GetStringSafe("card_soldier_id"),
+                    Name = reader.GetStringSafe("name"),
+                    Image = reader.GetStringSafe("image"),
+                    Rarity = reader.GetStringSafe("rare"),
+                    Quality = reader.GetDoubleSafe("quality"),
+                    Type = reader.GetStringSafe("type"),
+                    Star = reader.GetIntSafe("star"),
+                    Level = reader.GetIntSafe("level"),
+                    Experience = reader.GetDoubleSafe("experience"),
+                    Quantity = reader.GetIntSafe("quantity"),
+                    Block = reader.GetBoolean("block"),
+                    TeamId = reader.IsDBNull(reader.GetOrdinal("team_id")) ? null : reader.GetStringSafe("team_id"),
+                    Position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetStringSafe("position")
+                };
+
+                cardSoldiers.Add(cardSoldier);
+            }
+        }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+        }
+
         return cardSoldiers;
     }
     public async Task<Dictionary<string, int>> GetUniqueCardSoldiersTypesTeamAsync(string userId, string teamId)
@@ -1769,7 +1976,7 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                 INNER JOIN teams t ON uc.team_id = t.team_id AND t.is_main = 1
                 LEFT JOIN user_card_soldiers_module ubm ON uc.card_soldier_id = ubm.user_card_soldier_id
                 LEFT JOIN user_card_soldiers_upgrade ubu ON uc.card_soldier_id = ubu.user_card_soldier_id
-                WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL AND 
+                WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL
             )
             SELECT 
                 SUM(health * total_multiplier) AS health,

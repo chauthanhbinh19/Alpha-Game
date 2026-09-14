@@ -34,88 +34,6 @@ public class UserCardHeroesService : IUserCardHeroesService
     }
 
     public static IUserCardHeroesService Create() => ServiceContainer.GetService<IUserCardHeroesService>();
-
-    public async Task<List<CardHeroes>> GetAllEquipmentPowerAsync(string userId, List<CardHeroes> CardHeroesList)
-    {
-        foreach (var c in CardHeroesList)
-        {
-            Equipments equipments = await UserEquipmentsService.Create().GetAllUserEquipmentsByCardHeorIdAsync(userId, c.Id);
-            c.Health = c.Health + equipments.Health + equipments.SpecialHealth;
-            c.PhysicalAttack = c.PhysicalAttack + equipments.PhysicalAttack + equipments.SpecialPhysicalAttack;
-            c.PhysicalDefense = c.PhysicalDefense + equipments.PhysicalDefense + equipments.SpecialPhysicalDefense;
-            c.MagicalAttack = c.MagicalAttack + equipments.MagicalAttack + equipments.SpecialMagicalAttack;
-            c.MagicalDefense = c.MagicalDefense + equipments.MagicalDefense + equipments.SpecialMagicalDefense;
-            c.ChemicalAttack = c.ChemicalAttack + equipments.ChemicalAttack + equipments.SpecialChemicalAttack;
-            c.ChemicalDefense = c.ChemicalDefense + equipments.ChemicalDefense + equipments.SpecialChemicalDefense;
-            c.AtomicAttack = c.AtomicAttack + equipments.AtomicAttack + equipments.SpecialAtomicAttack;
-            c.AtomicDefense = c.AtomicDefense + equipments.AtomicDefense + equipments.SpecialAtomicDefense;
-            c.MentalAttack = c.MentalAttack + equipments.MentalAttack + equipments.SpecialMentalAttack;
-            c.MentalDefense = c.MentalDefense + equipments.MentalDefense + equipments.SpecialMentalDefense;
-            c.Speed = c.Speed + equipments.Speed;
-            c.CriticalDamageRate = c.CriticalDamageRate + equipments.CriticalDamageRate;
-            c.CriticalRate = c.CriticalRate + equipments.CriticalRate;
-            c.CriticalResistanceRate = c.CriticalResistanceRate + equipments.CriticalResistanceRate;
-            c.IgnoreCriticalRate = c.IgnoreCriticalRate + equipments.IgnoreCriticalRate;
-            c.PenetrationRate = c.PenetrationRate + equipments.PenetrationRate;
-            c.PenetrationResistanceRate = c.PenetrationResistanceRate + equipments.PenetrationResistanceRate;
-            c.EvasionRate = c.EvasionRate + equipments.EvasionRate;
-            c.DamageAbsorptionRate = c.DamageAbsorptionRate + equipments.DamageAbsorptionRate;
-            c.IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + equipments.IgnoreDamageAbsorptionRate;
-            c.AbsorbedDamageRate = c.AbsorbedDamageRate + equipments.AbsorbedDamageRate;
-            c.VitalityRegenerationRate = c.VitalityRegenerationRate + equipments.VitalityRegenerationRate;
-            c.VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + equipments.VitalityRegenerationResistanceRate;
-            c.AccuracyRate = c.AccuracyRate + equipments.AccuracyRate;
-            c.LifestealRate = c.LifestealRate + equipments.LifestealRate;
-            c.ShieldStrength = c.ShieldStrength + equipments.ShieldStrength;
-            c.Tenacity = c.Tenacity + equipments.Tenacity;
-            c.ResistanceRate = c.ResistanceRate + equipments.ResistanceRate;
-            c.ComboRate = c.ComboRate + equipments.ComboRate;
-            c.IgnoreComboRate = c.IgnoreComboRate + equipments.IgnoreComboRate;
-            c.ComboDamageRate = c.ComboDamageRate + equipments.ComboDamageRate;
-            c.ComboResistanceRate = c.ComboResistanceRate + equipments.ComboResistanceRate;
-            c.StunRate = c.StunRate + equipments.StunRate;
-            c.IgnoreStunRate = c.IgnoreStunRate + equipments.IgnoreStunRate;
-            c.ReflectionRate = c.ReflectionRate + equipments.ReflectionRate;
-            c.IgnoreReflectionRate = c.IgnoreReflectionRate + equipments.IgnoreReflectionRate;
-            c.ReflectionDamageRate = c.ReflectionDamageRate + equipments.ReflectionDamageRate;
-            c.ReflectionResistanceRate = c.ReflectionResistanceRate + equipments.ReflectionResistanceRate;
-            c.Mana = c.Mana + equipments.Mana;
-            c.ManaRegenerationRate = c.ManaRegenerationRate + equipments.ManaRegenerationRate;
-            c.DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + equipments.DamageToDifferentFactionRate;
-            c.ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + equipments.ResistanceToDifferentFactionRate;
-            c.DamageToSameFactionRate = c.DamageToSameFactionRate + equipments.DamageToSameFactionRate;
-            c.ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + equipments.ResistanceToSameFactionRate;
-            c.NormalDamageRate = c.NormalDamageRate + equipments.NormalDamageRate;
-            c.NormalResistanceRate = c.NormalResistanceRate + equipments.NormalResistanceRate;
-            c.SkillDamageRate = c.SkillDamageRate + equipments.SkillDamageRate;
-            c.SkillResistanceRate = c.SkillResistanceRate + equipments.SkillResistanceRate;
-
-            c.Power = PowerHelper.CalculatePower(
-            c.Health,
-            c.PhysicalAttack, c.PhysicalDefense,
-            c.MagicalAttack, c.MagicalDefense,
-            c.ChemicalAttack, c.ChemicalDefense,
-            c.AtomicAttack, c.AtomicDefense,
-            c.MentalAttack, c.MentalDefense,
-            c.Speed,
-            c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
-            c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
-            c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
-            c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
-            c.AccuracyRate, c.LifestealRate,
-            c.ShieldStrength, c.Tenacity, c.ResistanceRate,
-            c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
-            c.StunRate, c.IgnoreStunRate,
-            c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
-            c.Mana, c.ManaRegenerationRate,
-            c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
-            c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
-            c.NormalDamageRate, c.NormalResistanceRate,
-            c.SkillDamageRate, c.SkillResistanceRate
-        );
-        }
-        return CardHeroesList;
-    }
     public async Task<List<CardHeroes>> GetAllRankPowerAsync(string userId, List<CardHeroes> CardHeroesList)
     {
         foreach (var c in CardHeroesList)
@@ -302,6 +220,8 @@ public class UserCardHeroesService : IUserCardHeroesService
             context = await _userStatsService.GetUserStatsContextAsync(userId);
         }
 
+        var equipments = await _userEquipmentsService.GetUserCardHeroesEquipmentsAsync(userId, cardHeroIds, "All");
+
         // var skillsLookup = skillData.ToLookup(s => s.CardId);
 
         TotalBuffs totalBuffs = new TotalBuffs();
@@ -332,6 +252,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         result = StarEvaluatorHelper.GetStarPower(result);
         result = ModuleEvaluatorHelper.GetModulePower(result);
         result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = StatsHelper.GetAllEquipmentPower(result, equipments);
 
         foreach (var card in result)
         {
@@ -375,6 +296,8 @@ public class UserCardHeroesService : IUserCardHeroesService
             context = await _userStatsService.GetUserStatsContextAsync(userId);
         }
 
+        var equipments = await _userEquipmentsService.GetUserCardHeroesEquipmentsAsync(userId, cardHeroIds, "All");
+
         // var skillsLookup = skillData.ToLookup(s => s.CardId);
 
         TotalBuffs totalBuffs = new TotalBuffs();
@@ -400,6 +323,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         result = StarEvaluatorHelper.GetStarPower(result);
         result = ModuleEvaluatorHelper.GetModulePower(result);
         result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = StatsHelper.GetAllEquipmentPower(result, equipments);
 
         foreach (var card in result)
         {
@@ -443,6 +367,8 @@ public class UserCardHeroesService : IUserCardHeroesService
             context = await _userStatsService.GetUserStatsContextAsync(userId);
         }
 
+        var equipments = await _userEquipmentsService.GetUserCardHeroesEquipmentsAsync(userId, cardHeroIds, "All");
+
         // var skillsLookup = skillData.ToLookup(s => s.CardId);
 
         TotalBuffs totalBuffs = new TotalBuffs();
@@ -468,6 +394,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         result = StarEvaluatorHelper.GetStarPower(result);
         result = ModuleEvaluatorHelper.GetModulePower(result);
         result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = StatsHelper.GetAllEquipmentPower(result, equipments);
 
         foreach (var card in result)
         {
@@ -486,6 +413,82 @@ public class UserCardHeroesService : IUserCardHeroesService
         }
         ListSortHelper.SortByPower(result);
         return result;
+    }
+
+    public async Task<List<CardHeroes>> GetUserCardHeroesInTeamAsync(string userId, UserStatsContextDTO sharedContext = null)
+    {
+        List<CardHeroes> result = await _userCardHeroesRepository.GetUserCardHeroesInTeamAsync(userId);
+
+        List<string> cardHeroIds = result.Select(hero => hero.Id).ToList();
+
+        // var skillsTask = _userSkillsRepository.GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
+
+        // var skillData = await skillsTask;
+        // foreach (var skill in skillData)
+        // {
+        //     if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
+        //     {
+        //         skill.Pattern = _patternsService.GetPatternFromCache(skill.Pattern.Id);
+        //     }
+        // }
+
+        UserStatsContextDTO context = sharedContext;
+        if (context == null)
+        {
+            context = await _userStatsService.GetUserStatsContextAsync(userId);
+        }
+
+        var equipments = await _userEquipmentsService.GetUserCardHeroesEquipmentsAsync(userId, cardHeroIds, "All");
+
+        // var skillsLookup = skillData.ToLookup(s => s.CardId);
+
+        TotalBuffs totalBuffs = new TotalBuffs();
+        totalBuffs.AddBuff(context.PowerManagerData);
+        totalBuffs.AddBuff(context.ScienceFictionData);
+        totalBuffs.AddBuff(context.ResearchData);
+        totalBuffs.AddBuff(context.ArchiveData);
+        totalBuffs.AddBuff(context.UniverseData);
+        totalBuffs.AddBuff(context.HiinData);
+        totalBuffs.AddBuff(context.SswnData);
+        totalBuffs.AddBuff(context.HitnData);
+        totalBuffs.AddBuff(context.HihnData);
+        totalBuffs.AddBuff(context.HienData);
+        totalBuffs.AddBuff(context.HicaData);
+        totalBuffs.AddBuff(context.HirnData);
+        totalBuffs.AddBuff(context.HidcData);
+        totalBuffs.AddBuff(context.HicbData);
+        totalBuffs.AddBuff(context.HisnData);
+        totalBuffs.AddBuff(context.AnimeStatsData);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        result = ModuleEvaluatorHelper.GetModulePower(result);
+        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = StatsHelper.GetAllEquipmentPower(result, equipments);
+
+        foreach (var card in result)
+        {
+            if (card == null) continue; // Phòng hờ phần tử trong result bị null
+
+            // Áp dụng tổng buff (Flat + % Base stats)
+            card.ApplyTotalBuffs(totalBuffs);
+
+            // Gán Skills an toàn, tránh tạo List thừa
+            // card.Skills = skillsLookup.Contains(card.Id)
+            //     ? skillsLookup[card.Id].ToList()
+            //     : new List<Skills>();
+
+            // Tính toán lại tổng lực chiến (Sau khi đã có đầy đủ chỉ số và Skills)
+            card.RecalculatePower();
+        }
+        ListSortHelper.SortByPower(result);
+        return result;
+    }
+
+    public async Task<List<CardHeroes>> GetUserCardHeroesInTeamSimpleAsync(string userId)
+    {
+        return await _userCardHeroesRepository.GetUserCardHeroesInTeamSimpleAsync(userId);
     }
 
     // public async Task<List<CardHeroes>> GetUserCardHeroesTeamWithoutPositionAsync(string userId, string teamId, UserStatsContextDTO sharedContext = null)
@@ -765,6 +768,8 @@ public class UserCardHeroesService : IUserCardHeroesService
             context = await _userStatsService.GetUserStatsContextAsync(userId);
         }
 
+        var equipments = await _userEquipmentsService.GetUserCardHeroesEquipmentsAsync(userId, cardHeroIds, "All");
+
         var skillsLookup = skillData.ToLookup(s => s.CardId);
 
         TotalBuffs totalBuffs = new TotalBuffs();
@@ -795,6 +800,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         result = StarEvaluatorHelper.GetStarPower(result);
         result = ModuleEvaluatorHelper.GetModulePower(result);
         result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = StatsHelper.GetAllEquipmentPower(result, equipments);
 
         foreach (var card in result)
         {
@@ -819,7 +825,8 @@ public class UserCardHeroesService : IUserCardHeroesService
     {
         var totalStats = await _userCardHeroesRepository.GetTeamTotalStatsAsync(userId);
         var baseStats = await _userCardHeroesRepository.GetTeamTotalStatsWithoutQualityAsync(userId);
-        var idList = await _userCardHeroesRepository.GetTeamIdsAsync(userId);
+        var results = GetUserCardHeroesTeamWithoutPositionAsync(userId, "p", sharedContext);
+        var cardHeroIds = await _userCardHeroesRepository.GetTeamIdsAsync(userId);
 
         UserStatsContextDTO context = sharedContext;
         if (context == null)
@@ -827,7 +834,7 @@ public class UserCardHeroesService : IUserCardHeroesService
             context = await _userStatsService.GetUserStatsContextAsync(userId);
         }
 
-        var equipments = await _userEquipmentsService.GetUserCardHeroesEquipmentsAsync(userId, idList, "All");
+        var equipments = await _userEquipmentsService.GetUserCardHeroesEquipmentsAsync(userId, cardHeroIds, "All");
 
         TotalBuffs totalBuffs = new TotalBuffs();
         totalBuffs.AddBuff(context.PowerManagerData);

@@ -968,7 +968,7 @@ public class UserBordersRepository : IUserBordersRepository
                     FROM user_borders uc
                     LEFT JOIN user_borders_module ubm ON uc.border_id = ubm.user_border_id
                     LEFT JOIN user_borders_upgrade ubu ON uc.border_id = ubu.user_border_id
-                    WHERE uc.user_id = @user_id AND 
+                    WHERE uc.user_id = @user_id 
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

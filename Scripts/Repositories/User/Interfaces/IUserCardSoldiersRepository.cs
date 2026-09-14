@@ -6,6 +6,8 @@ public interface IUserCardSoldiersRepository
     Task<List<CardSoldiers>> GetUserCardSoldiersAsync(string userId, string search, string type, int pageSize, int offset, string rare);
     Task<List<CardSoldiers>> GetUserCardSoldiersTeamAsync(string userId, string teamId, string position);
     Task<List<CardSoldiers>> GetUserCardSoldiersTeamWithoutPositionAsync(string userId, string teamId);
+    Task<List<CardSoldiers>> GetUserCardSoldiersInTeamAsync(string userId);
+    Task<List<CardSoldiers>> GetUserCardSoldiersInTeamSimpleAsync(string userId);
     Task<Dictionary<string, int>> GetUniqueCardSoldiersTypesTeamAsync(string userId, string teamId);
     Task<bool> UpdateTeamCardSoldierAsync(string userId, string team_id, string position, string cardId);
     Task<bool> IsCardInTeamAsync(string userId, string cardId);

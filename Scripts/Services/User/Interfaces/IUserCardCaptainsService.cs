@@ -9,6 +9,8 @@ public interface IUserCardCaptainsService
     Task<List<CardCaptains>> GetUserCardCaptainsAsync(string userId, string search, string type, int pageSize, int offset, string rare, UserStatsContextDTO sharedContext = null);
     Task<List<CardCaptains>> GetUserCardCaptainsTeamAsync(string userId, string teamId, string position, UserStatsContextDTO sharedContext = null);
     Task<List<CardCaptains>> GetUserCardCaptainsTeamWithoutPositionAsync(string userId, string teamId, UserStatsContextDTO sharedContext = null);
+    Task<List<CardCaptains>> GetUserCardCaptainsInTeamAsync(string userId, UserStatsContextDTO sharedContext = null);
+    Task<List<CardCaptains>> GetUserCardCaptainsInTeamSimpleAsync(string userId);
     Task<Dictionary<string, int>> GetUniqueUserCardCaptainsTypesTeamAsync(string userId, string teamId);
     Task<InsertOrUpdateResult<bool>> UpdateTeamUserCardCaptainAsync(string userId, string teamId, string position, string cardId);
     Task<int> GetUserCardCaptainsCountAsync(string userId, string search, string type, string rare);

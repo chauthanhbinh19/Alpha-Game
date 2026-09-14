@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public class TotalBuffs
 {
     // Chỉ số cơ bản (Flat + Percent)
@@ -955,7 +957,7 @@ public static class StatsHelper
         total.SkillDamageRate += source.SkillDamageRate;
         total.SkillResistanceRate += source.SkillResistanceRate;
     }
-    
+
     public static void RecalculatePower(this BaseStats totalStats)
     {
         totalStats.Power = PowerHelper.CalculatePower(
@@ -1035,6 +1037,1106 @@ public static class StatsHelper
         totalStats.NormalResistanceRate += total.NormalResistanceRate;
         totalStats.SkillDamageRate += total.SkillDamageRate;
         totalStats.SkillResistanceRate += total.SkillResistanceRate;
+    }
+    public static List<CardHeroes> GetAllEquipmentPower(List<CardHeroes> cardHeroesList, List<Equipments> equipments)
+    {
+        if (cardHeroesList == null || equipments == null)
+            return cardHeroesList;
+
+        foreach (var c in cardHeroesList)
+        {
+            // Duyệt ngược danh sách equipments để có thể xóa phần tử an toàn mà không làm lỗi chỉ số lặp
+            for (int i = equipments.Count - 1; i >= 0; i--)
+            {
+                var eq = equipments[i];
+
+                // Kiểm tra trang bị có thuộc về tướng này không
+                if (c.Id.Equals(eq.ObjectId))
+                {
+                    // Cộng dồn chỉ số từ trang bị vào tướng
+                    c.Health += eq.Health + eq.SpecialHealth;
+                    c.PhysicalAttack += eq.PhysicalAttack + eq.SpecialPhysicalAttack;
+                    c.PhysicalDefense += eq.PhysicalDefense + eq.SpecialPhysicalDefense;
+                    c.MagicalAttack += eq.MagicalAttack + eq.SpecialMagicalAttack;
+                    c.MagicalDefense += eq.MagicalDefense + eq.SpecialMagicalDefense;
+                    c.ChemicalAttack += eq.ChemicalAttack + eq.SpecialChemicalAttack;
+                    c.ChemicalDefense += eq.ChemicalDefense + eq.SpecialChemicalDefense;
+                    c.AtomicAttack += eq.AtomicAttack + eq.SpecialAtomicAttack;
+                    c.AtomicDefense += eq.AtomicDefense + eq.SpecialAtomicDefense;
+                    c.MentalAttack += eq.MentalAttack + eq.SpecialMentalAttack;
+                    c.MentalDefense += eq.MentalDefense + eq.SpecialMentalDefense;
+
+                    c.Speed += eq.Speed;
+                    c.CriticalDamageRate += eq.CriticalDamageRate;
+                    c.CriticalRate += eq.CriticalRate;
+                    c.CriticalResistanceRate += eq.CriticalResistanceRate;
+                    c.IgnoreCriticalRate += eq.IgnoreCriticalRate;
+                    c.PenetrationRate += eq.PenetrationRate;
+                    c.PenetrationResistanceRate += eq.PenetrationResistanceRate;
+                    c.EvasionRate += eq.EvasionRate;
+                    c.DamageAbsorptionRate += eq.DamageAbsorptionRate;
+                    c.IgnoreDamageAbsorptionRate += eq.IgnoreDamageAbsorptionRate;
+                    c.AbsorbedDamageRate += eq.AbsorbedDamageRate;
+                    c.VitalityRegenerationRate += eq.VitalityRegenerationRate;
+                    c.VitalityRegenerationResistanceRate += eq.VitalityRegenerationResistanceRate;
+                    c.AccuracyRate += eq.AccuracyRate;
+                    c.LifestealRate += eq.LifestealRate;
+                    c.ShieldStrength += eq.ShieldStrength;
+                    c.Tenacity += eq.Tenacity;
+                    c.ResistanceRate += eq.ResistanceRate;
+                    c.ComboRate += eq.ComboRate;
+                    c.IgnoreComboRate += eq.IgnoreComboRate;
+                    c.ComboDamageRate += eq.ComboDamageRate;
+                    c.ComboResistanceRate += eq.ComboResistanceRate;
+                    c.StunRate += eq.StunRate;
+                    c.IgnoreStunRate += eq.IgnoreStunRate;
+                    c.ReflectionRate += eq.ReflectionRate;
+                    c.IgnoreReflectionRate += eq.IgnoreReflectionRate;
+                    c.ReflectionDamageRate += eq.ReflectionDamageRate;
+                    c.ReflectionResistanceRate += eq.ReflectionResistanceRate;
+                    c.Mana += eq.Mana;
+                    c.ManaRegenerationRate += eq.ManaRegenerationRate;
+                    c.DamageToDifferentFactionRate += eq.DamageToDifferentFactionRate;
+                    c.ResistanceToDifferentFactionRate += eq.ResistanceToDifferentFactionRate;
+                    c.DamageToSameFactionRate += eq.DamageToSameFactionRate;
+                    c.ResistanceToSameFactionRate += eq.ResistanceToSameFactionRate;
+                    c.NormalDamageRate += eq.NormalDamageRate;
+                    c.NormalResistanceRate += eq.NormalResistanceRate;
+                    c.SkillDamageRate += eq.SkillDamageRate;
+                    c.SkillResistanceRate += eq.SkillResistanceRate;
+
+                    // Xóa trang bị khỏi danh sách sau khi đã xử lý xong để tránh lặp lại
+                    equipments.RemoveAt(i);
+                }
+            }
+
+            // Tính lại Power sau khi đã cộng tất cả trang bị của tướng này
+            c.Power = PowerHelper.CalculatePower(
+                c.Health,
+                c.PhysicalAttack, c.PhysicalDefense,
+                c.MagicalAttack, c.MagicalDefense,
+                c.ChemicalAttack, c.ChemicalDefense,
+                c.AtomicAttack, c.AtomicDefense,
+                c.MentalAttack, c.MentalDefense,
+                c.Speed,
+                c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+                c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+                c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+                c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+                c.AccuracyRate, c.LifestealRate,
+                c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+                c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+                c.StunRate, c.IgnoreStunRate,
+                c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+                c.Mana, c.ManaRegenerationRate,
+                c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+                c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+                c.NormalDamageRate, c.NormalResistanceRate,
+                c.SkillDamageRate, c.SkillResistanceRate
+            );
+        }
+
+        return cardHeroesList;
+    }
+    public static List<CardCaptains> GetAllEquipmentPower(List<CardCaptains> cardCaptainsList, List<Equipments> equipments)
+    {
+        if (cardCaptainsList == null || equipments == null)
+            return cardCaptainsList;
+
+        foreach (var c in cardCaptainsList)
+        {
+            // Duyệt ngược danh sách equipments để có thể xóa phần tử an toàn mà không làm lỗi chỉ số lặp
+            for (int i = equipments.Count - 1; i >= 0; i--)
+            {
+                var eq = equipments[i];
+
+                // Kiểm tra trang bị có thuộc về tướng này không
+                if (c.Id.Equals(eq.ObjectId))
+                {
+                    // Cộng dồn chỉ số từ trang bị vào tướng
+                    c.Health += eq.Health + eq.SpecialHealth;
+                    c.PhysicalAttack += eq.PhysicalAttack + eq.SpecialPhysicalAttack;
+                    c.PhysicalDefense += eq.PhysicalDefense + eq.SpecialPhysicalDefense;
+                    c.MagicalAttack += eq.MagicalAttack + eq.SpecialMagicalAttack;
+                    c.MagicalDefense += eq.MagicalDefense + eq.SpecialMagicalDefense;
+                    c.ChemicalAttack += eq.ChemicalAttack + eq.SpecialChemicalAttack;
+                    c.ChemicalDefense += eq.ChemicalDefense + eq.SpecialChemicalDefense;
+                    c.AtomicAttack += eq.AtomicAttack + eq.SpecialAtomicAttack;
+                    c.AtomicDefense += eq.AtomicDefense + eq.SpecialAtomicDefense;
+                    c.MentalAttack += eq.MentalAttack + eq.SpecialMentalAttack;
+                    c.MentalDefense += eq.MentalDefense + eq.SpecialMentalDefense;
+
+                    c.Speed += eq.Speed;
+                    c.CriticalDamageRate += eq.CriticalDamageRate;
+                    c.CriticalRate += eq.CriticalRate;
+                    c.CriticalResistanceRate += eq.CriticalResistanceRate;
+                    c.IgnoreCriticalRate += eq.IgnoreCriticalRate;
+                    c.PenetrationRate += eq.PenetrationRate;
+                    c.PenetrationResistanceRate += eq.PenetrationResistanceRate;
+                    c.EvasionRate += eq.EvasionRate;
+                    c.DamageAbsorptionRate += eq.DamageAbsorptionRate;
+                    c.IgnoreDamageAbsorptionRate += eq.IgnoreDamageAbsorptionRate;
+                    c.AbsorbedDamageRate += eq.AbsorbedDamageRate;
+                    c.VitalityRegenerationRate += eq.VitalityRegenerationRate;
+                    c.VitalityRegenerationResistanceRate += eq.VitalityRegenerationResistanceRate;
+                    c.AccuracyRate += eq.AccuracyRate;
+                    c.LifestealRate += eq.LifestealRate;
+                    c.ShieldStrength += eq.ShieldStrength;
+                    c.Tenacity += eq.Tenacity;
+                    c.ResistanceRate += eq.ResistanceRate;
+                    c.ComboRate += eq.ComboRate;
+                    c.IgnoreComboRate += eq.IgnoreComboRate;
+                    c.ComboDamageRate += eq.ComboDamageRate;
+                    c.ComboResistanceRate += eq.ComboResistanceRate;
+                    c.StunRate += eq.StunRate;
+                    c.IgnoreStunRate += eq.IgnoreStunRate;
+                    c.ReflectionRate += eq.ReflectionRate;
+                    c.IgnoreReflectionRate += eq.IgnoreReflectionRate;
+                    c.ReflectionDamageRate += eq.ReflectionDamageRate;
+                    c.ReflectionResistanceRate += eq.ReflectionResistanceRate;
+                    c.Mana += eq.Mana;
+                    c.ManaRegenerationRate += eq.ManaRegenerationRate;
+                    c.DamageToDifferentFactionRate += eq.DamageToDifferentFactionRate;
+                    c.ResistanceToDifferentFactionRate += eq.ResistanceToDifferentFactionRate;
+                    c.DamageToSameFactionRate += eq.DamageToSameFactionRate;
+                    c.ResistanceToSameFactionRate += eq.ResistanceToSameFactionRate;
+                    c.NormalDamageRate += eq.NormalDamageRate;
+                    c.NormalResistanceRate += eq.NormalResistanceRate;
+                    c.SkillDamageRate += eq.SkillDamageRate;
+                    c.SkillResistanceRate += eq.SkillResistanceRate;
+
+                    // Xóa trang bị khỏi danh sách sau khi đã xử lý xong để tránh lặp lại
+                    equipments.RemoveAt(i);
+                }
+            }
+
+            // Tính lại Power sau khi đã cộng tất cả trang bị của tướng này
+            c.Power = PowerHelper.CalculatePower(
+                c.Health,
+                c.PhysicalAttack, c.PhysicalDefense,
+                c.MagicalAttack, c.MagicalDefense,
+                c.ChemicalAttack, c.ChemicalDefense,
+                c.AtomicAttack, c.AtomicDefense,
+                c.MentalAttack, c.MentalDefense,
+                c.Speed,
+                c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+                c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+                c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+                c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+                c.AccuracyRate, c.LifestealRate,
+                c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+                c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+                c.StunRate, c.IgnoreStunRate,
+                c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+                c.Mana, c.ManaRegenerationRate,
+                c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+                c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+                c.NormalDamageRate, c.NormalResistanceRate,
+                c.SkillDamageRate, c.SkillResistanceRate
+            );
+        }
+
+        return cardCaptainsList;
+    }
+    public static List<CardColonels> GetAllEquipmentPower(List<CardColonels> cardColonelsList, List<Equipments> equipments)
+    {
+        if (cardColonelsList == null || equipments == null)
+            return cardColonelsList;
+
+        foreach (var c in cardColonelsList)
+        {
+            // Duyệt ngược danh sách equipments để có thể xóa phần tử an toàn mà không làm lỗi chỉ số lặp
+            for (int i = equipments.Count - 1; i >= 0; i--)
+            {
+                var eq = equipments[i];
+
+                // Kiểm tra trang bị có thuộc về tướng này không
+                if (c.Id.Equals(eq.ObjectId))
+                {
+                    // Cộng dồn chỉ số từ trang bị vào tướng
+                    c.Health += eq.Health + eq.SpecialHealth;
+                    c.PhysicalAttack += eq.PhysicalAttack + eq.SpecialPhysicalAttack;
+                    c.PhysicalDefense += eq.PhysicalDefense + eq.SpecialPhysicalDefense;
+                    c.MagicalAttack += eq.MagicalAttack + eq.SpecialMagicalAttack;
+                    c.MagicalDefense += eq.MagicalDefense + eq.SpecialMagicalDefense;
+                    c.ChemicalAttack += eq.ChemicalAttack + eq.SpecialChemicalAttack;
+                    c.ChemicalDefense += eq.ChemicalDefense + eq.SpecialChemicalDefense;
+                    c.AtomicAttack += eq.AtomicAttack + eq.SpecialAtomicAttack;
+                    c.AtomicDefense += eq.AtomicDefense + eq.SpecialAtomicDefense;
+                    c.MentalAttack += eq.MentalAttack + eq.SpecialMentalAttack;
+                    c.MentalDefense += eq.MentalDefense + eq.SpecialMentalDefense;
+
+                    c.Speed += eq.Speed;
+                    c.CriticalDamageRate += eq.CriticalDamageRate;
+                    c.CriticalRate += eq.CriticalRate;
+                    c.CriticalResistanceRate += eq.CriticalResistanceRate;
+                    c.IgnoreCriticalRate += eq.IgnoreCriticalRate;
+                    c.PenetrationRate += eq.PenetrationRate;
+                    c.PenetrationResistanceRate += eq.PenetrationResistanceRate;
+                    c.EvasionRate += eq.EvasionRate;
+                    c.DamageAbsorptionRate += eq.DamageAbsorptionRate;
+                    c.IgnoreDamageAbsorptionRate += eq.IgnoreDamageAbsorptionRate;
+                    c.AbsorbedDamageRate += eq.AbsorbedDamageRate;
+                    c.VitalityRegenerationRate += eq.VitalityRegenerationRate;
+                    c.VitalityRegenerationResistanceRate += eq.VitalityRegenerationResistanceRate;
+                    c.AccuracyRate += eq.AccuracyRate;
+                    c.LifestealRate += eq.LifestealRate;
+                    c.ShieldStrength += eq.ShieldStrength;
+                    c.Tenacity += eq.Tenacity;
+                    c.ResistanceRate += eq.ResistanceRate;
+                    c.ComboRate += eq.ComboRate;
+                    c.IgnoreComboRate += eq.IgnoreComboRate;
+                    c.ComboDamageRate += eq.ComboDamageRate;
+                    c.ComboResistanceRate += eq.ComboResistanceRate;
+                    c.StunRate += eq.StunRate;
+                    c.IgnoreStunRate += eq.IgnoreStunRate;
+                    c.ReflectionRate += eq.ReflectionRate;
+                    c.IgnoreReflectionRate += eq.IgnoreReflectionRate;
+                    c.ReflectionDamageRate += eq.ReflectionDamageRate;
+                    c.ReflectionResistanceRate += eq.ReflectionResistanceRate;
+                    c.Mana += eq.Mana;
+                    c.ManaRegenerationRate += eq.ManaRegenerationRate;
+                    c.DamageToDifferentFactionRate += eq.DamageToDifferentFactionRate;
+                    c.ResistanceToDifferentFactionRate += eq.ResistanceToDifferentFactionRate;
+                    c.DamageToSameFactionRate += eq.DamageToSameFactionRate;
+                    c.ResistanceToSameFactionRate += eq.ResistanceToSameFactionRate;
+                    c.NormalDamageRate += eq.NormalDamageRate;
+                    c.NormalResistanceRate += eq.NormalResistanceRate;
+                    c.SkillDamageRate += eq.SkillDamageRate;
+                    c.SkillResistanceRate += eq.SkillResistanceRate;
+
+                    // Xóa trang bị khỏi danh sách sau khi đã xử lý xong để tránh lặp lại
+                    equipments.RemoveAt(i);
+                }
+            }
+
+            // Tính lại Power sau khi đã cộng tất cả trang bị của tướng này
+            c.Power = PowerHelper.CalculatePower(
+                c.Health,
+                c.PhysicalAttack, c.PhysicalDefense,
+                c.MagicalAttack, c.MagicalDefense,
+                c.ChemicalAttack, c.ChemicalDefense,
+                c.AtomicAttack, c.AtomicDefense,
+                c.MentalAttack, c.MentalDefense,
+                c.Speed,
+                c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+                c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+                c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+                c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+                c.AccuracyRate, c.LifestealRate,
+                c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+                c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+                c.StunRate, c.IgnoreStunRate,
+                c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+                c.Mana, c.ManaRegenerationRate,
+                c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+                c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+                c.NormalDamageRate, c.NormalResistanceRate,
+                c.SkillDamageRate, c.SkillResistanceRate
+            );
+        }
+
+        return cardColonelsList;
+    }
+    public static List<CardGenerals> GetAllEquipmentPower(List<CardGenerals> cardGeneralsList, List<Equipments> equipments)
+    {
+        if (cardGeneralsList == null || equipments == null)
+            return cardGeneralsList;
+
+        foreach (var c in cardGeneralsList)
+        {
+            // Duyệt ngược danh sách equipments để có thể xóa phần tử an toàn mà không làm lỗi chỉ số lặp
+            for (int i = equipments.Count - 1; i >= 0; i--)
+            {
+                var eq = equipments[i];
+
+                // Kiểm tra trang bị có thuộc về tướng này không
+                if (c.Id.Equals(eq.ObjectId))
+                {
+                    // Cộng dồn chỉ số từ trang bị vào tướng
+                    c.Health += eq.Health + eq.SpecialHealth;
+                    c.PhysicalAttack += eq.PhysicalAttack + eq.SpecialPhysicalAttack;
+                    c.PhysicalDefense += eq.PhysicalDefense + eq.SpecialPhysicalDefense;
+                    c.MagicalAttack += eq.MagicalAttack + eq.SpecialMagicalAttack;
+                    c.MagicalDefense += eq.MagicalDefense + eq.SpecialMagicalDefense;
+                    c.ChemicalAttack += eq.ChemicalAttack + eq.SpecialChemicalAttack;
+                    c.ChemicalDefense += eq.ChemicalDefense + eq.SpecialChemicalDefense;
+                    c.AtomicAttack += eq.AtomicAttack + eq.SpecialAtomicAttack;
+                    c.AtomicDefense += eq.AtomicDefense + eq.SpecialAtomicDefense;
+                    c.MentalAttack += eq.MentalAttack + eq.SpecialMentalAttack;
+                    c.MentalDefense += eq.MentalDefense + eq.SpecialMentalDefense;
+
+                    c.Speed += eq.Speed;
+                    c.CriticalDamageRate += eq.CriticalDamageRate;
+                    c.CriticalRate += eq.CriticalRate;
+                    c.CriticalResistanceRate += eq.CriticalResistanceRate;
+                    c.IgnoreCriticalRate += eq.IgnoreCriticalRate;
+                    c.PenetrationRate += eq.PenetrationRate;
+                    c.PenetrationResistanceRate += eq.PenetrationResistanceRate;
+                    c.EvasionRate += eq.EvasionRate;
+                    c.DamageAbsorptionRate += eq.DamageAbsorptionRate;
+                    c.IgnoreDamageAbsorptionRate += eq.IgnoreDamageAbsorptionRate;
+                    c.AbsorbedDamageRate += eq.AbsorbedDamageRate;
+                    c.VitalityRegenerationRate += eq.VitalityRegenerationRate;
+                    c.VitalityRegenerationResistanceRate += eq.VitalityRegenerationResistanceRate;
+                    c.AccuracyRate += eq.AccuracyRate;
+                    c.LifestealRate += eq.LifestealRate;
+                    c.ShieldStrength += eq.ShieldStrength;
+                    c.Tenacity += eq.Tenacity;
+                    c.ResistanceRate += eq.ResistanceRate;
+                    c.ComboRate += eq.ComboRate;
+                    c.IgnoreComboRate += eq.IgnoreComboRate;
+                    c.ComboDamageRate += eq.ComboDamageRate;
+                    c.ComboResistanceRate += eq.ComboResistanceRate;
+                    c.StunRate += eq.StunRate;
+                    c.IgnoreStunRate += eq.IgnoreStunRate;
+                    c.ReflectionRate += eq.ReflectionRate;
+                    c.IgnoreReflectionRate += eq.IgnoreReflectionRate;
+                    c.ReflectionDamageRate += eq.ReflectionDamageRate;
+                    c.ReflectionResistanceRate += eq.ReflectionResistanceRate;
+                    c.Mana += eq.Mana;
+                    c.ManaRegenerationRate += eq.ManaRegenerationRate;
+                    c.DamageToDifferentFactionRate += eq.DamageToDifferentFactionRate;
+                    c.ResistanceToDifferentFactionRate += eq.ResistanceToDifferentFactionRate;
+                    c.DamageToSameFactionRate += eq.DamageToSameFactionRate;
+                    c.ResistanceToSameFactionRate += eq.ResistanceToSameFactionRate;
+                    c.NormalDamageRate += eq.NormalDamageRate;
+                    c.NormalResistanceRate += eq.NormalResistanceRate;
+                    c.SkillDamageRate += eq.SkillDamageRate;
+                    c.SkillResistanceRate += eq.SkillResistanceRate;
+
+                    // Xóa trang bị khỏi danh sách sau khi đã xử lý xong để tránh lặp lại
+                    equipments.RemoveAt(i);
+                }
+            }
+
+            // Tính lại Power sau khi đã cộng tất cả trang bị của tướng này
+            c.Power = PowerHelper.CalculatePower(
+                c.Health,
+                c.PhysicalAttack, c.PhysicalDefense,
+                c.MagicalAttack, c.MagicalDefense,
+                c.ChemicalAttack, c.ChemicalDefense,
+                c.AtomicAttack, c.AtomicDefense,
+                c.MentalAttack, c.MentalDefense,
+                c.Speed,
+                c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+                c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+                c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+                c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+                c.AccuracyRate, c.LifestealRate,
+                c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+                c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+                c.StunRate, c.IgnoreStunRate,
+                c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+                c.Mana, c.ManaRegenerationRate,
+                c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+                c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+                c.NormalDamageRate, c.NormalResistanceRate,
+                c.SkillDamageRate, c.SkillResistanceRate
+            );
+        }
+
+        return cardGeneralsList;
+    }
+    public static List<CardAdmirals> GetAllEquipmentPower(List<CardAdmirals> cardAdmiralsList, List<Equipments> equipments)
+    {
+        if (cardAdmiralsList == null || equipments == null)
+            return cardAdmiralsList;
+
+        foreach (var c in cardAdmiralsList)
+        {
+            // Duyệt ngược danh sách equipments để có thể xóa phần tử an toàn mà không làm lỗi chỉ số lặp
+            for (int i = equipments.Count - 1; i >= 0; i--)
+            {
+                var eq = equipments[i];
+
+                // Kiểm tra trang bị có thuộc về tướng này không
+                if (c.Id.Equals(eq.ObjectId))
+                {
+                    // Cộng dồn chỉ số từ trang bị vào tướng
+                    c.Health += eq.Health + eq.SpecialHealth;
+                    c.PhysicalAttack += eq.PhysicalAttack + eq.SpecialPhysicalAttack;
+                    c.PhysicalDefense += eq.PhysicalDefense + eq.SpecialPhysicalDefense;
+                    c.MagicalAttack += eq.MagicalAttack + eq.SpecialMagicalAttack;
+                    c.MagicalDefense += eq.MagicalDefense + eq.SpecialMagicalDefense;
+                    c.ChemicalAttack += eq.ChemicalAttack + eq.SpecialChemicalAttack;
+                    c.ChemicalDefense += eq.ChemicalDefense + eq.SpecialChemicalDefense;
+                    c.AtomicAttack += eq.AtomicAttack + eq.SpecialAtomicAttack;
+                    c.AtomicDefense += eq.AtomicDefense + eq.SpecialAtomicDefense;
+                    c.MentalAttack += eq.MentalAttack + eq.SpecialMentalAttack;
+                    c.MentalDefense += eq.MentalDefense + eq.SpecialMentalDefense;
+
+                    c.Speed += eq.Speed;
+                    c.CriticalDamageRate += eq.CriticalDamageRate;
+                    c.CriticalRate += eq.CriticalRate;
+                    c.CriticalResistanceRate += eq.CriticalResistanceRate;
+                    c.IgnoreCriticalRate += eq.IgnoreCriticalRate;
+                    c.PenetrationRate += eq.PenetrationRate;
+                    c.PenetrationResistanceRate += eq.PenetrationResistanceRate;
+                    c.EvasionRate += eq.EvasionRate;
+                    c.DamageAbsorptionRate += eq.DamageAbsorptionRate;
+                    c.IgnoreDamageAbsorptionRate += eq.IgnoreDamageAbsorptionRate;
+                    c.AbsorbedDamageRate += eq.AbsorbedDamageRate;
+                    c.VitalityRegenerationRate += eq.VitalityRegenerationRate;
+                    c.VitalityRegenerationResistanceRate += eq.VitalityRegenerationResistanceRate;
+                    c.AccuracyRate += eq.AccuracyRate;
+                    c.LifestealRate += eq.LifestealRate;
+                    c.ShieldStrength += eq.ShieldStrength;
+                    c.Tenacity += eq.Tenacity;
+                    c.ResistanceRate += eq.ResistanceRate;
+                    c.ComboRate += eq.ComboRate;
+                    c.IgnoreComboRate += eq.IgnoreComboRate;
+                    c.ComboDamageRate += eq.ComboDamageRate;
+                    c.ComboResistanceRate += eq.ComboResistanceRate;
+                    c.StunRate += eq.StunRate;
+                    c.IgnoreStunRate += eq.IgnoreStunRate;
+                    c.ReflectionRate += eq.ReflectionRate;
+                    c.IgnoreReflectionRate += eq.IgnoreReflectionRate;
+                    c.ReflectionDamageRate += eq.ReflectionDamageRate;
+                    c.ReflectionResistanceRate += eq.ReflectionResistanceRate;
+                    c.Mana += eq.Mana;
+                    c.ManaRegenerationRate += eq.ManaRegenerationRate;
+                    c.DamageToDifferentFactionRate += eq.DamageToDifferentFactionRate;
+                    c.ResistanceToDifferentFactionRate += eq.ResistanceToDifferentFactionRate;
+                    c.DamageToSameFactionRate += eq.DamageToSameFactionRate;
+                    c.ResistanceToSameFactionRate += eq.ResistanceToSameFactionRate;
+                    c.NormalDamageRate += eq.NormalDamageRate;
+                    c.NormalResistanceRate += eq.NormalResistanceRate;
+                    c.SkillDamageRate += eq.SkillDamageRate;
+                    c.SkillResistanceRate += eq.SkillResistanceRate;
+
+                    // Xóa trang bị khỏi danh sách sau khi đã xử lý xong để tránh lặp lại
+                    equipments.RemoveAt(i);
+                }
+            }
+
+            // Tính lại Power sau khi đã cộng tất cả trang bị của tướng này
+            c.Power = PowerHelper.CalculatePower(
+                c.Health,
+                c.PhysicalAttack, c.PhysicalDefense,
+                c.MagicalAttack, c.MagicalDefense,
+                c.ChemicalAttack, c.ChemicalDefense,
+                c.AtomicAttack, c.AtomicDefense,
+                c.MentalAttack, c.MentalDefense,
+                c.Speed,
+                c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+                c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+                c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+                c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+                c.AccuracyRate, c.LifestealRate,
+                c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+                c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+                c.StunRate, c.IgnoreStunRate,
+                c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+                c.Mana, c.ManaRegenerationRate,
+                c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+                c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+                c.NormalDamageRate, c.NormalResistanceRate,
+                c.SkillDamageRate, c.SkillResistanceRate
+            );
+        }
+
+        return cardAdmiralsList;
+    }
+    public static List<CardMonsters> GetAllEquipmentPower(List<CardMonsters> cardMonstersList, List<Equipments> equipments)
+    {
+        if (cardMonstersList == null || equipments == null)
+            return cardMonstersList;
+
+        foreach (var c in cardMonstersList)
+        {
+            // Duyệt ngược danh sách equipments để có thể xóa phần tử an toàn mà không làm lỗi chỉ số lặp
+            for (int i = equipments.Count - 1; i >= 0; i--)
+            {
+                var eq = equipments[i];
+
+                // Kiểm tra trang bị có thuộc về tướng này không
+                if (c.Id.Equals(eq.ObjectId))
+                {
+                    // Cộng dồn chỉ số từ trang bị vào tướng
+                    c.Health += eq.Health + eq.SpecialHealth;
+                    c.PhysicalAttack += eq.PhysicalAttack + eq.SpecialPhysicalAttack;
+                    c.PhysicalDefense += eq.PhysicalDefense + eq.SpecialPhysicalDefense;
+                    c.MagicalAttack += eq.MagicalAttack + eq.SpecialMagicalAttack;
+                    c.MagicalDefense += eq.MagicalDefense + eq.SpecialMagicalDefense;
+                    c.ChemicalAttack += eq.ChemicalAttack + eq.SpecialChemicalAttack;
+                    c.ChemicalDefense += eq.ChemicalDefense + eq.SpecialChemicalDefense;
+                    c.AtomicAttack += eq.AtomicAttack + eq.SpecialAtomicAttack;
+                    c.AtomicDefense += eq.AtomicDefense + eq.SpecialAtomicDefense;
+                    c.MentalAttack += eq.MentalAttack + eq.SpecialMentalAttack;
+                    c.MentalDefense += eq.MentalDefense + eq.SpecialMentalDefense;
+
+                    c.Speed += eq.Speed;
+                    c.CriticalDamageRate += eq.CriticalDamageRate;
+                    c.CriticalRate += eq.CriticalRate;
+                    c.CriticalResistanceRate += eq.CriticalResistanceRate;
+                    c.IgnoreCriticalRate += eq.IgnoreCriticalRate;
+                    c.PenetrationRate += eq.PenetrationRate;
+                    c.PenetrationResistanceRate += eq.PenetrationResistanceRate;
+                    c.EvasionRate += eq.EvasionRate;
+                    c.DamageAbsorptionRate += eq.DamageAbsorptionRate;
+                    c.IgnoreDamageAbsorptionRate += eq.IgnoreDamageAbsorptionRate;
+                    c.AbsorbedDamageRate += eq.AbsorbedDamageRate;
+                    c.VitalityRegenerationRate += eq.VitalityRegenerationRate;
+                    c.VitalityRegenerationResistanceRate += eq.VitalityRegenerationResistanceRate;
+                    c.AccuracyRate += eq.AccuracyRate;
+                    c.LifestealRate += eq.LifestealRate;
+                    c.ShieldStrength += eq.ShieldStrength;
+                    c.Tenacity += eq.Tenacity;
+                    c.ResistanceRate += eq.ResistanceRate;
+                    c.ComboRate += eq.ComboRate;
+                    c.IgnoreComboRate += eq.IgnoreComboRate;
+                    c.ComboDamageRate += eq.ComboDamageRate;
+                    c.ComboResistanceRate += eq.ComboResistanceRate;
+                    c.StunRate += eq.StunRate;
+                    c.IgnoreStunRate += eq.IgnoreStunRate;
+                    c.ReflectionRate += eq.ReflectionRate;
+                    c.IgnoreReflectionRate += eq.IgnoreReflectionRate;
+                    c.ReflectionDamageRate += eq.ReflectionDamageRate;
+                    c.ReflectionResistanceRate += eq.ReflectionResistanceRate;
+                    c.Mana += eq.Mana;
+                    c.ManaRegenerationRate += eq.ManaRegenerationRate;
+                    c.DamageToDifferentFactionRate += eq.DamageToDifferentFactionRate;
+                    c.ResistanceToDifferentFactionRate += eq.ResistanceToDifferentFactionRate;
+                    c.DamageToSameFactionRate += eq.DamageToSameFactionRate;
+                    c.ResistanceToSameFactionRate += eq.ResistanceToSameFactionRate;
+                    c.NormalDamageRate += eq.NormalDamageRate;
+                    c.NormalResistanceRate += eq.NormalResistanceRate;
+                    c.SkillDamageRate += eq.SkillDamageRate;
+                    c.SkillResistanceRate += eq.SkillResistanceRate;
+
+                    // Xóa trang bị khỏi danh sách sau khi đã xử lý xong để tránh lặp lại
+                    equipments.RemoveAt(i);
+                }
+            }
+
+            // Tính lại Power sau khi đã cộng tất cả trang bị của tướng này
+            c.Power = PowerHelper.CalculatePower(
+                c.Health,
+                c.PhysicalAttack, c.PhysicalDefense,
+                c.MagicalAttack, c.MagicalDefense,
+                c.ChemicalAttack, c.ChemicalDefense,
+                c.AtomicAttack, c.AtomicDefense,
+                c.MentalAttack, c.MentalDefense,
+                c.Speed,
+                c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+                c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+                c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+                c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+                c.AccuracyRate, c.LifestealRate,
+                c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+                c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+                c.StunRate, c.IgnoreStunRate,
+                c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+                c.Mana, c.ManaRegenerationRate,
+                c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+                c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+                c.NormalDamageRate, c.NormalResistanceRate,
+                c.SkillDamageRate, c.SkillResistanceRate
+            );
+        }
+
+        return cardMonstersList;
+    }
+    public static List<CardMilitaries> GetAllEquipmentPower(List<CardMilitaries> cardMilitariesList, List<Equipments> equipments)
+    {
+        if (cardMilitariesList == null || equipments == null)
+            return cardMilitariesList;
+
+        foreach (var c in cardMilitariesList)
+        {
+            // Duyệt ngược danh sách equipments để có thể xóa phần tử an toàn mà không làm lỗi chỉ số lặp
+            for (int i = equipments.Count - 1; i >= 0; i--)
+            {
+                var eq = equipments[i];
+
+                // Kiểm tra trang bị có thuộc về tướng này không
+                if (c.Id.Equals(eq.ObjectId))
+                {
+                    // Cộng dồn chỉ số từ trang bị vào tướng
+                    c.Health += eq.Health + eq.SpecialHealth;
+                    c.PhysicalAttack += eq.PhysicalAttack + eq.SpecialPhysicalAttack;
+                    c.PhysicalDefense += eq.PhysicalDefense + eq.SpecialPhysicalDefense;
+                    c.MagicalAttack += eq.MagicalAttack + eq.SpecialMagicalAttack;
+                    c.MagicalDefense += eq.MagicalDefense + eq.SpecialMagicalDefense;
+                    c.ChemicalAttack += eq.ChemicalAttack + eq.SpecialChemicalAttack;
+                    c.ChemicalDefense += eq.ChemicalDefense + eq.SpecialChemicalDefense;
+                    c.AtomicAttack += eq.AtomicAttack + eq.SpecialAtomicAttack;
+                    c.AtomicDefense += eq.AtomicDefense + eq.SpecialAtomicDefense;
+                    c.MentalAttack += eq.MentalAttack + eq.SpecialMentalAttack;
+                    c.MentalDefense += eq.MentalDefense + eq.SpecialMentalDefense;
+
+                    c.Speed += eq.Speed;
+                    c.CriticalDamageRate += eq.CriticalDamageRate;
+                    c.CriticalRate += eq.CriticalRate;
+                    c.CriticalResistanceRate += eq.CriticalResistanceRate;
+                    c.IgnoreCriticalRate += eq.IgnoreCriticalRate;
+                    c.PenetrationRate += eq.PenetrationRate;
+                    c.PenetrationResistanceRate += eq.PenetrationResistanceRate;
+                    c.EvasionRate += eq.EvasionRate;
+                    c.DamageAbsorptionRate += eq.DamageAbsorptionRate;
+                    c.IgnoreDamageAbsorptionRate += eq.IgnoreDamageAbsorptionRate;
+                    c.AbsorbedDamageRate += eq.AbsorbedDamageRate;
+                    c.VitalityRegenerationRate += eq.VitalityRegenerationRate;
+                    c.VitalityRegenerationResistanceRate += eq.VitalityRegenerationResistanceRate;
+                    c.AccuracyRate += eq.AccuracyRate;
+                    c.LifestealRate += eq.LifestealRate;
+                    c.ShieldStrength += eq.ShieldStrength;
+                    c.Tenacity += eq.Tenacity;
+                    c.ResistanceRate += eq.ResistanceRate;
+                    c.ComboRate += eq.ComboRate;
+                    c.IgnoreComboRate += eq.IgnoreComboRate;
+                    c.ComboDamageRate += eq.ComboDamageRate;
+                    c.ComboResistanceRate += eq.ComboResistanceRate;
+                    c.StunRate += eq.StunRate;
+                    c.IgnoreStunRate += eq.IgnoreStunRate;
+                    c.ReflectionRate += eq.ReflectionRate;
+                    c.IgnoreReflectionRate += eq.IgnoreReflectionRate;
+                    c.ReflectionDamageRate += eq.ReflectionDamageRate;
+                    c.ReflectionResistanceRate += eq.ReflectionResistanceRate;
+                    c.Mana += eq.Mana;
+                    c.ManaRegenerationRate += eq.ManaRegenerationRate;
+                    c.DamageToDifferentFactionRate += eq.DamageToDifferentFactionRate;
+                    c.ResistanceToDifferentFactionRate += eq.ResistanceToDifferentFactionRate;
+                    c.DamageToSameFactionRate += eq.DamageToSameFactionRate;
+                    c.ResistanceToSameFactionRate += eq.ResistanceToSameFactionRate;
+                    c.NormalDamageRate += eq.NormalDamageRate;
+                    c.NormalResistanceRate += eq.NormalResistanceRate;
+                    c.SkillDamageRate += eq.SkillDamageRate;
+                    c.SkillResistanceRate += eq.SkillResistanceRate;
+
+                    // Xóa trang bị khỏi danh sách sau khi đã xử lý xong để tránh lặp lại
+                    equipments.RemoveAt(i);
+                }
+            }
+
+            // Tính lại Power sau khi đã cộng tất cả trang bị của tướng này
+            c.Power = PowerHelper.CalculatePower(
+                c.Health,
+                c.PhysicalAttack, c.PhysicalDefense,
+                c.MagicalAttack, c.MagicalDefense,
+                c.ChemicalAttack, c.ChemicalDefense,
+                c.AtomicAttack, c.AtomicDefense,
+                c.MentalAttack, c.MentalDefense,
+                c.Speed,
+                c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+                c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+                c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+                c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+                c.AccuracyRate, c.LifestealRate,
+                c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+                c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+                c.StunRate, c.IgnoreStunRate,
+                c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+                c.Mana, c.ManaRegenerationRate,
+                c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+                c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+                c.NormalDamageRate, c.NormalResistanceRate,
+                c.SkillDamageRate, c.SkillResistanceRate
+            );
+        }
+
+        return cardMilitariesList;
+    }
+    public static List<CardSoldiers> GetAllEquipmentPower(List<CardSoldiers> cardSoldiersList, List<Equipments> equipments)
+    {
+        if (cardSoldiersList == null || equipments == null)
+            return cardSoldiersList;
+
+        foreach (var c in cardSoldiersList)
+        {
+            // Duyệt ngược danh sách equipments để có thể xóa phần tử an toàn mà không làm lỗi chỉ số lặp
+            for (int i = equipments.Count - 1; i >= 0; i--)
+            {
+                var eq = equipments[i];
+
+                // Kiểm tra trang bị có thuộc về tướng này không
+                if (c.Id.Equals(eq.ObjectId))
+                {
+                    // Cộng dồn chỉ số từ trang bị vào tướng
+                    c.Health += eq.Health + eq.SpecialHealth;
+                    c.PhysicalAttack += eq.PhysicalAttack + eq.SpecialPhysicalAttack;
+                    c.PhysicalDefense += eq.PhysicalDefense + eq.SpecialPhysicalDefense;
+                    c.MagicalAttack += eq.MagicalAttack + eq.SpecialMagicalAttack;
+                    c.MagicalDefense += eq.MagicalDefense + eq.SpecialMagicalDefense;
+                    c.ChemicalAttack += eq.ChemicalAttack + eq.SpecialChemicalAttack;
+                    c.ChemicalDefense += eq.ChemicalDefense + eq.SpecialChemicalDefense;
+                    c.AtomicAttack += eq.AtomicAttack + eq.SpecialAtomicAttack;
+                    c.AtomicDefense += eq.AtomicDefense + eq.SpecialAtomicDefense;
+                    c.MentalAttack += eq.MentalAttack + eq.SpecialMentalAttack;
+                    c.MentalDefense += eq.MentalDefense + eq.SpecialMentalDefense;
+
+                    c.Speed += eq.Speed;
+                    c.CriticalDamageRate += eq.CriticalDamageRate;
+                    c.CriticalRate += eq.CriticalRate;
+                    c.CriticalResistanceRate += eq.CriticalResistanceRate;
+                    c.IgnoreCriticalRate += eq.IgnoreCriticalRate;
+                    c.PenetrationRate += eq.PenetrationRate;
+                    c.PenetrationResistanceRate += eq.PenetrationResistanceRate;
+                    c.EvasionRate += eq.EvasionRate;
+                    c.DamageAbsorptionRate += eq.DamageAbsorptionRate;
+                    c.IgnoreDamageAbsorptionRate += eq.IgnoreDamageAbsorptionRate;
+                    c.AbsorbedDamageRate += eq.AbsorbedDamageRate;
+                    c.VitalityRegenerationRate += eq.VitalityRegenerationRate;
+                    c.VitalityRegenerationResistanceRate += eq.VitalityRegenerationResistanceRate;
+                    c.AccuracyRate += eq.AccuracyRate;
+                    c.LifestealRate += eq.LifestealRate;
+                    c.ShieldStrength += eq.ShieldStrength;
+                    c.Tenacity += eq.Tenacity;
+                    c.ResistanceRate += eq.ResistanceRate;
+                    c.ComboRate += eq.ComboRate;
+                    c.IgnoreComboRate += eq.IgnoreComboRate;
+                    c.ComboDamageRate += eq.ComboDamageRate;
+                    c.ComboResistanceRate += eq.ComboResistanceRate;
+                    c.StunRate += eq.StunRate;
+                    c.IgnoreStunRate += eq.IgnoreStunRate;
+                    c.ReflectionRate += eq.ReflectionRate;
+                    c.IgnoreReflectionRate += eq.IgnoreReflectionRate;
+                    c.ReflectionDamageRate += eq.ReflectionDamageRate;
+                    c.ReflectionResistanceRate += eq.ReflectionResistanceRate;
+                    c.Mana += eq.Mana;
+                    c.ManaRegenerationRate += eq.ManaRegenerationRate;
+                    c.DamageToDifferentFactionRate += eq.DamageToDifferentFactionRate;
+                    c.ResistanceToDifferentFactionRate += eq.ResistanceToDifferentFactionRate;
+                    c.DamageToSameFactionRate += eq.DamageToSameFactionRate;
+                    c.ResistanceToSameFactionRate += eq.ResistanceToSameFactionRate;
+                    c.NormalDamageRate += eq.NormalDamageRate;
+                    c.NormalResistanceRate += eq.NormalResistanceRate;
+                    c.SkillDamageRate += eq.SkillDamageRate;
+                    c.SkillResistanceRate += eq.SkillResistanceRate;
+
+                    // Xóa trang bị khỏi danh sách sau khi đã xử lý xong để tránh lặp lại
+                    equipments.RemoveAt(i);
+                }
+            }
+
+            // Tính lại Power sau khi đã cộng tất cả trang bị của tướng này
+            c.Power = PowerHelper.CalculatePower(
+                c.Health,
+                c.PhysicalAttack, c.PhysicalDefense,
+                c.MagicalAttack, c.MagicalDefense,
+                c.ChemicalAttack, c.ChemicalDefense,
+                c.AtomicAttack, c.AtomicDefense,
+                c.MentalAttack, c.MentalDefense,
+                c.Speed,
+                c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+                c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+                c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+                c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+                c.AccuracyRate, c.LifestealRate,
+                c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+                c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+                c.StunRate, c.IgnoreStunRate,
+                c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+                c.Mana, c.ManaRegenerationRate,
+                c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+                c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+                c.NormalDamageRate, c.NormalResistanceRate,
+                c.SkillDamageRate, c.SkillResistanceRate
+            );
+        }
+
+        return cardSoldiersList;
+    }
+    public static List<CardSpells> GetAllEquipmentPower(List<CardSpells> cardSpellsList, List<Equipments> equipments)
+    {
+        if (cardSpellsList == null || equipments == null)
+            return cardSpellsList;
+
+        foreach (var c in cardSpellsList)
+        {
+            // Duyệt ngược danh sách equipments để có thể xóa phần tử an toàn mà không làm lỗi chỉ số lặp
+            for (int i = equipments.Count - 1; i >= 0; i--)
+            {
+                var eq = equipments[i];
+
+                // Kiểm tra trang bị có thuộc về tướng này không
+                if (c.Id.Equals(eq.ObjectId))
+                {
+                    // Cộng dồn chỉ số từ trang bị vào tướng
+                    c.Health += eq.Health + eq.SpecialHealth;
+                    c.PhysicalAttack += eq.PhysicalAttack + eq.SpecialPhysicalAttack;
+                    c.PhysicalDefense += eq.PhysicalDefense + eq.SpecialPhysicalDefense;
+                    c.MagicalAttack += eq.MagicalAttack + eq.SpecialMagicalAttack;
+                    c.MagicalDefense += eq.MagicalDefense + eq.SpecialMagicalDefense;
+                    c.ChemicalAttack += eq.ChemicalAttack + eq.SpecialChemicalAttack;
+                    c.ChemicalDefense += eq.ChemicalDefense + eq.SpecialChemicalDefense;
+                    c.AtomicAttack += eq.AtomicAttack + eq.SpecialAtomicAttack;
+                    c.AtomicDefense += eq.AtomicDefense + eq.SpecialAtomicDefense;
+                    c.MentalAttack += eq.MentalAttack + eq.SpecialMentalAttack;
+                    c.MentalDefense += eq.MentalDefense + eq.SpecialMentalDefense;
+
+                    c.Speed += eq.Speed;
+                    c.CriticalDamageRate += eq.CriticalDamageRate;
+                    c.CriticalRate += eq.CriticalRate;
+                    c.CriticalResistanceRate += eq.CriticalResistanceRate;
+                    c.IgnoreCriticalRate += eq.IgnoreCriticalRate;
+                    c.PenetrationRate += eq.PenetrationRate;
+                    c.PenetrationResistanceRate += eq.PenetrationResistanceRate;
+                    c.EvasionRate += eq.EvasionRate;
+                    c.DamageAbsorptionRate += eq.DamageAbsorptionRate;
+                    c.IgnoreDamageAbsorptionRate += eq.IgnoreDamageAbsorptionRate;
+                    c.AbsorbedDamageRate += eq.AbsorbedDamageRate;
+                    c.VitalityRegenerationRate += eq.VitalityRegenerationRate;
+                    c.VitalityRegenerationResistanceRate += eq.VitalityRegenerationResistanceRate;
+                    c.AccuracyRate += eq.AccuracyRate;
+                    c.LifestealRate += eq.LifestealRate;
+                    c.ShieldStrength += eq.ShieldStrength;
+                    c.Tenacity += eq.Tenacity;
+                    c.ResistanceRate += eq.ResistanceRate;
+                    c.ComboRate += eq.ComboRate;
+                    c.IgnoreComboRate += eq.IgnoreComboRate;
+                    c.ComboDamageRate += eq.ComboDamageRate;
+                    c.ComboResistanceRate += eq.ComboResistanceRate;
+                    c.StunRate += eq.StunRate;
+                    c.IgnoreStunRate += eq.IgnoreStunRate;
+                    c.ReflectionRate += eq.ReflectionRate;
+                    c.IgnoreReflectionRate += eq.IgnoreReflectionRate;
+                    c.ReflectionDamageRate += eq.ReflectionDamageRate;
+                    c.ReflectionResistanceRate += eq.ReflectionResistanceRate;
+                    c.Mana += eq.Mana;
+                    c.ManaRegenerationRate += eq.ManaRegenerationRate;
+                    c.DamageToDifferentFactionRate += eq.DamageToDifferentFactionRate;
+                    c.ResistanceToDifferentFactionRate += eq.ResistanceToDifferentFactionRate;
+                    c.DamageToSameFactionRate += eq.DamageToSameFactionRate;
+                    c.ResistanceToSameFactionRate += eq.ResistanceToSameFactionRate;
+                    c.NormalDamageRate += eq.NormalDamageRate;
+                    c.NormalResistanceRate += eq.NormalResistanceRate;
+                    c.SkillDamageRate += eq.SkillDamageRate;
+                    c.SkillResistanceRate += eq.SkillResistanceRate;
+
+                    // Xóa trang bị khỏi danh sách sau khi đã xử lý xong để tránh lặp lại
+                    equipments.RemoveAt(i);
+                }
+            }
+
+            // Tính lại Power sau khi đã cộng tất cả trang bị của tướng này
+            c.Power = PowerHelper.CalculatePower(
+                c.Health,
+                c.PhysicalAttack, c.PhysicalDefense,
+                c.MagicalAttack, c.MagicalDefense,
+                c.ChemicalAttack, c.ChemicalDefense,
+                c.AtomicAttack, c.AtomicDefense,
+                c.MentalAttack, c.MentalDefense,
+                c.Speed,
+                c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+                c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+                c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+                c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+                c.AccuracyRate, c.LifestealRate,
+                c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+                c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+                c.StunRate, c.IgnoreStunRate,
+                c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+                c.Mana, c.ManaRegenerationRate,
+                c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+                c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+                c.NormalDamageRate, c.NormalResistanceRate,
+                c.SkillDamageRate, c.SkillResistanceRate
+            );
+        }
+
+        return cardSpellsList;
+    }
+    public static List<Books> GetAllEquipmentPower(List<Books> booksList, List<Equipments> equipments)
+    {
+        if (booksList == null || equipments == null)
+            return booksList;
+
+        foreach (var c in booksList)
+        {
+            // Duyệt ngược danh sách equipments để có thể xóa phần tử an toàn mà không làm lỗi chỉ số lặp
+            for (int i = equipments.Count - 1; i >= 0; i--)
+            {
+                var eq = equipments[i];
+
+                // Kiểm tra trang bị có thuộc về tướng này không
+                if (c.Id.Equals(eq.ObjectId))
+                {
+                    // Cộng dồn chỉ số từ trang bị vào tướng
+                    c.Health += eq.Health + eq.SpecialHealth;
+                    c.PhysicalAttack += eq.PhysicalAttack + eq.SpecialPhysicalAttack;
+                    c.PhysicalDefense += eq.PhysicalDefense + eq.SpecialPhysicalDefense;
+                    c.MagicalAttack += eq.MagicalAttack + eq.SpecialMagicalAttack;
+                    c.MagicalDefense += eq.MagicalDefense + eq.SpecialMagicalDefense;
+                    c.ChemicalAttack += eq.ChemicalAttack + eq.SpecialChemicalAttack;
+                    c.ChemicalDefense += eq.ChemicalDefense + eq.SpecialChemicalDefense;
+                    c.AtomicAttack += eq.AtomicAttack + eq.SpecialAtomicAttack;
+                    c.AtomicDefense += eq.AtomicDefense + eq.SpecialAtomicDefense;
+                    c.MentalAttack += eq.MentalAttack + eq.SpecialMentalAttack;
+                    c.MentalDefense += eq.MentalDefense + eq.SpecialMentalDefense;
+
+                    c.Speed += eq.Speed;
+                    c.CriticalDamageRate += eq.CriticalDamageRate;
+                    c.CriticalRate += eq.CriticalRate;
+                    c.CriticalResistanceRate += eq.CriticalResistanceRate;
+                    c.IgnoreCriticalRate += eq.IgnoreCriticalRate;
+                    c.PenetrationRate += eq.PenetrationRate;
+                    c.PenetrationResistanceRate += eq.PenetrationResistanceRate;
+                    c.EvasionRate += eq.EvasionRate;
+                    c.DamageAbsorptionRate += eq.DamageAbsorptionRate;
+                    c.IgnoreDamageAbsorptionRate += eq.IgnoreDamageAbsorptionRate;
+                    c.AbsorbedDamageRate += eq.AbsorbedDamageRate;
+                    c.VitalityRegenerationRate += eq.VitalityRegenerationRate;
+                    c.VitalityRegenerationResistanceRate += eq.VitalityRegenerationResistanceRate;
+                    c.AccuracyRate += eq.AccuracyRate;
+                    c.LifestealRate += eq.LifestealRate;
+                    c.ShieldStrength += eq.ShieldStrength;
+                    c.Tenacity += eq.Tenacity;
+                    c.ResistanceRate += eq.ResistanceRate;
+                    c.ComboRate += eq.ComboRate;
+                    c.IgnoreComboRate += eq.IgnoreComboRate;
+                    c.ComboDamageRate += eq.ComboDamageRate;
+                    c.ComboResistanceRate += eq.ComboResistanceRate;
+                    c.StunRate += eq.StunRate;
+                    c.IgnoreStunRate += eq.IgnoreStunRate;
+                    c.ReflectionRate += eq.ReflectionRate;
+                    c.IgnoreReflectionRate += eq.IgnoreReflectionRate;
+                    c.ReflectionDamageRate += eq.ReflectionDamageRate;
+                    c.ReflectionResistanceRate += eq.ReflectionResistanceRate;
+                    c.Mana += eq.Mana;
+                    c.ManaRegenerationRate += eq.ManaRegenerationRate;
+                    c.DamageToDifferentFactionRate += eq.DamageToDifferentFactionRate;
+                    c.ResistanceToDifferentFactionRate += eq.ResistanceToDifferentFactionRate;
+                    c.DamageToSameFactionRate += eq.DamageToSameFactionRate;
+                    c.ResistanceToSameFactionRate += eq.ResistanceToSameFactionRate;
+                    c.NormalDamageRate += eq.NormalDamageRate;
+                    c.NormalResistanceRate += eq.NormalResistanceRate;
+                    c.SkillDamageRate += eq.SkillDamageRate;
+                    c.SkillResistanceRate += eq.SkillResistanceRate;
+
+                    // Xóa trang bị khỏi danh sách sau khi đã xử lý xong để tránh lặp lại
+                    equipments.RemoveAt(i);
+                }
+            }
+
+            // Tính lại Power sau khi đã cộng tất cả trang bị của tướng này
+            c.Power = PowerHelper.CalculatePower(
+                c.Health,
+                c.PhysicalAttack, c.PhysicalDefense,
+                c.MagicalAttack, c.MagicalDefense,
+                c.ChemicalAttack, c.ChemicalDefense,
+                c.AtomicAttack, c.AtomicDefense,
+                c.MentalAttack, c.MentalDefense,
+                c.Speed,
+                c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+                c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+                c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+                c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+                c.AccuracyRate, c.LifestealRate,
+                c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+                c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+                c.StunRate, c.IgnoreStunRate,
+                c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+                c.Mana, c.ManaRegenerationRate,
+                c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+                c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+                c.NormalDamageRate, c.NormalResistanceRate,
+                c.SkillDamageRate, c.SkillResistanceRate
+            );
+        }
+
+        return booksList;
+    }
+    public static List<Pets> GetAllEquipmentPower(List<Pets> petsList, List<Equipments> equipments)
+    {
+        if (petsList == null || equipments == null)
+            return petsList;
+
+        foreach (var c in petsList)
+        {
+            // Duyệt ngược danh sách equipments để có thể xóa phần tử an toàn mà không làm lỗi chỉ số lặp
+            for (int i = equipments.Count - 1; i >= 0; i--)
+            {
+                var eq = equipments[i];
+
+                // Kiểm tra trang bị có thuộc về tướng này không
+                if (c.Id.Equals(eq.ObjectId))
+                {
+                    // Cộng dồn chỉ số từ trang bị vào tướng
+                    c.Health += eq.Health + eq.SpecialHealth;
+                    c.PhysicalAttack += eq.PhysicalAttack + eq.SpecialPhysicalAttack;
+                    c.PhysicalDefense += eq.PhysicalDefense + eq.SpecialPhysicalDefense;
+                    c.MagicalAttack += eq.MagicalAttack + eq.SpecialMagicalAttack;
+                    c.MagicalDefense += eq.MagicalDefense + eq.SpecialMagicalDefense;
+                    c.ChemicalAttack += eq.ChemicalAttack + eq.SpecialChemicalAttack;
+                    c.ChemicalDefense += eq.ChemicalDefense + eq.SpecialChemicalDefense;
+                    c.AtomicAttack += eq.AtomicAttack + eq.SpecialAtomicAttack;
+                    c.AtomicDefense += eq.AtomicDefense + eq.SpecialAtomicDefense;
+                    c.MentalAttack += eq.MentalAttack + eq.SpecialMentalAttack;
+                    c.MentalDefense += eq.MentalDefense + eq.SpecialMentalDefense;
+
+                    c.Speed += eq.Speed;
+                    c.CriticalDamageRate += eq.CriticalDamageRate;
+                    c.CriticalRate += eq.CriticalRate;
+                    c.CriticalResistanceRate += eq.CriticalResistanceRate;
+                    c.IgnoreCriticalRate += eq.IgnoreCriticalRate;
+                    c.PenetrationRate += eq.PenetrationRate;
+                    c.PenetrationResistanceRate += eq.PenetrationResistanceRate;
+                    c.EvasionRate += eq.EvasionRate;
+                    c.DamageAbsorptionRate += eq.DamageAbsorptionRate;
+                    c.IgnoreDamageAbsorptionRate += eq.IgnoreDamageAbsorptionRate;
+                    c.AbsorbedDamageRate += eq.AbsorbedDamageRate;
+                    c.VitalityRegenerationRate += eq.VitalityRegenerationRate;
+                    c.VitalityRegenerationResistanceRate += eq.VitalityRegenerationResistanceRate;
+                    c.AccuracyRate += eq.AccuracyRate;
+                    c.LifestealRate += eq.LifestealRate;
+                    c.ShieldStrength += eq.ShieldStrength;
+                    c.Tenacity += eq.Tenacity;
+                    c.ResistanceRate += eq.ResistanceRate;
+                    c.ComboRate += eq.ComboRate;
+                    c.IgnoreComboRate += eq.IgnoreComboRate;
+                    c.ComboDamageRate += eq.ComboDamageRate;
+                    c.ComboResistanceRate += eq.ComboResistanceRate;
+                    c.StunRate += eq.StunRate;
+                    c.IgnoreStunRate += eq.IgnoreStunRate;
+                    c.ReflectionRate += eq.ReflectionRate;
+                    c.IgnoreReflectionRate += eq.IgnoreReflectionRate;
+                    c.ReflectionDamageRate += eq.ReflectionDamageRate;
+                    c.ReflectionResistanceRate += eq.ReflectionResistanceRate;
+                    c.Mana += eq.Mana;
+                    c.ManaRegenerationRate += eq.ManaRegenerationRate;
+                    c.DamageToDifferentFactionRate += eq.DamageToDifferentFactionRate;
+                    c.ResistanceToDifferentFactionRate += eq.ResistanceToDifferentFactionRate;
+                    c.DamageToSameFactionRate += eq.DamageToSameFactionRate;
+                    c.ResistanceToSameFactionRate += eq.ResistanceToSameFactionRate;
+                    c.NormalDamageRate += eq.NormalDamageRate;
+                    c.NormalResistanceRate += eq.NormalResistanceRate;
+                    c.SkillDamageRate += eq.SkillDamageRate;
+                    c.SkillResistanceRate += eq.SkillResistanceRate;
+
+                    // Xóa trang bị khỏi danh sách sau khi đã xử lý xong để tránh lặp lại
+                    equipments.RemoveAt(i);
+                }
+            }
+
+            // Tính lại Power sau khi đã cộng tất cả trang bị của tướng này
+            c.Power = PowerHelper.CalculatePower(
+                c.Health,
+                c.PhysicalAttack, c.PhysicalDefense,
+                c.MagicalAttack, c.MagicalDefense,
+                c.ChemicalAttack, c.ChemicalDefense,
+                c.AtomicAttack, c.AtomicDefense,
+                c.MentalAttack, c.MentalDefense,
+                c.Speed,
+                c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+                c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+                c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+                c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+                c.AccuracyRate, c.LifestealRate,
+                c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+                c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+                c.StunRate, c.IgnoreStunRate,
+                c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+                c.Mana, c.ManaRegenerationRate,
+                c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+                c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+                c.NormalDamageRate, c.NormalResistanceRate,
+                c.SkillDamageRate, c.SkillResistanceRate
+            );
+        }
+
+        return petsList;
     }
     public static void ApplyTotalBuffs(this CardHeroes cardHero, TotalBuffs total)
     {

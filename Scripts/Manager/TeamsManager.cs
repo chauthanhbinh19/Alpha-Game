@@ -32,6 +32,8 @@ public class TeamsManager : MonoBehaviour
     private GameObject PopupTeamFirstObject;
     private GameObject PopupTeamSecondObject;
     private GameObject PopupCardPanelObject;
+    private GameObject PositionButtonPrefab;
+    private GameObject PositionSlotButtonPrefab;
     private Button CloseButton;
     private Button HomeButton;
     private TextMeshProUGUI PowerText;
@@ -96,6 +98,8 @@ public class TeamsManager : MonoBehaviour
         EmblemButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.EMBLEM_BUTTON_PREFAB);
         RareButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.RARE_BUTTON_PREFAB);
         PositionPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.POSITION_PREFAB);
+        PositionButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.POSITION_BUTTON_PREFAB);
+        PositionSlotButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.POSITION_SLOT_BUTTON_PREFAB);
     }
     public async Task CreateTeamsAsync()
     {
@@ -105,8 +109,8 @@ public class TeamsManager : MonoBehaviour
         Transform tempRightContent = transform.Find("ScrollViewRight/Viewport/Content");
         Transform positionTeamsPanel = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         TextMeshProUGUI teamsTitleText = transform.Find("DictionaryCards/TeamsTitleText").GetComponent<TextMeshProUGUI>();
-        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             foreach (Transform child in MainPanel)
@@ -114,12 +118,12 @@ public class TeamsManager : MonoBehaviour
                 Destroy(child.gameObject);
             }
         });
-        // HomeButton = teamsObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        // HomeButton.onClick.AddListener(() =>
-        // {
-        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-        //     Close(MainPanel);
-        // });
+        Button HomeButton = transform.Find("HomeButton").GetComponent<Button>();
+        HomeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+        });
 
         teamsTitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.TEAM);
         await CreateTeamsPositionAsync(positionTeamsPanel);
@@ -132,94 +136,26 @@ public class TeamsManager : MonoBehaviour
         var userTeams = await TeamsService.Create().GetUserTeamsAsync(User.CurrentUserId);
         if (userTeams == null || userTeams.Count == 0) return;
 
-        // --- PHẦN CHỈNH SỬA: Kiểm soát số lượng request đồng thời ---
-        // Giới hạn tối đa 5 teams được xử lý cùng lúc (tổng cộng khoảng 40 request song song)
-        // Con số này an toàn cho hầu hết các server Unity/Mobile.
-        using (var semaphore = new SemaphoreSlim(5))
+        // 2. Khởi tạo UI danh sách Teams
+        foreach (var team in userTeams)
         {
-            var dataTasks = userTeams.Select(async team =>
+            GameObject teamPositionObject = Instantiate(TeamsPositionPrefab, positionTeamsPanel);
+            Transform transform = teamPositionObject.transform;
+
+            transform.Find("TeamNumberText").GetComponent<TextMeshProUGUI>().text = team.TeamNumber.ToString();
+            transform.Find("AvatarImage").GetComponent<RawImage>().texture = TextureHelper.LoadTextureCached(team.TeamAvatar);
+            transform.Find("BorderImage").GetComponent<RawImage>().texture = TextureHelper.LoadTextureCached(team.TeamBorder);
+
+            string tempTeamId = team.TeamId;
+            int tempTeamPositionIndex = team.TeamNumber;
+
+            transform.Find("ChangeCardButton").GetComponent<Button>().onClick.AddListener(() =>
             {
-                await semaphore.WaitAsync();
-                try
-                {
-                    // Tạo các task đếm card
-                    var tasks = new List<Task<int>>
-                    {
-                    UserCardHeroesService.Create().GetUserCardHeroesTeamsCountAsync(User.CurrentUserId, team.TeamId),
-                    UserCardCaptainsService.Create().GetUserCardCaptainsTeamsCountAsync(User.CurrentUserId, team.TeamId),
-                    UserCardColonelsService.Create().GetUserCardColonelsTeamsCountAsync(User.CurrentUserId, team.TeamId),
-                    UserCardGeneralsService.Create().GetUserCardGeneralsTeamsCountAsync(User.CurrentUserId, team.TeamId),
-                    UserCardAdmiralsService.Create().GetUserCardAdmiralsTeamsCountAsync(User.CurrentUserId, team.TeamId),
-                    UserCardMonstersService.Create().GetUserCardMonstersTeamsCountAsync(User.CurrentUserId, team.TeamId),
-                    UserCardMilitariesService.Create().GetUserCardMilitariesTeamsCountAsync(User.CurrentUserId, team.TeamId),
-                    UserCardSpellsService.Create().GetUserCardSpellsTeamsCountAsync(User.CurrentUserId, team.TeamId)
-                    };
-
-                    // Đợi 8 task của riêng team này hoàn thành
-                    await Task.WhenAll(tasks);
-
-                    return new
-                    {
-                        Info = team,
-                        Tasks = tasks // Giữ nguyên List<Task<int>> để logic UI bên dưới không bị lỗi .Result
-                    };
-                }
-                finally
-                {
-                    semaphore.Release();
-                }
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                this.TeamId = tempTeamId;
+                this.TeamNumber = tempTeamPositionIndex;
+                CreatePopupTeamFirstPanel();
             });
-
-            // Chạy tất cả các nhóm data
-            var teamDataResults = await Task.WhenAll(dataTasks);
-            var teamDataList = teamDataResults.ToList();
-
-            // --- HẾT PHẦN CHỈNH SỬA ---
-
-            // 3. Khởi tạo UI (Giữ nguyên logic bên dưới của bạn)
-            string[] titles = {
-            AppDisplayConstants.Title.CARD_HEROES, AppDisplayConstants.Title.CARD_CAPTAINS,
-            AppDisplayConstants.Title.CARD_COLONELS, AppDisplayConstants.Title.CARD_GENERALS,
-            AppDisplayConstants.Title.CARD_ADMIRALS, AppDisplayConstants.Title.CARD_MONSTERS,
-            AppDisplayConstants.Title.CARD_MILITARIES, AppDisplayConstants.Title.CARD_SPELLS
-        };
-
-            string[] backgrounds = {
-            "UI/Background4/Item_Background_9", "UI/Background4/Item_Background_10",
-            "UI/Background4/Item_Background_9", "UI/Background4/Item_Background_10",
-            "UI/Background4/Item_Background_9", "UI/Background4/Item_Background_10",
-            "UI/Background4/Item_Background_9", "UI/Background4/Item_Background_10"
-        };
-
-            foreach (var teamData in teamDataList)
-            {
-                var team = teamData.Info;
-                GameObject teamPositionObject = Instantiate(TeamsPositionPrefab, positionTeamsPanel);
-                Transform transform = teamPositionObject.transform;
-
-                transform.Find("TeamNumberText").GetComponent<TextMeshProUGUI>().text = team.TeamNumber.ToString();
-                transform.Find("AvatarImage").GetComponent<RawImage>().texture = TextureHelper.LoadTextureCached(team.TeamAvatar);
-                transform.Find("BorderImage").GetComponent<RawImage>().texture = TextureHelper.LoadTextureCached(team.TeamBorder);
-
-                Transform cardContent = transform.Find("Content");
-
-                for (int i = 0; i < 8; i++)
-                {
-                    // .Result ở đây sẽ an toàn vì chúng ta đã await Task.WhenAll(tasks) ở trên rồi
-                    int count = teamData.Tasks[i].Result;
-                    CreateCardTypeItem(cardContent, titles[i], count, backgrounds[i]);
-                }
-
-                string tempTeamId = team.TeamId;
-                int tempTeamPositionIndex = team.TeamNumber;
-                transform.Find("ChangeCardButton").GetComponent<Button>().onClick.AddListener(() =>
-                {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    this.TeamId = tempTeamId;
-                    this.TeamNumber = tempTeamPositionIndex;
-                    CreatePopupTeamFirstPanel();
-                });
-            }
         }
     }
     // Hàm phụ giúp tạo các item con bên trong Team Content
@@ -239,17 +175,17 @@ public class TeamsManager : MonoBehaviour
         TitleText = transform.Find("DictionaryCards/Title").GetComponent<Text>();
         // ScrollRect scrollRect = teamObject.transform.Find("DictionaryCards/ScrollViewPosition").GetComponent<ScrollRect>();
         Transform teamSlotPanel = transform.Find("DictionaryCards/ScrollViewPosition/Viewport/Content");
-        Transform tempLeftContent = transform.Find("ScrollViewLeft/Viewport/Content");
-        Transform tempRightContent = transform.Find("ScrollViewRight/Viewport/Content");
-        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(async () =>
+        Transform leftContentTransform = transform.Find("Group2/Scroll View/Viewport/Content");
+        Transform rightContentTransform = transform.Find("Group1/Scroll View/Viewport/Content");
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(PopupTeamFirstObject);
             await CreateTeamsAsync();
         });
-        HomeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() =>
+        Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
@@ -258,31 +194,64 @@ public class TeamsManager : MonoBehaviour
         TextMeshProUGUI numberText = transform.Find("DictionaryCards/TeamPanel/NumberText").GetComponent<TextMeshProUGUI>();
         numberText.text = TeamNumber.ToString();
 
-        _ = CreatePositionAsync(teamSlotPanel);
+        // Danh sách lưu trữ các UI Tab để quản lý toggle trạng thái Selected / Default
+        List<(GameObject defaultObj, GameObject selectedObj)> tabUIList = new List<(GameObject, GameObject)>();
+
+        for (int i = 1; i <= 10; i++)
+        {
+            // Lưu biến tạm cho biến đếm i để tránh closure issue trong lambda expression của onClick
+            int categoryIndex = i;
+            string category = categoryIndex.ToString();
+
+            // Instantiate tab button và đặt parent vào Content của Tab Scroll View
+            GameObject topupTabButtonObject = Instantiate(PositionButtonPrefab, rightContentTransform);
+
+            GameObject defaultObj = topupTabButtonObject.transform.Find("Default").gameObject;
+            GameObject selectedObj = topupTabButtonObject.transform.Find("Selected").gameObject;
+
+            TextMeshProUGUI titleText1 = defaultObj.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText2 = selectedObj.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+
+            titleText1.text = category;
+            titleText2.text = category;
+
+            // Trạng thái mặc định: Phần tử đầu tiên (i == 1) sẽ Active Selected, còn lại Active Default
+            bool isFirst = (i == 1);
+            defaultObj.SetActive(!isFirst);
+            selectedObj.SetActive(isFirst);
+
+            tabUIList.Add((defaultObj, selectedObj));
+
+            // Đăng ký sự kiện Click cho Tab Button
+            Button tabBtn = topupTabButtonObject.GetComponent<Button>();
+            tabBtn.onClick.AddListener(async () =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND_2);
+
+                // 1. Chuyển tất cả các Tab về dạng Default
+                foreach (var tabUI in tabUIList)
+                {
+                    tabUI.defaultObj.SetActive(true);
+                    tabUI.selectedObj.SetActive(false);
+                }
+
+                // 2. Bật dạng Selected cho Tab vừa được click
+                defaultObj.SetActive(false);
+                selectedObj.SetActive(true);
+
+                // Gọi hàm load/filter danh sách gói nạp theo category
+                await CreatePositionAsync(category, leftContentTransform);
+            });
+        }
+
+        // Load gói nạp của Tab đầu tiên ("1")
+        _= CreatePositionAsync("1", leftContentTransform);
+
+        // _ = CreatePositionAsync(teamSlotPanel);
     }
-    public async Task CreatePositionAsync(Transform slotPanel)
+    public async Task CreatePositionAsync(string positionIndex, Transform slotPanel)
     {
         ButtonEvent.Instance.Close(slotPanel);
-
-        // var taskCardHero = userCardHeroesService.GetUserCardHeroesTeamWithoutPositionAsync(User.CurrentUserId, teamId);
-        // var taskCardCaptain = userCardCaptainsService.GetUserCardCaptainsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
-        // var taskCardColonel = userCardColonelsService.GetUserCardColonelsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
-        // var taskCardGeneral = userCardGeneralsService.GetUserCardGeneralsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
-        // var taskCardAdmiral = userCardAdmiralsService.GetUserCardAdmiralsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
-        // var taskCardMonster = userCardMonstersService.GetUserCardMonstersTeamWithoutPositionAsync(User.CurrentUserId, teamId);
-        // var taskCardMilitary = userCardMilitariesService.GetUserCardMilitariesTeamWithoutPositionAsync(User.CurrentUserId, teamId);
-        // var taskCardSpell = userCardSpellsService.GetUserCardSpellsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
-
-        // await Task.WhenAll(taskCardHero, taskCardCaptain, taskCardColonel, taskCardGeneral, taskCardAdmiral, taskCardMonster, taskCardMilitary, taskCardSpell);
-
-        // List<CardHeroes> cardHeroList = await taskCardHero;
-        // List<CardCaptains> cardCaptainList = await taskCardCaptain;
-        // List<CardColonels> cardColonelList = await taskCardColonel;
-        // List<CardGenerals> cardGeneralList = await taskCardGeneral;
-        // List<CardAdmirals> cardAdmiralList = await taskCardAdmiral;
-        // List<CardMonsters> cardMonsterList = await taskCardMonster;
-        // List<CardMilitaries> cardMilitaryList = await taskCardMilitary;
-        // List<CardSpells> cardSpellList = await taskCardSpell;
         UserStatsContextDTO sharedContext = await UserStatsService.Create().GetUserStatsContextAsync(User.CurrentUserId);
 
         List<CardHeroes> cardHeroList = await UserCardHeroesService.Create().GetUserCardHeroesTeamWithoutPositionAsync(User.CurrentUserId, TeamId, sharedContext);

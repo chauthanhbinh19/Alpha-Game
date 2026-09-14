@@ -26,30 +26,30 @@ public class TeamsService : ITeamsService
     public async Task<double> GetTeamsPowerAsync(string userId)
     {
         UserStatsContextDTO sharedContext = await UserStatsService.Create().GetUserStatsContextAsync(userId);
-        BaseStats cardHeroesStats = await UserCardHeroesService.Create().GetTeamTotalStatsAsync(userId, sharedContext);
-        BaseStats cardCaptainsStats = await UserCardCaptainsService.Create().GetTeamTotalStatsAsync(userId, sharedContext);
-        BaseStats cardColonelsStats = await UserCardColonelsService.Create().GetTeamTotalStatsAsync(userId, sharedContext);
-        BaseStats cardGeneralsStats = await UserCardGeneralsService.Create().GetTeamTotalStatsAsync(userId, sharedContext);
-        BaseStats cardAdmiralsStats = await UserCardAdmiralsService.Create().GetTeamTotalStatsAsync(userId, sharedContext);
-        BaseStats cardMonstersStats = await UserCardMonstersService.Create().GetTeamTotalStatsAsync(userId, sharedContext);
-        BaseStats cardMilitariesStats = await UserCardMilitariesService.Create().GetTeamTotalStatsAsync(userId, sharedContext);
-        BaseStats cardSpellsStats = await UserCardSpellsService.Create().GetTeamTotalStatsAsync(userId, sharedContext);
-        BaseStats booksStats = await UserBooksService.Create().GetTeamTotalStatsAsync(userId, sharedContext);
-        BaseStats petsStats = await UserPetsService.Create().GetTeamTotalStatsAsync(userId, sharedContext);
+        List<CardHeroes> cardHeroesStats = await UserCardHeroesService.Create().GetUserCardHeroesInTeamAsync(userId, sharedContext);
+        List<CardCaptains> cardCaptainsStats = await UserCardCaptainsService.Create().GetUserCardCaptainsInTeamAsync(userId, sharedContext);
+        List<CardColonels> cardColonelsStats = await UserCardColonelsService.Create().GetUserCardColonelsInTeamAsync(userId, sharedContext);
+        List<CardGenerals> cardGeneralsStats = await UserCardGeneralsService.Create().GetUserCardGeneralsInTeamAsync(userId, sharedContext);
+        List<CardAdmirals> cardAdmiralsStats = await UserCardAdmiralsService.Create().GetUserCardAdmiralsInTeamAsync(userId, sharedContext);
+        List<CardMonsters> cardMonstersStats = await UserCardMonstersService.Create().GetUserCardMonstersInTeamAsync(userId, sharedContext);
+        List<CardMilitaries> cardMilitariesStats = await UserCardMilitariesService.Create().GetUserCardMilitariesInTeamAsync(userId, sharedContext);
+        List<CardSpells> cardSpellsStats = await UserCardSpellsService.Create().GetUserCardSpellsInTeamAsync(userId, sharedContext);
+        // List<Books> booksStats = await UserBooksService.Create().GetTeamTotalStatsAsync(userId, sharedContext);
+        // List<Pets> petsStats = await UserPetsService.Create().GetTeamTotalStatsAsync(userId, sharedContext);
 
         double totalPower = 0;
 
         // Sử dụng Sum() của LINQ
-        totalPower += cardHeroesStats.Power;
-        totalPower += cardCaptainsStats.Power;
-        totalPower += cardColonelsStats.Power;
-        totalPower += cardGeneralsStats.Power;
-        totalPower += cardAdmiralsStats.Power;
-        totalPower += cardMonstersStats.Power;
-        totalPower += cardMilitariesStats.Power;
-        totalPower += cardSpellsStats.Power;
-        totalPower += booksStats.Power;
-        totalPower += petsStats.Power;
+        totalPower += cardHeroesStats.Sum(c => c.Power);
+        totalPower += cardCaptainsStats.Sum(c => c.Power);
+        totalPower += cardColonelsStats.Sum(c => c.Power);
+        totalPower += cardGeneralsStats.Sum(c => c.Power);
+        totalPower += cardAdmiralsStats.Sum(c => c.Power);
+        totalPower += cardMonstersStats.Sum(c => c.Power);
+        totalPower += cardMilitariesStats.Sum(c => c.Power);
+        totalPower += cardSpellsStats.Sum(c => c.Power);
+        // totalPower += booksStats.Power;
+        // totalPower += petsStats.Power;
 
         await UserService.Create().UpdateUserPowerAsync(userId, totalPower);
 

@@ -1247,7 +1247,7 @@ public class UserPetsRepository : IUserPetsRepository
                 INNER JOIN teams t ON uc.team_id = t.team_id AND t.is_main = 1
                 LEFT JOIN user_pets_module ubm ON uc.pet_id = ubm.user_pet_id
                 LEFT JOIN user_pets_upgrade ubu ON uc.pet_id = ubu.user_pet_id
-                WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL AND 
+                WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL 
             )
             SELECT 
                 SUM(health * total_multiplier) AS health,
