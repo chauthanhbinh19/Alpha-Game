@@ -499,4 +499,83 @@ public class UserRepository : IUserRepository
             }
         }
     }
+    public async Task<List<UserRankDTO>> GetTop100LeaderboardAsync()
+    {
+        var leaderboard = new List<UserRankDTO>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        string sql = @"
+        SELECT * FROM (
+            SELECT 
+                DENSE_RANK() OVER (ORDER BY power DESC) AS `Rank`,
+                id AS UserId, 
+                username AS Username, 
+                power AS Power
+            FROM users
+        ) AS ranked_users
+        WHERE `Rank` <= 100;";
+
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            await connection.OpenAsync();
+
+            using (var command = new MySqlCommand(sql, connection))
+            using (var reader = await command.ExecuteReaderAsync())
+            {
+                while (await reader.ReadAsync())
+                {
+                    leaderboard.Add(new UserRankDTO
+                    {
+                        Rank = reader.GetInt32("Rank"),
+                        UserId = reader.GetString("UserId"),
+                        Username = reader.GetString("Username"),
+                        Power = reader.GetInt64("Power")
+                    });
+                }
+            }
+        }
+
+        return leaderboard;
+    }
+    public async Task<UserRankDTO> GetUserRankAsync(string userId)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        
+        string sql = @"
+        SELECT `Rank`, UserId, Username, Power FROM (
+            SELECT 
+                DENSE_RANK() OVER (ORDER BY power DESC) AS `Rank`,
+                id AS UserId, 
+                username AS Username, 
+                power AS Power
+            FROM users
+        ) AS ranked_users
+        WHERE UserId = @UserId;";
+
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            await connection.OpenAsync();
+
+            using (var command = new MySqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@UserId", userId);
+
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    if (await reader.ReadAsync())
+                    {
+                        return new UserRankDTO
+                        {
+                            Rank = reader.GetInt32("Rank"),
+                            UserId = reader.GetString("UserId"),
+                            Username = reader.GetString("Username"),
+                            Power = reader.GetInt64("Power")
+                        };
+                    }
+                }
+            }
+        }
+
+        return null; // Không tìm thấy user
+    }
 }

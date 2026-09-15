@@ -10,7 +10,7 @@ public interface IUserCardMonstersService
     Task<List<CardMonsters>> GetUserCardMonstersTeamAsync(string userId, string teamId, string position, UserStatsContextDTO sharedContext = null);
     Task<List<CardMonsters>> GetUserCardMonstersTeamWithoutPositionAsync(string userId, string teamId, UserStatsContextDTO sharedContext = null);
     Task<List<CardMonsters>> GetUserCardMonstersInTeamAsync(string userId, UserStatsContextDTO sharedContext = null);
-    Task<List<CardMonsters>> GetUserCardMonstersInTeamSimpleAsync(string userId);
+    Task<List<CardMonsters>> GetUserCardMonstersInTeamSimpleAsync(string userId, string teamId);
     Task<Dictionary<string, int>> GetUniqueUserCardMonstersTypesTeamAsync(string userId, string teamId);
     Task<InsertOrUpdateResult<bool>> UpdateTeamUserCardMonsterAsync(string userId, string teamId, string position, string cardId);
     Task<int> GetUserCardMonstersCountAsync(string userId, string search, string type, string rare);

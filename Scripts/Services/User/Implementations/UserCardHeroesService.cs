@@ -486,9 +486,9 @@ public class UserCardHeroesService : IUserCardHeroesService
         return result;
     }
 
-    public async Task<List<CardHeroes>> GetUserCardHeroesInTeamSimpleAsync(string userId)
+    public async Task<List<CardHeroes>> GetUserCardHeroesInTeamSimpleAsync(string userId, string teamId)
     {
-        return await _userCardHeroesRepository.GetUserCardHeroesInTeamSimpleAsync(userId);
+        return await _userCardHeroesRepository.GetUserCardHeroesInTeamSimpleAsync(userId, teamId);
     }
 
     // public async Task<List<CardHeroes>> GetUserCardHeroesTeamWithoutPositionAsync(string userId, string teamId, UserStatsContextDTO sharedContext = null)

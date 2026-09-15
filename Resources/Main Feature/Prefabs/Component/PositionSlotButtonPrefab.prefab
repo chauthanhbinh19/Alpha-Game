@@ -307,7 +307,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 4782304894149164473}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -1794,7 +1794,7 @@ GameObject:
   - component: {fileID: 3676726855641514897}
   - component: {fileID: 6634403180130177744}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TitleText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

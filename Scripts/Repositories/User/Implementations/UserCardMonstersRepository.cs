@@ -943,7 +943,7 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
 
         return cardMonsters;
     }
-    public async Task<List<CardMonsters>> GetUserCardMonstersInTeamSimpleAsync(string userId)
+    public async Task<List<CardMonsters>> GetUserCardMonstersInTeamSimpleAsync(string userId, string teamId)
     {
         List<CardMonsters> cardMonsters = new List<CardMonsters>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -973,12 +973,13 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
                 INNER JOIN card_monsters c ON uc.card_monster_id = c.id
                 LEFT JOIN teams t ON t.team_id = uc.team_id
             WHERE uc.user_id = @userId 
-                AND t.is_main = 1
+                AND t.team_id = @team_id
                 AND c.is_active = TRUE AND c.is_deleted = FALSE
         ";
 
             await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
             selectCommand.Parameters.AddWithValue("@userId", userId);
+            selectCommand.Parameters.AddWithValue("@team_id", teamId);
 
             await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
 

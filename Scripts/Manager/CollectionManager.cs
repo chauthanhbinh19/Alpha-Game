@@ -13,7 +13,6 @@ public class CollectionManager : MonoBehaviour
     private Transform DictionaryContentPanel;
     private Transform RightScrollViewContentPanel;
     private Transform LeftScrollViewContentPanel;
-    private Material UI_Green_Gradient_Radius_Mat_MaskPercent_70;
     private Transform MainPanel;
     private Button CloseButton;
     private Button HomeButton;
@@ -300,7 +299,6 @@ public class CollectionManager : MonoBehaviour
     {
         collectionMenuPanel = tempCollectionMenuPanel;
         DictionaryPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.DICTIONARY_PANEL_PREFAB);
-        UI_Green_Gradient_Radius_Mat_MaskPercent_70 = MaterialManager.Instance.Get("UI_Green_Gradient_Radius_Mat_MaskPercent_70");
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
 
         AssignButtonEvent("Button_1", () => GetType(AppConstants.MainType.CARD_HERO));
@@ -406,8 +404,12 @@ public class CollectionManager : MonoBehaviour
             Close(MainPanel);
         });
 
-        Image topBackgroundImage = transform.Find("DictionaryCards/TitleGroup/TopBackground").GetComponent<Image>();
-        topBackgroundImage.material = UI_Green_Gradient_Radius_Mat_MaskPercent_70;
+        RawImage inventoryBackgroundImage = transform.Find("DictionaryCards/TitleGroup/TopBackground/InventoryBackground").GetComponent<RawImage>();
+        RawImage collectionBackgroundImage = transform.Find("DictionaryCards/TitleGroup/TopBackground/CollectionBackground").GetComponent<RawImage>();
+        RawImage galleryBackgroundImage = transform.Find("DictionaryCards/TitleGroup/TopBackground/GalleryBackground").GetComponent<RawImage>();
+        inventoryBackgroundImage.gameObject.SetActive(false);
+        collectionBackgroundImage.gameObject.SetActive(true);
+        galleryBackgroundImage.gameObject.SetActive(false);
         TextMeshProUGUI subTitleText = transform.Find("DictionaryCards/TitleGroup/TitleText").GetComponent<TextMeshProUGUI>();
         subTitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.COLLECTION);
 

@@ -34,8 +34,6 @@ public class TeamsManager : MonoBehaviour
     private GameObject PopupCardPanelObject;
     private GameObject PositionButtonPrefab;
     private GameObject PositionSlotButtonPrefab;
-    private Button CloseButton;
-    private Button HomeButton;
     private TextMeshProUGUI PowerText;
     // private int offset;
     private string SelectedOptionName;
@@ -109,7 +107,7 @@ public class TeamsManager : MonoBehaviour
         Transform tempRightContent = transform.Find("ScrollViewRight/Viewport/Content");
         Transform positionTeamsPanel = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         TextMeshProUGUI teamsTitleText = transform.Find("DictionaryCards/TeamsTitleText").GetComponent<TextMeshProUGUI>();
-        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -118,8 +116,8 @@ public class TeamsManager : MonoBehaviour
                 Destroy(child.gameObject);
             }
         });
-        Button HomeButton = transform.Find("HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() =>
+        Button homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
@@ -172,7 +170,8 @@ public class TeamsManager : MonoBehaviour
     {
         PopupTeamFirstObject = Instantiate(PopupTeamFirstPrefab, MainPanel);
         Transform transform = PopupTeamFirstObject.transform;
-        TitleText = transform.Find("DictionaryCards/Title").GetComponent<Text>();
+        TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
+        titleText.text = "A";
         // ScrollRect scrollRect = teamObject.transform.Find("DictionaryCards/ScrollViewPosition").GetComponent<ScrollRect>();
         Transform teamSlotPanel = transform.Find("DictionaryCards/ScrollViewPosition/Viewport/Content");
         Transform leftContentTransform = transform.Find("Group2/Scroll View/Viewport/Content");
@@ -200,8 +199,8 @@ public class TeamsManager : MonoBehaviour
         for (int i = 1; i <= 10; i++)
         {
             // Lưu biến tạm cho biến đếm i để tránh closure issue trong lambda expression của onClick
-            int categoryIndex = i;
-            string category = categoryIndex.ToString();
+            int positionIndex = i;
+            string position = positionIndex.ToString();
 
             // Instantiate tab button và đặt parent vào Content của Tab Scroll View
             GameObject topupTabButtonObject = Instantiate(PositionButtonPrefab, rightContentTransform);
@@ -212,8 +211,8 @@ public class TeamsManager : MonoBehaviour
             TextMeshProUGUI titleText1 = defaultObj.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI titleText2 = selectedObj.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
 
-            titleText1.text = category;
-            titleText2.text = category;
+            titleText1.text = position;
+            titleText2.text = position;
 
             // Trạng thái mặc định: Phần tử đầu tiên (i == 1) sẽ Active Selected, còn lại Active Default
             bool isFirst = (i == 1);
@@ -240,92 +239,105 @@ public class TeamsManager : MonoBehaviour
                 selectedObj.SetActive(true);
 
                 // Gọi hàm load/filter danh sách gói nạp theo category
-                await CreatePositionAsync(category, leftContentTransform);
+                await LoadPositionSlotAsync(positionIndex, leftContentTransform);
             });
         }
 
         // Load gói nạp của Tab đầu tiên ("1")
-        _= CreatePositionAsync("1", leftContentTransform);
+        _ = LoadPositionSlotAsync(1, leftContentTransform);
 
         // _ = CreatePositionAsync(teamSlotPanel);
     }
-    public async Task CreatePositionAsync(string positionIndex, Transform slotPanel)
+    public async Task LoadPositionSlotAsync(int positionIndex, Transform contentTransform)
     {
-        ButtonEvent.Instance.Close(slotPanel);
-        UserStatsContextDTO sharedContext = await UserStatsService.Create().GetUserStatsContextAsync(User.CurrentUserId);
+        ButtonEvent.Instance.Close(contentTransform);
+        // UserStatsContextDTO sharedContext = await UserStatsService.Create().GetUserStatsContextAsync(User.CurrentUserId);
+        TeamPositionIndex = positionIndex;
+        List<CardHeroes> cardHeroList = await UserCardHeroesService.Create().GetUserCardHeroesInTeamSimpleAsync(User.CurrentUserId, TeamId);
+        List<CardCaptains> cardCaptainList = await UserCardCaptainsService.Create().GetUserCardCaptainsTeamWithoutPositionAsync(User.CurrentUserId, TeamId);
+        List<CardColonels> cardColonelList = await UserCardColonelsService.Create().GetUserCardColonelsTeamWithoutPositionAsync(User.CurrentUserId, TeamId);
+        List<CardGenerals> cardGeneralList = await UserCardGeneralsService.Create().GetUserCardGeneralsTeamWithoutPositionAsync(User.CurrentUserId, TeamId);
+        List<CardAdmirals> cardAdmiralList = await UserCardAdmiralsService.Create().GetUserCardAdmiralsTeamWithoutPositionAsync(User.CurrentUserId, TeamId);
+        List<CardMonsters> cardMonsterList = await UserCardMonstersService.Create().GetUserCardMonstersTeamWithoutPositionAsync(User.CurrentUserId, TeamId);
+        List<CardMilitaries> cardMilitaryList = await UserCardMilitariesService.Create().GetUserCardMilitariesTeamWithoutPositionAsync(User.CurrentUserId, TeamId);
+        List<CardSpells> cardSpellList = await UserCardSpellsService.Create().GetUserCardSpellsTeamWithoutPositionAsync(User.CurrentUserId, TeamId);
+        List<CardSoldiers> cardSoldierList = await UserCardSoldiersService.Create().GetUserCardSoldiersInTeamSimpleAsync(User.CurrentUserId, TeamId);
 
-        List<CardHeroes> cardHeroList = await UserCardHeroesService.Create().GetUserCardHeroesTeamWithoutPositionAsync(User.CurrentUserId, TeamId, sharedContext);
-        List<CardCaptains> cardCaptainList = await UserCardCaptainsService.Create().GetUserCardCaptainsTeamWithoutPositionAsync(User.CurrentUserId, TeamId, sharedContext);
-        List<CardColonels> cardColonelList = await UserCardColonelsService.Create().GetUserCardColonelsTeamWithoutPositionAsync(User.CurrentUserId, TeamId, sharedContext);
-        List<CardGenerals> cardGeneralList = await UserCardGeneralsService.Create().GetUserCardGeneralsTeamWithoutPositionAsync(User.CurrentUserId, TeamId, sharedContext);
-        List<CardAdmirals> cardAdmiralList = await UserCardAdmiralsService.Create().GetUserCardAdmiralsTeamWithoutPositionAsync(User.CurrentUserId, TeamId, sharedContext);
-        List<CardMonsters> cardMonsterList = await UserCardMonstersService.Create().GetUserCardMonstersTeamWithoutPositionAsync(User.CurrentUserId, TeamId, sharedContext);
-        List<CardMilitaries> cardMilitaryList = await UserCardMilitariesService.Create().GetUserCardMilitariesTeamWithoutPositionAsync(User.CurrentUserId, TeamId, sharedContext);
-        List<CardSpells> cardSpellList = await UserCardSpellsService.Create().GetUserCardSpellsTeamWithoutPositionAsync(User.CurrentUserId, TeamId, sharedContext);
+        var cardHeroes = cardHeroList
+            .Where(c => !string.IsNullOrEmpty(c.Position) && GetX(c.Position) == positionIndex)
+            .ToList();
 
-        for (int i = 1; i <= 10; i++)
+        var cardCaptains = cardCaptainList
+            .Where(c => !string.IsNullOrEmpty(c.Position) && GetX(c.Position) == positionIndex)
+            .ToList();
+
+        var cardColonels = cardColonelList
+            .Where(c => !string.IsNullOrEmpty(c.Position) && GetX(c.Position) == positionIndex)
+            .ToList();
+
+        var cardGenerals = cardGeneralList
+            .Where(c => !string.IsNullOrEmpty(c.Position) && GetX(c.Position) == positionIndex)
+            .ToList();
+
+        var cardAdmirals = cardAdmiralList
+            .Where(c => !string.IsNullOrEmpty(c.Position) && GetX(c.Position) == positionIndex)
+            .ToList();
+
+        var cardMilitaries = cardMilitaryList
+            .Where(c => !string.IsNullOrEmpty(c.Position) && GetX(c.Position) == positionIndex)
+            .ToList();
+
+        var cardMonsters = cardMonsterList
+            .Where(c => !string.IsNullOrEmpty(c.Position) && GetX(c.Position) == positionIndex)
+            .ToList();
+
+        var cardSoldiers = cardSoldierList
+            .Where(c => !string.IsNullOrEmpty(c.Position) && GetX(c.Position) == positionIndex)
+            .ToList();
+
+        var cardSpells = cardSpellList
+            .Where(c => !string.IsNullOrEmpty(c.Position) && GetX(c.Position) == positionIndex)
+            .ToList();
+
+        CreatePositionSlotAsync(cardHeroes.Count, AppDisplayConstants.Title.CARD_HEROES, contentTransform);
+        CreatePositionSlotAsync(cardCaptains.Count, AppDisplayConstants.Title.CARD_CAPTAINS, contentTransform);
+        CreatePositionSlotAsync(cardColonels.Count, AppDisplayConstants.Title.CARD_COLONELS, contentTransform);
+        CreatePositionSlotAsync(cardGenerals.Count, AppDisplayConstants.Title.CARD_GENERALS, contentTransform);
+        CreatePositionSlotAsync(cardAdmirals.Count, AppDisplayConstants.Title.CARD_ADMIRALS, contentTransform);
+        CreatePositionSlotAsync(cardMonsters.Count, AppDisplayConstants.Title.CARD_MONSTERS, contentTransform);
+        CreatePositionSlotAsync(cardMilitaries.Count, AppDisplayConstants.Title.CARD_MILITARIES, contentTransform);
+        CreatePositionSlotAsync(cardSoldiers.Count, AppDisplayConstants.Title.CARD_SOLDIERS, contentTransform);
+        CreatePositionSlotAsync(cardSpells.Count, AppDisplayConstants.Title.CARD_SPELLS, contentTransform);
+    }
+    public void CreatePositionSlotAsync(int slotNumber, string titleDisplayed, Transform contentTransform)
+    {
+        GameObject positionSlotButtonObject = Instantiate(PositionSlotButtonPrefab, contentTransform);
+
+        TextMeshProUGUI titleText = positionSlotButtonObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+        titleText.text = LocalizationManager.Get(titleDisplayed);
+
+        Button editButton = positionSlotButtonObject.transform.Find("EditButton").GetComponent<Button>();
+        TextMeshProUGUI editText = editButton.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+        editText.text = LocalizationManager.Get(AppDisplayConstants.Title.EDIT);
+
+        editButton.onClick.AddListener(async () =>
         {
-            int tempPositionIndex = i;
-            GameObject teamSlotFirstObject = Instantiate(TeamSlotFirstPrefab, slotPanel);
-            Transform transform = teamSlotFirstObject.transform;
+           await CreatePopupTeamSecondPanelAsync(); 
+        });
 
-            TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI quantityText = transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            RawImage circleImage = transform.Find("CircleImage").GetComponent<RawImage>();
-            circleImage.gameObject.AddComponent<RotateAnimation>();
-            Button emblemButton = transform.Find("EmblemButton").GetComponent<Button>();
+        Transform content = positionSlotButtonObject.transform.Find("Content");
+        UpdateMemberIcons(content, slotNumber);
+    }
+    public void UpdateMemberIcons(Transform contentPanel, int count)
+    {
+        // Đảm bảo số lượng nằm trong khoảng từ 0 đến số con hiện có (10)
+        int totalChildren = contentPanel.childCount;
 
-            var emblemData = BuildEmblemPopupData(
-                cardHeroList,
-                cardCaptainList,
-                cardColonelList,
-                cardGeneralList,
-                cardAdmiralList,
-                cardMonsterList,
-                cardMilitaryList,
-                cardSpellList
-            );
-
-            emblemButton.onClick.AddListener(() =>
-            {
-                TeamPositionIndex = tempPositionIndex;
-                CreateEmblemPanel(emblemData);
-            });
-
-            Button cardHeroButton = transform.Find("ButtonGroup/CardHeroButton").GetComponent<Button>();
-            Button cardCaptainButton = transform.Find("ButtonGroup/CardCaptainButton").GetComponent<Button>();
-            Button cardColonelButton = transform.Find("ButtonGroup/CardColonelButton").GetComponent<Button>();
-            Button cardGeneralButton = transform.Find("ButtonGroup/CardGeneralButton").GetComponent<Button>();
-            Button cardAdmiralButton = transform.Find("ButtonGroup/CardAdmiralButton").GetComponent<Button>();
-            Button cardMonsterButton = transform.Find("ButtonGroup/CardMonsterButton").GetComponent<Button>();
-            Button cardMilitaryButton = transform.Find("ButtonGroup/CardMilitaryButton").GetComponent<Button>();
-            Button cardSpellButton = transform.Find("ButtonGroup/CardSpellButton").GetComponent<Button>();
-
-            cardHeroButton.onClick.AddListener(async () => await OnCardClickAsync(tempPositionIndex, AppConstants.MainType.CARD_HERO));
-            cardCaptainButton.onClick.AddListener(async () => await OnCardClickAsync(tempPositionIndex, AppConstants.MainType.CARD_CAPTAIN));
-            cardColonelButton.onClick.AddListener(async () => await OnCardClickAsync(tempPositionIndex, AppConstants.MainType.CARD_COLONEL));
-            cardGeneralButton.onClick.AddListener(async () => await OnCardClickAsync(tempPositionIndex, AppConstants.MainType.CARD_GENERAL));
-            cardAdmiralButton.onClick.AddListener(async () => await OnCardClickAsync(tempPositionIndex, AppConstants.MainType.CARD_ADMIRAL));
-            cardMonsterButton.onClick.AddListener(async () => await OnCardClickAsync(tempPositionIndex, AppConstants.MainType.CARD_MONSTER));
-            cardMilitaryButton.onClick.AddListener(async () => await OnCardClickAsync(tempPositionIndex, AppConstants.MainType.CARD_MILITARY));
-            cardSpellButton.onClick.AddListener(async () => await OnCardClickAsync(tempPositionIndex, AppConstants.MainType.CARD_SPELL));
-
-            titleText.text = "Slot " + i.ToString();
-            quantityText.text = i.ToString();
-
-            // Tối ưu bằng cách lấy Group Transform một lần
-            Transform process = transform.Find("Process");
-            string slotPrefix = $"{i}-";
-
-            // 2. Cập nhật thủ công từng thanh để tránh dùng 'dynamic' gây lỗi CS0656
-            UpdateBarManual(process.Find("CardHeroBar"), cardHeroList.Count(c => c.Position?.StartsWith(slotPrefix) == true), ColorConstants.Card.CARD_HERO_COLOR);
-            UpdateBarManual(process.Find("CardCaptainBar"), cardCaptainList.Count(c => c.Position?.StartsWith(slotPrefix) == true), ColorConstants.Card.CARD_CAPTAIN_COLOR);
-            UpdateBarManual(process.Find("CardColonelBar"), cardColonelList.Count(c => c.Position?.StartsWith(slotPrefix) == true), ColorConstants.Card.CARD_COLONEL_COLOR);
-            UpdateBarManual(process.Find("CardGeneralBar"), cardGeneralList.Count(c => c.Position?.StartsWith(slotPrefix) == true), ColorConstants.Card.CARD_GENERAL_COLOR);
-            UpdateBarManual(process.Find("CardAdmiralBar"), cardAdmiralList.Count(c => c.Position?.StartsWith(slotPrefix) == true), ColorConstants.Card.CARD_ADMIRAL_COLOR);
-            UpdateBarManual(process.Find("CardMonsterBar"), cardMonsterList.Count(c => c.Position?.StartsWith(slotPrefix) == true), ColorConstants.Card.CARD_MONSTER_COLOR);
-            UpdateBarManual(process.Find("CardMilitaryBar"), cardMilitaryList.Count(c => c.Position?.StartsWith(slotPrefix) == true), ColorConstants.Card.CARD_MILITARY_COLOR);
-            UpdateBarManual(process.Find("CardSpellBar"), cardSpellList.Count(c => c.Position?.StartsWith(slotPrefix) == true), ColorConstants.Card.CARD_SPELL_COLOR);
+        for (int i = 0; i < totalChildren; i++)
+        {
+            // Nếu chỉ số i nhỏ hơn count thì BẬT (true), ngược lại TẮT (false)
+            bool isActive = i < count;
+            contentPanel.GetChild(i).gameObject.SetActive(isActive);
         }
     }
     // Hàm hỗ trợ để không phải viết lặp đi lặp lại GetComponent
@@ -409,8 +421,8 @@ public class TeamsManager : MonoBehaviour
         Transform transform = popupTeamEmblemPanelObject.transform;
 
         Transform contentPanel = transform.Find("Scroll View/Viewport/Content");
-        CloseButton = transform.Find("CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(popupTeamEmblemPanelObject);
@@ -645,15 +657,15 @@ public class TeamsManager : MonoBehaviour
         PositionPanel = transform.Find("DictionaryCards/ScrollViewPosition/Viewport/Content");
         Transform tempLeftContent = transform.Find("ScrollViewLeft/Viewport/Content");
         Transform tempRightContent = transform.Find("ScrollViewRight/Viewport/Content");
-        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(PopupTeamSecondObject);
             CreatePopupTeamFirstPanel();
         });
-        HomeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() =>
+        Button homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
@@ -911,8 +923,8 @@ public class TeamsManager : MonoBehaviour
         NextButton = transform.Find("Pagination/Next").GetComponent<Button>();
         PreviousButton = transform.Find("Pagination/Previous").GetComponent<Button>();
         TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-        CloseButton = transform.Find("CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(PopupCardPanelObject);

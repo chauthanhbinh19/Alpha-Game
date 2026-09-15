@@ -169,6 +169,12 @@ public static class AppDisplayConstants
         public const string USERNAME = "username";
         public const string PASSWORD = "password";
         public const string FEATURE = "Title.Feature";
+        public const string ADD = "Title.Add";
+        public const string INSERT = "Title.Insert";
+        public const string UPDATE = "Title.Update";
+        public const string EDIT = "Title.Edit";
+        public const string REMOVE = "Title.Remove";
+        public const string DELETE = "Title.Delete";
 
         public const string ACHIEVEMENT = "Title.Achievement";
         public const string ACHIEVEMENTS = "Title.Achievements";

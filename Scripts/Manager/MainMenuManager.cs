@@ -26,7 +26,6 @@ public class MainMenuManager : MonoBehaviour
 
     private Transform PositionPanel;
     private GameObject CurrentObject;
-    private Material UI_Red_Gradient_Radius_Mat_MaskPercent_70;
     //Variable for pagination
     private int Offset = 0;
     private int CurrentPage = 1;
@@ -68,7 +67,6 @@ public class MainMenuManager : MonoBehaviour
         PopupMenuPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.POPUP_MENU_PANEL_PREFAB);
         ArenaPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Arena.ARENA_PANEL_PREFAB);
         MasterBoardPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.MASTER_BOARD_PANEL_PREFAB);
-        UI_Red_Gradient_Radius_Mat_MaskPercent_70 = MaterialManager.Instance.Get("UI_Red_Gradient_Radius_Mat_MaskPercent_70");
     }
     public void CreateMainPanel()
     {
@@ -637,8 +635,12 @@ public class MainMenuManager : MonoBehaviour
 
             });
 
-            Image topBackgroundImage = transform.Find("DictionaryCards/TitleGroup/TopBackground").GetComponent<Image>();
-            topBackgroundImage.material = UI_Red_Gradient_Radius_Mat_MaskPercent_70;
+            RawImage inventoryBackgroundImage = transform.Find("DictionaryCards/TitleGroup/TopBackground/InventoryBackground").GetComponent<RawImage>();
+            RawImage collectionBackgroundImage = transform.Find("DictionaryCards/TitleGroup/TopBackground/CollectionBackground").GetComponent<RawImage>();
+            RawImage galleryBackgroundImage = transform.Find("DictionaryCards/TitleGroup/TopBackground/GalleryBackground").GetComponent<RawImage>();
+            inventoryBackgroundImage.gameObject.SetActive(true);
+            collectionBackgroundImage.gameObject.SetActive(false);
+            galleryBackgroundImage.gameObject.SetActive(false);
             TextMeshProUGUI subTitleText = transform.Find("DictionaryCards/TitleGroup/TitleText").GetComponent<TextMeshProUGUI>();
             subTitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.INVENTORY);
 

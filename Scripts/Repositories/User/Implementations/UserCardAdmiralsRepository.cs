@@ -958,7 +958,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
         }
         return cardAdmirals;
     }
-    public async Task<List<CardAdmirals>> GetUserCardAdmiralsInTeamSimpleAsync(string userId)
+    public async Task<List<CardAdmirals>> GetUserCardAdmiralsInTeamSimpleAsync(string userId, string teamId)
     {
         List<CardAdmirals> cardAdmirals = new List<CardAdmirals>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -988,12 +988,13 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 INNER JOIN card_admirals c ON uc.card_admiral_id = c.id
                 LEFT JOIN teams t ON t.team_id = uc.team_id
             WHERE uc.user_id = @userId 
-                AND t.is_main = 1
+                AND t.team_id = @team_id
                 AND c.is_active = TRUE AND c.is_deleted = FALSE
         ";
 
             await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
             selectCommand.Parameters.AddWithValue("@userId", userId);
+            selectCommand.Parameters.AddWithValue("@team_id", teamId);
 
             await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
 

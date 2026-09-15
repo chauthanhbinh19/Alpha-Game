@@ -10,7 +10,7 @@ public interface IUserCardAdmiralsService
     Task<List<CardAdmirals>> GetUserCardAdmiralsTeamAsync(string userId, string teamId, string position, UserStatsContextDTO sharedContext = null);
     Task<List<CardAdmirals>> GetUserCardAdmiralsTeamWithoutPositionAsync(string userId, string teamId, UserStatsContextDTO sharedContext = null);
     Task<List<CardAdmirals>> GetUserCardAdmiralsInTeamAsync(string userId, UserStatsContextDTO sharedContext = null);
-    Task<List<CardAdmirals>> GetUserCardAdmiralsInTeamSimpleAsync(string userId);
+    Task<List<CardAdmirals>> GetUserCardAdmiralsInTeamSimpleAsync(string userId, string teamId);
     Task<Dictionary<string, int>> GetUniqueUserCardAdmiralsTypesTeamAsync(string userId, string teamId);
     Task<InsertOrUpdateResult<bool>> UpdateTeamUserCardAdmiralAsync(string userId, string teamId, string position, string cardId);
     Task<int> GetUserCardAdmiralsCountAsync(string userId, string search, string type, string rare);

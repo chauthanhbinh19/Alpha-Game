@@ -395,4 +395,14 @@ public class UserService : IUserService
     {
         return await _userRepository.CheckNameExistsAsync(name);
     }
+
+    public async Task<List<UserRankDTO>> GetTop100LeaderboardAsync()
+    {
+        return await _userRepository.GetTop100LeaderboardAsync();
+    }
+
+    public async Task<UserRankDTO> GetUserRankAsync(string userId)
+    {
+        return await _userRepository.GetUserRankAsync(userId);
+    }
 }

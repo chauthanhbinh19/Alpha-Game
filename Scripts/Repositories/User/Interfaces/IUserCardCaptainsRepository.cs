@@ -7,7 +7,7 @@ public interface IUserCardCaptainsRepository
     Task<List<CardCaptains>> GetUserCardCaptainsTeamAsync(string userId, string teamId, string position);
     Task<List<CardCaptains>> GetUserCardCaptainsTeamWithoutPositionAsync(string userId, string teamId);
     Task<List<CardCaptains>> GetUserCardCaptainsInTeamAsync(string userId);
-    Task<List<CardCaptains>> GetUserCardCaptainsInTeamSimpleAsync(string userId);
+    Task<List<CardCaptains>> GetUserCardCaptainsInTeamSimpleAsync(string userId, string teamId);
     Task<Dictionary<string, int>> GetUniqueUserCardCaptainsTypesTeamAsync(string userId, string teamId);
     Task<bool> UpdateTeamUserCardCaptainAsync(string userId, string team_id, string position, string cardId);
     Task<bool> IsCardInTeamAsync(string userId, string cardId);

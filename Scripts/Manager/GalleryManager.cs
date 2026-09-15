@@ -14,7 +14,6 @@ public class GalleryManager : MonoBehaviour
     private Transform DictionaryContentPanel;
     private Transform RightScrollViewContentPanel;
     private Transform LeftScrollViewContentPanel;
-    private Material UI_Blue_Gradient_Radius_Mat_MaskPercent_70;
     private Transform MainPanel;
     private Button CloseButton;
     private Button HomeButton;
@@ -56,201 +55,201 @@ public class GalleryManager : MonoBehaviour
     {
         Texture2D itemBackground = TextureHelper.LoadTexture2DCached(ImageConstants.Badge.BADGE_GALLERY_URL);
         //Gallery menu
-        CreateGalleryButtonUI(1, AppDisplayConstants.Gallery.CARD_HEROES_GALLERY, itemBackground, 
-            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_HERO_URL), 
+        CreateGalleryButtonUI(1, AppDisplayConstants.Gallery.CARD_HEROES_GALLERY, itemBackground,
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_HERO_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(2, AppDisplayConstants.Gallery.BOOKS_GALLERY, itemBackground, 
-            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BOOK_URL), 
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BOOK_URL), 
+        CreateGalleryButtonUI(2, AppDisplayConstants.Gallery.BOOKS_GALLERY, itemBackground,
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BOOK_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BOOK_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(3, AppDisplayConstants.Gallery.PETS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(3, AppDisplayConstants.Gallery.PETS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.PET_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.PET_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.PET_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(4, AppDisplayConstants.Gallery.CARD_CAPTAINS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(4, AppDisplayConstants.Gallery.CARD_CAPTAINS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_CAPTAIN_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_CAPTAIN_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_CAPTAIN_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(5, AppDisplayConstants.Gallery.COLLABORATION_EQUIPMENTS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(5, AppDisplayConstants.Gallery.COLLABORATION_EQUIPMENTS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.COLLABORATION_EQUIPMENT_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.COLLABORATION_EQUIPMENT_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.COLLABORATION_EQUIPMENT_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(6, AppDisplayConstants.Gallery.CARD_MILITARIES_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(6, AppDisplayConstants.Gallery.CARD_MILITARIES_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_MILITARY_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_MILITARY_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_MILITARY_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(7, AppDisplayConstants.Gallery.CARD_SPELLS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(7, AppDisplayConstants.Gallery.CARD_SPELLS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_SPELL_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_SPELL_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_SPELL_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(8, AppDisplayConstants.Gallery.COLLABORATIONS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(8, AppDisplayConstants.Gallery.COLLABORATIONS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.COLLABORATION_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.COLLABORATION_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.COLLABORATION_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(9, AppDisplayConstants.Gallery.CARD_MONSTERS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(9, AppDisplayConstants.Gallery.CARD_MONSTERS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_MONSTER_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_MONSTER_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_MONSTER_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(10, AppDisplayConstants.Gallery.EQUIPMENTS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(10, AppDisplayConstants.Gallery.EQUIPMENTS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.EQUIPMENT_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.EQUIPMENT_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.EQUIPMENT_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(11, AppDisplayConstants.Gallery.MEDALS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(11, AppDisplayConstants.Gallery.MEDALS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.MEDAL_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.MEDAL_URL),
              tempGalleryMenuPanel);
-        CreateGalleryButtonUI(12, AppDisplayConstants.Gallery.SKILLS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(12, AppDisplayConstants.Gallery.SKILLS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SKILL_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.SKILL_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.SKILL_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(13, AppDisplayConstants.Gallery.SYMBOLS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(13, AppDisplayConstants.Gallery.SYMBOLS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SYMBOL_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.SYMBOL_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.SYMBOL_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(14, AppDisplayConstants.Gallery.TITLES_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(14, AppDisplayConstants.Gallery.TITLES_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.TITLE_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.TITLE_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.TITLE_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(15, AppDisplayConstants.Gallery.MAGIC_FORMATION_CIRCLES_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(15, AppDisplayConstants.Gallery.MAGIC_FORMATION_CIRCLES_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.MAGIC_FORMATION_CIRCLE_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.MAGIC_FORMATION_CIRCLE_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.MAGIC_FORMATION_CIRCLE_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(16, AppDisplayConstants.Gallery.RELICS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(16, AppDisplayConstants.Gallery.RELICS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.RELIC_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.RELIC_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.RELIC_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(17, AppDisplayConstants.Gallery.CARD_COLONELS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(17, AppDisplayConstants.Gallery.CARD_COLONELS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_COLONEL_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_COLONEL_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_COLONEL_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(18, AppDisplayConstants.Gallery.CARD_GENERALS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(18, AppDisplayConstants.Gallery.CARD_GENERALS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_GENERAL_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_GENERAL_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_GENERAL_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(19, AppDisplayConstants.Gallery.CARD_ADMIRALS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(19, AppDisplayConstants.Gallery.CARD_ADMIRALS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_ADMIRAL_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_ADMIRAL_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_ADMIRAL_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(20, AppDisplayConstants.Gallery.BORDERS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(20, AppDisplayConstants.Gallery.BORDERS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BORDER_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BORDER_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BORDER_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(21, AppDisplayConstants.Gallery.TALISMANS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(21, AppDisplayConstants.Gallery.TALISMANS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.TALISMAN_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.TALISMAN_URL),  
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.TALISMAN_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(22, AppDisplayConstants.Gallery.PUPPETS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(22, AppDisplayConstants.Gallery.PUPPETS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.PUPPET_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.PUPPET_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.PUPPET_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(23, AppDisplayConstants.Gallery.ALCHEMIES_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(23, AppDisplayConstants.Gallery.ALCHEMIES_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ALCHEMY_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ALCHEMY_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ALCHEMY_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(24, AppDisplayConstants.Gallery.FORGES_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(24, AppDisplayConstants.Gallery.FORGES_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.FORGE_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.FORGE_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.FORGE_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(25, AppDisplayConstants.Gallery.CARD_LIVES_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(25, AppDisplayConstants.Gallery.CARD_LIVES_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_LIFE_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_LIFE_URL),
              tempGalleryMenuPanel);
-        CreateGalleryButtonUI(26, AppDisplayConstants.Gallery.ARTWORKS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(26, AppDisplayConstants.Gallery.ARTWORKS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ARTWORK_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ARTWORK_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ARTWORK_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(27, AppDisplayConstants.Gallery.SPIRIT_BEASTS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(27, AppDisplayConstants.Gallery.SPIRIT_BEASTS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SPIRIT_BEAST_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.SPIRIT_BEAST_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.SPIRIT_BEAST_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(28, AppDisplayConstants.Gallery.AVATARS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(28, AppDisplayConstants.Gallery.AVATARS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.AVATAR_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.AVATAR_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.AVATAR_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(29, AppDisplayConstants.Gallery.SPIRIT_CARDS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(29, AppDisplayConstants.Gallery.SPIRIT_CARDS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SPIRIT_CARD_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.SPIRIT_CARD_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.SPIRIT_CARD_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(30, AppDisplayConstants.Gallery.ACHIEVEMENTS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(30, AppDisplayConstants.Gallery.ACHIEVEMENTS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ACHIEVEMENT_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ACHIEVEMENT_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ACHIEVEMENT_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(31, AppDisplayConstants.Gallery.ARTIFACTS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(31, AppDisplayConstants.Gallery.ARTIFACTS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ARTIFACT_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ARTIFACT_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ARTIFACT_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(32, AppDisplayConstants.Gallery.ARCHITECTURES_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(32, AppDisplayConstants.Gallery.ARCHITECTURES_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ARCHITECTURE_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ARCHITECTURE_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ARCHITECTURE_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(33, AppDisplayConstants.Gallery.TECHNOLOGIES_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(33, AppDisplayConstants.Gallery.TECHNOLOGIES_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.TECHNOLOGY_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.TECHNOLOGY_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.TECHNOLOGY_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(34, AppDisplayConstants.Gallery.VEHICLES_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(34, AppDisplayConstants.Gallery.VEHICLES_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.VEHICLE_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.VEHICLE_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(35, AppDisplayConstants.Gallery.CORES_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(35, AppDisplayConstants.Gallery.CORES_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CORE_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.CORE_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(36, AppDisplayConstants.Gallery.WEAPONS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(36, AppDisplayConstants.Gallery.WEAPONS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.WEAPON_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.WEAPON_URL),  
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.WEAPON_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(37, AppDisplayConstants.Gallery.ROBOTS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(37, AppDisplayConstants.Gallery.ROBOTS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ROBOT_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ROBOT_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ROBOT_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(38, AppDisplayConstants.Gallery.BADGES_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(38, AppDisplayConstants.Gallery.BADGES_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BADGE_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BADGE_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BADGE_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(39, AppDisplayConstants.Gallery.MECHA_BEASTS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(39, AppDisplayConstants.Gallery.MECHA_BEASTS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.MECHA_BEAST_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.MECHA_BEAST_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.MECHA_BEAST_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(40, AppDisplayConstants.Gallery.RUNES_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(40, AppDisplayConstants.Gallery.RUNES_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.RUNE_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.RUNE_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.RUNE_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(41, AppDisplayConstants.Gallery.FURNITURES_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(41, AppDisplayConstants.Gallery.FURNITURES_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.FURNITURE_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.FURNITURE_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.FURNITURE_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(42, AppDisplayConstants.Gallery.FOODS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(42, AppDisplayConstants.Gallery.FOODS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.FOOD_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.FOOD_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.FOOD_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(43, AppDisplayConstants.Gallery.BEVERAGES_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(43, AppDisplayConstants.Gallery.BEVERAGES_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BEVERAGE_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.BEVERAGE_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(44, AppDisplayConstants.Gallery.BUILDINGS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(44, AppDisplayConstants.Gallery.BUILDINGS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BUILDING_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BUILDING_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BUILDING_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(45, AppDisplayConstants.Gallery.PLANTS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(45, AppDisplayConstants.Gallery.PLANTS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.PLANT_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.PLANT_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.PLANT_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(46, AppDisplayConstants.Gallery.FASHIONS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(46, AppDisplayConstants.Gallery.FASHIONS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.FASHION_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.FASHION_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.FASHION_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(47, AppDisplayConstants.Gallery.EMOJIS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(47, AppDisplayConstants.Gallery.EMOJIS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.EMOJI_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.EMOJI_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.EMOJI_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(48, AppDisplayConstants.Gallery.CARD_SOLDIERS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(48, AppDisplayConstants.Gallery.CARD_SOLDIERS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_SOLDIER_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_SOLDIER_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_SOLDIER_URL),
             tempGalleryMenuPanel);
-        CreateGalleryButtonUI(49, AppDisplayConstants.Gallery.OUTFITS_GALLERY, itemBackground, 
+        CreateGalleryButtonUI(49, AppDisplayConstants.Gallery.OUTFITS_GALLERY, itemBackground,
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.OUTFIT_URL),
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.OUTFIT_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.OUTFIT_URL),
             tempGalleryMenuPanel);
 
         tempGalleryMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -300,7 +299,6 @@ public class GalleryManager : MonoBehaviour
     {
         GalleryMenuPanel = tempGalleryMenuPanel;
         DictionaryPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.DICTIONARY_PANEL_PREFAB);
-        UI_Blue_Gradient_Radius_Mat_MaskPercent_70 = MaterialManager.Instance.Get("UI_Blue_Gradient_Radius_Mat_MaskPercent_70");
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
 
         AssignButtonEvent("Button_1", () => GetType(AppConstants.MainType.CARD_HERO));
@@ -401,14 +399,18 @@ public class GalleryManager : MonoBehaviour
             Destroy(mainMenuObject);
         });
         HomeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener( () =>
+        HomeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Close(MainPanel);
         });
 
-        Image topBackgroundImage = transform.Find("DictionaryCards/TitleGroup/TopBackground").GetComponent<Image>();
-        topBackgroundImage.material = UI_Blue_Gradient_Radius_Mat_MaskPercent_70;
+        RawImage inventoryBackgroundImage = transform.Find("DictionaryCards/TitleGroup/TopBackground/InventoryBackground").GetComponent<RawImage>();
+        RawImage collectionBackgroundImage = transform.Find("DictionaryCards/TitleGroup/TopBackground/CollectionBackground").GetComponent<RawImage>();
+        RawImage galleryBackgroundImage = transform.Find("DictionaryCards/TitleGroup/TopBackground/GalleryBackground").GetComponent<RawImage>();
+        inventoryBackgroundImage.gameObject.SetActive(false);
+        collectionBackgroundImage.gameObject.SetActive(false);
+        galleryBackgroundImage.gameObject.SetActive(true);
         TextMeshProUGUI subTitleText = transform.Find("DictionaryCards/TitleGroup/TitleText").GetComponent<TextMeshProUGUI>();
         subTitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.GALLERY);
 
@@ -761,7 +763,7 @@ public class GalleryManager : MonoBehaviour
             List<MechaBeasts> mechaBeasts = await MechaBeastsService.Create().GetMechaBeastsAsync(Search, Rare, PAGE_SIZE, Offset);
             MechaBeastsController.Instance.CreateMechaBeastsGallery(mechaBeasts, DictionaryContentPanel);
 
-            totalRecord = await MechaBeastsService.Create().GetMechaBeastsCountAsync(Search,Rare);
+            totalRecord = await MechaBeastsService.Create().GetMechaBeastsCountAsync(Search, Rare);
         }
         else if (MainType.Equals(AppConstants.MainType.RUNE))
         {
@@ -789,7 +791,7 @@ public class GalleryManager : MonoBehaviour
             List<Beverages> beverages = await BeveragesService.Create().GetBeveragesAsync(Search, Rare, PAGE_SIZE, Offset);
             BeveragesController.Instance.CreateBeveragesGallery(beverages, DictionaryContentPanel);
 
-            totalRecord = await BeveragesService.Create().GetBeveragesCountAsync(Search,Rare);
+            totalRecord = await BeveragesService.Create().GetBeveragesCountAsync(Search, Rare);
         }
         else if (MainType.Equals(AppConstants.MainType.BUILDING))
         {

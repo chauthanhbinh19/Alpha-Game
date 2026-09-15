@@ -12,4 +12,6 @@ public interface IUserRepository
     Task UpdateUserPowerAsync(string userId, double power);
     Task CreateUserCurrencyAsync(string Id);
     Task<bool> CheckNameExistsAsync(string name);
+    Task<List<UserRankDTO>> GetTop100LeaderboardAsync();
+    Task<UserRankDTO> GetUserRankAsync(string userId);
 }

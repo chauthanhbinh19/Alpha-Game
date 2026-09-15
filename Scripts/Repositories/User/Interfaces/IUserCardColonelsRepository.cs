@@ -7,7 +7,7 @@ public interface IUserCardColonelsRepository
     Task<List<CardColonels>> GetUserCardColonelsTeamAsync(string userId, string teamId, string position);
     Task<List<CardColonels>> GetUserCardColonelsTeamWithoutPositionAsync(string userId, string teamId);
     Task<List<CardColonels>> GetUserCardColonelsInTeamAsync(string userId);
-    Task<List<CardColonels>> GetUserCardColonelsInTeamSimpleAsync(string userId);
+    Task<List<CardColonels>> GetUserCardColonelsInTeamSimpleAsync(string userId, string teamId);
     Task<Dictionary<string, int>> GetUniqueUserCardColonelsTypesTeamAsync(string userId, string teamId);
     Task<bool> UpdateTeamUserCardColonelAsync(string userId, string team_id, string position, string cardId);
     Task<bool> IsCardInTeamAsync(string userId, string cardId);

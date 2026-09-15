@@ -7,7 +7,7 @@ public interface IUserCardMonstersRepository
     Task<List<CardMonsters>> GetUserCardMonstersTeamAsync(string userId, string teamId, string position);
     Task<List<CardMonsters>> GetUserCardMonstersTeamWithoutPositionAsync(string userId, string teamId);
     Task<List<CardMonsters>> GetUserCardMonstersInTeamAsync(string userId);
-    Task<List<CardMonsters>> GetUserCardMonstersInTeamSimpleAsync(string userId);
+    Task<List<CardMonsters>> GetUserCardMonstersInTeamSimpleAsync(string userId, string teamId);
     Task<Dictionary<string, int>> GetUniqueCardMonstersTypesTeamAsync(string userId, string teamId);
     Task<bool> UpdateTeamUserCardMonsterAsync(string userId, string team_id, string position, string cardId);
     Task<bool> IsCardInTeamAsync(string userId, string cardId);

@@ -299,6 +299,8 @@ public class UserCardSpellsService : IUserCardSpellsService
             context = await _userStatsService.GetUserStatsContextAsync(userId);
         }
 
+        var equipments = await _userEquipmentsService.GetUserCardHeroesEquipmentsAsync(userId, cardSpellIds, "All");
+
         // var skillsLookup = skillData.ToLookup(s => s.CardId);
 
         TotalBuffs totalBuffs = new TotalBuffs();
@@ -329,10 +331,7 @@ public class UserCardSpellsService : IUserCardSpellsService
         result = StarEvaluatorHelper.GetStarPower(result);
         result = ModuleEvaluatorHelper.GetModulePower(result);
         result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        // result = await GetAllEquipmentPowerAsync(userId, result);
-        // result = await GetAllRankPowerAsync(userId, result);
-        // result = await GetAllMasterPowerAsync(userId, result);
-        // result = await GetSkillsAsync(userId, result);
+        result = StatsHelper.GetAllEquipmentPower(result, equipments);
         foreach (var card in result)
         {
             if (card == null) continue; // Phòng hờ phần tử trong result bị null
@@ -356,7 +355,7 @@ public class UserCardSpellsService : IUserCardSpellsService
     {
         List<CardSpells> result = await _userCardSpellsRepository.GetUserCardSpellsTeamAsync(userId, teamId, position);
 
-        // List<string> cardSpellIds = result.Select(hero => hero.Id).ToList();
+        List<string> cardSpellIds = result.Select(hero => hero.Id).ToList();
 
         // var skillsTask = _userSkillsRepository.GetUserCardSpellsSkillsAsync(userId, cardSpellIds);
 
@@ -374,6 +373,8 @@ public class UserCardSpellsService : IUserCardSpellsService
         {
             context = await _userStatsService.GetUserStatsContextAsync(userId);
         }
+
+        var equipments = await _userEquipmentsService.GetUserCardHeroesEquipmentsAsync(userId, cardSpellIds, "All");
 
         // var skillsLookup = skillData.ToLookup(s => s.CardId);
 
@@ -401,10 +402,7 @@ public class UserCardSpellsService : IUserCardSpellsService
         result = StarEvaluatorHelper.GetStarPower(result);
         result = ModuleEvaluatorHelper.GetModulePower(result);
         result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        // result = await GetAllEquipmentPowerAsync(userId, result);
-        // result = await GetAllRankPowerAsync(userId, result);
-        // result = await GetAllMasterPowerAsync(userId, result);
-        // result = await GetSkillsAsync(userId, result);
+        result = StatsHelper.GetAllEquipmentPower(result, equipments);
         foreach (var card in result)
         {
             if (card == null) continue; // Phòng hờ phần tử trong result bị null
@@ -447,6 +445,8 @@ public class UserCardSpellsService : IUserCardSpellsService
             context = await _userStatsService.GetUserStatsContextAsync(userId);
         }
 
+        var equipments = await _userEquipmentsService.GetUserCardHeroesEquipmentsAsync(userId, cardSpellIds, "All");
+
         // var skillsLookup = skillData.ToLookup(s => s.CardId);
 
         TotalBuffs totalBuffs = new TotalBuffs();
@@ -473,10 +473,7 @@ public class UserCardSpellsService : IUserCardSpellsService
         result = StarEvaluatorHelper.GetStarPower(result);
         result = ModuleEvaluatorHelper.GetModulePower(result);
         result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        // result = await GetAllEquipmentPowerAsync(userId, result);
-        // result = await GetAllRankPowerAsync(userId, result);
-        // result = await GetAllMasterPowerAsync(userId, result);
-        // result = await GetSkillsAsync(userId, result);
+        result = StatsHelper.GetAllEquipmentPower(result, equipments);
         foreach (var card in result)
         {
             if (card == null) continue; // Phòng hờ phần tử trong result bị null
@@ -519,6 +516,8 @@ public class UserCardSpellsService : IUserCardSpellsService
             context = await _userStatsService.GetUserStatsContextAsync(userId);
         }
 
+        var equipments = await _userEquipmentsService.GetUserCardHeroesEquipmentsAsync(userId, cardSpellIds, "All");
+
         // var skillsLookup = skillData.ToLookup(s => s.CardId);
 
         TotalBuffs totalBuffs = new TotalBuffs();
@@ -545,10 +544,7 @@ public class UserCardSpellsService : IUserCardSpellsService
         result = StarEvaluatorHelper.GetStarPower(result);
         result = ModuleEvaluatorHelper.GetModulePower(result);
         result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        // result = await GetAllEquipmentPowerAsync(userId, result);
-        // result = await GetAllRankPowerAsync(userId, result);
-        // result = await GetAllMasterPowerAsync(userId, result);
-        // result = await GetSkillsAsync(userId, result);
+        result = StatsHelper.GetAllEquipmentPower(result, equipments);
         foreach (var card in result)
         {
             if (card == null) continue; // Phòng hờ phần tử trong result bị null
@@ -568,9 +564,9 @@ public class UserCardSpellsService : IUserCardSpellsService
         return result;
     }
 
-    public async Task<List<CardSpells>> GetUserCardSpellsInTeamSimpleAsync(string userId)
+    public async Task<List<CardSpells>> GetUserCardSpellsInTeamSimpleAsync(string userId, string teamId)
     {
-        return await _userCardSpellsRepository.GetUserCardSpellsInTeamSimpleAsync(userId);
+        return await _userCardSpellsRepository.GetUserCardSpellsInTeamSimpleAsync(userId, teamId);
     }
 
     public async Task<Dictionary<string, int>> GetUniqueUserCardSpellsTypesTeamAsync(string userId, string teamId)
@@ -756,6 +752,8 @@ public class UserCardSpellsService : IUserCardSpellsService
             context = await _userStatsService.GetUserStatsContextAsync(userId);
         }
 
+        var equipments = await _userEquipmentsService.GetUserCardHeroesEquipmentsAsync(userId, cardSpellIds, "All");
+
         var skillsLookup = skillData.ToLookup(s => s.CardId);
 
         TotalBuffs totalBuffs = new TotalBuffs();
@@ -786,10 +784,7 @@ public class UserCardSpellsService : IUserCardSpellsService
         result = StarEvaluatorHelper.GetStarPower(result);
         result = ModuleEvaluatorHelper.GetModulePower(result);
         result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        // result = await GetAllEquipmentPowerAsync(userId, result);
-        // result = await GetAllRankPowerAsync(userId, result);
-        // result = await GetAllMasterPowerAsync(userId, result);
-        // result = await GetSkillsAsync(userId, result);
+        result = StatsHelper.GetAllEquipmentPower(result, equipments);
         foreach (var card in result)
         {
             if (card == null) continue; // Phòng hờ phần tử trong result bị null
