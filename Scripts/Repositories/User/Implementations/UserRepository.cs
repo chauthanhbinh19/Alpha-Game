@@ -505,15 +505,31 @@ public class UserRepository : IUserRepository
         string connectionString = DatabaseConfig.ConnectionString;
 
         string sql = @"
-        SELECT * FROM (
+        -- BƯỚC 1: Lấy Top 100 users có power cao nhất (Subquery nhẹ)
+        WITH Top100Users AS (
             SELECT 
-                DENSE_RANK() OVER (ORDER BY power DESC) AS `Rank`,
-                id AS UserId, 
-                username AS Username, 
-                power AS Power
-            FROM users
-        ) AS ranked_users
-        WHERE `Rank` <= 100;";
+                DENSE_RANK() OVER (ORDER BY u.power DESC) AS `Rank`,
+                u.id AS UserId, 
+                u.name AS UserName,
+                u.power AS Power
+            FROM users u
+            ORDER BY u.power DESC
+            LIMIT 100
+        )
+        -- BƯỚC 2: Chỉ JOIN Avatar/Border cho đúng 100 người này
+        SELECT 
+            t.`Rank`,
+            t.UserId,
+            t.UserName,
+            t.Power,
+            a.image AS UserAvatar,
+            b.image AS UserBorder
+        FROM Top100Users t
+        LEFT JOIN user_avatars ua ON t.UserId = ua.user_id AND ua.is_used = 1
+        LEFT JOIN avatars a ON ua.avatar_id = a.id
+        LEFT JOIN user_borders ub ON t.UserId = ub.user_id AND ub.is_used = 1
+        LEFT JOIN borders b ON ub.border_id = b.id
+        ORDER BY t.`Rank` ASC;";
 
         using (var connection = new MySqlConnection(connectionString))
         {
@@ -526,10 +542,12 @@ public class UserRepository : IUserRepository
                 {
                     leaderboard.Add(new UserRankDTO
                     {
-                        Rank = reader.GetInt32("Rank"),
-                        UserId = reader.GetString("UserId"),
-                        Username = reader.GetString("Username"),
-                        Power = reader.GetInt64("Power")
+                        Rank = reader.GetIntSafe("Rank"),
+                        UserId = reader.GetStringSafe("UserId"),
+                        UserName = reader.GetStringSafe("UserName"),
+                        UserAvatar = reader.GetStringSafe("UserAvatar"),
+                        UserBorder = reader.GetStringSafe("UserBorder"),
+                        Power = reader.GetDoubleSafe("Power")
                     });
                 }
             }
@@ -540,17 +558,21 @@ public class UserRepository : IUserRepository
     public async Task<UserRankDTO> GetUserRankAsync(string userId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        
+
         string sql = @"
-        SELECT `Rank`, UserId, Username, Power FROM (
-            SELECT 
-                DENSE_RANK() OVER (ORDER BY power DESC) AS `Rank`,
-                id AS UserId, 
-                username AS Username, 
-                power AS Power
-            FROM users
-        ) AS ranked_users
-        WHERE UserId = @UserId;";
+        SELECT 
+            (SELECT COUNT(DISTINCT power) + 1 FROM users WHERE power > u.power) AS `Rank`,
+            u.id AS UserId,
+            u.name AS UserName,
+            u.power AS Power,
+            a.image AS UserAvatar,
+            b.image AS UserBorder
+        FROM users u
+        LEFT JOIN user_avatars ua ON u.id = ua.user_id AND ua.is_used = 1
+        LEFT JOIN avatars a ON ua.avatar_id = a.id
+        LEFT JOIN user_borders ub ON u.id = ub.user_id AND ub.is_used = 1
+        LEFT JOIN borders b ON ub.border_id = b.id
+        WHERE u.id = @UserId;";
 
         using (var connection = new MySqlConnection(connectionString))
         {
@@ -566,10 +588,12 @@ public class UserRepository : IUserRepository
                     {
                         return new UserRankDTO
                         {
-                            Rank = reader.GetInt32("Rank"),
-                            UserId = reader.GetString("UserId"),
-                            Username = reader.GetString("Username"),
-                            Power = reader.GetInt64("Power")
+                            Rank = reader.GetIntSafe("Rank"),
+                            UserId = reader.GetStringSafe("UserId"),
+                            UserName = reader.GetStringSafe("UserName"),
+                            UserAvatar = reader.GetStringSafe("UserAvatar"),
+                            UserBorder = reader.GetStringSafe("UserBorder"),
+                            Power = reader.GetDoubleSafe("Power")
                         };
                     }
                 }

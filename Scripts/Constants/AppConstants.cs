@@ -2559,6 +2559,9 @@ public static class AppConstants
             public const string EQUIPMENT_DETAIL_BUTTON_PREFAB = "EquipmentDetailButtonPrefab";
             public const string POSITION_BUTTON_PREFAB = "PositionButtonPrefab";
             public const string POSITION_SLOT_BUTTON_PREFAB = "PositionSlotButtonPrefab";
+            public const string MAIL_TAB_BUTTON_PREFAB = "MailTabButtonPrefab";
+            public const string MAIL_BUTTON_PREFAB = "MailButtonPrefab";
+            public const string LEADERBOARD_BUTTON_PREFAB = "LeaderboardButtonPrefab";
 
             public const string ACHIEVEMENT_BUTTON_PREFAB = "AchievementButtonPrefab";
             public const string ACHIEVEMENT_BLOCK_BUTTON_PREFAB = "AchievementBlockButtonPrefab";
@@ -2715,6 +2718,8 @@ public static class AppConstants
             public const string SUMMON_PANEL_PREFAB = "SummonPanelPrefab";
             public const string TOPUP_PANEL_PREFAB = "TopupPanelPrefab";
             public const string POPUP_TOPUP_PANEL_PREFAB = "PopupTopupPanelPrefab";
+            public const string MAIL_PANEL_PREFAB = "MailPanelPrefab";
+            public const string LEADERBOARD_PANEL_PREFAB = "LeaderboardPanelPrefab";
         }
         public static class HICA
         {

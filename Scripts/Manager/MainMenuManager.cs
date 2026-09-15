@@ -125,6 +125,9 @@ public class MainMenuManager : MonoBehaviour
         Button shopButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/ShopButton").GetComponent<Button>();
         Button shopPackageButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/ShopPackageButton").GetComponent<Button>();
 
+
+        Button leaderboardButton = transform.Find("Sidebar/Content/LeaderboardButton").GetComponent<Button>();
+        Button mailButton = transform.Find("Sidebar/Content/MailButton").GetComponent<Button>();
         // _ = HomeManager.Instance.CreateHomePanelAsync();
 
         // homeButton.onClick.AddListener(async () =>
@@ -411,6 +414,12 @@ public class MainMenuManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
             await PatternController.Instance.CreatePatternPanel();
+        });
+        leaderboardButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+            await LeaderboardManager.Instance.CreateLeaderboardPanel();
         });
     }
     public void CreateMainPanelUserInformation(AuthResult authResult)
