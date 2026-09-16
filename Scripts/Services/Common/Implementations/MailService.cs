@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 public class MailService : IMailService
@@ -33,5 +34,20 @@ public class MailService : IMailService
 
     public Task<bool> HardDeleteAsync(string mailId){
         return _mailRepository.HardDeleteAsync(mailId);
+    }
+
+    public async Task<List<Mail>> GetUserMailsAsync(string receiverId, int page = 1, int pageSize = 20)
+    {
+        return await GetUserMailsAsync(receiverId, page, pageSize);
+    }
+
+    public async Task<Mail> GetMailByIdAsync(string mailId)
+    {
+        return await GetMailByIdAsync(mailId);
+    }
+
+    public async Task<int> GetUnreadMailCountAsync(string receiverId)
+    {
+        return await GetUnreadMailCountAsync(receiverId);
     }
 }

@@ -1,9 +1,144 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MySqlConnector;
 
 public class MailRepository : IMailRepository
 {
+    #region GET MAIL METHODS (FOR UI)
+
+    /// <summary>
+    /// 1. Lấy danh sách hòm thư đến của Receiver (Có phân trang)
+    /// </summary>
+    /// <param name="receiverId">ID người nhận</param>
+    /// <param name="page">Trang hiện tại (Bắt đầu từ 1)</param>
+    /// <param name="pageSize">Số lượng thư trên 1 trang (Mặc định 20)</param>
+    public async Task<List<Mail>> GetUserMailsAsync(string receiverId, int page = 1, int pageSize = 20)
+    {
+        var mailList = new List<Mail>();
+        int offset = (page - 1) * pageSize;
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        string sql = @"
+        SELECT 
+            id, receiver_id, sender_id, subject, body, type, 
+            object_id, object_type, is_read, created_at, is_deleted, is_active
+        FROM mail
+        WHERE receiver_id = @ReceiverId 
+          AND is_deleted = FALSE 
+          AND is_active = TRUE
+        ORDER BY created_at DESC
+        LIMIT @Limit OFFSET @Offset;";
+
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            await connection.OpenAsync();
+            using (var command = new MySqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@ReceiverId", receiverId);
+                command.Parameters.AddWithValue("@Limit", pageSize);
+                command.Parameters.AddWithValue("@Offset", offset);
+
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        mailList.Add(MapReaderToMail(reader));
+                    }
+                }
+            }
+        }
+
+        return mailList;
+    }
+
+    /// <summary>
+    /// 2. Lấy chi tiết 1 thư theo MailId
+    /// </summary>
+    public async Task<Mail> GetMailByIdAsync(string mailId)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        string sql = @"
+        SELECT 
+            id, receiver_id, sender_id, subject, body, type, 
+            object_id, object_type, is_read, created_at, is_deleted, is_active
+        FROM mail
+        WHERE id = @MailId 
+          AND is_deleted = FALSE 
+        LIMIT 1;";
+
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            await connection.OpenAsync();
+            using (var command = new MySqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@MailId", mailId);
+
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    if (await reader.ReadAsync())
+                    {
+                        return MapReaderToMail(reader);
+                    }
+                }
+            }
+        }
+
+        return null; // Không tìm thấy thư
+    }
+
+    /// <summary>
+    /// 3. Đếm số thư CHƯA ĐỌC để hiển thị Badge chấm đỏ trên UI
+    /// </summary>
+    public async Task<int> GetUnreadMailCountAsync(string receiverId)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        string sql = @"
+        SELECT COUNT(1) 
+        FROM mail 
+        WHERE receiver_id = @ReceiverId 
+          AND is_read = FALSE 
+          AND is_deleted = FALSE 
+          AND is_active = TRUE;";
+
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            await connection.OpenAsync();
+            using (var command = new MySqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@ReceiverId", receiverId);
+
+                object result = await command.ExecuteScalarAsync();
+                return Convert.ToInt32(result);
+            }
+        }
+    }
+
+    #endregion
+
+    #region HELPER MAPPER
+    private Mail MapReaderToMail(MySqlDataReader reader)
+    {
+        return new Mail
+        {
+            Id = reader.GetString("id"),
+            ReceiverId = reader.GetString("receiver_id"),
+            SenderId = reader.GetString("sender_id"),
+            Subject = reader.GetString("subject"),
+            Body = reader.IsDBNull(reader.GetOrdinal("body")) ? null : reader.GetString("body"),
+            Type = reader.IsDBNull(reader.GetOrdinal("type")) ? null : reader.GetString("type"),
+            ObjectId = reader.GetString("object_id"),
+            ObjectType = reader.GetString("object_type"),
+            IsRead = reader.GetBoolean("is_read"),
+            IsDeleted = reader.GetBoolean("is_deleted"),
+            IsActive = reader.GetBoolean("is_active")
+        };
+    }
+    #endregion
+
     #region 1. INSERT MAIL
     /// <summary>
     /// Thêm một thư mới vào hệ thống
