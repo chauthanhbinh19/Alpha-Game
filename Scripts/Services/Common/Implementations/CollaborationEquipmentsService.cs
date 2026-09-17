@@ -24,6 +24,11 @@ public class CollaborationEquipmentsService : ICollaborationEquipmentsService
         return list;
     }
 
+    public async Task<List<CollaborationEquipments>> GetCollaborationEquipmentsSimpleAsync()
+    {
+        return await _collaborationEquipmentsRepository.GetCollaborationEquipmentsSimpleAsync();
+    }
+
     public async Task<int> GetCollaborationEquipmentsCountAsync(string search, string type, string rare)
     {
         return await _collaborationEquipmentsRepository.GetCollaborationEquipmentsCountAsync(search, type, rare);

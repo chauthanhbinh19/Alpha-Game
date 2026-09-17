@@ -6,6 +6,7 @@ public interface IOutfitsService
     Task<List<string>> GetUniqueOutfitsTypesAsync();
     Task<List<string>> GetUniqueOutfitsIdAsync();
     Task<List<Outfits>> GetOutfitsAsync(string search, string type, string rare, int pageSize, int offset);
+    Task<List<Outfits>> GetOutfitsSimpleAsync();
     Task<List<Outfits>> GetOutfitsWithoutLimitAsync();
     Task<int> GetOutfitsCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<bool>> InsertOutfitAsync(Outfits entity);

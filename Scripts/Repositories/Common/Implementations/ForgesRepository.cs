@@ -193,6 +193,55 @@ public class ForgesRepository : IForgesRepository
 
         return forges;
     }
+    public async Task<List<Forges>> GetForgesSimpleAsync()
+    {
+        List<Forges> forges = new List<Forges>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT id, name, image, rare, quality
+                FROM forges 
+                WHERE 1=1";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            Forges forge = new Forges
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rarity = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            forges.Add(forge);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return forges;
+    }
     public async Task<List<Forges>> GetForgesWithoutLimitAsync()
     {
         List<Forges> forges = new List<Forges>();

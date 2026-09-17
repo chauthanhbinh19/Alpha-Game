@@ -19,6 +19,11 @@ public class TalismansService : ITalismansService
         return list;
     }
 
+    public async Task<List<Talismans>> GetTalismansSimpleAsync()
+    {
+        return await _talismansRepository.GetTalismansSimpleAsync();
+    }
+
     public async Task<int> GetTalismansCountAsync(string search, string type, string rare)
     {
         return await _talismansRepository.GetTalismansCountAsync(search, type, rare);

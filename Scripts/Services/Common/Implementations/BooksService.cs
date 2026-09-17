@@ -24,6 +24,11 @@ public class BooksService : IBooksService
         return list;
     }
 
+    public async Task<List<Books>> GetBooksSimpleAsync()
+    {
+        return await _booksRepository.GetBooksSimpleAsync();
+    }
+
     public async Task<int> GetBooksCountAsync(string search, string type, string rare)
     {
         return await _booksRepository.GetBooksCountAsync(search, type, rare);

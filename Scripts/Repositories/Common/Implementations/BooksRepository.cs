@@ -186,6 +186,55 @@ public class BooksRepository : IBooksRepository
 
         return books;
     }
+    public async Task<List<Books>> GetBooksSimpleAsync()
+    {
+        List<Books> books = new List<Books>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT id, name, image, rare, quality
+                FROM books 
+                WHERE 1=1";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            Books book = new Books
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rarity = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            books.Add(book);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return books;
+    }
     public async Task<List<Books>> GetBooksWithoutLimitAsync()
     {
         List<Books> books = new List<Books>();

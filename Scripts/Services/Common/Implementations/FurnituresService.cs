@@ -24,6 +24,11 @@ public class FurnituresService : IFurnituresService
         return list;
     }
 
+    public async Task<List<Furnitures>> GetFurnituresSimpleAsync()
+    {
+        return await _furnituresRepository.GetFurnituresSimpleAsync();
+    }
+
     public async Task<int> GetFurnituresCountAsync(string search, string type, string rare)
     {
         return await _furnituresRepository.GetFurnituresCountAsync(search, type, rare);

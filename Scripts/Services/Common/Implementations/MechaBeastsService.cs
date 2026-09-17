@@ -19,6 +19,11 @@ public class MechaBeastsService : IMechaBeastsService
         return list;
     }
 
+    public async Task<List<MechaBeasts>> GetMechaBeastsSimpleAsync()
+    {
+        return await _mechaBeastsRepository.GetMechaBeastsSimpleAsync();
+    }
+
     public async Task<int> GetMechaBeastsCountAsync(string search, string rare)
     {
         return await _mechaBeastsRepository.GetMechaBeastsCountAsync(search, rare);

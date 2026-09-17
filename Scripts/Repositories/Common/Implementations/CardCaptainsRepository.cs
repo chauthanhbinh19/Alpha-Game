@@ -238,6 +238,55 @@ public class CardCaptainsRepository : ICardCaptainsRepository
 
         return CardCaptainsList;
     }
+    public async Task<List<CardCaptains>> GetCardCaptainsSimpleAsync()
+    {
+        List<CardCaptains> cardCaptains = new List<CardCaptains>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT id, name, image, rare, quality
+                FROM card_captains 
+                WHERE 1=1";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            CardCaptains cardCaptain = new CardCaptains
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rarity = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            cardCaptains.Add(cardCaptain);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return cardCaptains;
+    }
     public async Task<List<CardCaptains>> GetCardCaptainsWithoutLimitAsync()
     {
         List<CardCaptains> cardCaptains = new List<CardCaptains>();

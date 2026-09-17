@@ -24,6 +24,11 @@ public class OutfitsService : IOutfitsService
         return list;
     }
 
+    public async Task<List<Outfits>> GetOutfitsSimpleAsync()
+    {
+        return await _outfitsRepository.GetOutfitsSimpleAsync();
+    }
+
     public async Task<int> GetOutfitsCountAsync(string search, string type, string rare)
     {
         return await _outfitsRepository.GetOutfitsCountAsync(search, type, rare);

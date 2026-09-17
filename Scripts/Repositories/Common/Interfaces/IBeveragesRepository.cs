@@ -5,6 +5,7 @@ public interface IBeveragesRepository
 {
     Task<List<string>> GetUniqueBeveragesIdAsync();
     Task<List<Beverages>> GetBeveragesAsync(string search, string rare, int pageSize, int offset);
+    Task<List<Beverages>> GetBeveragesSimpleAsync();
     Task<List<Beverages>> GetBeveragesWithoutLimitAsync();
     Task<int> GetBeveragesCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<Beverages>> InsertBeverageAsync(Beverages entity);

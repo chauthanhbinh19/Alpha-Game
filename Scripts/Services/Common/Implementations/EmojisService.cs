@@ -19,6 +19,11 @@ public class EmojisService : IEmojisService
         return list;
     }
 
+    public async Task<List<Emojis>> GetEmojisSimpleAsync()
+    {
+        return await _emojisRepository.GetEmojisSimpleAsync();
+    }
+
     public async Task<int> GetEmojisCountAsync(string search, string rare)
     {
         return await _emojisRepository.GetEmojisCountAsync(search, rare);

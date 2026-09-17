@@ -6,6 +6,7 @@ public interface ICardColonelsService
     Task<List<string>> GetUniqueCardColonelsTypesAsync();
     Task<List<string>> GetUniqueCardColonelsIdAsync();
     Task<List<CardColonels>> GetCardColonelsAsync(string search, string type, string rare, int pageSize, int offset);
+    Task<List<CardColonels>> GetCardColonelsSimpleAsync();
     Task<List<CardColonels>> GetCardColonelsWithoutLimitAsync();
     Task<int> GetCardColonelsCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<bool>> InsertCardColonelAsync(CardColonels entity);

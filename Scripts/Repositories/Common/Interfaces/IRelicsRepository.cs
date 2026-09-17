@@ -5,6 +5,7 @@ public interface IRelicsRepository
     Task<List<string>> GetUniqueRelicsTypesAsync();
     Task<List<string>> GetUniqueRelicsIdAsync();
     Task<List<Relics>> GetRelicsAsync(string search, string type, string rare, int pageSize, int offset);
+    Task<List<Relics>> GetRelicsSimpleAsync();
     Task<List<Relics>> GetRelicsWithoutLimitAsync();
     Task<int> GetRelicsCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<Relics>> InsertRelicAsync(Relics entity);

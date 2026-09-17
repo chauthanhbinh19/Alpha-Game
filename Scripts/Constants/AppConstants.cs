@@ -1424,6 +1424,15 @@ public static class AppConstants
             Items.IMBUEMENT
         };
     }
+    public static class Mail
+    {
+        public const string SYSTEM = "System";
+        public const string REWARD = "Reward";
+        public const string RANKING = "Ranking";
+        public const string SOCIAL = "Social";
+        public const string GUILD = "System";
+        public const string TRANSACTION = "Transaction";
+    }
     public static class MainType
     {
         public const string USERNAME = "username";

@@ -24,6 +24,11 @@ public class FashionsService : IFashionsService
         return list;
     }
 
+    public async Task<List<Fashions>> GetFashionsSimpleAsync()
+    {
+        return await _fashionsRepository.GetFashionsSimpleAsync();
+    }
+
     public async Task<int> GetFashionsCountAsync(string search, string type, string rare)
     {
         return await _fashionsRepository.GetFashionsCountAsync(search, type, rare);

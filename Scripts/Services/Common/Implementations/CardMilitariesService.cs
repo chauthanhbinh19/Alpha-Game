@@ -24,6 +24,11 @@ public class CardMilitariesService : ICardMilitariesService
         return list;
     }
 
+    public async Task<List<CardMilitaries>> GetCardMilitariesSimpleAsync()
+    {
+        return await _cardMilitariesRepository.GetCardMilitariesSimpleAsync();
+    }
+
     public async Task<int> GetCardMilitariesCountAsync(string search, string type, string rare)
     {
         return await _cardMilitariesRepository.GetCardMilitariesCountAsync(search, type, rare);

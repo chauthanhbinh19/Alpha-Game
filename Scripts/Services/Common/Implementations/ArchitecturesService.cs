@@ -19,6 +19,11 @@ public class ArchitecturesService : IArchitecturesService
         return list;
     }
 
+    public async Task<List<Architectures>> GetArchitecturesSimpleAsync()
+    {
+        return await _architecturesRepository.GetArchitecturesSimpleAsync();
+    }
+
     public async Task<int> GetArchitecturesCountAsync(string search, string rare)
     {
         return await _architecturesRepository.GetArchitecturesCountAsync(search, rare);

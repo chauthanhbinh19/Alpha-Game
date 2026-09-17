@@ -198,6 +198,55 @@ public class OutfitsRepository : IOutfitsRepository
 
         return outfits;
     }
+    public async Task<List<Outfits>> GetOutfitsSimpleAsync()
+    {
+        List<Outfits> outfits = new List<Outfits>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT id, name, image, rare, quality
+                FROM outfits 
+                WHERE 1=1";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            Outfits outfit = new Outfits
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rarity = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            outfits.Add(outfit);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return outfits;
+    }
     public async Task<List<Outfits>> GetOutfitsWithoutLimitAsync()
     {
         List<Outfits> outfits = new List<Outfits>();

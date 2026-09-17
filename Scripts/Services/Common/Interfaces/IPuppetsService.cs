@@ -6,6 +6,7 @@ public interface IPuppetsService
     Task<List<string>> GetUniquePuppetsTypesAsync();
     Task<List<string>> GetUniquePuppetsIdAsync();
     Task<List<Puppets>> GetPuppetsAsync(string search, string type, string rare, int pageSize, int offset);
+    Task<List<Puppets>> GetPuppetsSimpleAsync();
     Task<List<Puppets>> GetPuppetsWithoutLimitAsync();
     Task<int> GetPuppetsCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<bool>> InsertPuppetAsync(Puppets entity);

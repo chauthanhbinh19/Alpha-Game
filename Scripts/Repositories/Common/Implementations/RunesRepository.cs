@@ -160,6 +160,55 @@ public class RunesRepository : IRunesRepository
 
         return runes;
     }
+    public async Task<List<Runes>> GetRunesSimpleAsync()
+    {
+        List<Runes> runes = new List<Runes>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT id, name, image, rare, quality
+                FROM runes 
+                WHERE 1=1";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            Runes rune = new Runes
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rarity = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            runes.Add(rune);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return runes;
+    }
     public async Task<List<Runes>> GetRunesWithoutLimitAsync()
     {
         List<Runes> runes = new List<Runes>();

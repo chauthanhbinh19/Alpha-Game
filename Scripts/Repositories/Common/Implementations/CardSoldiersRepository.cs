@@ -119,6 +119,55 @@ public class CardSoldiersRepository : ICardSoldiersRepository
 
         return count;
     }
+    public async Task<List<CardSoldiers>> GetCardSoldiersSimpleAsync()
+    {
+        List<CardSoldiers> cardSoldiers = new List<CardSoldiers>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT id, name, image, rare, quality
+                FROM card_soldiers 
+                WHERE 1=1";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            CardSoldiers cardSoldier = new CardSoldiers
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rarity = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            cardSoldiers.Add(cardSoldier);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return cardSoldiers;
+    }
     public async Task<List<CardSoldiers>> GetCardSoldiersAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<CardSoldiers> cardAdmirals = new List<CardSoldiers>();

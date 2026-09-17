@@ -23,6 +23,11 @@ public class RelicsService : IRelicsService
         return list;
     }
 
+    public async Task<List<Relics>> GetRelicsSimpleAsync()
+    {
+        return await _relicsRepository.GetRelicsSimpleAsync();
+    }
+
     public async Task<int> GetRelicsCountAsync(string search, string type, string rare)
     {
         return await _relicsRepository.GetRelicsCountAsync(search, type, rare);

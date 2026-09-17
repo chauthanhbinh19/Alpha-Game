@@ -161,6 +161,55 @@ public class SpiritBeastsRepository : ISpiritBeastsRepository
 
         return spiritBeasts;
     }
+    public async Task<List<SpiritBeasts>> GetSpiritBeastsSimpleAsync()
+    {
+        List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT id, name, image, rare, quality
+                FROM spirit_beasts 
+                WHERE 1=1";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            SpiritBeasts spiritBeast = new SpiritBeasts
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rarity = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            spiritBeasts.Add(spiritBeast);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return spiritBeasts;
+    }
     public async Task<List<SpiritBeasts>> GetSpiritBeastsWithoutLimitAsync()
     {
         List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();

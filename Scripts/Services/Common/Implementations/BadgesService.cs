@@ -19,6 +19,11 @@ public class BadgesService : IBadgesService
         return list;
     }
 
+    public async Task<List<Badges>> GetBadgesSimpleAsync()
+    {
+        return await _badgesRepository.GetBadgesSimpleAsync();
+    }
+
     public async Task<int> GetBadgesCountAsync(string search, string rare)
     {
         return await _badgesRepository.GetBadgesCountAsync(search, rare);

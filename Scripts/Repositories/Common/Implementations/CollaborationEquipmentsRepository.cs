@@ -186,6 +186,55 @@ public class CollaborationEquipmentsRepository : ICollaborationEquipmentsReposit
 
         return collaborationEquipments;
     }
+    public async Task<List<CollaborationEquipments>> GetCollaborationEquipmentsSimpleAsync()
+    {
+        List<CollaborationEquipments> collaborationEquipments = new List<CollaborationEquipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT id, name, image, rare, quality
+                FROM collaboration_equipments 
+                WHERE 1=1";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            CollaborationEquipments collaborationEquipment = new CollaborationEquipments
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rarity = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            collaborationEquipments.Add(collaborationEquipment);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return collaborationEquipments;
+    }
     public async Task<List<CollaborationEquipments>> GetCollaborationEquipmentsWithoutLimitAsync()
     {
         List<CollaborationEquipments> collaborationEquipments = new List<CollaborationEquipments>();

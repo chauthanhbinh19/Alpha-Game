@@ -19,6 +19,11 @@ public class TechnologiesService : ITechnologiesService
         return list;
     }
 
+    public async Task<List<Technologies>> GetTechnologiesSimpleAsync()
+    {
+        return await _technologiesRepository.GetTechnologiesSimpleAsync();
+    }
+
     public async Task<int> GetTechnologiesCountAsync(string search, string rare)
     {
         return await _technologiesRepository.GetTechnologiesCountAsync(search, rare);

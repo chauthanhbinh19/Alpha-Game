@@ -24,6 +24,11 @@ public class CardSpellsService : ICardSpellsService
         return list;
     }
 
+    public async Task<List<CardSpells>> GetCardSpellsSimpleAsync()
+    {
+        return await _cardSpellsRepository.GetCardSpellsSimpleAsync();
+    }
+
     public async Task<int> GetCardSpellsCountAsync(string search, string type, string rare)
     {
         return await _cardSpellsRepository.GetCardSpellsCountAsync(search, type, rare);

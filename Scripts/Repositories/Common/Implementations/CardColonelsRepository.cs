@@ -298,6 +298,55 @@ public class CardColonelsRepository : ICardColonelsRepository
 
         return cardColonels;
     }
+    public async Task<List<CardColonels>> GetCardColonelsSimpleAsync()
+    {
+        List<CardColonels> cardColonels = new List<CardColonels>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT id, name, image, rare, quality
+                FROM card_colonels 
+                WHERE 1=1";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            CardColonels cardColonel = new CardColonels
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rarity = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            cardColonels.Add(cardColonel);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return cardColonels;
+    }
     public async Task<List<CardColonels>> GetCardColonelsWithoutLimitAsync()
     {
         List<CardColonels> cardColonels = new List<CardColonels>();

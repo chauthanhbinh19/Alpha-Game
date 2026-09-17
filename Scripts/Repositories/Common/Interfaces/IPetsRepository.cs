@@ -6,6 +6,7 @@ public interface IPetsRepository
     Task<List<string>> GetUniquePetsTypesAsync();
     Task<List<string>> GetUniquePetsIdAsync();
     Task<List<Pets>> GetPetsAsync(string search, string type, string rare, int pageSize, int offset);
+    Task<List<Pets>> GetPetsSimpleAsync();
     Task<List<Pets>> GetPetsWithoutLimitAsync();
     Task<int> GetPetsCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<Pets>> InsertPetAsync(Pets entity);

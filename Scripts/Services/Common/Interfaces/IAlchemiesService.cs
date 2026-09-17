@@ -6,6 +6,7 @@ public interface IAlchemiesService
     Task<List<string>> GetUniqueAlchemiesTypesAsync();
     Task<List<string>> GetUniqueAlchemiesIdAsync();
     Task<List<Alchemies>> GetAlchemiesAsync(string search, string type, string rare, int pageSize, int offset);
+    Task<List<Alchemies>> GetAlchemiesSimpleAsync();
     Task<List<Alchemies>> GetAlchemiesWithoutLimitAsync();
     Task<int> GetAlchemiesCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<bool>> InsertAlchemyAsync(Alchemies entity);

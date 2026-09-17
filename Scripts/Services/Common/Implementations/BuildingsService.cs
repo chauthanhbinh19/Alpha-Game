@@ -24,6 +24,11 @@ public class BuildingsService : IBuildingsService
         return list;
     }
 
+    public async Task<List<Buildings>> GetBuildingsSimpleAsync()
+    {
+        return await _buildingsRepository.GetBuildingsSimpleAsync();
+    }
+
     public async Task<int> GetBuildingsCountAsync(string search, string type, string rare)
     {
         return await _buildingsRepository.GetBuildingsCountAsync(search, type, rare);

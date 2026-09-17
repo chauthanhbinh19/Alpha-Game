@@ -24,6 +24,11 @@ public class ForgesService : IForgesService
         return list;
     }
 
+    public async Task<List<Forges>> GetForgesSimpleAsync()
+    {
+        return await _forgesRepository.GetForgesSimpleAsync();
+    }
+
     public async Task<int> GetForgesCountAsync(string search, string type, string rare)
     {
         return await _forgesRepository.GetForgesCountAsync(search, type, rare);

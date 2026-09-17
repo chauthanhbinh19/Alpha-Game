@@ -36,9 +36,9 @@ public class MailService : IMailService
         return _mailRepository.HardDeleteAsync(mailId);
     }
 
-    public async Task<List<Mail>> GetUserMailsAsync(string receiverId, int page = 1, int pageSize = 20)
+    public async Task<List<Mail>> GetUserMailsAsync(string receiverId, string type, int page = 1, int pageSize = 20)
     {
-        return await GetUserMailsAsync(receiverId, page, pageSize);
+        return await GetUserMailsAsync(receiverId, type, page, pageSize);
     }
 
     public async Task<Mail> GetMailByIdAsync(string mailId)

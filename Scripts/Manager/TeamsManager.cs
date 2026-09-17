@@ -299,18 +299,19 @@ public class TeamsManager : MonoBehaviour
             .Where(c => !string.IsNullOrEmpty(c.Position) && GetX(c.Position) == positionIndex)
             .ToList();
 
-        CreatePositionSlotAsync(cardHeroes.Count, AppDisplayConstants.Title.CARD_HEROES, contentTransform);
-        CreatePositionSlotAsync(cardCaptains.Count, AppDisplayConstants.Title.CARD_CAPTAINS, contentTransform);
-        CreatePositionSlotAsync(cardColonels.Count, AppDisplayConstants.Title.CARD_COLONELS, contentTransform);
-        CreatePositionSlotAsync(cardGenerals.Count, AppDisplayConstants.Title.CARD_GENERALS, contentTransform);
-        CreatePositionSlotAsync(cardAdmirals.Count, AppDisplayConstants.Title.CARD_ADMIRALS, contentTransform);
-        CreatePositionSlotAsync(cardMonsters.Count, AppDisplayConstants.Title.CARD_MONSTERS, contentTransform);
-        CreatePositionSlotAsync(cardMilitaries.Count, AppDisplayConstants.Title.CARD_MILITARIES, contentTransform);
-        CreatePositionSlotAsync(cardSoldiers.Count, AppDisplayConstants.Title.CARD_SOLDIERS, contentTransform);
-        CreatePositionSlotAsync(cardSpells.Count, AppDisplayConstants.Title.CARD_SPELLS, contentTransform);
+        CreatePositionSlotAsync(AppConstants.MainType.CARD_HERO, cardHeroes.Count, AppDisplayConstants.Title.CARD_HEROES, contentTransform);
+        CreatePositionSlotAsync(AppConstants.MainType.CARD_CAPTAIN, cardCaptains.Count, AppDisplayConstants.Title.CARD_CAPTAINS, contentTransform);
+        CreatePositionSlotAsync(AppConstants.MainType.CARD_COLONEL, cardColonels.Count, AppDisplayConstants.Title.CARD_COLONELS, contentTransform);
+        CreatePositionSlotAsync(AppConstants.MainType.CARD_GENERAL, cardGenerals.Count, AppDisplayConstants.Title.CARD_GENERALS, contentTransform);
+        CreatePositionSlotAsync(AppConstants.MainType.CARD_ADMIRAL, cardAdmirals.Count, AppDisplayConstants.Title.CARD_ADMIRALS, contentTransform);
+        CreatePositionSlotAsync(AppConstants.MainType.CARD_MONSTER, cardMonsters.Count, AppDisplayConstants.Title.CARD_MONSTERS, contentTransform);
+        CreatePositionSlotAsync(AppConstants.MainType.CARD_MILITARY, cardMilitaries.Count, AppDisplayConstants.Title.CARD_MILITARIES, contentTransform);
+        CreatePositionSlotAsync(AppConstants.MainType.CARD_SOLDIER, cardSoldiers.Count, AppDisplayConstants.Title.CARD_SOLDIERS, contentTransform);
+        CreatePositionSlotAsync(AppConstants.MainType.CARD_SPELL, cardSpells.Count, AppDisplayConstants.Title.CARD_SPELLS, contentTransform);
     }
-    public void CreatePositionSlotAsync(int slotNumber, string titleDisplayed, Transform contentTransform)
+    public void CreatePositionSlotAsync(string mainType, int slotNumber, string titleDisplayed, Transform contentTransform)
     {
+        MainType = mainType;
         GameObject positionSlotButtonObject = Instantiate(PositionSlotButtonPrefab, contentTransform);
 
         TextMeshProUGUI titleText = positionSlotButtonObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();

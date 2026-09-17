@@ -24,6 +24,11 @@ public class SkillsService : ISkillsService
         return list;
     }
 
+    public async Task<List<Skills>> GetSkillsSimpleAsync()
+    {
+        return await _skillsRepository.GetSkillsSimpleAsync();
+    }
+
     public async Task<int> GetSkillsCountAsync(string search, string type, string rare)
     {
         return await _skillsRepository.GetSkillsCountAsync(search, type, rare);

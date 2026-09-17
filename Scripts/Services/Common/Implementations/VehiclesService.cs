@@ -24,6 +24,11 @@ public class VehiclesService : IVehiclesService
         return list;
     }
 
+    public async Task<List<Vehicles>> GetVehiclesSimpleAsync()
+    {
+        return await _vehiclesRepository.GetVehiclesSimpleAsync();
+    }
+
     public async Task<int> GetVehiclesCountAsync(string search, string type, string rare)
     {
         return await _vehiclesRepository.GetVehiclesCountAsync(search, type, rare);

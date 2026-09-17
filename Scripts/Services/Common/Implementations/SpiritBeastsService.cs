@@ -19,6 +19,11 @@ public class SpiritBeastsService : ISpiritBeastsService
         return list;
     }
 
+    public async Task<List<SpiritBeasts>> GetSpiritBeastsSimpleAsync()
+    {
+        return await _spiritBeastsRepository.GetSpiritBeastsSimpleAsync();
+    }
+
     public async Task<int> GetSpiritBeastsCountAsync(string search, string rare)
     {
         return await _spiritBeastsRepository.GetSpiritBeastCountAsync(search, rare);

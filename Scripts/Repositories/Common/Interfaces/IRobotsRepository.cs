@@ -5,6 +5,7 @@ public interface IRobotsRepository
 {
     Task<List<string>> GetUniqueRobotsIdAsync();
     Task<List<Robots>> GetRobotsAsync(string search, string rare, int pageSize, int offset);
+    Task<List<Robots>> GetRobotsSimpleAsync();
     Task<List<Robots>> GetRobotsWithoutLimitAsync();
     Task<int> GetRobotsCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<Robots>> InsertRobotAsync(Robots entity);

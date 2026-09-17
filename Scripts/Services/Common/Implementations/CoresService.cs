@@ -19,6 +19,11 @@ public class CoresService : ICoresService
         return list;
     }
 
+    public async Task<List<Cores>> GetCoresSimpleAsync()
+    {
+        return await _coresRepository.GetCoresSimpleAsync();
+    }
+
     public async Task<int> GetCoresCountAsync(string search, string rare)
     {
         return await _coresRepository.GetCoresCountAsync(search, rare);

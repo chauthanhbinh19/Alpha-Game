@@ -19,6 +19,11 @@ public class MedalsService : IMedalsService
         return list;
     }
 
+    public async Task<List<Medals>> GetMedalsSimpleAsync()
+    {
+        return await _medalsRepository.GetMedalsSimpleAsync();
+    }
+
     public async Task<int> GetMedalsCountAsync(string search, string rare)
     {
         return await _medalsRepository.GetMedalsCountAsync(search, rare);

@@ -158,6 +158,55 @@ public class AvatarsRepository : IAvatarsRepository
 
         return avatars;
     }
+    public async Task<List<Avatars>> GetAvatarsSimpleAsync()
+    {
+        List<Avatars> avatars = new List<Avatars>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT id, name, image, rare, quality
+                FROM avatars 
+                WHERE 1=1";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            Avatars avatar = new Avatars
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rarity = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            avatars.Add(avatar);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return avatars;
+    }
     public async Task<List<Avatars>> GetAvatarsWithoutLimitAsync()
     {
         List<Avatars> avatars = new List<Avatars>();
@@ -169,7 +218,7 @@ public class AvatarsRepository : IAvatarsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM achievements";
+                string selectSQL = @"SELECT * FROM avatars";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

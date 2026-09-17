@@ -24,6 +24,11 @@ public class SpiritCardsService : ISpiritCardsService
         return list;
     }
 
+    public async Task<List<SpiritCards>> GetSpiritCardsSimpleAsync()
+    {
+        return await _spiritCardsRepository.GetSpiritCardsSimpleAsync();
+    }
+
     public async Task<int> GetSpiritCardsCountAsync(string search, string type, string rare)
     {
         return await _spiritCardsRepository.GetSpiritCardsCountAsync(search, type, rare);

@@ -24,6 +24,11 @@ public class CardMonstersService : ICardMonstersService
         return list;
     }
 
+    public async Task<List<CardMonsters>> GetCardMonstersSimpleAsync()
+    {
+        return await _cardMonstersRepository.GetCardMonstersSimpleAsync();
+    }
+
     public async Task<int> GetCardMonstersCountAsync(string search, string type, string rare)
     {
         return await _cardMonstersRepository.GetCardMonstersCountAsync(search, type, rare);

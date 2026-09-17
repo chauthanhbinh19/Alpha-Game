@@ -5,6 +5,7 @@ public interface ISkillsRepository
     Task<List<string>> GetUniqueSkillsTypesAsync();
     Task<List<string>> GetUniqueSkillsIdAsync();
     Task<List<Skills>> GetSkillsAsync(string search, string type, string rare, int pageSize, int offset);
+    Task<List<Skills>> GetSkillsSimpleAsync();
     Task<List<Skills>> GetSkillsWithoutLimitAsync();
     Task<int> GetSkillsCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<Skills>> InsertSkillAsync(Skills entity);

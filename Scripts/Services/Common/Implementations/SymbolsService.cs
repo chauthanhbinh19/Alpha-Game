@@ -24,6 +24,11 @@ public class SymbolsService : ISymbolsService
         return list;
     }
 
+    public async Task<List<Symbols>> GetSymbolsSimpleAsync()
+    {
+        return await _symbolsRepository.GetSymbolsSimpleAsync();
+    }
+
     public async Task<int> GetSymbolsCountAsync(string search, string type, string rare)
     {
         return await _symbolsRepository.GetSymbolsCountAsync(search, type, rare);

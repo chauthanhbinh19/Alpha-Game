@@ -24,6 +24,11 @@ public class WeaponsService : IWeaponsService
         return list;
     }
 
+    public async Task<List<Weapons>> GetWeaponsSimpleAsync()
+    {
+        return await _weaponsRepository.GetWeaponsSimpleAsync();
+    }
+
     public async Task<int> GetWeaponsCountAsync(string search, string type, string rare)
     {
         return await _weaponsRepository.GetWeaponsCountAsync(search, type, rare);

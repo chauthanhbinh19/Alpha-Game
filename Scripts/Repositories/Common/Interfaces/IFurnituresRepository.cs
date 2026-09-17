@@ -6,6 +6,7 @@ public interface IFurnituresRepository
     Task<List<string>> GetUniqueFurnituresTypesAsync();
     Task<List<string>> GetUniqueFurnituresIdAsync();
     Task<List<Furnitures>> GetFurnituresAsync(string search, string type, string rare, int pageSize, int offset);
+    Task<List<Furnitures>> GetFurnituresSimpleAsync();
     Task<List<Furnitures>> GetFurnituresWithoutLimitAsync();
     Task<int> GetFurnituresCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<Furnitures>> InsertFurnitureAsync(Furnitures entity);

@@ -6,6 +6,7 @@ public interface ICardAdmiralsRepository
     Task<List<string>> GetUniqueCardAdmiralsTypesAsync();
     Task<List<string>> GetUniqueCardAdmiralsIdAsync();
     Task<List<CardAdmirals>> GetCardAdmiralsAsync(string search, string type, string rare, int pageSize, int offset);
+    Task<List<CardAdmirals>> GetCardAdmiralsSimpleAsync();
     Task<List<CardAdmirals>> GetCardAdmiralsWithoutLimitAsync();
     Task<int> GetCardAdmiralsCountAsync(string search, string type, string rare);    
     Task<InsertOrUpdateResult<CardAdmirals>> InsertCardAdmiralAsync(CardAdmirals entity);

@@ -19,6 +19,11 @@ public class PlantsService : IPlantsService
         return list;
     }
 
+    public async Task<List<Plants>> GetPlantsSimpleAsync()
+    {
+        return await _plantsRepository.GetPlantsSimpleAsync();
+    }
+
     public async Task<int> GetPlantsCountAsync(string search, string rare)
     {
         return await _plantsRepository.GetPlantsCountAsync(search, rare);

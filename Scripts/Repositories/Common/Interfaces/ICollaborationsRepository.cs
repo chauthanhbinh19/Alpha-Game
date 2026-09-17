@@ -5,6 +5,7 @@ public interface ICollaborationsRepository
 {
     Task<List<string>> GetUniqueCollaborationsIdAsync();
     Task<List<Collaborations>> GetCollaborationsAsync(string search, string rare, int pageSize, int offset);
+    Task<List<Collaborations>> GetCollaborationsSimpleAsync();
     Task<List<Collaborations>> GetCollaborationsWithoutLimitAsync();
     Task<int> GetCollaborationsCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<Collaborations>> InsertCollaborationAsync(Collaborations entity);

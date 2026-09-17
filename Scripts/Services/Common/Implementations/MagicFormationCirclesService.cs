@@ -24,6 +24,11 @@ public class MagicFormationCirclesService : IMagicFormationCirclesService
         return list;
     }
 
+    public async Task<List<MagicFormationCircles>> GetMagicFormationCirclesSimpleAsync()
+    {
+        return await _magicFormationCirclesRepository.GetMagicFormationCirclesSimpleAsync();
+    }
+
     public async Task<int> GetMagicFormationCirclesCountAsync(string search, string type, string rare)
     {
         return await _magicFormationCirclesRepository.GetMagicFormationCirclesCountAsync(search, type, rare);

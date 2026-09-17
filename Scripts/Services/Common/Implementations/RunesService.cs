@@ -19,6 +19,11 @@ public class RunesService : IRunesService
         return list;
     }
 
+    public async Task<List<Runes>> GetRunesSimpleAsync()
+    {
+        return await _runesRepository.GetRunesSimpleAsync();
+    }
+
     public async Task<int> GetRunesCountAsync(string search, string rare)
     {
         return await _runesRepository.GetRunesCountAsync(search, rare);

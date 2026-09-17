@@ -6,6 +6,7 @@ public interface IForgesRepository
     Task<List<string>> GetUniqueForgesTypesAsync();
     Task<List<string>> GetUniqueForgesIdAsync();
     Task<List<Forges>> GetForgesAsync(string search, string type, string rare, int pageSize, int offset);
+    Task<List<Forges>> GetForgesSimpleAsync();
     Task<List<Forges>> GetForgesWithoutLimitAsync();
     Task<int> GetForgesCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<Forges>> InsertForgeAsync(Forges entity);

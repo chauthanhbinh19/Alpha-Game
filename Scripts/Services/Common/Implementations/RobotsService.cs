@@ -19,6 +19,11 @@ public class RobotsService : IRobotsService
         return list;
     }
 
+    public async Task<List<Robots>> GetRobotsSimpleAsync()
+    {
+        return await _robotsRepository.GetRobotsSimpleAsync();
+    }
+
     public async Task<int> GetRobotsCountAsync(string search, string rare)
     {
         return await _robotsRepository.GetRobotsCountAsync(search, rare);

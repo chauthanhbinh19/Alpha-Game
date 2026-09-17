@@ -24,6 +24,11 @@ public class PetsService : IPetsService
         return list;
     }
 
+    public async Task<List<Pets>> GetPetsSimpleAsync()
+    {
+        return await _petsRepository.GetPetsSimpleAsync();
+    }
+
     public async Task<int> GetPetsCountAsync(string search, string type, string rare)
     {
         return await _petsRepository.GetPetsCountAsync(search, type, rare);

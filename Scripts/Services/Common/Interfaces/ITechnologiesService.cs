@@ -5,6 +5,7 @@ public interface ITechnologiesService
 {
     Task<List<string>> GetUniqueTechnologiesIdAsync();
     Task<List<Technologies>> GetTechnologiesAsync(string search, string rare, int pageSize, int offset);
+    Task<List<Technologies>> GetTechnologiesSimpleAsync();
     Task<List<Technologies>> GetTechnologiesWithoutLimitAsync();
     Task<int> GetTechnologiesCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<bool>> InsertTechnologyAsync(Technologies entity);

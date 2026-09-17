@@ -24,6 +24,11 @@ public class PuppetsService : IPuppetsService
         return list;
     }
 
+    public async Task<List<Puppets>> GetPuppetsSimpleAsync()
+    {
+        return await _puppetsRepository.GetPuppetsSimpleAsync();
+    }
+
     public async Task<int> GetPuppetsCountAsync(string search, string type, string rare)
     {
         return await _puppetsRepository.GetPuppetsCountAsync(search, type, rare);

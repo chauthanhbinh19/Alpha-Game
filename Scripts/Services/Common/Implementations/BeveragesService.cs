@@ -19,6 +19,11 @@ public class BeveragesService : IBeveragesService
         return list;
     }
 
+    public async Task<List<Beverages>> GetBeveragesSimpleAsync()
+    {
+        return await _beveragesRepository.GetBeveragesSimpleAsync();
+    }
+
     public async Task<int> GetBeveragesCountAsync(string search, string rare)
     {
         return await _beveragesRepository.GetBeveragesCountAsync(search, rare);

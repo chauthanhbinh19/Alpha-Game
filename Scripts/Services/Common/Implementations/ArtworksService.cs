@@ -24,6 +24,11 @@ public class ArtworksService : IArtworksService
         return list;
     }
 
+    public async Task<List<Artworks>> GetArtworksSimpleAsync()
+    {
+        return await _artworksRepository.GetArtworksSimpleAsync();
+    }
+
     public async Task<int> GetArtworksCountAsync(string search, string type, string rare)
     {
         return await _artworksRepository.GetArtworksCountAsync(search, type, rare);

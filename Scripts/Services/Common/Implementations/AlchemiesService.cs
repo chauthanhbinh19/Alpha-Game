@@ -24,6 +24,11 @@ public class AlchemiesService : IAlchemiesService
         return list;
     }
 
+    public async Task<List<Alchemies>> GetAlchemiesSimpleAsync()
+    {
+        return await _alchemiesRepository.GetAlchemiesSimpleAsync();
+    }
+
     public async Task<int> GetAlchemiesCountAsync(string search, string type, string rare)
     {
         return await _alchemiesRepository.GetAlchemiesCountAsync(search, type, rare);

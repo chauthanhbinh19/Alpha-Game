@@ -24,6 +24,11 @@ public class CardLivesService : ICardLivesService
         return list;
     }
 
+    public async Task<List<CardLives>> GetCardLivesSimpleAsync()
+    {
+        return await _cardLivesRepository.GetCardLivesSimpleAsync();
+    }
+
     public async Task<int> GetCardLivesCountAsync(string search, string type, string rare)
     {
         return await _cardLivesRepository.GetCardLivesCountAsync(search, type, rare);

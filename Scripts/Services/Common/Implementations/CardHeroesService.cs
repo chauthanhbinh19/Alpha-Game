@@ -28,6 +28,11 @@ public class CardHeroesService : ICardHeroesService
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
+
+    public async Task<List<CardHeroes>> GetCardHeroesSimpleAsync()
+    {
+        return await _cardHeroesRepository.GetCardHeroesSimpleAsync();
+    }
     // public async Task<List<CardHeroes>> GetCardHeroesAsync(string search, string type, string rare, int pageSize, int offset)
     // {
     //     string url =

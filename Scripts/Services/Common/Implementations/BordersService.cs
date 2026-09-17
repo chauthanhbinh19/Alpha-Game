@@ -19,6 +19,11 @@ public class BordersService : IBordersService
         return list;
     }
 
+    public async Task<List<Borders>> GetBordersSimpleAsync()
+    {
+        return await _bordersRepository.GetBordersSimpleAsync();
+    }
+
     public async Task<int> GetBordersCountAsync(string search, string rare)
     {
         return await _bordersRepository.GetBordersCountAsync(search, rare);

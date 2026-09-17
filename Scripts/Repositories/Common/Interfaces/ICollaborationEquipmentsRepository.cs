@@ -6,6 +6,7 @@ public interface ICollaborationEquipmentsRepository
     Task<List<string>> GetUniqueCollaborationEquipmentsTypesAsync();
     Task<List<string>> GetUniqueCollaborationEquipmentsIdAsync();
     Task<List<CollaborationEquipments>> GetCollaborationEquipmentsAsync(string search, string type, string rare, int pageSize, int offset);
+    Task<List<CollaborationEquipments>> GetCollaborationEquipmentsSimpleAsync();
     Task<List<CollaborationEquipments>> GetCollaborationEquipmentsWithoutLimitAsync();
     Task<int> GetCollaborationEquipmentsCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<CollaborationEquipments>> InsertCollaborationEquipmentAsync(CollaborationEquipments entity);

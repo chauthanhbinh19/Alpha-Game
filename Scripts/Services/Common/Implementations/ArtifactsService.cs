@@ -19,6 +19,11 @@ public class ArtifactsService : IArtifactsService
         return list;
     }
 
+    public async Task<List<Artifacts>> GetArtifactsSimpleAsync()
+    {
+        return await _artifactsRepository.GetArtifactsSimpleAsync();
+    }
+
     public async Task<int> GetArtifactsCountAsync(string search, string rare)
     {
         return await _artifactsRepository.GetArtifactsCountAsync(search, rare);

@@ -6,6 +6,7 @@ public interface IWeaponsRepository
     Task<List<string>> GetUniqueWeaponsTypesAsync();
     Task<List<string>> GetUniqueWeaponsIdAsync();
     Task<List<Weapons>> GetWeaponsAsync(string search, string type, string rare, int pageSize, int offset);
+    Task<List<Weapons>> GetWeaponsSimpleAsync();
     Task<List<Weapons>> GetWeaponsWithoutLimitAsync();
     Task<int> GetWeaponsCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<Weapons>> InsertWeaponAsync(Weapons entity);

@@ -20,6 +20,11 @@ public class AchievementsService : IAchievementsService
         return list;
     }
 
+    public async Task<List<Achievements>> GetAchievementsSimpleAsync()
+    {
+        return await _achievementsRepository.GetAchievementsSimpleAsync();
+    }
+
     public async Task<int> GetAchievementsCountAsync(string search, string rare)
     {
         return await _achievementsRepository.GetAchievementsCountAsync(search, rare);

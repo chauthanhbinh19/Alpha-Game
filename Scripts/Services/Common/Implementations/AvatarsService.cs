@@ -19,6 +19,11 @@ public class AvatarsService : IAvatarsService
         return list;
     }
 
+    public async Task<List<Avatars>> GetAvatarsSimpleAsync()
+    {
+        return await _avatarsRepository.GetAvatarsSimpleAsync();
+    }
+
     public async Task<int> GetAvatarsCountAsync(string search, string rare)
     {
         return await _avatarsRepository.GetAvatarsCountAsync(search, rare);

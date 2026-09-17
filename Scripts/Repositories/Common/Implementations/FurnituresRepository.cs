@@ -190,6 +190,55 @@ public class FurnituresRepository : IFurnituresRepository
 
         return furnitures;
     }
+    public async Task<List<Furnitures>> GetFurnituresSimpleAsync()
+    {
+        List<Furnitures> furnitures = new List<Furnitures>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT id, name, image, rare, quality
+                FROM furnitures 
+                WHERE 1=1";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            Furnitures furniture = new Furnitures
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rarity = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            furnitures.Add(furniture);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return furnitures;
+    }
     public async Task<List<Furnitures>> GetFurnituresWithoutLimitAsync()
     {
         List<Furnitures> furnitures = new List<Furnitures>();

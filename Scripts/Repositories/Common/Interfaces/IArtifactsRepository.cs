@@ -5,6 +5,7 @@ public interface IArtifactsRepository
 {
     Task<List<string>> GetUniqueArtifactsIdAsync();
     Task<List<Artifacts>> GetArtifactsAsync(string search, string rare, int pageSize, int offset);
+    Task<List<Artifacts>> GetArtifactsSimpleAsync();
     Task<List<Artifacts>> GetArtifactsWithoutLimitAsync();
     Task<int> GetArtifactsCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<Artifacts>> InsertArtifactAsync(Artifacts entity);

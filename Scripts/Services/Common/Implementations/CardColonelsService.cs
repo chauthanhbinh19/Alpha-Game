@@ -24,6 +24,11 @@ public class CardColonelsService : ICardColonelsService
         return list;
     }
 
+    public async Task<List<CardColonels>> GetCardColonelsSimpleAsync()
+    {
+        return await _cardColonelsRepository.GetCardColonelsSimpleAsync();
+    }
+
     public async Task<int> GetCardColonelsCountAsync(string search, string type, string rare)
     {
         return await _cardColonelsRepository.GetCardColonelsCountAsync(search, type, rare);

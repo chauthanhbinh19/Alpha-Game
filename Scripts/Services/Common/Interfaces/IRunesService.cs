@@ -5,6 +5,7 @@ public interface IRunesService
 {
     Task<List<string>> GetUniqueRunesIdAsync();
     Task<List<Runes>> GetRunesAsync(string search, string rare, int pageSize, int offset);
+    Task<List<Runes>> GetRunesSimpleAsync();
     Task<List<Runes>> GetRunesWithoutLimitAsync();
     Task<int> GetRunesCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<bool>> InsertRuneAsync(Runes entity);

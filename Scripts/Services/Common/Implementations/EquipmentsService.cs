@@ -24,6 +24,11 @@ public class EquipmentsService : IEquipmentsService
         return list;
     }
 
+    public async Task<List<Equipments>> GetEquipmentsSimpleAsync()
+    {
+        return await _equipmentsRepository.GetEquipmentsSimpleAsync();
+    }
+
     public async Task<int> GetEquipmentsCountAsync(string search, string type, string rare)
     {
         return await _equipmentsRepository.GetEquipmentsCountAsync(search, type, rare);

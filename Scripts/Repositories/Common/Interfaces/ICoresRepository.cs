@@ -5,6 +5,7 @@ public interface ICoresRepository
 {
     Task<List<string>> GetUniqueCoresIdAsync();
     Task<List<Cores>> GetCoresAsync(string search, string rare, int pageSize, int offset);
+    Task<List<Cores>> GetCoresSimpleAsync();
     Task<List<Cores>> GetCoresWithoutLimitAsync();
     Task<int> GetCoresCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<Cores>> InsertCoreAsync(Cores entity);

@@ -5,6 +5,7 @@ public interface IBadgesService
 {
     Task<List<string>> GetUniqueBadgesIdAsync();
     Task<List<Badges>> GetBadgesAsync(string search, string rare, int pageSize, int offset);
+    Task<List<Badges>> GetBadgesSimpleAsync();
     Task<List<Badges>> GetBadgesWithoutLimitAsync();
     Task<int> GetBadgesCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<bool>> InsertBadgeAsync(Badges entity);

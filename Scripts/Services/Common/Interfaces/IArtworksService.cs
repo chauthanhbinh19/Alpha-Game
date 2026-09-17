@@ -6,6 +6,7 @@ public interface IArtworksService
     Task<List<string>> GetUniqueArtworksTypesAsync();
     Task<List<string>> GetUniqueArtworksIdAsync();
     Task<List<Artworks>> GetArtworksAsync(string search, string type, string rare, int pageSize, int offset);
+    Task<List<Artworks>> GetArtworksSimpleAsync();
     Task<List<Artworks>> GetArtworksWithoutLimitAsync();
     Task<int> GetArtworksCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<bool>> InsertArtworkAsync(Artworks entity);

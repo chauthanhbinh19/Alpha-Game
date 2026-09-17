@@ -238,6 +238,55 @@ public class CardGeneralsRepository : ICardGeneralsRepository
 
         return cardGenerals;
     }
+    public async Task<List<CardGenerals>> GetCardGeneralsSimpleAsync()
+    {
+        List<CardGenerals> cardGenerals = new List<CardGenerals>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT id, name, image, rare, quality
+                FROM card_generals 
+                WHERE 1=1";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            CardGenerals cardGeneral = new CardGenerals
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rarity = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            cardGenerals.Add(cardGeneral);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return cardGenerals;
+    }
     public async Task<List<CardGenerals>> GetCardGeneralsWithoutLimitAsync()
     {
         List<CardGenerals> cardGenerals = new List<CardGenerals>();

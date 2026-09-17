@@ -19,6 +19,11 @@ public class FoodsService : IFoodsService
         return list;
     }
 
+    public async Task<List<Foods>> GetFoodsSimpleAsync()
+    {
+        return await _foodsRepository.GetFoodsSimpleAsync();
+    }
+
     public async Task<int> GetFoodsCountAsync(string search, string rare)
     {
         return await _foodsRepository.GetFoodsCountAsync(search, rare);

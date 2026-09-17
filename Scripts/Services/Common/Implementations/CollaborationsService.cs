@@ -19,6 +19,11 @@ public class CollaborationsService : ICollaborationsService
         return list;
     }
 
+    public async Task<List<Collaborations>> GetCollaborationsSimpleAsync()
+    {
+        return await _collaborationsRepository.GetCollaborationsSimpleAsync();
+    }
+
     public async Task<int> GetCollaborationsCountAsync(string search, string rare)
     {
         return await _collaborationsRepository.GetCollaborationsCountAsync(search, rare);

@@ -5,6 +5,7 @@ public interface IArchitecturesRepository
 {
     Task<List<string>> GetUniqueArchitecturesIdAsync();
     Task<List<Architectures>> GetArchitecturesAsync(string search, string rare, int pageSize, int offset);
+    Task<List<Architectures>> GetArchitecturesSimpleAsync();
     Task<List<Architectures>> GetArchitecturesWithoutLimitAsync();
     Task<int> GetArchitecturesCountAsync(string search, string rare);
     Task<InsertOrUpdateResult<Architectures>> InsertArchitectureAsync(Architectures entity);

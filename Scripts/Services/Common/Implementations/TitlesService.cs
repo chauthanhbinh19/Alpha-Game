@@ -19,6 +19,11 @@ public class TitlesService : ITitlesService
         return list;
     }
 
+    public async Task<List<Titles>> GetTitlesSimpleAsync()
+    {
+        return await _titlesRepository.GetTitlesSimpleAsync();
+    }
+
     public async Task<int> GetTitlesCountAsync(string search, string rare)
     {
         return await _titlesRepository.GetTitlesCountAsync(search, rare);

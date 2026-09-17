@@ -6,6 +6,7 @@ public interface IEquipmentsRepository
     Task<List<string>> GetUniqueEquipmentsTypesAsync();
     Task<List<string>> GetUniqueEquipmentsIdAsync();
     Task<List<Equipments>> GetEquipmentsAsync(string search, string type, string rare, int pageSize, int offset);
+    Task<List<Equipments>> GetEquipmentsSimpleAsync();
     Task<List<Equipments>> GetEquipmentsWithoutLimitAsync();
     Task<int> GetEquipmentsCountAsync(string search, string type, string rare);
     Task<InsertOrUpdateResult<Equipments>> InsertEquipmentAsync(Equipments entity);
