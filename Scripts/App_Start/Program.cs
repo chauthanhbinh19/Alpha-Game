@@ -96,7 +96,8 @@ public class Program : MonoBehaviour
         ServiceContainer.RegisterInstance<IWeaponsRepository>(new WeaponsRepository());
         ServiceContainer.RegisterInstance<IWorldsRepository>(new WorldsRepository());
         ServiceContainer.RegisterInstance<IPaymentService>(new PaymentService(new PaymentRepository()));
-        ServiceContainer.RegisterInstance<IMailService>(new MailService(new MailRepository()));
+        ServiceContainer.RegisterInstance<IMailsService>(new MailsService(new MailsRepository()));
+        ServiceContainer.RegisterInstance<IUserMailsService>(new UserMailsService(new UserMailsRepository()));
 
         // Repositories - Gallery
         ServiceContainer.RegisterInstance<IAchievementsGalleryRepository>(new AchievementsGalleryRepository());
@@ -339,7 +340,8 @@ public class Program : MonoBehaviour
         ServiceContainer.RegisterSingleton<IWeaponsService, WeaponsService>();
         ServiceContainer.RegisterSingleton<IWorldsService, WorldsService>();
         ServiceContainer.RegisterSingleton<IPaymentService, PaymentService>();
-        ServiceContainer.RegisterSingleton<IMailService, MailService>();
+        ServiceContainer.RegisterSingleton<IMailsService, MailsService>();
+        ServiceContainer.RegisterSingleton<IUserMailsService, UserMailsService>();
 
         //Services - Gallery
         ServiceContainer.RegisterSingleton<IAchievementsGalleryService, AchievementsGalleryService>();

@@ -124,42 +124,42 @@ public class MailManager : MonoBehaviour
     }
     public async Task CreateMailButtonAsync(string type, Transform contentTransform)
     {
-        var mails = await MailService.Create().GetUserMailsAsync(User.CurrentUserId, type);
+        // var mails = await MailService.Create().GetUserMailsAsync(User.CurrentUserId, type);
 
-        foreach(var mail in mails)
-        {
-            GameObject mailButtonObject = Instantiate(MailButtonPrefab, contentTransform);
+        // foreach(var mail in mails)
+        // {
+        //     GameObject mailButtonObject = Instantiate(MailButtonPrefab, contentTransform);
 
-            Transform activeTransform = mailButtonObject.transform.Find("Active");
-            Transform unactiveTransform = mailButtonObject.transform.Find("Unactive");
+        //     Transform activeTransform = mailButtonObject.transform.Find("Active");
+        //     Transform unactiveTransform = mailButtonObject.transform.Find("Unactive");
 
-            if (mail.IsRead)
-            {
-                activeTransform.gameObject.SetActive(false);
-                unactiveTransform.gameObject.SetActive(true);
-            }
-            else
-            {
-                activeTransform.gameObject.SetActive(true);
-                unactiveTransform.gameObject.SetActive(false);
-            }
+        //     if (mail.IsRead)
+        //     {
+        //         activeTransform.gameObject.SetActive(false);
+        //         unactiveTransform.gameObject.SetActive(true);
+        //     }
+        //     else
+        //     {
+        //         activeTransform.gameObject.SetActive(true);
+        //         unactiveTransform.gameObject.SetActive(false);
+        //     }
 
-            TextMeshProUGUI activeSubjectText = mailButtonObject.transform.Find("Active/SubjectText").GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI unactiveSubjectText = mailButtonObject.transform.Find("Unactive/SubjectText").GetComponent<TextMeshProUGUI>();
-            activeSubjectText.text = mail.Subject;
-            unactiveSubjectText.text = mail.Subject;
+        //     TextMeshProUGUI activeSubjectText = mailButtonObject.transform.Find("Active/SubjectText").GetComponent<TextMeshProUGUI>();
+        //     TextMeshProUGUI unactiveSubjectText = mailButtonObject.transform.Find("Unactive/SubjectText").GetComponent<TextMeshProUGUI>();
+        //     activeSubjectText.text = mail.Subject;
+        //     unactiveSubjectText.text = mail.Subject;
 
-            TextMeshProUGUI activeCreateAtText = mailButtonObject.transform.Find("Active/CreateAtText").GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI unactiveCreateAtText = mailButtonObject.transform.Find("Unactive/CreateAtText").GetComponent<TextMeshProUGUI>();
-            activeCreateAtText.text = mail.CreatedAt.ToString("dd-MM-yyyy");
-            unactiveCreateAtText.text = mail.CreatedAt.ToString("dd-MM-yyyy");
+        //     TextMeshProUGUI activeCreateAtText = mailButtonObject.transform.Find("Active/CreateAtText").GetComponent<TextMeshProUGUI>();
+        //     TextMeshProUGUI unactiveCreateAtText = mailButtonObject.transform.Find("Unactive/CreateAtText").GetComponent<TextMeshProUGUI>();
+        //     activeCreateAtText.text = mail.CreatedAt.ToString("dd-MM-yyyy");
+        //     unactiveCreateAtText.text = mail.CreatedAt.ToString("dd-MM-yyyy");
 
-            TextMeshProUGUI activeTotalItemText = mailButtonObject.transform.Find("Active/TotalItemText").GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI unactiveTotalItemText = mailButtonObject.transform.Find("Unactive/TotalItemText").GetComponent<TextMeshProUGUI>();
-            activeTotalItemText.text = mail.Items.Count.ToString();
-            unactiveTotalItemText.text = mail.Items.Count.ToString();
+        //     TextMeshProUGUI activeTotalItemText = mailButtonObject.transform.Find("Active/TotalItemText").GetComponent<TextMeshProUGUI>();
+        //     TextMeshProUGUI unactiveTotalItemText = mailButtonObject.transform.Find("Unactive/TotalItemText").GetComponent<TextMeshProUGUI>();
+        //     activeTotalItemText.text = mail.Items.Count.ToString();
+        //     unactiveTotalItemText.text = mail.Items.Count.ToString();
 
-            Button claimButton = mailButtonObject.transform.Find("ClaimButton").GetComponent<Button>();
-        }
+        //     Button claimButton = mailButtonObject.transform.Find("ClaimButton").GetComponent<Button>();
+        // }
     }
 }
