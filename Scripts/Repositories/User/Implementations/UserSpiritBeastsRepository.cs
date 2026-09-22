@@ -31,12 +31,9 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     GROUP BY user_spirit_beast_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_spirit_beast_id, 
-                    c.name, 
-                    c.image, 
-                    c.rare, 
-                    c.description,
+                    uc.spirit_beast_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_spirit_beasts uc
@@ -355,8 +352,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             return InsertOrUpdateResult<SpiritBeasts>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<SpiritBeasts>>> InsertOrUpdateUserSpiritBeastsBatchAsync(
-    string userId, List<SpiritBeasts> spiritBeasts)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<SpiritBeasts>>> InsertOrUpdateUserSpiritBeastsBatchAsync(string userId, List<SpiritBeasts> spiritBeasts)
     {
         if (spiritBeasts == null || spiritBeasts.Count == 0)
         {
@@ -707,10 +703,13 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     FROM user_spirit_beasts_upgrade
                     GROUP BY user_spirit_beast_id
                 )
-                SELECT uc.* ,
+                SELECT uc.spirit_beast_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_spirit_beasts uc
+                INNER JOIN spirit_beasts c ON uc.spirit_beast_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.spirit_beast_id = am.user_spirit_beast_id
                 LEFT JOIN AggregatedUpgrades au ON uc.spirit_beast_id = au.user_spirit_beast_id
                 WHERE uc.spirit_beast_id = @id AND uc.user_id = @user_id";
@@ -824,7 +823,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 string selectSQL = @"
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -842,9 +841,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_spirit_beasts uc
+                    INNER JOIN spirit_beasts c ON uc.spirit_beast_id = c.id
                     LEFT JOIN user_spirit_beasts_module ubm ON uc.spirit_beast_id = ubm.user_spirit_beast_id
                     LEFT JOIN user_spirit_beasts_upgrade ubu ON uc.spirit_beast_id = ubu.user_spirit_beast_id
                     WHERE uc.user_id = @user_id
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

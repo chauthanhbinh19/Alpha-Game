@@ -77,7 +77,7 @@ public class BadgesRepository : IBadgesRepository
             await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                Badges Badge = new Badges
+                Badges badge = new Badges
                 {
                     Id = reader.GetStringSafe("id"),
                     Name = reader.GetStringSafe("name"),
@@ -149,7 +149,7 @@ public class BadgesRepository : IBadgesRepository
                     Description = reader.GetStringSafe("description")
                 };
 
-                badges.Add(Badge);
+                badges.Add(badge);
             }
         }
         catch (MySqlException ex)

@@ -82,7 +82,7 @@ public class TechnologiesRepository : ITechnologiesRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Technologies medal = new Technologies
+                            Technologies technology = new Technologies
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -154,7 +154,7 @@ public class TechnologiesRepository : ITechnologiesRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            technologies.Add(medal);
+                            technologies.Add(technology);
                         }
                     }
                 }

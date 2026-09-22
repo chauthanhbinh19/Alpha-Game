@@ -46,13 +46,9 @@ public class UserSkillsRepository : IUserSkillsRepository
                     GROUP BY user_skill_id
                 )
                 SELECT 
-                    us.*, 
-                    s.name, 
-                    s.image, 
-                    s.rare, 
-                    s.type, 
-                    s.skill_type, 
-                    s.description,
+                    us.skill_id, 
+                    us.level, us.quality, us.experience, us.star, us.rare, us.block,
+                    s.*,
                     sp.pattern_id,
 
                     -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
@@ -443,8 +439,7 @@ public class UserSkillsRepository : IUserSkillsRepository
             return InsertOrUpdateResult<Skills>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Skills>>> InsertOrUpdateUserSkillsBatchAsync(
-    string userId, List<Skills> skills)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Skills>>> InsertOrUpdateUserSkillsBatchAsync(string userId, List<Skills> skills)
     {
         if (skills == null || skills.Count == 0)
         {
@@ -795,10 +790,13 @@ public class UserSkillsRepository : IUserSkillsRepository
                     FROM user_skills_upgrade
                     GROUP BY user_skill_id
                 )
-                SELECT uc.* ,
+                SELECT uc.skill_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_skills uc
+                INNER JOIN skills s ON us.skill_id = s.id
                 LEFT JOIN AggregatedModules am ON uc.skill_id = am.user_skill_id
                 LEFT JOIN AggregatedUpgrades au ON uc.skill_id = au.user_skill_id
                 WHERE uc.skill_id = @id AND uc.user_id = @user_id";
@@ -907,7 +905,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                SELECT s.*, us.skill_id, us.star, us.level, us.quantity, us.position, us.experience, 
                        IFNULL(chs.position, 0) AS position, sp.pattern_id,
                        -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
@@ -1082,7 +1080,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                SELECT s.*, us.skill_id, us.star, us.level, us.quantity, us.position, us.experience, 
                        IFNULL(chs.position, 0) AS position, sp.pattern_id,
                        -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
@@ -1257,7 +1255,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                SELECT s.*, us.skill_id, us.star, us.level, us.quantity, us.position, us.experience, 
                        IFNULL(chs.position, 0) AS position, sp.pattern_id,
                        -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
@@ -1432,7 +1430,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                SELECT s.*, us.skill_id, us.star, us.level, us.quantity, us.position, us.experience, 
                        IFNULL(chs.position, 0) AS position, sp.pattern_id,
                        -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
@@ -1607,7 +1605,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                SELECT s.*, us.skill_id, us.star, us.level, us.quantity, us.position, us.experience, 
                        IFNULL(chs.position, 0) AS position, sp.pattern_id,
                        -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
@@ -1782,7 +1780,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                SELECT s.*, us.skill_id, us.star, us.level, us.quantity, us.position, us.experience,  
                        IFNULL(chs.position, 0) AS position, sp.pattern_id,
                        -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
@@ -1957,7 +1955,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                SELECT s.*, us.skill_id, us.star, us.level, us.quantity, us.position, us.experience, 
                        IFNULL(chs.position, 0) AS position, sp.pattern_id,
                        -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
@@ -2132,7 +2130,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                SELECT s.*, us.skill_id, us.star, us.level, us.quantity, us.position, us.experience, 
                        IFNULL(chs.position, 0) AS position, sp.pattern_id,
                        -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
@@ -2307,7 +2305,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                SELECT s.*, us.skill_id, us.star, us.level, us.quantity, us.position, us.experience, 
                        IFNULL(chs.position, 0) AS position, sp.pattern_id,
                        -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (

@@ -32,11 +32,9 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
                     GROUP BY user_card_hero_id
                 )
             SELECT 
-                uc.*, 
-                c.name, 
-                c.image, 
-                c.type, 
-                c.description, 
+                    uc.card_hero_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block, uc.team_id, uc.position,
+                    c.*,
                 COALESCE(t.team_number, 0) AS team_number,
                 COALESCE(am.total_module_mult, 0) AS module_multiplier,
                 COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
@@ -293,11 +291,9 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
                     GROUP BY user_card_hero_id
                 )
             SELECT 
-                    uc.*, 
-                    c.name, 
-                    c.image, 
-                    c.type, 
-                    c.description, 
+                    uc.card_hero_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block, uc.team_id, uc.position,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_card_heroes uc
@@ -518,11 +514,9 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
                     GROUP BY user_card_hero_id
                 )
             SELECT distinct
-                    uc.*, 
-                    c.name, 
-                    c.image, 
-                    c.type, 
-                    c.description, 
+                    uc.card_hero_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block, uc.team_id, uc.position,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_card_heroes uc
@@ -742,11 +736,9 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
                     GROUP BY user_card_hero_id
                 )
             SELECT distinct
-                    uc.*, 
-                    c.name, 
-                    c.image, 
-                    c.type, 
-                    c.description, 
+                    uc.card_hero_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block, uc.team_id, uc.position,
+                    c.*, 
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_card_heroes uc
@@ -1377,8 +1369,7 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
             return InsertOrUpdateResult<CardHeroes>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<CardHeroes>>> InsertOrUpdateUserCardHeroesBatchAsync(
-    string userId, List<CardHeroes> cardHeroes)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<CardHeroes>>> InsertOrUpdateUserCardHeroesBatchAsync(string userId, List<CardHeroes> cardHeroes)
     {
         if (cardHeroes == null || cardHeroes.Count == 0)
         {
@@ -1714,7 +1705,9 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
                     FROM user_card_heroes_upgrade
                     GROUP BY user_card_hero_id
                 )
-            SELECT uc.*, c.image,
+            SELECT uc.card_hero_id, 
+                uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block, uc.team_id, uc.position,
+                    c.*,
                 COALESCE(am.total_module_mult, 0) AS module_multiplier,
                 COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier,
             FROM user_card_heroes uc
@@ -1738,6 +1731,9 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
                     Quality = reader.GetDoubleSafe("quality"),
                     Experience = reader.GetDoubleSafe("experience"),
                     Star = reader.GetIntSafe("star"),
+                    Block = reader.GetBoolean("block"),
+                    TeamId = reader.IsDBNull(reader.GetOrdinal("team_id")) ? null : reader.GetStringSafe("team_id"),
+                    Position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetStringSafe("position"),
                     Power = reader.GetDoubleSafe("power"),
                     Health = reader.GetDoubleSafe("health"),
                     PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -1917,7 +1913,7 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
             string selectSQL = @"
            WITH CalculatedCards AS (
                 SELECT 
-                    uc.*,
+                    c.*,
                     (
                         -- Quality: 0 -> 1.0, 1 -> 1.1
                         (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -1935,10 +1931,12 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
                         * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                     ) AS total_multiplier
                 FROM user_card_heroes uc
+                INNER JOIN card_heroes c ON uc.card_hero_id = c.id
                 INNER JOIN teams t ON uc.team_id = t.team_id AND t.is_main = 1
                 LEFT JOIN user_card_heroes_module ubm ON uc.card_hero_id = ubm.user_card_hero_id
                 LEFT JOIN user_card_heroes_upgrade ubu ON uc.card_hero_id = ubu.user_card_hero_id
                 WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL
+                    AND c.is_active = TRUE AND c.is_deleted = FALSE
             )
             SELECT 
                 SUM(health * total_multiplier) AS health,
@@ -2071,57 +2069,59 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
 
             string selectSQL = @"
            SELECT 
-                SUM(uc.health) AS health,
-                SUM(uc.physical_attack) AS physical_attack,
-                SUM(uc.physical_defense) AS physical_defense,
-                SUM(uc.magical_attack) AS magical_attack,
-                SUM(uc.magical_defense) AS magical_defense,
-                SUM(uc.chemical_attack) AS chemical_attack,
-                SUM(uc.chemical_defense) AS chemical_defense,
-                SUM(uc.atomic_attack) AS atomic_attack,
-                SUM(uc.atomic_defense) AS atomic_defense,
-                SUM(uc.mental_attack) AS mental_attack,
-                SUM(uc.mental_defense) AS mental_defense,
-                SUM(uc.speed) AS speed,
-                SUM(uc.critical_damage_rate) AS critical_damage_rate,
-                SUM(uc.critical_rate) AS critical_rate,
-                SUM(uc.critical_resistance_rate) AS critical_resistance_rate,
-                SUM(uc.ignore_critical_rate) AS ignore_critical_rate,
-                SUM(uc.penetration_rate) AS penetration_rate,
-                SUM(uc.penetration_resistance_rate) AS penetration_resistance_rate,
-                SUM(uc.evasion_rate) AS evasion_rate,
-                SUM(uc.damage_absorption_rate) AS damage_absorption_rate,
-                SUM(uc.ignore_damage_absorption_rate) AS ignore_damage_absorption_rate,
-                SUM(uc.absorbed_damage_rate) AS absorbed_damage_rate,
-                SUM(uc.vitality_regeneration_rate) AS vitality_regeneration_rate,
-                SUM(uc.vitality_regeneration_resistance_rate) AS vitality_regeneration_resistance_rate,
-                SUM(uc.accuracy_rate) AS accuracy_rate,
-                SUM(uc.lifesteal_rate) AS lifesteal_rate,
-                SUM(uc.shield_strength) AS shield_strength,
-                SUM(uc.tenacity) AS tenacity,
-                SUM(uc.resistance_rate) AS resistance_rate,
-                SUM(uc.combo_rate) AS combo_rate,
-                SUM(uc.ignore_combo_rate) AS ignore_combo_rate,
-                SUM(uc.combo_damage_rate) AS combo_damage_rate,
-                SUM(uc.combo_resistance_rate) AS combo_resistance_rate,
-                SUM(uc.stun_rate) AS stun_rate,
-                SUM(uc.ignore_stun_rate) AS ignore_stun_rate,
-                SUM(uc.reflection_rate) AS reflection_rate,
-                SUM(uc.ignore_reflection_rate) AS ignore_reflection_rate,
-                SUM(uc.reflection_damage_rate) AS reflection_damage_rate,
-                SUM(uc.reflection_resistance_rate) AS reflection_resistance_rate,
-                SUM(uc.mana) AS mana,
-                SUM(uc.mana_regeneration_rate) AS mana_regeneration_rate,
-                SUM(uc.damage_to_different_faction_rate) AS damage_to_different_faction_rate,
-                SUM(uc.resistance_to_different_faction_rate) AS resistance_to_different_faction_rate,
-                SUM(uc.damage_to_same_faction_rate) AS damage_to_same_faction_rate,
-                SUM(uc.resistance_to_same_faction_rate) AS resistance_to_same_faction_rate,
-                SUM(uc.normal_damage_rate) AS normal_damage_rate,
-                SUM(uc.normal_resistance_rate) AS normal_resistance_rate,
-                SUM(uc.skill_damage_rate) AS skill_damage_rate,
-                SUM(uc.skill_resistance_rate) AS skill_resistance_rate
+                SUM(c.health) AS health,
+                SUM(c.physical_attack) AS physical_attack,
+                SUM(c.physical_defense) AS physical_defense,
+                SUM(c.magical_attack) AS magical_attack,
+                SUM(c.magical_defense) AS magical_defense,
+                SUM(c.chemical_attack) AS chemical_attack,
+                SUM(c.chemical_defense) AS chemical_defense,
+                SUM(c.atomic_attack) AS atomic_attack,
+                SUM(c.atomic_defense) AS atomic_defense,
+                SUM(c.mental_attack) AS mental_attack,
+                SUM(c.mental_defense) AS mental_defense,
+                SUM(c.speed) AS speed,
+                SUM(c.critical_damage_rate) AS critical_damage_rate,
+                SUM(c.critical_rate) AS critical_rate,
+                SUM(c.critical_resistance_rate) AS critical_resistance_rate,
+                SUM(c.ignore_critical_rate) AS ignore_critical_rate,
+                SUM(c.penetration_rate) AS penetration_rate,
+                SUM(c.penetration_resistance_rate) AS penetration_resistance_rate,
+                SUM(c.evasion_rate) AS evasion_rate,
+                SUM(c.damage_absorption_rate) AS damage_absorption_rate,
+                SUM(c.ignore_damage_absorption_rate) AS ignore_damage_absorption_rate,
+                SUM(c.absorbed_damage_rate) AS absorbed_damage_rate,
+                SUM(c.vitality_regeneration_rate) AS vitality_regeneration_rate,
+                SUM(c.vitality_regeneration_resistance_rate) AS vitality_regeneration_resistance_rate,
+                SUM(c.accuracy_rate) AS accuracy_rate,
+                SUM(c.lifesteal_rate) AS lifesteal_rate,
+                SUM(c.shield_strength) AS shield_strength,
+                SUM(c.tenacity) AS tenacity,
+                SUM(c.resistance_rate) AS resistance_rate,
+                SUM(c.combo_rate) AS combo_rate,
+                SUM(c.ignore_combo_rate) AS ignore_combo_rate,
+                SUM(c.combo_damage_rate) AS combo_damage_rate,
+                SUM(c.combo_resistance_rate) AS combo_resistance_rate,
+                SUM(c.stun_rate) AS stun_rate,
+                SUM(c.ignore_stun_rate) AS ignore_stun_rate,
+                SUM(c.reflection_rate) AS reflection_rate,
+                SUM(c.ignore_reflection_rate) AS ignore_reflection_rate,
+                SUM(c.reflection_damage_rate) AS reflection_damage_rate,
+                SUM(c.reflection_resistance_rate) AS reflection_resistance_rate,
+                SUM(c.mana) AS mana,
+                SUM(c.mana_regeneration_rate) AS mana_regeneration_rate,
+                SUM(c.damage_to_different_faction_rate) AS damage_to_different_faction_rate,
+                SUM(c.resistance_to_different_faction_rate) AS resistance_to_different_faction_rate,
+                SUM(c.damage_to_same_faction_rate) AS damage_to_same_faction_rate,
+                SUM(c.resistance_to_same_faction_rate) AS resistance_to_same_faction_rate,
+                SUM(c.normal_damage_rate) AS normal_damage_rate,
+                SUM(c.normal_resistance_rate) AS normal_resistance_rate,
+                SUM(c.skill_damage_rate) AS skill_damage_rate,
+                SUM(c.skill_resistance_rate) AS skill_resistance_rate
             FROM user_card_heroes uc
-            WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL;";
+            INNER JOIN card_heroes c ON uc.card_hero_id = c.id
+            WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL
+                AND c.is_active = TRUE AND c.is_deleted = FALSE;";
 
             await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
             selectCommand.Parameters.AddWithValue("@user_id", userId);

@@ -31,12 +31,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*, 
-                    e.id AS base_equipment_id, 
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type,
+                    ue.equipment_id, 
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     
                     -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
@@ -270,12 +267,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*, 
-                    e.id AS base_equipment_id, 
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type,
+                    ue.equipment_id, 
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     
                     -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
@@ -540,10 +534,13 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     FROM user_equipments_upgrade
                     GROUP BY user_equipment_id
                 )
-                SELECT uc.* ,
+                SELECT uc.equipment_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_equipments uc
+                INNER JOIN Equipments e ON uc.equipment_id = e.id
                 LEFT JOIN AggregatedModules am ON uc.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON uc.equipment_id = au.user_equipment_id
                 WHERE uc.equipment_id = @id AND uc.user_id = @user_id";
@@ -824,8 +821,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             return InsertOrUpdateResult<Equipments>.Failure($"Lỗi Database: {ex.Message}");
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Equipments>>> InsertOrUpdateUserEquipmentsBatchAsync(
-    string userId, List<(Equipments data, double quantity)> list)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Equipments>>> InsertOrUpdateUserEquipmentsBatchAsync(string userId, List<(Equipments data, double quantity)> list)
     {
         if (list == null || list.Count == 0)
         {
@@ -1874,13 +1870,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 SELECT 
                     che.card_hero_id, -- Nhận biết trang bị thuộc về Card Hero nào
                     che.position,
-                    ue.*, 
-                    e.id AS base_equipment_id, 
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type, 
-                    e.equipmentSet,
+                    ue.equipment_id,  
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
                     COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
 
@@ -2041,13 +2033,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 SELECT 
                     che.card_captain_id, -- Nhận biết trang bị thuộc về Card Hero nào
                     che.position,
-                    ue.*, 
-                    e.id AS base_equipment_id, 
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type, 
-                    e.equipmentSet,
+                    ue.equipment_id, 
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
                     COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
 
@@ -2208,13 +2196,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 SELECT 
                     che.card_colonel_id, -- Nhận biết trang bị thuộc về Card Hero nào
                     che.position,
-                    ue.*, 
-                    e.id AS base_equipment_id, 
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type, 
-                    e.equipmentSet,
+                    ue.equipment_id, 
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
                     COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
 
@@ -2375,13 +2359,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 SELECT 
                     che.card_general_id, -- Nhận biết trang bị thuộc về Card Hero nào
                     che.position,
-                    ue.*, 
-                    e.id AS base_equipment_id, 
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type, 
-                    e.equipmentSet,
+                    ue.equipment_id, 
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
                     COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
 
@@ -2542,13 +2522,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 SELECT 
                     che.card_admiral_id, -- Nhận biết trang bị thuộc về Card Hero nào
                     che.position,
-                    ue.*, 
-                    e.id AS base_equipment_id, 
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type, 
-                    e.equipmentSet,
+                    ue.equipment_id, 
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
                     COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
 
@@ -2709,13 +2685,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 SELECT 
                     che.card_monster_id, -- Nhận biết trang bị thuộc về Card Hero nào
                     che.position,
-                    ue.*, 
-                    e.id AS base_equipment_id, 
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type, 
-                    e.equipmentSet,
+                    ue.equipment_id, 
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
                     COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
 
@@ -2876,13 +2848,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 SELECT 
                     che.card_military_id, -- Nhận biết trang bị thuộc về Card Hero nào
                     che.position,
-                    ue.*, 
-                    e.id AS base_equipment_id, 
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type, 
-                    e.equipmentSet,
+                    ue.equipment_id, 
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
                     COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
 
@@ -3043,13 +3011,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 SELECT 
                     che.card_soldier_id, -- Nhận biết trang bị thuộc về Card Hero nào
                     che.position,
-                    ue.*, 
-                    e.id AS base_equipment_id, 
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type, 
-                    e.equipmentSet,
+                    ue.equipment_id, 
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
                     COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
 
@@ -3210,13 +3174,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 SELECT 
                     che.card_spell_id, -- Nhận biết trang bị thuộc về Card Hero nào
                     che.position,
-                    ue.*, 
-                    e.id AS base_equipment_id, 
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type, 
-                    e.equipmentSet,
+                    ue.equipment_id, 
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
                     COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
 
@@ -3377,13 +3337,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 SELECT 
                     che.book_id, -- Nhận biết trang bị thuộc về Card Hero nào
                     che.position,
-                    ue.*, 
-                    e.id AS base_equipment_id, 
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type, 
-                    e.equipmentSet,
+                    ue.equipment_id, 
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
                     COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
 
@@ -3544,13 +3500,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 SELECT 
                     che.pet_id, -- Nhận biết trang bị thuộc về Card Hero nào
                     che.position,
-                    ue.*, 
-                    e.id AS base_equipment_id, 
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type, 
-                    e.equipmentSet,
+                    ue.equipment_id, 
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
                     COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
 
@@ -3708,13 +3660,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*, 
-                    e.id AS base_equipment_id,
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type, 
-                    e.equipmentSet,
+                    ue.equipment_id, 
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     che.position,
                     CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS status,
 
@@ -3918,13 +3866,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*, 
-                    e.id AS base_equipment_id,
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type, 
-                    e.equipmentSet,
+                    ue.equipment_id, 
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     che.position,
                     CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS status,
 
@@ -4128,13 +4072,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*, 
-                    e.id AS base_equipment_id,
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type, 
-                    e.equipmentSet,
+                    ue.equipment_id, 
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     che.position,
                     CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS status,
 
@@ -4338,13 +4278,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*, 
-                    e.id AS base_equipment_id,
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type, 
-                    e.equipmentSet,
+                    ue.equipment_id, 
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     che.position,
                     CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS status,
 
@@ -4544,13 +4480,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*, 
-                    e.id AS base_equipment_id,
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type, 
-                    e.equipmentSet,
+                    ue.equipment_id, 
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     che.position,
                     CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS status,
 
@@ -4754,13 +4686,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*, 
-                    e.id AS base_equipment_id,
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type, 
-                    e.equipmentSet,
+                    ue.equipment_id,
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block, 
+                    e.*,
                     che.position,
                     CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS status,
 
@@ -4964,13 +4892,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*, 
-                    e.id AS base_equipment_id,
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type, 
-                    e.equipmentSet,
+                    ue.equipment_id, 
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     che.position,
                     CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS status,
 
@@ -5174,13 +5098,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*, 
-                    e.id AS base_equipment_id,
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type, 
-                    e.equipmentSet,
+                    ue.equipment_id, 
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     che.position,
                     CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS status,
 
@@ -5384,13 +5304,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*, 
-                    e.id AS base_equipment_id,
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type, 
-                    e.equipmentSet,
+                    ue.equipment_id, 
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     che.position,
                     CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS status,
 
@@ -5594,13 +5510,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*, 
-                    e.id AS base_equipment_id,
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type, 
-                    e.equipmentSet,
+                    ue.equipment_id, 
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     che.position,
                     CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS status,
 
@@ -5804,13 +5716,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*, 
-                    e.id AS base_equipment_id,
-                    e.name, 
-                    e.image, 
-                    e.rare, 
-                    e.type, 
-                    e.equipmentSet,
+                    ue.equipment_id, 
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     che.position,
                     CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS status,
 
@@ -6891,7 +6799,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*,
+                    ue.equipment_id,
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     che.position,
                     
                     -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
@@ -6904,6 +6814,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 AND uc.user_id = che.user_id
                 INNER JOIN user_equipments ue 
                     ON che.equipment_id = ue.equipment_id  AND uc.user_id = ue.user_id
+                INNER JOIN equipments e ON ue.equipment_id = e.id
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
@@ -7104,7 +7015,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*,
+                    ue.equipment_id,
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     che.position,
                     
                     -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
@@ -7117,6 +7030,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 AND uc.user_id = che.user_id
                 INNER JOIN user_equipments ue 
                     ON che.equipment_id = ue.equipment_id  AND uc.user_id = ue.user_id
+                INNER JOIN equipments e ON ue.equipment_id = e.id
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
@@ -7317,7 +7231,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*,
+                    ue.equipment_id,
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     che.position,
                     
                     -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
@@ -7330,6 +7246,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 AND uc.user_id = che.user_id
                 INNER JOIN user_equipments ue 
                     ON che.equipment_id = ue.equipment_id  AND uc.user_id = ue.user_id
+                INNER JOIN equipments e ON ue.equipment_id = e.id
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
@@ -7530,7 +7447,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*,
+                    ue.equipment_id,
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     che.position,
                     
                     -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
@@ -7543,6 +7462,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 AND uc.user_id = che.user_id
                 INNER JOIN user_equipments ue 
                     ON che.equipment_id = ue.equipment_id  AND uc.user_id = ue.user_id
+                INNER JOIN equipments e ON ue.equipment_id = e.id
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
@@ -7743,7 +7663,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*,
+                    ue.equipment_id,
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     che.position,
                     
                     -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
@@ -7756,6 +7678,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 AND uc.user_id = che.user_id
                 INNER JOIN user_equipments ue 
                     ON che.equipment_id = ue.equipment_id  AND uc.user_id = ue.user_id
+                INNER JOIN equipments e ON ue.equipment_id = e.id
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
@@ -7956,7 +7879,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*,
+                    ue.equipment_id,
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     che.position,
                     
                     -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
@@ -7969,6 +7894,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 AND uc.user_id = che.user_id
                 INNER JOIN user_equipments ue 
                     ON che.equipment_id = ue.equipment_id  AND uc.user_id = ue.user_id
+                INNER JOIN equipments e ON ue.equipment_id = e.id
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
@@ -8169,7 +8095,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*,
+                    ue.equipment_id,
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     che.position,
                     
                     -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
@@ -8182,6 +8110,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 AND uc.user_id = che.user_id
                 INNER JOIN user_equipments ue 
                     ON che.equipment_id = ue.equipment_id  AND uc.user_id = ue.user_id
+                INNER JOIN equipments e ON ue.equipment_id = e.id
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
@@ -8382,7 +8311,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*,
+                    ue.equipment_id,
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     che.position,
                     
                     -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
@@ -8395,6 +8326,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 AND uc.user_id = che.user_id
                 INNER JOIN user_equipments ue 
                     ON che.equipment_id = ue.equipment_id  AND uc.user_id = ue.user_id
+                INNER JOIN equipments e ON ue.equipment_id = e.id
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
@@ -8595,7 +8527,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*,
+                    ue.equipment_id,
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     che.position,
                     
                     -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
@@ -8608,6 +8542,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 AND uc.user_id = che.user_id
                 INNER JOIN user_equipments ue 
                     ON che.equipment_id = ue.equipment_id  AND uc.user_id = ue.user_id
+                INNER JOIN equipments e ON ue.equipment_id = e.id
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
@@ -8808,7 +8743,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*,
+                    ue.equipment_id,
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     che.position,
                     
                     -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
@@ -8821,6 +8758,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 AND uc.user_id = che.user_id
                 INNER JOIN user_equipments ue 
                     ON che.equipment_id = ue.equipment_id  AND uc.user_id = ue.user_id
+                INNER JOIN equipments e ON ue.equipment_id = e.id
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
@@ -9021,7 +8959,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     GROUP BY user_equipment_id
                 )
                 SELECT 
-                    ue.*,
+                    ue.equipment_id,
+                    ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    e.*,
                     che.position,
                     
                     -- Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
@@ -9034,6 +8974,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 AND uc.user_id = che.user_id
                 INNER JOIN user_equipments ue 
                     ON che.equipment_id = ue.equipment_id  AND uc.user_id = ue.user_id
+                INNER JOIN equipments e ON ue.equipment_id = e.id
                 LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 

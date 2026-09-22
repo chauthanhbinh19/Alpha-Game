@@ -31,13 +31,9 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                     GROUP BY user_furniture_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_furniture_id, 
-                    c.name, 
-                    c.image, 
-                    c.type,
-                    c.rare, 
-                    c.description,
+                    uc.furniture_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_furnitures uc
@@ -373,8 +369,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
             return InsertOrUpdateResult<Furnitures>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Furnitures>>> InsertOrUpdateUserFurnituresBatchAsync(
-    string userId, List<Furnitures> furnitures)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Furnitures>>> InsertOrUpdateUserFurnituresBatchAsync(string userId, List<Furnitures> furnitures)
     {
         if (furnitures == null || furnitures.Count == 0)
         {
@@ -727,10 +722,13 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                     FROM user_furnitures_upgrade
                     GROUP BY user_furniture_id
                 )
-                SELECT uc.* ,
+                SELECT uc.furniture_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_furnitures uc
+                INNER JOIN furnitures c ON uc.furniture_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.furniture_id = am.user_furniture_id
                 LEFT JOIN AggregatedUpgrades au ON uc.furniture_id = au.user_furniture_id
                 WHERE uc.furniture_id = @id AND uc.user_id = @user_id;";
@@ -844,7 +842,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                 string selectSQL = @"
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -862,9 +860,11 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_furnitures uc
+                    INNER JOIN furnitures c ON uc.furniture_id = c.id
                     LEFT JOIN user_furnitures_module ubm ON uc.furniture_id = ubm.user_furniture_id
                     LEFT JOIN user_furnitures_upgrade ubu ON uc.furniture_id = ubu.user_furniture_id
                     WHERE uc.user_id = @user_id
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

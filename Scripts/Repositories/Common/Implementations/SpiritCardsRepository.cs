@@ -106,7 +106,7 @@ public class SpiritCardsRepository : ISpiritCardsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            SpiritCards SpiritCard = new SpiritCards
+                            SpiritCards spiritCard = new SpiritCards
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -178,7 +178,7 @@ public class SpiritCardsRepository : ISpiritCardsRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            spiritCards.Add(SpiritCard);
+                            spiritCards.Add(spiritCard);
                         }
                     }
                 }

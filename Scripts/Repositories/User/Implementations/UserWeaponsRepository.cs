@@ -31,13 +31,9 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                     GROUP BY user_weapon_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_weapon_id, 
-                    c.name, 
-                    c.image, 
-                    c.type,
-                    c.rare, 
-                    c.description,
+                    uc.weapon_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_weapons uc
@@ -379,8 +375,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
             return InsertOrUpdateResult<Weapons>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Weapons>>> InsertOrUpdateUserWeaponsBatchAsync(
-    string userId, List<Weapons> weapons)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Weapons>>> InsertOrUpdateUserWeaponsBatchAsync(string userId, List<Weapons> weapons)
     {
         if (weapons == null || weapons.Count == 0)
         {
@@ -729,10 +724,13 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                     FROM user_weapons_upgrade
                     GROUP BY user_weapon_id
                 )
-                SELECT uc.* ,
+                SELECT uc.weapon_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_weapons uc
+                INNER JOIN weapons c ON uc.weapon_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.weapon_id = am.user_weapon_id
                 LEFT JOIN AggregatedUpgrades au ON uc.weapon_id = au.user_weapon_id
                 WHERE uc.weapon_id = @id AND uc.user_id = @user_id";
@@ -843,7 +841,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                 string selectSQL = @" 
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -861,9 +859,11 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_weapons uc
+                    INNER JOIN weapons c ON uc.weapon_id = c.id
                     LEFT JOIN user_weapons_module ubm ON uc.weapon_id = ubm.user_weapon_id
                     LEFT JOIN user_weapons_upgrade ubu ON uc.weapon_id = ubu.user_weapon_id
                     WHERE uc.user_id = @user_id
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

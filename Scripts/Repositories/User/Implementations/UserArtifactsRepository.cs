@@ -31,12 +31,9 @@ public class UserArtifactsRepository : IUserArtifactsRepository
                     GROUP BY user_artifact_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_artifact_id, 
-                    c.name, 
-                    c.image, 
-                    c.rare, 
-                    c.description,
+                    uc.artifact_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_artifacts uc
@@ -357,8 +354,7 @@ public class UserArtifactsRepository : IUserArtifactsRepository
             return InsertOrUpdateResult<Artifacts>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Artifacts>>> InsertOrUpdateUserArtifactsBatchAsync(
-    string userId, List<Artifacts> artifacts)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Artifacts>>> InsertOrUpdateUserArtifactsBatchAsync(string userId, List<Artifacts> artifacts)
     {
         if (artifacts == null || artifacts.Count == 0)
         {
@@ -709,10 +705,13 @@ public class UserArtifactsRepository : IUserArtifactsRepository
                     FROM user_artifacts_upgrade
                     GROUP BY user_artifact_id
                 )
-                SELECT uc.* ,
+                SELECT uc.artifact_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_artifacts uc
+                INNER JOIN artifacts c ON uc.artifact_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.artifact_id = am.user_artifact_id
                 LEFT JOIN AggregatedUpgrades au ON uc.artifact_id = au.user_artifact_id
                 WHERE uc.artifact_id = @id AND uc.user_id = @user_id";
@@ -823,7 +822,7 @@ public class UserArtifactsRepository : IUserArtifactsRepository
                 string selectSQL = @" 
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -841,9 +840,11 @@ public class UserArtifactsRepository : IUserArtifactsRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_artifacts uc
+                    INNER JOIN artifacts c ON uc.artifact_id = c.id
                     LEFT JOIN user_artifacts_module ubm ON uc.artifact_id = ubm.user_artifact_id
                     LEFT JOIN user_artifacts_upgrade ubu ON uc.artifact_id = ubu.user_artifact_id
                     WHERE uc.user_id = @user_id
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

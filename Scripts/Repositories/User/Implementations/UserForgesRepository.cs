@@ -31,13 +31,9 @@ public class UserForgesRepository : IUserForgesRepository
                     GROUP BY user_forge_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_forge_id, 
-                    c.name, 
-                    c.image, 
-                    c.type,
-                    c.rare, 
-                    c.description,
+                    uc.forge_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_forges uc
@@ -373,8 +369,7 @@ public class UserForgesRepository : IUserForgesRepository
             return InsertOrUpdateResult<Forges>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Forges>>> InsertOrUpdateUserForgesBatchAsync(
-    string userId, List<Forges> forges)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Forges>>> InsertOrUpdateUserForgesBatchAsync(string userId, List<Forges> forges)
     {
         if (forges == null || forges.Count == 0)
         {
@@ -727,10 +722,13 @@ public class UserForgesRepository : IUserForgesRepository
                     FROM user_forges_upgrade
                     GROUP BY user_forge_id
                 )
-                SELECT uc.* ,
+                SELECT uc.forge_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_forges uc
+                INNER JOIN forges c ON uc.forge_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.forge_id = am.user_forge_id
                 LEFT JOIN AggregatedUpgrades au ON uc.forge_id = au.user_forge_id
                 WHERE uc.forge_id = @id AND uc.user_id = @user_id";
@@ -844,7 +842,7 @@ public class UserForgesRepository : IUserForgesRepository
                 string selectSQL = @"
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -862,9 +860,11 @@ public class UserForgesRepository : IUserForgesRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_forges uc
+                    INNER JOIN forges c ON uc.forge_id = c.id
                     LEFT JOIN user_forges_module ubm ON uc.forge_id = ubm.user_forge_id
                     LEFT JOIN user_forges_upgrade ubu ON uc.forge_id = ubu.user_forge_id
                     WHERE uc.user_id = @user_id
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

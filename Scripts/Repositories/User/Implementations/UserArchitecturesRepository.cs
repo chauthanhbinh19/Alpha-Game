@@ -31,12 +31,9 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                     GROUP BY user_architecture_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_architecture_id, 
-                    c.name, 
-                    c.image, 
-                    c.rare, 
-                    c.description,
+                    uc.architecture_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_architectures uc
@@ -354,8 +351,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
             return InsertOrUpdateResult<Architectures>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Architectures>>> InsertOrUpdateUserArchitecturesBatchAsync(
-    string userId, List<Architectures> architectures)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Architectures>>> InsertOrUpdateUserArchitecturesBatchAsync(string userId, List<Architectures> architectures)
     {
         if (architectures == null || architectures.Count == 0)
         {
@@ -708,10 +704,13 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                     FROM user_architectures_upgrade
                     GROUP BY user_architecture_id
                 )
-                SELECT uc.* ,
+                SELECT uc.architecture_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_architectures uc
+                INNER JOIN architectures c ON uc.architecture_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.architecture_id = am.user_architecture_id
                 LEFT JOIN AggregatedUpgrades au ON uc.architecture_id = au.user_architecture_id
                 WHERE uc.architecture_id = @id AND uc.user_id = @user_id";
@@ -825,7 +824,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                 string selectSQL = @"
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -843,9 +842,11 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_architectures uc
+                    INNER JOIN architectures c ON uc.architecture_id = c.id
                     LEFT JOIN user_architectures_module ubm ON uc.architecture_id = ubm.user_architecture_id
                     LEFT JOIN user_architectures_upgrade ubu ON uc.architecture_id = ubu.user_architecture_id
                     WHERE uc.user_id = @user_id
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

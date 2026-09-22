@@ -31,12 +31,9 @@ public class UserBadgesRepository : IUserBadgesRepository
                     GROUP BY user_badge_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_badge_id, 
-                    c.name, 
-                    c.image, 
-                    c.rare, 
-                    c.description,
+                    uc.badge_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_badges uc
@@ -356,8 +353,7 @@ public class UserBadgesRepository : IUserBadgesRepository
             return InsertOrUpdateResult<Badges>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Badges>>> InsertOrUpdateUserBadgesBatchAsync(
-    string userId, List<Badges> badges)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Badges>>> InsertOrUpdateUserBadgesBatchAsync(string userId, List<Badges> badges)
     {
         if (badges == null || badges.Count == 0)
         {
@@ -710,10 +706,13 @@ public class UserBadgesRepository : IUserBadgesRepository
                     FROM user_badges_upgrade
                     GROUP BY user_badge_id
                 )
-                SELECT uc.* ,
+                SELECT uc.badge_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_badges uc
+                INNER JOIN badges c ON uc.badge_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.badge_id = am.user_badge_id
                 LEFT JOIN AggregatedUpgrades au ON uc.badge_id = au.user_badge_id
                 WHERE uc.badge_id = @id 
@@ -828,7 +827,7 @@ public class UserBadgesRepository : IUserBadgesRepository
                 string selectSQL = @"
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -846,9 +845,11 @@ public class UserBadgesRepository : IUserBadgesRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_badges uc
+                    INNER JOIN badges c ON uc.badge_id = c.id
                     LEFT JOIN user_badges_module ubm ON uc.badge_id = ubm.user_badge_id
                     LEFT JOIN user_badges_upgrade ubu ON uc.badge_id = ubu.user_badge_id
                     WHERE uc.user_id = @user_id
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

@@ -31,13 +31,9 @@ public class UserArtworksRepository : IUserArtworksRepository
                     GROUP BY user_artwork_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_artwork_id, 
-                    c.name, 
-                    c.image, 
-                    c.type,
-                    c.rare, 
-                    c.description,
+                    uc.artwork_id,  
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_artworks uc
@@ -375,8 +371,7 @@ public class UserArtworksRepository : IUserArtworksRepository
             return InsertOrUpdateResult<Artworks>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Artworks>>> InsertOrUpdateUserArtworksBatchAsync(
-    string userId, List<Artworks> artworks)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Artworks>>> InsertOrUpdateUserArtworksBatchAsync(string userId, List<Artworks> artworks)
     {
         if (artworks == null || artworks.Count == 0)
         {
@@ -729,10 +724,13 @@ public class UserArtworksRepository : IUserArtworksRepository
                     FROM user_artworks_upgrade
                     GROUP BY user_artwork_id
                 )
-                SELECT uc.* ,
+                SELECT uc.artwork_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_artworks uc
+                INNER JOIN artworks c ON uc.artwork_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.artwork_id = am.user_artwork_id
                 LEFT JOIN AggregatedUpgrades au ON uc.artwork_id = au.user_artwork_id
                 WHERE uc.artwork_id = @id 
@@ -847,7 +845,7 @@ public class UserArtworksRepository : IUserArtworksRepository
                 string selectSQL = @"
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -865,9 +863,11 @@ public class UserArtworksRepository : IUserArtworksRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_artworks uc
+                    INNER JOIN artworks c ON uc.artwork_id = c.id
                     LEFT JOIN user_artworks_module ubm ON uc.artwork_id = ubm.user_artwork_id
                     LEFT JOIN user_artworks_upgrade ubu ON uc.artwork_id = ubu.user_artwork_id
                     WHERE uc.user_id = @user_id
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

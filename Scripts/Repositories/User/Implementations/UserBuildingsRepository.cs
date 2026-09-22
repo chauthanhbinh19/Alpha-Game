@@ -31,13 +31,9 @@ public class UserBuildingsRepository : IUserBuildingsRepository
                     GROUP BY user_building_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_building_id, 
-                    c.name, 
-                    c.image, 
-                    c.type,
-                    c.rare, 
-                    c.description,
+                    uc.building_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_buildings uc
@@ -374,8 +370,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
             return InsertOrUpdateResult<Buildings>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Buildings>>> InsertOrUpdateUserBuildingsBatchAsync(
-    string userId, List<Buildings> buildings)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Buildings>>> InsertOrUpdateUserBuildingsBatchAsync(string userId, List<Buildings> buildings)
     {
         if (buildings == null || buildings.Count == 0)
         {
@@ -728,10 +723,13 @@ public class UserBuildingsRepository : IUserBuildingsRepository
                     FROM user_buildings_upgrade
                     GROUP BY user_building_id
                 )
-                SELECT uc.* ,
+                SELECT uc.building_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_buildings uc
+                INNER JOIN buildings c ON uc.building_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.building_id = am.user_building_id
                 LEFT JOIN AggregatedUpgrades au ON uc.building_id = au.user_building_id
                 WHERE uc.building_id = @id AND uc.user_id = @user_id";
@@ -845,7 +843,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
                 string selectSQL = @"
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -863,9 +861,11 @@ public class UserBuildingsRepository : IUserBuildingsRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_buildings uc
+                    INNER JOIN buildings c ON uc.building_id = c.id
                     LEFT JOIN user_buildings_module ubm ON uc.building_id = ubm.user_building_id
                     LEFT JOIN user_buildings_upgrade ubu ON uc.building_id = ubu.user_building_id
                     WHERE uc.user_id = @user_id 
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

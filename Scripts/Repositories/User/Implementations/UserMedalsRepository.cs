@@ -31,12 +31,9 @@ public class UserMedalsRepository : IUserMedalsRepository
                     GROUP BY user_medal_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_medal_id, 
-                    c.name, 
-                    c.image, 
-                    c.rare, 
-                    c.description,
+                    uc.medal_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_medals uc
@@ -354,8 +351,7 @@ public class UserMedalsRepository : IUserMedalsRepository
             return InsertOrUpdateResult<Medals>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Medals>>> InsertOrUpdateUserMedalsBatchAsync(
-    string userId, List<Medals> medals)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Medals>>> InsertOrUpdateUserMedalsBatchAsync(string userId, List<Medals> medals)
     {
         if (medals == null || medals.Count == 0)
         {
@@ -704,10 +700,13 @@ public class UserMedalsRepository : IUserMedalsRepository
                     FROM user_medals_upgrade
                     GROUP BY user_medal_id
                 )
-                SELECT uc.* ,
+                SELECT uc.medal_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_medals uc
+                INNER JOIN medals c ON uc.medal_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.medal_id = am.user_medal_id
                 LEFT JOIN AggregatedUpgrades au ON uc.medal_id = au.user_medal_id
                 WHERE uc.medal_id = @id AND uc.user_id = @user_id";
@@ -818,7 +817,7 @@ public class UserMedalsRepository : IUserMedalsRepository
                 string selectSQL = @" 
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -836,9 +835,11 @@ public class UserMedalsRepository : IUserMedalsRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_medals uc
+                    INNER JOIN medals c ON uc.medal_id = c.id
                     LEFT JOIN user_medals_module ubm ON uc.medal_id = ubm.user_medal_id
                     LEFT JOIN user_medals_upgrade ubu ON uc.medal_id = ubu.user_medal_id
                     WHERE uc.user_id = @user_id
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

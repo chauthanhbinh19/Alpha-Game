@@ -112,7 +112,7 @@ public class WeaponsRepository : IWeaponsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Weapons medal = new Weapons
+                            Weapons weapon = new Weapons
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -185,7 +185,7 @@ public class WeaponsRepository : IWeaponsRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            weapons.Add(medal);
+                            weapons.Add(weapon);
                         }
                     }
                 }

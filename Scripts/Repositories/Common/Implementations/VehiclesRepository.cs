@@ -104,7 +104,7 @@ public class VehiclesRepository : IVehiclesRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Vehicles symbol = new Vehicles
+                            Vehicles vehicle = new Vehicles
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -177,7 +177,7 @@ public class VehiclesRepository : IVehiclesRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            vehicles.Add(symbol);
+                            vehicles.Add(vehicle);
                         }
                     }
                 }

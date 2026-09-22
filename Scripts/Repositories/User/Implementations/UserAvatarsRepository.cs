@@ -31,12 +31,9 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                     GROUP BY user_avatar_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_avatar_id, 
-                    c.name, 
-                    c.image, 
-                    c.rare, 
-                    c.description,
+                    uc.avatar_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_avatars uc
@@ -348,8 +345,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
             return InsertOrUpdateResult<Avatars>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Avatars>>> InsertOrUpdateUserAvatarsBatchAsync(
-    string userId, List<Avatars> avatars)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Avatars>>> InsertOrUpdateUserAvatarsBatchAsync(string userId, List<Avatars> avatars)
     {
         if (avatars == null || avatars.Count == 0)
         {
@@ -692,11 +688,12 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                    SELECT ub.*, b.image, b.rare 
-                    FROM user_avatars ub
-                    JOIN avatars b ON ub.avatar_id = b.id
-                    WHERE ub.is_used = TRUE 
-                        AND ub.user_id = @user_id AND b.is_active = TRUE AND b.is_deleted = FALSE
+                    SELECT c.*, uc.avatar_id,
+                        uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block
+                    FROM user_avatars uc
+                    JOIN avatars c ON uc.avatar_id = c.id
+                    WHERE uc.is_used = TRUE 
+                        AND uc.user_id = @user_id AND c.is_active = TRUE AND c.is_deleted = FALSE
                 ";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -814,10 +811,12 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                     FROM user_avatars_upgrade
                     GROUP BY user_avatar_id
                 )
-                SELECT uc.* ,
+                SELECT uc.avatar_id,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_avatars uc
+                INNER JOIN avatars c ON uc.avatar_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.avatar_id = am.user_avatar_id
                 LEFT JOIN AggregatedUpgrades au ON uc.avatar_id = au.user_avatar_id
                 WHERE uc.avatar_id = @id 
@@ -970,7 +969,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                 string selectSQL = @"
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -988,9 +987,11 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_avatars uc
+                    INNER JOIN avatars c ON uc.avatar_id = c.id
                     LEFT JOIN user_avatars_module ubm ON uc.avatar_id = ubm.user_avatar_id
                     LEFT JOIN user_avatars_upgrade ubu ON uc.avatar_id = ubu.user_avatar_id
                     WHERE uc.user_id = @user_id
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

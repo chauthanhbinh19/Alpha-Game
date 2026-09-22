@@ -31,13 +31,9 @@ public class UserCardLivesRepository : IUserCardLivesRepository
                     GROUP BY user_card_life_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_card_life_id, 
-                    c.name, 
-                    c.image, 
-                    c.type,
-                    c.rare, 
-                    c.description,
+                    uc.card_life_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_card_lives uc
@@ -374,8 +370,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
             return InsertOrUpdateResult<CardLives>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<CardLives>>> InsertOrUpdateUserCardLivesBatchAsync(
-    string userId, List<CardLives> cardLives)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<CardLives>>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLives)
     {
         if (cardLives == null || cardLives.Count == 0)
         {
@@ -726,10 +721,13 @@ public class UserCardLivesRepository : IUserCardLivesRepository
                     FROM user_card_lives_upgrade
                     GROUP BY user_card_life_id
                 )
-                SELECT uc.* ,
+                SELECT uc.card_life_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_card_lives uc
+                INNER JOIN card_lives c ON uc.card_life_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.card_life_id = am.user_card_life_id
                 LEFT JOIN AggregatedUpgrades au ON uc.card_life_id = au.user_card_life_id
                 WHERE uc.card_life_id = @id AND uc.user_id = @user_id";
@@ -843,7 +841,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
                 string selectSQL = @"
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -861,9 +859,11 @@ public class UserCardLivesRepository : IUserCardLivesRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_card_lives uc
+                    INNER JOIN card_lives c ON uc.card_life_id = c.id
                     LEFT JOIN user_card_lives_module ubm ON uc.card_life_id = ubm.user_card_life_id
                     LEFT JOIN user_card_lives_upgrade ubu ON uc.card_life_id = ubu.user_card_life_id
                     WHERE uc.user_id = @user_id
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

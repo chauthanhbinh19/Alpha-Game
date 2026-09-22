@@ -31,12 +31,9 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                     GROUP BY user_achievement_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_achievement_id, 
-                    c.name, 
-                    c.image, 
-                    c.rare, 
-                    c.description,
+                    uc.achievement_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_achievements uc
@@ -357,8 +354,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
             return InsertOrUpdateResult<Achievements>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Achievements>>> InsertOrUpdateUserAchievementsBatchAsync(
-    string userId, List<Achievements> achievements)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Achievements>>> InsertOrUpdateUserAchievementsBatchAsync(string userId, List<Achievements> achievements)
     {
         if (achievements == null || achievements.Count == 0)
         {
@@ -709,10 +705,13 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                     FROM user_achievements_upgrade
                     GROUP BY user_achievement_id
                 )
-                SELECT uc.* ,
+                SELECT uc.achievement_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_achievements uc
+                INNER JOIN achievements c ON c.id = uc.achievement_id
                 LEFT JOIN AggregatedModules am ON uc.achievement_id = am.user_achievement_id
                 LEFT JOIN AggregatedUpgrades au ON uc.achievement_id = au.user_achievement_id
                 WHERE uc.achievement_id = @id 
@@ -829,7 +828,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                 string selectSQL = @"
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -847,9 +846,11 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_achievements uc
+                    INNER JOIN achievements c ON c.id = uc.achievement_id
                     LEFT JOIN user_achievements_module ubm ON uc.achievement_id = ubm.user_achievement_id
                     LEFT JOIN user_achievements_upgrade ubu ON uc.achievement_id = ubu.user_achievement_id
                     WHERE uc.user_id = @user_id 
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

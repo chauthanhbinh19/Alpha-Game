@@ -45,7 +45,7 @@ public class MailManager : MonoBehaviour
         Transform leftTransform = transform.Find("Left Scroll View/Viewport/Content");
         // Transform personalTransform = transform.Find("Personal");
         Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(async () =>
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);

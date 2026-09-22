@@ -31,13 +31,9 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                     GROUP BY user_alchemy_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_alchemy_id, 
-                    c.name, 
-                    c.image, 
-                    c.type,
-                    c.rare, 
-                    c.description,
+                    uc.alchemy_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_alchemies uc
@@ -374,8 +370,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
             return InsertOrUpdateResult<Alchemies>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Alchemies>>> InsertOrUpdateUserAlchemiesBatchAsync(
-    string userId, List<Alchemies> alchemies)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Alchemies>>> InsertOrUpdateUserAlchemiesBatchAsync(string userId, List<Alchemies> alchemies)
     {
         if (alchemies == null || alchemies.Count == 0)
         {
@@ -728,10 +723,13 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                     FROM user_alchemies_upgrade
                     GROUP BY user_alchemy_id
                 )
-                SELECT uc.* ,
+                SELECT uc.alchemy_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_alchemies uc
+                INNER JOIN alchemies c ON uc.alchemy_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.alchemy_id = am.user_alchemy_id
                 LEFT JOIN AggregatedUpgrades au ON uc.alchemy_id = au.user_alchemy_id
                 WHERE uc.alchemy_id = @id AND uc.user_id = @user_id";
@@ -845,7 +843,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                 string selectSQL = @"
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -863,9 +861,11 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_alchemies uc
+                    INNER JOIN alchemies c ON uc.alchemy_id = c.id
                     LEFT JOIN user_alchemies_module ubm ON uc.alchemy_id = ubm.user_alchemy_id
                     LEFT JOIN user_alchemies_upgrade ubu ON uc.alchemy_id = ubu.user_alchemy_id
                     WHERE uc.user_id = @user_id 
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

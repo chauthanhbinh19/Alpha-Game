@@ -30,12 +30,9 @@ public class UserBordersRepository : IUserBordersRepository
                     GROUP BY user_border_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_border_id, 
-                    c.name, 
-                    c.image, 
-                    c.rare, 
-                    c.description,
+                    uc.border_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_borders uc
@@ -342,8 +339,7 @@ public class UserBordersRepository : IUserBordersRepository
             return InsertOrUpdateResult<Borders>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Borders>>> InsertOrUpdateUserBordersBatchAsync(
-    string userId, List<Borders> borders)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Borders>>> InsertOrUpdateUserBordersBatchAsync(string userId, List<Borders> borders)
     {
         if (borders == null || borders.Count == 0)
         {
@@ -715,10 +711,11 @@ public class UserBordersRepository : IUserBordersRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT ub.*, b.image, b.rare 
-                FROM user_borders ub
-                JOIN borders b ON ub.border_id = b.id
-                WHERE ub.is_used = TRUE AND ub.user_id = @user_id AND b.is_active = TRUE AND b.is_deleted = FALSE";
+                SELECT uc.border_id, c.*,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block
+                FROM user_borders uc
+                JOIN borders c ON uc.border_id = c.id
+                WHERE uc.is_used = TRUE AND uc.user_id = @user_id AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@user_id", userId);
@@ -831,10 +828,13 @@ public class UserBordersRepository : IUserBordersRepository
                     FROM user_borders_upgrade
                     GROUP BY user_border_id
                 )
-                SELECT uc.* ,
+                SELECT uc.border_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_borders uc
+                INNER JOIN borders c ON uc.border_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.border_id = am.user_border_id
                 LEFT JOIN AggregatedUpgrades au ON uc.border_id = au.user_border_id
                 WHERE uc.border_id = @id AND uc.user_id = @user_id";
@@ -948,7 +948,7 @@ public class UserBordersRepository : IUserBordersRepository
                 string selectSQL = @"
             WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -966,9 +966,11 @@ public class UserBordersRepository : IUserBordersRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_borders uc
+                    INNER JOIN borders c ON uc.border_id = c.id
                     LEFT JOIN user_borders_module ubm ON uc.border_id = ubm.user_border_id
                     LEFT JOIN user_borders_upgrade ubu ON uc.border_id = ubu.user_border_id
                     WHERE uc.user_id = @user_id 
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

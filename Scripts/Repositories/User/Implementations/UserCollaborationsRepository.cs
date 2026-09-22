@@ -31,12 +31,9 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                     GROUP BY user_collaboration_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_collaboration_id, 
-                    c.name, 
-                    c.image, 
-                    c.rare, 
-                    c.description,
+                    uc.collaboration_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_collaborations uc
@@ -347,8 +344,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
             return InsertOrUpdateResult<Collaborations>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Collaborations>>> InsertOrUpdateUserCollaborationsBatchAsync(
-    string userId, List<Collaborations> collaborations)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Collaborations>>> InsertOrUpdateUserCollaborationsBatchAsync(string userId, List<Collaborations> collaborations)
     {
         if (collaborations == null || collaborations.Count == 0)
         {
@@ -699,10 +695,13 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                     FROM user_collaborations_upgrade
                     GROUP BY user_collaboration_id
                 )
-                SELECT uc.* ,
+                SELECT uc.collaboration_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_collaborations uc
+                INNER JOIN collaborations c ON uc.collaboration_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.collaboration_id = am.user_collaboration_id
                 LEFT JOIN AggregatedUpgrades au ON uc.collaboration_id = au.user_collaboration_id
                 WHERE uc.collaboration_id = @id AND uc.user_id = @user_id";
@@ -816,7 +815,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                 string selectSQL = @"
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -834,9 +833,11 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_collaborations uc
+                    INNER JOIN collaborations c ON uc.collaboration_id = c.id
                     LEFT JOIN user_collaborations_module ubm ON uc.collaboration_id = ubm.user_collaboration_id
                     LEFT JOIN user_collaborations_upgrade ubu ON uc.collaboration_id = ubu.user_collaboration_id
                     WHERE uc.user_id = @user_id
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

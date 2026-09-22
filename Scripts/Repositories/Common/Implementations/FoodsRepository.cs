@@ -82,7 +82,7 @@ public class FoodsRepository : IFoodsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Foods medal = new Foods
+                            Foods food = new Foods
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -154,7 +154,7 @@ public class FoodsRepository : IFoodsRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            foods.Add(medal);
+                            foods.Add(food);
                         }
                     }
                 }

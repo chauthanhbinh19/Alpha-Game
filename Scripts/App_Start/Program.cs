@@ -98,6 +98,7 @@ public class Program : MonoBehaviour
         ServiceContainer.RegisterInstance<IPaymentService>(new PaymentService(new PaymentRepository()));
         ServiceContainer.RegisterInstance<IMailsService>(new MailsService(new MailsRepository()));
         ServiceContainer.RegisterInstance<IUserMailsService>(new UserMailsService(new UserMailsRepository()));
+        ServiceContainer.RegisterInstance<IGameItemCatalogService>(new GameItemCatalogService(new GameItemCatalogRepository()));
 
         // Repositories - Gallery
         ServiceContainer.RegisterInstance<IAchievementsGalleryRepository>(new AchievementsGalleryRepository());
@@ -342,6 +343,7 @@ public class Program : MonoBehaviour
         ServiceContainer.RegisterSingleton<IPaymentService, PaymentService>();
         ServiceContainer.RegisterSingleton<IMailsService, MailsService>();
         ServiceContainer.RegisterSingleton<IUserMailsService, UserMailsService>();
+        ServiceContainer.RegisterSingleton<IGameItemCatalogService, GameItemCatalogService>();
 
         //Services - Gallery
         ServiceContainer.RegisterSingleton<IAchievementsGalleryService, AchievementsGalleryService>();

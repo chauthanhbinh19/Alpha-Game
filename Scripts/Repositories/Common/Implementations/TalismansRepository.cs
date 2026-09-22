@@ -104,7 +104,7 @@ public class TalismansRepository : ITalismansRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Talismans symbol = new Talismans
+                            Talismans talisman = new Talismans
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -177,7 +177,7 @@ public class TalismansRepository : ITalismansRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            talismans.Add(symbol);
+                            talismans.Add(talisman);
                         }
                     }
                 }

@@ -112,7 +112,7 @@ public class OutfitsRepository : IOutfitsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Outfits medal = new Outfits
+                            Outfits outfit = new Outfits
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -185,7 +185,7 @@ public class OutfitsRepository : IOutfitsRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            outfits.Add(medal);
+                            outfits.Add(outfit);
                         }
                     }
                 }

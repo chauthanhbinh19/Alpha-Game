@@ -15,6 +15,7 @@ public class User
     public string Email { get; set; }
     public string Username { get; set; }
     public string Password { get; set; }
+    public int LikeCount { get; set; } = 0;
     public static string CurrentUserId { get; set; }
     public static string CurrentUserName { get; set; }
     public static int CurrentUserLevel { get; set; }

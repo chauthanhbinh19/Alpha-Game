@@ -31,12 +31,9 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                     GROUP BY user_technology_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_technology_id, 
-                    c.name, 
-                    c.image, 
-                    c.rare, 
-                    c.description,
+                    uc.technology_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_technologies uc
@@ -357,8 +354,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
             return InsertOrUpdateResult<Technologies>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Technologies>>> InsertOrUpdateUserTechnologiesBatchAsync(
-    string userId, List<Technologies> technologies)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Technologies>>> InsertOrUpdateUserTechnologiesBatchAsync(string userId, List<Technologies> technologies)
     {
         if (technologies == null || technologies.Count == 0)
         {
@@ -707,10 +703,13 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                     FROM user_technologies_upgrade
                     GROUP BY user_technology_id
                 )
-                SELECT uc.* ,
+                SELECT uc.technology_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_technologies uc
+                INNER JOIN technologies c ON uc.technology_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.technology_id = am.user_technology_id
                 LEFT JOIN AggregatedUpgrades au ON uc.technology_id = au.user_technology_id
                 WHERE uc.technology_id = @id AND uc.user_id = @user_id";
@@ -821,7 +820,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                 string selectSQL = @" 
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -839,9 +838,11 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_technologies uc
+                    INNER JOIN technologies c ON uc.technology_id = c.id
                     LEFT JOIN user_technologies_module ubm ON uc.technology_id = ubm.user_technology_id
                     LEFT JOIN user_technologies_upgrade ubu ON uc.technology_id = ubu.user_technology_id
                     WHERE uc.user_id = @user_id
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

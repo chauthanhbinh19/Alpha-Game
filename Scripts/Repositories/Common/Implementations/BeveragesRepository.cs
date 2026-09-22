@@ -84,7 +84,7 @@ public class BeveragesRepository : IBeveragesRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Beverages medal = new Beverages
+                            Beverages beverage = new Beverages
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -156,7 +156,7 @@ public class BeveragesRepository : IBeveragesRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            beverages.Add(medal);
+                            beverages.Add(beverage);
                         }
                     }
                 }

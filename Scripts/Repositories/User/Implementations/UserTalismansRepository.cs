@@ -31,13 +31,9 @@ public class UserTalismansRepository : IUserTalismansRepository
                     GROUP BY user_talisman_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_talisman_id, 
-                    c.name, 
-                    c.image, 
-                    c.type,
-                    c.rare, 
-                    c.description,
+                    uc.talisman_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_talismans uc
@@ -382,8 +378,7 @@ public class UserTalismansRepository : IUserTalismansRepository
             return InsertOrUpdateResult<Talismans>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Talismans>>> InsertOrUpdateUserTalismansBatchAsync(
-    string userId, List<Talismans> talismans)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Talismans>>> InsertOrUpdateUserTalismansBatchAsync(string userId, List<Talismans> talismans)
     {
         if (talismans == null || talismans.Count == 0)
         {
@@ -733,10 +728,13 @@ public class UserTalismansRepository : IUserTalismansRepository
                     FROM user_talismans_upgrade
                     GROUP BY user_talisman_id
                 )
-                SELECT uc.* ,
+                SELECT uc.talisman_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_talismans uc
+                INNER JOIN talismans c ON uc.talisman_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.talisman_id = am.user_talisman_id
                 LEFT JOIN AggregatedUpgrades au ON uc.talisman_id = au.user_talisman_id
                 WHERE uc.talisman_id = @id AND uc.user_id = @user_id";
@@ -850,7 +848,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                 string selectSQL = @"
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -868,9 +866,11 @@ public class UserTalismansRepository : IUserTalismansRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_talismans uc
+                    INNER JOIN talismans c ON uc.talisman_id = c.id
                     LEFT JOIN user_talismans_module ubm ON uc.talisman_id = ubm.user_talisman_id
                     LEFT JOIN user_talismans_upgrade ubu ON uc.talisman_id = ubu.user_talisman_id
                     WHERE uc.user_id = @user_id
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

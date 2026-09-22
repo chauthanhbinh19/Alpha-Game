@@ -82,7 +82,7 @@ public class TitlesRepository : ITitlesRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Titles medal = new Titles
+                            Titles title = new Titles
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -154,7 +154,7 @@ public class TitlesRepository : ITitlesRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            titles.Add(medal);
+                            titles.Add(title);
                         }
                     }
                 }

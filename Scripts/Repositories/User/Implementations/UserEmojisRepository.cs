@@ -31,12 +31,9 @@ public class UserEmojisRepository : IUserEmojisRepository
                     GROUP BY user_emoji_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_emoji_id, 
-                    c.name, 
-                    c.image, 
-                    c.rare, 
-                    c.description,
+                    uc.emoji_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_emojis uc
@@ -348,8 +345,7 @@ public class UserEmojisRepository : IUserEmojisRepository
             return InsertOrUpdateResult<Emojis>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Emojis>>> InsertOrUpdateUserEmojisBatchAsync(
-    string userId, List<Emojis> emojis)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Emojis>>> InsertOrUpdateUserEmojisBatchAsync(string userId, List<Emojis> emojis)
     {
         if (emojis == null || emojis.Count == 0)
         {
@@ -704,10 +700,13 @@ public class UserEmojisRepository : IUserEmojisRepository
                     FROM user_emojis_upgrade
                     GROUP BY user_emoji_id
                 )
-                SELECT uc.* ,
+                SELECT uc.emoji_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_emojis uc
+                INNER JOIN emojis c ON uc.emoji_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.emoji_id = am.user_emoji_id
                 LEFT JOIN AggregatedUpgrades au ON uc.emoji_id = au.user_emoji_id
                 WHERE uc.emoji_id = @id AND uc.user_id = @user_id;";
@@ -817,7 +816,7 @@ public class UserEmojisRepository : IUserEmojisRepository
                 string selectSQL = @"
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -835,9 +834,11 @@ public class UserEmojisRepository : IUserEmojisRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_emojis uc
+                    INNER JOIN emojis c ON uc.emoji_id = c.id
                     LEFT JOIN user_emojis_module ubm ON uc.emoji_id = ubm.user_emoji_id
                     LEFT JOIN user_emojis_upgrade ubu ON uc.emoji_id = ubu.user_emoji_id
                     WHERE uc.user_id = @user_id
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

@@ -104,7 +104,7 @@ public class FurnituresRepository : IFurnituresRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Furnitures symbol = new Furnitures
+                            Furnitures furniture = new Furnitures
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -177,7 +177,7 @@ public class FurnituresRepository : IFurnituresRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            furnitures.Add(symbol);
+                            furnitures.Add(furniture);
                         }
                     }
                 }

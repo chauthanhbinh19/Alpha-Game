@@ -31,12 +31,9 @@ public class UserFoodsRepository : IUserFoodsRepository
                     GROUP BY user_food_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_food_id, 
-                    c.name, 
-                    c.image, 
-                    c.rare, 
-                    c.description,
+                    uc.food_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_foods uc
@@ -356,8 +353,7 @@ public class UserFoodsRepository : IUserFoodsRepository
             return InsertOrUpdateResult<Foods>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Foods>>> InsertOrUpdateUserFoodsBatchAsync(
-    string userId, List<Foods> foods)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Foods>>> InsertOrUpdateUserFoodsBatchAsync(string userId, List<Foods> foods)
     {
         if (foods == null || foods.Count == 0)
         {
@@ -708,10 +704,13 @@ public class UserFoodsRepository : IUserFoodsRepository
                     FROM user_foods_upgrade
                     GROUP BY user_food_id
                 )
-                SELECT uc.* ,
+                SELECT uc.food_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_foods uc
+                INNER JOIN foods c ON uc.food_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.food_id = am.user_food_id
                 LEFT JOIN AggregatedUpgrades au ON uc.food_id = au.user_food_id
                 WHERE uc.food_id = @id AND uc.user_id = @user_id";
@@ -822,7 +821,7 @@ public class UserFoodsRepository : IUserFoodsRepository
                 string selectSQL = @" 
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -840,9 +839,11 @@ public class UserFoodsRepository : IUserFoodsRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_foods uc
+                    INNER JOIN foods c ON uc.food_id = c.id
                     LEFT JOIN user_foods_module ubm ON uc.food_id = ubm.user_food_id
                     LEFT JOIN user_foods_upgrade ubu ON uc.food_id = ubu.user_food_id
                     WHERE uc.user_id = @user_id
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

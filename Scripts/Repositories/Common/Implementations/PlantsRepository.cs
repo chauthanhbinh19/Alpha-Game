@@ -82,7 +82,7 @@ public class PlantsRepository : IPlantsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Plants medal = new Plants
+                            Plants plant = new Plants
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -154,7 +154,7 @@ public class PlantsRepository : IPlantsRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            plants.Add(medal);
+                            plants.Add(plant);
                         }
                     }
                 }

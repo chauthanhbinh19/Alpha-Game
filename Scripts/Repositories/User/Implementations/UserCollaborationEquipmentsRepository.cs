@@ -31,13 +31,9 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                     GROUP BY user_collaboration_equipment_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_collaboration_equipment_id, 
-                    c.name, 
-                    c.image, 
-                    c.type,
-                    c.rare, 
-                    c.description,
+                    uc.collaboration_equipment_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_collaboration_equipments uc
@@ -375,8 +371,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
             return InsertOrUpdateResult<CollaborationEquipments>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<CollaborationEquipments>>> InsertOrUpdateUserCollaborationEquipmentsBatchAsync(
-    string userId, List<CollaborationEquipments> collaborationEquipments)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<CollaborationEquipments>>> InsertOrUpdateUserCollaborationEquipmentsBatchAsync(string userId, List<CollaborationEquipments> collaborationEquipments)
     {
         if (collaborationEquipments == null || collaborationEquipments.Count == 0)
         {
@@ -727,10 +722,13 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                     FROM user_collaboration_equipments_upgrade
                     GROUP BY user_collaboration_equipment_id
                 )
-                SELECT uc.* ,
+                SELECT uc.collaboration_equipment_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_collaboration_equipments uc
+                INNER JOIN collaboration_equipments c ON uc.collaboration_equipment_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.collaboration_equipment_id = am.user_collaboration_equipment_id
                 LEFT JOIN AggregatedUpgrades au ON uc.collaboration_equipment_id = au.user_collaboration_equipment_id
                 WHERE uc.collaboration_equipment_id = @id AND uc.user_id = @user_id";
@@ -844,7 +842,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                 string selectSQL = @"
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -862,9 +860,11 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_collaboration_equipments uc
+                    INNER JOIN collaboration_equipments c ON uc.collaboration_equipment_id = c.id
                     LEFT JOIN user_collaboration_equipments_module ubm ON uc.collaboration_equipment_id = ubm.user_collaboration_equipment_id
                     LEFT JOIN user_collaboration_equipments_upgrade ubu ON uc.collaboration_equipment_id = ubu.user_collaboration_equipment_id
                     WHERE uc.user_id = @user_id
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

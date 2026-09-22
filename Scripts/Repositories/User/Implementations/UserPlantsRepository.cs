@@ -31,12 +31,9 @@ public class UserPlantsRepository : IUserPlantsRepository
                     GROUP BY user_plant_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_plant_id, 
-                    c.name, 
-                    c.image, 
-                    c.rare, 
-                    c.description,
+                    uc.plant_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_plants uc
@@ -353,8 +350,7 @@ public class UserPlantsRepository : IUserPlantsRepository
             return InsertOrUpdateResult<Plants>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Plants>>> InsertOrUpdateUserPlantsBatchAsync(
-    string userId, List<Plants> plants)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Plants>>> InsertOrUpdateUserPlantsBatchAsync(string userId, List<Plants> plants)
     {
         if (plants == null || plants.Count == 0)
         {
@@ -694,22 +690,25 @@ public class UserPlantsRepository : IUserPlantsRepository
                 await connection.OpenAsync();
                 string selectSQL = @"
                 WITH AggregatedModules AS (
-                    SELECT user_achievement_id, SUM(current_multiplier) AS total_module_mult
-                    FROM user_achievements_module
-                    GROUP BY user_achievement_id
+                    SELECT user_plant_id, SUM(current_multiplier) AS total_module_mult
+                    FROM user_plants_module
+                    GROUP BY user_plant_id
                 ),
                 AggregatedUpgrades AS (
-                    SELECT user_achievement_id, SUM(current_multiplier) AS total_upgrade_mult
-                    FROM user_achievements_upgrade
-                    GROUP BY user_achievement_id
+                    SELECT user_plant_id, SUM(current_multiplier) AS total_upgrade_mult
+                    FROM user_plants_upgrade
+                    GROUP BY user_plant_id
                 )
-                SELECT uc.* ,
+                SELECT uc.plant_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
-                FROM user_achievements uc
-                LEFT JOIN AggregatedModules am ON uc.plant_id = am.user_achievement_id
-                LEFT JOIN AggregatedUpgrades au ON uc.plant_id = au.user_achievement_id
-                WHERE uc.achievement_id = @id AND uc.user_id = @user_id";
+                FROM user_plants uc
+                INNER JOIN plants c ON uc.plant_id = c.id
+                LEFT JOIN AggregatedModules am ON uc.plant_id = am.user_plant_id
+                LEFT JOIN AggregatedUpgrades au ON uc.plant_id = au.user_plant_id
+                WHERE uc.plant_id = @id AND uc.user_id = @user_id";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
@@ -817,7 +816,7 @@ public class UserPlantsRepository : IUserPlantsRepository
                 string selectSQL = @" 
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -835,9 +834,11 @@ public class UserPlantsRepository : IUserPlantsRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_plants uc
+                    INNER JOIN plants c ON uc.plant_id = c.id
                     LEFT JOIN user_plants_module ubm ON uc.plant_id = ubm.user_plant_id
                     LEFT JOIN user_plants_upgrade ubu ON uc.plant_id = ubu.user_plant_id
                     WHERE uc.user_id = @user_id
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

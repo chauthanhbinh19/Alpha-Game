@@ -31,13 +31,9 @@ public class UserOutfitsRepository : IUserOutfitsRepository
                     GROUP BY user_outfit_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_outfit_id, 
-                    c.name, 
-                    c.image, 
-                    c.type,
-                    c.rare, 
-                    c.description,
+                    uc.outfit_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_outfits uc
@@ -379,8 +375,7 @@ public class UserOutfitsRepository : IUserOutfitsRepository
             return InsertOrUpdateResult<Outfits>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Outfits>>> InsertOrUpdateUserOutfitsBatchAsync(
-    string userId, List<Outfits> outfits)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Outfits>>> InsertOrUpdateUserOutfitsBatchAsync(string userId, List<Outfits> outfits)
     {
         if (outfits == null || outfits.Count == 0)
         {
@@ -729,10 +724,13 @@ public class UserOutfitsRepository : IUserOutfitsRepository
                     FROM user_outfits_upgrade
                     GROUP BY user_outfit_id
                 )
-                SELECT uc.* ,
+                SELECT uc.outfit_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_outfits uc
+                INNER JOIN outfits c ON uc.outfit_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.outfit_id = am.user_outfit_id
                 LEFT JOIN AggregatedUpgrades au ON uc.outfit_id = au.user_outfit_id
                 WHERE uc.outfit_id = @id AND uc.user_id = @user_id";
@@ -843,7 +841,7 @@ public class UserOutfitsRepository : IUserOutfitsRepository
                 string selectSQL = @" 
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -861,9 +859,11 @@ public class UserOutfitsRepository : IUserOutfitsRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_outfits uc
+                    INNER JOIN outfits c ON uc.outfit_id = c.id
                     LEFT JOIN user_outfits_module ubm ON uc.outfit_id = ubm.user_outfit_id
                     LEFT JOIN user_outfits_upgrade ubu ON uc.outfit_id = ubu.user_outfit_id
                     WHERE uc.user_id = @user_id
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

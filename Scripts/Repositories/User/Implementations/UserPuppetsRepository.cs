@@ -31,13 +31,9 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                     GROUP BY user_puppet_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_puppet_id, 
-                    c.name, 
-                    c.image, 
-                    c.type,
-                    c.rare, 
-                    c.description,
+                    uc.puppet_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_puppets uc
@@ -374,8 +370,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
             return InsertOrUpdateResult<Puppets>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Puppets>>> InsertOrUpdateUserPuppetsBatchAsync(
-    string userId, List<Puppets> puppets)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Puppets>>> InsertOrUpdateUserPuppetsBatchAsync(string userId, List<Puppets> puppets)
     {
         if (puppets == null || puppets.Count == 0)
         {
@@ -726,10 +721,13 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                     FROM user_puppets_upgrade
                     GROUP BY user_puppet_id
                 )
-                SELECT uc.* ,
+                SELECT uc.puppet_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_puppets uc
+                INNER JOIN puppets c ON uc.puppet_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.puppet_id = am.user_puppet_id
                 LEFT JOIN AggregatedUpgrades au ON uc.puppet_id = au.user_puppet_id
                 WHERE uc.puppet_id = @id AND uc.user_id = @user_id";
@@ -843,7 +841,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                 string selectSQL = @"
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -861,9 +859,11 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_puppets uc
+                    INNER JOIN puppets c ON uc.puppet_id = c.id
                     LEFT JOIN user_puppets_module ubm ON uc.puppet_id = ubm.user_puppet_id
                     LEFT JOIN user_puppets_upgrade ubu ON uc.puppet_id = ubu.user_puppet_id
                     WHERE uc.user_id = @user_id
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

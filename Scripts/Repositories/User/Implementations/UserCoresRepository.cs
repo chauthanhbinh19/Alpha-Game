@@ -31,12 +31,9 @@ public class UserCoresRepository : IUserCoresRepository
                     GROUP BY user_core_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_core_id, 
-                    c.name, 
-                    c.image, 
-                    c.rare, 
-                    c.description,
+                    uc.core_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_cores uc
@@ -348,8 +345,7 @@ public class UserCoresRepository : IUserCoresRepository
             return InsertOrUpdateResult<Cores>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Cores>>> InsertOrUpdateUserCoresBatchAsync(
-    string userId, List<Cores> cores)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Cores>>> InsertOrUpdateUserCoresBatchAsync(string userId, List<Cores> cores)
     {
         if (cores == null || cores.Count == 0)
         {
@@ -700,10 +696,13 @@ public class UserCoresRepository : IUserCoresRepository
                     FROM user_cores_upgrade
                     GROUP BY user_core_id
                 )
-                SELECT uc.* ,
+                SELECT uc.core_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_cores uc
+                INNER JOIN cores c ON uc.core_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.core_id = am.user_core_id
                 LEFT JOIN AggregatedUpgrades au ON uc.core_id = au.user_core_id
                 WHERE uc.core_id = @id AND uc.user_id = @user_id";
@@ -813,7 +812,7 @@ public class UserCoresRepository : IUserCoresRepository
                 string selectSQL = @"
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -831,9 +830,11 @@ public class UserCoresRepository : IUserCoresRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_cores uc
+                    INNER JOIN cores c ON uc.core_id = c.id
                     LEFT JOIN user_cores_module ubm ON uc.core_id = ubm.user_core_id
                     LEFT JOIN user_cores_upgrade ubu ON uc.core_id = ubu.user_core_id
                     WHERE uc.user_id = @user_id
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,

@@ -31,12 +31,9 @@ public class UserTitlesRepository : IUserTitlesRepository
                     GROUP BY user_title_id
                 )
                 SELECT 
-                    uc.*, 
-                    c.id AS base_title_id, 
-                    c.name, 
-                    c.image, 
-                    c.rare, 
-                    c.description,
+                    uc.title_id, 
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_titles uc
@@ -357,8 +354,7 @@ public class UserTitlesRepository : IUserTitlesRepository
             return InsertOrUpdateResult<Titles>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Titles>>> InsertOrUpdateUserTitlesBatchAsync(
-    string userId, List<Titles> titles)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Titles>>> InsertOrUpdateUserTitlesBatchAsync(string userId, List<Titles> titles)
     {
         if (titles == null || titles.Count == 0)
         {
@@ -707,10 +703,13 @@ public class UserTitlesRepository : IUserTitlesRepository
                     FROM user_titles_upgrade
                     GROUP BY user_title_id
                 )
-                SELECT uc.* ,
+                SELECT uc.title_id,
+                    uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
                 FROM user_titles uc
+                INNER JOIN titles c ON uc.title_id = c.id
                 LEFT JOIN AggregatedModules am ON uc.title_id = am.user_title_id
                 LEFT JOIN AggregatedUpgrades au ON uc.title_id = au.user_title_id
                 WHERE uc.title_id = @id AND uc.user_id = @user_id";
@@ -821,7 +820,7 @@ public class UserTitlesRepository : IUserTitlesRepository
                 string selectSQL = @" 
                 WITH CalculatedObjects AS (
                     SELECT 
-                        uc.*,
+                        c.*,
                         (
                             -- Quality: 0 -> 1.0, 1 -> 1.1
                             (1 + COALESCE(uc.quality, 0) / 10.0) 
@@ -839,9 +838,11 @@ public class UserTitlesRepository : IUserTitlesRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_titles uc
+                    INNER JOIN titles c ON uc.title_id = c.id
                     LEFT JOIN user_titles_module ubm ON uc.title_id = ubm.user_title_id
                     LEFT JOIN user_titles_upgrade ubu ON uc.title_id = ubu.user_title_id
                     WHERE uc.user_id = @user_id
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )
                 SELECT 
                     SUM(health * total_multiplier) AS health,
