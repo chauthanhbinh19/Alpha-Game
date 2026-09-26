@@ -507,12 +507,22 @@ public class NarutoManager : MonoBehaviour
                 if (result.Success)
                 {
                     userAnime = EnhanceHelper.EnhanceAnimes(userAnime, result.UpgradedLevels, anime.BaseMultiplier);
-                    await UserAnimesService.Create().InsertOrUpdateUserAnimesAsync(User.CurrentUserId, userAnime, featureId);
+                    var insertOrUpdateResult = await UserAnimesService.Create().InsertOrUpdateUserAnimesAsync(User.CurrentUserId, userAnime, featureId);
 
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+                    if (insertOrUpdateResult.Data && insertOrUpdateResult.IsChangePower
+                    && (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated || insertOrUpdateResult.OperationType == DatabaseOperationType.Inserted))
+                    {
+                        PowerResultDTO powerResult = await UserService.Create().UpdateUserPowerAsync();
+
+                        if (powerResult.HasChanged)
+                        {
+                            PowerController.Instance.ShowPower(
+                                powerResult.CurrentPower,
+                                powerResult.Difference,
+                                1
+                            );
+                        }
+                    }
 
                     Destroy(gameObject);
                     await RefreshPanelAsync();

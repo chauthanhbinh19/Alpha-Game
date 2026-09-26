@@ -62,11 +62,11 @@ public class UniverseXManager : MonoBehaviour
             Destroy(currentObject);
         });
         Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
-        homeButton.onClick.AddListener( () =>
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            
+
         });
         Dictionary<string, FeatureUniverseDTO> uniqueTypes = new Dictionary<string, FeatureUniverseDTO>();
         uniqueTypes = await FeaturesService.Create().GetUniverseFeaturesByTypeAsync(AppConstants.Universe.UNIVERSE_X);
@@ -82,7 +82,7 @@ public class UniverseXManager : MonoBehaviour
         SetupPagination(currentObject);
         RenderPage();
     }
-    
+
     private void RenderPage()
     {
         // 1. Dọn dẹp các Prefab UI cũ ở trang trước
@@ -215,16 +215,16 @@ public class UniverseXManager : MonoBehaviour
             Destroy(currentObject);
         });
         Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
-        homeButton.onClick.AddListener( () =>
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            
+
         });
 
         RawImage mapImage = transform.Find("MapImage").GetComponent<RawImage>();
         Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_14");
-        mapImage.texture = mapTexture; 
+        mapImage.texture = mapTexture;
         RawImage rankImage = transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
         Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.Universe.UNIVERSE_X}");
         rankImage.texture = rankTexture;
@@ -264,7 +264,7 @@ public class UniverseXManager : MonoBehaviour
         levelText.text = currentLevel.ToString();
         async Task RefreshPanelAsync()
         {
-            userUniverse = await UserUniversesService.Create().GetUserUniversesAsync(User.CurrentUserId,featureId);
+            userUniverse = await UserUniversesService.Create().GetUserUniversesAsync(User.CurrentUserId, featureId);
             currentLevel = userUniverse?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 
@@ -517,12 +517,22 @@ public class UniverseXManager : MonoBehaviour
                 if (result.Success)
                 {
                     userUniverse = EnhanceHelper.EnhanceUniverses(userUniverse, result.UpgradedLevels, universe.BaseMultiplier);
-                    await UserUniversesService.Create().InsertOrUpdateUserUniversesAsync(User.CurrentUserId, userUniverse, featureId);
+                    var insertOrUpdateResult = await UserUniversesService.Create().InsertOrUpdateUserUniversesAsync(User.CurrentUserId, userUniverse, featureId);
 
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+                    if (insertOrUpdateResult.Data && insertOrUpdateResult.IsChangePower
+                    && (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated || insertOrUpdateResult.OperationType == DatabaseOperationType.Inserted))
+                    {
+                        PowerResultDTO powerResult = await UserService.Create().UpdateUserPowerAsync();
+
+                        if (powerResult.HasChanged)
+                        {
+                            PowerController.Instance.ShowPower(
+                                powerResult.CurrentPower,
+                                powerResult.Difference,
+                                1
+                            );
+                        }
+                    }
 
                     Destroy(gameObject);
                     await RefreshPanelAsync();
@@ -547,8 +557,8 @@ public class UniverseXManager : MonoBehaviour
             CreatePopupUpgradePanelAsync();
         });
     }
-    
-    private void SetupUniverseItemUI(GameObject itemGO,RecipeItemDto data)
+
+    private void SetupUniverseItemUI(GameObject itemGO, RecipeItemDto data)
     {
         // TextMeshProUGUI nameText =
         //     itemGO.transform.Find("ItemName")

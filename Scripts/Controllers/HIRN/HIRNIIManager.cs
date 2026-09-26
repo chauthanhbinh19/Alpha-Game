@@ -517,12 +517,22 @@ public class HIRNIIManager : MonoBehaviour
                 if (result.Success)
                 {
                     userHIRN = EnhanceHelper.EnhanceHIRNs(userHIRN, result.UpgradedLevels, hirn.BaseMultiplier);
-                    await UserHIRNsService.Create().InsertOrUpdateUserHIRNsAsync(User.CurrentUserId, userHIRN, featureId);
+                    var insertOrUpdateResult = await UserHIRNsService.Create().InsertOrUpdateUserHIRNsAsync(User.CurrentUserId, userHIRN, featureId);
 
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+                    if (insertOrUpdateResult.Data && insertOrUpdateResult.IsChangePower
+                    && (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated || insertOrUpdateResult.OperationType == DatabaseOperationType.Inserted))
+                    {
+                        PowerResultDTO powerResult = await UserService.Create().UpdateUserPowerAsync();
+
+                        if (powerResult.HasChanged)
+                        {
+                            PowerController.Instance.ShowPower(
+                                powerResult.CurrentPower,
+                                powerResult.Difference,
+                                1
+                            );
+                        }
+                    }
 
                     Destroy(gameObject);
                     await RefreshPanelAsync();

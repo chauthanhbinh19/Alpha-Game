@@ -339,7 +339,7 @@ public class UpgradeAwakeningManager : MonoBehaviour
 
                     // 1. TÍNH TOÁN VÀ CẬP NHẬT DATABASE
                     userUpgrade = EnhanceHelper.EnhanceUpgrades(userUpgrade, result.UpgradedLevels, upgrade.BaseMultiplier);
-                    await UserUpgradesService.Create().InsertOrUpdateUserUpgradesAsync(User.CurrentUserId, userUpgrade, stat);
+                    var insertOrUpdateResult = await UserUpgradesService.Create().InsertOrUpdateUserUpgradesAsync(User.CurrentUserId, userUpgrade, stat);
 
                     // 2. QUERY LẠI DATABASE ĐỂ LẤY DỮ LIỆU CHUẨN NHẤT CỦA USER UPGRADE
                     userUpgrade = await UserUpgradesService.Create().GetUserUpgradesAsync(User.CurrentUserId, featureId, stat);
@@ -348,10 +348,20 @@ public class UpgradeAwakeningManager : MonoBehaviour
                     currentLevel = userUpgrade?.CurrentLevel ?? 0;
 
                     // 3. Cập nhật Lực chiến
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+                    if (insertOrUpdateResult.Data && insertOrUpdateResult.IsChangePower
+                    && (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated || insertOrUpdateResult.OperationType == DatabaseOperationType.Inserted))
+                    {
+                        PowerResultDTO powerResult = await UserService.Create().UpdateUserPowerAsync();
+
+                        if (powerResult.HasChanged)
+                        {
+                            PowerController.Instance.ShowPower(
+                                powerResult.CurrentPower,
+                                powerResult.Difference,
+                                1
+                            );
+                        }
+                    }
 
                     // 4. Làm mới lại Main Panel ở dưới (sẽ query lại nguyên liệu theo level + 1 mới)
                     await RefreshMainPanelAsync();

@@ -517,12 +517,22 @@ public class HIHNVIIManager : MonoBehaviour
                 if (result.Success)
                 {
                     userHIHN = EnhanceHelper.EnhanceHIHNs(userHIHN, result.UpgradedLevels, hihn.BaseMultiplier);
-                    await UserHIHNsService.Create().InsertOrUpdateUserHIHNsAsync(User.CurrentUserId, userHIHN, featureId);
+                    var insertOrUpdateResult = await UserHIHNsService.Create().InsertOrUpdateUserHIHNsAsync(User.CurrentUserId, userHIHN, featureId);
 
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+                    if (insertOrUpdateResult.Data && insertOrUpdateResult.IsChangePower
+                    && (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated || insertOrUpdateResult.OperationType == DatabaseOperationType.Inserted))
+                    {
+                        PowerResultDTO powerResult = await UserService.Create().UpdateUserPowerAsync();
+
+                        if (powerResult.HasChanged)
+                        {
+                            PowerController.Instance.ShowPower(
+                                powerResult.CurrentPower,
+                                powerResult.Difference,
+                                1
+                            );
+                        }
+                    }
 
                     Destroy(gameObject);
                     await RefreshPanelAsync();

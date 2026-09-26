@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 public interface IUserService
 { 
     // Task<User> GetUserByUsername(string username);
+    Task<PowerResultDTO> UpdateUserPowerAsync();
     Task<AuthResult> RegisterUserAsync(string username, string email, string password);
     Task<AuthResult> SignInWithUsernameAndPasswordAsync(string username, string password);
     Task<AuthResult> SignInWithoutUsernameAndPasswordAsync(string userId);

@@ -698,6 +698,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -708,13 +709,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _cardHeroesGalleryService.InsertCardHeroGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -735,9 +743,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         // {
         //     PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
         //     await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            // return new InsertOrUpdateResult<bool>
+            // {
+            //     Data = true,
+            //     OperationType = DatabaseOperationType.Inserted,
+            //     IsChangePower = true,
+            //     Message = MessageConstants.INSERTED_SUCCESSFULLY
+            // };
         // }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAchievementAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -758,6 +780,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -768,13 +791,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _achievementGalleryService.InsertAchievementGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -795,9 +825,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBookAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -818,6 +862,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -828,13 +873,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _booksGalleryService.InsertBookGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -855,9 +907,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         // {
         //     PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
         //     await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            // return new InsertOrUpdateResult<bool>
+            // {
+            //     Data = true,
+            //     OperationType = DatabaseOperationType.Inserted,
+            //     IsChangePower = true,
+            //     Message = MessageConstants.INSERTED_SUCCESSFULLY
+            // };
         // }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPetAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -878,6 +944,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -888,13 +955,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _petsGalleryService.InsertPetGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -915,9 +989,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         // {
         //     PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
         //     await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            // return new InsertOrUpdateResult<bool>
+            // {
+            //     Data = true,
+            //     OperationType = DatabaseOperationType.Inserted,
+            //     IsChangePower = true,
+            //     Message = MessageConstants.INSERTED_SUCCESSFULLY
+            // };
         // }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardCaptainAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -938,6 +1026,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -948,13 +1037,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _cardCaptainsGalleryService.InsertCardCaptainGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -975,9 +1071,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         // {
         //     PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
         //     await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            // return new InsertOrUpdateResult<bool>
+            // {
+            //     Data = true,
+            //     OperationType = DatabaseOperationType.Inserted,
+            //     IsChangePower = true,
+            //     Message = MessageConstants.INSERTED_SUCCESSFULLY
+            // };
         // }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCollaborationEquipmentAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -998,6 +1108,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -1008,13 +1119,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _collaborationEquipmentsGalleryService.InsertCollaborationEquipmentGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -1035,9 +1153,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardMilitaryAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -1058,6 +1190,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -1068,13 +1201,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _cardMilitariesGalleryService.InsertCardMilitaryGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -1095,9 +1235,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         // {
         //     PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
         //     await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            // return new InsertOrUpdateResult<bool>
+            // {
+            //     Data = true,
+            //     OperationType = DatabaseOperationType.Inserted,
+            //     IsChangePower = true,
+            //     Message = MessageConstants.INSERTED_SUCCESSFULLY
+            // };
         // }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardSpellAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -1118,6 +1272,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -1128,13 +1283,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _cardSpellsGalleryService.InsertCardSpellGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -1155,9 +1317,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         // {
         //     PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
         //     await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            // return new InsertOrUpdateResult<bool>
+            // {
+            //     Data = true,
+            //     OperationType = DatabaseOperationType.Inserted,
+            //     IsChangePower = true,
+            //     Message = MessageConstants.INSERTED_SUCCESSFULLY
+            // };
         // }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCollaborationAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -1178,6 +1354,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -1188,13 +1365,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _collaborationsGalleryService.InsertCollaborationGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -1215,9 +1399,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardMonsterAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -1238,6 +1436,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -1248,13 +1447,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _cardMonstersGalleryService.InsertCardMonsterGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -1275,9 +1481,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         // {
         //     PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
         //     await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            // return new InsertOrUpdateResult<bool>
+            // {
+            //     Data = true,
+            //     OperationType = DatabaseOperationType.Inserted,
+            //     IsChangePower = true,
+            //     Message = MessageConstants.INSERTED_SUCCESSFULLY
+            // };
         // }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserEquipmentAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -1298,6 +1518,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -1308,13 +1529,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _equipmentsGalleryService.InsertEquipmentGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -1335,9 +1563,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         // {
         //     PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
         //     await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            // return new InsertOrUpdateResult<bool>
+            // {
+            //     Data = true,
+            //     OperationType = DatabaseOperationType.Inserted,
+            //     IsChangePower = true,
+            //     Message = MessageConstants.INSERTED_SUCCESSFULLY
+            // };
         // }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMedalAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -1358,6 +1600,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -1368,13 +1611,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _medalsGalleryService.InsertMedalGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -1395,9 +1645,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSkillAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -1418,6 +1682,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -1428,13 +1693,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _skillsGalleryService.InsertSkillGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -1455,9 +1727,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSymbolAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -1478,6 +1764,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -1488,13 +1775,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _symbolsGalleryService.InsertSymbolGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -1515,9 +1809,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserTitleAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -1538,6 +1846,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -1548,13 +1857,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _titlesGalleryService.InsertTitleGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -1575,9 +1891,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMagicFormationCircleAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -1598,6 +1928,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -1608,13 +1939,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _magicFormationCirclesGalleryService.InsertMagicFormationCircleGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -1635,9 +1973,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserRelicAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -1658,6 +2010,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -1668,13 +2021,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _relicsGalleryService.InsertRelicGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -1695,9 +2055,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardColonelAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -1718,6 +2092,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -1728,13 +2103,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _cardColonelsGalleryService.InsertCardColonelGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -1755,9 +2137,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         // {
         //     PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
         //     await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            // return new InsertOrUpdateResult<bool>
+            // {
+            //     Data = true,
+            //     OperationType = DatabaseOperationType.Inserted,
+            //     IsChangePower = true,
+            //     Message = MessageConstants.INSERTED_SUCCESSFULLY
+            // };
         // }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardGeneralAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -1778,6 +2174,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -1788,13 +2185,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _cardGeneralsGalleryService.InsertCardGeneralGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -1815,9 +2219,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         // {
         //     PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
         //     await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            // return new InsertOrUpdateResult<bool>
+            // {
+            //     Data = true,
+            //     OperationType = DatabaseOperationType.Inserted,
+            //     IsChangePower = true,
+            //     Message = MessageConstants.INSERTED_SUCCESSFULLY
+            // };
         // }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardAdmiralAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -1838,6 +2256,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -1848,13 +2267,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _cardAdmiralsGalleryService.InsertCardAdmiralGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -1875,9 +2301,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         // {
         //     PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
         //     await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            // return new InsertOrUpdateResult<bool>
+            // {
+            //     Data = true,
+            //     OperationType = DatabaseOperationType.Inserted,
+            //     IsChangePower = true,
+            //     Message = MessageConstants.INSERTED_SUCCESSFULLY
+            // };
         // }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardSoldierAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -1898,6 +2338,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -1908,13 +2349,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _cardSoldiersGalleryService.InsertCardSoldierGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -1935,9 +2383,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         // {
         //     PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
         //     await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            // return new InsertOrUpdateResult<bool>
+            // {
+            //     Data = true,
+            //     OperationType = DatabaseOperationType.Inserted,
+            //     IsChangePower = true,
+            //     Message = MessageConstants.INSERTED_SUCCESSFULLY
+            // };
         // }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBorderAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -1958,6 +2420,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -1968,13 +2431,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _bordersGalleryService.InsertBorderGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -1995,9 +2465,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserTalismanAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -2018,6 +2502,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -2028,13 +2513,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _talismansGalleryService.InsertTalismanGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -2055,9 +2547,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPuppetAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -2078,6 +2584,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -2088,13 +2595,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _puppetsGalleryService.InsertPuppetGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -2115,9 +2629,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAlchemyAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -2138,6 +2666,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -2148,13 +2677,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _alchemiesGalleryService.InsertAlchemyGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -2175,9 +2711,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserForgeAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -2198,6 +2748,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -2208,13 +2759,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _forgesGalleryService.InsertForgeGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -2235,9 +2793,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -2258,6 +2830,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -2268,13 +2841,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -2295,9 +2875,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArtworkAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -2318,6 +2912,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -2328,13 +2923,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _artworksGalleryService.InsertArtworkGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -2355,9 +2957,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSpiritBeastAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -2378,6 +2994,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -2388,13 +3005,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _spiritBeastsGalleryService.InsertSpiritBeastGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -2415,9 +3039,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAvatarAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -2438,6 +3076,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -2448,13 +3087,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _avatarsGalleryService.InsertAvatarGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -2475,9 +3121,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSpiritCardAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -2498,6 +3158,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -2508,13 +3169,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _spiritCardsGalleryService.InsertSpiritCardGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -2535,9 +3203,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArtifactAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -2558,6 +3240,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -2568,13 +3251,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _artifactsGalleryService.InsertArtifactGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -2595,9 +3285,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArchitectureAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -2618,6 +3322,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -2628,13 +3333,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _architecturesGalleryService.InsertArchitectureGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -2655,9 +3367,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserTechnologyAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -2678,6 +3404,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -2688,13 +3415,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _technologiesGalleryService.InsertTechnologyGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -2715,9 +3449,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserVehicleAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -2738,6 +3486,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -2748,13 +3497,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _vehiclesGalleryService.InsertVehicleGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -2775,9 +3531,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCoreAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -2798,6 +3568,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -2808,13 +3579,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _coresGalleryService.InsertCoreGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -2835,9 +3613,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserWeaponAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -2858,6 +3650,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -2868,13 +3661,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _weaponsGalleryService.InsertWeaponGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -2895,9 +3695,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserRobotAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -2918,6 +3732,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -2928,13 +3743,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _robotsGalleryService.InsertRobotGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -2955,9 +3777,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBadgeAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -2978,6 +3814,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -2988,13 +3825,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _badgesGalleryService.InsertBadgeGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -3015,9 +3859,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMechaBeastAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -3038,6 +3896,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -3048,13 +3907,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _mechaBeastsGalleryService.InsertMechaBeastGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -3075,9 +3941,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserRuneAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -3098,6 +3978,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -3108,13 +3989,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _runesGalleryService.InsertRuneGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -3135,9 +4023,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserFurnitureAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -3158,6 +4060,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -3168,13 +4071,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _furnituresGalleryService.InsertFurnitureGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -3195,9 +4105,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserFoodAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -3218,6 +4142,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -3228,13 +4153,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _foodsGalleryService.InsertFoodGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -3255,9 +4187,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBeverageAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -3278,6 +4224,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -3288,13 +4235,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _beveragesGalleryService.InsertBeverageGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -3315,9 +4269,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBuildingAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -3338,6 +4306,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -3348,13 +4317,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _buildingsGalleryService.InsertBuildingGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -3375,9 +4351,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPlantAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -3398,6 +4388,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -3408,13 +4399,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _plantsGalleryService.InsertPlantGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -3435,9 +4433,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserFashionAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -3458,6 +4470,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -3468,13 +4481,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _fashionsGalleryService.InsertFashionGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -3495,9 +4515,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserEmojiAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -3518,6 +4552,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -3528,13 +4563,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _emojisGalleryService.InsertEmojiGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -3555,9 +4597,23 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserOutfitAsync(string userId, ShopDTO shopDTO, int purchaseCount)
@@ -3578,6 +4634,7 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -3588,13 +4645,20 @@ public class UserShopPurchaseService : IUserShopPurchaseService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.Failed,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _outfitsGalleryService.InsertOutfitGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
@@ -3615,8 +4679,22 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 }

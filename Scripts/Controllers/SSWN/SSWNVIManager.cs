@@ -513,12 +513,22 @@ public class SSWNVIManager : MonoBehaviour
                 if (result.Success)
                 {
                     userSSWN = EnhanceHelper.EnhanceSSWNs(userSSWN, result.UpgradedLevels, sswn.BaseMultiplier);
-                    await UserSSWNsService.Create().InsertOrUpdateUserSSWNsAsync(User.CurrentUserId, userSSWN, featureId);
+                    var insertOrUpdateResult = await UserSSWNsService.Create().InsertOrUpdateUserSSWNsAsync(User.CurrentUserId, userSSWN, featureId);
 
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+                    if (insertOrUpdateResult.Data && insertOrUpdateResult.IsChangePower
+                    && (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated || insertOrUpdateResult.OperationType == DatabaseOperationType.Inserted))
+                    {
+                        PowerResultDTO powerResult = await UserService.Create().UpdateUserPowerAsync();
+
+                        if (powerResult.HasChanged)
+                        {
+                            PowerController.Instance.ShowPower(
+                                powerResult.CurrentPower,
+                                powerResult.Difference,
+                                1
+                            );
+                        }
+                    }
 
                     Destroy(gameObject);
                     await RefreshPanelAsync();
