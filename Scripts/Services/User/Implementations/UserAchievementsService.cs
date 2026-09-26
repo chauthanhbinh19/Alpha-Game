@@ -51,16 +51,17 @@ public class UserAchievementsService : IUserAchievementsService
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAchievementAsync(string userId, Achievements achievement)
     {
         var checkResult = await _achievementsService.IsAchievementDeletedOrInactiveAsync(achievement.Id);
-        if(checkResult)
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
-        
+
         var oldAchievementTask = _achievementsService.SumPowerAchievementsPercentAsync(userId);
         var oldUserAchievementTask = _userAchievementsRepository.SumPowerUserAchievementsAsync(userId);
 
@@ -77,13 +78,20 @@ public class UserAchievementsService : IUserAchievementsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _achievementsGalleryService.InsertAchievementGalleryAsync(userId, achievement.Id);
@@ -104,9 +112,23 @@ public class UserAchievementsService : IUserAchievementsService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAchievementsBatchAsync(string userId, List<Achievements> achievements)
@@ -127,6 +149,7 @@ public class UserAchievementsService : IUserAchievementsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -155,6 +178,14 @@ public class UserAchievementsService : IUserAchievementsService
                 PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
                 PowerManager updatedPower = currentPower + totalDelta;
                 await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+                return new InsertOrUpdateResult<bool>
+                {
+                    Data = true,
+                    OperationType = DatabaseOperationType.Inserted,
+                    IsChangePower = true,
+                    Message = MessageConstants.INSERTED_SUCCESSFULLY
+                };
             }
         }
 
@@ -167,6 +198,7 @@ public class UserAchievementsService : IUserAchievementsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
@@ -175,12 +207,13 @@ public class UserAchievementsService : IUserAchievementsService
     public async Task<InsertOrUpdateResult<bool>> UpdateUserAchievementLevelAsync(string userId, Achievements achievement)
     {
         var checkResult = await _achievementsService.IsAchievementDeletedOrInactiveAsync(achievement.Id);
-        if(checkResult)
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -195,6 +228,7 @@ public class UserAchievementsService : IUserAchievementsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -207,20 +241,35 @@ public class UserAchievementsService : IUserAchievementsService
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             PowerManager updatedPower = currentPower + deltaUserPower;
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = true,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> UpdateUserAchievementStarAsync(string userId, Achievements achievement)
     {
         var checkResult = await _achievementsService.IsAchievementDeletedOrInactiveAsync(achievement.Id);
-        if(checkResult)
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -235,6 +284,7 @@ public class UserAchievementsService : IUserAchievementsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -249,9 +299,23 @@ public class UserAchievementsService : IUserAchievementsService
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             PowerManager updatedPower = currentPower + deltaUserPower;
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = true,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<Achievements> GetUserAchievementByIdAsync(string userId, string Id)

@@ -54,6 +54,7 @@ public class UserArtifactsService : IUserArtifactsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -74,13 +75,20 @@ public class UserArtifactsService : IUserArtifactsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _artifactsGalleryService.InsertArtifactGalleryAsync(userId, artifact.Id);
@@ -101,9 +109,23 @@ public class UserArtifactsService : IUserArtifactsService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArtifactsBatchAsync(string userId, List<Artifacts> artifacts)
@@ -124,6 +146,7 @@ public class UserArtifactsService : IUserArtifactsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -152,6 +175,14 @@ public class UserArtifactsService : IUserArtifactsService
                 PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
                 PowerManager updatedPower = currentPower + totalDelta;
                 await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+                return new InsertOrUpdateResult<bool>
+                {
+                    Data = true,
+                    OperationType = DatabaseOperationType.Inserted,
+                    IsChangePower = true,
+                    Message = MessageConstants.INSERTED_SUCCESSFULLY
+                };
             }
         }
 
@@ -164,6 +195,7 @@ public class UserArtifactsService : IUserArtifactsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
@@ -178,6 +210,7 @@ public class UserArtifactsService : IUserArtifactsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -192,6 +225,7 @@ public class UserArtifactsService : IUserArtifactsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -204,9 +238,23 @@ public class UserArtifactsService : IUserArtifactsService
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             PowerManager updatedPower = currentPower + deltaUserPower;
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = true,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> UpdateUserArtifactStarAsync(string userId, Artifacts artifact)
@@ -218,10 +266,11 @@ public class UserArtifactsService : IUserArtifactsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
-        
+
         Artifacts oldUserArtifact = await _userArtifactsRepository.SumPowerUserArtifactsAsync(userId);
 
         var updateResult = await _userArtifactsRepository.UpdateUserArtifactStarAsync(userId, artifact);
@@ -232,6 +281,7 @@ public class UserArtifactsService : IUserArtifactsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -246,9 +296,23 @@ public class UserArtifactsService : IUserArtifactsService
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             PowerManager updatedPower = currentPower + deltaUserPower;
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = true,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<Artifacts> GetUserArtifactByIdAsync(string userId, string Id)

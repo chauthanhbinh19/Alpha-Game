@@ -1,0 +1,55 @@
+using System.Threading.Tasks;
+
+public interface IUserShopPurchaseService
+{
+    Task<InsertOrUpdateResult<bool>> PurchaseObjectFromShop(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardHeroAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAchievementAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBookAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPetAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardCaptainAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCollaborationEquipmentAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardMilitaryAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardSpellAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCollaborationAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardMonsterAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserEquipmentAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMedalAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSkillAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSymbolAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserTitleAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMagicFormationCircleAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserRelicAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardColonelAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardGeneralAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardAdmiralAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardSoldierAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBorderAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserTalismanAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPuppetAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAlchemyAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserForgeAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArtworkAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSpiritBeastAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAvatarAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSpiritCardAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArtifactAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArchitectureAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserTechnologyAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserVehicleAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCoreAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserWeaponAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserRobotAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBadgeAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMechaBeastAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserRuneAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserFurnitureAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserFoodAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBeverageAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBuildingAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPlantAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserFashionAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserEmojiAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserOutfitAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+}

@@ -41,6 +41,7 @@ public class BadgesGalleryService : IBadgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -53,11 +54,17 @@ public class BadgesGalleryService : IBadgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>{
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> UpdateStatusBadgeGalleryAsync(string userId, string badgeId)
@@ -69,6 +76,7 @@ public class BadgesGalleryService : IBadgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -81,6 +89,7 @@ public class BadgesGalleryService : IBadgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -91,7 +100,12 @@ public class BadgesGalleryService : IBadgesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>{
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = true,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusBadgesGalleryAsync(string userId)
@@ -108,6 +122,7 @@ public class BadgesGalleryService : IBadgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -121,6 +136,7 @@ public class BadgesGalleryService : IBadgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
             };
         }
@@ -130,7 +146,12 @@ public class BadgesGalleryService : IBadgesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>{
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = true,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<Badges> SumPowerBadgesGalleryAsync(string userId)
@@ -147,6 +168,7 @@ public class BadgesGalleryService : IBadgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -159,11 +181,17 @@ public class BadgesGalleryService : IBadgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>{
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> UpdateCurrentStarBadgeGalleryAsync(string userId, string badgeId)
@@ -175,6 +203,7 @@ public class BadgesGalleryService : IBadgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -189,6 +218,7 @@ public class BadgesGalleryService : IBadgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -202,6 +232,7 @@ public class BadgesGalleryService : IBadgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
             };
         }
@@ -211,7 +242,12 @@ public class BadgesGalleryService : IBadgesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>{
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = true,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarBadgesGalleryAsync(string userId)
@@ -229,6 +265,7 @@ public class BadgesGalleryService : IBadgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -242,6 +279,7 @@ public class BadgesGalleryService : IBadgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
             };
         }
@@ -251,7 +289,12 @@ public class BadgesGalleryService : IBadgesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>{
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = true,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertBatchBadgesGalleryAsync(string userId, List<Badges> badges)
@@ -264,11 +307,17 @@ public class BadgesGalleryService : IBadgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>{
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<Badges> GetBadgeCollectionByIdAsync(string userId, string badgeId)
@@ -287,6 +336,7 @@ public class BadgesGalleryService : IBadgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -294,6 +344,11 @@ public class BadgesGalleryService : IBadgesGalleryService
         IBadgesRepository _repository = new BadgesRepository();
         BadgesService _service = new BadgesService(_repository);
         await _badgesGalleryRepository.UpdateBadgeGalleryPowerAsync(userId, Id, await _service.GetBadgeByIdAsync(Id));
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>{
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 }

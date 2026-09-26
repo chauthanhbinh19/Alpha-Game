@@ -42,6 +42,7 @@ public class ForgesGalleryService : IForgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -54,11 +55,17 @@ public class ForgesGalleryService : IForgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>{
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> UpdateStatusForgeGalleryAsync(string userId, string forgeId)
@@ -70,6 +77,7 @@ public class ForgesGalleryService : IForgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -82,6 +90,7 @@ public class ForgesGalleryService : IForgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -92,7 +101,12 @@ public class ForgesGalleryService : IForgesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>{
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = true,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusForgesGalleryAsync(string userId)
@@ -109,6 +123,7 @@ public class ForgesGalleryService : IForgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -122,6 +137,7 @@ public class ForgesGalleryService : IForgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
             };
         }
@@ -131,7 +147,12 @@ public class ForgesGalleryService : IForgesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>{
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = true,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<Forges> SumPowerForgesGalleryAsync(string userId)
@@ -148,6 +169,7 @@ public class ForgesGalleryService : IForgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -160,11 +182,17 @@ public class ForgesGalleryService : IForgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>{
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> UpdateCurrentStarForgeGalleryAsync(string userId, string forgeId)
@@ -176,6 +204,7 @@ public class ForgesGalleryService : IForgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -190,6 +219,7 @@ public class ForgesGalleryService : IForgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -203,6 +233,7 @@ public class ForgesGalleryService : IForgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
             };
         }
@@ -212,7 +243,12 @@ public class ForgesGalleryService : IForgesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>{
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = true,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarForgesGalleryAsync(string userId)
@@ -230,6 +266,7 @@ public class ForgesGalleryService : IForgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -243,6 +280,7 @@ public class ForgesGalleryService : IForgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
             };
         }
@@ -252,7 +290,12 @@ public class ForgesGalleryService : IForgesGalleryService
 
         await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>{
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = true,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertBatchForgesGalleryAsync(string userId, List<Forges> forges)
@@ -265,11 +308,17 @@ public class ForgesGalleryService : IForgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = insertResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>{
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<Forges> GetForgeCollectionByIdAsync(string userId, string forgeId)
@@ -288,6 +337,7 @@ public class ForgesGalleryService : IForgesGalleryService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower =false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -295,6 +345,11 @@ public class ForgesGalleryService : IForgesGalleryService
         IForgesRepository _repository = new ForgesRepository();
         ForgesService _service = new ForgesService(_repository);
         await _forgesGalleryRepository.UpdateForgeGalleryPowerAsync(userId, Id, await _service.GetForgeByIdAsync(Id));
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>{
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 }

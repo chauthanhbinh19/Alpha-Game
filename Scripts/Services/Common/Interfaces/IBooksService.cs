@@ -17,4 +17,5 @@ public interface IBooksService
     Task<Books> GetBookByIdAsync(string Id);
     Task<List<Books>> GetBooksWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetBooksWithPriceCountAsync(string type);
+    Task<Books> SumPowerBooksPercentAsync(string userId);
 }

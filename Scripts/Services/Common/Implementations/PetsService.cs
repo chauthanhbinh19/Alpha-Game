@@ -89,4 +89,9 @@ public class PetsService : IPetsService
     {
         return await _petsRepository.GetPetsWithoutLimitAsync();
     }
+
+    public async Task<Pets> SumPowerPetsPercentAsync(string userId)
+    {
+        return await _petsRepository.SumPowerPetsPercentAsync(userId);
+    }
 }

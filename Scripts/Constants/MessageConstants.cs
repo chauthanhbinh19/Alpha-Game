@@ -2,6 +2,7 @@ using UnityEngine;
 
 public static class MessageConstants
 {
+
     public const string USERNAME_DOES_NOT_EXIST = "Username does not exist.";
     public const string INCORRECT_PASSWORD = "Incorrect password.";
     public const string RECIPE_NOT_FOUND = "Recipe not found for this level.";
@@ -44,7 +45,63 @@ public static class MessageConstants
     public const string TRANSACTION_ALREADY_PROCESSED = "Notification.TransactionAlreadyProcessed";
     public const string TRANSACTION_PENDING = "Notification.TransactionPending";
     public const string PURCHASE_FAILED = "Notification.PurchaseFailed";
-    public const string ERROR_UNSUPPORTED_DATA_TYPE = "Unsupported data type!";
+
+    public const string USER_NOT_FOUND = "Notification.UserNotFound";
+    public const string USER_DELETED = "Notification.UserDeleted";
+    public const string USER_INACTIVE = "Notification.UserInactive";
+
+    public const string ITEM_NOT_FOUND_OR_INACTIVE = "Notification.ItemNotFoundOrInactive";
+    public const string INSUFFICIENT_BALANCE = "Notification.InsufficientBalance";
+    public const string ACHIEVEMENTS_NOT_FOUND = "Notification.AchievementsNotFound";
+    public const string CARD_HEROES_NOT_FOUND = "Notification.CardHeroesNotFound";
+    public const string BOOKS_NOT_FOUND = "Notification.BooksNotFound";
+    public const string PETS_NOT_FOUND = "Notification.PetsNotFound";
+    public const string CARD_CAPTAINS_NOT_FOUND = "Notification.CardCaptainsNotFound";
+    public const string COLLABORATION_EQUIPMENTS_NOT_FOUND = "Notification.CollaborationEquipmentsNotFound";
+    public const string CARD_MILITARIES_NOT_FOUND = "Notification.CardMilitariesNotFound";
+    public const string CARD_SPELLS_NOT_FOUND = "Notification.CardSpellsNotFound";
+    public const string COLLABORATIONS_NOT_FOUND = "Notification.CollaborationsNotFound";
+    public const string CARD_MONSTERS_NOT_FOUND = "Notification.CardMonstersNotFound";
+    public const string EQUIPMENTS_NOT_FOUND = "Notification.EquipmentsNotFound";
+    public const string MEDALS_NOT_FOUND = "Notification.MedalsNotFound";
+    public const string SKILLS_NOT_FOUND = "Notification.SkillsNotFound";
+    public const string SYMBOLS_NOT_FOUND = "Notification.SymbolsNotFound";
+    public const string TITLES_NOT_FOUND = "Notification.TitlesNotFound";
+    public const string MAGIC_FORMATION_CIRCLES_NOT_FOUND = "Notification.MagicFormationCirclesNotFound";
+    public const string RELICS_NOT_FOUND = "Notification.RelicsNotFound";
+    public const string CARD_COLONELS_NOT_FOUND = "Notification.CardColonelsNotFound";
+    public const string CARD_GENERALS_NOT_FOUND = "Notification.CardGeneralsNotFound";
+    public const string CARD_ADMIRALS_NOT_FOUND = "Notification.CardAdmiralsNotFound";
+    public const string CARD_SOLDIERS_NOT_FOUND = "Notification.CardSoldiersNotFound";
+    public const string BORDERS_NOT_FOUND = "Notification.BordersNotFound";
+    public const string TALISMANS_NOT_FOUND = "Notification.TalismansNotFound";
+    public const string PUPPETS_NOT_FOUND = "Notification.PuppetsNotFound";
+    public const string ALCHEMIES_NOT_FOUND = "Notification.AlchemiesNotFound";
+    public const string FORGES_NOT_FOUND = "Notification.ForgesNotFound";
+    public const string CARD_LIVES_NOT_FOUND = "Notification.CardLivesNotFound";
+    public const string ARTWORKS_NOT_FOUND = "Notification.ArtworksNotFound";
+    public const string SPIRIT_BEASTS_NOT_FOUND = "Notification.SpiritBeastsNotFound";
+    public const string AVATARS_NOT_FOUND = "Notification.AvatarsNotFound";
+    public const string SPIRIT_CARDS_NOT_FOUND = "Notification.SpiritCardsNotFound";
+    public const string ARTIFACTS_NOT_FOUND = "Notification.ArtifactsNotFound";
+    public const string ARCHITECTURES_NOT_FOUND = "Notification.ArchitecturesNotFound";
+    public const string TECHNOLOGIES_NOT_FOUND = "Notification.TechnologiesNotFound";
+    public const string VEHICLES_NOT_FOUND = "Notification.VehiclesNotFound";
+    public const string CORES_NOT_FOUND = "Notification.CoresNotFound";
+    public const string WEAPONS_NOT_FOUND = "Notification.WeaponsNotFound";
+    public const string ROBOTS_NOT_FOUND = "Notification.RobotsNotFound";
+    public const string BADGES_NOT_FOUND = "Notification.BadgesNotFound";
+    public const string MECHA_BEASTS_NOT_FOUND = "Notification.MechaBeastsNotFound";
+    public const string RUNES_NOT_FOUND = "Notification.RunesNotFound";
+    public const string FURNITURES_NOT_FOUND = "Notification.FurnituresNotFound";
+    public const string FOODS_NOT_FOUND = "Notification.FoodsNotFound";
+    public const string BEVERAGES_NOT_FOUND = "Notification.BeveragesNotFound";
+    public const string BUILDINGS_NOT_FOUND = "Notification.BuildingsNotFound";
+    public const string PLANTS_NOT_FOUND = "Notification.PlantsNotFound";
+    public const string FASHIONS_NOT_FOUND = "Notification.FashionsNotFound";
+    public const string EMOJIS_NOT_FOUND = "Notification.EmojisNotFound";
+    public const string OUTFITS_NOT_FOUND = "Notification.OutfitsNotFound";
+    public const string ERROR_UNSUPPORTED_DATA_TYPE = "Notification.ErrorUnsupportedDataType";
 
     #region Hệ Thống Thông Báo Nâng Cấp (Upgrade System Keys)
     // Các Key dùng để tra cứu trong file ngôn ngữ (JSON/Database)

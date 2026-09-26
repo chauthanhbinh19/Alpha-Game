@@ -1433,6 +1433,117 @@ public static class AppConstants
         public const string GUILD = "System";
         public const string TRANSACTION = "Transaction";
     }
+    public static class ObjectType
+    {
+        public const string ACHIEVEMENTS = "ACHIEVEMENTS";
+        public const string CARD_HEROES = "CARD_HEROES";
+        public const string BOOKS = "BOOKS";
+        public const string PETS = "PETS";
+        public const string CARD_CAPTAINS = "CARD_CAPTAINS";
+        public const string COLLABORATION_EQUIPMENTS = "COLLABORATION_EQUIPMENTS";
+        public const string CARD_MILITARIES = "CARD_MILITARIES";
+        public const string CARD_SPELLS = "CARD_SPELLS";
+        public const string COLLABORATIONS = "COLLABORATIONS";
+        public const string CARD_MONSTERS = "CARD_MONSTERS";
+        public const string EQUIPMENTS = "EQUIPMENTS";
+        public const string MEDALS = "MEDALS";
+        public const string SKILLS = "SKILLS";
+        public const string SYMBOLS = "SYMBOLS";
+        public const string TITLES = "TITLES";
+        public const string MAGIC_FORMATION_CIRCLES = "MAGIC_FORMATION_CIRCLES";
+        public const string RELICS = "RELICS";
+        public const string CARD_COLONELS = "CARD_COLONELS";
+        public const string CARD_GENERALS = "CARD_GENERALS";
+        public const string CARD_ADMIRALS = "CARD_ADMIRALS";
+        public const string CARD_SOLDIERS = "CARD_SOLDIERS";
+        public const string BORDERS = "BORDERS";
+        public const string TALISMANS = "TALISMANS";
+        public const string PUPPETS = "PUPPETS";
+        public const string ALCHEMIES = "ALCHEMIES";
+        public const string FORGES = "FORGES";
+        public const string CARD_LIVES = "CARD_LIVES";
+        public const string ARTWORKS = "ARTWORKS";
+        public const string SPIRIT_BEASTS = "SPIRIT_BEASTS";
+        public const string AVATARS = "AVATARS";
+        public const string SPIRIT_CARDS = "SPIRIT_CARDS";
+        public const string ARTIFACTS = "ARTIFACTS";
+        public const string ARCHITECTURES = "ARCHITECTURES";
+        public const string TECHNOLOGIES = "TECHNOLOGIES";
+        public const string VEHICLES = "VEHICLES";
+        public const string CORES = "CORES";
+        public const string WEAPONS = "WEAPONS";
+        public const string ROBOTS = "ROBOTS";
+        public const string BADGES = "BADGES";
+        public const string MECHA_BEASTS = "MECHA_BEASTS";
+        public const string RUNES = "RUNES";
+        public const string FURNITURES = "FURNITURES";
+        public const string FOODS = "FOODS";
+        public const string BEVERAGES = "BEVERAGES";
+        public const string BUILDINGS = "BUILDINGS";
+        public const string PLANTS = "PLANTS";
+        public const string FASHIONS = "FASHIONS";
+        public const string EMOJIS = "EMOJIS";
+        public const string OUTFITS = "OUTFITS";
+    }
+    public static class Shop
+    {
+        public static class ShopCodeName
+        {
+            public const string CARD_HEROES_SHOP = "card_heroes_shop";
+            public const string BOOKS_SHOP = "books_shop";
+            public const string PETS_SHOP = "pets_shop";
+            public const string CARD_CAPTAINS_SHOP = "card_captains_shop";
+            public const string COLLABORATION_EQUIPMENTS_SHOP = "collaboration_equipments_shop";
+            public const string CARD_MILITARIES_SHOP = "card_militaries_shop";
+            public const string CARD_SPELLS_SHOP = "card_spells_shop";
+            public const string COLLABORATIONS_SHOP = "collaborations_shop";
+            public const string CARD_MONSTERS_SHOP = "card_monsters_shop";
+            public const string EQUIPMENTS_SHOP = "equipments_shop";
+            public const string MEDALS_SHOP = "medals_shop";
+            public const string SKILLS_SHOP = "skills_shop";
+            public const string SYMBOLS_SHOP = "symbols_shop";
+            public const string TITLES_SHOP = "titles_shop";
+            public const string MAGIC_FORMATION_CIRCLES_SHOP = "magic_formation_circles_shop";
+            public const string RELICS_SHOP = "relics_shop";
+            public const string CARD_COLONELS_SHOP = "card_colonels_shop";
+            public const string CARD_GENERALS_SHOP = "card_generals_shop";
+            public const string CARD_ADMIRALS_SHOP = "card_admirals_shop";
+            public const string CARD_SOLDIERS_SHOP = "card_soldiers_shop";
+            public const string BORDERS_SHOP = "borders_shop";
+            public const string TALISMANS_SHOP = "talismans_shop";
+            public const string PUPPETS_SHOP = "puppets_shop";
+            public const string ALCHEMIES_SHOP = "alchemies_shop";
+            public const string FORGES_SHOP = "forges_shop";
+            public const string CARD_LIVES_SHOP = "card_lives_shop";
+            public const string ARTWORKS_SHOP = "artworks_shop";
+            public const string SPIRIT_BEASTS_SHOP = "spirit_beasts_shop";
+            public const string AVATARS_SHOP = "avatars_shop";
+            public const string SPIRIT_CARDS_SHOP = "spirit_cards_shop";
+            public const string ARTIFACTS_SHOP = "artifacts_shop";
+            public const string ARCHITECTURES_SHOP = "architectures_shop";
+            public const string TECHNOLOGIES_SHOP = "technologies_shop";
+            public const string VEHICLES_SHOP = "vehicles_shop";
+            public const string CORES_SHOP = "cores_shop";
+            public const string WEAPONS_SHOP = "weapons_shop";
+            public const string ROBOTS_SHOP = "robots_shop";
+            public const string BADGES_SHOP = "badges_shop";
+            public const string MECHA_BEASTS_SHOP = "mecha_beasts_shop";
+            public const string RUNES_SHOP = "runes_shop";
+            public const string FURNITURES_SHOP = "furnitures_shop";
+            public const string FOODS_SHOP = "foods_shop";
+            public const string BEVERAGES_SHOP = "beverages_shop";
+            public const string BUILDINGS_SHOP = "buildings_shop";
+            public const string PLANTS_SHOP = "plants_shop";
+            public const string FASHIONS_SHOP = "fashions_shop";
+            public const string EMOJIS_SHOP = "emojis_shop";
+            public const string OUTFITS_SHOP = "outfits_shop";
+            public const string ACHIEVEMENTS_SHOP = "achievements_shop";
+        }
+        public static class ShopType
+        {
+            public const string GENERAL = "GENERAL";
+        }
+    }
     public static class MainType
     {
         public const string USERNAME = "username";
@@ -2923,6 +3034,7 @@ public static class AppConstants
             public const string SHOP_BUTTON_PREFAB = "ShopButtonPrefab";
             public const string SHOP_MANAGER_PREFAB = "ShopManagerPrefab";
             public const string SHOP_PREFAB = "ShopPrefab";
+            public const string SHOP_PANEL_PREFAB = "ShopPanelPrefab";
         }
         public static class Universe
         {

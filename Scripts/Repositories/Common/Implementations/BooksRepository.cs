@@ -1028,5 +1028,64 @@ public class BooksRepository : IBooksRepository
 
         return count;
     }
+    public async Task<Books> SumPowerBooksPercentAsync(string userId)
+    {
+        Books sumBooks = new Books();
+        string connectionString = DatabaseConfig.ConnectionString;
 
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT 
+                    SUM(a.percent_all_health) AS total_percent_all_health, 
+                    SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
+                    SUM(a.percent_all_physical_defense) AS total_percent_all_physical_defense, 
+                    SUM(a.percent_all_magical_attack) AS total_percent_all_magical_attack,
+                    SUM(a.percent_all_magical_defense) AS total_percent_all_magical_defense, 
+                    SUM(a.percent_all_chemical_attack) AS total_percent_all_chemical_attack,
+                    SUM(a.percent_all_chemical_defense) AS total_percent_all_chemical_defense, 
+                    SUM(a.percent_all_atomic_attack) AS total_percent_all_atomic_attack,
+                    SUM(a.percent_all_atomic_defense) AS total_percent_all_atomic_defense, 
+                    SUM(a.percent_all_mental_attack) AS total_percent_all_mental_attack,
+                    SUM(a.percent_all_mental_defense) AS total_percent_all_mental_defense
+                FROM Books a
+                JOIN user_books ua ON a.id = ua.skill_id
+                WHERE ua.user_id = @user_id;
+            ";
+
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
+
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            sumBooks.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDoubleSafe("total_percent_all_health");
+                            sumBooks.PercentAllPhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_physical_attack");
+                            sumBooks.PercentAllPhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_physical_defense");
+                            sumBooks.PercentAllMagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_magical_attack");
+                            sumBooks.PercentAllMagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_magical_defense");
+                            sumBooks.PercentAllChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_chemical_attack");
+                            sumBooks.PercentAllChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_chemical_defense");
+                            sumBooks.PercentAllAtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_atomic_attack");
+                            sumBooks.PercentAllAtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_atomic_defense");
+                            sumBooks.PercentAllMentalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_mental_attack");
+                            sumBooks.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_mental_defense");
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+
+        return sumBooks;
+    }
 }

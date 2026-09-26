@@ -95,10 +95,12 @@ public class Program : MonoBehaviour
         ServiceContainer.RegisterInstance<IVehiclesRepository>(new VehiclesRepository());
         ServiceContainer.RegisterInstance<IWeaponsRepository>(new WeaponsRepository());
         ServiceContainer.RegisterInstance<IWorldsRepository>(new WorldsRepository());
-        ServiceContainer.RegisterInstance<IPaymentService>(new PaymentService(new PaymentRepository()));
-        ServiceContainer.RegisterInstance<IMailsService>(new MailsService(new MailsRepository()));
-        ServiceContainer.RegisterInstance<IUserMailsService>(new UserMailsService(new UserMailsRepository()));
-        ServiceContainer.RegisterInstance<IGameItemCatalogService>(new GameItemCatalogService(new GameItemCatalogRepository()));
+        ServiceContainer.RegisterInstance<IPaymentRepository>(new PaymentRepository());
+        ServiceContainer.RegisterInstance<IMailsRepository>(new MailsRepository());
+        ServiceContainer.RegisterInstance<IUserMailsRepository>(new UserMailsRepository());
+        ServiceContainer.RegisterInstance<IGameItemCatalogRepository>(new GameItemCatalogRepository());
+        ServiceContainer.RegisterInstance<IUserShopPurchaseRepository>(new UserShopPurchaseRepository());
+        ServiceContainer.RegisterInstance<IShopsRepository>(new ShopsRepository());
 
         // Repositories - Gallery
         ServiceContainer.RegisterInstance<IAchievementsGalleryRepository>(new AchievementsGalleryRepository());
@@ -344,6 +346,8 @@ public class Program : MonoBehaviour
         ServiceContainer.RegisterSingleton<IMailsService, MailsService>();
         ServiceContainer.RegisterSingleton<IUserMailsService, UserMailsService>();
         ServiceContainer.RegisterSingleton<IGameItemCatalogService, GameItemCatalogService>();
+        ServiceContainer.RegisterSingleton<IUserShopPurchaseService, UserShopPurchaseService>();
+        ServiceContainer.RegisterSingleton<IShopsService, ShopsService>();
 
         //Services - Gallery
         ServiceContainer.RegisterSingleton<IAchievementsGalleryService, AchievementsGalleryService>();

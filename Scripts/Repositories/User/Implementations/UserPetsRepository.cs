@@ -1500,4 +1500,164 @@ public class UserPetsRepository : IUserPetsRepository
 
         return totalStats;
     }
+    public async Task<Pets> SumPowerUserPetsAsync(string userId)
+    {
+        Pets sumPets = new Pets();
+        string connectionString = DatabaseConfig.ConnectionString;
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+                string selectSQL = @" 
+                WITH CalculatedObjects AS (
+                    SELECT 
+                        c.*,
+                        (
+                            -- Quality: 0 -> 1.0, 1 -> 1.1
+                            (1 + COALESCE(uc.quality, 0) / 10.0) 
+                            
+                            -- Star: 0 -> 1.0, 1 -> 2.0, 2 -> 3.0
+                            * (1 + COALESCE(uc.star, 0)) 
+                            
+                            -- Level: 0 -> 1.0, 10 -> 1.1
+                            * (1 + COALESCE(uc.level, 0) / 100.0) 
+                            
+                            -- Module: 0/NULL -> 1.0
+                            * (1 + COALESCE(ubm.current_multiplier, 0) / 100.0) 
+                            
+                            -- Upgrade: 0/NULL -> 1.0
+                            * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
+                        ) AS total_multiplier
+                    FROM user_pets uc
+                    INNER JOIN skills c ON uc.skill_id = c.id
+                    LEFT JOIN user_pets_module ubm ON uc.skill_id = ubm.user_skill_id
+                    LEFT JOIN user_pets_upgrade ubu ON uc.skill_id = ubu.user_skill_id
+                    WHERE uc.user_id = @user_id
+                        AND c.is_active = TRUE AND c.is_deleted = FALSE
+                )
+                SELECT 
+                    SUM(health * total_multiplier) AS health,
+                    SUM(physical_attack * total_multiplier) AS physical_attack,
+                    SUM(physical_defense * total_multiplier) AS physical_defense,
+                    SUM(magical_attack * total_multiplier) AS magical_attack,
+                    SUM(magical_defense * total_multiplier) AS magical_defense,
+                    SUM(chemical_attack * total_multiplier) AS chemical_attack,
+                    SUM(chemical_defense * total_multiplier) AS chemical_defense,
+                    SUM(atomic_attack * total_multiplier) AS atomic_attack,
+                    SUM(atomic_defense * total_multiplier) AS atomic_defense,
+                    SUM(mental_attack * total_multiplier) AS mental_attack,
+                    SUM(mental_defense * total_multiplier) AS mental_defense,
+                    SUM(speed * total_multiplier) AS speed,
+                    SUM(critical_damage_rate * total_multiplier) AS critical_damage_rate,
+                    SUM(critical_rate * total_multiplier) AS critical_rate,
+                    SUM(critical_resistance_rate * total_multiplier) AS critical_resistance_rate,
+                    SUM(ignore_critical_rate * total_multiplier) AS ignore_critical_rate,
+                    SUM(penetration_rate * total_multiplier) AS penetration_rate,
+                    SUM(penetration_resistance_rate * total_multiplier) AS penetration_resistance_rate,
+                    SUM(evasion_rate * total_multiplier) AS evasion_rate,
+                    SUM(damage_absorption_rate * total_multiplier) AS damage_absorption_rate,
+                    SUM(ignore_damage_absorption_rate * total_multiplier) AS ignore_damage_absorption_rate,
+                    SUM(absorbed_damage_rate * total_multiplier) AS absorbed_damage_rate,
+                    SUM(vitality_regeneration_rate * total_multiplier) AS vitality_regeneration_rate,
+                    SUM(vitality_regeneration_resistance_rate * total_multiplier) AS vitality_regeneration_resistance_rate,
+                    SUM(accuracy_rate * total_multiplier) AS accuracy_rate,
+                    SUM(lifesteal_rate * total_multiplier) AS lifesteal_rate,
+                    SUM(shield_strength * total_multiplier) AS shield_strength,
+                    SUM(tenacity * total_multiplier) AS tenacity,
+                    SUM(resistance_rate * total_multiplier) AS resistance_rate,
+                    SUM(combo_rate * total_multiplier) AS combo_rate,
+                    SUM(ignore_combo_rate * total_multiplier) AS ignore_combo_rate,
+                    SUM(combo_damage_rate * total_multiplier) AS combo_damage_rate,
+                    SUM(combo_resistance_rate * total_multiplier) AS combo_resistance_rate,
+                    SUM(stun_rate * total_multiplier) AS stun_rate,
+                    SUM(ignore_stun_rate * total_multiplier) AS ignore_stun_rate,
+                    SUM(reflection_rate * total_multiplier) AS reflection_rate,
+                    SUM(ignore_reflection_rate * total_multiplier) AS ignore_reflection_rate,
+                    SUM(reflection_damage_rate * total_multiplier) AS reflection_damage_rate,
+                    SUM(reflection_resistance_rate * total_multiplier) AS reflection_resistance_rate,
+                    SUM(mana * total_multiplier) AS mana,
+                    SUM(mana_regeneration_rate * total_multiplier) AS mana_regeneration_rate,
+                    SUM(damage_to_different_faction_rate * total_multiplier) AS damage_to_different_faction_rate,
+                    SUM(resistance_to_different_faction_rate * total_multiplier) AS resistance_to_different_faction_rate,
+                    SUM(damage_to_same_faction_rate * total_multiplier) AS damage_to_same_faction_rate,
+                    SUM(resistance_to_same_faction_rate * total_multiplier) AS resistance_to_same_faction_rate,
+                    SUM(normal_damage_rate * total_multiplier) AS normal_damage_rate,
+                    SUM(normal_resistance_rate * total_multiplier) AS normal_resistance_rate,
+                    SUM(skill_damage_rate * total_multiplier) AS skill_damage_rate,
+                    SUM(skill_resistance_rate * total_multiplier) AS skill_resistance_rate
+                FROM CalculatedObjects;
+            ";
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
+
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            sumPets.Health = reader.GetDoubleSafe("health");
+                            sumPets.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
+                            sumPets.PhysicalDefense = reader.GetDoubleSafe("physical_defense");
+                            sumPets.MagicalAttack = reader.GetDoubleSafe("magical_attack");
+                            sumPets.MagicalDefense = reader.GetDoubleSafe("magical_defense");
+                            sumPets.ChemicalAttack = reader.GetDoubleSafe("chemical_attack");
+                            sumPets.ChemicalDefense = reader.GetDoubleSafe("chemical_defense");
+                            sumPets.AtomicAttack = reader.GetDoubleSafe("atomic_attack");
+                            sumPets.AtomicDefense = reader.GetDoubleSafe("atomic_defense");
+                            sumPets.MentalAttack = reader.GetDoubleSafe("mental_attack");
+                            sumPets.MentalDefense = reader.GetDoubleSafe("mental_defense");
+                            sumPets.Speed = reader.GetDoubleSafe("speed");
+                            sumPets.CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate");
+                            sumPets.CriticalRate = reader.GetDoubleSafe("critical_rate");
+                            sumPets.CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate");
+                            sumPets.IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate");
+                            sumPets.PenetrationRate = reader.GetDoubleSafe("penetration_rate");
+                            sumPets.PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate");
+                            sumPets.EvasionRate = reader.GetDoubleSafe("evasion_rate");
+                            sumPets.DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate");
+                            sumPets.IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate");
+                            sumPets.AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate");
+                            sumPets.VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate");
+                            sumPets.VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate");
+                            sumPets.AccuracyRate = reader.GetDoubleSafe("accuracy_rate");
+                            sumPets.LifestealRate = reader.GetDoubleSafe("lifesteal_rate");
+                            sumPets.ShieldStrength = reader.GetDoubleSafe("shield_strength");
+                            sumPets.Tenacity = reader.GetDoubleSafe("tenacity");
+                            sumPets.ResistanceRate = reader.GetDoubleSafe("resistance_rate");
+                            sumPets.ComboRate = reader.GetDoubleSafe("combo_rate");
+                            sumPets.IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate");
+                            sumPets.ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate");
+                            sumPets.ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate");
+                            sumPets.StunRate = reader.GetDoubleSafe("stun_rate");
+                            sumPets.IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate");
+                            sumPets.ReflectionRate = reader.GetDoubleSafe("reflection_rate");
+                            sumPets.IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate");
+                            sumPets.ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate");
+                            sumPets.ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate");
+                            sumPets.Mana = reader.GetDoubleSafe("mana");
+                            sumPets.ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate");
+                            sumPets.DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate");
+                            sumPets.ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate");
+                            sumPets.DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate");
+                            sumPets.ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate");
+                            sumPets.NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate");
+                            sumPets.NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate");
+                            sumPets.SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate");
+                            sumPets.SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate");
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+        return sumPets;
+    }
 }

@@ -108,148 +108,129 @@ public class UserHIINsRepository : IUserHIINsRepository
 
         return null;
     }
-    public async Task InsertOrUpdateUserHIINsAsync(string userId, UserHIINs userHIIN, string id)
+    public async Task<InsertOrUpdateResult<UserHIINs>> InsertOrUpdateUserHIINsAsync(string userId, UserHIINs userHIIN, string id)
     {
+        // 1. Guard Clauses: Kiểm tra tham số đầu vào an toàn
+        if (userHIIN == null || string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(id))
+        {
+            return InsertOrUpdateResult<UserHIINs>.Failure("Dữ liệu đầu vào không hợp lệ.");
+        }
+
         string connectionString = DatabaseConfig.ConnectionString;
 
-        await using var connection = new MySqlConnection(connectionString);
+        // 2. Câu lệnh Upsert (INSERT ... ON DUPLICATE KEY UPDATE)
+        // Giả định bảng user_hiins có PRIMARY KEY / UNIQUE KEY là (user_id, hiin_id)
+        string upsertSQL = @"
+    INSERT INTO user_hiins (
+        user_id, hiin_id, hiin_level, power, health, mana, speed,
+        physical_attack, physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense,
+        atomic_attack, atomic_defense, mental_attack, mental_defense,
+        critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
+        penetration_rate, penetration_resistance_rate, evasion_rate,
+        damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
+        vitality_regeneration_rate, vitality_regeneration_resistance_rate, accuracy_rate, lifesteal_rate,
+        shield_strength, tenacity, resistance_rate,
+        combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
+        stun_rate, ignore_stun_rate, reflection_rate, ignore_reflection_rate,
+        reflection_damage_rate, reflection_resistance_rate, mana_regeneration_rate,
+        damage_to_different_faction_rate, resistance_to_different_faction_rate,
+        damage_to_same_faction_rate, resistance_to_same_faction_rate,
+        normal_damage_rate, normal_resistance_rate, skill_damage_rate, skill_resistance_rate,
+        percent_all_health, percent_all_physical_attack, percent_all_physical_defense,
+        percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, percent_all_chemical_defense,
+        percent_all_atomic_attack, percent_all_atomic_defense, percent_all_mental_attack, percent_all_mental_defense
+    )
+    SELECT 
+        @user_id, c.id, @hiin_level, @power, @health, @mana, @speed,
+        @physical_attack, @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense,
+        @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
+        @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
+        @penetration_rate, @penetration_resistance_rate, @evasion_rate,
+        @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
+        @vitality_regeneration_rate, @vitality_regeneration_resistance_rate, @accuracy_rate, @lifesteal_rate,
+        @shield_strength, @tenacity, @resistance_rate,
+        @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate,
+        @stun_rate, @ignore_stun_rate, @reflection_rate, @ignore_reflection_rate,
+        @reflection_damage_rate, @reflection_resistance_rate, @mana_regeneration_rate,
+        @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
+        @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
+        @normal_damage_rate, @normal_resistance_rate, @skill_damage_rate, @skill_resistance_rate,
+        @percent_all_health, @percent_all_physical_attack, @percent_all_physical_defense,
+        @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, @percent_all_chemical_defense,
+        @percent_all_atomic_attack, @percent_all_atomic_defense, @percent_all_mental_attack, @percent_all_mental_defense
+    FROM hiins c
+    WHERE c.id = @hiin_id AND c.is_active = TRUE AND c.is_deleted = FALSE
+    ON DUPLICATE KEY UPDATE
+        hiin_level = VALUES(hiin_level), power = VALUES(power), health = VALUES(health), mana = VALUES(mana), speed = VALUES(speed),
+        physical_attack = VALUES(physical_attack), physical_defense = VALUES(physical_defense),
+        magical_attack = VALUES(magical_attack), magical_defense = VALUES(magical_defense),
+        chemical_attack = VALUES(chemical_attack), chemical_defense = VALUES(chemical_defense),
+        atomic_attack = VALUES(atomic_attack), atomic_defense = VALUES(atomic_defense),
+        mental_attack = VALUES(mental_attack), mental_defense = VALUES(mental_defense),
+        critical_damage_rate = VALUES(critical_damage_rate), critical_rate = VALUES(critical_rate),
+        critical_resistance_rate = VALUES(critical_resistance_rate), ignore_critical_rate = VALUES(ignore_critical_rate),
+        penetration_rate = VALUES(penetration_rate), penetration_resistance_rate = VALUES(penetration_resistance_rate),
+        evasion_rate = VALUES(evasion_rate), damage_absorption_rate = VALUES(damage_absorption_rate),
+        ignore_damage_absorption_rate = VALUES(ignore_damage_absorption_rate), absorbed_damage_rate = VALUES(absorbed_damage_rate),
+        vitality_regeneration_rate = VALUES(vitality_regeneration_rate),
+        vitality_regeneration_resistance_rate = VALUES(vitality_regeneration_resistance_rate),
+        accuracy_rate = VALUES(accuracy_rate), lifesteal_rate = VALUES(lifesteal_rate),
+        shield_strength = VALUES(shield_strength), tenacity = VALUES(tenacity),
+        resistance_rate = VALUES(resistance_rate), combo_rate = VALUES(combo_rate),
+        ignore_combo_rate = VALUES(ignore_combo_rate), combo_damage_rate = VALUES(combo_damage_rate),
+        combo_resistance_rate = VALUES(combo_resistance_rate), stun_rate = VALUES(stun_rate),
+        ignore_stun_rate = VALUES(ignore_stun_rate), reflection_rate = VALUES(reflection_rate),
+        ignore_reflection_rate = VALUES(ignore_reflection_rate), reflection_damage_rate = VALUES(reflection_damage_rate),
+        reflection_resistance_rate = VALUES(reflection_resistance_rate), mana_regeneration_rate = VALUES(mana_regeneration_rate),
+        damage_to_different_faction_rate = VALUES(damage_to_different_faction_rate),
+        resistance_to_different_faction_rate = VALUES(resistance_to_different_faction_rate),
+        damage_to_same_faction_rate = VALUES(damage_to_same_faction_rate),
+        resistance_to_same_faction_rate = VALUES(resistance_to_same_faction_rate),
+        normal_damage_rate = VALUES(normal_damage_rate), normal_resistance_rate = VALUES(normal_resistance_rate),
+        skill_damage_rate = VALUES(skill_damage_rate), skill_resistance_rate = VALUES(skill_resistance_rate),
+        percent_all_health = VALUES(percent_all_health),
+        percent_all_physical_attack = VALUES(percent_all_physical_attack), percent_all_physical_defense = VALUES(percent_all_physical_defense),
+        percent_all_magical_attack = VALUES(percent_all_magical_attack), percent_all_magical_defense = VALUES(percent_all_magical_defense),
+        percent_all_chemical_attack = VALUES(percent_all_chemical_attack), percent_all_chemical_defense = VALUES(percent_all_chemical_defense),
+        percent_all_atomic_attack = VALUES(percent_all_atomic_attack), percent_all_atomic_defense = VALUES(percent_all_atomic_defense),
+        percent_all_mental_attack = VALUES(percent_all_mental_attack), percent_all_mental_defense = VALUES(percent_all_mental_defense);";
+
         try
         {
+            await using var connection = new MySqlConnection(connectionString);
             await connection.OpenAsync();
 
-            string checkSQL = @"
-            SELECT COUNT(*) FROM user_hiins uc INNER JOIN hiins c ON c.id = uc.hiin_id 
-            WHERE uc.user_id = @user_id AND hiin_id = @hiin_id AND c.is_active = TRUE AND c.is_deleted = FALSE;";
+            await using var command = new MySqlCommand(upsertSQL, connection);
+            AddAllParameters(command, userHIIN, userId, id);
 
-            await using (var checkCommand = new MySqlCommand(checkSQL, connection))
+            int rowsAffected = await command.ExecuteNonQueryAsync();
+
+            // Trong MySQL:
+            // - rowsAffected = 0: Không có bản ghi nào thỏa mãn điều kiện `c.is_active = TRUE AND c.is_deleted = FALSE`.
+            // - rowsAffected = 1: Thêm mới (INSERT thành công).
+            // - rowsAffected = 2: Cập nhật (UPDATE thành công).
+            if (rowsAffected == 1)
             {
-                checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@hiin_id", id);
-
-                int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
-
-                if (count > 0)
-                {
-                    // -------- UPDATE ----------
-                    string updateSQL = @"
-                    UPDATE user_hiins uc INNER JOIN hiins c ON c.id = uc.hiin_id
-                    SET
-                        hiin_level = @hiin_level, power = @power, health = @health, mana = @mana, speed = @speed,
-                        physical_attack = @physical_attack, physical_defense = @physical_defense,
-                        magical_attack = @magical_attack, magical_defense = @magical_defense,
-                        chemical_attack = @chemical_attack, chemical_defense = @chemical_defense,
-                        atomic_attack = @atomic_attack, atomic_defense = @atomic_defense,
-                        mental_attack = @mental_attack, mental_defense = @mental_defense,
-                        critical_damage_rate = @critical_damage_rate, critical_rate = @critical_rate,
-                        critical_resistance_rate = @critical_resistance_rate, ignore_critical_rate = @ignore_critical_rate,
-                        penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
-                        evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate,
-                        ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
-                        vitality_regeneration_rate = @vitality_regeneration_rate,
-                        vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate,
-                        accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate,
-                        shield_strength = @shield_strength, tenacity = @tenacity,
-                        resistance_rate = @resistance_rate, combo_rate = @combo_rate,
-                        ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate,
-                        combo_resistance_rate = @combo_resistance_rate, stun_rate = @stun_rate,
-                        ignore_stun_rate = @ignore_stun_rate,
-                        reflection_rate = @reflection_rate,
-                        ignore_reflection_rate = @ignore_reflection_rate,
-                        reflection_damage_rate = @reflection_damage_rate,
-                        reflection_resistance_rate = @reflection_resistance_rate,
-                        mana_regeneration_rate = @mana_regeneration_rate,
-                        damage_to_different_faction_rate = @damage_to_different_faction_rate,
-                        resistance_to_different_faction_rate = @resistance_to_different_faction_rate,
-                        damage_to_same_faction_rate = @damage_to_same_faction_rate,
-                        resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
-                        normal_damage_rate = @normal_damage_rate,
-                        normal_resistance_rate = @normal_resistance_rate,
-                        skill_damage_rate = @skill_damage_rate,
-                        skill_resistance_rate = @skill_resistance_rate,
-                        percent_all_health = @percent_all_health,
-                        percent_all_physical_attack = @percent_all_physical_attack,
-                        percent_all_physical_defense = @percent_all_physical_defense,
-                        percent_all_magical_attack = @percent_all_magical_attack,
-                        percent_all_magical_defense = @percent_all_magical_defense,
-                        percent_all_chemical_attack = @percent_all_chemical_attack,
-                        percent_all_chemical_defense = @percent_all_chemical_defense,
-                        percent_all_atomic_attack = @percent_all_atomic_attack,
-                        percent_all_atomic_defense = @percent_all_atomic_defense,
-                        percent_all_mental_attack = @percent_all_mental_attack,
-                        percent_all_mental_defense = @percent_all_mental_defense
-                    WHERE uc.user_id = @user_id
-                    AND uc.hiin_id = @hiin_id AND c.is_active = TRUE AND c.is_deleted = FALSE;
-                ";
-
-                    await using var updateCommand = new MySqlCommand(updateSQL, connection);
-                    AddAllParameters(updateCommand, userHIIN, userId, id);
-
-                    await updateCommand.ExecuteNonQueryAsync();
-                }
-                else
-                {
-                    // -------- INSERT ----------
-                    string insertSQL = @"
-                    INSERT INTO user_hiins (
-                    user_id, hiin_id, hiin_level, power, health, mana, speed,
-                    physical_attack, physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense,
-                    atomic_attack, atomic_defense, mental_attack, mental_defense,
-                    critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
-                    penetration_rate, penetration_resistance_rate, evasion_rate,
-                    damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
-                    vitality_regeneration_rate, vitality_regeneration_resistance_rate, accuracy_rate, lifesteal_rate,
-                    shield_strength, tenacity, resistance_rate,
-                    combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
-                    stun_rate, ignore_stun_rate,
-                    reflection_rate, ignore_reflection_rate,
-                    reflection_damage_rate, reflection_resistance_rate,
-                    mana_regeneration_rate,
-                    damage_to_different_faction_rate, resistance_to_different_faction_rate,
-                    damage_to_same_faction_rate, resistance_to_same_faction_rate,
-                    normal_damage_rate, normal_resistance_rate,
-                    skill_damage_rate, skill_resistance_rate,
-                    percent_all_health,
-                    percent_all_physical_attack, percent_all_physical_defense,
-                    percent_all_magical_attack, percent_all_magical_defense,
-                    percent_all_chemical_attack, percent_all_chemical_defense,
-                    percent_all_atomic_attack, percent_all_atomic_defense,
-                    percent_all_mental_attack, percent_all_mental_defense
-                )
-                VALUES (
-                    @user_id, @hiin_id, @hiin_level, @power, @health, @mana, @speed,
-                    @physical_attack, @physical_defense, @magical_attack, @magical_defense,
-                    @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
-                    @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
-                    @penetration_rate, @penetration_resistance_rate, @evasion_rate,
-                    @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
-                    @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
-                    @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
-                    @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate, @stun_rate, @ignore_stun_rate,
-                    @reflection_rate, @ignore_reflection_rate,
-                    @reflection_damage_rate, @reflection_resistance_rate, @mana_regeneration_rate,
-                    @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
-                    @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
-                    @normal_damage_rate, @normal_resistance_rate,
-                    @skill_damage_rate, @skill_resistance_rate,
-                    @percent_all_health,
-                    @percent_all_physical_attack, @percent_all_physical_defense,
-                    @percent_all_magical_attack, @percent_all_magical_defense,
-                    @percent_all_chemical_attack, @percent_all_chemical_defense,
-                    @percent_all_atomic_attack, @percent_all_atomic_defense,
-                    @percent_all_mental_attack, @percent_all_mental_defense
-                );
-                ";
-
-                    await using var insertCommand = new MySqlCommand(insertSQL, connection);
-                    AddAllParameters(insertCommand, userHIIN, userId, id);
-
-                    await insertCommand.ExecuteNonQueryAsync();
-                }
+                return InsertOrUpdateResult<UserHIINs>.Inserted(userHIIN);
+            }
+            else if (rowsAffected >= 2)
+            {
+                return InsertOrUpdateResult<UserHIINs>.Updated(userHIIN);
+            }
+            else
+            {
+                return InsertOrUpdateResult<UserHIINs>.Failure("Thất bại: HIIN không tồn tại hoặc đã bị khóa/xóa.");
             }
         }
         catch (MySqlException ex)
         {
-            Debug.LogError("Error: " + ex.Message);
+            Debug.LogError($"[InsertOrUpdateUserHIINsAsync MySqlException]: {ex.Message}");
+            return InsertOrUpdateResult<UserHIINs>.Failure($"Lỗi Database: {ex.Message}");
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"[InsertOrUpdateUserHIINsAsync Exception]: {ex.Message}");
+            return InsertOrUpdateResult<UserHIINs>.Failure($"Lỗi hệ thống: {ex.Message}");
         }
     }
     public async Task<UserHIINs> GetSumUserHIINsAsync(string userId)

@@ -16,4 +16,5 @@ public interface IUserBooksRepository
     Task<List<string>> GetTeamIdsAsync(string userId);
     Task<BaseStats> GetTeamTotalStatsAsync(string userId);
     Task<BaseStats> GetTeamTotalStatsWithoutQualityAsync(string userId);
+    Task<Books> SumPowerUserBooksAsync(string userId);
 }

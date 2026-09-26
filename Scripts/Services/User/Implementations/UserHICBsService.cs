@@ -21,9 +21,39 @@ public class UserHICBsService : IUserHICBsService
         return await _userHICBsRepository.GetSumUserHICBsAsync(userId);
     }
 
-    public async Task InsertOrUpdateUserHICBsAsync(string userId, UserHICBs HICBs, string id)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserHICBsAsync(string userId, UserHICBs HICBs, string id)
     {
-        await _userHICBsRepository.InsertOrUpdateUserHICBsAsync(userId, HICBs, id);
+        var insertOrUpdateResult = await _userHICBsRepository.InsertOrUpdateUserHICBsAsync(userId, HICBs, id);
+
+        if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = true,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = true,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     

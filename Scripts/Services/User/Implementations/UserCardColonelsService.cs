@@ -598,6 +598,7 @@ public class UserCardColonelsService : IUserCardColonelsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -610,18 +611,31 @@ public class UserCardColonelsService : IUserCardColonelsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _cardColonelsGalleryService.InsertCardColonelGalleryAsync(userId, cardColonel.Id);
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardColonelsBatchAsync(string userId, List<CardColonels> cardColoneles)
@@ -635,6 +649,7 @@ public class UserCardColonelsService : IUserCardColonelsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -656,6 +671,7 @@ public class UserCardColonelsService : IUserCardColonelsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
@@ -670,6 +686,7 @@ public class UserCardColonelsService : IUserCardColonelsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -682,11 +699,18 @@ public class UserCardColonelsService : IUserCardColonelsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> UpdateUserCardColonelStarAsync(string userId, CardColonels cardColonel)
@@ -698,6 +722,7 @@ public class UserCardColonelsService : IUserCardColonelsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -710,19 +735,32 @@ public class UserCardColonelsService : IUserCardColonelsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         await _cardColonelsGalleryService.UpdateTempStarCardColonelGalleryAsync(userId, cardColonel.Id, cardColonel.Star);
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> UpdateTeamUserCardColonelAsync(string userId, string teamId, string position, string cardId)
     {
         await _userCardColonelsRepository.UpdateTeamUserCardColonelAsync(userId, teamId, position, cardId);
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<CardColonels> GetUserCardColonelByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null)

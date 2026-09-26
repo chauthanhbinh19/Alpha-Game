@@ -56,48 +56,85 @@ public class UserModulesRepository : IUserModulesRepository
 
         return null;
     }
-    public async Task InsertOrUpdateUserModulesAsync(string userId, UserModules module, string objectId, string userTable, string objectColumn)
+    public async Task<InsertOrUpdateResult<UserModules>> InsertOrUpdateUserModulesAsync(string userId, UserModules module, string objectId, string userTable, string objectColumn)
     {
+        // 1. Guard Clause: Kiểm tra tham số đầu vào
+        if (module == null || string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(objectId))
+        {
+            return InsertOrUpdateResult<UserModules>.Failure("Dữ liệu module hoặc tham số ID không hợp lệ.");
+        }
+
+        // Sanitize/Validate tên bảng và tên cột để tránh SQL Injection
+        string safeUserTable = userTable?.Replace("`", "").Trim();
+        string safeObjectColumn = objectColumn?.Replace("`", "").Trim();
+
+        if (string.IsNullOrWhiteSpace(safeUserTable) || string.IsNullOrWhiteSpace(safeObjectColumn))
+        {
+            return InsertOrUpdateResult<UserModules>.Failure("Tên bảng hoặc tên cột truyền vào không hợp lệ.");
+        }
+
         string connectionString = DatabaseConfig.ConnectionString;
 
-        await using var connection = new MySqlConnection(connectionString);
+        // 2. Tối ưu câu lệnh Upsert tương thích rộng với các bản MySQL (dùng VALUES() thay vì alias "AS new")
+        string upsertSQL = $@"
+        INSERT INTO `{safeUserTable}` (
+            user_id,
+            `{safeObjectColumn}`,
+            module_id,
+            current_level,
+            current_multiplier
+        )
+        VALUES (
+            @user_id,
+            @object_id,
+            @module_id,
+            @current_level,
+            @current_multiplier
+        )
+        ON DUPLICATE KEY UPDATE
+            current_level = VALUES(current_level),
+            current_multiplier = VALUES(current_multiplier);";
+
         try
         {
+            await using var connection = new MySqlConnection(connectionString);
             await connection.OpenAsync();
 
-            string checkSQL = $@"
-            INSERT INTO {userTable} (
-                user_id,
-                {objectColumn},
-                module_id,
-                current_level,
-                current_multiplier
-            )
-            VALUES (
-                @user_id,
-                @object_id,
-                @module_id,
-                @current_level,
-                @current_multiplier
-            ) AS new
-            ON DUPLICATE KEY UPDATE
-                current_level = new.current_level,
-                current_multiplier = new.current_multiplier;";
+            await using var command = new MySqlCommand(upsertSQL, connection);
+            command.Parameters.AddWithValue("@user_id", userId);
+            command.Parameters.AddWithValue("@object_id", objectId);
+            command.Parameters.AddWithValue("@module_id", module.Id);
+            command.Parameters.AddWithValue("@current_level", module.CurrentLevel);
+            command.Parameters.AddWithValue("@current_multiplier", module.CurrentMultiplier);
 
-            await using (var insertOrUpdateCommand = new MySqlCommand(checkSQL, connection))
+            int rowsAffected = await command.ExecuteNonQueryAsync();
+
+            // Trong MySQL ON DUPLICATE KEY UPDATE:
+            // - rowsAffected = 1: Thêm mới thành công (INSERT)
+            // - rowsAffected = 2: Cập nhật thành công (UPDATE)
+            // - rowsAffected = 0: Không có thay đổi (Dữ liệu update giống hệt dữ liệu cũ)
+            if (rowsAffected == 1)
             {
-                insertOrUpdateCommand.Parameters.AddWithValue("@user_id", userId);
-                insertOrUpdateCommand.Parameters.AddWithValue("@object_id", objectId);
-                insertOrUpdateCommand.Parameters.AddWithValue("@module_id", module.Id);
-                insertOrUpdateCommand.Parameters.AddWithValue("@current_level", module.CurrentLevel);
-                insertOrUpdateCommand.Parameters.AddWithValue("@current_multiplier", module.CurrentMultiplier);
-
-                await insertOrUpdateCommand.ExecuteNonQueryAsync();
+                return InsertOrUpdateResult<UserModules>.Inserted(module);
+            }
+            else if (rowsAffected >= 2 || rowsAffected == 0)
+            {
+                return InsertOrUpdateResult<UserModules>.Updated(module);
+            }
+            else
+            {
+                return InsertOrUpdateResult<UserModules>.Failure("Không thể thực hiện lưu hoặc cập nhật module.");
             }
         }
         catch (MySqlException ex)
         {
-            Debug.LogError("Error: " + ex.Message);
+            Debug.LogError($"[InsertOrUpdateUserModulesAsync MySqlError]: {ex.Message}");
+            return InsertOrUpdateResult<UserModules>.Failure($"Lỗi Database: {ex.Message}");
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"[InsertOrUpdateUserModulesAsync Exception]: {ex.Message}");
+            return InsertOrUpdateResult<UserModules>.Failure($"Lỗi hệ thống: {ex.Message}");
         }
     }
     public async Task<UserModules> GetSumUserModulesAsync(string userId, string objectId, string userTable, string objectColumn)

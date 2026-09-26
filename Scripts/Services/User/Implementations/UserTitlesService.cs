@@ -54,6 +54,7 @@ public class UserTitlesService : IUserTitlesService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -74,13 +75,20 @@ public class UserTitlesService : IUserTitlesService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _titlesGalleryService.InsertTitleGalleryAsync(userId, title.Id);
@@ -101,9 +109,23 @@ public class UserTitlesService : IUserTitlesService
         {
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserTitlesBatchAsync(string userId, List<Titles> titles)
@@ -124,6 +146,7 @@ public class UserTitlesService : IUserTitlesService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -152,6 +175,14 @@ public class UserTitlesService : IUserTitlesService
                 PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
                 PowerManager updatedPower = currentPower + totalDelta;
                 await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+                return new InsertOrUpdateResult<bool>
+                {
+                    Data = true,
+                    OperationType = DatabaseOperationType.Inserted,
+                    IsChangePower = true,
+                    Message = MessageConstants.INSERTED_SUCCESSFULLY
+                };
             }
         }
 
@@ -164,6 +195,7 @@ public class UserTitlesService : IUserTitlesService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
@@ -178,6 +210,7 @@ public class UserTitlesService : IUserTitlesService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -192,6 +225,7 @@ public class UserTitlesService : IUserTitlesService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -204,9 +238,23 @@ public class UserTitlesService : IUserTitlesService
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             PowerManager updatedPower = currentPower + deltaUserPower;
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = true,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> UpdateUserTitleStarAsync(string userId, Titles title)
@@ -218,6 +266,7 @@ public class UserTitlesService : IUserTitlesService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -232,6 +281,7 @@ public class UserTitlesService : IUserTitlesService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -246,9 +296,23 @@ public class UserTitlesService : IUserTitlesService
             PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
             PowerManager updatedPower = currentPower + deltaUserPower;
             await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = true,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<Titles> GetUserTitleByIdAsync(string userId, string Id)

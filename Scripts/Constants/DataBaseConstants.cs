@@ -2,6 +2,56 @@ public static class DataBaseConstants
 {
     public static class Table
     {
+        public const string ACHIEVEMENTS = "achievements";
+        public const string ALCHEMIES = "alchemies";
+        public const string ARCHITECTURES = "architectures";
+        public const string ARTIFACTS = "artifacts";
+        public const string ARTWORKS = "artworks";
+        public const string AVATARS = "avatars";
+        public const string BADGES = "badges";
+        public const string BEVERAGES = "beverages";
+        public const string BOOKS = "books";
+        public const string BORDERS = "borders";
+        public const string BUILDINGS = "buildings";
+        public const string CARD_ADMIRALS = "card_admirals";
+        public const string CARD_CAPTAINS = "card_captains";
+        public const string CARD_COLONELS = "card_colonels";
+        public const string CARD_GENERALS = "card_generals";
+        public const string CARD_HEROES = "card_heroes";
+        public const string CARD_LIVES = "card_lives";
+        public const string CARD_MILITARIES = "card_militaries";
+        public const string CARD_MONSTERS = "card_monsters";
+        public const string CARD_SOLDIERS = "card_soldiers";
+        public const string CARD_SPELLS = "card_spells";
+        public const string COLLABORATION_EQUIPMENTS = "collaboration_equipments";
+        public const string COLLABORATIONS = "collaborations";
+        public const string CORES = "cores";
+        public const string EMOJIS = "emojis";
+        public const string EQUIPMENTS = "equipments";
+        public const string FASHIONS = "fashions";
+        public const string FOODS = "foods";
+        public const string FORGES = "forges";
+        public const string FURNITURES = "furnitures";
+        public const string MAGIC_FORMATION_CIRCLES = "magic_formation_circles";
+        public const string MECHA_BEASTS = "mecha_beasts";
+        public const string MEDALS = "medals";
+        public const string PETS = "pets";
+        public const string PLANTS = "plants";
+        public const string PUPPETS = "puppets";
+        public const string RELICS = "relics";
+        public const string ROBOTS = "robots";
+        public const string RUNES = "runes";
+        public const string SKILLS = "skills";
+        public const string SPIRIT_BEASTS = "spirit_beasts";
+        public const string SPIRIT_CARDS = "spirit_cards";
+        public const string SYMBOLS = "symbols";
+        public const string TALISMANS = "talismans";
+        public const string TECHNOLOGIES = "technologies";
+        public const string TITLES = "titles";
+        public const string VEHICLES = "vehicles";
+        public const string WEAPONS = "weapons";
+        public const string OUTFITS = "outfits";
+        
         public const string USER_BOOKS_RANK = "user_books_rank";
         public const string USER_CARD_ADMIRALS_RANK = "user_card_admirals_rank";
         public const string USER_CARD_CAPTAINS_RANK = "user_card_captains_rank";

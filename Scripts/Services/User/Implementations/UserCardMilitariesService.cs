@@ -568,7 +568,7 @@ public class UserCardMilitariesService : IUserCardMilitariesService
     {
         return await _userCardMilitariesRepository.GetUserCardMilitariesInTeamSimpleAsync(userId, teamId);
     }
-    
+
     public async Task<Dictionary<string, int>> GetUniqueUserCardMilitariesTypesTeamAsync(string userId, string teamId)
     {
         return await _userCardMilitariesRepository.GetUniqueUserCardMilitariesTypesTeamAsync(userId, teamId);
@@ -577,7 +577,13 @@ public class UserCardMilitariesService : IUserCardMilitariesService
     public async Task<InsertOrUpdateResult<bool>> UpdateTeamUserCardMilitaryAsync(string userId, string teamId, string position, string cardId)
     {
         await _userCardMilitariesRepository.UpdateTeamUserCardMilitaryAsync(userId, teamId, position, cardId);
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<int> GetUserCardMilitariesCountAsync(string userId, string search, string type, string rare)
@@ -604,6 +610,7 @@ public class UserCardMilitariesService : IUserCardMilitariesService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -616,18 +623,31 @@ public class UserCardMilitariesService : IUserCardMilitariesService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _cardMilitariesGalleryService.InsertCardMilitaryGalleryAsync(userId, cardMilitary.Id);
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardMilitariesBatchAsync(string userId, List<CardMilitaries> cardMilitaries)
@@ -641,6 +661,7 @@ public class UserCardMilitariesService : IUserCardMilitariesService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -662,6 +683,7 @@ public class UserCardMilitariesService : IUserCardMilitariesService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
@@ -676,6 +698,7 @@ public class UserCardMilitariesService : IUserCardMilitariesService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -688,11 +711,18 @@ public class UserCardMilitariesService : IUserCardMilitariesService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> UpdateUserCardMilitaryStarAsync(string userId, CardMilitaries cardMilitary)
@@ -704,6 +734,7 @@ public class UserCardMilitariesService : IUserCardMilitariesService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -716,13 +747,20 @@ public class UserCardMilitariesService : IUserCardMilitariesService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         await _cardMilitariesGalleryService.UpdateTempStarCardMilitaryGalleryAsync(userId, cardMilitary.Id, cardMilitary.Star);
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<CardMilitaries> GetUserCardMilitaryByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null)

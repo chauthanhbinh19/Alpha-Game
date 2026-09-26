@@ -84,14 +84,45 @@ public class UserUpgradesService : IUserUpgradesService
         return await _userUpgradesRepository.GetSumUserUpgradesAsync(userId, stat.Id, mapping.Table, mapping.Column);
     }
 
-    public async Task InsertOrUpdateUserUpgradesAsync(string userId, UserUpgrades upgrade, IStats stat)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserUpgradesAsync(string userId, UserUpgrades upgrade, IStats stat)
     {
         if (!UpgradeMappings.TryGetValue(stat.GetType(), out var mapping))
         {
             throw new NotSupportedException(
                 $"Unsupported stat type: {stat.GetType().Name}");
         }
-        await _userUpgradesRepository.InsertOrUpdateUserUpgradesAsync(userId, upgrade, stat.Id, mapping.Table, mapping.Column);
+
+        var insertOrUpdateResult = await _userUpgradesRepository.InsertOrUpdateUserUpgradesAsync(userId, upgrade, stat.Id, mapping.Table, mapping.Column);
+
+        if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = true,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = true,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
 }

@@ -188,7 +188,8 @@ public class MainMenuManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateShopButtonAsync(MainPanel);
+            // await ShopManager.Instance.CreateShopButtonAsync(MainPanel);
+            await ShopManager.Instance.CreateShopPanelAsync();
         });
 
         shopPackageButton.onClick.AddListener(async () =>

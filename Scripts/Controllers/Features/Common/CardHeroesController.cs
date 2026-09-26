@@ -10,11 +10,20 @@ public class CardHeroesController : MonoBehaviour
 {
     public static CardHeroesController Instance { get; private set; }
     private Transform MainPanel;
+    private GameObject ShopPanelPrefab;
     private GameObject CardHeroButtonPrefab;
     private GameObject EquipmentShopPrefab;
     private GameObject QuantityPopupPrefab;
     private GameObject ReceivedNotificationPanelPrefab;
     private GameObject ItemPopupPrefab;
+    private PaginationManager PaginationManager;
+    private Transform contentTransform;
+    private int Offset = 0;
+    private int CurrentPage = 1;
+    private int TotalItems;
+    private const int PAGE_SIZE = 100;
+    private bool IsSearchingOrFiltering = false;
+    private string ShopCodeName = "";
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -37,6 +46,7 @@ public class CardHeroesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        ShopPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Shop.SHOP_PANEL_PREFAB);
         CardHeroButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.CARD_HERO_BUTTON_PREFAB);
         EquipmentShopPrefab = UIManager.Instance.Get(AppConstants.Prefab.Equipment.EQUIPMENT_SHOP_PREFAB);
         QuantityPopupPrefab = UIManager.Instance.Get(AppConstants.Prefab.Shop.QUANTITY_POPUP_PREFAB);
@@ -171,6 +181,223 @@ public class CardHeroesController : MonoBehaviour
         currencies = await UserCurrenciesService.Create().GetCardHeroesCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
+    }
+    public async Task CreateShopAsync(string shopCodeName)
+    {
+        GameObject gameObject = Instantiate(ShopPanelPrefab, MainPanel);
+        Transform transform = gameObject.transform;
+        contentTransform = transform.Find("Scroll View/Viewport/Content");
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(gameObject);
+        });
+        Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+
+        });
+
+        PaginationManager = transform.Find("PaginationPanelPrefab").GetComponent<PaginationManager>();
+        IsSearchingOrFiltering = true;
+        ShopCodeName = shopCodeName;
+        await LoadCurrentPageAsync();
+    }
+    public async Task CreateCardHeroesShopAsync(ShopDTO shopDTO)
+    {
+        if (shopDTO == null || shopDTO.ShopDetails == null) return;
+
+        // 1. Tắt Component Animation trước khi thao tác trên Content để tránh conflict
+        var oldAnim = contentTransform.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null)
+        {
+            DestroyImmediate(oldAnim); // Dùng DestroyImmediate để xóa ngay lập tức thay vì chờ cuối frame
+        }
+
+        // 2. Clear danh sách con cũ an toàn
+        for (int i = contentTransform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(contentTransform.GetChild(i).gameObject);
+        }
+
+        foreach (var shopDetail in shopDTO.ShopDetails)
+        {
+            GameObject cardHeroObject = Instantiate(EquipmentShopPrefab, contentTransform);
+            Transform itemTransform = cardHeroObject.transform;
+
+            // Title
+            TextMeshProUGUI titleText = itemTransform.Find("Title")?.GetComponent<TextMeshProUGUI>();
+            if (titleText != null && !string.IsNullOrEmpty(shopDetail.ObjectName))
+            {
+                titleText.text = shopDetail.ObjectName.Replace("_", " ");
+            }
+
+            // Image Item
+            RawImage image = itemTransform.Find("Image")?.GetComponent<RawImage>();
+            if (image != null && !string.IsNullOrEmpty(shopDetail.ObjectImage))
+            {
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(shopDetail.ObjectImage);
+                Texture texture = TextureHelper.LoadTextureCached(fileNameWithoutExtension);
+                if (texture != null)
+                {
+                    image.texture = texture;
+                    ImageManager.Instance.ChangeSizeImageByTextureScale(image, texture);
+                }
+            }
+
+            // Frame Button & Popup Event
+            Transform frameTransform = itemTransform.Find("Frame");
+            if (frameTransform != null)
+            {
+                Button button = frameTransform.GetComponent<Button>();
+                if (button != null)
+                {
+                    button.onClick.RemoveAllListeners(); // Xóa listener cũ trước khi Add
+                    var currentDetail = shopDetail; // Local copy để tránh lỗi Closure Capture trong C#
+                    button.onClick.AddListener(() =>
+                    {
+                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                        PopupDetailsManager.Instance.PopupDetails(currentDetail, MainPanel);
+                    });
+                }
+            }
+
+            // UI Styling (Materials, Colors, Outlines)
+            RawImage topImage = itemTransform.Find("TopImage")?.GetComponent<RawImage>();
+            if (topImage != null) topImage.material = MaterialManager.Instance.Get("UI_Red_Gradient_Radius_Mat_MaskPercent_90");
+
+            RawImage circleImage = itemTransform.Find("BackgroundContent/CircleImage")?.GetComponent<RawImage>();
+            if (circleImage != null) circleImage.color = ColorHelper.HexToColor(ColorConstants.RED_COLOR);
+
+            Outline bottomOutline = itemTransform.Find("BottomImage")?.GetComponent<Outline>();
+            if (bottomOutline != null) bottomOutline.effectColor = ColorHelper.HexToColor(ColorConstants.RED_COLOR);
+
+            Outline middleOutline = itemTransform.Find("MiddleImage")?.GetComponent<Outline>();
+            if (middleOutline != null) middleOutline.effectColor = ColorHelper.HexToColor(ColorConstants.RED_COLOR);
+
+            // Currency Image & Text
+            RawImage currencyImage = itemTransform.Find("CurrencyImage")?.GetComponent<RawImage>();
+            if (currencyImage != null && !string.IsNullOrEmpty(shopDetail.CurrencyImage))
+            {
+                string currencyFileName = ImageHelper.RemoveImageExtension(shopDetail.CurrencyImage);
+                Texture currencyTexture = TextureHelper.LoadTextureCached(currencyFileName);
+                if (currencyTexture != null) currencyImage.texture = currencyTexture;
+            }
+
+            TextMeshProUGUI currencyText = itemTransform.Find("CurrencyText")?.GetComponent<TextMeshProUGUI>();
+            if (currencyText != null)
+            {
+                currencyText.text = NumberFormatterHelper.FormatNumber(shopDetail.Price, false);
+            }
+
+            // Buy Button
+            Transform buyButtonTransform = itemTransform.Find("Buy");
+            if (buyButtonTransform != null)
+            {
+                Button buyButton = buyButtonTransform.GetComponent<Button>();
+                TextMeshProUGUI buttonText = buyButtonTransform.GetComponentInChildren<TextMeshProUGUI>();
+                if (buttonText != null) buttonText.text = LocalizationManager.Get(AppDisplayConstants.Title.BUY);
+
+                Image buttonBackgroundImage = buyButtonTransform.Find("Background")?.GetComponent<Image>();
+                if (buttonBackgroundImage != null) buttonBackgroundImage.color = ColorHelper.HexToColor(ColorConstants.RED_COLOR);
+            }
+        }
+    }
+
+    public async Task LoadCurrentPageAsync()
+    {
+        try
+        {
+            // 1. Kiểm tra Service khởi tạo an toàn
+            var shopService = ShopsService.Create();
+            if (shopService == null)
+            {
+                Debug.LogError("[LoadCurrentPageAsync] ShopsService.Create() trả về NULL! Dừng thực thi để tránh crash.");
+                return;
+            }
+
+            ShopRequestDTO shopRequestDTO = new ShopRequestDTO
+            {
+                ShopName = "",
+                ShopCodeName = ShopCodeName,
+                ShopType = AppConstants.Shop.ShopType.GENERAL,
+                Limit = PAGE_SIZE,
+                Offset = Offset,
+                ObjectType = AppConstants.ObjectType.CARD_HEROES
+            };
+
+            // 2. Lấy dữ liệu Shop
+            ShopDTO shopDTO = await shopService.GetUserShopsAsync(User.CurrentUserId, shopRequestDTO);
+
+            // Kiểm tra null cả DTO lẫn ShopId
+            if (shopDTO == null || string.IsNullOrEmpty(shopDTO.ShopId))
+            {
+                Debug.LogWarning("[LoadCurrentPageAsync] Không tìm thấy dữ liệu Shop hoặc ShopId bị Null.");
+                return;
+            }
+
+            // 3. Render UI danh sách vật phẩm
+            await CreateCardHeroesShopAsync(shopDTO);
+
+            int listCount = shopDTO.ShopDetails?.Count ?? 0;
+
+            // 4. Lấy tổng số bản ghi
+            int totalRecord = await shopService.GetShopItemCountAsync(shopRequestDTO);
+
+            // 5. Gán ShopId an toàn & lấy danh sách tiền tệ
+            shopRequestDTO.ShopId = shopDTO.ShopId;
+            List<Currencies> currencies = await ShopsService.Create().GetCurrenciesByShopAsync(User.CurrentUserId, shopRequestDTO);
+
+            // if (currencies == null)
+            // {
+            //     currencies = new List<Currencies>(); // Phòng ngừa null reference ở UI
+            // }
+
+            // Cập nhật UI tiền tệ nếu cần
+            // var currenciesManager = FindObjectOfType<CurrenciesManager>();
+            // if (currenciesManager != null)
+            // {
+            //     currenciesManager.CreateCurrency(currencies, currencyPanel);
+            // }
+
+            // 6. Xử lý Phân trang
+            if (listCount > 0)
+            {
+                TotalItems = totalRecord;
+            }
+
+            if (IsSearchingOrFiltering && PaginationManager != null)
+            {
+                PaginationManager.OnPageChanged -= OnPageSelected;
+                PaginationManager.InitPagination(TotalItems, PAGE_SIZE, CurrentPage);
+                PaginationManager.OnPageChanged += OnPageSelected;
+            }
+        }
+        catch (System.Exception ex)
+        {
+            // Bắt mọi exception trên Main Thread để Log Console thay vì văng Editor
+            Debug.LogError($"[LoadCurrentPageAsync Exception]: {ex.Message}\n{ex.StackTrace}");
+        }
+    }
+    // Hàm hứng sự kiện click nút phân trang
+    private void OnPageSelected(int pageNumber)
+    {
+        CurrentPage = pageNumber;
+        Offset = (CurrentPage - 1) * PAGE_SIZE;
+        IsSearchingOrFiltering = false;
+        _ = LoadCurrentPageAsync();
+    }
+
+    private void OnDestroy()
+    {
+        // Luôn luôn hủy đăng ký sự kiện khi Object bị xóa để tránh lỗi bộ nhớ
+        if (PaginationManager != null)
+        {
+            PaginationManager.OnPageChanged -= OnPageSelected;
+        }
     }
     public void GetQuantity(double originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
     {

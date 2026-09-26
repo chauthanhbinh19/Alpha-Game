@@ -61,9 +61,18 @@ public class UserSkillsService : IUserSkillsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
+
+        var oldSkillTask = _skillsService.SumPowerSkillsPercentAsync(userId);
+        var oldUserSkillTask = _userSkillsRepository.SumPowerUserSkillsAsync(userId);
+
+        await Task.WhenAll(oldSkillTask, oldUserSkillTask);
+
+        Skills oldSkill = oldSkillTask.Result;
+        Skills oldUserSkill = oldUserSkillTask.Result;
 
         var insertOrUpdateResult = await _userSkillsRepository.InsertOrUpdateUserSkillAsync(userId, skill);
 
@@ -73,22 +82,69 @@ public class UserSkillsService : IUserSkillsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _skillsGalleryService.InsertSkillGalleryAsync(userId, skill.Id);
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        var newSkillTask = _skillsService.SumPowerSkillsPercentAsync(userId);
+        var newUserSkillTask = _userSkillsRepository.SumPowerUserSkillsAsync(userId);
+
+        await Task.WhenAll(newSkillTask, newUserSkillTask);
+
+        PowerManager deltaPower = (PowerManager)newSkillTask.Result - (PowerManager)oldSkill;
+        PowerManager deltaUserPower = (PowerManager)newUserSkillTask.Result - (PowerManager)oldUserSkill;
+
+        PowerManager totalDelta = new PowerManager();
+        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+        if (totalDelta.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Inserted,
+                IsChangePower = true,
+                Message = MessageConstants.INSERTED_SUCCESSFULLY
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSkillsBatchAsync(string userId, List<Skills> skilles)
     {
+        var oldSkillTask = _skillsService.SumPowerSkillsPercentAsync(userId);
+        var oldUserSkillTask = _userSkillsRepository.SumPowerUserSkillsAsync(userId);
+
+        await Task.WhenAll(oldSkillTask, oldUserSkillTask);
+
+        Skills oldSkill = oldSkillTask.Result;
+        Skills oldUserSkill = oldUserSkillTask.Result;
+
         var repositoryResult = await _userSkillsRepository.InsertOrUpdateUserSkillsBatchAsync(userId, skilles);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
@@ -98,6 +154,7 @@ public class UserSkillsService : IUserSkillsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -107,6 +164,33 @@ public class UserSkillsService : IUserSkillsService
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
             await _skillsGalleryService.InsertBatchSkillsGalleryAsync(userId, newlyInsertedCards);
+
+            var newSkillTask = _skillsService.SumPowerSkillsPercentAsync(userId);
+            var newUserSkillTask = _userSkillsRepository.SumPowerUserSkillsAsync(userId);
+
+            await Task.WhenAll(newSkillTask, newUserSkillTask);
+
+            PowerManager deltaPower = (PowerManager)newSkillTask.Result - (PowerManager)oldSkill;
+            PowerManager deltaUserPower = (PowerManager)newUserSkillTask.Result - (PowerManager)oldUserSkill;
+
+            PowerManager totalDelta = new PowerManager();
+            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+            if (totalDelta.HasAnyPositiveStat())
+            {
+                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+                PowerManager updatedPower = currentPower + totalDelta;
+                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+                return new InsertOrUpdateResult<bool>
+                {
+                    Data = true,
+                    OperationType = DatabaseOperationType.Inserted,
+                    IsChangePower = true,
+                    Message = MessageConstants.INSERTED_SUCCESSFULLY
+                };
+            }
         }
 
         // 3. Mapping kết quả OperationType trả về gọn gàng
@@ -119,6 +203,7 @@ public class UserSkillsService : IUserSkillsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
@@ -133,9 +218,12 @@ public class UserSkillsService : IUserSkillsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
+
+        Skills oldUserSkill = await _userSkillsRepository.SumPowerUserSkillsAsync(userId);
 
         var updateResult = await _userSkillsRepository.UpdateUserSkillLevelAsync(userId, skill);
 
@@ -145,11 +233,36 @@ public class UserSkillsService : IUserSkillsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        Skills newUserSkill = await _userSkillsRepository.SumPowerUserSkillsAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserSkill - (PowerManager)oldUserSkill;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = true,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> UpdateUserSkillStarAsync(string userId, Skills skill)
@@ -161,9 +274,12 @@ public class UserSkillsService : IUserSkillsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
+
+        Skills oldUserSkill = await _userSkillsRepository.SumPowerUserSkillsAsync(userId);
 
         var updateResult = await _userSkillsRepository.UpdateUserSkillStarAsync(userId, skill);
 
@@ -173,13 +289,38 @@ public class UserSkillsService : IUserSkillsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         await _skillsGalleryService.UpdateTempStarSkillGalleryAsync(userId, skill.Id, skill.Star);
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        Skills newUserSkill = await _userSkillsRepository.SumPowerUserSkillsAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserSkill - (PowerManager)oldUserSkill;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = true,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<Skills> GetUserSkillsByIdAsync(string userId, string Id)
@@ -195,6 +336,11 @@ public class UserSkillsService : IUserSkillsService
         result = UpgradeEvaluatorHelper.GetUpgradePower(result);
 
         return result;
+    }
+
+    public async Task<Skills> SumPowerUserSkillsAsync(string userId)
+    {
+        return await _userSkillsRepository.SumPowerUserSkillsAsync(userId);
     }
 
     public async Task<List<Skills>> GetUserCardHeroesSkillsAsync(string userId, string cardId)

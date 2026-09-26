@@ -113,152 +113,141 @@ public class UserMastersRepository : IUserMastersRepository
 
         return null;
     }
-    public async Task InsertOrUpdateUserMastersAsync(string userId, UserMasters userMaster, string objectId, string userTable, string objectColumn)
+    public async Task<InsertOrUpdateResult<UserMasters>> InsertOrUpdateUserMastersAsync(string userId, UserMasters userMaster, string objectId, string userTable, string objectColumn)
     {
+        // 1. Guard Clause: Kiểm tra tham số đầu vào
+        if (userMaster == null || string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(userMaster.Id) || string.IsNullOrWhiteSpace(objectId))
+        {
+            return InsertOrUpdateResult<UserMasters>.Failure("Dữ liệu master hoặc tham số ID truyền vào không hợp lệ.");
+        }
+
+        // Sanitize tên bảng và tên cột động để chống SQL Injection
+        string safeUserTable = userTable?.Replace("`", "").Trim();
+        string safeObjectColumn = objectColumn?.Replace("`", "").Trim();
+
+        if (string.IsNullOrWhiteSpace(safeUserTable) || string.IsNullOrWhiteSpace(safeObjectColumn))
+        {
+            return InsertOrUpdateResult<UserMasters>.Failure("Tên bảng hoặc tên cột truyền vào không hợp lệ.");
+        }
+
         string connectionString = DatabaseConfig.ConnectionString;
 
-        await using var connection = new MySqlConnection(connectionString);
+        // 2. Tối ưu câu lệnh Upsert (Giả định bảng có UNIQUE/PRIMARY KEY gồm: user_id, master_id, objectColumn)
+        string upsertSQL = $@"
+    INSERT INTO `{safeUserTable}` (
+        user_id, `{safeObjectColumn}`, master_id, master_level, power, health, mana, speed,
+        physical_attack, physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense,
+        atomic_attack, atomic_defense, mental_attack, mental_defense,
+        critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
+        penetration_rate, penetration_resistance_rate, evasion_rate,
+        damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
+        vitality_regeneration_rate, vitality_regeneration_resistance_rate, accuracy_rate, lifesteal_rate,
+        shield_strength, tenacity, resistance_rate,
+        combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
+        stun_rate, ignore_stun_rate, reflection_rate, ignore_reflection_rate,
+        reflection_damage_rate, reflection_resistance_rate, mana_regeneration_rate,
+        damage_to_different_faction_rate, resistance_to_different_faction_rate,
+        damage_to_same_faction_rate, resistance_to_same_faction_rate,
+        normal_damage_rate, normal_resistance_rate, skill_damage_rate, skill_resistance_rate,
+        percent_all_health, percent_all_physical_attack, percent_all_physical_defense,
+        percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, percent_all_chemical_defense,
+        percent_all_atomic_attack, percent_all_atomic_defense, percent_all_mental_attack, percent_all_mental_defense
+    )
+    VALUES (
+        @user_id, @objectId, @master_id, @master_level, @power, @health, @mana, @speed,
+        @physical_attack, @physical_defense, @magical_attack, @magical_defense,
+        @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
+        @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
+        @penetration_rate, @penetration_resistance_rate, @evasion_rate,
+        @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
+        @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
+        @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
+        @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate, @stun_rate, @ignore_stun_rate,
+        @reflection_rate, @ignore_reflection_rate,
+        @reflection_damage_rate, @reflection_resistance_rate, @mana_regeneration_rate,
+        @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
+        @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
+        @normal_damage_rate, @normal_resistance_rate,
+        @skill_damage_rate, @skill_resistance_rate,
+        @percent_all_health,
+        @percent_all_physical_attack, @percent_all_physical_defense,
+        @percent_all_magical_attack, @percent_all_magical_defense,
+        @percent_all_chemical_attack, @percent_all_chemical_defense,
+        @percent_all_atomic_attack, @percent_all_atomic_defense,
+        @percent_all_mental_attack, @percent_all_mental_defense
+    )
+    ON DUPLICATE KEY UPDATE
+        master_level = VALUES(master_level), power = VALUES(power), health = VALUES(health), mana = VALUES(mana), speed = VALUES(speed),
+        physical_attack = VALUES(physical_attack), physical_defense = VALUES(physical_defense),
+        magical_attack = VALUES(magical_attack), magical_defense = VALUES(magical_defense),
+        chemical_attack = VALUES(chemical_attack), chemical_defense = VALUES(chemical_defense),
+        atomic_attack = VALUES(atomic_attack), atomic_defense = VALUES(atomic_defense),
+        mental_attack = VALUES(mental_attack), mental_defense = VALUES(mental_defense),
+        critical_damage_rate = VALUES(critical_damage_rate), critical_rate = VALUES(critical_rate),
+        critical_resistance_rate = VALUES(critical_resistance_rate), ignore_critical_rate = VALUES(ignore_critical_rate),
+        penetration_rate = VALUES(penetration_rate), penetration_resistance_rate = VALUES(penetration_resistance_rate),
+        evasion_rate = VALUES(evasion_rate), damage_absorption_rate = VALUES(damage_absorption_rate),
+        ignore_damage_absorption_rate = VALUES(ignore_damage_absorption_rate), absorbed_damage_rate = VALUES(absorbed_damage_rate),
+        vitality_regeneration_rate = VALUES(vitality_regeneration_rate),
+        vitality_regeneration_resistance_rate = VALUES(vitality_regeneration_resistance_rate),
+        accuracy_rate = VALUES(accuracy_rate), lifesteal_rate = VALUES(lifesteal_rate),
+        shield_strength = VALUES(shield_strength), tenacity = VALUES(tenacity),
+        resistance_rate = VALUES(resistance_rate), combo_rate = VALUES(combo_rate),
+        ignore_combo_rate = VALUES(ignore_combo_rate), combo_damage_rate = VALUES(combo_damage_rate),
+        combo_resistance_rate = VALUES(combo_resistance_rate), stun_rate = VALUES(stun_rate),
+        ignore_stun_rate = VALUES(ignore_stun_rate), reflection_rate = VALUES(reflection_rate),
+        ignore_reflection_rate = VALUES(ignore_reflection_rate), reflection_damage_rate = VALUES(reflection_damage_rate),
+        reflection_resistance_rate = VALUES(reflection_resistance_rate), mana_regeneration_rate = VALUES(mana_regeneration_rate),
+        damage_to_different_faction_rate = VALUES(damage_to_different_faction_rate),
+        resistance_to_different_faction_rate = VALUES(resistance_to_different_faction_rate),
+        damage_to_same_faction_rate = VALUES(damage_to_same_faction_rate),
+        resistance_to_same_faction_rate = VALUES(resistance_to_same_faction_rate),
+        normal_damage_rate = VALUES(normal_damage_rate), normal_resistance_rate = VALUES(normal_resistance_rate),
+        skill_damage_rate = VALUES(skill_damage_rate), skill_resistance_rate = VALUES(skill_resistance_rate),
+        percent_all_health = VALUES(percent_all_health),
+        percent_all_physical_attack = VALUES(percent_all_physical_attack), percent_all_physical_defense = VALUES(percent_all_physical_defense),
+        percent_all_magical_attack = VALUES(percent_all_magical_attack), percent_all_magical_defense = VALUES(percent_all_magical_defense),
+        percent_all_chemical_attack = VALUES(percent_all_chemical_attack), percent_all_chemical_defense = VALUES(percent_all_chemical_defense),
+        percent_all_atomic_attack = VALUES(percent_all_atomic_attack), percent_all_atomic_defense = VALUES(percent_all_atomic_defense),
+        percent_all_mental_attack = VALUES(percent_all_mental_attack), percent_all_mental_defense = VALUES(percent_all_mental_defense);";
+
         try
         {
+            await using var connection = new MySqlConnection(connectionString);
             await connection.OpenAsync();
 
-            string checkSQL = $@"
-            SELECT COUNT(*) FROM {userTable}  
-            WHERE user_id = @user_id 
-                AND master_id = @master_id
-                AND {objectColumn} = @object_id";
+            await using var command = new MySqlCommand(upsertSQL, connection);
 
-            await using (var checkCommand = new MySqlCommand(checkSQL, connection))
+            // Gán thông số cho Command
+            AddAllParameters(command, userMaster, userId, userMaster.Id, objectId);
+
+            int rowsAffected = await command.ExecuteNonQueryAsync();
+
+            // Xử lý kết quả trả về từ MySQL:
+            // - 1: Đã INSERT mới thành công
+            // - 2 hoặc 0: Đã UPDATE thành công (2 = có thay đổi dữ liệu, 0 = dữ liệu giữ nguyên)
+            if (rowsAffected == 1)
             {
-                checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@master_id", userMaster.Id);
-                checkCommand.Parameters.AddWithValue("@object_id", objectId);
-
-                int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
-
-                if (count > 0)
-                {
-                    // -------- UPDATE ----------
-                    string updateSQL = $@"
-                    UPDATE {userTable}
-                    SET
-                        master_level = @master_level, power = @power, health = @health, mana = @mana, speed = @speed,
-                        physical_attack = @physical_attack, physical_defense = @physical_defense,
-                        magical_attack = @magical_attack, magical_defense = @magical_defense,
-                        chemical_attack = @chemical_attack, chemical_defense = @chemical_defense,
-                        atomic_attack = @atomic_attack, atomic_defense = @atomic_defense,
-                        mental_attack = @mental_attack, mental_defense = @mental_defense,
-                        critical_damage_rate = @critical_damage_rate, critical_rate = @critical_rate,
-                        critical_resistance_rate = @critical_resistance_rate, ignore_critical_rate = @ignore_critical_rate,
-                        penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
-                        evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate,
-                        ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
-                        vitality_regeneration_rate = @vitality_regeneration_rate,
-                        vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate,
-                        accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate,
-                        shield_strength = @shield_strength, tenacity = @tenacity,
-                        resistance_rate = @resistance_rate, combo_rate = @combo_rate,
-                        ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate,
-                        combo_resistance_rate = @combo_resistance_rate, stun_rate = @stun_rate,
-                        ignore_stun_rate = @ignore_stun_rate,
-                        reflection_rate = @reflection_rate,
-                        ignore_reflection_rate = @ignore_reflection_rate,
-                        reflection_damage_rate = @reflection_damage_rate,
-                        reflection_resistance_rate = @reflection_resistance_rate,
-                        mana_regeneration_rate = @mana_regeneration_rate,
-                        damage_to_different_faction_rate = @damage_to_different_faction_rate,
-                        resistance_to_different_faction_rate = @resistance_to_different_faction_rate,
-                        damage_to_same_faction_rate = @damage_to_same_faction_rate,
-                        resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
-                        normal_damage_rate = @normal_damage_rate,
-                        normal_resistance_rate = @normal_resistance_rate,
-                        skill_damage_rate = @skill_damage_rate,
-                        skill_resistance_rate = @skill_resistance_rate,
-                        percent_all_health = @percent_all_health,
-                        percent_all_physical_attack = @percent_all_physical_attack,
-                        percent_all_physical_defense = @percent_all_physical_defense,
-                        percent_all_magical_attack = @percent_all_magical_attack,
-                        percent_all_magical_defense = @percent_all_magical_defense,
-                        percent_all_chemical_attack = @percent_all_chemical_attack,
-                        percent_all_chemical_defense = @percent_all_chemical_defense,
-                        percent_all_atomic_attack = @percent_all_atomic_attack,
-                        percent_all_atomic_defense = @percent_all_atomic_defense,
-                        percent_all_mental_attack = @percent_all_mental_attack,
-                        percent_all_mental_defense = @percent_all_mental_defense
-                    WHERE user_id = @user_id
-                        AND master_id = @master_id
-                        AND {objectColumn} = @objectId;
-                ";
-
-                    await using var updateCommand = new MySqlCommand(updateSQL, connection);
-                    AddAllParameters(updateCommand, userMaster, userId, userMaster.Id, objectId);
-
-                    await updateCommand.ExecuteNonQueryAsync();
-                }
-                else
-                {
-                    // -------- INSERT ----------
-                    string insertSQL = $@"
-                    INSERT INTO {userTable} (
-                    user_id, {objectColumn}, master_id, master_level, power, health, mana, speed,
-                    physical_attack, physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense,
-                    atomic_attack, atomic_defense, mental_attack, mental_defense,
-                    critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
-                    penetration_rate, penetration_resistance_rate, evasion_rate,
-                    damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
-                    vitality_regeneration_rate, vitality_regeneration_resistance_rate, accuracy_rate, lifesteal_rate,
-                    shield_strength, tenacity, resistance_rate,
-                    combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
-                    stun_rate, ignore_stun_rate,
-                    reflection_rate, ignore_reflection_rate,
-                    reflection_damage_rate, reflection_resistance_rate,
-                    mana_regeneration_rate,
-                    damage_to_different_faction_rate, resistance_to_different_faction_rate,
-                    damage_to_same_faction_rate, resistance_to_same_faction_rate,
-                    normal_damage_rate, normal_resistance_rate,
-                    skill_damage_rate, skill_resistance_rate,
-                    percent_all_health,
-                    percent_all_physical_attack, percent_all_physical_defense,
-                    percent_all_magical_attack, percent_all_magical_defense,
-                    percent_all_chemical_attack, percent_all_chemical_defense,
-                    percent_all_atomic_attack, percent_all_atomic_defense,
-                    percent_all_mental_attack, percent_all_mental_defense
-                )
-                VALUES (
-                    @user_id, @objectId, @master_id, @master_level, @power, @health, @mana, @speed,
-                    @physical_attack, @physical_defense, @magical_attack, @magical_defense,
-                    @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
-                    @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
-                    @penetration_rate, @penetration_resistance_rate, @evasion_rate,
-                    @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
-                    @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
-                    @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
-                    @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate, @stun_rate, @ignore_stun_rate,
-                    @reflection_rate, @ignore_reflection_rate,
-                    @reflection_damage_rate, @reflection_resistance_rate, @mana_regeneration_rate,
-                    @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
-                    @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
-                    @normal_damage_rate, @normal_resistance_rate,
-                    @skill_damage_rate, @skill_resistance_rate,
-                    @percent_all_health,
-                    @percent_all_physical_attack, @percent_all_physical_defense,
-                    @percent_all_magical_attack, @percent_all_magical_defense,
-                    @percent_all_chemical_attack, @percent_all_chemical_defense,
-                    @percent_all_atomic_attack, @percent_all_atomic_defense,
-                    @percent_all_mental_attack, @percent_all_mental_defense
-                );
-                ";
-
-                    await using var insertCommand = new MySqlCommand(insertSQL, connection);
-                    AddAllParameters(insertCommand, userMaster, userId, userMaster.Id, objectId);
-
-                    await insertCommand.ExecuteNonQueryAsync();
-                }
+                return InsertOrUpdateResult<UserMasters>.Inserted(userMaster);
+            }
+            else if (rowsAffected >= 2 || rowsAffected == 0)
+            {
+                return InsertOrUpdateResult<UserMasters>.Updated(userMaster);
+            }
+            else
+            {
+                return InsertOrUpdateResult<UserMasters>.Failure("Thất bại: Không thể thêm hoặc cập nhật master.");
             }
         }
         catch (MySqlException ex)
         {
-            Debug.LogError("Error: " + ex.Message);
+            Debug.LogError($"[InsertOrUpdateUserMastersAsync MySqlException]: {ex.Message}");
+            return InsertOrUpdateResult<UserMasters>.Failure($"Lỗi Database: {ex.Message}");
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"[InsertOrUpdateUserMastersAsync Exception]: {ex.Message}");
+            return InsertOrUpdateResult<UserMasters>.Failure($"Lỗi hệ thống: {ex.Message}");
         }
     }
     public async Task<UserMasters> GetSumUserMastersAsync(string userId, string objectId, string userTable, string objectColumn)

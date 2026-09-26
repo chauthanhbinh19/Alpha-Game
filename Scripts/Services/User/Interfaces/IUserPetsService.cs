@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 
 public interface IUserPetsService
 {
-    Task<List<Pets>> GetAllEquipmentPowerAsync(string userId, List<Pets> petList);
-    Task<List<Pets>> GetAllRankPowerAsync(string userId, List<Pets> petList);
-    Task<List<Pets>> GetAllMasterPowerAsync(string userId, List<Pets> petList);
+    // Task<List<Pets>> GetAllEquipmentPowerAsync(string userId, List<Pets> petList);
+    // Task<List<Pets>> GetAllRankPowerAsync(string userId, List<Pets> petList);
+    // Task<List<Pets>> GetAllMasterPowerAsync(string userId, List<Pets> petList);
     Task<List<Pets>> GetUserPetsAsync(string userId, string search, string type, int pageSize, int offset, string rare);
     Task<List<Pets>> GetUserPetsTeamAsync(string userId, string teamId);
     Task<Dictionary<string, int>> GetUniqueUserPetsTypesTeamAsync(string userId, string teamId);
@@ -17,4 +17,5 @@ public interface IUserPetsService
     Task<InsertOrUpdateResult<bool>> UpdateTeamUserPetAsync(string userId, string teamId, string cardId);
     Task<Pets> GetUserPetByIdAsync(string userId, string Id);
     Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null);
+    Task<Pets> SumPowerUserPetsAsync(string userId);
 }

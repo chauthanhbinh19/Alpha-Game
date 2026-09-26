@@ -16,4 +16,5 @@ public interface IUserPetsRepository
     Task<List<string>> GetTeamIdsAsync(string userId);
     Task<BaseStats> GetTeamTotalStatsAsync(string userId);
     Task<BaseStats> GetTeamTotalStatsWithoutQualityAsync(string userId);
+    Task<Pets> SumPowerUserPetsAsync(string userId);
 }

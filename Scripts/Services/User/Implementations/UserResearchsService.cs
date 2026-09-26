@@ -21,8 +21,38 @@ public class UserResearchsService : IUserResearchsService
         return await _userResearchsRepository.GetSumUserResearchsAsync(userId);
     }
 
-    public async Task InsertOrUpdateUserResearchsAsync(string userId, UserResearchs Researchs, string id)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserResearchsAsync(string userId, UserResearchs Researchs, string id)
     {
-        await _userResearchsRepository.InsertOrUpdateUserResearchsAsync(userId, Researchs, id);
+        var insertOrUpdateResult = await _userResearchsRepository.InsertOrUpdateUserResearchsAsync(userId, Researchs, id);
+
+        if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = true,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = true,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 }

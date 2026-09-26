@@ -2,7 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-
+public class PowerResultDTO
+{
+    public bool HasChanged { get; set; }
+    public double CurrentPower { get; set; }
+    public double NewPower { get; set; }
+    public double Difference => NewPower - CurrentPower;
+}
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
@@ -42,6 +48,26 @@ public class UserService : IUserService
     }
 
     public static IUserService Create() => ServiceContainer.GetService<IUserService>();
+
+    public async Task<PowerResultDTO> UpdateUserPowerAsync()
+    {
+        double currentPower = User.CurrentUserPower;
+        double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+
+        bool hasChanged = Math.Abs(newPower - currentPower) > double.Epsilon;
+
+        if (hasChanged)
+        {
+            User.CurrentUserPower = newPower;
+        }
+
+        return new PowerResultDTO
+        {
+            HasChanged = hasChanged,
+            CurrentPower = currentPower,
+            NewPower = newPower
+        };
+    }
 
     private async Task GiveDefaultTicketsAsync(string userId)
     {

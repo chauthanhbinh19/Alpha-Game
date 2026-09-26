@@ -568,7 +568,7 @@ public class UserCardMonstersService : IUserCardMonstersService
     {
         return await _userCardMonstersRepository.GetUserCardMonstersInTeamSimpleAsync(userId, teamId);
     }
-    
+
     public async Task<Dictionary<string, int>> GetUniqueUserCardMonstersTypesTeamAsync(string userId, string teamId)
     {
         return await _userCardMonstersRepository.GetUniqueCardMonstersTypesTeamAsync(userId, teamId);
@@ -598,6 +598,7 @@ public class UserCardMonstersService : IUserCardMonstersService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -610,18 +611,31 @@ public class UserCardMonstersService : IUserCardMonstersService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _cardMonstersGalleryService.InsertCardMonsterGalleryAsync(userId, cardMonster.Id);
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardMonstersBatchAsync(string userId, List<CardMonsters> cardMonsteres)
@@ -635,6 +649,7 @@ public class UserCardMonstersService : IUserCardMonstersService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -656,6 +671,7 @@ public class UserCardMonstersService : IUserCardMonstersService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
@@ -670,6 +686,7 @@ public class UserCardMonstersService : IUserCardMonstersService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -682,11 +699,18 @@ public class UserCardMonstersService : IUserCardMonstersService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> UpdateUserCardMonsterStarAsync(string userId, CardMonsters cardMonster)
@@ -698,6 +722,7 @@ public class UserCardMonstersService : IUserCardMonstersService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -710,19 +735,32 @@ public class UserCardMonstersService : IUserCardMonstersService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         await _cardMonstersGalleryService.UpdateTempStarCardMonsterGalleryAsync(userId, cardMonster.Id, cardMonster.Star);
 
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> UpdateTeamUserCardMonsterAsync(string userId, string teamId, string position, string cardId)
     {
         await _userCardMonstersRepository.UpdateTeamUserCardMonsterAsync(userId, teamId, position, cardId);
-        return InsertOrUpdateResult<bool>.Updated(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<CardMonsters> GetUserCardMonsterByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null)

@@ -151,6 +151,7 @@ public class UserEquipmentsService : IUserEquipmentsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -163,19 +164,32 @@ public class UserEquipmentsService : IUserEquipmentsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            return InsertOrUpdateResult<bool>.Updated(true);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = true,
+                OperationType = DatabaseOperationType.Updated,
+                IsChangePower = false,
+                Message = MessageConstants.UPDATED_SUCCESSFULLY
+            };
         }
 
         await _equipmentsGalleryService.InsertEquipmentGalleryAsync(userId, equipment.Id);
 
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserEquipmentsBatchAsync(string userId, List<(Equipments data, double quantity)> result)
@@ -189,6 +203,7 @@ public class UserEquipmentsService : IUserEquipmentsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
@@ -210,6 +225,7 @@ public class UserEquipmentsService : IUserEquipmentsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
@@ -224,6 +240,7 @@ public class UserEquipmentsService : IUserEquipmentsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -236,11 +253,18 @@ public class UserEquipmentsService : IUserEquipmentsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> UpdateUserEquipmentStarAsync(string userId, Equipments equipment)
@@ -252,6 +276,7 @@ public class UserEquipmentsService : IUserEquipmentsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
@@ -264,13 +289,20 @@ public class UserEquipmentsService : IUserEquipmentsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
         await _equipmentsGalleryService.UpdateTempStarEquipmentGalleryAsync(userId, equipment.Id, equipment.Star);
 
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task UpdateUserCurrencyAsync(string userId, string Id, double quantity)
@@ -635,14 +667,26 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
         await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardHeroAsync(userId, cardHeroId, type, allEquipments);
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardHeroAsync(string userId, string cardHeroId)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
         await _userEquipmentsRepository.EquipAllEquipmentsToCardHeroAsync(userId, cardHeroId, allEquipments);
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     // Hàm cho CardCaptain
@@ -650,14 +694,26 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
         await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardCaptainAsync(userId, cardCaptainId, type, allEquipments);
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardCaptainAsync(string userId, string cardCaptainId)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
         await _userEquipmentsRepository.EquipAllEquipmentsToCardCaptainAsync(userId, cardCaptainId, allEquipments);
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     // Hàm cho CardColonel
@@ -665,14 +721,26 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
         await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardColonelAsync(userId, cardColonelId, type, allEquipments);
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardColonelAsync(string userId, string cardColonelId)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
         await _userEquipmentsRepository.EquipAllEquipmentsToCardColonelAsync(userId, cardColonelId, allEquipments);
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     // Hàm cho CardGeneral
@@ -680,14 +748,26 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
         await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardGeneralAsync(userId, cardGeneralId, type, allEquipments);
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardGeneralAsync(string userId, string cardGeneralId)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
         await _userEquipmentsRepository.EquipAllEquipmentsToCardGeneralAsync(userId, cardGeneralId, allEquipments);
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     // Hàm cho CardAdmiral
@@ -695,14 +775,26 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
         await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardAdmiralAsync(userId, cardAdmiralId, type, allEquipments);
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardAdmiralAsync(string userId, string cardAdmiralId)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
         await _userEquipmentsRepository.EquipAllEquipmentsToCardAdmiralAsync(userId, cardAdmiralId, allEquipments);
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     // Hàm cho CardMonster
@@ -710,14 +802,26 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
         await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardMonsterAsync(userId, cardMonsterId, type, allEquipments);
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardMonsterAsync(string userId, string cardMonsterId)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
         await _userEquipmentsRepository.EquipAllEquipmentsToCardMonsterAsync(userId, cardMonsterId, allEquipments);
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     // Hàm cho CardMilitary
@@ -725,14 +829,26 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
         await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardMilitaryAsync(userId, cardMilitaryId, type, allEquipments);
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardMilitaryAsync(string userId, string cardMilitaryId)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
         await _userEquipmentsRepository.EquipAllEquipmentsToCardMilitaryAsync(userId, cardMilitaryId, allEquipments);
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     // Hàm cho CardSpell
@@ -740,14 +856,26 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
         await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardSpellAsync(userId, cardSpellId, type, allEquipments);
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardSpellAsync(string userId, string cardSpellId)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
         await _userEquipmentsRepository.EquipAllEquipmentsToCardSpellAsync(userId, cardSpellId, allEquipments);
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     // Hàm cho Book
@@ -755,14 +883,26 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
         await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToBookAsync(userId, bookId, type, allEquipments);
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToBookAsync(string userId, string bookId)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
         await _userEquipmentsRepository.EquipAllEquipmentsToBookAsync(userId, bookId, allEquipments);
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     // Hàm cho Pet
@@ -770,14 +910,26 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
         await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToPetAsync(userId, petId, type, allEquipments);
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToPetAsync(string userId, string petId)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
         await _userEquipmentsRepository.EquipAllEquipmentsToPetAsync(userId, petId, allEquipments);
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     // Hàm cho Card Soldier
@@ -785,14 +937,26 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
         await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardSoldierAsync(userId, cardSoldierId, type, allEquipments);
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> EquipAllEquipmentsToCardSoldierAsync(string userId, string cardSoldierId)
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
         await _userEquipmentsRepository.EquipAllEquipmentsToCardSoldierAsync(userId, cardSoldierId, allEquipments);
-        return InsertOrUpdateResult<bool>.Inserted(true);
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
     }
 
     public async Task<int> GetUserCardHeroesEquipmentsCountAsync(string userId, string search, string type, string rare, string set)

@@ -326,7 +326,7 @@ public class Test : MonoBehaviour
         Debug.Log("<color=cyan>Items initiate successfully</color>");
         Debug.Log("<color=yellow>End</color>");
     }
-    
+
     [ContextMenu("Run Initiate Gallery Async")]
     public async Task InitiateGalleryAsync()
     {
@@ -635,7 +635,7 @@ public class Test : MonoBehaviour
         Debug.Log("<color=cyan>Items initiate successfully</color>");
         Debug.Log("<color=yellow>End</color>");
     }
-    
+
     [ContextMenu("Run Initiate Team Async")]
     public async Task InitiateTeamAsync()
     {
@@ -663,7 +663,7 @@ public class Test : MonoBehaviour
 
         Debug.Log("<color=yellow>End</color>");
     }
-    
+
     [ContextMenu("Run Initiate Skill Async")]
     public async Task InitiateSkillAsync()
     {
@@ -692,7 +692,7 @@ public class Test : MonoBehaviour
         Debug.Log("<color=yellow>End</color>");
     }
     public async Task GetUserSkillsAsync()
-    {   
+    {
         User.CurrentUserId = userId;
         Program.InitializeServices();
         await UserSkillsService.Create().GetUserSkillsAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare);
@@ -713,6 +713,60 @@ public class Test : MonoBehaviour
         await UserItemsService.Create().InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, itemsWithQuantity);
         Debug.Log("<color=cyan>Items initiate successfully</color>");
         Debug.Log("<color=yellow>End</color>");
+    }
+    [ContextMenu("Run Purchase Test Async")]
+    public async Task TestPurchase()
+    {
+        Program.InitializeServices();
+        User.CurrentUserId = userId;
+        Debug.Log("<color=yellow>Start</color>");
+        ShopDetails shopDetails = new ShopDetails
+        {
+            ShopId = "S16",
+            ObjectId = "CH1",
+            ObjectType = "CARD_HEROES",
+            ObjectQuantity = 1,
+            CurrencyId = "CU281",
+            Price = 1000,
+            StockLimit = -1,
+            BuyLimitPerUser = 100,
+        };
+
+        ShopDTO shopDTO = new ShopDTO
+        {
+            ShopId = "S16",
+            ShopName = "Card Heroes Shop",
+            ShopType = "GENERAL",
+            ResetType = "WEEKLY",
+            Description = "",
+            ShopDetail = shopDetails
+        };
+
+
+        var result = await UserShopPurchaseService.Create().PurchaseObjectFromShop(User.CurrentUserId, shopDTO, 10);
+        Debug.Log($"<color=cyan>{result.Message}</color>");
+        Debug.Log("<color=yellow>End</color>");
+    }
+    [ContextMenu("Run Test Async")]
+    public async Task TestingAsync()
+    {
+        Program.InitializeServices();
+        User.CurrentUserId = userId;
+        ShopRequestDTO shopRequestDTO = new ShopRequestDTO
+        {
+            ShopId = "S16",
+            ShopName = "Card Heroes Shop",
+            ShopCodeName = "card_heroes_shop",
+            ShopType = AppConstants.Shop.ShopType.GENERAL,
+            Limit = PAGE_SIZE,
+            Offset = Offset,
+            ObjectType = AppConstants.ObjectType.CARD_HEROES
+        };
+        List<Currencies> currencies = await ShopsService.Create().GetCurrenciesByShopAsync(User.CurrentUserId, shopRequestDTO);
+        foreach(var a in currencies)
+        {
+            Debug.Log(a.Name + ": " +a.Quantity.ToString());
+        }
     }
 }
 

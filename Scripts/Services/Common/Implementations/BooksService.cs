@@ -99,4 +99,9 @@ public class BooksService : IBooksService
     {
         return await _booksRepository.GetBooksWithoutLimitAsync();
     }
+
+    public async Task<Books> SumPowerBooksPercentAsync(string userId)
+    {
+        return await _booksRepository.SumPowerBooksPercentAsync(userId);
+    }
 }

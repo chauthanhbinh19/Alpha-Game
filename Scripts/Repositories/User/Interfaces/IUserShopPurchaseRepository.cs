@@ -1,0 +1,54 @@
+using System.Threading.Tasks;
+
+public interface IUserShopPurchaseRepository
+{
+    Task<InsertOrUpdateResult<CardHeroes>> InsertOrUpdateUserCardHeroAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Achievements>> InsertOrUpdateUserAchievementAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Books>> InsertOrUpdateUserBookAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Pets>> InsertOrUpdateUserPetAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<CardCaptains>> InsertOrUpdateUserCardCaptainAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<CollaborationEquipments>> InsertOrUpdateUserCollaborationEquipmentAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<CardMilitaries>> InsertOrUpdateUserCardMilitaryAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<CardSpells>> InsertOrUpdateUserCardSpellAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Collaborations>> InsertOrUpdateUserCollaborationAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<CardMonsters>> InsertOrUpdateUserCardMonsterAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Equipments>> InsertOrUpdateUserEquipmentAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Medals>> InsertOrUpdateUserMedalAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Skills>> InsertOrUpdateUserSkillAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Symbols>> InsertOrUpdateUserSymbolAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Titles>> InsertOrUpdateUserTitleAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<MagicFormationCircles>> InsertOrUpdateUserMagicFormationCircleAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Relics>> InsertOrUpdateUserRelicAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<CardColonels>> InsertOrUpdateUserCardColonelAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<CardGenerals>> InsertOrUpdateUserCardGeneralAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<CardAdmirals>> InsertOrUpdateUserCardAdmiralAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<CardSoldiers>> InsertOrUpdateUserCardSoldierAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Borders>> InsertOrUpdateUserBorderAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Talismans>> InsertOrUpdateUserTalismanAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Puppets>> InsertOrUpdateUserPuppetAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Alchemies>> InsertOrUpdateUserAlchemyAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Forges>> InsertOrUpdateUserForgeAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<CardLives>> InsertOrUpdateUserCardLifeAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Artworks>> InsertOrUpdateUserArtworkAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<SpiritBeasts>> InsertOrUpdateUserSpiritBeastAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Avatars>> InsertOrUpdateUserAvatarAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<SpiritCards>> InsertOrUpdateUserSpiritCardAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Artifacts>> InsertOrUpdateUserArtifactAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Architectures>> InsertOrUpdateUserArchitectureAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Technologies>> InsertOrUpdateUserTechnologyAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Vehicles>> InsertOrUpdateUserVehicleAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Cores>> InsertOrUpdateUserCoreAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Weapons>> InsertOrUpdateUserWeaponAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Robots>> InsertOrUpdateUserRobotAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Badges>> InsertOrUpdateUserBadgeAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<MechaBeasts>> InsertOrUpdateUserMechaBeastAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Runes>> InsertOrUpdateUserRuneAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Furnitures>> InsertOrUpdateUserFurnitureAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Foods>> InsertOrUpdateUserFoodAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Beverages>> InsertOrUpdateUserBeverageAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Buildings>> InsertOrUpdateUserBuildingAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Plants>> InsertOrUpdateUserPlantAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Fashions>> InsertOrUpdateUserFashionAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Emojis>> InsertOrUpdateUserEmojiAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+    Task<InsertOrUpdateResult<Outfits>> InsertOrUpdateUserOutfitAsync(string userId, ShopDTO shopDTO, int purchaseCount);
+}

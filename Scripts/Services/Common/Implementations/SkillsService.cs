@@ -80,6 +80,11 @@ public class SkillsService : ISkillsService
         return await _skillsRepository.GetSkillByIdAsync(Id);
     }
 
+    public async Task<Skills> SumPowerSkillsPercentAsync(string userId)
+    {
+        return await _skillsRepository.SumPowerSkillsPercentAsync(userId);
+    }
+
     public async Task<List<string>> GetUniqueSkillsIdAsync()
     {
         return await _skillsRepository.GetUniqueSkillsIdAsync();

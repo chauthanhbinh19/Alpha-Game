@@ -14,4 +14,5 @@ public interface ISkillsService
     Task<List<Skills>> GetSkillsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetSkillsWithPriceCountAsync(string type);
     Task<Skills> GetSkillByIdAsync(string Id);
+    Task<Skills> SumPowerSkillsPercentAsync(string userId);
 }
