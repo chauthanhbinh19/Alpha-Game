@@ -36,10 +36,10 @@ public class PaymentController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        TopupPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.TOPUP_PANEL_PREFAB);
-        TopupTabButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.TOPUP_TAB_BUTTON_PREFAB);
-        TopupButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.TOPUP_BUTTON_PREFAB);
-        PopupTopupPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.POPUP_TOPUP_PANEL_PREFAB);
+        TopupPanelPrefab = UIManager.Instance.Get(PrefabConstants.General.TOPUP_PANEL_PREFAB);
+        TopupTabButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.TOPUP_TAB_BUTTON_PREFAB);
+        TopupButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.TOPUP_BUTTON_PREFAB);
+        PopupTopupPanelPrefab = UIManager.Instance.Get(PrefabConstants.General.POPUP_TOPUP_PANEL_PREFAB);
     }
     public async Task CreateShopPackageAsync()
     {

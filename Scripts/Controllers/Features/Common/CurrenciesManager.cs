@@ -56,6 +56,28 @@ public class CurrenciesManager : MonoBehaviour
             gridLayout.cellSize = new Vector2(180, 100);
         }
     }
+    public void CreateTabCurrency(List<Currencies> currencies, Transform CurrencyPanel)
+    {
+        ButtonEvent.Instance.Close(CurrencyPanel);
+        foreach (var currency in currencies)
+        {
+            GameObject currencyObject = Instantiate(CurrencyPrefab, CurrencyPanel);
+
+            TextMeshProUGUI titleText = currencyObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            titleText.text = currency.Quantity.ToString();
+            titleText.text = NumberFormatterHelper.FormatNumber(currency.Quantity, false);
+
+            RawImage image = currencyObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(currency.Image);
+            Texture texutre = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+            image.texture = texutre;
+        }
+        GridLayoutGroup gridLayout = CurrencyPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(180, 100);
+        }
+    }
     public void CreateTicket(List<Items> items, Transform itemPanel)
     {
         ButtonEvent.Instance.Close(itemPanel);

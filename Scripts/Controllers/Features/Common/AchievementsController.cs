@@ -18,6 +18,8 @@ public class AchievementsController : MonoBehaviour
     private GameObject ReceivedNotificationPanelPrefab;
     private GameObject ItemPopupPrefab;
     private GameObject ShopPanelPrefab;
+    private Transform leftTransform;
+    private Transform rightTransform;
     private PaginationManager PaginationManager;
     private Transform contentTransform;
     private TextMeshProUGUI TotalText;
@@ -106,6 +108,8 @@ public class AchievementsController : MonoBehaviour
         GameObject gameObject = Instantiate(ShopPanelPrefab, MainPanel);
         Transform transform = gameObject.transform;
         contentTransform = transform.Find("Scroll View/Viewport/Content");
+        leftTransform = transform.Find("Left Scroll View/Viewport/Content");
+        rightTransform = transform.Find("Left Scroll View/Viewport/Content");
         TotalText = transform.Find("TitleGroup/TotalText").GetComponent<TextMeshProUGUI>();
         Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
@@ -126,7 +130,7 @@ public class AchievementsController : MonoBehaviour
         ShopCodeName = shopCodeName;
         await LoadCurrentPageAsync();
     }
-    public async Task CreateAchievementsShopAsync(ShopDTO shopDTO)
+    public void CreateAchievementsShopAsync(ShopDTO shopDTO)
     {
         if (shopDTO == null || shopDTO.ShopDetails == null) return;
 
@@ -273,13 +277,16 @@ public class AchievementsController : MonoBehaviour
                     };
 
                     // Truyền callback để sau khi mua thành công sẽ cập nhật lại Item này
-                    CreatePopupPanel(popupShopDTO, (purchasedQuantity) =>
+                    CreatePopupPanel(popupShopDTO, async (purchasedQuantity) =>
                     {
                         // Cập nhật số lượng đã mua vào DTO
                         currentDetail.PurchaseCount += purchasedQuantity;
 
                         // Tự động tính lại stock và SetActive(true) cho SoldOut nếu remainingStock <= 0
                         UpdateItemStockUI();
+
+                        // 3. CẬP NHẬT LẠI SỐ DƯ TIỀN TỆ TRÊN RIGHT_TRANSFORM NGAY LẬP TỨC
+                        await LoadCurrenciesAsync(shopDTO);
                     });
                 });
             }
@@ -318,29 +325,13 @@ public class AchievementsController : MonoBehaviour
             }
 
             // 3. Render UI danh sách vật phẩm
-            await CreateAchievementsShopAsync(shopDTO);
+            CreateAchievementsShopAsync(shopDTO);
 
             int listCount = shopDTO.ShopDetails?.Count ?? 0;
             TotalText.text = listCount.ToString();
 
             // 4. Lấy tổng số bản ghi
             int totalRecord = await shopService.GetShopItemCountAsync(shopRequestDTO);
-
-            // 5. Gán ShopId an toàn & lấy danh sách tiền tệ
-            shopRequestDTO.ShopId = shopDTO.ShopId;
-            List<Currencies> currencies = await ShopsService.Create().GetCurrenciesByShopAsync(User.CurrentUserId, shopRequestDTO);
-
-            // if (currencies == null)
-            // {
-            //     currencies = new List<Currencies>(); // Phòng ngừa null reference ở UI
-            // }
-
-            // Cập nhật UI tiền tệ nếu cần
-            // var currenciesManager = FindObjectOfType<CurrenciesManager>();
-            // if (currenciesManager != null)
-            // {
-            //     currenciesManager.CreateCurrency(currencies, currencyPanel);
-            // }
 
             // 6. Xử lý Phân trang
             if (listCount > 0)
@@ -359,6 +350,33 @@ public class AchievementsController : MonoBehaviour
         {
             // Bắt mọi exception trên Main Thread để Log Console thay vì văng Editor
             Debug.LogError($"[LoadCurrentPageAsync Exception]: {ex.Message}\n{ex.StackTrace}");
+        }
+    }
+    public async Task LoadCurrenciesAsync(ShopDTO shopDTO)
+    {
+        if (shopDTO == null || string.IsNullOrEmpty(shopDTO.ShopId) || rightTransform == null) return;
+
+        ShopRequestDTO shopRequestDTO = new ShopRequestDTO
+        {
+            ShopId = shopDTO.ShopId,
+            ShopCodeName = ShopCodeName,
+            ShopType = AppConstants.Shop.ShopType.GENERAL,
+            ObjectType = AppConstants.ObjectType.CARD_HEROES
+        };
+
+        // Lấy danh sách tiền tệ của Shop
+        List<Currencies> currencies = await ShopsService.Create().GetCurrenciesByShopAsync(User.CurrentUserId, shopRequestDTO);
+
+        if (currencies == null)
+        {
+            currencies = new List<Currencies>();
+        }
+
+        // Render danh sách tiền tệ lên panel bên phải (rightTransform)
+        var currenciesManager = CurrenciesManager.Instance; // Hoặc FindFirstObjectByType<CurrenciesManager>()
+        if (currenciesManager != null)
+        {
+            currenciesManager.CreateTabCurrency(currencies, rightTransform);
         }
     }
     private void OnPageSelected(int pageNumber)

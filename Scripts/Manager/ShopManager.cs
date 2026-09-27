@@ -14,21 +14,9 @@ public class ShopManager : MonoBehaviour
     private GameObject ShopButtonPrefab;
     private GameObject ShopManagerPrefab;
     private GameObject CurrentObject;
-    private GameObject ShopPrefab;
-    private GameObject TypeButtonPrefab;
-    private GameObject EquipmentShopPrefab;
-    private Transform PopupPanel;
-    private RawImage FirstDecorationImage;
-    private RawImage SecondDecorationImage;
     private Button CloseButton;
     private Button HomeButton;
     private PaginationManager PaginationManager;
-    private int Offset = 0;
-    private int CurrentPage = 1;
-    private int TotalItems;
-    private const int PAGE_SIZE = 100;
-    private string MainType;
-    private string Type;
     private TextMeshProUGUI TitleText;
     // private string rare;
     public static ShopManager Instance { get; private set; }
@@ -55,10 +43,6 @@ public class ShopManager : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
         ShopButtonPrefab = UIManager.Instance.Get(PrefabConstants.Shop.SHOP_BUTTON_PREFAB);
         ShopManagerPrefab = UIManager.Instance.Get(PrefabConstants.Shop.SHOP_MANAGER_PREFAB);
-        ShopPrefab = UIManager.Instance.Get(PrefabConstants.Shop.SHOP_PREFAB);
-        TypeButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.TAB_BUTTON_PREFAB);
-        EquipmentShopPrefab = UIManager.Instance.Get(PrefabConstants.Equipment.EQUIPMENT_SHOP_PREFAB);
-        PopupPanel = UIManager.Instance.GetTransform(AppConstants.Transform.POPUP_PANEL);
     }
     void AssignButtonEvent(string buttonName, Transform panel, UnityEngine.Events.UnityAction action)
     {

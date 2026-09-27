@@ -38,7 +38,7 @@ public class DailyCheckinManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        TypeButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.TYPE_BUTTON_PREFAB);
+        TypeButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.TYPE_BUTTON_PREFAB);
         DailyCheckinPanelPrefab = UIManager.Instance.Get("DailyCheckinPanelPrefab");
         DailyCheckinComponentPrefab = UIManager.Instance.Get("DailyCheckinComponentPrefab");
     }

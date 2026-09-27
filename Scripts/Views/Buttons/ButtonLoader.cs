@@ -34,9 +34,9 @@ public class ButtonLoader : MonoBehaviour
 
     public void Initialize()
     {
-        MainButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.MAIN_BUTTON_PREFAB);
-        TabButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.TAB_BUTTON_PREFAB);
-        FeatureButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.FEATURE_BUTTON_PREFAB);
+        MainButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.MAIN_BUTTON_PREFAB);
+        TabButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.TAB_BUTTON_PREFAB);
+        FeatureButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.FEATURE_BUTTON_PREFAB);
     }
     public void CreateInventoryButton(GameObject popupButtonObject)
     {

@@ -43,13 +43,13 @@ public class BiologyManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        ResearchPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Research.RESEARCH_PANEL_PREFAB);
-        ResearchButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Research.RESEARCH_BUTTON_PREFAB);
-        PopupResearchPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Research.POPUP_RESEARCH_PANEL_PREFAB);
-        PopupResearchQuantityPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Research.POPUP_RESEARCH_QUANTITY_PANEL_PREFAB);
-        PopupResearchButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Research.POPUP_RESEARCH_BUTTON_PREFAB);
-        MainResearchPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Research.MAIN_RESEARCH_PANEL_PREFAB);
-        ResearchItemPrefab = UIManager.Instance.Get(AppConstants.Prefab.Research.RESEARCH_ITEM_PREFAB);
+        ResearchPanelPrefab = UIManager.Instance.Get(PrefabConstants.Research.RESEARCH_PANEL_PREFAB);
+        ResearchButtonPrefab = UIManager.Instance.Get(PrefabConstants.Research.RESEARCH_BUTTON_PREFAB);
+        PopupResearchPanelPrefab = UIManager.Instance.Get(PrefabConstants.Research.POPUP_RESEARCH_PANEL_PREFAB);
+        PopupResearchQuantityPanelPrefab = UIManager.Instance.Get(PrefabConstants.Research.POPUP_RESEARCH_QUANTITY_PANEL_PREFAB);
+        PopupResearchButtonPrefab = UIManager.Instance.Get(PrefabConstants.Research.POPUP_RESEARCH_BUTTON_PREFAB);
+        MainResearchPanelPrefab = UIManager.Instance.Get(PrefabConstants.Research.MAIN_RESEARCH_PANEL_PREFAB);
+        ResearchItemPrefab = UIManager.Instance.Get(PrefabConstants.Research.RESEARCH_ITEM_PREFAB);
     }
 
     public async Task CreateBiologyManagerAsync()
