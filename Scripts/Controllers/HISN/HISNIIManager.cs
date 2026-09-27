@@ -42,13 +42,13 @@ public class HISNIIManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        HISNPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.HISN.HISN_PANEL_PREFAB);
-        HISNButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.HISN.HISN_BUTTON_PREFAB);
-        PopupHISNPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.HISN.POPUP_HISN_PANEL_PREFAB);
-        PopupHISNQuantityPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.HISN.POPUP_HISN_QUANTITY_PANEL_PREFAB);
-        PopupHISNButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.HISN.POPUP_HISN_BUTTON_PREFAB);
-        MainHISNPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.HISN.MAIN_HISN_PANEL_PREFAB);
-        HISNItemPrefab = UIManager.Instance.Get(AppConstants.Prefab.HISN.HISN_ITEM_PREFAB);
+        HISNPanelPrefab = UIManager.Instance.Get(PrefabConstants.HISN.HISN_PANEL_PREFAB);
+        HISNButtonPrefab = UIManager.Instance.Get(PrefabConstants.HISN.HISN_BUTTON_PREFAB);
+        PopupHISNPanelPrefab = UIManager.Instance.Get(PrefabConstants.HISN.POPUP_HISN_PANEL_PREFAB);
+        PopupHISNQuantityPanelPrefab = UIManager.Instance.Get(PrefabConstants.HISN.POPUP_HISN_QUANTITY_PANEL_PREFAB);
+        PopupHISNButtonPrefab = UIManager.Instance.Get(PrefabConstants.HISN.POPUP_HISN_BUTTON_PREFAB);
+        MainHISNPanelPrefab = UIManager.Instance.Get(PrefabConstants.HISN.MAIN_HISN_PANEL_PREFAB);
+        HISNItemPrefab = UIManager.Instance.Get(PrefabConstants.HISN.HISN_ITEM_PREFAB);
     }
     public async Task CreateHISNIIManagerAsync()
     {

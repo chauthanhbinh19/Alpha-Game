@@ -33,7 +33,7 @@ public class LevelController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        LevelPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Progression.LEVEL_PANEL_PREFAB);
+        LevelPanelPrefab = UIManager.Instance.Get(PrefabConstants.Progression.LEVEL_PANEL_PREFAB);
     }
 
     public void CreateLevelPanel<T>(T stat, ItemExperienceDTO itemExp, int maxLevel, Func<int, double> expRule, Predicate<T> statFilter = null) where T : IStats

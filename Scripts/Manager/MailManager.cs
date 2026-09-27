@@ -34,9 +34,9 @@ public class MailManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        MailPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIL_PANEL_PREFAB);
-        MailTabButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.MAIL_TAB_BUTTON_PREFAB);
-        MailButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.MAIL_BUTTON_PREFAB);
+        MailPanelPrefab = UIManager.Instance.Get(PrefabConstants.General.MAIL_PANEL_PREFAB);
+        MailTabButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.MAIL_TAB_BUTTON_PREFAB);
+        MailButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.MAIL_BUTTON_PREFAB);
     }
     public async Task CreateMailPanel()
     {

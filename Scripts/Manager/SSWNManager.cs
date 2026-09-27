@@ -28,8 +28,8 @@ public class SSWNManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        SSWNPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.SSWN.SSWN_PANEL_PREFAB);
-        SSWNButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.SSWN.SSWN_BUTTON_PREFAB);
+        SSWNPanelPrefab = UIManager.Instance.Get(PrefabConstants.SSWN.SSWN_PANEL_PREFAB);
+        SSWNButtonPrefab = UIManager.Instance.Get(PrefabConstants.SSWN.SSWN_BUTTON_PREFAB);
     }
     public void CreateSSWN()
     {

@@ -38,8 +38,8 @@ public class UserSpiritCardsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        SpiritCardButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.SPIRIT_CARD_BUTTON_PREFAB);
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
+        SpiritCardButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.SPIRIT_CARD_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(PrefabConstants.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserSpiritCards(List<SpiritCards> spiritCards, Transform contentPanel)
     {

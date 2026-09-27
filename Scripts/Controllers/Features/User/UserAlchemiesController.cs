@@ -38,8 +38,8 @@ public class UserAlchemiesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        AlchemyButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.ALCHEMY_BUTTON_PREFAB);
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
+        AlchemyButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.ALCHEMY_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(PrefabConstants.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserAlchemies(List<Alchemies> alchemies, Transform contentPanel)
     {

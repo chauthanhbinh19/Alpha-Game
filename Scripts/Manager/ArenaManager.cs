@@ -33,9 +33,9 @@ public class ArenaManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        ArenaButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Arena.ARENA_BUTTON_PREFAB);
-        ArenaDetailsPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Arena.ARENA_DETAIL_PANEL_PREFAB);
-        ArenaSlotPrefab = UIManager.Instance.Get(AppConstants.Prefab.Arena.ARENA_SLOT_PREFAB);
+        ArenaButtonPrefab = UIManager.Instance.Get(PrefabConstants.Arena.ARENA_BUTTON_PREFAB);
+        ArenaDetailsPanelPrefab = UIManager.Instance.Get(PrefabConstants.Arena.ARENA_DETAIL_PANEL_PREFAB);
+        ArenaSlotPrefab = UIManager.Instance.Get(PrefabConstants.Arena.ARENA_SLOT_PREFAB);
     }
     public async Task CreateArenaButtonAsync(Transform arenaMenuPanel)
     {

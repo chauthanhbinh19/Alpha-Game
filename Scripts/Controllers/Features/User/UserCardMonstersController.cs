@@ -54,16 +54,16 @@ public class UserCardMonstersController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        CardMonsterButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.CARD_MONSTER_BUTTON_PREFAB);
-        PositionPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.POSITION_PREFAB);
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
-        EquipmentsWearingPrefab = UIManager.Instance.Get(AppConstants.Prefab.Equipment.EQUIPMENTS_WEARING_PREFAB);
-        SkillPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Skill.SKILL_PANEL_PREFAB);
-        SkillGroupPrefab = UIManager.Instance.Get(AppConstants.Prefab.Skill.SKILL_GROUP_PREFAB);
-        Skill1Prefab = UIManager.Instance.Get(AppConstants.Prefab.Skill.SKILL_1_PREFAB);
-        Skill2Prefab = UIManager.Instance.Get(AppConstants.Prefab.Skill.SKILL_2_PREFAB);
-        PopupSkillsPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Skill.POPUP_SKILLS_PANEL_PREFAB);
-        PopupSkillDetailPrefab = UIManager.Instance.Get(AppConstants.Prefab.Skill.POPUP_SKILL_DETAIL_PREFAB);
+        CardMonsterButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.CARD_MONSTER_BUTTON_PREFAB);
+        PositionPrefab = UIManager.Instance.Get(PrefabConstants.General.POSITION_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(PrefabConstants.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
+        EquipmentsWearingPrefab = UIManager.Instance.Get(PrefabConstants.Equipment.EQUIPMENTS_WEARING_PREFAB);
+        SkillPanelPrefab = UIManager.Instance.Get(PrefabConstants.Skill.SKILL_PANEL_PREFAB);
+        SkillGroupPrefab = UIManager.Instance.Get(PrefabConstants.Skill.SKILL_GROUP_PREFAB);
+        Skill1Prefab = UIManager.Instance.Get(PrefabConstants.Skill.SKILL_1_PREFAB);
+        Skill2Prefab = UIManager.Instance.Get(PrefabConstants.Skill.SKILL_2_PREFAB);
+        PopupSkillsPanelPrefab = UIManager.Instance.Get(PrefabConstants.Skill.POPUP_SKILLS_PANEL_PREFAB);
+        PopupSkillDetailPrefab = UIManager.Instance.Get(PrefabConstants.Skill.POPUP_SKILL_DETAIL_PREFAB);
     }
     public void CreateUserCardMonsters(List<CardMonsters> cardMonsters, Transform contentPanel)
     {

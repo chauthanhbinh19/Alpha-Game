@@ -38,8 +38,8 @@ public class UserMechaBeastsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        MechaBeastButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.MECHA_BEAST_BUTTON_PREFAB);
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
+        MechaBeastButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.MECHA_BEAST_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(PrefabConstants.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserMechaBeasts(List<MechaBeasts> mechaBeasts, Transform contentPanel)
     {

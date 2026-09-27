@@ -28,8 +28,8 @@ public class HIINManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        HIINPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.HIIN.HIIN_PANEL_PREFAB);
-        HIINButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.HIIN.HIIN_BUTTON_PREFAB);
+        HIINPanelPrefab = UIManager.Instance.Get(PrefabConstants.HIIN.HIIN_PANEL_PREFAB);
+        HIINButtonPrefab = UIManager.Instance.Get(PrefabConstants.HIIN.HIIN_BUTTON_PREFAB);
     }
     public void CreateHIIN()
     {

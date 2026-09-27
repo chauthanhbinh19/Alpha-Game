@@ -29,8 +29,8 @@ public class ModuleManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        ModulePanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Module.MODULE_PANEL_PREFAB);
-        ModuleButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Module.MODULE_BUTTON_PREFAB);
+        ModulePanelPrefab = UIManager.Instance.Get(PrefabConstants.Module.MODULE_PANEL_PREFAB);
+        ModuleButtonPrefab = UIManager.Instance.Get(PrefabConstants.Module.MODULE_BUTTON_PREFAB);
     }
     public void CreateModule(IStats stat)
     {

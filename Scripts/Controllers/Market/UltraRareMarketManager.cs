@@ -55,9 +55,9 @@ public class UltraRareMarketManager : MonoBehaviour
         Offset = 0;
         CurrentPage = 1;
         Items = new List<Items>();
-        UltraRareMarketButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Market.ULTRA_RARE_MARKET_BUTTON_PREFAB);
-        UltraRareMarketManagerPrefab = UIManager.Instance.Get(AppConstants.Prefab.Market.ULTRA_RARE_MARKET_MANAGER_PREFAB);
-        UltraRareMarketPrefab = UIManager.Instance.Get(AppConstants.Prefab.Market.ULTRA_RARE_MARKET_PREFAB);
+        UltraRareMarketButtonPrefab = UIManager.Instance.Get(PrefabConstants.Market.ULTRA_RARE_MARKET_BUTTON_PREFAB);
+        UltraRareMarketManagerPrefab = UIManager.Instance.Get(PrefabConstants.Market.ULTRA_RARE_MARKET_MANAGER_PREFAB);
+        UltraRareMarketPrefab = UIManager.Instance.Get(PrefabConstants.Market.ULTRA_RARE_MARKET_PREFAB);
         PopupPanel = UIManager.Instance.GetTransform(AppConstants.Transform.POPUP_PANEL);
     }
     public async Task CreateUltraRareMarketAsync(Transform panel)

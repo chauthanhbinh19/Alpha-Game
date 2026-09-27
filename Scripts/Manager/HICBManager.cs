@@ -28,8 +28,8 @@ public class HICBManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        HICBPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.HICB.HICB_PANEL_PREFAB);
-        HICBButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.HICB.HICB_BUTTON_PREFAB);
+        HICBPanelPrefab = UIManager.Instance.Get(PrefabConstants.HICB.HICB_PANEL_PREFAB);
+        HICBButtonPrefab = UIManager.Instance.Get(PrefabConstants.HICB.HICB_BUTTON_PREFAB);
     }
     public void CreateHICB()
     {

@@ -38,8 +38,8 @@ public class UserOutfitsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        OutfitButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.OUTFIT_BUTTON_PREFAB);
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
+        OutfitButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.OUTFIT_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(PrefabConstants.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserOutfits(List<Outfits> outfits, Transform contentPanel)
     {

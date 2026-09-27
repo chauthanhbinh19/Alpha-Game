@@ -38,8 +38,8 @@ public class UserRelicsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        RelicButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.RELIC_BUTTON_PREFAB);
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
+        RelicButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.RELIC_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(PrefabConstants.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserRelics(List<Relics> relics, Transform contentPanel)
     {

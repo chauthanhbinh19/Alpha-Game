@@ -49,7 +49,7 @@ public class GalleryManager : MonoBehaviour
     }
     public void Initialize()
     {
-        GalleryButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.GALLERY_BUTTON_PREFAB);
+        GalleryButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.GALLERY_BUTTON_PREFAB);
     }
     public void CreateGalleryButton(Transform tempGalleryMenuPanel)
     {
@@ -298,7 +298,7 @@ public class GalleryManager : MonoBehaviour
     public void CreateGallery(Transform tempGalleryMenuPanel)
     {
         GalleryMenuPanel = tempGalleryMenuPanel;
-        DictionaryPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.DICTIONARY_PANEL_PREFAB);
+        DictionaryPanelPrefab = UIManager.Instance.Get(PrefabConstants.General.DICTIONARY_PANEL_PREFAB);
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
 
         AssignButtonEvent("Button_1", () => GetType(AppConstants.MainType.CARD_HERO));

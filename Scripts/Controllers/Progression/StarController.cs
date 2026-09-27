@@ -32,7 +32,7 @@ public class StarController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        StarPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Progression.STAR_PANEL_PREFAB);
+        StarPanelPrefab = UIManager.Instance.Get(PrefabConstants.Progression.STAR_PANEL_PREFAB);
     }
 
     public void CreateStarPanel<T>(T stat, int maxStar, Func<int, double> starRule, Predicate<T> statFilter = null) where T : IStats

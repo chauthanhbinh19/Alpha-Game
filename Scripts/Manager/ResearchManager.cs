@@ -28,8 +28,8 @@ public class ResearchManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        ResearchPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Research.RESEARCH_PANEL_PREFAB);
-        ResearchButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Research.RESEARCH_BUTTON_PREFAB);
+        ResearchPanelPrefab = UIManager.Instance.Get(PrefabConstants.Research.RESEARCH_PANEL_PREFAB);
+        ResearchButtonPrefab = UIManager.Instance.Get(PrefabConstants.Research.RESEARCH_BUTTON_PREFAB);
     }
     public void CreateResearch()
     {

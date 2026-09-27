@@ -38,8 +38,8 @@ public class UserArtifactsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        ArtifactButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.ARTIFACT_BUTTON_PREFAB);
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
+        ArtifactButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.ARTIFACT_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(PrefabConstants.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserArtifacts(List<Artifacts> artifacts, Transform contentPanel)
     {

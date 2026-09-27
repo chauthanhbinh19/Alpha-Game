@@ -42,13 +42,13 @@ public class HIRNIIIManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        HIRNPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.HIRN.HIRN_PANEL_PREFAB);
-        HIRNButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.HIRN.HIRN_BUTTON_PREFAB);
-        PopupHIRNPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.HIRN.POPUP_HIRN_PANEL_PREFAB);
-        PopupHIRNQuantityPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.HIRN.POPUP_HIRN_QUANTITY_PANEL_PREFAB);
-        PopupHIRNButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.HIRN.POPUP_HIRN_BUTTON_PREFAB);
-        MainHIRNPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.HIRN.MAIN_HIRN_PANEL_PREFAB);
-        HIRNItemPrefab = UIManager.Instance.Get(AppConstants.Prefab.HIRN.HIRN_ITEM_PREFAB);
+        HIRNPanelPrefab = UIManager.Instance.Get(PrefabConstants.HIRN.HIRN_PANEL_PREFAB);
+        HIRNButtonPrefab = UIManager.Instance.Get(PrefabConstants.HIRN.HIRN_BUTTON_PREFAB);
+        PopupHIRNPanelPrefab = UIManager.Instance.Get(PrefabConstants.HIRN.POPUP_HIRN_PANEL_PREFAB);
+        PopupHIRNQuantityPanelPrefab = UIManager.Instance.Get(PrefabConstants.HIRN.POPUP_HIRN_QUANTITY_PANEL_PREFAB);
+        PopupHIRNButtonPrefab = UIManager.Instance.Get(PrefabConstants.HIRN.POPUP_HIRN_BUTTON_PREFAB);
+        MainHIRNPanelPrefab = UIManager.Instance.Get(PrefabConstants.HIRN.MAIN_HIRN_PANEL_PREFAB);
+        HIRNItemPrefab = UIManager.Instance.Get(PrefabConstants.HIRN.HIRN_ITEM_PREFAB);
     }
     public async Task CreateHIRNIIIManagerAsync()
     {

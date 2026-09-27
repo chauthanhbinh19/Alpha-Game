@@ -38,8 +38,8 @@ public class UserBadgesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        BadgeButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.BADGE_BUTTON_PREFAB);
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
+        BadgeButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.BADGE_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(PrefabConstants.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserBadges(List<Badges> badges, Transform contentPanel)
     {

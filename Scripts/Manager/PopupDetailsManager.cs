@@ -35,8 +35,8 @@ public class PopupDetailsManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainMenuDetailPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_PREFAB);
-        ElementDetailsPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.ELEMENT_DETAILS_PREFAB);
+        MainMenuDetailPanelPrefab = UIManager.Instance.Get(PrefabConstants.General.MAIN_MENU_DETAIL_PANEL_PREFAB);
+        ElementDetailsPrefab = UIManager.Instance.Get(PrefabConstants.General.ELEMENT_DETAILS_PREFAB);
     }
     private void InitializePopupDetailMap()
     {

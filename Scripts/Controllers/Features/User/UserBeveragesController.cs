@@ -38,8 +38,8 @@ public class UserBeveragesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        BeverageButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.BEVERAGE_BUTTON_PREFAB);
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
+        BeverageButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.BEVERAGE_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(PrefabConstants.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserBeverages(List<Beverages> beverages, Transform contentPanel)
     {

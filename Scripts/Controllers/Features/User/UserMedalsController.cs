@@ -38,8 +38,8 @@ public class UserMedalsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        MedalButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.MEDAL_BUTTON_PREFAB);
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
+        MedalButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.MEDAL_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(PrefabConstants.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserMedals(List<Medals> medals, Transform contentPanel)
     {

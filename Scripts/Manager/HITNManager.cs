@@ -28,8 +28,8 @@ public class HITNManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        HITNPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.HITN.HITN_PANEL_PREFAB);
-        HITNButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.HITN.HITN_BUTTON_PREFAB);
+        HITNPanelPrefab = UIManager.Instance.Get(PrefabConstants.HITN.HITN_PANEL_PREFAB);
+        HITNButtonPrefab = UIManager.Instance.Get(PrefabConstants.HITN.HITN_BUTTON_PREFAB);
     }
     public void CreateHITN()
     {

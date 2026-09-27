@@ -29,7 +29,7 @@ public class PowerController : MonoBehaviour
     }
     public void Initialize()
     {
-        PowerPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.POWER_PREFAB);
+        PowerPrefab = UIManager.Instance.Get(PrefabConstants.General.POWER_PREFAB);
         PopupPanel = UIManager.Instance.GetTransform(AppConstants.Transform.POPUP_PANEL);
     }
     public void ShowPower(double currentPower, double nextPower, int status)

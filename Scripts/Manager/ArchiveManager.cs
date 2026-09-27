@@ -28,8 +28,8 @@ public class ArchiveManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        ArchivePanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Archive.ARCHIVE_PANEL_PREFAB);
-        ArchiveButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Archive.ARCHIVE_BUTTON_PREFAB);
+        ArchivePanelPrefab = UIManager.Instance.Get(PrefabConstants.Archive.ARCHIVE_PANEL_PREFAB);
+        ArchiveButtonPrefab = UIManager.Instance.Get(PrefabConstants.Archive.ARCHIVE_BUTTON_PREFAB);
     }
     public void CreateArchive()
     {

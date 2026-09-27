@@ -39,9 +39,9 @@ public class UserPetsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        PetButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.PET_BUTTON_PREFAB);
-        EquipmentFirstPrefab = UIManager.Instance.Get(AppConstants.Prefab.Equipment.EQUIPMENT_FIRST_PREFAB);
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
+        PetButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.PET_BUTTON_PREFAB);
+        EquipmentFirstPrefab = UIManager.Instance.Get(PrefabConstants.Equipment.EQUIPMENT_FIRST_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(PrefabConstants.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserPets(List<Pets> pets, Transform contentPanel)
     {

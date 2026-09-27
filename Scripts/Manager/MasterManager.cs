@@ -28,8 +28,8 @@ public class MasterManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        MasterPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Master.MASTER_PANEL_PREFAB);
-        MasterButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Master.MASTER_BUTTON_PREFAB);
+        MasterPanelPrefab = UIManager.Instance.Get(PrefabConstants.Master.MASTER_PANEL_PREFAB);
+        MasterButtonPrefab = UIManager.Instance.Get(PrefabConstants.Master.MASTER_BUTTON_PREFAB);
     }
     public void CreateMaster(IStats stat)
     {

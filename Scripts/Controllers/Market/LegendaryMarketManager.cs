@@ -54,9 +54,9 @@ public class LegendaryMarketManager : MonoBehaviour
         Offset = 0;
         CurrentPage = 1;
         Items = new List<Items>();
-        LegendaryMarketButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Market.LEGENDARY_MARKET_BUTTON_PREFAB);
-        LegendaryMarketManagerPrefab = UIManager.Instance.Get(AppConstants.Prefab.Market.LEGENDARY_MARKET_MANAGER_PREFAB);
-        LegendaryMarketPrefab = UIManager.Instance.Get(AppConstants.Prefab.Market.LEGENDARY_MARKET_PREFAB);
+        LegendaryMarketButtonPrefab = UIManager.Instance.Get(PrefabConstants.Market.LEGENDARY_MARKET_BUTTON_PREFAB);
+        LegendaryMarketManagerPrefab = UIManager.Instance.Get(PrefabConstants.Market.LEGENDARY_MARKET_MANAGER_PREFAB);
+        LegendaryMarketPrefab = UIManager.Instance.Get(PrefabConstants.Market.LEGENDARY_MARKET_PREFAB);
         PopupPanel = UIManager.Instance.GetTransform(AppConstants.Transform.POPUP_PANEL);
     }
     public async Task CreateLegendaryMarketAsync(Transform panel)

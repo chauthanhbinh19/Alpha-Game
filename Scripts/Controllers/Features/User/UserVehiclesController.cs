@@ -38,8 +38,8 @@ public class UserVehiclesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        VehicleButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.VEHICLE_BUTTON_PREFAB);
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
+        VehicleButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.VEHICLE_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(PrefabConstants.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserVehicles(List<Vehicles> vehicles, Transform contentPanel)
     {

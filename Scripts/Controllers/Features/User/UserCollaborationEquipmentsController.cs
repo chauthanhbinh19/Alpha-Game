@@ -38,8 +38,8 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        CollaborationEquipmentButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.COLLABORATION_EQUIPMENT_BUTTON_PREFAB);
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
+        CollaborationEquipmentButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.COLLABORATION_EQUIPMENT_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(PrefabConstants.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserCollaborationEquipments(List<CollaborationEquipments> collaborationEquipments, Transform contentPanel)
     {

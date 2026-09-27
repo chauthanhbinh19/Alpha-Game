@@ -35,8 +35,8 @@ public class UserBordersController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        BorderButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.BORDER_BUTTON_PREFAB);
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
+        BorderButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.BORDER_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(PrefabConstants.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserBorders(List<Borders> borders, Transform contentPanel)
     {

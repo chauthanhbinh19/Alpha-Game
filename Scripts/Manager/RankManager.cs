@@ -34,9 +34,9 @@ public class RankManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        RankPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Rank.RANK_PANEL_PREFAB);
-        RankButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Rank.RANK_BUTTON_PREFAB);
-        SetRankButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Rank.SET_RANK_BUTTON_PREFAB);
+        RankPanelPrefab = UIManager.Instance.Get(PrefabConstants.Rank.RANK_PANEL_PREFAB);
+        RankButtonPrefab = UIManager.Instance.Get(PrefabConstants.Rank.RANK_BUTTON_PREFAB);
+        SetRankButtonPrefab = UIManager.Instance.Get(PrefabConstants.Rank.SET_RANK_BUTTON_PREFAB);
     }
     public void CreateRank(IStats stat)
     {

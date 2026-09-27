@@ -33,9 +33,9 @@ public class LeaderboardManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        LeaderboardPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.LEADERBOARD_PANEL_PREFAB);
-        MailTabButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.MAIL_TAB_BUTTON_PREFAB);
-        LeaderboardButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.LEADERBOARD_BUTTON_PREFAB);
+        LeaderboardPanelPrefab = UIManager.Instance.Get(PrefabConstants.General.LEADERBOARD_PANEL_PREFAB);
+        MailTabButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.MAIL_TAB_BUTTON_PREFAB);
+        LeaderboardButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.LEADERBOARD_BUTTON_PREFAB);
     }
     public async Task CreateLeaderboardPanel()
     {

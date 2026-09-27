@@ -32,8 +32,8 @@ public class ScienceFictionManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        ScienceFictionPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.ScienceFiction.SCIENCE_FICTION_PANEL_PREFAB);
-        ScienceFictionButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.ScienceFiction.SCIENCE_FICTION_BUTTON_PREFAB);
+        ScienceFictionPanelPrefab = UIManager.Instance.Get(PrefabConstants.ScienceFiction.SCIENCE_FICTION_PANEL_PREFAB);
+        ScienceFictionButtonPrefab = UIManager.Instance.Get(PrefabConstants.ScienceFiction.SCIENCE_FICTION_BUTTON_PREFAB);
     }
     public void CreateScienceFiction()
     {

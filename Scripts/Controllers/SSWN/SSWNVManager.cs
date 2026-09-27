@@ -42,13 +42,13 @@ public class SSWNVManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        SSWNPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.SSWN.SSWN_PANEL_PREFAB);
-        SSWNButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.SSWN.SSWN_BUTTON_PREFAB);
-        PopupSSWNPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.SSWN.POPUP_SSWN_PANEL_PREFAB);
-        PopupSSWNQuantityPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.SSWN.POPUP_SSWN_QUANTITY_PANEL_PREFAB);
-        PopupSSWNButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.SSWN.POPUP_SSWN_BUTTON_PREFAB);
-        MainSSWNPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.SSWN.MAIN_SSWN_PANEL_PREFAB);
-        SSWNItemPrefab = UIManager.Instance.Get(AppConstants.Prefab.SSWN.SSWN_ITEM_PREFAB);
+        SSWNPanelPrefab = UIManager.Instance.Get(PrefabConstants.SSWN.SSWN_PANEL_PREFAB);
+        SSWNButtonPrefab = UIManager.Instance.Get(PrefabConstants.SSWN.SSWN_BUTTON_PREFAB);
+        PopupSSWNPanelPrefab = UIManager.Instance.Get(PrefabConstants.SSWN.POPUP_SSWN_PANEL_PREFAB);
+        PopupSSWNQuantityPanelPrefab = UIManager.Instance.Get(PrefabConstants.SSWN.POPUP_SSWN_QUANTITY_PANEL_PREFAB);
+        PopupSSWNButtonPrefab = UIManager.Instance.Get(PrefabConstants.SSWN.POPUP_SSWN_BUTTON_PREFAB);
+        MainSSWNPanelPrefab = UIManager.Instance.Get(PrefabConstants.SSWN.MAIN_SSWN_PANEL_PREFAB);
+        SSWNItemPrefab = UIManager.Instance.Get(PrefabConstants.SSWN.SSWN_ITEM_PREFAB);
     }
     public async Task CreateSSWNVManagerAsync()
     {

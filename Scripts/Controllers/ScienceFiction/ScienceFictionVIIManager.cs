@@ -42,13 +42,13 @@ public class ScienceFictionVIIManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        ScienceFictionPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.ScienceFiction.SCIENCE_FICTION_PANEL_PREFAB);
-        ScienceFictionButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.ScienceFiction.SCIENCE_FICTION_BUTTON_PREFAB);
-        PopupScienceFictionPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.ScienceFiction.POPUP_SCIENCE_FICTION_PANEL_PREFAB);
-        PopupScienceFictionQuantityPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.ScienceFiction.POPUP_SCIENCE_FICTION_QUANTITY_PANEL_PREFAB);
-        PopupScienceFictionButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.ScienceFiction.POPUP_SCIENCE_FICTION_BUTTON_PREFAB);
-        MainScienceFictionPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.ScienceFiction.MAIN_SCIENCE_FICTION_PANEL_PREFAB);
-        ScienceFictionItemPrefab = UIManager.Instance.Get(AppConstants.Prefab.ScienceFiction.SCIENCE_FICTION_ITEM_PREFAB);
+        ScienceFictionPanelPrefab = UIManager.Instance.Get(PrefabConstants.ScienceFiction.SCIENCE_FICTION_PANEL_PREFAB);
+        ScienceFictionButtonPrefab = UIManager.Instance.Get(PrefabConstants.ScienceFiction.SCIENCE_FICTION_BUTTON_PREFAB);
+        PopupScienceFictionPanelPrefab = UIManager.Instance.Get(PrefabConstants.ScienceFiction.POPUP_SCIENCE_FICTION_PANEL_PREFAB);
+        PopupScienceFictionQuantityPanelPrefab = UIManager.Instance.Get(PrefabConstants.ScienceFiction.POPUP_SCIENCE_FICTION_QUANTITY_PANEL_PREFAB);
+        PopupScienceFictionButtonPrefab = UIManager.Instance.Get(PrefabConstants.ScienceFiction.POPUP_SCIENCE_FICTION_BUTTON_PREFAB);
+        MainScienceFictionPanelPrefab = UIManager.Instance.Get(PrefabConstants.ScienceFiction.MAIN_SCIENCE_FICTION_PANEL_PREFAB);
+        ScienceFictionItemPrefab = UIManager.Instance.Get(PrefabConstants.ScienceFiction.SCIENCE_FICTION_ITEM_PREFAB);
     }
     public async Task CreateScienceFictionVIIManagerAsync()
     {

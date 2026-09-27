@@ -38,8 +38,8 @@ public class UserTalismansController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        TalismanButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.TALISMAN_BUTTON_PREFAB);
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
+        TalismanButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.TALISMAN_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(PrefabConstants.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserTalismans(List<Talismans> talismans, Transform contentPanel)
     {

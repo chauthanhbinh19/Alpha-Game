@@ -38,8 +38,8 @@ public class UserWeaponsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        WeaponButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.WEAPON_BUTTON_PREFAB);
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
+        WeaponButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.WEAPON_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(PrefabConstants.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserWeapons(List<Weapons> weapons, Transform contentPanel)
     {

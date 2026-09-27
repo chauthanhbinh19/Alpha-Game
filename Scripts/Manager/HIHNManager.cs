@@ -28,8 +28,8 @@ public class HIHNManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        HIHNPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.HIHN.HIHN_PANEL_PREFAB);
-        HIHNButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.HIHN.HIHN_BUTTON_PREFAB);
+        HIHNPanelPrefab = UIManager.Instance.Get(PrefabConstants.HIHN.HIHN_PANEL_PREFAB);
+        HIHNButtonPrefab = UIManager.Instance.Get(PrefabConstants.HIHN.HIHN_BUTTON_PREFAB);
     }
     public void CreateHIHN()
     {
