@@ -34,8 +34,8 @@ public class PetsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        PetBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.PET_BLOCK_BUTTON_PREFAB);
-        EquipmentSecondPrefab = UIManager.Instance.Get(AppConstants.Prefab.Equipment.EQUIPMENT_SECOND_PREFAB);
+        PetBlockButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.PET_BLOCK_BUTTON_PREFAB);
+        EquipmentSecondPrefab = UIManager.Instance.Get(PrefabConstants.Equipment.EQUIPMENT_SECOND_PREFAB);
     }
     public void CreatePetsGallery(List<Pets> pets, Transform contentPanel)
     {

@@ -374,6 +374,7 @@ public static class AppDisplayConstants
         public const string UP_ONE_LEVEL = "Title.UpOneLevel";
         public const string UP_MAX_LEVEL = "Title.UpMaxLevel";
         public const string TEAM = "Title.Team";
+        public const string STOCK = "Title.Stock";
 
         public const string INVENTORY = "Title.Inventory";
         public const string SCIENCE_FICTION = "Title.ScienceFiction";

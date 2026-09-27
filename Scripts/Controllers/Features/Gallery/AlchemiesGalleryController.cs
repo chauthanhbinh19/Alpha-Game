@@ -33,7 +33,7 @@ public class AlchemiesGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        AlchemyBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.ALCHEMY_BLOCK_BUTTON_PREFAB);
+        AlchemyBlockButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.ALCHEMY_BLOCK_BUTTON_PREFAB);
     }
     public void CreateAlchemiesGallery(List<Alchemies> alchemies, Transform contentPanel)
     {

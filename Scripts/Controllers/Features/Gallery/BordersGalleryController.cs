@@ -33,7 +33,7 @@ public class BordersGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        BorderBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.BORDER_BLOCK_BUTTON_PREFAB);
+        BorderBlockButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.BORDER_BLOCK_BUTTON_PREFAB);
     }
     public void CreateBordersGallery(List<Borders> borders, Transform contentPanel)
     {

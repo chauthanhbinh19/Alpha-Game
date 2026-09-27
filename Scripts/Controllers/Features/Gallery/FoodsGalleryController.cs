@@ -33,7 +33,7 @@ public class FoodsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        FoodBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.FOOD_BLOCK_BUTTON_PREFAB);
+        FoodBlockButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.FOOD_BLOCK_BUTTON_PREFAB);
     }
     public void CreateFoodsGallery(List<Foods> foods, Transform contentPanel)
     {

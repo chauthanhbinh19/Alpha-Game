@@ -33,7 +33,7 @@ public class RelicsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        RelicBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.RELIC_BLOCK_BUTTON_PREFAB);
+        RelicBlockButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.RELIC_BLOCK_BUTTON_PREFAB);
     }
     public void CreateRelicsGallery(List<Relics> relics, Transform contentPanel)
     {

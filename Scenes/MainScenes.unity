@@ -6167,6 +6167,8 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 79cef53673df7f245be83b70d3b12247, type: 3}
   - name: ButtonClickSound2
     clip: {fileID: 8300000, guid: 4310da7a4cb522744a12a6376eb614fc, type: 3}
+  - name: PurchaseSound
+    clip: {fileID: 8300000, guid: a1eb526d1bbf31e43876913b07ba11ad, type: 3}
   MusicSource: {fileID: 990023841}
   SFXSource: {fileID: 1537485152}
 --- !u!1 &560472407

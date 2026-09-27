@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,14 +11,15 @@ public class CardHeroesController : MonoBehaviour
 {
     public static CardHeroesController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject ShopPanelPrefab;
     private GameObject CardHeroButtonPrefab;
     private GameObject EquipmentShopPrefab;
     private GameObject QuantityPopupPrefab;
     private GameObject ReceivedNotificationPanelPrefab;
     private GameObject ItemPopupPrefab;
+    private GameObject ShopPanelPrefab;
     private PaginationManager PaginationManager;
     private Transform contentTransform;
+    private TextMeshProUGUI TotalText;
     private int Offset = 0;
     private int CurrentPage = 1;
     private int TotalItems;
@@ -46,12 +48,12 @@ public class CardHeroesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        ShopPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Shop.SHOP_PANEL_PREFAB);
-        CardHeroButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.CARD_HERO_BUTTON_PREFAB);
-        EquipmentShopPrefab = UIManager.Instance.Get(AppConstants.Prefab.Equipment.EQUIPMENT_SHOP_PREFAB);
-        QuantityPopupPrefab = UIManager.Instance.Get(AppConstants.Prefab.Shop.QUANTITY_POPUP_PREFAB);
-        ReceivedNotificationPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.RECEIVED_NOTIFICATION_PANEL_PREFAB);
-        ItemPopupPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.ITEM_POPUP_PREFAB);
+        ShopPanelPrefab = UIManager.Instance.Get(PrefabConstants.Shop.SHOP_PANEL_PREFAB);
+        CardHeroButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.CARD_HERO_BUTTON_PREFAB);
+        EquipmentShopPrefab = UIManager.Instance.Get(PrefabConstants.Equipment.EQUIPMENT_SHOP_PREFAB);
+        QuantityPopupPrefab = UIManager.Instance.Get(PrefabConstants.Shop.QUANTITY_POPUP_PREFAB);
+        ReceivedNotificationPanelPrefab = UIManager.Instance.Get(PrefabConstants.General.RECEIVED_NOTIFICATION_PANEL_PREFAB);
+        ItemPopupPrefab = UIManager.Instance.Get(PrefabConstants.Component.ITEM_POPUP_PREFAB);
     }
     public void CreateCardHeroesGallery(List<CardHeroes> cardHeroes, Transform contentPanel)
     {
@@ -103,90 +105,12 @@ public class CardHeroesController : MonoBehaviour
         }
         // DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateCardHeroesTradeAsync(List<CardHeroes> cardHeroes, string subType, Transform currentContent, Transform currencyPanel, Transform popupPanel)
-    {
-        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
-        var oldAnim = currentContent.GetComponent<StaggeredSlideAnimation>();
-        if (oldAnim != null) Destroy(oldAnim);
-
-        foreach (var cardHero in cardHeroes)
-        {
-            GameObject cardHeroObject = Instantiate(EquipmentShopPrefab, currentContent);
-            Transform transform = cardHeroObject.transform;
-
-            TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            titleText.text = cardHero.Name.Replace("_", " ");
-
-            RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardHero.Image);
-            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            image.texture = texture;
-
-            // Kích thước của RawImage (khung hiển thị)
-            RectTransform rect = image.GetComponent<RectTransform>();
-            float maxWidth = rect.rect.width;
-            float maxHeight = rect.rect.height;
-
-            // Kích thước thật của texture
-            float texWidth = texture.width;
-            float texHeight = texture.height;
-
-            // Tính scale để texture nằm gọn trong khung
-            float widthRatio = maxWidth / texWidth;
-            float heightRatio = maxHeight / texHeight;
-            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
-
-            // Áp dụng scale theo tỉ lệ đúng
-            image.SetNativeSize();
-            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
-
-            RawImage frameImage = transform.Find("Frame").GetComponent<RawImage>();
-
-            Button button = frameImage.GetComponent<Button>();
-            button.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(cardHero, MainPanel);
-            });
-
-            RawImage topImage = transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.Get("UI_Red_Gradient_Radius_Mat_MaskPercent_90");
-            RawImage circleImage = transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
-            circleImage.color = ColorHelper.HexToColor(ColorConstants.RED_COLOR);
-            Outline bottomOutline = transform.Find("BottomImage").GetComponent<Outline>();
-            bottomOutline.effectColor = ColorHelper.HexToColor(ColorConstants.RED_COLOR);
-            Outline middleOutline = transform.Find("MiddleImage").GetComponent<Outline>();
-            bottomOutline.effectColor = ColorHelper.HexToColor(ColorConstants.RED_COLOR);
-
-            RawImage currencyImage = transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardHero.Currency.Image);
-            Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            currencyImage.texture = currencyTexture;
-
-            TextMeshProUGUI currencyText = transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatterHelper.FormatNumber(cardHero.Currency.Quantity, false);
-
-            Button buyButton = transform.Find("Buy").GetComponent<Button>();
-            TextMeshProUGUI buttonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
-            buttonText.text = LocalizationManager.Get(AppDisplayConstants.Title.BUY);
-            Image buttonBackgroundImage = buyButton.transform.Find("Background").GetComponent<Image>();
-            buttonBackgroundImage.color = ColorHelper.HexToColor(ColorConstants.RED_COLOR);
-            buyButton.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                GetQuantity(cardHero.Currency.Quantity, cardHero, subType, popupPanel, currencyPanel);
-            });
-        }
-        List<Currencies> currencies = new List<Currencies>();
-        currencies = await UserCurrenciesService.Create().GetCardHeroesCurrencyAsync(subType);
-        FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);
-        currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
-    }
     public async Task CreateShopAsync(string shopCodeName)
     {
         GameObject gameObject = Instantiate(ShopPanelPrefab, MainPanel);
         Transform transform = gameObject.transform;
         contentTransform = transform.Find("Scroll View/Viewport/Content");
+        TotalText = transform.Find("TitleGroup/TotalText").GetComponent<TextMeshProUGUI>();
         Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
@@ -293,20 +217,78 @@ public class CardHeroesController : MonoBehaviour
                 currencyText.text = NumberFormatterHelper.FormatNumber(shopDetail.Price, false);
             }
 
-            // Buy Button
-            Transform buyButtonTransform = itemTransform.Find("Buy");
-            if (buyButtonTransform != null)
+            TextMeshProUGUI stockTitleText = itemTransform.Find("StockTitleText")?.GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI stockText = itemTransform.Find("StockText")?.GetComponent<TextMeshProUGUI>();
+            // Tìm Transform của SoldOut (nếu nằm trong Prefab Item)
+            Transform soldOutTransform = itemTransform.Find("SoldOut");
+            if (stockTitleText != null)
             {
-                Button buyButton = buyButtonTransform.GetComponent<Button>();
-                TextMeshProUGUI buttonText = buyButtonTransform.GetComponentInChildren<TextMeshProUGUI>();
-                if (buttonText != null) buttonText.text = LocalizationManager.Get(AppDisplayConstants.Title.BUY);
+                stockTitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.STOCK);
+            }
 
-                Image buttonBackgroundImage = buyButtonTransform.Find("Background")?.GetComponent<Image>();
-                if (buttonBackgroundImage != null) buttonBackgroundImage.color = ColorHelper.HexToColor(ColorConstants.RED_COLOR);
+            // Tách riêng hàm cập nhật Stock UI của Item này
+            Transform buyButtonTransform = itemTransform.Find("Buy");
+            Button buyButton = buyButtonTransform?.GetComponent<Button>();
+
+            void UpdateItemStockUI()
+            {
+                int remainingStock = shopDetail.BuyLimitPerUser > 0
+                    ? (shopDetail.BuyLimitPerUser - shopDetail.PurchaseCount)
+                    : 99;
+
+                bool isSoldOut = remainingStock <= 0;
+
+                // 1. Cập nhật text số lượng còn lại
+                if (stockText != null)
+                {
+                    stockText.text = Mathf.Max(0, remainingStock).ToString();
+                }
+
+                // 2. Bật/Tắt Overlay SoldOut
+                if (soldOutTransform != null)
+                {
+                    soldOutTransform.gameObject.SetActive(isSoldOut);
+                }
+
+                // 3. Khóa/Mở tương tác nút Mua
+                if (buyButton != null)
+                {
+                    buyButton.interactable = !isSoldOut;
+                }
+            }
+
+            // Hiển thị Stock ban đầu
+            UpdateItemStockUI();
+
+            // Sự kiện nút Buy
+            if (buyButton != null)
+            {
+                buyButton.onClick.RemoveAllListeners();
+                var currentDetail = shopDetail; // Local copy
+
+                buyButton.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+                    ShopDTO popupShopDTO = new ShopDTO
+                    {
+                        ShopId = shopDTO.ShopId,
+                        ShopDetail = currentDetail
+                    };
+
+                    // Truyền callback để sau khi mua thành công sẽ cập nhật lại Item này
+                    CreatePopupPanel(popupShopDTO, (purchasedQuantity) =>
+                    {
+                        // Cập nhật số lượng đã mua vào DTO
+                        currentDetail.PurchaseCount += purchasedQuantity;
+
+                        // Tự động tính lại stock và SetActive(true) cho SoldOut nếu remainingStock <= 0
+                        UpdateItemStockUI();
+                    });
+                });
             }
         }
     }
-
     public async Task LoadCurrentPageAsync()
     {
         try
@@ -343,6 +325,7 @@ public class CardHeroesController : MonoBehaviour
             await CreateCardHeroesShopAsync(shopDTO);
 
             int listCount = shopDTO.ShopDetails?.Count ?? 0;
+            TotalText.text = listCount.ToString();
 
             // 4. Lấy tổng số bản ghi
             int totalRecord = await shopService.GetShopItemCountAsync(shopRequestDTO);
@@ -382,7 +365,6 @@ public class CardHeroesController : MonoBehaviour
             Debug.LogError($"[LoadCurrentPageAsync Exception]: {ex.Message}\n{ex.StackTrace}");
         }
     }
-    // Hàm hứng sự kiện click nút phân trang
     private void OnPageSelected(int pageNumber)
     {
         CurrentPage = pageNumber;
@@ -390,7 +372,6 @@ public class CardHeroesController : MonoBehaviour
         IsSearchingOrFiltering = false;
         _ = LoadCurrentPageAsync();
     }
-
     private void OnDestroy()
     {
         // Luôn luôn hủy đăng ký sự kiện khi Object bị xóa để tránh lỗi bộ nhớ
@@ -399,211 +380,186 @@ public class CardHeroesController : MonoBehaviour
             PaginationManager.OnPageChanged -= OnPageSelected;
         }
     }
-    public void GetQuantity(double originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
+    public void CreatePopupPanel(ShopDTO shopDTO, Action<int> onPurchaseSuccess = null)
     {
-        GameObject quantityObject = Instantiate(QuantityPopupPrefab, popupPanel);
+        if (shopDTO == null || shopDTO.ShopDetail == null) return;
 
-        Button increaseButton = quantityObject.transform.Find("IncreaseButton").GetComponent<Button>();
-        Button decreaseButton = quantityObject.transform.Find("DecreaseButton").GetComponent<Button>();
-        Button increase10Button = quantityObject.transform.Find("Increase10Button").GetComponent<Button>();
-        Button decrease10Button = quantityObject.transform.Find("Decrease10Button").GetComponent<Button>();
-        Button maxButton = quantityObject.transform.Find("MaxButton").GetComponent<Button>();
-        Button minButton = quantityObject.transform.Find("MinButton").GetComponent<Button>();
-        Button closeButton = quantityObject.transform.Find("CloseButton").GetComponent<Button>();
-        Button confirmButton = quantityObject.transform.Find("Buy").GetComponent<Button>();
-        TextMeshProUGUI quantityText = quantityObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-        RawImage currencyImage = quantityObject.transform.Find("Price/CurrencyImage").GetComponent<RawImage>();
-        TextMeshProUGUI priceText = quantityObject.transform.Find("Price/PriceText").GetComponent<TextMeshProUGUI>();
-        RawImage equipmentImage = quantityObject.transform.Find("Image").GetComponent<RawImage>();
+        // 1. Khởi tạo Prefab Popup vào Canvas/MainPanel
+        GameObject quantityObject = Instantiate(QuantityPopupPrefab, MainPanel);
 
-        TextMeshProUGUI buttonText = confirmButton.GetComponentInChildren<TextMeshProUGUI>();
-        buttonText.text = LocalizationManager.Get(AppDisplayConstants.Title.BUY);
-        // Lấy thuộc tính `Id` và `Image` từ object
-        var idProperty = obj.GetType().GetProperty(AppConstants.StatFields.ID);
-        var imageProperty = obj.GetType().GetProperty(AppConstants.StatFields.IMAGE);
-        var currencyProperty = obj.GetType().GetProperty(AppConstants.MainType.CURRENCY);
+        // 2. Bắt các component UI từ Prefab
+        Button increaseButton = quantityObject.transform.Find("IncreaseButton")?.GetComponent<Button>();
+        Button decreaseButton = quantityObject.transform.Find("DecreaseButton")?.GetComponent<Button>();
+        Button increase10Button = quantityObject.transform.Find("Increase10Button")?.GetComponent<Button>();
+        Button decrease10Button = quantityObject.transform.Find("Decrease10Button")?.GetComponent<Button>();
+        Button maxButton = quantityObject.transform.Find("MaxButton")?.GetComponent<Button>();
+        Button minButton = quantityObject.transform.Find("MinButton")?.GetComponent<Button>();
+        Button closeButton = quantityObject.transform.Find("CloseButton")?.GetComponent<Button>();
+        Button confirmButton = quantityObject.transform.Find("Buy")?.GetComponent<Button>();
 
-        priceText.text = originPrice.ToString();
-        double price = originPrice;
-        int quantity = 1;
-        quantityText.text = quantity.ToString();
+        TextMeshProUGUI quantityText = quantityObject.transform.Find("QuantityText")?.GetComponent<TextMeshProUGUI>();
+        RawImage currencyImage = quantityObject.transform.Find("Price/CurrencyImage")?.GetComponent<RawImage>();
+        TextMeshProUGUI priceText = quantityObject.transform.Find("Price/PriceText")?.GetComponent<TextMeshProUGUI>();
+        RawImage equipmentImage = quantityObject.transform.Find("Image")?.GetComponent<RawImage>();
 
-        if (idProperty != null && imageProperty != null && currencyProperty != null)
+        // 3. Khởi tạo biến theo dõi số lượng
+        int currentQuantity = 1;
+        int minQuantity = 1;
+
+        // Tính số lượng còn lại người dùng ĐƯỢC PHÉP MUA
+        int remainingStock = shopDTO.ShopDetail.BuyLimitPerUser > 0
+            ? (shopDTO.ShopDetail.BuyLimitPerUser - shopDTO.ShopDetail.PurchaseCount)
+            : 99; // Hoặc một giới hạn kho mặc định nếu BuyLimitPerUser <= 0
+
+        // Đảm bảo maxQuantity không bị âm nếu người dùng bằng cách nào đó đã mua vượt limit
+        int maxQuantity = Mathf.Max(0, remainingStock);
+
+        // Nếu hết hàng (maxQuantity == 0), đặt minQuantity và currentQuantity về 0 để tránh đụng độ clamp
+        if (maxQuantity == 0)
         {
-            string id = (string)idProperty.GetValue(obj);
-            string image = (string)imageProperty.GetValue(obj);
-
-            // Lấy đối tượng currency từ obj
-            var currencyObject = currencyProperty.GetValue(obj);
-
-            if (currencyObject != null)
-            {
-                // Lấy thuộc tính "image" từ currencyObject
-                var currencyImageProperty = currencyObject.GetType().GetProperty("image");
-                if (currencyImageProperty != null)
-                {
-                    string currencyImageValue = (string)currencyImageProperty.GetValue(currencyObject);
-
-                    if (!string.IsNullOrEmpty(currencyImageValue))
-                    {
-                        string currencyFileNameWithoutExtension = ImageHelper.RemoveImageExtension(currencyImageValue);
-                        Texture currencyTexture = TextureHelper.LoadTextureCached($"{currencyFileNameWithoutExtension}");
-                        currencyImage.texture = currencyTexture;
-                    }
-                }
-            }
-
-            // Xử lý image của obj
-            if (!string.IsNullOrEmpty(image))
-            {
-                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(image);
-                Texture entityTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-                equipmentImage.texture = entityTexture;
-            }
-
-            priceText.text = price.ToString();
+            minQuantity = 0;
+            currentQuantity = 0;
         }
 
-        else
+        double unitPrice = shopDTO.ShopDetail.Price;
+
+        // 4. Load hình ảnh hiển thị (Vật phẩm & Tiền tệ)
+        if (equipmentImage != null && !string.IsNullOrEmpty(shopDTO.ShopDetail.ObjectImage))
         {
-            Debug.LogError("Object không có thuộc tính Id hoặc Image");
+            string fileName = ImageHelper.RemoveImageExtension(shopDTO.ShopDetail.ObjectImage);
+            Texture texture = TextureHelper.LoadTextureCached(fileName);
+            if (texture != null)
+            {
+                equipmentImage.texture = texture;
+                ImageManager.Instance.ChangeSizeImageByTextureScale(equipmentImage, texture);
+            }
         }
 
-        increaseButton.onClick.AddListener(() =>
+        if (currencyImage != null && !string.IsNullOrEmpty(shopDTO.ShopDetail.CurrencyImage))
         {
-            quantity++;
-            price = originPrice * quantity;
-            quantityText.text = quantity.ToString();
-            priceText.text = price.ToString();
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-        });
-        decreaseButton.onClick.AddListener(() =>
-        {
-            if (quantity > 1)
+            string currencyFileName = ImageHelper.RemoveImageExtension(shopDTO.ShopDetail.CurrencyImage);
+            Texture currencyTexture = TextureHelper.LoadTextureCached(currencyFileName);
+            if (currencyTexture != null)
             {
-                quantity--;
-                price = originPrice * quantity;
-                quantityText.text = quantity.ToString();
-                priceText.text = price.ToString();
+                currencyImage.texture = currencyTexture;
             }
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-        });
-        increase10Button.onClick.AddListener(() =>
+        }
+
+        // 5. Hàm cập nhật UI local khi thay đổi số lượng
+        void UpdatePopupUI()
         {
-            quantity = quantity + 10;
-            price = originPrice * quantity;
-            quantityText.text = quantity.ToString();
-            priceText.text = price.ToString();
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-        });
-        decrease10Button.onClick.AddListener(() =>
-        {
-            if (quantity > 10)
+            currentQuantity = Mathf.Clamp(currentQuantity, minQuantity, maxQuantity);
+
+            if (quantityText != null)
             {
-                quantity = quantity - 10;
-                price = originPrice * quantity;
-                quantityText.text = quantity.ToString();
-                priceText.text = price.ToString();
+                quantityText.text = currentQuantity.ToString();
             }
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-        });
-        maxButton.onClick.AddListener(async () =>
-        {
-            Currencies userCurrency = new Currencies();
-            if (obj is CardHeroes cardHero)
+
+            if (priceText != null)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, cardHero.Currency.Id);
+                double totalPrice = unitPrice * currentQuantity;
+                priceText.text = NumberFormatterHelper.FormatNumber(totalPrice, false);
             }
-            // double price = double.Parse(priceText.text);
+        }
 
-            int max = (int)(userCurrency.Quantity / price);
-            price = originPrice * max;
-            quantityText.text = max.ToString();
-            priceText.text = price.ToString();
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-        });
-        minButton.onClick.AddListener(() =>
-        {
-            quantityText.text = "1";
-            price = originPrice * 1;
-            priceText.text = price.ToString();
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-        });
-        closeButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            ButtonEvent.Instance.Close(popupPanel);
-        });
-        confirmButton.onClick.AddListener((UnityEngine.Events.UnityAction)(async () =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
+        // Gọi lần đầu để hiển thị mặc định
+        UpdatePopupUI();
 
-            if (obj is CardHeroes cardHero)
+        // 6. Đăng ký sự kiện Nút Tăng/Giảm/Min/Max
+        increaseButton?.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            currentQuantity++;
+            UpdatePopupUI();
+        });
+
+        decreaseButton?.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            currentQuantity--;
+            UpdatePopupUI();
+        });
+
+        increase10Button?.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            currentQuantity += 10;
+            UpdatePopupUI();
+        });
+
+        decrease10Button?.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            currentQuantity -= 10;
+            UpdatePopupUI();
+        });
+
+        minButton?.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            currentQuantity = minQuantity;
+            UpdatePopupUI();
+        });
+
+        maxButton?.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            currentQuantity = maxQuantity;
+            UpdatePopupUI();
+        });
+
+        // 7. Đăng ký sự kiện Nút Đóng Popup
+        closeButton?.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(quantityObject);
+        });
+
+        // 8. Đăng ký sự kiện Nút Mua (Confirm Buy)
+        confirmButton?.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            // Khóa nút mua tránh spam bấm nhiều lần
+            confirmButton.interactable = false;
+
+            string currentUserId = User.CurrentUserId; // Lấy ID người dùng hiện tại
+
+            // Gọi API mua thẻ Hero
+            var result = await UserShopPurchaseService.Create().PurchaseObjectFromShop(currentUserId, shopDTO, currentQuantity);
+
+            if (result != null && result.IsSuccess)
             {
-                cardHero.Quantity = cardHero.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, cardHero.Currency.Id, price);
-                var result = await UserCardHeroesService.Create().InsertOrUpdateUserCardHeroAsync(User.CurrentUserId, cardHero);
-
-                // Hiển thị thông báo dựa trên kết quả
-                if (result.Data || result.OperationType != DatabaseOperationType.None || result.OperationType != DatabaseOperationType.Failed)
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.PURCHASE_SOUND);
+                // Mua thành công: Hiện thông báo, cập nhật lại Tiền tệ/Tài sản User trên UI và đóng Popup
+                NotificationManager.Instance.ShowNotification(LocalizationManager.Get(MessageConstants.CARD_HEROES_PURCHASED_SUCCESSFULLY));
+                if (result.Data && result.IsChangePower)
                 {
-                    string fileNameWithoutExtension = "";
-                    // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-                    List<Currencies> currencies = new List<Currencies>();
+                    PowerResultDTO powerResult = await UserService.Create().UpdateUserPowerAsync();
 
-                    // cardHeros.InsertUserCardHeros(cardHeros);
-                    currencies = await UserCurrenciesService.Create().GetCardHeroesCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardHero.Image);
-
-                    ButtonEvent.Instance.Close(currencyPanel);
-                    FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);
-                    ButtonEvent.Instance.Close(popupPanel);
-                    // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
-                    GameObject receivedNotificationObject = Instantiate(ReceivedNotificationPanelPrefab, popupPanel);
-
-                    ButtonEvent.Instance.AddCloseEvent(receivedNotificationObject);
-                    Transform itemContent = receivedNotificationObject.transform.Find("Scroll View/Viewport/Content");
-                    GameObject itemObject = Instantiate(ItemPopupPrefab, itemContent);
-
-                    RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
-                    Texture equipmentTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-                    eImage.texture = equipmentTexture;
-
-                    TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
-                    eQuantity.text = quantity.ToString();
-
-                    TextMeshProUGUI messageText = receivedNotificationObject.transform.Find("MessageText").GetComponent<TextMeshProUGUI>();
-
-                    if (result.OperationType == DatabaseOperationType.Inserted)
+                    if (powerResult.HasChanged)
                     {
-                        messageText.text = LocalizationManager.Get(MessageConstants.INSERT_ITEM_INTO_INVENTORY);
-
-                        await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
-                        double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                        double currentPower = User.CurrentUserPower;
-                        User.CurrentUserPower = newPower;
-                        FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+                        PowerController.Instance.ShowPower(
+                            powerResult.CurrentPower,
+                            powerResult.Difference,
+                            1
+                        );
                     }
-                    else
-                    {
-                        messageText.text = LocalizationManager.Get(MessageConstants.UPDATE_ITEM_QUANTITY_IN_INVENTORY);
-                    }
-
-                    Button closeButton = receivedNotificationObject.transform.Find("CloseButton").GetComponent<Button>();
-
-                    closeButton.onClick.AddListener(() =>
-                    {
-                        Destroy(receivedNotificationObject);
-                    });
                 }
-                else
-                {
-                    GameObject receivedNotificationObject = Instantiate(ReceivedNotificationPanelPrefab, popupPanel);
-                    TextMeshProUGUI messageText = receivedNotificationObject.transform.Find("MessageText").GetComponent<TextMeshProUGUI>();
-                    messageText.text = LocalizationManager.Get(MessageConstants.PURCHASE_FAILED);
-                }
+                // Xử lý logic cập nhật UI Tiền tệ / Túi đồ của User tại đây (nếu có)
+                // *** GỌI CALLBACK ĐỂ CẬP NHẬT UI TRÊN SHOP CỤ THỂ ***
+                onPurchaseSuccess?.Invoke(currentQuantity);
+
+                Destroy(quantityObject);
             }
-        }));
+            else
+            {
+                // Mua thất bại: Hiện thông báo lỗi và mở lại tương tác cho nút mua
+                string errorMsg = result != null ? result.Message : MessageConstants.PURCHASE_FAILED;
+                NotificationManager.Instance.ShowNotification(LocalizationManager.Get(errorMsg));
+
+                confirmButton.interactable = true;
+            }
+        });
     }
 }

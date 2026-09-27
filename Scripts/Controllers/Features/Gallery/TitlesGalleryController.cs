@@ -33,7 +33,7 @@ public class TitlesGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        TitleBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.TITLE_BLOCK_BUTTON_PREFAB);
+        TitleBlockButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.TITLE_BLOCK_BUTTON_PREFAB);
     }
     public void CreateTitlesGallery(List<Titles> titles, Transform contentPanel)
     {

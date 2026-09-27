@@ -32,7 +32,7 @@ public class ArtifactsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        ArtifactBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.ARTIFACT_BLOCK_BUTTON_PREFAB);
+        ArtifactBlockButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.ARTIFACT_BLOCK_BUTTON_PREFAB);
     }
     public void CreateArtifactsGallery(List<Artifacts> artifacts, Transform contentPanel)
     {

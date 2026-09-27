@@ -33,7 +33,7 @@ public class TalismansGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        TalismanBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.TALISMAN_BLOCK_BUTTON_PREFAB);
+        TalismanBlockButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.TALISMAN_BLOCK_BUTTON_PREFAB);
     }
     public void CreateTalismansGallery(List<Talismans> talismans, Transform contentPanel)
     {

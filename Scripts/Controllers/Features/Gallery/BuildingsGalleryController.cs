@@ -33,7 +33,7 @@ public class BuildingsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        BuildingBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.BUILDING_BLOCK_BUTTON_PREFAB);
+        BuildingBlockButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.BUILDING_BLOCK_BUTTON_PREFAB);
     }
     public void CreateBuildingsGallery(List<Buildings> buildings, Transform contentPanel)
     {

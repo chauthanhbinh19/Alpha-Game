@@ -42,13 +42,13 @@ public class ArchiveXXXIIManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        ArchivePanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Archive.ARCHIVE_PANEL_PREFAB);
-        ArchiveButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Archive.ARCHIVE_BUTTON_PREFAB);
-        PopupArchivePanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Archive.POPUP_ARCHIVE_PANEL_PREFAB);
-        PopupArchiveQuantityPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Archive.POPUP_ARCHIVE_QUANTITY_PANEL_PREFAB);
-        PopupArchiveButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Archive.POPUP_ARCHIVE_BUTTON_PREFAB);
-        MainArchivePanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Archive.MAIN_ARCHIVE_PANEL_PREFAB);
-        ArchiveItemPrefab = UIManager.Instance.Get(AppConstants.Prefab.Archive.ARCHIVE_ITEM_PREFAB);
+        ArchivePanelPrefab = UIManager.Instance.Get(PrefabConstants.Archive.ARCHIVE_PANEL_PREFAB);
+        ArchiveButtonPrefab = UIManager.Instance.Get(PrefabConstants.Archive.ARCHIVE_BUTTON_PREFAB);
+        PopupArchivePanelPrefab = UIManager.Instance.Get(PrefabConstants.Archive.POPUP_ARCHIVE_PANEL_PREFAB);
+        PopupArchiveQuantityPanelPrefab = UIManager.Instance.Get(PrefabConstants.Archive.POPUP_ARCHIVE_QUANTITY_PANEL_PREFAB);
+        PopupArchiveButtonPrefab = UIManager.Instance.Get(PrefabConstants.Archive.POPUP_ARCHIVE_BUTTON_PREFAB);
+        MainArchivePanelPrefab = UIManager.Instance.Get(PrefabConstants.Archive.MAIN_ARCHIVE_PANEL_PREFAB);
+        ArchiveItemPrefab = UIManager.Instance.Get(PrefabConstants.Archive.ARCHIVE_ITEM_PREFAB);
     }
     public async Task CreateArchiveXXXIIManagerAsync()
     {

@@ -42,13 +42,13 @@ public class OnePunchManManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        AnimePanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Anime.ANIME_PANEL_PREFAB);
-        AnimeButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Anime.ANIME_BUTTON_PREFAB);
-        PopupAnimePanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Anime.POPUP_ANIME_PANEL_PREFAB);
-        PopupAnimeQuantityPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Anime.POPUP_ANIME_QUANTITY_PANEL_PREFAB);
-        PopupAnimeButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Anime.POPUP_ANIME_BUTTON_PREFAB);
-        MainAnimePanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Anime.MAIN_ANIME_PANEL_PREFAB);
-        AnimeItemPrefab = UIManager.Instance.Get(AppConstants.Prefab.Anime.ANIME_ITEM_PREFAB);
+        AnimePanelPrefab = UIManager.Instance.Get(PrefabConstants.Anime.ANIME_PANEL_PREFAB);
+        AnimeButtonPrefab = UIManager.Instance.Get(PrefabConstants.Anime.ANIME_BUTTON_PREFAB);
+        PopupAnimePanelPrefab = UIManager.Instance.Get(PrefabConstants.Anime.POPUP_ANIME_PANEL_PREFAB);
+        PopupAnimeQuantityPanelPrefab = UIManager.Instance.Get(PrefabConstants.Anime.POPUP_ANIME_QUANTITY_PANEL_PREFAB);
+        PopupAnimeButtonPrefab = UIManager.Instance.Get(PrefabConstants.Anime.POPUP_ANIME_BUTTON_PREFAB);
+        MainAnimePanelPrefab = UIManager.Instance.Get(PrefabConstants.Anime.MAIN_ANIME_PANEL_PREFAB);
+        AnimeItemPrefab = UIManager.Instance.Get(PrefabConstants.Anime.ANIME_ITEM_PREFAB);
     }
     public async Task CreateAnimeManagerAsync()
     {

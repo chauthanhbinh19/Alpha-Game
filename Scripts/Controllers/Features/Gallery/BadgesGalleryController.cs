@@ -33,7 +33,7 @@ public class BadgesGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        BadgeBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.BADGE_BLOCK_BUTTON_PREFAB);
+        BadgeBlockButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.BADGE_BLOCK_BUTTON_PREFAB);
     }
     public void CreateBadgesGallery(List<Badges> badges, Transform contentPanel)
     {

@@ -33,7 +33,7 @@ public class MechaBeastsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        MechaBeastBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.MECHA_BEAST_BLOCK_BUTTON_PREFAB);
+        MechaBeastBlockButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.MECHA_BEAST_BLOCK_BUTTON_PREFAB);
     }
     public void CreateMechaBeastsGallery(List<MechaBeasts> mechaBeasts, Transform contentPanel)
     {

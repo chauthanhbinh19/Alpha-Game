@@ -61,4 +61,36 @@ public class ImageManager : MonoBehaviour
 
         rect.sizeDelta = new Vector2(newWidth, newHeight);
     }
+    public void ChangeSizeImageByTextureScale(RawImage image, float customWidth, float customHeight)
+    {
+        // Guard clause: Tránh chia cho 0 nếu kích thước truyền vào không hợp lệ
+        if (image == null || customWidth <= 0 || customHeight <= 0) return;
+
+        RectTransform rect = image.rectTransform;
+
+        float containerWidth = rect.sizeDelta.x;
+        float containerHeight = rect.sizeDelta.y;
+
+        // Tính tỉ lệ dựa trên chiều rộng và chiều cao truyền vào
+        float customRatio = customWidth / customHeight;
+        float containerRatio = containerWidth / containerHeight;
+
+        float newWidth;
+        float newHeight;
+
+        if (customRatio > containerRatio)
+        {
+            // Tỉ lệ tùy chỉnh rộng hơn khung -> fit theo width
+            newWidth = containerWidth;
+            newHeight = containerWidth / customRatio;
+        }
+        else
+        {
+            // Tỉ lệ tùy chỉnh cao hơn khung -> fit theo height
+            newHeight = containerHeight;
+            newWidth = containerHeight * customRatio;
+        }
+
+        rect.sizeDelta = new Vector2(newWidth, newHeight);
+    }
 }

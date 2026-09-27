@@ -95,9 +95,9 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Slot16Prefab = UIManager.Instance.Get("Slot16Prefab");
         SetButtonPrefab = UIManager.Instance.Get("SetButtonPrefab");
         StarPrefab = UIManager.Instance.Get("StarPrefab");
-        EquipmentTabButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.EQUIPMENT_TAB_BUTTON_PREFAB);
-        EquipmentSetButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.EQUIPMENT_SET_BUTTON_PREFAB);
-        EquipmentDetailButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.EQUIPMENT_DETAIL_BUTTON_PREFAB);
+        EquipmentTabButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.EQUIPMENT_TAB_BUTTON_PREFAB);
+        EquipmentSetButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.EQUIPMENT_SET_BUTTON_PREFAB);
+        EquipmentDetailButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.EQUIPMENT_DETAIL_BUTTON_PREFAB);
     }
     public async Task CreateMainMenuEquipmentManagerAsync(object data)
     {

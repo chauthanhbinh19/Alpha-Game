@@ -101,6 +101,57 @@ public static class MessageConstants
     public const string FASHIONS_NOT_FOUND = "Notification.FashionsNotFound";
     public const string EMOJIS_NOT_FOUND = "Notification.EmojisNotFound";
     public const string OUTFITS_NOT_FOUND = "Notification.OutfitsNotFound";
+
+    public const string ACHIEVEMENTS_PURCHASED_SUCCESSFULLY = "Notification.AchievementsPurchasedSuccessfully";
+    public const string CARD_HEROES_PURCHASED_SUCCESSFULLY = "Notification.CardHeroesPurchasedSuccessfully";
+    public const string BOOKS_PURCHASED_SUCCESSFULLY = "Notification.BooksPurchasedSuccessfully";
+    public const string PETS_PURCHASED_SUCCESSFULLY = "Notification.PetsPurchasedSuccessfully";
+    public const string CARD_CAPTAINS_PURCHASED_SUCCESSFULLY = "Notification.CardCaptainsPurchasedSuccessfully";
+    public const string COLLABORATION_EQUIPMENTS_PURCHASED_SUCCESSFULLY = "Notification.CollaborationEquipmentsPurchasedSuccessfully";
+    public const string CARD_MILITARIES_PURCHASED_SUCCESSFULLY = "Notification.CardMilitariesPurchasedSuccessfully";
+    public const string CARD_SPELLS_PURCHASED_SUCCESSFULLY = "Notification.CardSpellsPurchasedSuccessfully";
+    public const string COLLABORATIONS_PURCHASED_SUCCESSFULLY = "Notification.CollaborationsPurchasedSuccessfully";
+    public const string CARD_MONSTERS_PURCHASED_SUCCESSFULLY = "Notification.CardMonstersPurchasedSuccessfully";
+    public const string EQUIPMENTS_PURCHASED_SUCCESSFULLY = "Notification.EquipmentsPurchasedSuccessfully";
+    public const string MEDALS_PURCHASED_SUCCESSFULLY = "Notification.MedalsPurchasedSuccessfully";
+    public const string SKILLS_PURCHASED_SUCCESSFULLY = "Notification.SkillsPurchasedSuccessfully";
+    public const string SYMBOLS_PURCHASED_SUCCESSFULLY = "Notification.SymbolsPurchasedSuccessfully";
+    public const string TITLES_PURCHASED_SUCCESSFULLY = "Notification.TitlesPurchasedSuccessfully";
+    public const string MAGIC_FORMATION_CIRCLES_PURCHASED_SUCCESSFULLY = "Notification.MagicFormationCirclesPurchasedSuccessfully";
+    public const string RELICS_PURCHASED_SUCCESSFULLY = "Notification.RelicsPurchasedSuccessfully";
+    public const string CARD_COLONELS_PURCHASED_SUCCESSFULLY = "Notification.CardColonelsPurchasedSuccessfully";
+    public const string CARD_GENERALS_PURCHASED_SUCCESSFULLY = "Notification.CardGeneralsPurchasedSuccessfully";
+    public const string CARD_ADMIRALS_PURCHASED_SUCCESSFULLY = "Notification.CardAdmiralsPurchasedSuccessfully";
+    public const string CARD_SOLDIERS_PURCHASED_SUCCESSFULLY = "Notification.CardSoldiersPurchasedSuccessfully";
+    public const string BORDERS_PURCHASED_SUCCESSFULLY = "Notification.BordersPurchasedSuccessfully";
+    public const string TALISMANS_PURCHASED_SUCCESSFULLY = "Notification.TalismansPurchasedSuccessfully";
+    public const string PUPPETS_PURCHASED_SUCCESSFULLY = "Notification.PuppetsPurchasedSuccessfully";
+    public const string ALCHEMIES_PURCHASED_SUCCESSFULLY = "Notification.AlchemiesPurchasedSuccessfully";
+    public const string FORGES_PURCHASED_SUCCESSFULLY = "Notification.ForgesPurchasedSuccessfully";
+    public const string CARD_LIVES_PURCHASED_SUCCESSFULLY = "Notification.CardLivesPurchasedSuccessfully";
+    public const string ARTWORKS_PURCHASED_SUCCESSFULLY = "Notification.ArtworksPurchasedSuccessfully";
+    public const string SPIRIT_BEASTS_PURCHASED_SUCCESSFULLY = "Notification.SpiritBeastsPurchasedSuccessfully";
+    public const string AVATARS_PURCHASED_SUCCESSFULLY = "Notification.AvatarsPurchasedSuccessfully";
+    public const string SPIRIT_CARDS_PURCHASED_SUCCESSFULLY = "Notification.SpiritCardsPurchasedSuccessfully";
+    public const string ARTIFACTS_PURCHASED_SUCCESSFULLY = "Notification.ArtifactsPurchasedSuccessfully";
+    public const string ARCHITECTURES_PURCHASED_SUCCESSFULLY = "Notification.ArchitecturesPurchasedSuccessfully";
+    public const string TECHNOLOGIES_PURCHASED_SUCCESSFULLY = "Notification.TechnologiesPurchasedSuccessfully";
+    public const string VEHICLES_PURCHASED_SUCCESSFULLY = "Notification.VehiclesPurchasedSuccessfully";
+    public const string CORES_PURCHASED_SUCCESSFULLY = "Notification.CoresPurchasedSuccessfully";
+    public const string WEAPONS_PURCHASED_SUCCESSFULLY = "Notification.WeaponsPurchasedSuccessfully";
+    public const string ROBOTS_PURCHASED_SUCCESSFULLY = "Notification.RobotsPurchasedSuccessfully";
+    public const string BADGES_PURCHASED_SUCCESSFULLY = "Notification.BadgesPurchasedSuccessfully";
+    public const string MECHA_BEASTS_PURCHASED_SUCCESSFULLY = "Notification.MechaBeastsPurchasedSuccessfully";
+    public const string RUNES_PURCHASED_SUCCESSFULLY = "Notification.RunesPurchasedSuccessfully";
+    public const string FURNITURES_PURCHASED_SUCCESSFULLY = "Notification.FurnituresPurchasedSuccessfully";
+    public const string FOODS_PURCHASED_SUCCESSFULLY = "Notification.FoodsPurchasedSuccessfully";
+    public const string BEVERAGES_PURCHASED_SUCCESSFULLY = "Notification.BeveragesPurchasedSuccessfully";
+    public const string BUILDINGS_PURCHASED_SUCCESSFULLY = "Notification.BuildingsPurchasedSuccessfully";
+    public const string PLANTS_PURCHASED_SUCCESSFULLY = "Notification.PlantsPurchasedSuccessfully";
+    public const string FASHIONS_PURCHASED_SUCCESSFULLY = "Notification.FashionsPurchasedSuccessfully";
+    public const string EMOJIS_PURCHASED_SUCCESSFULLY = "Notification.EmojisPurchasedSuccessfully";
+    public const string OUTFITS_PURCHASED_SUCCESSFULLY = "Notification.OutfitsPurchasedSuccessfully";
+
     public const string ERROR_UNSUPPORTED_DATA_TYPE = "Notification.ErrorUnsupportedDataType";
 
     #region Hệ Thống Thông Báo Nâng Cấp (Upgrade System Keys)

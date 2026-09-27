@@ -32,7 +32,7 @@ public class CardMonstersGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        CardMonsterBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.CARD_MONSTER_BLOCK_BUTTON_PREFAB);
+        CardMonsterBlockButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.CARD_MONSTER_BLOCK_BUTTON_PREFAB);
     }
     public void CreateCardMonstersGallery(List<CardMonsters> cardMonsters, Transform contentPanel)
     {

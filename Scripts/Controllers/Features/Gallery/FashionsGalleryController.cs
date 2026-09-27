@@ -33,7 +33,7 @@ public class FashionsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        FashionBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.FASHION_BLOCK_BUTTON_PREFAB);
+        FashionBlockButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.FASHION_BLOCK_BUTTON_PREFAB);
     }
     public void CreateFashionsGallery(List<Fashions> fashions, Transform contentPanel)
     {
