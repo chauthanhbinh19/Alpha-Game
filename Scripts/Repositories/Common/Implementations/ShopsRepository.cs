@@ -582,28 +582,35 @@ public class ShopsRepository : IShopsRepository
             sd.updated_at AS detail_updated_at,
             COALESCE(usp.purchase_count, 0) AS purchase_count
         FROM (
+            -- 1. Lấy Shop ID chính xác nhất thỏa mãn điều kiện
             SELECT shop_id, shop_name, shop_code_name, shop_type, reset_type, description
             FROM shops
-            WHERE is_deleted = FALSE AND is_active = TRUE
-              AND (@shopCodeName IS NULL OR shop_name LIKE CONCAT('%', @shopCodeName, '%'))
-              AND (@shopType IS NULL OR shop_type = @shopType)
+            WHERE is_deleted = FALSE 
+            AND is_active = TRUE
+            AND (@shopCodeName IS NULL OR shop_code_name = @shopCodeName OR shop_name LIKE CONCAT('%', @shopCodeName, '%'))
+            AND (@shopType IS NULL OR shop_type = @shopType)
             ORDER BY created_at DESC
             LIMIT 1
         ) s
-        LEFT JOIN shop_details sd 
+        -- 2. Lấy danh sách Vật phẩm (Đã lọc theo sequence và phân trang tại đây)
+        INNER JOIN shop_details sd 
             ON s.shop_id = sd.shop_id 
-            AND sd.object_type = @object_type
-            AND sd.sequence = @sequence
-            AND sd.is_deleted = FALSE 
-            AND sd.is_active = TRUE
+        AND sd.object_type = @object_type
+        AND sd.sequence = @sequence
+        AND sd.is_deleted = FALSE 
+        AND sd.is_active = TRUE
+        -- 3. JOIN bảng Lượt mua của User (Cần bổ sung reset_key nếu có logic Reset)
         LEFT JOIN user_shop_purchase usp 
             ON usp.user_id = @userId 
-            AND usp.shop_id = sd.shop_id 
-            AND usp.object_id = sd.object_id
+        AND usp.shop_id = sd.shop_id 
+        AND usp.object_id = sd.object_id
+        -- AND usp.reset_key = @currentResetKey -- Bỏ comment nếu có quản lý Reset Key
+        -- 4. JOIN thông tin hiển thị Vật phẩm & Tiền tệ
         LEFT JOIN {shopRequestDTO.ObjectTable} o 
             ON o.id = sd.object_id
         LEFT JOIN currencies c
             ON c.id = sd.currency_id
+        ORDER BY sd.created_at ASC
         LIMIT @limit OFFSET @offset;";
 
         await using var connection = new MySqlConnection(connectionString);
