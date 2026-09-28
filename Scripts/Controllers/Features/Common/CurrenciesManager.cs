@@ -10,6 +10,7 @@ public class CurrenciesManager : MonoBehaviour
 {
     public static CurrenciesManager Instance { get; private set; }
     public GameObject CurrencyPrefab;
+    public GameObject CurrencyTabButtonPrefab;
     public GameObject TicketPrefab;
     // Start is called before the first frame update
     private void Awake()
@@ -33,6 +34,7 @@ public class CurrenciesManager : MonoBehaviour
     {
         CurrencyPrefab = UIManager.Instance.Get("CurrencyPrefab");
         TicketPrefab = UIManager.Instance.Get("TicketPrefab");
+        CurrencyTabButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.CURRENCY_TAB_BUTTON_PREFAB);
     }
     public void CreateCurrency(List<Currencies> currencies, Transform CurrencyPanel)
     {
@@ -61,7 +63,7 @@ public class CurrenciesManager : MonoBehaviour
         ButtonEvent.Instance.Close(CurrencyPanel);
         foreach (var currency in currencies)
         {
-            GameObject currencyObject = Instantiate(CurrencyPrefab, CurrencyPanel);
+            GameObject currencyObject = Instantiate(CurrencyTabButtonPrefab, CurrencyPanel);
 
             TextMeshProUGUI titleText = currencyObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             titleText.text = currency.Quantity.ToString();

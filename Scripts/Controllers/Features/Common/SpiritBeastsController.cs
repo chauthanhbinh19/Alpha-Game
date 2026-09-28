@@ -22,12 +22,15 @@ public class SpiritBeastsController : MonoBehaviour
     private PaginationManager PaginationManager;
     private Transform contentTransform;
     private TextMeshProUGUI TotalText;
+    private GameObject SequenceTabButtonPrefab;
     private int Offset = 0;
     private int CurrentPage = 1;
     private int TotalItems;
     private const int PAGE_SIZE = 100;
     private bool IsSearchingOrFiltering = false;
     private string ShopCodeName = "";
+    private string CurrentShopId;
+    private int CurrentSequence = 0;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -56,6 +59,7 @@ public class SpiritBeastsController : MonoBehaviour
         QuantityPopupPrefab = UIManager.Instance.Get(PrefabConstants.Shop.QUANTITY_POPUP_PREFAB);
         ReceivedNotificationPanelPrefab = UIManager.Instance.Get(PrefabConstants.General.RECEIVED_NOTIFICATION_PANEL_PREFAB);
         ItemPopupPrefab = UIManager.Instance.Get(PrefabConstants.Component.ITEM_POPUP_PREFAB);
+        SequenceTabButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.SEQUENCE_TAB_BUTTON_PREFAB);
     }
     public void CreateSpiritBeastsGallery(List<SpiritBeasts> spiritBeasts, Transform contentPanel)
     {
@@ -108,7 +112,7 @@ public class SpiritBeastsController : MonoBehaviour
         Transform transform = gameObject.transform;
         contentTransform = transform.Find("Scroll View/Viewport/Content");
         leftTransform = transform.Find("Left Scroll View/Viewport/Content");
-        rightTransform = transform.Find("Left Scroll View/Viewport/Content");
+        rightTransform = transform.Find("Right Scroll View/Viewport/Content");
         TotalText = transform.Find("TitleGroup/TotalText").GetComponent<TextMeshProUGUI>();
         Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
@@ -127,7 +131,68 @@ public class SpiritBeastsController : MonoBehaviour
         PaginationManager = transform.Find("PaginationPanelPrefab").GetComponent<PaginationManager>();
         IsSearchingOrFiltering = true;
         ShopCodeName = shopCodeName;
-        await LoadCurrentPageAsync();
+                
+        CurrentShopId = await ShopsService.Create().GetShopIdByCodeNameAsync(shopCodeName);
+
+        List<int> sequences = await ShopsService.Create().GetDistinctSequencesAsync(CurrentShopId);
+        // Danh sách lưu trữ các UI Tab để quản lý toggle trạng thái Selected / Default
+        List<(GameObject defaultObj, GameObject selectedObj)> tabUIList = new List<(GameObject, GameObject)>();
+
+        for (int i = 0; i < sequences.Count; i++)
+        {
+            int sequence = sequences[i];
+
+            // Instantiate tab button và đặt parent vào Content của Tab Scroll View
+            GameObject topupTabButtonObject = Instantiate(SequenceTabButtonPrefab, leftTransform);
+
+            GameObject defaultObj = topupTabButtonObject.transform.Find("Default").gameObject;
+            GameObject selectedObj = topupTabButtonObject.transform.Find("Selected").gameObject;
+
+            TextMeshProUGUI titleText1 = defaultObj.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText2 = selectedObj.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+
+            titleText1.text = sequence.ToString();
+            titleText2.text = sequence.ToString();
+
+            // Trạng thái mặc định: Phần tử đầu tiên (i == 0) sẽ Active Selected, còn lại Active Default
+            bool isFirst = (i == 0);
+            defaultObj.SetActive(!isFirst);
+            selectedObj.SetActive(isFirst);
+
+            tabUIList.Add((defaultObj, selectedObj));
+
+            // Đăng ký sự kiện Click cho Tab Button
+            Button tabBtn = topupTabButtonObject.GetComponent<Button>();
+            tabBtn.onClick.AddListener(async () =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND_2);
+
+                // 1. Chuyển tất cả các Tab về dạng Default
+                foreach (var tabUI in tabUIList)
+                {
+                    tabUI.defaultObj.SetActive(true);
+                    tabUI.selectedObj.SetActive(false);
+                }
+
+                // 2. Bật dạng Selected cho Tab vừa được click
+                defaultObj.SetActive(false);
+                selectedObj.SetActive(true);
+
+                // KHI CHUYỂN TAB: Reset về trang 1 và gán lại Sequence
+                CurrentPage = 1;
+                Offset = 0;
+                IsSearchingOrFiltering = true; // Bật lại để khởi tạo lại thanh Pagination
+
+                // TODO: Gọi hàm load/filter danh sách gói nạp theo category này vào contentTransform
+                await LoadCurrentPageAsync(sequence);
+            });
+        }
+
+        // Load gói nạp của Tab đầu tiên nếu có danh mục
+        if (sequences.Count > 0)
+        {
+            await LoadCurrentPageAsync(sequences[0]);
+        }
     }
     public void CreateSpiritBeastsShopAsync(ShopDTO shopDTO)
     {
@@ -291,10 +356,16 @@ public class SpiritBeastsController : MonoBehaviour
             }
         }
     }
-    public async Task LoadCurrentPageAsync()
+    public async Task LoadCurrentPageAsync(int sequence = -1)
     {
         try
         {
+            // Nếu truyền sequence vào thì cập nhật, nếu không thì dùng sequence hiện tại
+            if (sequence != -1)
+            {
+                CurrentSequence = sequence;
+            }
+
             // 1. Kiểm tra Service khởi tạo an toàn
             var shopService = ShopsService.Create();
             if (shopService == null)
@@ -310,7 +381,8 @@ public class SpiritBeastsController : MonoBehaviour
                 ShopType = AppConstants.Shop.ShopType.GENERAL,
                 Limit = PAGE_SIZE,
                 Offset = Offset,
-                ObjectType = AppConstants.ObjectType.SPIRIT_BEASTS
+                ObjectType = AppConstants.ObjectType.SPIRIT_BEASTS,
+                Sequence = CurrentSequence
             };
 
             // 2. Lấy dữ liệu Shop
@@ -328,6 +400,9 @@ public class SpiritBeastsController : MonoBehaviour
 
             int listCount = shopDTO.ShopDetails?.Count ?? 0;
             TotalText.text = listCount.ToString();
+
+            // Load danh sách Tiền Tệ vào rightTransform
+            _ = LoadCurrenciesAsync(shopDTO);
 
             // 4. Lấy tổng số bản ghi
             int totalRecord = await shopService.GetShopItemCountAsync(shopRequestDTO);
@@ -383,7 +458,7 @@ public class SpiritBeastsController : MonoBehaviour
         CurrentPage = pageNumber;
         Offset = (CurrentPage - 1) * PAGE_SIZE;
         IsSearchingOrFiltering = false;
-        _ = LoadCurrentPageAsync();
+        _ = LoadCurrentPageAsync(CurrentSequence);
     }
     private void OnDestroy()
     {

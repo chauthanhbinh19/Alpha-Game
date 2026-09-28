@@ -60,6 +60,8 @@ public static class PrefabConstants
         public const string MAIL_TAB_BUTTON_PREFAB = "MailTabButtonPrefab";
         public const string MAIL_BUTTON_PREFAB = "MailButtonPrefab";
         public const string LEADERBOARD_BUTTON_PREFAB = "LeaderboardButtonPrefab";
+        public const string CURRENCY_TAB_BUTTON_PREFAB = "CurrencyTabButtonPrefab";
+        public const string SEQUENCE_TAB_BUTTON_PREFAB = "SequenceTabButtonPrefab";
 
         public const string ACHIEVEMENT_BUTTON_PREFAB = "AchievementButtonPrefab";
         public const string ACHIEVEMENT_BLOCK_BUTTON_PREFAB = "AchievementBlockButtonPrefab";

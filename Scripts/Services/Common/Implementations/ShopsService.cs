@@ -66,6 +66,64 @@ public class ShopsService : IShopsService
 
     public static IShopsService Create() => ServiceContainer.GetService<IShopsService>();
 
+    public async Task<string> GetShopIdByCodeNameAsync(string shopCodeName)
+    {
+        return await _shopsRepository.GetShopIdByCodeNameAsync(shopCodeName);
+    }
+
+    public async Task<List<int>> GetDistinctSequencesAsync(string shopId)
+    {
+        return await _shopsRepository.GetDistinctSequencesAsync(shopId);
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> InsertShopAsync(Shops shop)
+    {
+        var insertOrUpdateResult = await _shopsRepository.InsertShopAsync(shop);
+
+        if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = true,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateShopDetailsBatchAsync(Shops shop)
+    {
+        var insertOrUpdateResult = await _shopsRepository.InsertOrUpdateShopDetailsBatchAsync(shop);
+
+        if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = true,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
+    }
+
     public async Task<List<string>> GetShopCodeNamesAsync(string shopType = null)
     {
         return await _shopsRepository.GetShopCodeNamesAsync(shopType);

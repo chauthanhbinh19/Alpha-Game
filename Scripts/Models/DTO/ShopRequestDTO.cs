@@ -8,4 +8,5 @@ public class ShopRequestDTO
     public int Offset { get; set; }
     public string ObjectType { get; set; }
     public string ObjectTable { get; set; }
+    public int Sequence { get; set; }
 }
