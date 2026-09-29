@@ -259,16 +259,16 @@ public class CardMonstersController : MonoBehaviour
 
             // UI Styling (Materials, Colors, Outlines)
             RawImage topImage = itemTransform.Find("TopImage")?.GetComponent<RawImage>();
-            if (topImage != null) topImage.material = MaterialManager.Instance.Get("UI_Red_Gradient_Radius_Mat_MaskPercent_90");
+            if (topImage != null) topImage.material = MaterialManager.Instance.Get("UI_Pink_Gradient_Radius_Mat_MaskPercent_90");
 
             RawImage circleImage = itemTransform.Find("BackgroundContent/CircleImage")?.GetComponent<RawImage>();
-            if (circleImage != null) circleImage.color = ColorHelper.HexToColor(ColorConstants.RED_COLOR);
+            if (circleImage != null) circleImage.color = ColorHelper.HexToColor(ColorConstants.PINK_COLOR);
 
             Outline bottomOutline = itemTransform.Find("BottomImage")?.GetComponent<Outline>();
-            if (bottomOutline != null) bottomOutline.effectColor = ColorHelper.HexToColor(ColorConstants.RED_COLOR);
+            if (bottomOutline != null) bottomOutline.effectColor = ColorHelper.HexToColor(ColorConstants.PINK_COLOR);
 
             Outline middleOutline = itemTransform.Find("MiddleImage")?.GetComponent<Outline>();
-            if (middleOutline != null) middleOutline.effectColor = ColorHelper.HexToColor(ColorConstants.RED_COLOR);
+            if (middleOutline != null) middleOutline.effectColor = ColorHelper.HexToColor(ColorConstants.PINK_COLOR);
 
             // Currency Image & Text
             RawImage currencyImage = itemTransform.Find("CurrencyImage")?.GetComponent<RawImage>();
