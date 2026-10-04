@@ -172,7 +172,7 @@ public class UserService : IUserService
                 {
                     Success = false,
                     ErrorField = AppConstants.MainType.USERNAME,
-                    ErrorMessage = MessageConstants.USERNAME_DOES_NOT_EXIST,
+                    ErrorMessage = MessageConstants.USERNAME_NOT_EXIST,
                     User = null
                 };
             }
@@ -265,7 +265,7 @@ public class UserService : IUserService
                 {
                     Success = false,
                     ErrorField = AppConstants.MainType.USERNAME,
-                    ErrorMessage = MessageConstants.USERNAME_DOES_NOT_EXIST,
+                    ErrorMessage = MessageConstants.USERNAME_NOT_EXIST,
                     User = null
                 };
             }

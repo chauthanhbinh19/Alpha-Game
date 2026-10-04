@@ -2,8 +2,6 @@ using UnityEngine;
 
 public static class MessageConstants
 {
-
-    public const string USERNAME_DOES_NOT_EXIST = "Username does not exist.";
     public const string INCORRECT_PASSWORD = "Incorrect password.";
     public const string RECIPE_NOT_FOUND = "Recipe not found for this level.";
     public const string UPGRADE_SUCCESS_ONE = "Successfully upgraded 1 level.";
