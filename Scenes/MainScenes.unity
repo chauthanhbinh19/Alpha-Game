@@ -10253,6 +10253,9 @@ GameObject:
   - component: {fileID: 1202578487}
   - component: {fileID: 1202578489}
   - component: {fileID: 1202578490}
+  - component: {fileID: 1202578493}
+  - component: {fileID: 1202578492}
+  - component: {fileID: 1202578491}
   m_Layer: 5
   m_Name: Script
   m_TagString: Untagged
@@ -10710,6 +10713,42 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f57480222e0cc647abe793d90c3d3e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1202578491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202578453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f55b5750f0af37040b66f4bfbcff0082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1202578492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202578453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c04efdad161e23498b71fc33440fef1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1202578493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202578453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 095b5cd4938957a4aa47dfcc615aae15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1205977549
@@ -21932,6 +21971,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrencyPrefab: {fileID: 0}
+  CurrencyTabButtonPrefab: {fileID: 0}
   TicketPrefab: {fileID: 0}
 --- !u!1 &2036486865
 GameObject:

@@ -122,7 +122,10 @@ public class MainMenuManager : MonoBehaviour
 
         Button guildButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/SocialContent/GuildButton").GetComponent<Button>();
 
-        Button shopButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/ShopButton").GetComponent<Button>();
+        Button generalShopButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/ShopButton").GetComponent<Button>();
+        Button campaignShopButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/CampaignShopButton").GetComponent<Button>();
+        Button alliteriaDarkWorldShopButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/AlliteriaDarkWorldShopButton").GetComponent<Button>();
+        Button alliteriaLightWorldShopButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/AlliteriaLightWorldShopButton").GetComponent<Button>();
         Button shopPackageButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/ShopPackageButton").GetComponent<Button>();
 
 
@@ -184,12 +187,36 @@ public class MainMenuManager : MonoBehaviour
             SummonManager.Instance.GetButtonEvent(popupButtonPanel);
         });
 
-        shopButton.onClick.AddListener(async () =>
+        generalShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
             // await ShopManager.Instance.CreateShopButtonAsync(MainPanel);
             await ShopManager.Instance.CreateShopPanelAsync();
+        });
+
+        campaignButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+            // await ShopManager.Instance.CreateShopButtonAsync(MainPanel);
+            await ShopManager.Instance.CreateAlliteriaCampaignWorldShopPanelAsync();
+        });
+
+        alliteriaDarkWorldShopButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+            // await ShopManager.Instance.CreateShopButtonAsync(MainPanel);
+            await ShopManager.Instance.CreateAlliteriaDarkWorldShopPanelAsync();
+        });
+
+        alliteriaLightWorldShopButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+            // await ShopManager.Instance.CreateShopButtonAsync(MainPanel);
+            await ShopManager.Instance.CreateAlliteriaLightWorldShopPanelAsync();
         });
 
         shopPackageButton.onClick.AddListener(async () =>
@@ -416,6 +443,7 @@ public class MainMenuManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
             await PatternController.Instance.CreatePatternPanel();
         });
+        
         leaderboardButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

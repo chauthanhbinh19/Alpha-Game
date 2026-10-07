@@ -1484,6 +1484,8 @@ public static class AppConstants
         public const string FASHIONS = "FASHIONS";
         public const string EMOJIS = "EMOJIS";
         public const string OUTFITS = "OUTFITS";
+
+        public const string ITEMS = "ITEMS";
     }
     public static class Shop
     {
@@ -1538,6 +1540,49 @@ public static class AppConstants
             public const string EMOJIS_SHOP = "emojis_shop";
             public const string OUTFITS_SHOP = "outfits_shop";
             public const string ACHIEVEMENTS_SHOP = "achievements_shop";
+
+            public const string ALLITERIA_CAMPAIGN_WORLD_A_SHOP = "alliteria_campaign_world_a_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_B_SHOP = "alliteria_campaign_world_b_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_C_SHOP = "alliteria_campaign_world_c_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_D_SHOP = "alliteria_campaign_world_d_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_E_SHOP = "alliteria_campaign_world_e_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_F_SHOP = "alliteria_campaign_world_f_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_G_SHOP = "alliteria_campaign_world_g_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_H_SHOP = "alliteria_campaign_world_h_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_I_SHOP = "alliteria_campaign_world_i_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_J_SHOP = "alliteria_campaign_world_j_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_K_SHOP = "alliteria_campaign_world_k_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_L_SHOP = "alliteria_campaign_world_l_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_M_SHOP = "alliteria_campaign_world_m_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_N_SHOP = "alliteria_campaign_world_n_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_O_SHOP = "alliteria_campaign_world_o_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_P_SHOP = "alliteria_campaign_world_p_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_Q_SHOP = "alliteria_campaign_world_q_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_R_SHOP = "alliteria_campaign_world_r_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_S_SHOP = "alliteria_campaign_world_s_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_T_SHOP = "alliteria_campaign_world_t_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_U_SHOP = "alliteria_campaign_world_u_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_V_SHOP = "alliteria_campaign_world_v_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_W_SHOP = "alliteria_campaign_world_w_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_X_SHOP = "alliteria_campaign_world_x_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_Y_SHOP = "alliteria_campaign_world_y_shop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_Z_SHOP = "alliteria_campaign_world_z_shop";
+
+            public const string ALLITERIA_DARK_WORLD_BRONZE_MYTHIC_SHOP = "alliteria_dark_world_bronze_mythic_shop";
+            public const string ALLITERIA_DARK_WORLD_SILVER_MYTHIC_SHOP = "alliteria_dark_world_silver_mythic_shop";
+            public const string ALLITERIA_DARK_WORLD_EMERALD_MYTHIC_SHOP = "alliteria_dark_world_emerald_mythic_shop";
+            public const string ALLITERIA_DARK_WORLD_AMETHYST_MYTHIC_SHOP = "alliteria_dark_world_amethyst_mythic_shop";
+            public const string ALLITERIA_DARK_WORLD_GOLD_MYTHIC_SHOP = "alliteria_dark_world_gold_mythic_shop";
+            public const string ALLITERIA_DARK_WORLD_DIAMOND_MYTHIC_SHOP = "alliteria_dark_world_diamond_mythic_shop";
+            public const string ALLITERIA_DARK_WORLD_SOLAR_MYTHIC_SHOP = "alliteria_dark_world_solar_mythic_shop";
+
+            public const string ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_SHOP = "alliteria_light_world_bronze_mythic_shop";
+            public const string ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_SHOP = "alliteria_light_world_silver_mythic_shop";
+            public const string ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_SHOP = "alliteria_light_world_emerald_mythic_shop";
+            public const string ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_SHOP = "alliteria_light_world_amethyst_mythic_shop";
+            public const string ALLITERIA_LIGHT_WORLD_GOLD_MYTHIC_SHOP = "alliteria_light_world_gold_mythic_shop";
+            public const string ALLITERIA_LIGHT_WORLD_DIAMOND_MYTHIC_SHOP = "alliteria_light_world_diamond_mythic_shop";
+            public const string ALLITERIA_LIGHT_WORLD_SOLAR_MYTHIC_SHOP = "alliteria_light_world_solar_mythic_shop";
         }
         public static class ShopType
         {
@@ -2153,6 +2198,9 @@ public static class AppConstants
         public const string ARCHIVE_XXXIV = "Archive XXXIV";
         public const string ARCHIVE_XXXV = "Archive XXXV";
         public const string ARCHIVE_XXXVI = "Archive XXXVI";
+        public const string ARCHIVE_XXXVII = "Archive XXXVII";
+        public const string ARCHIVE_XXXVIII = "Archive XXXVIII";
+        public const string ARCHIVE_XXXIX = "Archive XXXIX";
     }
     public static class Universe
     {
@@ -2619,5 +2667,5 @@ public static class AppConstants
         public const string NOTIFICATION_PANEL = "NotificationPanel";
         public const string POPUP_PANEL = "PopupPanel";
         public const string LOADING_PANEL = "LoadingPanel";
-    } 
+    }
 }

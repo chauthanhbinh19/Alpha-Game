@@ -329,7 +329,7 @@ public static class AppDisplayConstants
         public const string SUMMON_BOOK = "Title.SummonBook";
         public const string SUMMON_CARD_CAPTAIN = "Title.SummonCardCaptain";
         public const string SUMMON_CARD_MONSTER = "Title.SummonCardMonster";
-        public const string SUMMON_CARD_MILITARY= "Title.SummonCardMilitary";
+        public const string SUMMON_CARD_MILITARY = "Title.SummonCardMilitary";
         public const string SUMMON_CARD_SPELL = "Title.SummonCardSpell";
         public const string SUMMON_CARD_COLONEL = "Title.SummonCardColonel";
         public const string SUMMON_CARD_GENERAL = "Title.SummonCardGeneral";
@@ -406,6 +406,107 @@ public static class AppDisplayConstants
         public const string HIDC_FULLNAME = "Title.HIDC_FULLNAME";
         public const string HICB_FULLNAME = "Title.HICB_FULLNAME";
         public const string HISN_FULLNAME = "Title.HISN_FULLNAME";
+        public static class Inventory
+        {
+
+        }
+
+        public static class Shop
+        {
+            public const string ACHIEVEMENTS_SHOP = "Title.AchievementsShop";
+            public const string CARD_HEROES_SHOP = "Title.CardHeroesShop";
+            public const string ALCHEMIES_SHOP = "Title.AlchemiesShop";
+            public const string AVATARS_SHOP = "Title.AvatarsShop";
+            public const string BORDERS_SHOP = "Title.BordersShop";
+            public const string BOOKS_SHOP = "Title.BooksShop";
+            public const string CARD_ADMIRALS_SHOP = "Title.CardAdmiralsShop";
+            public const string CARD_CAPTAINS_SHOP = "Title.CardCaptainsShop";
+            public const string CARD_COLONELS_SHOP = "Title.CardColonelsShop";
+            public const string CARD_GENERALS_SHOP = "Title.CardGeneralsShop";
+            public const string CARD_LIVES_SHOP = "Title.CardLivesShop";
+            public const string CARD_MILITARIES_SHOP = "Title.CardMilitariesShop";
+            public const string CARD_MONSTERS_SHOP = "Title.CardMonstersShop";
+            public const string CARD_SPELLS_SHOP = "Title.CardSpellsShop";
+            public const string CARD_SOLDIERS_SHOP = "Title.CardSoldiersShop";
+            public const string COLLABORATION_EQUIPMENTS_SHOP = "Title.CollaborationEquipmentsShop";
+            public const string COLLABORATIONS_SHOP = "Title.CollaborationsShop";
+            public const string EQUIPMENTS_SHOP = "Title.EquipmentsShop";
+            public const string FORGES_SHOP = "Title.ForgesShop";
+            public const string MAGIC_FORMATION_CIRCLES_SHOP = "Title.MagicFormationCirclesShop";
+            public const string MEDALS_SHOP = "Title.MedalsShop";
+            public const string PETS_SHOP = "Title.PetsShop";
+            public const string PUPPETS_SHOP = "Title.PuppetsShop";
+            public const string RELICS_SHOP = "Title.RelicsShop";
+            public const string SKILLS_SHOP = "Title.SkillsShop";
+            public const string SYMBOLS_SHOP = "Title.SymbolsShop";
+            public const string TALISMANS_SHOP = "Title.TalismansShop";
+            public const string TITLES_SHOP = "Title.TitlesShop";
+            public const string ITEMS_SHOP = "itemsShop";
+            public const string ARTWORKS_SHOP = "Title.ArtworksShop";
+            public const string SPIRIT_BEASTS_SHOP = "Title.SpiritBeastsShop";
+            public const string SPIRIT_CARDS_SHOP = "Title.SpiritCardsShop";
+            public const string ARCHITECTURES_SHOP = "Title.ArchitecturesShop";
+            public const string TECHNOLOGIES_SHOP = "Title.TechnologiesShop";
+            public const string VEHICLES_SHOP = "Title.VehiclesShop";
+            public const string ARTIFACTS_SHOP = "Title.ArtifactsShop";
+            public const string CORES_SHOP = "Title.CoresShop";
+            public const string WEAPONS_SHOP = "Title.WeaponsShop";
+            public const string ROBOTS_SHOP = "Title.RobotsShop";
+            public const string BADGES_SHOP = "Title.BadgesShop";
+            public const string MECHA_BEASTS_SHOP = "Title.MechaBeastsShop";
+            public const string RUNES_SHOP = "Title.RunesShop";
+            public const string FURNITURES_SHOP = "Title.FurnituresShop";
+            public const string FOODS_SHOP = "Title.FoodsShop";
+            public const string BEVERAGES_SHOP = "Title.BeveragesShop";
+            public const string BUILDINGS_SHOP = "Title.BuildingsShop";
+            public const string PLANTS_SHOP = "Title.PlantsShop";
+            public const string FASHIONS_SHOP = "Title.FashionsShop";
+            public const string EMOJIS_SHOP = "Title.EmojisShop";
+            public const string OUTFITS_SHOP = "Title.OutfitsShop";
+
+            public const string ALLITERIA_CAMPAIGN_WORLD_A_SHOP = "Title.AlliteriaCampaignWorldAShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_B_SHOP = "Title.AlliteriaCampaignWorldBShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_C_SHOP = "Title.AlliteriaCampaignWorldCShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_D_SHOP = "Title.AlliteriaCampaignWorldDShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_E_SHOP = "Title.AlliteriaCampaignWorldEShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_F_SHOP = "Title.AlliteriaCampaignWorldFShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_G_SHOP = "Title.AlliteriaCampaignWorldGShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_H_SHOP = "Title.AlliteriaCampaignWorldHShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_I_SHOP = "Title.AlliteriaCampaignWorldIShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_J_SHOP = "Title.AlliteriaCampaignWorldJShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_K_SHOP = "Title.AlliteriaCampaignWorldKShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_L_SHOP = "Title.AlliteriaCampaignWorldLShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_M_SHOP = "Title.AlliteriaCampaignWorldMShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_N_SHOP = "Title.AlliteriaCampaignWorldNShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_O_SHOP = "Title.AlliteriaCampaignWorldOShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_P_SHOP = "Title.AlliteriaCampaignWorldPShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_Q_SHOP = "Title.AlliteriaCampaignWorldQShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_R_SHOP = "Title.AlliteriaCampaignWorldRShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_S_SHOP = "Title.AlliteriaCampaignWorldSShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_T_SHOP = "Title.AlliteriaCampaignWorldTShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_U_SHOP = "Title.AlliteriaCampaignWorldUShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_V_SHOP = "Title.AlliteriaCampaignWorldVShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_W_SHOP = "Title.AlliteriaCampaignWorldWShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_X_SHOP = "Title.AlliteriaCampaignWorldXShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_Y_SHOP = "Title.AlliteriaCampaignWorldYShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_Z_SHOP = "Title.AlliteriaCampaignWorldZShop";
+
+            public const string ALLITERIA_DARK_WORLD_BRONZE_MYTHIC_SHOP = "Title.AlliteriaDarkWorldBronzeMythicShop";
+            public const string ALLITERIA_DARK_WORLD_SILVER_MYTHIC_SHOP = "Title.AlliteriaDarkWorldSilverMythicShop";
+            public const string ALLITERIA_DARK_WORLD_EMERALD_MYTHIC_SHOP = "Title.AlliteriaDarkWorldEmeraldMythicShop";
+            public const string ALLITERIA_DARK_WORLD_AMETHYST_MYTHIC_SHOP = "Title.AlliteriaDarkWorldAmethystMythicShop";
+            public const string ALLITERIA_DARK_WORLD_GOLD_MYTHIC_SHOP = "Title.AlliteriaDarkWorldGoldMythicShop";
+            public const string ALLITERIA_DARK_WORLD_DIAMOND_MYTHIC_SHOP = "Title.AlliteriaDarkWorldDiamondMythicShop";
+            public const string ALLITERIA_DARK_WORLD_SOLAR_MYTHIC_SHOP = "Title.AlliteriaDarkWorldSolarMythicShop";
+
+            public const string ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_SHOP = "Title.AlliteriaLightWorldBronzeMythicShop";
+            public const string ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_SHOP = "Title.AlliteriaLightWorldSilverMythicShop";
+            public const string ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_SHOP = "Title.AlliteriaLightWorldEmeraldMythicShop";
+            public const string ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_SHOP = "Title.AlliteriaLightWorldAmethystMythicShop";
+            public const string ALLITERIA_LIGHT_WORLD_GOLD_MYTHIC_SHOP = "Title.AlliteriaLightWorldGoldMythicShop";
+            public const string ALLITERIA_LIGHT_WORLD_DIAMOND_MYTHIC_SHOP = "Title.AlliteriaLightWorldDiamondMythicShop";
+            public const string ALLITERIA_LIGHT_WORLD_SOLAR_MYTHIC_SHOP = "Title.AlliteriaLightWorldSolarMythicShop";
+        }
     }
     public static class Gallery
     {
@@ -699,7 +800,7 @@ public static class AppDisplayConstants
         public const string SECURITY = "Research.Security";
         public const string SURVEILLANCE = "Research.Surveillance";
         public const string ANALYTICS = "Research.Analytics";
-        public const string CONTROL = "Research.Control";    
+        public const string CONTROL = "Research.Control";
 
         public const string AUTOMATION = "Research.Automation";
         public const string BIOLOGY = "Research.Biology";
@@ -761,6 +862,9 @@ public static class AppDisplayConstants
         public const string ARCHIVE_XXXIV = "Archive.ArchiveXXXIV";
         public const string ARCHIVE_XXXV = "Archive.ArchiveXXXV";
         public const string ARCHIVE_XXXVI = "Archive.ArchiveXXXVI";
+        public const string ARCHIVE_XXXVII = "Archive.ArchiveXXXVII";
+        public const string ARCHIVE_XXXVIII = "Archive.ArchiveXXXVIII";
+        public const string ARCHIVE_XXXIX = "Archive.ArchiveXXXIX";
     }
     public static class Universe
     {

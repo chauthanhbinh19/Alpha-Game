@@ -89,6 +89,9 @@ public class ArchiveManager : MonoBehaviour
         CreateArchiveButtonUI(34, AppDisplayConstants.Archive.ARCHIVE_XXXIV, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXXIV_URL), contentPanel);
         CreateArchiveButtonUI(35, AppDisplayConstants.Archive.ARCHIVE_XXXV, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXXV_URL), contentPanel);
         CreateArchiveButtonUI(36, AppDisplayConstants.Archive.ARCHIVE_XXXVI, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXXVI_URL), contentPanel);
+        CreateArchiveButtonUI(37, AppDisplayConstants.Archive.ARCHIVE_XXXVII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXXVII_URL), contentPanel);
+        CreateArchiveButtonUI(38, AppDisplayConstants.Archive.ARCHIVE_XXXVIII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXXVIII_URL), contentPanel);
+        CreateArchiveButtonUI(39, AppDisplayConstants.Archive.ARCHIVE_XXXIX, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXXIX_URL), contentPanel);
 
         CreateArchiveButtonEvent(contentPanel);
     }
@@ -160,5 +163,8 @@ public class ArchiveManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_34", panel, async () => await ArchiveXXXIVManager.Instance.CreateArchiveXXXIVManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_35", panel, async () => await ArchiveXXXVManager.Instance.CreateArchiveXXXVManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_36", panel, async () => await ArchiveXXXVIManager.Instance.CreateArchiveXXXVIManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_37", panel, async () => await ArchiveXXXVIIManager.Instance.CreateArchiveXXXVIIManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_38", panel, async () => await ArchiveXXXVIIIManager.Instance.CreateArchiveXXXVIIIManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_39", panel, async () => await ArchiveXXXIXManager.Instance.CreateArchiveXXXIXManagerAsync());
     }
 }

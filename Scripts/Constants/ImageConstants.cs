@@ -106,6 +106,51 @@ public static class ImageConstants
         public const string PADLOCK_URL = "UI/Icon/padlock";
         public const string PADLOCK_UNLOCK_URL = "UI/Icon/padlock-unlock";
     }
+    public static class World
+    {
+        public const string ALLITERIA_CAMPAIGN_WORLD_A_URL = "UI/Sign/Alphabet/A";
+        public const string ALLITERIA_CAMPAIGN_WORLD_B_URL = "UI/Sign/Alphabet/B";
+        public const string ALLITERIA_CAMPAIGN_WORLD_C_URL = "UI/Sign/Alphabet/C";
+        public const string ALLITERIA_CAMPAIGN_WORLD_D_URL = "UI/Sign/Alphabet/D";
+        public const string ALLITERIA_CAMPAIGN_WORLD_E_URL = "UI/Sign/Alphabet/E";
+        public const string ALLITERIA_CAMPAIGN_WORLD_F_URL = "UI/Sign/Alphabet/F";
+        public const string ALLITERIA_CAMPAIGN_WORLD_G_URL = "UI/Sign/Alphabet/G";
+        public const string ALLITERIA_CAMPAIGN_WORLD_H_URL = "UI/Sign/Alphabet/H";
+        public const string ALLITERIA_CAMPAIGN_WORLD_I_URL = "UI/Sign/Alphabet/I";
+        public const string ALLITERIA_CAMPAIGN_WORLD_J_URL = "UI/Sign/Alphabet/J";
+        public const string ALLITERIA_CAMPAIGN_WORLD_K_URL = "UI/Sign/Alphabet/K";
+        public const string ALLITERIA_CAMPAIGN_WORLD_L_URL = "UI/Sign/Alphabet/L";
+        public const string ALLITERIA_CAMPAIGN_WORLD_M_URL = "UI/Sign/Alphabet/M";
+        public const string ALLITERIA_CAMPAIGN_WORLD_N_URL = "UI/Sign/Alphabet/N";
+        public const string ALLITERIA_CAMPAIGN_WORLD_O_URL = "UI/Sign/Alphabet/O";
+        public const string ALLITERIA_CAMPAIGN_WORLD_P_URL = "UI/Sign/Alphabet/P";
+        public const string ALLITERIA_CAMPAIGN_WORLD_Q_URL = "UI/Sign/Alphabet/Q";
+        public const string ALLITERIA_CAMPAIGN_WORLD_R_URL = "UI/Sign/Alphabet/R";
+        public const string ALLITERIA_CAMPAIGN_WORLD_S_URL = "UI/Sign/Alphabet/S";
+        public const string ALLITERIA_CAMPAIGN_WORLD_T_URL = "UI/Sign/Alphabet/T";
+        public const string ALLITERIA_CAMPAIGN_WORLD_U_URL = "UI/Sign/Alphabet/U";
+        public const string ALLITERIA_CAMPAIGN_WORLD_V_URL = "UI/Sign/Alphabet/V";
+        public const string ALLITERIA_CAMPAIGN_WORLD_W_URL = "UI/Sign/Alphabet/W";
+        public const string ALLITERIA_CAMPAIGN_WORLD_X_URL = "UI/Sign/Alphabet/X";
+        public const string ALLITERIA_CAMPAIGN_WORLD_Y_URL = "UI/Sign/Alphabet/Y";
+        public const string ALLITERIA_CAMPAIGN_WORLD_Z_URL = "UI/Sign/Alphabet/Z";
+
+        public const string ALLITERIA_DARK_WORLD_BRONZE_MYTHIC_URL = "UI/Button/Main/Alliteria_Dark_World_Bronze";
+        public const string ALLITERIA_DARK_WORLD_SILVER_MYTHIC_URL = "UI/Button/Main/Alliteria_Dark_World_Silver";
+        public const string ALLITERIA_DARK_WORLD_EMERALD_MYTHIC_URL = "UI/Button/Main/Alliteria_Dark_World_Emerald";
+        public const string ALLITERIA_DARK_WORLD_AMETHYST_MYTHIC_URL = "UI/Button/Main/Alliteria_Dark_World_Amethyst";
+        public const string ALLITERIA_DARK_WORLD_GOLD_MYTHIC_URL = "UI/Button/Main/Alliteria_Dark_World_Gold";
+        public const string ALLITERIA_DARK_WORLD_DIAMOND_MYTHIC_URL = "UI/Button/Main/Alliteria_Dark_World_Diamond";
+        public const string ALLITERIA_DARK_WORLD_SOLAR_MYTHIC_URL = "UI/Button/Main/Alliteria_Dark_World_Solar";
+
+        public const string ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL = "UI/Button/Main/Alliteria_Light_World_Bronze";
+        public const string ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL = "UI/Button/Main/Alliteria_Light_World_Silver";
+        public const string ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL = "UI/Button/Main/Alliteria_Light_World_Emerald";
+        public const string ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL = "UI/Button/Main/Alliteria_Light_World_Amethyst";
+        public const string ALLITERIA_LIGHT_WORLD_GOLD_MYTHIC_URL = "UI/Button/Main/Alliteria_Light_World_Gold";
+        public const string ALLITERIA_LIGHT_WORLD_DIAMOND_MYTHIC_URL = "UI/Button/Main/Alliteria_Light_World_Diamond";
+        public const string ALLITERIA_LIGHT_WORLD_SOLAR_MYTHIC_URL = "UI/Button/Main/Alliteria_Light_World_Solar";
+    }
     public static class Feature
     {
         public const string BASE_URL = "UI/Background1/Base_Background";
@@ -746,6 +791,9 @@ public static class ImageConstants
         public const string ARCHIVE_XXXIV_URL = "UI/Rank_Research/Archive XXXIV";
         public const string ARCHIVE_XXXV_URL = "UI/Rank_Research/Archive XXXV";
         public const string ARCHIVE_XXXVI_URL = "UI/Rank_Research/Archive XXXVI";
+        public const string ARCHIVE_XXXVII_URL = "UI/Rank_Research/Archive XXXVII";
+        public const string ARCHIVE_XXXVIII_URL = "UI/Rank_Research/Archive XXXVIII";
+        public const string ARCHIVE_XXXIX_URL = "UI/Rank_Research/Archive XXXIX";
 
         public const string ARCHIVE_I_BACKGROUND_URL = "UI/Background1/Background_V1_283";
         public const string ARCHIVE_II_BACKGROUND_URL = "UI/Background1/Background_V1_284";
@@ -783,6 +831,9 @@ public static class ImageConstants
         public const string ARCHIVE_XXXIV_BACKGROUND_URL = "UI/Background1/Background_V1_316";
         public const string ARCHIVE_XXXV_BACKGROUND_URL = "UI/Background1/Background_V1_317";
         public const string ARCHIVE_XXXVI_BACKGROUND_URL = "UI/Background1/Background_V1_318";
+        public const string ARCHIVE_XXXVII_BACKGROUND_URL = "UI/Background1/Background_V1_318";
+        public const string ARCHIVE_XXXVIII_BACKGROUND_URL = "UI/Background1/Background_V1_318";
+        public const string ARCHIVE_XXXIX_BACKGROUND_URL = "UI/Background1/Background_V1_318";
     }
     public static class Universe
     {
