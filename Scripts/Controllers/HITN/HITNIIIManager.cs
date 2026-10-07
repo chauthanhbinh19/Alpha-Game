@@ -62,11 +62,11 @@ public class HITNIIIManager : MonoBehaviour
             Destroy(currentObject);
         });
         Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
-        homeButton.onClick.AddListener( () =>
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            
+
         });
         Dictionary<string, FeatureHITNDTO> uniqueTypes = new Dictionary<string, FeatureHITNDTO>();
         uniqueTypes = await FeaturesService.Create().GetHITNFeaturesByTypeAsync(AppConstants.HITN.HITN_III);
@@ -82,7 +82,7 @@ public class HITNIIIManager : MonoBehaviour
         SetupPagination(currentObject);
         RenderPage();
     }
-    
+
     private void RenderPage()
     {
         // 1. Dọn dẹp các Prefab UI cũ ở trang trước
@@ -215,15 +215,15 @@ public class HITNIIIManager : MonoBehaviour
             Destroy(currentObject);
         });
         Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
-        homeButton.onClick.AddListener( () =>
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            
+
         });
         RawImage mapImage = transform.Find("MapImage").GetComponent<RawImage>();
         Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_13");
-        mapImage.texture = mapTexture; 
+        mapImage.texture = mapTexture;
         RawImage rankImage = transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
         Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.HITN.HITN_III}");
         rankImage.texture = rankTexture;
@@ -505,6 +505,11 @@ public class HITNIIIManager : MonoBehaviour
                 }
 
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.LEVEL_UP_SOUND);
+                confirmButton.interactable = false;
+                closeButton.interactable = false;
+
+                confirmButton.interactable = false;
+                closeButton.interactable = false;
 
                 int requested = (int)quantitySlider.value;
                 var result = await UpgradeFunctionHelper.UpgradeLevelAsync(
@@ -540,6 +545,9 @@ public class HITNIIIManager : MonoBehaviour
                 else
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.ALERT_SOUND);
+                    confirmButton.interactable = true;
+                    closeButton.interactable = true;
+
                     notificationText.text = result.Message;
                 }
             });
@@ -557,8 +565,8 @@ public class HITNIIIManager : MonoBehaviour
             CreatePopupUpgradePanelAsync();
         });
     }
-    
-    private void SetupHITNItemUI(GameObject itemGO,RecipeItemDto data)
+
+    private void SetupHITNItemUI(GameObject itemGO, RecipeItemDto data)
     {
         // TextMeshProUGUI nameText =
         //     itemGO.transform.Find("ItemName")

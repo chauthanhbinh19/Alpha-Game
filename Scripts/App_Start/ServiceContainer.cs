@@ -1,22 +1,31 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 public static class ServiceContainer
 {
     private static readonly Dictionary<Type, object> _singletons = new Dictionary<Type, object>();
     private static readonly Dictionary<Type, Type> _registrations = new Dictionary<Type, Type>();
+    private static readonly Dictionary<Type, Func<object, object>> _serviceDecorators =
+        new Dictionary<Type, Func<object, object>>();
 
     public static void RegisterInstance<TInterface>(TInterface instance)
     {
-        _singletons[typeof(TInterface)] = instance;
+        Type interfaceType = typeof(TInterface);
+        RegisterServiceDecorator<TInterface>();
+        _singletons[interfaceType] = _serviceDecorators.TryGetValue(interfaceType, out var decorator)
+            ? decorator(instance)
+            : (object)instance;
     }
 
     // Chỉ lưu Registration Type vào Dictionary, KHÔNG tạo instance ngay
     public static void RegisterSingleton<TInterface, TImplementation>() 
         where TImplementation : TInterface
     {
-        _registrations[typeof(TInterface)] = typeof(TImplementation);
+        Type interfaceType = typeof(TInterface);
+        RegisterServiceDecorator<TInterface>();
+        _registrations[interfaceType] = typeof(TImplementation);
     }
 
     // Khi GetService() mới bắt đầu Resolve các dependency
@@ -42,7 +51,33 @@ public static class ServiceContainer
 
         // 4. Khởi tạo instance, lưu vào cache Singleton và trả về
         var newInstance = constructor.Invoke(args);
+        if (_serviceDecorators.TryGetValue(type, out var decorator))
+            newInstance = decorator(newInstance);
+
         _singletons[type] = newInstance;
         return newInstance;
+    }
+
+    private static void RegisterServiceDecorator<TInterface>()
+    {
+        Type interfaceType = typeof(TInterface);
+        if (!interfaceType.IsInterface ||
+            !interfaceType.Name.EndsWith("Service", StringComparison.Ordinal) ||
+            _serviceDecorators.ContainsKey(interfaceType))
+        {
+            return;
+        }
+
+        MethodInfo factoryMethod = typeof(ServiceContainer).GetMethod(
+            nameof(CreateRateLimitedService),
+            BindingFlags.NonPublic | BindingFlags.Static);
+        MethodInfo closedFactoryMethod = factoryMethod.MakeGenericMethod(interfaceType);
+        _serviceDecorators[interfaceType] = instance => closedFactoryMethod.Invoke(null, new[] { instance });
+    }
+
+    private static object CreateRateLimitedService<TService>(object instance)
+        where TService : class
+    {
+        return ServiceRateLimitMiddleware<TService>.Create((TService)instance);
     }
 }

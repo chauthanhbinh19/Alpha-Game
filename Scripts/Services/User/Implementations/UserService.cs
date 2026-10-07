@@ -334,31 +334,31 @@ public class UserService : IUserService
         // 3. Xử lý Daily Checkin Tháng mới
         try
         {
-            DateTime now = DateTime.Now;
-            int year = now.Year;
-            int month = now.Month;
+            // DateTime now = DateTime.Now;
+            // int year = now.Year;
+            // int month = now.Month;
 
-            bool isCheckinInit = await _userDailyCheckinService.CheckUserDailyCheckinStatusAsync(user.Id, month, year);
-            if (!isCheckinInit)
-            {
-                int daysInMonth = DateTime.DaysInMonth(year, month);
-                for (int day = 1; day <= daysInMonth; day++)
-                {
-                    DateTime currentDate = new DateTime(year, month, day);
-                    await _userDailyCheckinService.DeleteUserDailyCheckinAsync(user.Id, day.ToString());
+            // bool isCheckinInit = await _userDailyCheckinService.CheckUserDailyCheckinStatusAsync(user.Id, month, year);
+            // if (!isCheckinInit)
+            // {
+            //     int daysInMonth = DateTime.DaysInMonth(year, month);
+            //     for (int day = 1; day <= daysInMonth; day++)
+            //     {
+            //         DateTime currentDate = new DateTime(year, month, day);
+            //         await _userDailyCheckinService.DeleteUserDailyCheckinAsync(user.Id, day.ToString());
 
-                    UserDailyCheckin userDailyCheckin = new UserDailyCheckin
-                    {
-                        UserId = user.Id,
-                        DailyCheckinId = day.ToString(),
-                        Status = false,
-                        Day = currentDate,
-                        Month = month,
-                        Year = year
-                    };
-                    await _userDailyCheckinService.InsertUserDailyCheckinAsync(user.Id, userDailyCheckin);
-                }
-            }
+            //         UserDailyCheckin userDailyCheckin = new UserDailyCheckin
+            //         {
+            //             UserId = user.Id,
+            //             DailyCheckinId = day.ToString(),
+            //             Status = false,
+            //             Day = currentDate,
+            //             Month = month,
+            //             Year = year
+            //         };
+            //         await _userDailyCheckinService.InsertUserDailyCheckinAsync(user.Id, userDailyCheckin);
+            //     }
+            // }
         }
         catch (Exception ex)
         {

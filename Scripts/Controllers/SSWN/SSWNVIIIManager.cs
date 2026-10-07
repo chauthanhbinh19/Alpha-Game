@@ -501,6 +501,8 @@ public class SSWNVIIIManager : MonoBehaviour
                 }
 
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.LEVEL_UP_SOUND);
+                confirmButton.interactable = false;
+                closeButton.interactable = false;
 
                 int requested = (int)quantitySlider.value;
                 var result = await UpgradeFunctionHelper.UpgradeLevelAsync(
@@ -536,6 +538,9 @@ public class SSWNVIIIManager : MonoBehaviour
                 else
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.ALERT_SOUND);
+                    confirmButton.interactable = true;
+                    closeButton.interactable = true;
+
                     notificationText.text = result.Message;
                 }
             });

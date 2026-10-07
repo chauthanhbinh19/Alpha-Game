@@ -90,16 +90,28 @@ public class AnimeManager : MonoBehaviour
     }
     public void CreateAnimeButtonEvent(Transform panel)
     {
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await BlackCloverManager.Instance.CreateAnimeManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await BleachManager.Instance.CreateAnimeManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await DemonSlayerManager.Instance.CreateAnimeManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await DragonBallManager.Instance.CreateAnimeManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await FairyTailManager.Instance.CreateAnimeManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await HunterXHunterManager.Instance.CreateAnimeManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await JujutsuKaisenManager.Instance.CreateAnimeManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await NarutoManager.Instance.CreateAnimeManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await OnePieceManager.Instance.CreateAnimeManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await OnePunchManManager.Instance.CreateAnimeManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", panel, async () => await SwordArtOnlineManager.Instance.CreateAnimeManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await BlackCloverManager.Instance.CreateAnimeManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await BleachManager.Instance.CreateAnimeManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await DemonSlayerManager.Instance.CreateAnimeManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await DragonBallManager.Instance.CreateAnimeManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await FairyTailManager.Instance.CreateAnimeManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await HunterXHunterManager.Instance.CreateAnimeManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await JujutsuKaisenManager.Instance.CreateAnimeManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await NarutoManager.Instance.CreateAnimeManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await OnePieceManager.Instance.CreateAnimeManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await OnePunchManManager.Instance.CreateAnimeManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_11", panel, async () => await SwordArtOnlineManager.Instance.CreateAnimeManagerAsync());
+
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await AnimeController.Instance.GetAnimeAsync(AppConstants.Anime.BLACK_CLOVER));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await AnimeController.Instance.GetAnimeAsync(AppConstants.Anime.BLEACH));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await AnimeController.Instance.GetAnimeAsync(AppConstants.Anime.DEMON_SLAYER));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await AnimeController.Instance.GetAnimeAsync(AppConstants.Anime.DRAGON_BALL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await AnimeController.Instance.GetAnimeAsync(AppConstants.Anime.FAIRY_TAIL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await AnimeController.Instance.GetAnimeAsync(AppConstants.Anime.HUNTER_X_HUNTER));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await AnimeController.Instance.GetAnimeAsync(AppConstants.Anime.JUJUTSU_KAISEN));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await AnimeController.Instance.GetAnimeAsync(AppConstants.Anime.NARUTO));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await AnimeController.Instance.GetAnimeAsync(AppConstants.Anime.ONE_PIECE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await AnimeController.Instance.GetAnimeAsync(AppConstants.Anime.ONE_PUNCH_MAN));
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", panel, async () => await AnimeController.Instance.GetAnimeAsync(AppConstants.Anime.SWORD_ART_ONLINE));
     }
 }
