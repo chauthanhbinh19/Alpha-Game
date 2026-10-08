@@ -1062,7 +1062,7 @@ public class RankController : MonoBehaviour
         // Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.MainMenuSet7.MASTER_OF_ATOMIC}");
         // rankImage.texture = rankTexture;
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
-        background.texture = TextureHelper.LoadTexture2DCached(Image);
+        // background.texture = TextureHelper.LoadTexture2DCached(Image);
 
         AnimationController.Instance.CreateRankAnimation(currentObject);
         Ranks rank = await RanksService.Create().GetRankByIdAsync(featureId);

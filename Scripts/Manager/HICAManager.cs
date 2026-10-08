@@ -101,16 +101,6 @@ public class HICAManager : MonoBehaviour
     }
     public void CreateHICAButtonEvent(Transform panel)
     {
-        // ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await HICAIManager.Instance.CreateHICAIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await HICAIIManager.Instance.CreateHICAIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await HICAIIIManager.Instance.CreateHICAIIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await HICAIVManager.Instance.CreateHICAIVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await HICAVManager.Instance.CreateHICAVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await HICAVIManager.Instance.CreateHICAVIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await HICAVIIManager.Instance.CreateHICAVIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await HICAVIIIManager.Instance.CreateHICAVIIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await HICAIXManager.Instance.CreateHICAIXManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await HICAXManager.Instance.CreateHICAXManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await HICAController.Instance.GetHICAAsync(AppConstants.HICA.HICA_I));
         ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await HICAController.Instance.GetHICAAsync(AppConstants.HICA.HICA_II));
         ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await HICAController.Instance.GetHICAAsync(AppConstants.HICA.HICA_III));

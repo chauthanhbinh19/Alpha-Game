@@ -101,16 +101,6 @@ public class HIDCManager : MonoBehaviour
     }
     public void CreateHIDCButtonEvent(Transform panel)
     {
-        // ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await HIDCIManager.Instance.CreateHIDCIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await HIDCIIManager.Instance.CreateHIDCIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await HIDCIIIManager.Instance.CreateHIDCIIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await HIDCIVManager.Instance.CreateHIDCIVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await HIDCVManager.Instance.CreateHIDCVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await HIDCVIManager.Instance.CreateHIDCVIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await HIDCVIIManager.Instance.CreateHIDCVIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await HIDCVIIIManager.Instance.CreateHIDCVIIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await HIDCIXManager.Instance.CreateHIDCIXManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await HIDCXManager.Instance.CreateHIDCXManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await HIDCController.Instance.GetHIDCAsync(AppConstants.HIDC.HIDC_I));
         ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await HIDCController.Instance.GetHIDCAsync(AppConstants.HIDC.HIDC_II));
         ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await HIDCController.Instance.GetHIDCAsync(AppConstants.HIDC.HIDC_III));

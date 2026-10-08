@@ -101,16 +101,6 @@ public class UniverseManager : MonoBehaviour
     }
     public void CreateUniverseButtonEvent(Transform panel)
     {
-        // ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await UniverseIManager.Instance.CreateUniverseIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await UniverseIIManager.Instance.CreateUniverseIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await UniverseIIIManager.Instance.CreateUniverseIIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await UniverseIVManager.Instance.CreateUniverseIVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await UniverseVManager.Instance.CreateUniverseVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await UniverseVIManager.Instance.CreateUniverseVIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await UniverseVIIManager.Instance.CreateUniverseVIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await UniverseVIIIManager.Instance.CreateUniverseVIIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await UniverseIXManager.Instance.CreateUniverseIXManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await UniverseXManager.Instance.CreateUniverseXManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await UniverseController.Instance.GetUniverseAsync(AppConstants.Universe.UNIVERSE_I));
         ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await UniverseController.Instance.GetUniverseAsync(AppConstants.Universe.UNIVERSE_II));
         ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await UniverseController.Instance.GetUniverseAsync(AppConstants.Universe.UNIVERSE_III));

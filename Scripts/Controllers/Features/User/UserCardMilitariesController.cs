@@ -281,7 +281,7 @@ public class UserCardMilitariesController : MonoBehaviour
             MasterManager.Instance.CreateMaster(cardMilitary);
         });
 
-        Button rankButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Rank").GetComponent<Button>();
+        Button rankButton = transform.Find("DictionaryCards/DetailsPanel/Group5/Rank").GetComponent<Button>();
         rankButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

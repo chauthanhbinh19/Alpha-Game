@@ -127,46 +127,6 @@ public class ArchiveManager : MonoBehaviour
     }
     public void CreateArchiveButtonEvent(Transform panel)
     {
-        // ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await ArchiveIManager.Instance.CreateArchiveIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await ArchiveIIManager.Instance.CreateArchiveIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await ArchiveIIIManager.Instance.CreateArchiveIIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await ArchiveIVManager.Instance.CreateArchiveIVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await ArchiveVManager.Instance.CreateArchiveVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await ArchiveVIManager.Instance.CreateArchiveVIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await ArchiveVIIManager.Instance.CreateArchiveVIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await ArchiveVIIIManager.Instance.CreateArchiveVIIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await ArchiveIXManager.Instance.CreateArchiveIXManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await ArchiveXManager.Instance.CreateArchiveXManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_11", panel, async () => await ArchiveXIManager.Instance.CreateArchiveXIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_12", panel, async () => await ArchiveXIIManager.Instance.CreateArchiveXIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_13", panel, async () => await ArchiveXIIIManager.Instance.CreateArchiveXIIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_14", panel, async () => await ArchiveXIVManager.Instance.CreateArchiveXIVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_15", panel, async () => await ArchiveXVManager.Instance.CreateArchiveXVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_16", panel, async () => await ArchiveXVIManager.Instance.CreateArchiveXVIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_17", panel, async () => await ArchiveXVIIManager.Instance.CreateArchiveXVIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_18", panel, async () => await ArchiveXVIIIManager.Instance.CreateArchiveXVIIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_19", panel, async () => await ArchiveXIXManager.Instance.CreateArchiveXIXManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_20", panel, async () => await ArchiveXXManager.Instance.CreateArchiveXXManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_21", panel, async () => await ArchiveXXIManager.Instance.CreateArchiveXXIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_22", panel, async () => await ArchiveXXIIManager.Instance.CreateArchiveXXIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_23", panel, async () => await ArchiveXXIIIManager.Instance.CreateArchiveXXIIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_24", panel, async () => await ArchiveXXIVManager.Instance.CreateArchiveXXIVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_25", panel, async () => await ArchiveXXVManager.Instance.CreateArchiveXXVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_26", panel, async () => await ArchiveXXVIManager.Instance.CreateArchiveXXVIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_27", panel, async () => await ArchiveXXVIIManager.Instance.CreateArchiveXXVIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_28", panel, async () => await ArchiveXXVIIIManager.Instance.CreateArchiveXXVIIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_29", panel, async () => await ArchiveXXIXManager.Instance.CreateArchiveXXIXManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_30", panel, async () => await ArchiveXXXManager.Instance.CreateArchiveXXXManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_31", panel, async () => await ArchiveXXXIManager.Instance.CreateArchiveXXXIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_32", panel, async () => await ArchiveXXXIIManager.Instance.CreateArchiveXXXIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_33", panel, async () => await ArchiveXXXIIIManager.Instance.CreateArchiveXXXIIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_34", panel, async () => await ArchiveXXXIVManager.Instance.CreateArchiveXXXIVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_35", panel, async () => await ArchiveXXXVManager.Instance.CreateArchiveXXXVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_36", panel, async () => await ArchiveXXXVIManager.Instance.CreateArchiveXXXVIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_37", panel, async () => await ArchiveXXXVIIManager.Instance.CreateArchiveXXXVIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_38", panel, async () => await ArchiveXXXVIIIManager.Instance.CreateArchiveXXXVIIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_39", panel, async () => await ArchiveXXXIXManager.Instance.CreateArchiveXXXIXManagerAsync());
-
         ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await ArchiveController.Instance.GetArchiveAsync(AppConstants.Archive.ARCHIVE_I));
         ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await ArchiveController.Instance.GetArchiveAsync(AppConstants.Archive.ARCHIVE_II));
         ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await ArchiveController.Instance.GetArchiveAsync(AppConstants.Archive.ARCHIVE_III));

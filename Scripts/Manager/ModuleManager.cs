@@ -88,18 +88,6 @@ public class ModuleManager : MonoBehaviour
     }
     public void CreateModuleButtonEvent(IStats stat, Transform panel)
     {
-        // ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await ModuleBreakthroughManager.Instance.CreateModuleBreakthroughManagerAsync(stat));
-        // ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await ModuleAwakeningManager.Instance.CreateModuleAwakeningManagerAsync(stat));
-        // ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await ModuleAscensionManager.Instance.CreateModuleAscensionManagerAsync(stat));
-        // ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await ModuleResonanceManager.Instance.CreateModuleResonanceManagerAsync(stat));
-        // ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await ModuleEnhancementManager.Instance.CreateModuleEnhancementManagerAsync(stat));
-        // ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await ModuleRefinementManager.Instance.CreateModuleRefinementManagerAsync(stat));
-        // ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await ModuleApotheosisManager.Instance.CreateModuleApotheosisManagerAsync(stat));
-        // ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await ModuleEngravingManager.Instance.CreateModuleEngravingManagerAsync(stat));
-        // ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await ModuleIntegrationManager.Instance.CreateModuleIntegrationManagerAsync(stat));
-        // ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await ModuleSanctificationManager.Instance.CreateModuleSanctificationManagerAsync(stat));
-        // ButtonEvent.Instance.AssignButtonEvent("Button_11", panel, async () => await ModuleSynchronizationManager.Instance.CreateModuleSynchronizationManagerAsync(stat));
-        // ButtonEvent.Instance.AssignButtonEvent("Button_12", panel, async () => await ModuleEvolutionManager.Instance.CreateModuleEvolutionManagerAsync(stat));
         ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await ModuleController.Instance.GetModuleAsync(AppConstants.Module.MODULE_BREAKTHROUGH,stat));
         ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await ModuleController.Instance.GetModuleAsync(AppConstants.Module.MODULE_AWAKENING, stat));
         ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await ModuleController.Instance.GetModuleAsync(AppConstants.Module.MODULE_ASCENSION, stat));

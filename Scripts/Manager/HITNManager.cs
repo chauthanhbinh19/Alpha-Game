@@ -101,16 +101,6 @@ public class HITNManager : MonoBehaviour
     }
     public void CreateHITNButtonEvent(Transform panel)
     {
-        // ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await HITNIManager.Instance.CreateHITNIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await HITNIIManager.Instance.CreateHITNIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await HITNIIIManager.Instance.CreateHITNIIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await HITNIVManager.Instance.CreateHITNIVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await HITNVManager.Instance.CreateHITNVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await HITNVIManager.Instance.CreateHITNVIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await HITNVIIManager.Instance.CreateHITNVIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await HITNVIIIManager.Instance.CreateHITNVIIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await HITNIXManager.Instance.CreateHITNIXManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await HITNXManager.Instance.CreateHITNXManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await HITNController.Instance.GetHITNAsync(AppConstants.HITN.HITN_I));
         ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await HITNController.Instance.GetHITNAsync(AppConstants.HITN.HITN_II));
         ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await HITNController.Instance.GetHITNAsync(AppConstants.HITN.HITN_III));

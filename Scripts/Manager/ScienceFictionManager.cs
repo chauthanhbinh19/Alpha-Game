@@ -115,26 +115,6 @@ public class ScienceFictionManager : MonoBehaviour
     }
     public void GetScienceFictionButton(Transform panel)
     {
-        // ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await ScienceFictionIManager.Instance.CreateScienceFictionIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await ScienceFictionIIManager.Instance.CreateScienceFictionIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await ScienceFictionIIIManager.Instance.CreateScienceFictionIIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await ScienceFictionIVManager.Instance.CreateScienceFictionIVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await ScienceFictionVManager.Instance.CreateScienceFictionVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await ScienceFictionVIManager.Instance.CreateScienceFictionVIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await ScienceFictionVIIManager.Instance.CreateScienceFictionVIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await ScienceFictionVIIIManager.Instance.CreateScienceFictionVIIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await ScienceFictionIXManager.Instance.CreateScienceFictionIXManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await ScienceFictionXManager.Instance.CreateScienceFictionXManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_11", panel, async () => await ScienceFictionXIManager.Instance.CreateScienceFictionXIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_12", panel, async () => await ScienceFictionXIIManager.Instance.CreateScienceFictionXIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_13", panel, async () => await ScienceFictionXIIIManager.Instance.CreateScienceFictionXIIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_14", panel, async () => await ScienceFictionXIVManager.Instance.CreateScienceFictionXIVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_15", panel, async () => await ScienceFictionXVManager.Instance.CreateScienceFictionXVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_16", panel, async () => await ScienceFictionXVIManager.Instance.CreateScienceFictionXVIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_17", panel, async () => await ScienceFictionXVIIManager.Instance.CreateScienceFictionXVIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_18", panel, async () => await ScienceFictionXVIIIManager.Instance.CreateScienceFictionXVIIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_19", panel, async () => await ScienceFictionXIXManager.Instance.CreateScienceFictionXIXManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_20", panel, async () => await ScienceFictionXXManager.Instance.CreateScienceFictionXXManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await ScienceFictionController.Instance.GetScienceFictionAsync(AppConstants.ScienceFiction.SCIENCE_FICTION_I));
         ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await ScienceFictionController.Instance.GetScienceFictionAsync(AppConstants.ScienceFiction.SCIENCE_FICTION_II));
         ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await ScienceFictionController.Instance.GetScienceFictionAsync(AppConstants.ScienceFiction.SCIENCE_FICTION_III));
