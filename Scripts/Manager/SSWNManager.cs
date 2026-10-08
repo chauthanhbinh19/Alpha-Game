@@ -101,15 +101,25 @@ public class SSWNManager : MonoBehaviour
     }
     public void CreateSSWNButtonEvent(Transform panel)
     {
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await SSWNIManager.Instance.CreateSSWNIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await SSWNIIManager.Instance.CreateSSWNIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await SSWNIIIManager.Instance.CreateSSWNIIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await SSWNIVManager.Instance.CreateSSWNIVManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await SSWNVManager.Instance.CreateSSWNVManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await SSWNVIManager.Instance.CreateSSWNVIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await SSWNVIIManager.Instance.CreateSSWNVIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await SSWNVIIIManager.Instance.CreateSSWNVIIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await SSWNIXManager.Instance.CreateSSWNIXManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await SSWNXManager.Instance.CreateSSWNXManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await SSWNIManager.Instance.CreateSSWNIManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await SSWNIIManager.Instance.CreateSSWNIIManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await SSWNIIIManager.Instance.CreateSSWNIIIManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await SSWNIVManager.Instance.CreateSSWNIVManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await SSWNVManager.Instance.CreateSSWNVManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await SSWNVIManager.Instance.CreateSSWNVIManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await SSWNVIIManager.Instance.CreateSSWNVIIManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await SSWNVIIIManager.Instance.CreateSSWNVIIIManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await SSWNIXManager.Instance.CreateSSWNIXManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await SSWNXManager.Instance.CreateSSWNXManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await SSWNController.Instance.GetSSWNAsync(AppConstants.SSWN.SSWN_I));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await SSWNController.Instance.GetSSWNAsync(AppConstants.SSWN.SSWN_II));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await SSWNController.Instance.GetSSWNAsync(AppConstants.SSWN.SSWN_III));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await SSWNController.Instance.GetSSWNAsync(AppConstants.SSWN.SSWN_IV));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await SSWNController.Instance.GetSSWNAsync(AppConstants.SSWN.SSWN_V));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await SSWNController.Instance.GetSSWNAsync(AppConstants.SSWN.SSWN_VI));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await SSWNController.Instance.GetSSWNAsync(AppConstants.SSWN.SSWN_VII));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await SSWNController.Instance.GetSSWNAsync(AppConstants.SSWN.SSWN_VIII));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await SSWNController.Instance.GetSSWNAsync(AppConstants.SSWN.SSWN_IX));
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await SSWNController.Instance.GetSSWNAsync(AppConstants.SSWN.SSWN_X));
     }
 }

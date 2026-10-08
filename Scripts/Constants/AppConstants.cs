@@ -251,14 +251,15 @@ public static class AppConstants
         public const string SR = "SR";
         public const string SSR = "SSR";
         public const string UR = "UR";
+        public const string UR_PLUS = "UR_Plus";
         public const string LG = "LG";
-        public const string LGPlus = "LGPlus";
+        public const string LG_Plus = "LG_Plus";
         public const string MR = "MR";
-        public const string MRPlus = "MRPlus";
+        public const string MR_Plus = "MR_Plus";
         public const string SLG = "SLG";
-        public const string SLGPlus = "SLGPlus";
+        public const string SLG_Plus = "SLG_Plus";
         public const string SP = "SP";
-        public const string SPPlus = "SPPlus";
+        public const string SP_Plus = "SP_Plus";
     }
     public static class Type
     {
@@ -2425,7 +2426,7 @@ public static class AppConstants
 
         public const string NEUROTECH = "Neurotech";
         public const string ANTIMATTER = "Antimatter";
-        public const string PAHNTOMWARE = "Phantomware";
+        public const string PHANTOMWARE = "Phantomware";
         public const string GRAVITECH = "Gravitech";
         public const string AETHERNET = "Aethernet";
         public const string STARFORGE = "Starforge";

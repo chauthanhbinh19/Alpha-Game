@@ -1,5 +1,20 @@
 public static class ImageConstants
 {
+    public static class Rare
+    {
+        public const string SR_URL = "UI/Rarity/Rarity_SR";
+        public const string SSR_URL = "UI/Rarity/Rarity_SSR";
+        public const string UR_URL = "UI/Rarity/Rarity_UR";
+        public const string UR_PLUS_URL = "UI/Rarity/Rarity_UR_Plus";
+        public const string LG_URL = "UI/Rarity/Rarity_LG";
+        public const string LG_Plus_URL = "UI/Rarity/Rarity_LG_Plus";
+        public const string MR_URL = "UI/Rarity/Rarity_MR";
+        public const string MR_Plus_URL = "UI/Rarity/Rarity_MR_Plus";
+        public const string SLG_URL = "UI/Rarity/Rarity_SLG";
+        public const string SLG_Plus_URL = "UI/Rarity/Rarity_SLG_Plus";
+        public const string SP_URL = "UI/Rarity/Rarity_SP";
+        public const string SP_Plus_URL = "UI/Rarity/Rarity_SP_Plus";
+    }
     public static class Phase
     {
         public const string START_PHASE_URL = "UI/Icon/start";

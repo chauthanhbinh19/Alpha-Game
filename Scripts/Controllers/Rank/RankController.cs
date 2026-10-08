@@ -24,6 +24,8 @@ public class RankController : MonoBehaviour
     private List<KeyValuePair<string, FeatureRankDTO>> FeatureList;
     private IStats Stat;
     private PaginationManager PaginationManager;
+    private string Type = "";
+    private string Image = "";
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -52,6 +54,834 @@ public class RankController : MonoBehaviour
         MainRankPanelPrefab = UIManager.Instance.Get(PrefabConstants.Rank.MAIN_RANK_PANEL_PREFAB);
         RankItemPrefab = UIManager.Instance.Get(PrefabConstants.Rank.RANK_ITEM_PREFAB);
     }
+
+    public async Task GetRankAsync(string type, IStats stat)
+    {
+        switch (type)
+        {
+            // Set 1 (1 - 23)
+            case AppConstants.MainMenuSet1.EQUIPMENTS:
+                Type = type;
+                Image = ImageConstants.MainMenuSet1.EQUIPMENTS;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet1.REALM:
+                Type = type;
+                Image = ImageConstants.MainMenuSet1.REALM;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet1.UPGRADE:
+                Type = type;
+                Image = ImageConstants.MainMenuSet1.UPGRADE;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet1.APTITUDE:
+                Type = type;
+                Image = ImageConstants.MainMenuSet1.APTITUDE;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet1.AFFINITY:
+                Type = type;
+                Image = ImageConstants.MainMenuSet1.AFFINITY;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet1.BLESSING:
+                Type = type;
+                Image = ImageConstants.MainMenuSet1.BLESSING;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet1.CORE:
+                Type = type;
+                Image = ImageConstants.MainMenuSet1.CORE;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet1.PHYSIQUE:
+                Type = type;
+                Image = ImageConstants.MainMenuSet1.PHYSIQUE;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet1.BLOODLINE:
+                Type = type;
+                Image = ImageConstants.MainMenuSet1.BLOODLINE;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet1.OMNIVISION:
+                Type = type;
+                Image = ImageConstants.MainMenuSet1.OMNIVISION;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet1.OMNIPOTENCE:
+                Type = type;
+                Image = ImageConstants.MainMenuSet1.OMNIPOTENCE;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet1.OMNIPRESENCE:
+                Type = type;
+                Image = ImageConstants.MainMenuSet1.OMNIPRESENCE;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet1.OMNISCIENCE:
+                Type = type;
+                Image = ImageConstants.MainMenuSet1.OMNISCIENCE;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet1.OMNIVORY:
+                Type = type;
+                Image = ImageConstants.MainMenuSet1.OMNIVORY;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet1.ANGEL:
+                Type = type;
+                Image = ImageConstants.MainMenuSet1.ANGEL;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet1.DEMON:
+                Type = type;
+                Image = ImageConstants.MainMenuSet1.DEMON;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet1.SWORD:
+                Type = type;
+                Image = ImageConstants.MainMenuSet1.SWORD;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet1.SPEAR:
+                Type = type;
+                Image = ImageConstants.MainMenuSet1.SPEAR;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet1.SHIELD:
+                Type = type;
+                Image = ImageConstants.MainMenuSet1.SHIELD;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet1.BOW:
+                Type = type;
+                Image = ImageConstants.MainMenuSet1.BOW;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet1.GUN:
+                Type = type;
+                Image = ImageConstants.MainMenuSet1.GUN;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet1.CYBER:
+                Type = type;
+                Image = ImageConstants.MainMenuSet1.CYBER;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet1.FAIRY:
+                Type = type;
+                Image = ImageConstants.MainMenuSet1.FAIRY;
+                await CreateRankControllerAsync(stat);
+                break;
+
+            // Set 2 (24 - 46)
+            case AppConstants.MainMenuSet2.DARK:
+                Type = type;
+                Image = ImageConstants.MainMenuSet2.DARK;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet2.LIGHT:
+                Type = type;
+                Image = ImageConstants.MainMenuSet2.LIGHT;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet2.FIRE:
+                Type = type;
+                Image = ImageConstants.MainMenuSet2.FIRE;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet2.ICE:
+                Type = type;
+                Image = ImageConstants.MainMenuSet2.ICE;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet2.EARTH:
+                Type = type;
+                Image = ImageConstants.MainMenuSet2.EARTH;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet2.THUNDER:
+                Type = type;
+                Image = ImageConstants.MainMenuSet2.THUNDER;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet2.LIFE:
+                Type = type;
+                Image = ImageConstants.MainMenuSet2.LIFE;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet2.SPACE:
+                Type = type;
+                Image = ImageConstants.MainMenuSet2.SPACE;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet2.TIME:
+                Type = type;
+                Image = ImageConstants.MainMenuSet2.TIME;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet2.NANOTECH:
+                Type = type;
+                Image = ImageConstants.MainMenuSet2.NANOTECH;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet2.QUANTUM:
+                Type = type;
+                Image = ImageConstants.MainMenuSet2.QUANTUM;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet2.HOLOGRAPHY:
+                Type = type;
+                Image = ImageConstants.MainMenuSet2.HOLOGRAPHY;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet2.PLASMA:
+                Type = type;
+                Image = ImageConstants.MainMenuSet2.PLASMA;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet2.BIOMECH:
+                Type = type;
+                Image = ImageConstants.MainMenuSet2.BIOMECH;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet2.CRYOTECH:
+                Type = type;
+                Image = ImageConstants.MainMenuSet2.CRYOTECH;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet2.PSIONICS:
+                Type = type;
+                Image = ImageConstants.MainMenuSet2.PSIONICS;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet2.NEUROTECH:
+                Type = type;
+                Image = ImageConstants.MainMenuSet2.NEUROTECH;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet2.ANTIMATTER:
+                Type = type;
+                Image = ImageConstants.MainMenuSet2.ANTIMATTER;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet2.PHANTOMWARE:
+                Type = type;
+                Image = ImageConstants.MainMenuSet2.PHANTOMWARE;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet2.GRAVITECH:
+                Type = type;
+                Image = ImageConstants.MainMenuSet2.GRAVITECH;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet2.AETHERNET:
+                Type = type;
+                Image = ImageConstants.MainMenuSet2.AETHERNET;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet2.STARFORGE:
+                Type = type;
+                Image = ImageConstants.MainMenuSet2.STARFORGE;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet2.ORBITALIS:
+                Type = type;
+                Image = ImageConstants.MainMenuSet2.ORBITALIS;
+                await CreateRankControllerAsync(stat);
+                break;
+
+            // Set 3 (47 - 69)
+            case AppConstants.MainMenuSet3.AZATHOTH:
+                Type = type;
+                Image = ImageConstants.MainMenuSet3.AZATHOTH;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet3.YOG_SOTHOTH:
+                Type = type;
+                Image = ImageConstants.MainMenuSet3.YOG_SOTHOTH;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet3.NYARLATHOTEP:
+                Type = type;
+                Image = ImageConstants.MainMenuSet3.NYARLATHOTEP;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet3.SHUB_NIGGURATH:
+                Type = type;
+                Image = ImageConstants.MainMenuSet3.SHUB_NIGGURATH;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet3.NIHORATH:
+                Type = type;
+                Image = ImageConstants.MainMenuSet3.NIHORATH;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet3.AEONAX:
+                Type = type;
+                Image = ImageConstants.MainMenuSet3.AEONAX;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet3.SERAPHIROS:
+                Type = type;
+                Image = ImageConstants.MainMenuSet3.SERAPHIROS;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet3.THORINDAR:
+                Type = type;
+                Image = ImageConstants.MainMenuSet3.THORINDAR;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet3.ZILTHROS:
+                Type = type;
+                Image = ImageConstants.MainMenuSet3.ZILTHROS;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet3.KHORAZAL:
+                Type = type;
+                Image = ImageConstants.MainMenuSet3.KHORAZAL;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet3.IXITHRA:
+                Type = type;
+                Image = ImageConstants.MainMenuSet3.IXITHRA;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet3.OMNITHEUS:
+                Type = type;
+                Image = ImageConstants.MainMenuSet3.OMNITHEUS;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet3.PHYRIXA:
+                Type = type;
+                Image = ImageConstants.MainMenuSet3.PHYRIXA;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet3.ATHERION:
+                Type = type;
+                Image = ImageConstants.MainMenuSet3.ATHERION;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet3.VORATHOS:
+                Type = type;
+                Image = ImageConstants.MainMenuSet3.VORATHOS;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet3.TENEBRIS:
+                Type = type;
+                Image = ImageConstants.MainMenuSet3.TENEBRIS;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet3.XYLKOR:
+                Type = type;
+                Image = ImageConstants.MainMenuSet3.XYLKOR;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet3.VELTHARION:
+                Type = type;
+                Image = ImageConstants.MainMenuSet3.VELTHARION;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet3.ARCANOS:
+                Type = type;
+                Image = ImageConstants.MainMenuSet3.ARCANOS;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet3.DOLOMATH:
+                Type = type;
+                Image = ImageConstants.MainMenuSet3.DOLOMATH;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet3.ARATHOR:
+                Type = type;
+                Image = ImageConstants.MainMenuSet3.ARATHOR;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet3.XYPHOS:
+                Type = type;
+                Image = ImageConstants.MainMenuSet3.XYPHOS;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet3.VAELITH:
+                Type = type;
+                Image = ImageConstants.MainMenuSet3.VAELITH;
+                await CreateRankControllerAsync(stat);
+                break;
+
+            // Set 4 (70 - 92)
+            case AppConstants.MainMenuSet4.ZARX:
+                Type = type;
+                Image = ImageConstants.MainMenuSet4.ZARX;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet4.RAIK:
+                Type = type;
+                Image = ImageConstants.MainMenuSet4.RAIK;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet4.DRAX:
+                Type = type;
+                Image = ImageConstants.MainMenuSet4.DRAX;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet4.KRON:
+                Type = type;
+                Image = ImageConstants.MainMenuSet4.KRON;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet4.ZOLT:
+                Type = type;
+                Image = ImageConstants.MainMenuSet4.ZOLT;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet4.GORR:
+                Type = type;
+                Image = ImageConstants.MainMenuSet4.GORR;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet4.RYZE:
+                Type = type;
+                Image = ImageConstants.MainMenuSet4.RYZE;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet4.JAXX:
+                Type = type;
+                Image = ImageConstants.MainMenuSet4.JAXX;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet4.THAR:
+                Type = type;
+                Image = ImageConstants.MainMenuSet4.THAR;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet4.VORN:
+                Type = type;
+                Image = ImageConstants.MainMenuSet4.VORN;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet4.NYX:
+                Type = type;
+                Image = ImageConstants.MainMenuSet4.NYX;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet4.AROS:
+                Type = type;
+                Image = ImageConstants.MainMenuSet4.AROS;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet4.HEX:
+                Type = type;
+                Image = ImageConstants.MainMenuSet4.HEX;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet4.LORN:
+                Type = type;
+                Image = ImageConstants.MainMenuSet4.LORN;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet4.BAXX:
+                Type = type;
+                Image = ImageConstants.MainMenuSet4.BAXX;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet4.ZEPH:
+                Type = type;
+                Image = ImageConstants.MainMenuSet4.ZEPH;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet4.KAEL:
+                Type = type;
+                Image = ImageConstants.MainMenuSet4.KAEL;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet4.DRAV:
+                Type = type;
+                Image = ImageConstants.MainMenuSet4.DRAV;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet4.TORN:
+                Type = type;
+                Image = ImageConstants.MainMenuSet4.TORN;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet4.MYRR:
+                Type = type;
+                Image = ImageConstants.MainMenuSet4.MYRR;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet4.VASK:
+                Type = type;
+                Image = ImageConstants.MainMenuSet4.VASK;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet4.JORR:
+                Type = type;
+                Image = ImageConstants.MainMenuSet4.JORR;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet4.QUEN:
+                Type = type;
+                Image = ImageConstants.MainMenuSet4.QUEN;
+                await CreateRankControllerAsync(stat);
+                break;
+
+            // Set 5 (93 - 115)
+            case AppConstants.MainMenuSet5.ASTRAL_VOICE:
+                Type = type;
+                Image = ImageConstants.MainMenuSet5.ASTRAL_VOICE;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet5.BRANCH_BLADE_SONG:
+                Type = type;
+                Image = ImageConstants.MainMenuSet5.BRANCH_BLADE_SONG;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet5.CHAOS_JAZZ:
+                Type = type;
+                Image = ImageConstants.MainMenuSet5.CHAOS_JAZZ;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet5.CHAOTIC_METAL:
+                Type = type;
+                Image = ImageConstants.MainMenuSet5.CHAOTIC_METAL;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet5.DAWN_S_BLOOM:
+                Type = type;
+                Image = ImageConstants.MainMenuSet5.DAWN_S_BLOOM;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet5.FANGED_METAL:
+                Type = type;
+                Image = ImageConstants.MainMenuSet5.FANGED_METAL;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet5.FREEDOM_BLUES:
+                Type = type;
+                Image = ImageConstants.MainMenuSet5.FREEDOM_BLUES;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet5.HORMONE_PUNK:
+                Type = type;
+                Image = ImageConstants.MainMenuSet5.HORMONE_PUNK;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet5.INFERNO_METAL:
+                Type = type;
+                Image = ImageConstants.MainMenuSet5.INFERNO_METAL;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet5.KING_OF_THE_SUMMIT:
+                Type = type;
+                Image = ImageConstants.MainMenuSet5.KING_OF_THE_SUMMIT;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet5.MOONLIGHT_LULLABY:
+                Type = type;
+                Image = ImageConstants.MainMenuSet5.MOONLIGHT_LULLABY;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet5.PHAETON_S_MELODY:
+                Type = type;
+                Image = ImageConstants.MainMenuSet5.PHAETON_S_MELODY;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet5.POLAR_METAL:
+                Type = type;
+                Image = ImageConstants.MainMenuSet5.POLAR_METAL;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet5.PROTO_PUNK:
+                Type = type;
+                Image = ImageConstants.MainMenuSet5.PROTO_PUNK;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet5.PUFFER_ELECTRO:
+                Type = type;
+                Image = ImageConstants.MainMenuSet5.PUFFER_ELECTRO;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet5.SHADOW_HARMONY:
+                Type = type;
+                Image = ImageConstants.MainMenuSet5.SHADOW_HARMONY;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet5.SHOCKSTAR_DISCO:
+                Type = type;
+                Image = ImageConstants.MainMenuSet5.SHOCKSTAR_DISCO;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet5.SOUL_ROCK:
+                Type = type;
+                Image = ImageConstants.MainMenuSet5.SOUL_ROCK;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet5.SWING_JAZZ:
+                Type = type;
+                Image = ImageConstants.MainMenuSet5.SWING_JAZZ;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet5.THUNDER_METAL:
+                Type = type;
+                Image = ImageConstants.MainMenuSet5.THUNDER_METAL;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet5.WOODPECKER_ELECTRO:
+                Type = type;
+                Image = ImageConstants.MainMenuSet5.WOODPECKER_ELECTRO;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet5.YUNKUI_TALES:
+                Type = type;
+                Image = ImageConstants.MainMenuSet5.YUNKUI_TALES;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet5.CHIP:
+                Type = type;
+                Image = ImageConstants.MainMenuSet5.CHIP;
+                await CreateRankControllerAsync(stat);
+                break;
+
+            // Set 6 (116 - 138)
+            case AppConstants.MainMenuSet6.FLUX:
+                Type = type;
+                Image = ImageConstants.MainMenuSet6.FLUX;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet6.NEXUS:
+                Type = type;
+                Image = ImageConstants.MainMenuSet6.NEXUS;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet6.ECLIPSE:
+                Type = type;
+                Image = ImageConstants.MainMenuSet6.ECLIPSE;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet6.OBLIVION:
+                Type = type;
+                Image = ImageConstants.MainMenuSet6.OBLIVION;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet6.CATALYST:
+                Type = type;
+                Image = ImageConstants.MainMenuSet6.CATALYST;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet6.AXIOM:
+                Type = type;
+                Image = ImageConstants.MainMenuSet6.AXIOM;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet6.PARALLAX:
+                Type = type;
+                Image = ImageConstants.MainMenuSet6.PARALLAX;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet6.ENTROPY:
+                Type = type;
+                Image = ImageConstants.MainMenuSet6.ENTROPY;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet6.SINGULARITY:
+                Type = type;
+                Image = ImageConstants.MainMenuSet6.SINGULARITY;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet6.GENESIS:
+                Type = type;
+                Image = ImageConstants.MainMenuSet6.GENESIS;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet6.INFERNUM:
+                Type = type;
+                Image = ImageConstants.MainMenuSet6.INFERNUM;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet6.ELYSIUM:
+                Type = type;
+                Image = ImageConstants.MainMenuSet6.ELYSIUM;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet6.APOTHEON:
+                Type = type;
+                Image = ImageConstants.MainMenuSet6.APOTHEON;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet6.PARAGON:
+                Type = type;
+                Image = ImageConstants.MainMenuSet6.PARAGON;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet6.NULLITY:
+                Type = type;
+                Image = ImageConstants.MainMenuSet6.NULLITY;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet6.CATACLYSM:
+                Type = type;
+                Image = ImageConstants.MainMenuSet6.CATACLYSM;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet6.EMPYREAN:
+                Type = type;
+                Image = ImageConstants.MainMenuSet6.EMPYREAN;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet6.HYPERION:
+                Type = type;
+                Image = ImageConstants.MainMenuSet6.HYPERION;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet6.DOMINION:
+                Type = type;
+                Image = ImageConstants.MainMenuSet6.DOMINION;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet6.ZENITH:
+                Type = type;
+                Image = ImageConstants.MainMenuSet6.ZENITH;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet6.OBLIVIUM:
+                Type = type;
+                Image = ImageConstants.MainMenuSet6.OBLIVIUM;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet6.HELIX:
+                Type = type;
+                Image = ImageConstants.MainMenuSet6.HELIX;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet6.UMBRA:
+                Type = type;
+                Image = ImageConstants.MainMenuSet6.UMBRA;
+                await CreateRankControllerAsync(stat);
+                break;
+
+            // Set 7 (139 - 161)
+            case AppConstants.MainMenuSet7.AXIOMATA:
+                Type = type;
+                Image = ImageConstants.MainMenuSet7.AXIOMATA;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet7.CONTINUUM:
+                Type = type;
+                Image = ImageConstants.MainMenuSet7.CONTINUUM;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet7.NOVA:
+                Type = type;
+                Image = ImageConstants.MainMenuSet7.NOVA;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet7.PARADOX:
+                Type = type;
+                Image = ImageConstants.MainMenuSet7.PARADOX;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet7.ABYSSAL:
+                Type = type;
+                Image = ImageConstants.MainMenuSet7.ABYSSAL;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet7.ARCANE:
+                Type = type;
+                Image = ImageConstants.MainMenuSet7.ARCANE;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet7.ETERNUM:
+                Type = type;
+                Image = ImageConstants.MainMenuSet7.ETERNUM;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet7.LUMINARY:
+                Type = type;
+                Image = ImageConstants.MainMenuSet7.LUMINARY;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet7.COSMOS:
+                Type = type;
+                Image = ImageConstants.MainMenuSet7.COSMOS;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet7.ASTRION:
+                Type = type;
+                Image = ImageConstants.MainMenuSet7.ASTRION;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet7.NEOTERRA:
+                Type = type;
+                Image = ImageConstants.MainMenuSet7.NEOTERRA;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet7.HORIZON:
+                Type = type;
+                Image = ImageConstants.MainMenuSet7.HORIZON;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet7.NEXARIUM:
+                Type = type;
+                Image = ImageConstants.MainMenuSet7.NEXARIUM;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet7.CHRONYX:
+                Type = type;
+                Image = ImageConstants.MainMenuSet7.CHRONYX;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet7.FERRUMAX:
+                Type = type;
+                Image = ImageConstants.MainMenuSet7.FERRUMAX;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet7.COGNITUM:
+                Type = type;
+                Image = ImageConstants.MainMenuSet7.COGNITUM;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet7.ASHFRAME:
+                Type = type;
+                Image = ImageConstants.MainMenuSet7.ASHFRAME;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet7.THRENODY:
+                Type = type;
+                Image = ImageConstants.MainMenuSet7.THRENODY;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet7.MORVANE:
+                Type = type;
+                Image = ImageConstants.MainMenuSet7.MORVANE;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet7.VELKRYN:
+                Type = type;
+                Image = ImageConstants.MainMenuSet7.VELKRYN;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet7.XARPHIS:
+                Type = type;
+                Image = ImageConstants.MainMenuSet7.XARPHIS;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet7.OMNIVEX:
+                Type = type;
+                Image = ImageConstants.MainMenuSet7.OMNIVEX;
+                await CreateRankControllerAsync(stat);
+                break;
+            case AppConstants.MainMenuSet7.KAELTHRA:
+                Type = type;
+                Image = ImageConstants.MainMenuSet7.KAELTHRA;
+                await CreateRankControllerAsync(stat);
+                break;
+
+            default:
+                break;
+        }
+    }
     public async Task CreateRankControllerAsync(IStats stat)
     {
         GameObject currentObject = Instantiate(PopupRankPanelPrefab, MainPanel);
@@ -71,7 +901,7 @@ public class RankController : MonoBehaviour
 
         });
         Dictionary<string, FeatureRankDTO> uniqueTypes = new Dictionary<string, FeatureRankDTO>();
-        uniqueTypes = await FeaturesService.Create().GetRankFeaturesByTypeAsync(AppConstants.MainMenuSet7.ABYSSAL, stat);
+        uniqueTypes = await FeaturesService.Create().GetRankFeaturesByTypeAsync(Type, stat);
         uniqueTypes = uniqueTypes
             .OrderBy(kvp =>
             {
@@ -227,12 +1057,12 @@ public class RankController : MonoBehaviour
 
         RawImage mapImage = transform.Find("MapImage").GetComponent<RawImage>();
         Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_14");
-        mapImage.texture = mapTexture; 
+        mapImage.texture = mapTexture;
         RawImage rankImage = transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
-        // Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.Rank.MASTER_OF_ATOMIC}");
+        // Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.MainMenuSet7.MASTER_OF_ATOMIC}");
         // rankImage.texture = rankTexture;
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
-        background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.MainMenuSet7.ABYSSAL);
+        background.texture = TextureHelper.LoadTexture2DCached(Image);
 
         AnimationController.Instance.CreateRankAnimation(currentObject);
         Ranks rank = await RanksService.Create().GetRankByIdAsync(featureId);

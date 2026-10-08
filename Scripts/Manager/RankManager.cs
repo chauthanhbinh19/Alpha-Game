@@ -174,7 +174,7 @@ public class RankManager : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(240, 430);
         }
-        
+
         // CreateButtonWithBackgroundUI(1, AppDisplayConstants.MainMenuSet1.EQUIPMENTS, ImageConstants.Background.ADVANCED_BACKGROUND_1_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Equipments"), contentPanel);
         CreateButtonWithBackgroundUI(2, AppDisplayConstants.MainMenuSet1.REALM, ImageConstants.Background.ADVANCED_BACKGROUND_2_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Realm"), contentPanel);
         CreateButtonWithBackgroundUI(3, AppDisplayConstants.MainMenuSet1.UPGRADE, ImageConstants.Background.ADVANCED_BACKGROUND_3_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Upgrade"), contentPanel);
@@ -206,94 +206,203 @@ public class RankManager : MonoBehaviour
         // {
         //     await FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManagerAsync(stat);
         // });
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuRealmManager>().CreateMainMenuRealmManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, () =>
-        {
-            FindAnyObjectByType<MainMenuAffinityManager>().CreateMainMenuAffinityManager(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuBlessingManager>().CreateMainMenuBlessingManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuCoreManager>().CreateMainMenuCoreManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuPhysiqueManager>().CreateMainMenuPhysiqueManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuBloodlineManager>().CreateMainMenuBloodlineManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuOmnivisionManager>().CreateMainMenuOmnivisionManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuOmnipotenceManager>().CreateMainMenuOmnipotenceManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuOmnipresenceManager>().CreateMainMenuOmnipresenceManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuOmniscienceManager>().CreateMainMenuOmniscienceManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuOmnivoryManager>().CreateMainMenuOmnivoryManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuAngelManager>().CreateMainMenuAngelManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuDemonManager>().CreateMainMenuDemonManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuSwordManager>().CreateMainMenuSwordManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuSpearManager>().CreateMainMenuSpearManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuShieldManager>().CreateMainMenuShieldManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuBowManager>().CreateMainMenuBowManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuGunManager>().CreateMainMenuGunManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuCyberManager>().CreateMainMenuCyberManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuFairyManager>().CreateMainMenuFairyManagerAsync(stat);
-        });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuRealmManager>().CreateMainMenuRealmManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, () =>
+
+        // {
+
+        //     FindAnyObjectByType<MainMenuAffinityManager>().CreateMainMenuAffinityManager(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuBlessingManager>().CreateMainMenuBlessingManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuCoreManager>().CreateMainMenuCoreManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuPhysiqueManager>().CreateMainMenuPhysiqueManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuBloodlineManager>().CreateMainMenuBloodlineManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuOmnivisionManager>().CreateMainMenuOmnivisionManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuOmnipotenceManager>().CreateMainMenuOmnipotenceManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuOmnipresenceManager>().CreateMainMenuOmnipresenceManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuOmniscienceManager>().CreateMainMenuOmniscienceManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuOmnivoryManager>().CreateMainMenuOmnivoryManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuAngelManager>().CreateMainMenuAngelManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuDemonManager>().CreateMainMenuDemonManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuSwordManager>().CreateMainMenuSwordManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuSpearManager>().CreateMainMenuSpearManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuShieldManager>().CreateMainMenuShieldManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuBowManager>().CreateMainMenuBowManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuGunManager>().CreateMainMenuGunManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuCyberManager>().CreateMainMenuCyberManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuFairyManager>().CreateMainMenuFairyManagerAsync(stat);
+
+        // });
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet1.REALM, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet1.UPGRADE, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet1.APTITUDE, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet1.AFFINITY, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet1.BLESSING, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet1.CORE, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet1.PHYSIQUE, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet1.BLOODLINE, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet1.OMNIVISION, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet1.OMNIPOTENCE, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet1.OMNIPRESENCE, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet1.OMNISCIENCE, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet1.OMNIVORY, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet1.ANGEL, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet1.DEMON, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet1.SWORD, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet1.SPEAR, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet1.SHIELD, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet1.BOW, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet1.GUN, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet1.CYBER, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet1.FAIRY, stat));
     }
     public void CreateButtonSet2(IStats stat)
     {
@@ -349,98 +458,213 @@ public class RankManager : MonoBehaviour
         CreateButtonWithBackgroundUI(22, AppDisplayConstants.MainMenuSet2.STARFORGE, ImageConstants.Background.ADVANCED_BACKGROUND_22_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Starforge"), contentPanel);
         CreateButtonWithBackgroundUI(23, AppDisplayConstants.MainMenuSet2.ORBITALIS, ImageConstants.Background.ADVANCED_BACKGROUND_23_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Orbitalis"), contentPanel);
 
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuDarkManager>().CreateMainMenuDarkManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuLightManager>().CreateMainMenuLightManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuFireManager>().CreateMainMenuFireManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuIceManager>().CreateMainMenuIceManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuEarthManager>().CreateMainMenuEarthManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuThunderManager>().CreateMainMenuThunderManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuLifeManager>().CreateMainMenuLifeManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuSpaceManager>().CreateMainMenuSpaceManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuTimeManager>().CreateMainMenuTimeManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuNanotechManager>().CreateMainMenuNanotechManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuQuantumManager>().CreateMainMenuQuantumManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuHolographyManager>().CreateMainMenuHolographyManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuPlasmaManager>().CreateMainMenuPlasmaManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuBiomechManager>().CreateMainMenuBiomechManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuCryotechManager>().CreateMainMenuCryotechManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuPsionicsManager>().CreateMainMenuPsionicsManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuNeurotechManager>().CreateMainMenuNeurotechManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuAntimatterManager>().CreateMainMenuAntimatterManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuPhantomwareManager>().CreateMainMenuPhantomwareManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuGravitechManager>().CreateMainMenuGravitechManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuAethernetManager>().CreateMainMenuAethernetManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuStarforgeManager>().CreateMainMenuStarforgeManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuOrbitalisManager>().CreateMainMenuOrbitalisManagerAsync(stat);
-        });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuDarkManager>().CreateMainMenuDarkManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuLightManager>().CreateMainMenuLightManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuFireManager>().CreateMainMenuFireManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuIceManager>().CreateMainMenuIceManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuEarthManager>().CreateMainMenuEarthManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuThunderManager>().CreateMainMenuThunderManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuLifeManager>().CreateMainMenuLifeManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuSpaceManager>().CreateMainMenuSpaceManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuTimeManager>().CreateMainMenuTimeManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuNanotechManager>().CreateMainMenuNanotechManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuQuantumManager>().CreateMainMenuQuantumManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuHolographyManager>().CreateMainMenuHolographyManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuPlasmaManager>().CreateMainMenuPlasmaManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuBiomechManager>().CreateMainMenuBiomechManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuCryotechManager>().CreateMainMenuCryotechManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuPsionicsManager>().CreateMainMenuPsionicsManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuNeurotechManager>().CreateMainMenuNeurotechManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuAntimatterManager>().CreateMainMenuAntimatterManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuPhantomwareManager>().CreateMainMenuPhantomwareManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuGravitechManager>().CreateMainMenuGravitechManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuAethernetManager>().CreateMainMenuAethernetManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuStarforgeManager>().CreateMainMenuStarforgeManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuOrbitalisManager>().CreateMainMenuOrbitalisManagerAsync(stat);
+
+        // });
+
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.DARK, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.LIGHT, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.FIRE, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.ICE, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.EARTH, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.THUNDER, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.LIFE, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.SPACE, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.TIME, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.NANOTECH, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.QUANTUM, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.HOLOGRAPHY, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.PLASMA, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.BIOMECH, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.CRYOTECH, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.PSIONICS, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.NEUROTECH, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.ANTIMATTER, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.PHANTOMWARE, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.GRAVITECH, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.AETHERNET, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.STARFORGE, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.ORBITALIS, stat));
     }
     public void CreateButtonSet3(IStats stat)
     {
@@ -496,99 +720,213 @@ public class RankManager : MonoBehaviour
         CreateButtonWithBackgroundUI(22, AppDisplayConstants.MainMenuSet3.XYPHOS, ImageConstants.Background.ADVANCED_BACKGROUND_22_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Xyphos"), contentPanel);
         CreateButtonWithBackgroundUI(23, AppDisplayConstants.MainMenuSet3.VAELITH, ImageConstants.Background.ADVANCED_BACKGROUND_23_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Vaelith"), contentPanel);
 
+        // ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () =>
 
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuAzathothManager>().CreateMainMenuAzathothManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuYogSothothManager>().CreateMainMenuYogSothothManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuNyarlathotepManager>().CreateMainMenuNyarlathotepManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuShubNiggurathManager>().CreateMainMenuShubNiggurathManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuNihorathManager>().CreateMainMenuNihorathManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuAeonaxManager>().CreateMainMenuAeonaxManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuSeraphirosManager>().CreateMainMenuSeraphirosManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuThorindarManager>().CreateMainMenuThorindarManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuZilthrosManager>().CreateMainMenuZilthrosManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuKhorazalManager>().CreateMainMenuKhorazalManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuIxithraManager>().CreateMainMenuIxithraManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuOmnitheusManager>().CreateMainMenuOmnitheusManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuPhyrixaManager>().CreateMainMenuPhyrixaManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuAtherionManager>().CreateMainMenuAtherionManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuVorathosManager>().CreateMainMenuVorathosManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuTenebrisManager>().CreateMainMenuTenebrisManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuXylkorManager>().CreateMainMenuXylkorManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuVeltharionManager>().CreateMainMenuVeltharionManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuArcanosManager>().CreateMainMenuArcanosManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuDolomathManager>().CreateMainMenuDolomathManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuArathorManager>().CreateMainMenuArathorManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuXyphosManager>().CreateMainMenuXyphosManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuVaelithManager>().CreateMainMenuVaelithManagerAsync(stat);
-        });
+        // {
+
+        //     await FindAnyObjectByType<MainMenuAzathothManager>().CreateMainMenuAzathothManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuYogSothothManager>().CreateMainMenuYogSothothManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuNyarlathotepManager>().CreateMainMenuNyarlathotepManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuShubNiggurathManager>().CreateMainMenuShubNiggurathManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuNihorathManager>().CreateMainMenuNihorathManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuAeonaxManager>().CreateMainMenuAeonaxManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuSeraphirosManager>().CreateMainMenuSeraphirosManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuThorindarManager>().CreateMainMenuThorindarManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuZilthrosManager>().CreateMainMenuZilthrosManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuKhorazalManager>().CreateMainMenuKhorazalManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuIxithraManager>().CreateMainMenuIxithraManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuOmnitheusManager>().CreateMainMenuOmnitheusManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuPhyrixaManager>().CreateMainMenuPhyrixaManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuAtherionManager>().CreateMainMenuAtherionManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuVorathosManager>().CreateMainMenuVorathosManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuTenebrisManager>().CreateMainMenuTenebrisManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuXylkorManager>().CreateMainMenuXylkorManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuVeltharionManager>().CreateMainMenuVeltharionManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuArcanosManager>().CreateMainMenuArcanosManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuDolomathManager>().CreateMainMenuDolomathManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuArathorManager>().CreateMainMenuArathorManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuXyphosManager>().CreateMainMenuXyphosManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuVaelithManager>().CreateMainMenuVaelithManagerAsync(stat);
+
+        // });
+
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet3.AZATHOTH, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet3.YOG_SOTHOTH, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet3.NYARLATHOTEP, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet3.SHUB_NIGGURATH, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet3.NIHORATH, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet3.AEONAX, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet3.SERAPHIROS, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet3.THORINDAR, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet3.ZILTHROS, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet3.KHORAZAL, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet3.IXITHRA, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet3.OMNITHEUS, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet3.PHYRIXA, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet3.ATHERION, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet3.VORATHOS, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet3.TENEBRIS, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet3.XYLKOR, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet3.VELTHARION, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet3.ARCANOS, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet3.DOLOMATH, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet3.ARATHOR, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet3.XYPHOS, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet3.VAELITH, stat));
     }
     public void CreateButtonSet4(IStats stat)
     {
@@ -644,98 +982,213 @@ public class RankManager : MonoBehaviour
         CreateButtonWithBackgroundUI(22, AppDisplayConstants.MainMenuSet4.JORR, ImageConstants.Background.ADVANCED_BACKGROUND_22_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Jorr"), contentPanel);
         CreateButtonWithBackgroundUI(23, AppDisplayConstants.MainMenuSet4.QUEN, ImageConstants.Background.ADVANCED_BACKGROUND_23_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Quen"), contentPanel);
 
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuZarxManager>().CreateMainMenuZarxManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuRaikManager>().CreateMainMenuRaikManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuDraxManager>().CreateMainMenuDraxManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuKronManager>().CreateMainMenuKronManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuZoltManager>().CreateMainMenuZoltManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuGorrManager>().CreateMainMenuGorrManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuRyzeManager>().CreateMainMenuRyzeManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuJaxxManager>().CreateMainMenuJaxxManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuTharManager>().CreateMainMenuTharManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuVornManager>().CreateMainMenuVornManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuNyxManager>().CreateMainMenuNyxManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuArosManager>().CreateMainMenuArosManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuHexManager>().CreateMainMenuHexManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuLornManager>().CreateMainMenuLornManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuBaxxManager>().CreateMainMenuBaxxManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuZephManager>().CreateMainMenuZephManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuKaelManager>().CreateMainMenuKaelManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuDravManager>().CreateMainMenuDravManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuTornManager>().CreateMainMenuTornManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuMyrrManager>().CreateMainMenuMyrrManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuVaskManager>().CreateMainMenuVaskManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuJorrManager>().CreateMainMenuJorrManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuQuenManager>().CreateMainMenuQuenManagerAsync(stat);
-        });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuZarxManager>().CreateMainMenuZarxManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuRaikManager>().CreateMainMenuRaikManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuDraxManager>().CreateMainMenuDraxManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuKronManager>().CreateMainMenuKronManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuZoltManager>().CreateMainMenuZoltManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuGorrManager>().CreateMainMenuGorrManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuRyzeManager>().CreateMainMenuRyzeManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuJaxxManager>().CreateMainMenuJaxxManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuTharManager>().CreateMainMenuTharManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuVornManager>().CreateMainMenuVornManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuNyxManager>().CreateMainMenuNyxManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuArosManager>().CreateMainMenuArosManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuHexManager>().CreateMainMenuHexManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuLornManager>().CreateMainMenuLornManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuBaxxManager>().CreateMainMenuBaxxManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuZephManager>().CreateMainMenuZephManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuKaelManager>().CreateMainMenuKaelManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuDravManager>().CreateMainMenuDravManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuTornManager>().CreateMainMenuTornManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuMyrrManager>().CreateMainMenuMyrrManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuVaskManager>().CreateMainMenuVaskManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuJorrManager>().CreateMainMenuJorrManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuQuenManager>().CreateMainMenuQuenManagerAsync(stat);
+
+        // });
+
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet4.ZARX, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet4.RAIK, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet4.DRAX, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet4.KRON, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet4.ZOLT, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet4.GORR, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet4.RYZE, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet4.JAXX, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet4.THAR, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet4.VORN, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet4.NYX, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet4.AROS, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet4.HEX, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet4.LORN, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet4.BAXX, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet4.ZEPH, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet4.KAEL, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet4.DRAV, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet4.TORN, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet4.MYRR, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet4.VASK, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet4.JORR, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet4.QUEN, stat));
     }
     public void CreateButtonSet5(IStats stat)
     {
@@ -791,98 +1244,213 @@ public class RankManager : MonoBehaviour
         CreateButtonWithBackgroundUI(22, AppDisplayConstants.MainMenuSet5.YUNKUI_TALES, ImageConstants.Background.ADVANCED_BACKGROUND_22_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/YunkuiTales"), contentPanel);
         CreateButtonWithBackgroundUI(23, AppDisplayConstants.MainMenuSet5.CHIP, ImageConstants.Background.ADVANCED_BACKGROUND_23_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Chip_Slot"), contentPanel);
 
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuAstralVoiceManager>().CreateMainMenuAstralVoiceManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuBranchBladeSongManager>().CreateMainMenuBranchBladeSongManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuChaosJazzManager>().CreateMainMenuChaosJazzManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuChaoticMetalManager>().CreateMainMenuChaoticMetalManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuDawnSBloomManager>().CreateMainMenuDawnSBloomManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuFangedMetalManager>().CreateMainMenuFangedMetalManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuFreedomBluesManager>().CreateMainMenuFreedomBluesManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuHormonePunkManager>().CreateMainMenuHormonePunkManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuInfernoMetalManager>().CreateMainMenuInfernoMetalManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuKingOfTheSummitManager>().CreateMainMenuKingOfTheSummitManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuMoonlightLullabyManager>().CreateMainMenuMoonlightLullabyManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuPhaetonSMelodyManager>().CreateMainMenuPhaetonSMelodyManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuPolarMetalManager>().CreateMainMenuPolarMetalManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuProtoPunkManager>().CreateMainMenuProtoPunkManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuPufferElectroManager>().CreateMainMenuPufferElectroManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuShadowHarmonyManager>().CreateMainMenuShadowHarmonyManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuShockstarDiscoManager>().CreateMainMenuShockstarDiscoManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuSoulRockManager>().CreateMainMenuSoulRockManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuSwingJazzManager>().CreateMainMenuSwingJazzManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuThunderManager>().CreateMainMenuThunderManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuWoodpeckerElectroManager>().CreateMainMenuWoodpeckerElectroManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuYunkuiTalesManager>().CreateMainMenuYunkuiTalesManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuChipManager>().CreateMainMenuChipManagerAsync(stat);
-        });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuAstralVoiceManager>().CreateMainMenuAstralVoiceManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuBranchBladeSongManager>().CreateMainMenuBranchBladeSongManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuChaosJazzManager>().CreateMainMenuChaosJazzManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuChaoticMetalManager>().CreateMainMenuChaoticMetalManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuDawnSBloomManager>().CreateMainMenuDawnSBloomManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuFangedMetalManager>().CreateMainMenuFangedMetalManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuFreedomBluesManager>().CreateMainMenuFreedomBluesManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuHormonePunkManager>().CreateMainMenuHormonePunkManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuInfernoMetalManager>().CreateMainMenuInfernoMetalManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuKingOfTheSummitManager>().CreateMainMenuKingOfTheSummitManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuMoonlightLullabyManager>().CreateMainMenuMoonlightLullabyManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuPhaetonSMelodyManager>().CreateMainMenuPhaetonSMelodyManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuPolarMetalManager>().CreateMainMenuPolarMetalManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuProtoPunkManager>().CreateMainMenuProtoPunkManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuPufferElectroManager>().CreateMainMenuPufferElectroManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuShadowHarmonyManager>().CreateMainMenuShadowHarmonyManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuShockstarDiscoManager>().CreateMainMenuShockstarDiscoManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuSoulRockManager>().CreateMainMenuSoulRockManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuSwingJazzManager>().CreateMainMenuSwingJazzManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuThunderManager>().CreateMainMenuThunderManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuWoodpeckerElectroManager>().CreateMainMenuWoodpeckerElectroManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuYunkuiTalesManager>().CreateMainMenuYunkuiTalesManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuChipManager>().CreateMainMenuChipManagerAsync(stat);
+
+        // });
+
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet5.ASTRAL_VOICE, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet5.BRANCH_BLADE_SONG, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet5.CHAOS_JAZZ, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet5.CHAOTIC_METAL, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet5.DAWN_S_BLOOM, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet5.FANGED_METAL, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet5.FREEDOM_BLUES, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet5.HORMONE_PUNK, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet5.INFERNO_METAL, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet5.KING_OF_THE_SUMMIT, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet5.MOONLIGHT_LULLABY, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet5.PHAETON_S_MELODY, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet5.POLAR_METAL, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet5.PROTO_PUNK, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet5.PUFFER_ELECTRO, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet5.SHADOW_HARMONY, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet5.SHOCKSTAR_DISCO, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet5.SOUL_ROCK, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet5.SWING_JAZZ, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet5.THUNDER_METAL, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet5.WOODPECKER_ELECTRO, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet5.YUNKUI_TALES, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet5.CHIP, stat));
     }
     public void CreateButtonSet6(IStats stat)
     {
@@ -938,98 +1506,213 @@ public class RankManager : MonoBehaviour
         CreateButtonWithBackgroundUI(22, AppDisplayConstants.MainMenuSet6.UMBRA, ImageConstants.Background.ADVANCED_BACKGROUND_22_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Umbra"), contentPanel);
         CreateButtonWithBackgroundUI(23, AppDisplayConstants.MainMenuSet6.ZENITH, ImageConstants.Background.ADVANCED_BACKGROUND_23_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Zenith"), contentPanel);
 
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuApotheonManager>().CreateMainMenuApotheonManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuAxiomManager>().CreateMainMenuAxiomManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuCataclysmManager>().CreateMainMenuCataclysmManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuCatalystManager>().CreateMainMenuCatalystManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuDominionManager>().CreateMainMenuDominionManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuEclipseManager>().CreateMainMenuEclipseManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuElysiumManager>().CreateMainMenuElysiumManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuEmpyreanManager>().CreateMainMenuEmpyreanManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuEntropyManager>().CreateMainMenuEntropyManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuFluxManager>().CreateMainMenuFluxManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuGenesisManager>().CreateMainMenuGenesisManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuHelixManager>().CreateMainMenuHelixManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuHyperionManager>().CreateMainMenuHyperionManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuInfernumManager>().CreateMainMenuInfernumManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuNexusManager>().CreateMainMenuNexusManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuNullityManager>().CreateMainMenuNullityManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuOblivionManager>().CreateMainMenuOblivionManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuObliviumManager>().CreateMainMenuObliviumManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuParagonManager>().CreateMainMenuParagonManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuParallaxManager>().CreateMainMenuParallaxManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuSingularityManager>().CreateMainMenuSingularityManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuUmbraManager>().CreateMainMenuUmbraManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuZenithManager>().CreateMainMenuZenithManagerAsync(stat);
-        });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuApotheonManager>().CreateMainMenuApotheonManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuAxiomManager>().CreateMainMenuAxiomManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuCataclysmManager>().CreateMainMenuCataclysmManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuCatalystManager>().CreateMainMenuCatalystManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuDominionManager>().CreateMainMenuDominionManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuEclipseManager>().CreateMainMenuEclipseManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuElysiumManager>().CreateMainMenuElysiumManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuEmpyreanManager>().CreateMainMenuEmpyreanManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuEntropyManager>().CreateMainMenuEntropyManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuFluxManager>().CreateMainMenuFluxManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuGenesisManager>().CreateMainMenuGenesisManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuHelixManager>().CreateMainMenuHelixManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuHyperionManager>().CreateMainMenuHyperionManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuInfernumManager>().CreateMainMenuInfernumManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuNexusManager>().CreateMainMenuNexusManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuNullityManager>().CreateMainMenuNullityManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuOblivionManager>().CreateMainMenuOblivionManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuObliviumManager>().CreateMainMenuObliviumManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuParagonManager>().CreateMainMenuParagonManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuParallaxManager>().CreateMainMenuParallaxManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuSingularityManager>().CreateMainMenuSingularityManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuUmbraManager>().CreateMainMenuUmbraManagerAsync(stat);
+
+        // });
+
+        // ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, async () =>
+
+        // {
+
+        //     await FindAnyObjectByType<MainMenuZenithManager>().CreateMainMenuZenithManagerAsync(stat);
+
+        // });
+
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.APOTHEON, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.AXIOM, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.CATACLYSM, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.CATALYST, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.DOMINION, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.ECLIPSE, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.ELYSIUM, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.EMPYREAN, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.ENTROPY, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.FLUX, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.GENESIS, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.HELIX, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.HYPERION, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.INFERNUM, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.NEXUS, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.NULLITY, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.OBLIVION, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.OBLIVIUM, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.PARAGON, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.PARALLAX, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.SINGULARITY, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.UMBRA, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.ZENITH, stat));
     }
     public void CreateButtonSet7(IStats stat)
     {
@@ -1085,97 +1768,120 @@ public class RankManager : MonoBehaviour
         CreateButtonWithBackgroundUI(22, AppDisplayConstants.MainMenuSet7.VELKRYN, ImageConstants.Background.ADVANCED_BACKGROUND_22_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Velkryn"), contentPanel);
         CreateButtonWithBackgroundUI(23, AppDisplayConstants.MainMenuSet7.XARPHIS, ImageConstants.Background.ADVANCED_BACKGROUND_23_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Xarphis"), contentPanel);
 
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuAbyssalManager>().CreateMainMenuAbyssalManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuArcaneManager>().CreateMainMenuArcaneManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuAshframeManager>().CreateMainMenuAshframeManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuAstrionManager>().CreateMainMenuAstrionManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuAxiomataManager>().CreateMainMenuAxiomataManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuChronyxManager>().CreateMainMenuChronyxManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuCognitumManager>().CreateMainMenuCognitumManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuContinuumManager>().CreateMainMenuContinuumManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuCosmosManager>().CreateMainMenuCosmosManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuEternumManager>().CreateMainMenuEternumManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuFerrumaxManager>().CreateMainMenuFerrumaxManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuHorizonManager>().CreateMainMenuHorizonManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuKaelthraManager>().CreateMainMenuKaelthraManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuLuminaryManager>().CreateMainMenuLuminaryManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuMorvaneManager>().CreateMainMenuMorvaneManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuNeoterraManager>().CreateMainMenuNeoterraManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuNexariumManager>().CreateMainMenuNexariumManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuNovaManager>().CreateMainMenuNovaManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuOmnivexManager>().CreateMainMenuOmnivexManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuParadoxManager>().CreateMainMenuParadoxManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuThrenodyManager>().CreateMainMenuThrenodyManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuVelkrynManager>().CreateMainMenuVelkrynManagerAsync(stat);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, async () =>
-        {
-            await FindAnyObjectByType<MainMenuXarphisManager>().CreateMainMenuXarphisManagerAsync(stat);
-        });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuAbyssalManager>().CreateMainMenuAbyssalManagerAsync(stat);
+        // });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuArcaneManager>().CreateMainMenuArcaneManagerAsync(stat);
+        // });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuAshframeManager>().CreateMainMenuAshframeManagerAsync(stat);
+        // });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuAstrionManager>().CreateMainMenuAstrionManagerAsync(stat);
+        // });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuAxiomataManager>().CreateMainMenuAxiomataManagerAsync(stat);
+        // });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuChronyxManager>().CreateMainMenuChronyxManagerAsync(stat);
+        // });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuCognitumManager>().CreateMainMenuCognitumManagerAsync(stat);
+        // });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuContinuumManager>().CreateMainMenuContinuumManagerAsync(stat);
+        // });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuCosmosManager>().CreateMainMenuCosmosManagerAsync(stat);
+        // });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuEternumManager>().CreateMainMenuEternumManagerAsync(stat);
+        // });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuFerrumaxManager>().CreateMainMenuFerrumaxManagerAsync(stat);
+        // });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuHorizonManager>().CreateMainMenuHorizonManagerAsync(stat);
+        // });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuKaelthraManager>().CreateMainMenuKaelthraManagerAsync(stat);
+        // });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuLuminaryManager>().CreateMainMenuLuminaryManagerAsync(stat);
+        // });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuMorvaneManager>().CreateMainMenuMorvaneManagerAsync(stat);
+        // });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuNeoterraManager>().CreateMainMenuNeoterraManagerAsync(stat);
+        // });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuNexariumManager>().CreateMainMenuNexariumManagerAsync(stat);
+        // });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuNovaManager>().CreateMainMenuNovaManagerAsync(stat);
+        // });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuOmnivexManager>().CreateMainMenuOmnivexManagerAsync(stat);
+        // });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuParadoxManager>().CreateMainMenuParadoxManagerAsync(stat);
+        // });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuThrenodyManager>().CreateMainMenuThrenodyManagerAsync(stat);
+        // });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuVelkrynManager>().CreateMainMenuVelkrynManagerAsync(stat);
+        // });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuXarphisManager>().CreateMainMenuXarphisManagerAsync(stat);
+        // });
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet7.ABYSSAL, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet7.ARCANE, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet7.ASHFRAME, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet7.ASTRION, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet7.AXIOMATA, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet7.CHRONYX, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet7.COGNITUM, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet7.CONTINUUM, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet7.COSMOS, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet7.ETERNUM, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet7.FERRUMAX, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet7.HORIZON, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet7.KAELTHRA, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet7.LUMINARY, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet7.MORVANE, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet7.NEOTERRA, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet7.NEXARIUM, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet7.NOVA, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet7.OMNIVEX, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet7.PARADOX, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet7.THRENODY, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet7.VELKRYN, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet7.XARPHIS, stat));
     }
 }

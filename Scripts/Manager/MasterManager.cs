@@ -103,16 +103,27 @@ public class MasterManager : MonoBehaviour
     }
     public void CreateMasterButtonEvent(IStats stat, Transform panel)
     {
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await MasterOfBeastManager.Instance.CreateMasterOfBeastManagerAsync(stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await MasterOfDragonManager.Instance.CreateMasterOfDragonManagerAsync(stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await MasterOfMagicManager.Instance.CreateMasterOfMagicManagerAsync(stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await MasterOfMusicManager.Instance.CreateMasterOfMusicManagerAsync(stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await MasterOfScienceManager.Instance.CreateMasterOfScienceManagerAsync(stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await MasterOfSpiritManager.Instance.CreateMasterOfSpiritManagerAsync(stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await MasterOfWeaponManager.Instance.CreateMasterOfWeaponManagerAsync(stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await MasterOfChemicalManager.Instance.CreateMasterOfChemicalManagerAsync(stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await MasterOfPhysicalManager.Instance.CreateMasterOfPhysicalManagerAsync(stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await MasterOfAtomicManager.Instance.CreateMasterOfAtomicManagerAsync(stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", panel, async () => await MasterOfMentalManager.Instance.CreateMasterOfMentalManagerAsync(stat));
+        // ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await MasterOfBeastManager.Instance.CreateMasterOfBeastManagerAsync(stat));
+        // ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await MasterOfDragonManager.Instance.CreateMasterOfDragonManagerAsync(stat));
+        // ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await MasterOfMagicManager.Instance.CreateMasterOfMagicManagerAsync(stat));
+        // ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await MasterOfMusicManager.Instance.CreateMasterOfMusicManagerAsync(stat));
+        // ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await MasterOfScienceManager.Instance.CreateMasterOfScienceManagerAsync(stat));
+        // ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await MasterOfSpiritManager.Instance.CreateMasterOfSpiritManagerAsync(stat));
+        // ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await MasterOfWeaponManager.Instance.CreateMasterOfWeaponManagerAsync(stat));
+        // ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await MasterOfChemicalManager.Instance.CreateMasterOfChemicalManagerAsync(stat));
+        // ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await MasterOfPhysicalManager.Instance.CreateMasterOfPhysicalManagerAsync(stat));
+        // ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await MasterOfAtomicManager.Instance.CreateMasterOfAtomicManagerAsync(stat));
+        // ButtonEvent.Instance.AssignButtonEvent("Button_11", panel, async () => await MasterOfMentalManager.Instance.CreateMasterOfMentalManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await MasterController.Instance.GetMasterAsync(AppConstants.Master.MASTER_OF_BEAST,stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await MasterController.Instance.GetMasterAsync(AppConstants.Master.MASTER_OF_DRAGON, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await MasterController.Instance.GetMasterAsync(AppConstants.Master.MASTER_OF_MAGIC, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await MasterController.Instance.GetMasterAsync(AppConstants.Master.MASTER_OF_MUSIC, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await MasterController.Instance.GetMasterAsync(AppConstants.Master.MASTER_OF_SCIENCE, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await MasterController.Instance.GetMasterAsync(AppConstants.Master.MASTER_OF_SPIRIT, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await MasterController.Instance.GetMasterAsync(AppConstants.Master.MASTER_OF_WEAPON, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await MasterController.Instance.GetMasterAsync(AppConstants.Master.MASTER_OF_CHEMICAL, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await MasterController.Instance.GetMasterAsync(AppConstants.Master.MASTER_OF_PHYSICAL, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await MasterController.Instance.GetMasterAsync(AppConstants.Master.MASTER_OF_ATOMIC, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", panel, async () => await MasterController.Instance.GetMasterAsync(AppConstants.Master.MASTER_OF_MENTAL, stat));
     }
 }

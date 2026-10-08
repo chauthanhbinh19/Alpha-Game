@@ -101,15 +101,25 @@ public class HIRNManager : MonoBehaviour
     }
     public void CreateHIRNButtonEvent(Transform panel)
     {
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await HIRNIManager.Instance.CreateHIRNIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await HIRNIIManager.Instance.CreateHIRNIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await HIRNIIIManager.Instance.CreateHIRNIIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await HIRNIVManager.Instance.CreateHIRNIVManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await HIRNVManager.Instance.CreateHIRNVManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await HIRNVIManager.Instance.CreateHIRNVIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await HIRNVIIManager.Instance.CreateHIRNVIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await HIRNVIIIManager.Instance.CreateHIRNVIIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await HIRNIXManager.Instance.CreateHIRNIXManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await HIRNXManager.Instance.CreateHIRNXManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await HIRNIManager.Instance.CreateHIRNIManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await HIRNIIManager.Instance.CreateHIRNIIManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await HIRNIIIManager.Instance.CreateHIRNIIIManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await HIRNIVManager.Instance.CreateHIRNIVManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await HIRNVManager.Instance.CreateHIRNVManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await HIRNVIManager.Instance.CreateHIRNVIManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await HIRNVIIManager.Instance.CreateHIRNVIIManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await HIRNVIIIManager.Instance.CreateHIRNVIIIManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await HIRNIXManager.Instance.CreateHIRNIXManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await HIRNXManager.Instance.CreateHIRNXManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await HIRNController.Instance.GetHIRNAsync(AppConstants.HIRN.HIRN_I));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await HIRNController.Instance.GetHIRNAsync(AppConstants.HIRN.HIRN_II));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await HIRNController.Instance.GetHIRNAsync(AppConstants.HIRN.HIRN_III));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await HIRNController.Instance.GetHIRNAsync(AppConstants.HIRN.HIRN_IV));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await HIRNController.Instance.GetHIRNAsync(AppConstants.HIRN.HIRN_V));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await HIRNController.Instance.GetHIRNAsync(AppConstants.HIRN.HIRN_VI));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await HIRNController.Instance.GetHIRNAsync(AppConstants.HIRN.HIRN_VII));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await HIRNController.Instance.GetHIRNAsync(AppConstants.HIRN.HIRN_VIII));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await HIRNController.Instance.GetHIRNAsync(AppConstants.HIRN.HIRN_IX));
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await HIRNController.Instance.GetHIRNAsync(AppConstants.HIRN.HIRN_X));
     }
 }

@@ -14,19 +14,19 @@ public static class MaterialHelper
                 return MaterialManager.Instance.Get("Rare_UR_Mat");
             case AppConstants.Rare.LG:
                 return MaterialManager.Instance.Get("Rare_LG_Mat");
-            case AppConstants.Rare.LGPlus:
+            case AppConstants.Rare.LG_Plus:
                 return MaterialManager.Instance.Get("Rare_LGPlus_Mat");
             case AppConstants.Rare.MR:
                 return MaterialManager.Instance.Get("Rare_MR_Mat");
-            case AppConstants.Rare.MRPlus:
+            case AppConstants.Rare.MR_Plus:
                 return MaterialManager.Instance.Get("Rare_MRPlus_Mat");
             case AppConstants.Rare.SLG:
                 return MaterialManager.Instance.Get("Rare_SLG_Mat");
-            case AppConstants.Rare.SLGPlus:
+            case AppConstants.Rare.SLG_Plus:
                 return MaterialManager.Instance.Get("Rare_SLGPlus_Mat");
             case AppConstants.Rare.SP:
                 return MaterialManager.Instance.Get("Rare_SP_Mat");
-            case AppConstants.Rare.SPPlus:
+            case AppConstants.Rare.SP_Plus:
                 return MaterialManager.Instance.Get("Rare_SPPlus_Mat");
             default:
                 return MaterialManager.Instance.Get("Rare_SR_Mat");

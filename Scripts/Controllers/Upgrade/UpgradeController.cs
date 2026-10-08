@@ -51,7 +51,7 @@ public class UpgradeController : MonoBehaviour
         UpgradeItemPrefab = UIManager.Instance.Get("UpgradeItemPrefab");
     }
 
-    public async Task GetUpgradeAsync(IStats stat, string type)
+    public async Task GetUpgradeAsync(string type, IStats stat)
     {
         switch (type)
         {

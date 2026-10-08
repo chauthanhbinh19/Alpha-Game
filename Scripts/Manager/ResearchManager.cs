@@ -205,132 +205,232 @@ public class ResearchManager : MonoBehaviour
     }
     public void CreateBaseInfrastructure(Transform panel)
     {
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await HousingManager.Instance.CreateHousingManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await InfrastructureManager.Instance.CreateInfrastructureManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await LogisticsManager.Instance.CreateLogisticsManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await SanitationManager.Instance.CreateSanitationManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await TransportationManager.Instance.CreateTransportationManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await UrbanizationManager.Instance.CreateUrbanizationManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await UtilitiesManager.Instance.CreateUtilitiesManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await WasteManager.Instance.CreateWasteManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await WaterManager.Instance.CreateWaterManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await FacilitiesManager.Instance.CreateFacilitiesManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await HousingManager.Instance.CreateHousingManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await InfrastructureManager.Instance.CreateInfrastructureManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await LogisticsManager.Instance.CreateLogisticsManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await SanitationManager.Instance.CreateSanitationManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await TransportationManager.Instance.CreateTransportationManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await UrbanizationManager.Instance.CreateUrbanizationManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await UtilitiesManager.Instance.CreateUtilitiesManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await WasteManager.Instance.CreateWasteManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await WaterManager.Instance.CreateWaterManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await FacilitiesManager.Instance.CreateFacilitiesManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.HOUSING));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.INFRASTRUCTURE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.LOGISTICS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.SANITATION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.TRANSPORTATION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.URBANIZATION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.UTILITIES));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.WASTE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.WATER));
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.FACILITIES));
     }
     public void CreateCoreSystems(Transform panel)
     {
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", panel, async () => await ConstructionManager.Instance.CreateConstructionManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_12", panel, async () => await EnergyManager.Instance.CreateEnergyManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_13", panel, async () => await EngineeringManager.Instance.CreateEngineeringManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_14", panel, async () => await IndustryManager.Instance.CreateIndustryManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_15", panel, async () => await ManufacturingManager.Instance.CreateManufacturingManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_16", panel, async () => await MaterialsManager.Instance.CreateMaterialsManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_17", panel, async () => await PowerResearchManager.Instance.CreatePowerManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_18", panel, async () => await MechanicsManager.Instance.CreateMechanicsManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_19", panel, async () => await ResourceManager.Instance.CreateResourceManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_20", panel, async () => await SystemManager.Instance.CreateSystemManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_11", panel, async () => await ConstructionManager.Instance.CreateConstructionManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_12", panel, async () => await EnergyManager.Instance.CreateEnergyManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_13", panel, async () => await EngineeringManager.Instance.CreateEngineeringManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_14", panel, async () => await IndustryManager.Instance.CreateIndustryManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_15", panel, async () => await ManufacturingManager.Instance.CreateManufacturingManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_16", panel, async () => await MaterialsManager.Instance.CreateMaterialsManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_17", panel, async () => await PowerResearchManager.Instance.CreatePowerManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_18", panel, async () => await MechanicsManager.Instance.CreateMechanicsManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_19", panel, async () => await ResourceManager.Instance.CreateResourceManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_20", panel, async () => await SystemManager.Instance.CreateSystemManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.CONSTRUCTION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_12", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.ENERGY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_13", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.ENGINEERING));
+        ButtonEvent.Instance.AssignButtonEvent("Button_14", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.INDUSTRY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_15", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.MANUFACTURING));
+        ButtonEvent.Instance.AssignButtonEvent("Button_16", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.MATERIALS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_17", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.POWER));
+        ButtonEvent.Instance.AssignButtonEvent("Button_18", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.MECHANICS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_19", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.RESOURCE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_20", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.SYSTEM));
     }
     public void CreateDefenseSafety(Transform panel)
     {
-        ButtonEvent.Instance.AssignButtonEvent("Button_21", panel, async () => await ArmorManager.Instance.CreateArmorManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_22", panel, async () => await DefenseManager.Instance.CreateDefenseManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_23", panel, async () => await DisasterManager.Instance.CreateDisasterManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_24", panel, async () => await EmergencyManager.Instance.CreateEmergencyManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_25", panel, async () => await MilitaryManager.Instance.CreateMilitaryManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_26", panel, async () => await SafetyManager.Instance.CreateSafetyManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_27", panel, async () => await ShieldingManager.Instance.CreateShieldingManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_28", panel, async () => await WeaponsManager.Instance.CreateWeaponsManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_29", panel, async () => await FortificationManager.Instance.CreateFortificationManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_30", panel, async () => await TacticsManager.Instance.CreateTacticsManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_21", panel, async () => await ArmorManager.Instance.CreateArmorManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_22", panel, async () => await DefenseManager.Instance.CreateDefenseManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_23", panel, async () => await DisasterManager.Instance.CreateDisasterManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_24", panel, async () => await EmergencyManager.Instance.CreateEmergencyManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_25", panel, async () => await MilitaryManager.Instance.CreateMilitaryManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_26", panel, async () => await SafetyManager.Instance.CreateSafetyManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_27", panel, async () => await ShieldingManager.Instance.CreateShieldingManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_28", panel, async () => await WeaponsManager.Instance.CreateWeaponsManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_29", panel, async () => await FortificationManager.Instance.CreateFortificationManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_30", panel, async () => await TacticsManager.Instance.CreateTacticsManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_21", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.ARMOR));
+        ButtonEvent.Instance.AssignButtonEvent("Button_22", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.DEFENSE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_23", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.DISASTER));
+        ButtonEvent.Instance.AssignButtonEvent("Button_24", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.EMERGENCY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_25", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.MILITARY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_26", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.SAFETY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_27", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.SHIELDING));
+        ButtonEvent.Instance.AssignButtonEvent("Button_28", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.WEAPONS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_29", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.FORTIFICATION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_30", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.TACTICS));
     }
     public void CreateEconomyProduction(Transform panel)
     {
-        ButtonEvent.Instance.AssignButtonEvent("Button_31", panel, async () => await CommerceManager.Instance.CreateCommerceManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_32", panel, async () => await EconomyManager.Instance.CreateEconomyManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_33", panel, async () => await FinanceManager.Instance.CreateFinanceManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_34", panel, async () => await InvestmentManager.Instance.CreateInvestmentManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_35", panel, async () => await ProductivityManager.Instance.CreateProductivityManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_36", panel, async () => await TradeManager.Instance.CreateTradeManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_37", panel, async () => await EnterpriseManager.Instance.CreateEnterpriseManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_38", panel, async () => await MarketManager.Instance.CreateMarketManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_39", panel, async () => await SupplyManager.Instance.CreateSupplyManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_40", panel, async () => await DistributionManager.Instance.CreateDistributionManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_31", panel, async () => await CommerceManager.Instance.CreateCommerceManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_32", panel, async () => await EconomyManager.Instance.CreateEconomyManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_33", panel, async () => await FinanceManager.Instance.CreateFinanceManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_34", panel, async () => await InvestmentManager.Instance.CreateInvestmentManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_35", panel, async () => await ProductivityManager.Instance.CreateProductivityManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_36", panel, async () => await TradeManager.Instance.CreateTradeManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_37", panel, async () => await EnterpriseManager.Instance.CreateEnterpriseManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_38", panel, async () => await MarketManager.Instance.CreateMarketManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_39", panel, async () => await SupplyManager.Instance.CreateSupplyManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_40", panel, async () => await DistributionManager.Instance.CreateDistributionManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_31", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.COMMERCE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_32", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.ECONOMY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_33", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.FINANCE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_34", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.INVESTMENT));
+        ButtonEvent.Instance.AssignButtonEvent("Button_35", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.PRODUCTIVITY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_36", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.TRADE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_37", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.ENTERPRISE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_38", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.MARKET));
+        ButtonEvent.Instance.AssignButtonEvent("Button_39", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.SUPPLY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_40", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.DISTRIBUTION));
     }
     public void CreateEnvironmentSustainability(Transform panel)
     {
-        ButtonEvent.Instance.AssignButtonEvent("Button_41", panel, async () => await ClimateManager.Instance.CreateClimateManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_42", panel, async () => await ConservationManager.Instance.CreateConservationManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_43", panel, async () => await EcologyManager.Instance.CreateEcologyManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_44", panel, async () => await EnvironmentManager.Instance.CreateEnvironmentManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_45", panel, async () => await PollutionManager.Instance.CreatePollutionManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_46", panel, async () => await RecyclingManager.Instance.CreateRecyclingManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_47", panel, async () => await SustainabilityManager.Instance.CreateSustainabilityManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_48", panel, async () => await PreservationManager.Instance.CreatePreservationManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_49", panel, async () => await RenewablesManager.Instance.CreateRenewablesManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_50", panel, async () => await RestorationManager.Instance.CreateRestorationManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_41", panel, async () => await ClimateManager.Instance.CreateClimateManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_42", panel, async () => await ConservationManager.Instance.CreateConservationManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_43", panel, async () => await EcologyManager.Instance.CreateEcologyManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_44", panel, async () => await EnvironmentManager.Instance.CreateEnvironmentManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_45", panel, async () => await PollutionManager.Instance.CreatePollutionManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_46", panel, async () => await RecyclingManager.Instance.CreateRecyclingManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_47", panel, async () => await SustainabilityManager.Instance.CreateSustainabilityManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_48", panel, async () => await PreservationManager.Instance.CreatePreservationManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_49", panel, async () => await RenewablesManager.Instance.CreateRenewablesManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_50", panel, async () => await RestorationManager.Instance.CreateRestorationManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_41", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.CLIMATE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_42", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.CONSERVATION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_43", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.ECOLOGY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_44", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.ENVIRONMENT));
+        ButtonEvent.Instance.AssignButtonEvent("Button_45", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.POLLUTION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_46", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.RECYCLING));
+        ButtonEvent.Instance.AssignButtonEvent("Button_47", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.SUSTAINABILITY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_48", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.PRESERVATION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_49", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.RENEWABLES));
+        ButtonEvent.Instance.AssignButtonEvent("Button_50", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.RESTORATION));
     }
     public void CreateExpansionExploration(Transform panel)
     {
-        ButtonEvent.Instance.AssignButtonEvent("Button_51", panel, async () => await AscensionManager.Instance.CreateAscensionManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_52", panel, async () => await ColonizationManager.Instance.CreateColonizationManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_53", panel, async () => await DimensionalManager.Instance.CreateDimensionalManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_54", panel, async () => await ExpansionManager.Instance.CreateExpansionManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_55", panel, async () => await ExplorationManager.Instance.CreateExplorationManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_56", panel, async () => await MegastructureManager.Instance.CreateMegastructureManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_57", panel, async () => await SingularityManager.Instance.CreateSingularityManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_58", panel, async () => await TerraformingManager.Instance.CreateTerraformingManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_59", panel, async () => await TimeManager.Instance.CreateTimeManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_60", panel, async () => await CosmologyManager.Instance.CreateCosmologyManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_51", panel, async () => await AscensionManager.Instance.CreateAscensionManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_52", panel, async () => await ColonizationManager.Instance.CreateColonizationManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_53", panel, async () => await DimensionalManager.Instance.CreateDimensionalManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_54", panel, async () => await ExpansionManager.Instance.CreateExpansionManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_55", panel, async () => await ExplorationManager.Instance.CreateExplorationManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_56", panel, async () => await MegastructureManager.Instance.CreateMegastructureManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_57", panel, async () => await SingularityManager.Instance.CreateSingularityManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_58", panel, async () => await TerraformingManager.Instance.CreateTerraformingManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_59", panel, async () => await TimeManager.Instance.CreateTimeManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_60", panel, async () => await CosmologyManager.Instance.CreateCosmologyManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_51", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.ASCENSION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_52", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.COLONIZATION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_53", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.DIMENSIONAL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_54", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.EXPANSION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_55", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.EXPLORATION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_56", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.MEGASTRUCTURE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_57", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.SINGULARITY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_58", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.TERRAFORMING));
+        ButtonEvent.Instance.AssignButtonEvent("Button_59", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.TIME));
+        ButtonEvent.Instance.AssignButtonEvent("Button_60", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.COSMOLOGY));
     }
     public void CreateHealthLife(Transform panel)
     {
-        ButtonEvent.Instance.AssignButtonEvent("Button_61", panel, async () => await EpidemiologyManager.Instance.CreateEpidemiologyManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_62", panel, async () => await GeneticsManager.Instance.CreateGeneticsManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_63", panel, async () => await HealthManager.Instance.CreateHealthManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_64", panel, async () => await LongevityManager.Instance.CreateLongevityManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_65", panel, async () => await MedicineManager.Instance.CreateMedicineManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_66", panel, async () => await BiotechManager.Instance.CreateBiotechManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_67", panel, async () => await ImmunologyManager.Instance.CreateImmunologyManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_68", panel, async () => await NutritionManager.Instance.CreateNutritionManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_69", panel, async () => await PharmaceuticalsManager.Instance.CreatePharmaceuticalsManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_70", panel, async () => await RegenerationManager.Instance.CreateRegenerationManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_61", panel, async () => await EpidemiologyManager.Instance.CreateEpidemiologyManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_62", panel, async () => await GeneticsManager.Instance.CreateGeneticsManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_63", panel, async () => await HealthManager.Instance.CreateHealthManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_64", panel, async () => await LongevityManager.Instance.CreateLongevityManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_65", panel, async () => await MedicineManager.Instance.CreateMedicineManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_66", panel, async () => await BiotechManager.Instance.CreateBiotechManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_67", panel, async () => await ImmunologyManager.Instance.CreateImmunologyManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_68", panel, async () => await NutritionManager.Instance.CreateNutritionManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_69", panel, async () => await PharmaceuticalsManager.Instance.CreatePharmaceuticalsManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_70", panel, async () => await RegenerationManager.Instance.CreateRegenerationManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_61", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.EPIDEMIOLOGY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_62", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.GENETICS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_63", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.HEALTH));
+        ButtonEvent.Instance.AssignButtonEvent("Button_64", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.LONGEVITY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_65", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.MEDICINE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_66", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.BIOTECH));
+        ButtonEvent.Instance.AssignButtonEvent("Button_67", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.IMMUNOLOGY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_68", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.NUTRITION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_69", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.PHARMACEUTICALS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_70", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.REGENERATION));
     }
     public void CreateInformationControl(Transform panel)
     {
-        ButtonEvent.Instance.AssignButtonEvent("Button_71", panel, async () => await AIManager.Instance.CreateAIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_72", panel, async () => await CommunicationManager.Instance.CreateCommunicationManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_73", panel, async () => await CybersecurityManager.Instance.CreateCybersecurityManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_74", panel, async () => await DataManager.Instance.CreateDataManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_75", panel, async () => await InformationManager.Instance.CreateInformationManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_76", panel, async () => await NetworkingManager.Instance.CreateNetworkingManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_77", panel, async () => await SecurityManager.Instance.CreateSecurityManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_78", panel, async () => await SurveillanceManager.Instance.CreateSurveillanceManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_79", panel, async () => await AnalyticsManager.Instance.CreateAnalyticsManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_80", panel, async () => await ControlManager.Instance.CreateControlManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_71", panel, async () => await AIManager.Instance.CreateAIManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_72", panel, async () => await CommunicationManager.Instance.CreateCommunicationManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_73", panel, async () => await CybersecurityManager.Instance.CreateCybersecurityManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_74", panel, async () => await DataManager.Instance.CreateDataManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_75", panel, async () => await InformationManager.Instance.CreateInformationManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_76", panel, async () => await NetworkingManager.Instance.CreateNetworkingManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_77", panel, async () => await SecurityManager.Instance.CreateSecurityManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_78", panel, async () => await SurveillanceManager.Instance.CreateSurveillanceManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_79", panel, async () => await AnalyticsManager.Instance.CreateAnalyticsManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_80", panel, async () => await ControlManager.Instance.CreateControlManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_71", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.AI));
+        ButtonEvent.Instance.AssignButtonEvent("Button_72", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.COMMUNICATION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_73", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.CYBERSECURITY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_74", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.DATA));
+        ButtonEvent.Instance.AssignButtonEvent("Button_75", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.INFORMATION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_76", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.NETWORKING));
+        ButtonEvent.Instance.AssignButtonEvent("Button_77", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.SECURITY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_78", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.SURVEILLANCE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_79", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.ANALYTICS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_80", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.CONTROL));
     }
     public void CreateScienceTechnology(Transform panel)
     {
-        ButtonEvent.Instance.AssignButtonEvent("Button_81", panel, async () => await AutomationManager.Instance.CreateAutomationManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_82", panel, async () => await BiologyManager.Instance.CreateBiologyManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_83", panel, async () => await ChemistryManager.Instance.CreateChemistryManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_84", panel, async () => await ComputingManager.Instance.CreateComputingManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_85", panel, async () => await NanotechnologyManager.Instance.CreateNanotechnologyManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_86", panel, async () => await PhysicsManager.Instance.CreatePhysicsManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_87", panel, async () => await QuantumManager.Instance.CreateQuantumManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_88", panel, async () => await RoboticsManager.Instance.CreateRoboticsManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_89", panel, async () => await ScienceManager.Instance.CreateScienceManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_90", panel, async () => await InnovationManager.Instance.CreateInnovationManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_81", panel, async () => await AutomationManager.Instance.CreateAutomationManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_82", panel, async () => await BiologyManager.Instance.CreateBiologyManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_83", panel, async () => await ChemistryManager.Instance.CreateChemistryManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_84", panel, async () => await ComputingManager.Instance.CreateComputingManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_85", panel, async () => await NanotechnologyManager.Instance.CreateNanotechnologyManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_86", panel, async () => await PhysicsManager.Instance.CreatePhysicsManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_87", panel, async () => await QuantumManager.Instance.CreateQuantumManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_88", panel, async () => await RoboticsManager.Instance.CreateRoboticsManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_89", panel, async () => await ScienceManager.Instance.CreateScienceManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_90", panel, async () => await InnovationManager.Instance.CreateInnovationManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_81", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.AUTOMATION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_82", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.BIOLOGY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_83", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.CHEMISTRY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_84", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.COMPUTING));
+        ButtonEvent.Instance.AssignButtonEvent("Button_85", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.NANOTECHNOLOGY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_86", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.PHYSICS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_87", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.QUANTUM));
+        ButtonEvent.Instance.AssignButtonEvent("Button_88", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.ROBOTICS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_89", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.SCIENCE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_90", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.INNOVATION));
     }
     public void CreateSocietyPopulation(Transform panel)
     {
-        ButtonEvent.Instance.AssignButtonEvent("Button_91", panel, async () => await CultureManager.Instance.CreateCultureManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_92", panel, async () => await DemographyManager.Instance.CreateDemographyManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_93", panel, async () => await EducationManager.Instance.CreateEducationManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_94", panel, async () => await GovernanceManager.Instance.CreateGovernanceManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_95", panel, async () => await HappinessManager.Instance.CreateHappinessManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_96", panel, async () => await LawManager.Instance.CreateLawManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_97", panel, async () => await PolicyManager.Instance.CreatePolicyManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_98", panel, async () => await PopulationManager.Instance.CreatePopulationManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_99", panel, async () => await SocietyManager.Instance.CreateSocietyManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_100", panel, async () => await CivicsManager.Instance.CreateCivicsManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_91", panel, async () => await CultureManager.Instance.CreateCultureManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_92", panel, async () => await DemographyManager.Instance.CreateDemographyManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_93", panel, async () => await EducationManager.Instance.CreateEducationManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_94", panel, async () => await GovernanceManager.Instance.CreateGovernanceManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_95", panel, async () => await HappinessManager.Instance.CreateHappinessManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_96", panel, async () => await LawManager.Instance.CreateLawManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_97", panel, async () => await PolicyManager.Instance.CreatePolicyManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_98", panel, async () => await PopulationManager.Instance.CreatePopulationManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_99", panel, async () => await SocietyManager.Instance.CreateSocietyManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_100", panel, async () => await CivicsManager.Instance.CreateCivicsManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_91", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.CULTURE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_92", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.DEMOGRAPHY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_93", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.EDUCATION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_94", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.GOVERNANCE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_95", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.HAPPINESS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_96", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.LAW));
+        ButtonEvent.Instance.AssignButtonEvent("Button_97", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.POLICY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_98", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.POPULATION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_99", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.SOCIETY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_100", panel, async () => await ResearchController.Instance.GetResearchAsync(AppConstants.Research.CIVICS));
     }
 }

@@ -71,7 +71,7 @@ public class MainMenuPhantomwareManager : MonoBehaviour
 
         });
         Dictionary<string, FeatureRankDTO> uniqueTypes = new Dictionary<string, FeatureRankDTO>();
-        uniqueTypes = await FeaturesService.Create().GetRankFeaturesByTypeAsync(AppConstants.MainMenuSet2.PAHNTOMWARE, stat);
+        uniqueTypes = await FeaturesService.Create().GetRankFeaturesByTypeAsync(AppConstants.MainMenuSet2.PHANTOMWARE, stat);
         uniqueTypes = uniqueTypes
             .OrderBy(kvp =>
             {

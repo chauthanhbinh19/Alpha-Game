@@ -101,15 +101,25 @@ public class HIENManager : MonoBehaviour
     }
     public void CreateHIENButtonEvent(Transform panel)
     {
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await HIENIManager.Instance.CreateHIENIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await HIENIIManager.Instance.CreateHIENIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await HIENIIIManager.Instance.CreateHIENIIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await HIENIVManager.Instance.CreateHIENIVManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await HIENVManager.Instance.CreateHIENVManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await HIENVIManager.Instance.CreateHIENVIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await HIENVIIManager.Instance.CreateHIENVIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await HIENVIIIManager.Instance.CreateHIENVIIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await HIENIXManager.Instance.CreateHIENIXManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await HIENXManager.Instance.CreateHIENXManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await HIENIManager.Instance.CreateHIENIManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await HIENIIManager.Instance.CreateHIENIIManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await HIENIIIManager.Instance.CreateHIENIIIManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await HIENIVManager.Instance.CreateHIENIVManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await HIENVManager.Instance.CreateHIENVManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await HIENVIManager.Instance.CreateHIENVIManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await HIENVIIManager.Instance.CreateHIENVIIManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await HIENVIIIManager.Instance.CreateHIENVIIIManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await HIENIXManager.Instance.CreateHIENIXManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await HIENXManager.Instance.CreateHIENXManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await HIENController.Instance.GetHIENAsync(AppConstants.HIEN.HIEN_I));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await HIENController.Instance.GetHIENAsync(AppConstants.HIEN.HIEN_II));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await HIENController.Instance.GetHIENAsync(AppConstants.HIEN.HIEN_III));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await HIENController.Instance.GetHIENAsync(AppConstants.HIEN.HIEN_IV));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await HIENController.Instance.GetHIENAsync(AppConstants.HIEN.HIEN_V));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await HIENController.Instance.GetHIENAsync(AppConstants.HIEN.HIEN_VI));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await HIENController.Instance.GetHIENAsync(AppConstants.HIEN.HIEN_VII));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await HIENController.Instance.GetHIENAsync(AppConstants.HIEN.HIEN_VIII));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await HIENController.Instance.GetHIENAsync(AppConstants.HIEN.HIEN_IX));
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await HIENController.Instance.GetHIENAsync(AppConstants.HIEN.HIEN_X));
     }
 }
