@@ -18,6 +18,7 @@ public class MainMenuManager : MonoBehaviour
     private Transform MainPanel;
     private Transform DictionaryContentPanel;
     private GameObject CurrentMainMenuObject;
+    private GameObject MainTabButtonPrefab;
     private Button CloseButton;
     private Button HomeButton;
     private Transform RightScrollViewContentPanel;
@@ -37,6 +38,12 @@ public class MainMenuManager : MonoBehaviour
     private string Type = AppConstants.Type.ALL;
     private string Rare = AppConstants.Rare.ALL;
     private bool IsSearchingOrFiltering = false;
+    private Transform contentParent;
+    private readonly List<string> categories = new List<string>
+    {
+        "PLAY", "SHOP", "INVENTORY", "BUILD", "MISSION", "SOCIAL"
+    };
+    private readonly List<(GameObject defaultObj, GameObject selectedObj)> tabUIList = new List<(GameObject, GameObject)>();
     public static MainMenuManager Instance { get; private set; }
     private void Awake()
     {
@@ -67,6 +74,7 @@ public class MainMenuManager : MonoBehaviour
         PopupMenuPanelPrefab = UIManager.Instance.Get(PrefabConstants.General.POPUP_MENU_PANEL_PREFAB);
         ArenaPanelPrefab = UIManager.Instance.Get(PrefabConstants.Arena.ARENA_PANEL_PREFAB);
         MasterBoardPanelPrefab = UIManager.Instance.Get(PrefabConstants.General.MASTER_BOARD_PANEL_PREFAB);
+        MainTabButtonPrefab = UIManager.Instance.Get(PrefabConstants.Component.MAIN_TAB_BUTTON_PREFAB);
     }
     public void CreateMainPanel()
     {
@@ -93,6 +101,9 @@ public class MainMenuManager : MonoBehaviour
         });
 
         Transform content = transform.Find("MainPanel/MainButtonGroup/SecondCircleImage");
+        Transform contentTransform = transform.Find("MainNavigation/Scroll View/Viewport/Content");
+        Transform tabTransform = transform.Find("MainNavigation/Tab Scroll View/Viewport/Content");
+        contentParent = transform.Find("MainNavigation/Scroll View/Viewport/Content");
         // Button homeButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/HomeButton").GetComponent<Button>();
         Button eventButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/PlayContent/EventButton").GetComponent<Button>();
         Button campaignButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/PlayContent/CampaignButton").GetComponent<Button>();
@@ -123,7 +134,7 @@ public class MainMenuManager : MonoBehaviour
         Button guildButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/SocialContent/GuildButton").GetComponent<Button>();
 
         Button generalShopButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/ShopButton").GetComponent<Button>();
-        Button campaignShopButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/CampaignShopButton").GetComponent<Button>();
+        Button campaignShopButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/AlliteriaCampaignWorldShopButton").GetComponent<Button>();
         Button alliteriaDarkWorldShopButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/AlliteriaDarkWorldShopButton").GetComponent<Button>();
         Button alliteriaLightWorldShopButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/AlliteriaLightWorldShopButton").GetComponent<Button>();
         Button shopPackageButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/ShopPackageButton").GetComponent<Button>();
@@ -450,6 +461,81 @@ public class MainMenuManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
             await LeaderboardManager.Instance.CreateLeaderboardPanel();
         });
+
+        for (int i = 0; i < categories.Count; i++)
+        {
+            string category = categories[i];
+
+            // 1. Tạo Nút Tab
+            GameObject tabBtnObj = Instantiate(MainTabButtonPrefab, tabTransform);
+
+            // Cache Transform & UI Components
+            Transform btnTransform = tabBtnObj.transform;
+            GameObject defaultObj = btnTransform.Find("Default").gameObject;
+            GameObject selectedObj = btnTransform.Find("Selected").gameObject;
+
+            defaultObj.transform.Find("TitleText").GetComponent<TextMeshProUGUI>().text = category;
+            selectedObj.transform.Find("TitleText").GetComponent<TextMeshProUGUI>().text = category;
+
+            // Thiết lập trạng thái ban đầu (Tab 0 mở mặc định)
+            bool isFirst = (i == 0);
+            defaultObj.SetActive(!isFirst);
+            selectedObj.SetActive(isFirst);
+
+            tabUIList.Add((defaultObj, selectedObj));
+
+            // Cache biến cục bộ riêng cho Lambda Event
+            int tabIndex = i;
+
+            // 2. Đăng ký sự kiện Click
+            Button tabBtn = tabBtnObj.GetComponent<Button>();
+            tabBtn.onClick.AddListener(() =>
+            {
+                OnTabClicked(tabIndex, category);
+            });
+        }
+
+        // Bật Content cho Tab đầu tiên lúc vừa vào Game
+        if (categories.Count > 0)
+        {
+            SwitchContentUI(categories[0]);
+        }
+    }
+    private void OnTabClicked(int selectedIndex, string category)
+    {
+        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND_2);
+
+        // A. Cập nhật UI Nút Tab (Bật/Tắt Default & Selected)
+        for (int i = 0; i < tabUIList.Count; i++)
+        {
+            bool isSelected = (i == selectedIndex);
+            tabUIList[i].defaultObj.SetActive(!isSelected);
+            tabUIList[i].selectedObj.SetActive(isSelected);
+        }
+
+        // B. Cập nhật UI Content (Bật/Tắt Title & Content tương ứng)
+        SwitchContentUI(category);
+    }
+
+    // Kết hợp từ câu hỏi trước: Tự động Bật/Tắt Content theo tên Category
+    private void SwitchContentUI(string activeCategory)
+    {
+        if (contentParent == null) return;
+
+        foreach (string category in categories)
+        {
+            bool isActive = category.Equals(activeCategory, System.StringComparison.OrdinalIgnoreCase);
+
+            // Chuyển chuỗi chữ hoa (VD: "PLAY" -> "Play")
+            string formattedName = char.ToUpper(category[0]) + category.Substring(1).ToLower();
+
+            // Tìm Title & Content theo format tên GameObject
+            Transform title = contentParent.Find($"Main{formattedName}Title");
+            Transform content = contentParent.Find($"{formattedName}Content");
+
+            if (title != null) title.gameObject.SetActive(isActive);
+            if (content != null) content.gameObject.SetActive(isActive);
+        }
     }
     public void CreateMainPanelUserInformation(AuthResult authResult)
     {
