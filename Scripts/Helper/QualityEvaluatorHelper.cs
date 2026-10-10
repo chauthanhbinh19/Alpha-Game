@@ -75,10 +75,16 @@ public static class QualityEvaluatorHelper
         { AppConstants.Rare.LG_Plus, 20 },
         { AppConstants.Rare.MR, 25 },
         { AppConstants.Rare.MR_Plus, 30 },
-        { AppConstants.Rare.SLG, 35 },
-        { AppConstants.Rare.SLG_Plus, 40 },
-        { AppConstants.Rare.SP, 45 },
-        { AppConstants.Rare.SP_Plus, 50 },
+        { AppConstants.Rare.SP, 35 },
+        { AppConstants.Rare.SP_Plus, 40 },
+        { AppConstants.Rare.SSP, 45 },
+        { AppConstants.Rare.SSP_Plus, 50 },
+        { AppConstants.Rare.SRP, 55 },
+        { AppConstants.Rare.SRP_Plus, 60 },
+        { AppConstants.Rare.SUP, 65 },
+        { AppConstants.Rare.SUP_Plus, 70 },
+        { AppConstants.Rare.SLG, 75 },
+        { AppConstants.Rare.SLG_Plus, 80 },
     };
     public static int GetQualityValue(string rare)
     {
@@ -100,10 +106,16 @@ public static class QualityEvaluatorHelper
         AppConstants.Rare.LG_Plus,
         AppConstants.Rare.MR,
         AppConstants.Rare.MR_Plus,
-        AppConstants.Rare.SLG,
-        AppConstants.Rare.SLG_Plus,
         AppConstants.Rare.SP,
-        AppConstants.Rare.SP_Plus
+        AppConstants.Rare.SP_Plus,
+        AppConstants.Rare.SSP,
+        AppConstants.Rare.SSP_Plus,
+        AppConstants.Rare.SRP,
+        AppConstants.Rare.SRP_Plus,
+        AppConstants.Rare.SUP,
+        AppConstants.Rare.SUP_Plus,
+        AppConstants.Rare.SLG,
+        AppConstants.Rare.SLG_Plus
     };
     public static List<string> rarities = new List<string>
     {
@@ -116,10 +128,16 @@ public static class QualityEvaluatorHelper
         AppConstants.Rare.LG_Plus,
         AppConstants.Rare.MR,
         AppConstants.Rare.MR_Plus,
-        AppConstants.Rare.SLG,
-        AppConstants.Rare.SLG_Plus,
         AppConstants.Rare.SP,
-        AppConstants.Rare.SP_Plus
+        AppConstants.Rare.SP_Plus,
+        AppConstants.Rare.SSP,
+        AppConstants.Rare.SSP_Plus,
+        AppConstants.Rare.SRP,
+        AppConstants.Rare.SRP_Plus,
+        AppConstants.Rare.SUP,
+        AppConstants.Rare.SUP_Plus,
+        AppConstants.Rare.SLG,
+        AppConstants.Rare.SLG_Plus
     };
     public static string GetNextQuality(string currentRare)
     {

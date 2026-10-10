@@ -256,10 +256,16 @@ public static class AppConstants
         public const string LG_Plus = "LG_Plus";
         public const string MR = "MR";
         public const string MR_Plus = "MR_Plus";
-        public const string SLG = "SLG";
-        public const string SLG_Plus = "SLG_Plus";
         public const string SP = "SP";
         public const string SP_Plus = "SP_Plus";
+        public const string SSP = "SSP";
+        public const string SSP_Plus = "SSP_Plus";
+        public const string SRP = "SRP";
+        public const string SRP_Plus = "SRP_Plus";
+        public const string SUP = "SP";
+        public const string SUP_Plus = "SUP_Plus";
+        public const string SLG = "SLG";
+        public const string SLG_Plus = "SLG_Plus";
     }
     public static class Type
     {
