@@ -35,7 +35,7 @@ public class HIDCManager : MonoBehaviour
     {
         GameObject currentObject = Instantiate(HIDCPanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
-        Transform contentPanel = transform.Find("HIDCContent/Content");
+        Transform contentPanel = transform.Find("HIDCContent/Scroll View/Viewport/Content");
         Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {

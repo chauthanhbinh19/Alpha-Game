@@ -35,7 +35,7 @@ public class HISNManager : MonoBehaviour
     {
         GameObject currentObject = Instantiate(HISNPanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
-        Transform contentPanel = transform.Find("HISNContent/Content");
+        Transform contentPanel = transform.Find("HISNContent/Scroll View/Viewport/Content");
         Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {

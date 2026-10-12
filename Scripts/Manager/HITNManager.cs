@@ -35,7 +35,7 @@ public class HITNManager : MonoBehaviour
     {
         GameObject currentObject = Instantiate(HITNPanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
-        Transform contentPanel = transform.Find("HITNContent/Content");
+        Transform contentPanel = transform.Find("HITNContent/Scroll View/Viewport/Content");
         Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {

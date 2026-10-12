@@ -35,7 +35,7 @@ public class HICAManager : MonoBehaviour
     {
         GameObject currentObject = Instantiate(HICAPanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
-        Transform contentPanel = transform.Find("HICAContent/Content");
+        Transform contentPanel = transform.Find("HICAContent/Scroll View/Viewport/Content");
         Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {

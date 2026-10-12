@@ -35,7 +35,7 @@ public class UniverseManager : MonoBehaviour
     {
         GameObject currentObject = Instantiate(UniversePanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
-        Transform contentPanel = transform.Find("UniverseContent/Content");
+        Transform contentPanel = transform.Find("UniverseContent/Scroll View/Viewport/Content");
         Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {

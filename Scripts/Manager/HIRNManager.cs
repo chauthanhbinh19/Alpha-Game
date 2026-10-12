@@ -35,7 +35,7 @@ public class HIRNManager : MonoBehaviour
     {
         GameObject currentObject = Instantiate(HIRNPanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
-        Transform contentPanel = transform.Find("HIRNContent/Content");
+        Transform contentPanel = transform.Find("HIRNContent/Scroll View/Viewport/Content");
         Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {

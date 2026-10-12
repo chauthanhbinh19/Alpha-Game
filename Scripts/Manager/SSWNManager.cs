@@ -35,7 +35,7 @@ public class SSWNManager : MonoBehaviour
     {
         GameObject currentObject = Instantiate(SSWNPanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
-        Transform contentPanel = transform.Find("SSWNContent/Content");
+        Transform contentPanel = transform.Find("SSWNContent/Scroll View/Viewport/Content");
         Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
