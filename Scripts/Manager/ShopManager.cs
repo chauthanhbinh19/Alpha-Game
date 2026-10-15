@@ -256,9 +256,9 @@ public class ShopManager : MonoBehaviour
         CreateButton(25, AppDisplayConstants.Title.Shop.ALLITERIA_CAMPAIGN_WORLD_Y_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_CAMPAIGN_WORLD_Y_URL), tempContent);
         CreateButton(26, AppDisplayConstants.Title.Shop.ALLITERIA_CAMPAIGN_WORLD_Z_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_CAMPAIGN_WORLD_Z_URL), tempContent);
 
-        CreateCampaignShopButtonEvent(tempContent);
+        CreateAlliteriaCampaignShopButtonEvent(tempContent);
     }
-    public void CreateCampaignShopButtonEvent(Transform panel)
+    public void CreateAlliteriaCampaignShopButtonEvent(Transform panel)
     {
         AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_CAMPAIGN_WORLD_A_SHOP));
         AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_CAMPAIGN_WORLD_B_SHOP));
@@ -315,9 +315,9 @@ public class ShopManager : MonoBehaviour
         CreateButton(6, AppDisplayConstants.Title.Shop.ALLITERIA_DARK_WORLD_DIAMOND_MYTHIC_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_DARK_WORLD_DIAMOND_MYTHIC_URL), tempContent);
         CreateButton(7, AppDisplayConstants.Title.Shop.ALLITERIA_DARK_WORLD_SOLAR_MYTHIC_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_DARK_WORLD_SOLAR_MYTHIC_URL), tempContent);
 
-        CreateDarkWorldShopButtonEvent(tempContent);
+        CreateAlliteriaDarkWorldShopButtonEvent(tempContent);
     }
-    public void CreateDarkWorldShopButtonEvent(Transform panel)
+    public void CreateAlliteriaDarkWorldShopButtonEvent(Transform panel)
     {
         AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_DARK_WORLD_BRONZE_MYTHIC_SHOP));
         AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_DARK_WORLD_SILVER_MYTHIC_SHOP));
@@ -355,9 +355,9 @@ public class ShopManager : MonoBehaviour
         CreateButton(6, AppDisplayConstants.Title.Shop.ALLITERIA_LIGHT_WORLD_DIAMOND_MYTHIC_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_DIAMOND_MYTHIC_URL), tempContent);
         CreateButton(7, AppDisplayConstants.Title.Shop.ALLITERIA_LIGHT_WORLD_SOLAR_MYTHIC_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SOLAR_MYTHIC_URL), tempContent);
 
-        CreateLightWorldShopButtonEvent(tempContent);
+        CreateAlliteriaLightWorldShopButtonEvent(tempContent);
     }
-    public void CreateLightWorldShopButtonEvent(Transform panel)
+    public void CreateAlliteriaLightWorldShopButtonEvent(Transform panel)
     {
         AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_SHOP));
         AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_SHOP));
@@ -366,5 +366,821 @@ public class ShopManager : MonoBehaviour
         AssignButtonEvent("Button_5", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_LIGHT_WORLD_GOLD_MYTHIC_SHOP));
         AssignButtonEvent("Button_6", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_LIGHT_WORLD_DIAMOND_MYTHIC_SHOP));
         AssignButtonEvent("Button_7", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_LIGHT_WORLD_SOLAR_MYTHIC_SHOP));
+    }
+    public async Task CreateAlliteriaPath1ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_1_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_1_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_1_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_1_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath1ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath1ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_1_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_1_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_1_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_1_LEGENDARY_SHOP));
+    }
+    public async Task CreateAlliteriaPath2ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_2_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_2_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_2_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_2_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath2ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath2ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_2_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_2_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_2_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_2_LEGENDARY_SHOP));
+    }
+    public async Task CreateAlliteriaPath3ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_3_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_3_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_3_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_3_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath3ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath3ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_13_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_13_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_13_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_13_LEGENDARY_SHOP));
+    }
+    public async Task CreateAlliteriaPath4ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_4_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_4_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_4_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_4_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath4ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath4ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_4_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_4_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_4_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_4_LEGENDARY_SHOP));
+    }
+    public async Task CreateAlliteriaPath5ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_5_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_5_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_5_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_5_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath5ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath5ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_5_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_5_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_5_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_5_LEGENDARY_SHOP));
+    }
+    public async Task CreateAlliteriaPath6ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_6_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_6_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_6_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_6_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath6ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath6ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_6_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_6_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_6_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_6_LEGENDARY_SHOP));
+    }
+    public async Task CreateAlliteriaPath7ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_7_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_7_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_7_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_7_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath7ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath7ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_7_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_7_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_7_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_7_LEGENDARY_SHOP));
+    }
+    public async Task CreateAlliteriaPath8ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_8_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_8_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_8_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_8_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath8ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath8ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_8_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_8_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_8_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_8_LEGENDARY_SHOP));
+    }
+    public async Task CreateAlliteriaPath9ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_9_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_9_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_9_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_9_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath9ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath9ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_9_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_9_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_9_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_9_LEGENDARY_SHOP));
+    }
+    public async Task CreateAlliteriaPath10ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_10_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_10_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_10_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_10_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath10ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath10ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_10_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_10_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_10_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_10_LEGENDARY_SHOP));
+    }
+    public async Task CreateAlliteriaPath11ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_11_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_11_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_11_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_11_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath11ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath11ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_11_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_11_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_11_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_11_LEGENDARY_SHOP));
+    }
+    public async Task CreateAlliteriaPath12ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_12_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_12_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_12_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_12_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath12ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath12ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_12_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_12_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_12_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_12_LEGENDARY_SHOP));
+    }
+    public async Task CreateAlliteriaPath13ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_13_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_13_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_13_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_13_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath13ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath13ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_13_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_13_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_13_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_13_LEGENDARY_SHOP));
+    }
+    public async Task CreateAlliteriaPath14ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_14_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_14_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_14_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_14_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath14ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath14ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_14_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_14_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_14_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_14_LEGENDARY_SHOP));
+    }
+    public async Task CreateAlliteriaPath15ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_15_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_15_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_15_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_15_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath15ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath15ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_15_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_15_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_15_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_15_LEGENDARY_SHOP));
+    }
+    public async Task CreateAlliteriaPath16ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_16_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_16_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_16_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_16_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath16ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath16ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_16_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_16_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_16_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_16_LEGENDARY_SHOP));
+    }
+    public async Task CreateAlliteriaPath17ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_17_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_17_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_17_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_17_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath17ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath17ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_17_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_17_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_17_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_17_LEGENDARY_SHOP));
+    }
+    public async Task CreateAlliteriaPath18ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_18_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_18_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_18_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_18_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath18ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath18ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_18_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_18_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_18_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_18_LEGENDARY_SHOP));
+    }
+    public async Task CreateAlliteriaPath19ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_19_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_19_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_19_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_19_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath19ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath19ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_19_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_19_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_19_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_19_LEGENDARY_SHOP));
+    }
+    public async Task CreateAlliteriaPath20ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_20_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_20_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_20_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_20_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath20ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath20ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_20_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_20_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_20_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_20_LEGENDARY_SHOP));
+    }
+    public async Task CreateAlliteriaPath21ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_21_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_21_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_21_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_21_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath21ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath21ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_21_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_21_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_21_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_21_LEGENDARY_SHOP));
+    }
+    public async Task CreateAlliteriaPath22ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_22_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_22_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_22_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_22_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath22ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath22ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_22_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_22_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_22_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_22_LEGENDARY_SHOP));
+    }
+    public async Task CreateAlliteriaPath23ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_23_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_23_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_23_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_23_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath23ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath23ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_23_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_23_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_23_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_23_LEGENDARY_SHOP));
+    }
+    public async Task CreateAlliteriaPath24ShopPanelAsync()
+    {
+        // MainPanel = panel;
+        CurrentObject = Instantiate(ShopManagerPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Title.SHOP);
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(CurrentObject);
+        });
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
+
+        List<Currencies> currencies = new List<Currencies>();
+        currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_24_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_24_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_24_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_24_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+
+        CreateAlliteriaPath24ShopButtonEvent(tempContent);
+    }
+    public void CreateAlliteriaPath24ShopButtonEvent(Transform panel)
+    {
+        AssignButtonEvent("Button_1", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_24_RARE_SHOP));
+        AssignButtonEvent("Button_2", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_24_SUPER_RARE_SHOP));
+        AssignButtonEvent("Button_3", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_24_ULTRA_RARE_SHOP));
+        AssignButtonEvent("Button_4", panel, async () => await ItemsController.Instance.CreateShopAsync(AppConstants.Shop.ShopCodeName.ALLITERIA_PATH_NUMBER_24_LEGENDARY_SHOP));
     }
 }
