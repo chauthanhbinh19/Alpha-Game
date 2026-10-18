@@ -835,6 +835,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                             {
                                 Id = reader.GetStringSafe("avatar_id"),
                                 Level = reader.GetIntSafe("level"),
+                                Rarity = reader.GetStringSafe("rare"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Experience = reader.GetDoubleSafe("experience"),
                                 Star = reader.GetIntSafe("star"),

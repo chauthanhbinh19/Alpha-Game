@@ -262,7 +262,7 @@ public static class AppConstants
         public const string SSP_Plus = "SSP_Plus";
         public const string SRP = "SRP";
         public const string SRP_Plus = "SRP_Plus";
-        public const string SUP = "SP";
+        public const string SUP = "SUP";
         public const string SUP_Plus = "SUP_Plus";
         public const string SLG = "SLG";
         public const string SLG_Plus = "SLG_Plus";
@@ -1591,125 +1591,125 @@ public static class AppConstants
             public const string ALLITERIA_LIGHT_WORLD_DIAMOND_MYTHIC_SHOP = "alliteria_light_world_diamond_mythic_shop";
             public const string ALLITERIA_LIGHT_WORLD_SOLAR_MYTHIC_SHOP = "alliteria_light_world_solar_mythic_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_1_RARE_SHOP = "alliteria_path_number_1_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_1_SUPER_RARE_SHOP = "alliteria_path_number_1_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_1_ULTRA_RARE_SHOP = "alliteria_path_number_1_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_1_LEGENDARY_SHOP = "alliteria_path_number_1_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_1_WORLD_RARE_SHOP = "alliteria_path_number_1_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_1_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_1_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_1_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_1_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_1_WORLD_LEGENDARY_SHOP = "alliteria_path_number_1_world_legendary_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_2_RARE_SHOP = "alliteria_path_number_2_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_2_SUPER_RARE_SHOP = "alliteria_path_number_2_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_2_ULTRA_RARE_SHOP = "alliteria_path_number_2_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_2_LEGENDARY_SHOP = "alliteria_path_number_2_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_2_WORLD_RARE_SHOP = "alliteria_path_number_2_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_2_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_2_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_2_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_2_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_2_WORLD_LEGENDARY_SHOP = "alliteria_path_number_2_world_legendary_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_3_RARE_SHOP = "alliteria_path_number_3_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_3_SUPER_RARE_SHOP = "alliteria_path_number_3_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_3_ULTRA_RARE_SHOP = "alliteria_path_number_3_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_3_LEGENDARY_SHOP = "alliteria_path_number_3_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_3_WORLD_RARE_SHOP = "alliteria_path_number_3_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_3_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_3_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_3_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_3_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_3_WORLD_LEGENDARY_SHOP = "alliteria_path_number_3_world_legendary_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_4_RARE_SHOP = "alliteria_path_number_4_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_4_SUPER_RARE_SHOP = "alliteria_path_number_4_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_4_ULTRA_RARE_SHOP = "alliteria_path_number_4_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_4_LEGENDARY_SHOP = "alliteria_path_number_4_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_4_WORLD_RARE_SHOP = "alliteria_path_number_4_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_4_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_4_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_4_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_4_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_4_WORLD_LEGENDARY_SHOP = "alliteria_path_number_4_world_legendary_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_5_RARE_SHOP = "alliteria_path_number_5_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_5_SUPER_RARE_SHOP = "alliteria_path_number_5_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_5_ULTRA_RARE_SHOP = "alliteria_path_number_5_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_5_LEGENDARY_SHOP = "alliteria_path_number_5_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_5_WORLD_RARE_SHOP = "alliteria_path_number_5_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_5_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_5_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_5_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_5_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_5_WORLD_LEGENDARY_SHOP = "alliteria_path_number_5_world_legendary_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_6_RARE_SHOP = "alliteria_path_number_6_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_6_SUPER_RARE_SHOP = "alliteria_path_number_6_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_6_ULTRA_RARE_SHOP = "alliteria_path_number_6_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_6_LEGENDARY_SHOP = "alliteria_path_number_6_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_6_WORLD_RARE_SHOP = "alliteria_path_number_6_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_6_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_6_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_6_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_6_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_6_WORLD_LEGENDARY_SHOP = "alliteria_path_number_6_world_legendary_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_7_RARE_SHOP = "alliteria_path_number_7_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_7_SUPER_RARE_SHOP = "alliteria_path_number_7_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_7_ULTRA_RARE_SHOP = "alliteria_path_number_7_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_7_LEGENDARY_SHOP = "alliteria_path_number_7_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_7_WORLD_RARE_SHOP = "alliteria_path_number_7_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_7_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_7_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_7_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_7_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_7_WORLD_LEGENDARY_SHOP = "alliteria_path_number_7_world_legendary_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_8_RARE_SHOP = "alliteria_path_number_8_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_8_SUPER_RARE_SHOP = "alliteria_path_number_8_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_8_ULTRA_RARE_SHOP = "alliteria_path_number_8_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_8_LEGENDARY_SHOP = "alliteria_path_number_8_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_8_WORLD_RARE_SHOP = "alliteria_path_number_8_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_8_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_8_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_8_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_8_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_8_WORLD_LEGENDARY_SHOP = "alliteria_path_number_8_world_legendary_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_9_RARE_SHOP = "alliteria_path_number_9_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_9_SUPER_RARE_SHOP = "alliteria_path_number_9_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_9_ULTRA_RARE_SHOP = "alliteria_path_number_9_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_9_LEGENDARY_SHOP = "alliteria_path_number_9_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_9_WORLD_RARE_SHOP = "alliteria_path_number_9_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_9_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_9_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_9_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_9_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_9_WORLD_LEGENDARY_SHOP = "alliteria_path_number_9_world_legendary_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_10_RARE_SHOP = "alliteria_path_number_10_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_10_SUPER_RARE_SHOP = "alliteria_path_number_10_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_10_ULTRA_RARE_SHOP = "alliteria_path_number_10_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_10_LEGENDARY_SHOP = "alliteria_path_number_10_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_10_WORLD_RARE_SHOP = "alliteria_path_number_10_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_10_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_10_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_10_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_10_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_10_WORLD_LEGENDARY_SHOP = "alliteria_path_number_10_world_legendary_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_11_RARE_SHOP = "alliteria_path_number_11_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_11_SUPER_RARE_SHOP = "alliteria_path_number_11_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_11_ULTRA_RARE_SHOP = "alliteria_path_number_11_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_11_LEGENDARY_SHOP = "alliteria_path_number_11_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_11_WORLD_RARE_SHOP = "alliteria_path_number_11_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_11_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_11_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_11_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_11_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_11_WORLD_LEGENDARY_SHOP = "alliteria_path_number_11_world_legendary_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_12_RARE_SHOP = "alliteria_path_number_12_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_12_SUPER_RARE_SHOP = "alliteria_path_number_12_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_12_ULTRA_RARE_SHOP = "alliteria_path_number_12_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_12_LEGENDARY_SHOP = "alliteria_path_number_12_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_12_WORLD_RARE_SHOP = "alliteria_path_number_12_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_12_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_12_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_12_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_12_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_12_WORLD_LEGENDARY_SHOP = "alliteria_path_number_12_world_legendary_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_13_RARE_SHOP = "alliteria_path_number_13_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_13_SUPER_RARE_SHOP = "alliteria_path_number_13_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_13_ULTRA_RARE_SHOP = "alliteria_path_number_13_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_13_LEGENDARY_SHOP = "alliteria_path_number_13_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_13_WORLD_RARE_SHOP = "alliteria_path_number_13_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_13_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_13_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_13_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_13_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_13_WORLD_LEGENDARY_SHOP = "alliteria_path_number_13_world_legendary_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_14_RARE_SHOP = "alliteria_path_number_14_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_14_SUPER_RARE_SHOP = "alliteria_path_number_14_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_14_ULTRA_RARE_SHOP = "alliteria_path_number_14_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_14_LEGENDARY_SHOP = "alliteria_path_number_14_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_14_WORLD_RARE_SHOP = "alliteria_path_number_14_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_14_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_14_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_14_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_14_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_14_WORLD_LEGENDARY_SHOP = "alliteria_path_number_14_world_legendary_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_15_RARE_SHOP = "alliteria_path_number_15_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_15_SUPER_RARE_SHOP = "alliteria_path_number_15_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_15_ULTRA_RARE_SHOP = "alliteria_path_number_15_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_15_LEGENDARY_SHOP = "alliteria_path_number_15_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_15_WORLD_RARE_SHOP = "alliteria_path_number_15_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_15_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_15_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_15_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_15_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_15_WORLD_LEGENDARY_SHOP = "alliteria_path_number_15_world_legendary_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_16_RARE_SHOP = "alliteria_path_number_16_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_16_SUPER_RARE_SHOP = "alliteria_path_number_16_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_16_ULTRA_RARE_SHOP = "alliteria_path_number_16_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_16_LEGENDARY_SHOP = "alliteria_path_number_16_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_16_WORLD_RARE_SHOP = "alliteria_path_number_16_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_16_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_16_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_16_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_16_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_16_WORLD_LEGENDARY_SHOP = "alliteria_path_number_16_world_legendary_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_17_RARE_SHOP = "alliteria_path_number_17_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_17_SUPER_RARE_SHOP = "alliteria_path_number_17_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_17_ULTRA_RARE_SHOP = "alliteria_path_number_17_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_17_LEGENDARY_SHOP = "alliteria_path_number_17_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_17_WORLD_RARE_SHOP = "alliteria_path_number_17_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_17_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_17_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_17_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_17_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_17_WORLD_LEGENDARY_SHOP = "alliteria_path_number_17_world_legendary_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_18_RARE_SHOP = "alliteria_path_number_18_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_18_SUPER_RARE_SHOP = "alliteria_path_number_18_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_18_ULTRA_RARE_SHOP = "alliteria_path_number_18_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_18_LEGENDARY_SHOP = "alliteria_path_number_18_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_18_WORLD_RARE_SHOP = "alliteria_path_number_18_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_18_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_18_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_18_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_18_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_18_WORLD_LEGENDARY_SHOP = "alliteria_path_number_18_world_legendary_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_19_RARE_SHOP = "alliteria_path_number_19_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_19_SUPER_RARE_SHOP = "alliteria_path_number_19_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_19_ULTRA_RARE_SHOP = "alliteria_path_number_19_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_19_LEGENDARY_SHOP = "alliteria_path_number_19_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_19_WORLD_RARE_SHOP = "alliteria_path_number_19_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_19_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_19_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_19_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_19_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_19_WORLD_LEGENDARY_SHOP = "alliteria_path_number_19_world_legendary_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_20_RARE_SHOP = "alliteria_path_number_20_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_20_SUPER_RARE_SHOP = "alliteria_path_number_20_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_20_ULTRA_RARE_SHOP = "alliteria_path_number_20_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_20_LEGENDARY_SHOP = "alliteria_path_number_20_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_20_WORLD_RARE_SHOP = "alliteria_path_number_20_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_20_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_20_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_20_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_20_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_20_WORLD_LEGENDARY_SHOP = "alliteria_path_number_20_world_legendary_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_21_RARE_SHOP = "alliteria_path_number_21_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_21_SUPER_RARE_SHOP = "alliteria_path_number_21_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_21_ULTRA_RARE_SHOP = "alliteria_path_number_21_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_21_LEGENDARY_SHOP = "alliteria_path_number_21_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_21_WORLD_RARE_SHOP = "alliteria_path_number_21_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_21_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_21_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_21_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_21_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_21_WORLD_LEGENDARY_SHOP = "alliteria_path_number_21_world_legendary_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_22_RARE_SHOP = "alliteria_path_number_22_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_22_SUPER_RARE_SHOP = "alliteria_path_number_22_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_22_ULTRA_RARE_SHOP = "alliteria_path_number_22_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_22_LEGENDARY_SHOP = "alliteria_path_number_22_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_22_WORLD_RARE_SHOP = "alliteria_path_number_22_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_22_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_22_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_22_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_22_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_22_WORLD_LEGENDARY_SHOP = "alliteria_path_number_22_world_legendary_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_23_RARE_SHOP = "alliteria_path_number_23_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_23_SUPER_RARE_SHOP = "alliteria_path_number_23_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_23_ULTRA_RARE_SHOP = "alliteria_path_number_23_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_23_LEGENDARY_SHOP = "alliteria_path_number_23_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_23_WORLD_RARE_SHOP = "alliteria_path_number_23_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_23_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_23_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_23_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_23_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_23_WORLD_LEGENDARY_SHOP = "alliteria_path_number_23_world_legendary_shop";
 
-            public const string ALLITERIA_PATH_NUMBER_24_RARE_SHOP = "alliteria_path_number_24_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_24_SUPER_RARE_SHOP = "alliteria_path_number_24_super_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_24_ULTRA_RARE_SHOP = "alliteria_path_number_24_ultra_rare_shop";
-            public const string ALLITERIA_PATH_NUMBER_24_LEGENDARY_SHOP = "alliteria_path_number_24_legendary_shop";
+            public const string ALLITERIA_PATH_NUMBER_24_WORLD_RARE_SHOP = "alliteria_path_number_24_world_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_24_WORLD_SUPER_RARE_SHOP = "alliteria_path_number_24_world_super_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_24_WORLD_ULTRA_RARE_SHOP = "alliteria_path_number_24_world_ultra_rare_shop";
+            public const string ALLITERIA_PATH_NUMBER_24_WORLD_LEGENDARY_SHOP = "alliteria_path_number_24_world_legendary_shop";
         }
         public static class ShopType
         {

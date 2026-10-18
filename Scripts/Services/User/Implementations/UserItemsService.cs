@@ -417,10 +417,10 @@ public class UserItemsService : IUserItemsService
     {
         
         // Kiểm tra nếu item là Chest/Rương (dựa theo trường type hoặc chest_type của entity Items)
-        if (IsChestItem(item))
-        {
-            return await _userItemsRepository.InsertOrUpdateUserItemChestViaProcAsync(userId, item, quantity);
-        }
+        // if (IsChestItem(item))
+        // {
+        //     return await _userItemsRepository.InsertOrUpdateUserItemChestViaProcAsync(userId, item, quantity);
+        // }
 
         return await _userItemsRepository.InsertOrUpdateUserItemAsync(userId, item, quantity);
     }
@@ -430,26 +430,26 @@ public class UserItemsService : IUserItemsService
         if (items == null || items.Count == 0)
             return true;
 
-        // Phân loại thành 2 danh sách riêng biệt
-        var chestItems = items.Where(x => IsChestItem(x.item)).ToList();
-        var normalItems = items.Where(x => !IsChestItem(x.item)).ToList();
+        // // Phân loại thành 2 danh sách riêng biệt
+        // var chestItems = items.Where(x => IsChestItem(x.item)).ToList();
+        // var normalItems = items.Where(x => !IsChestItem(x.item)).ToList();
 
-        bool successNormal = true;
-        bool successChest = true;
+        // bool successNormal = true;
+        // bool successChest = true;
 
-        // 1. Xử lý các vật phẩm thường bằng câu lệnh Batch SQL tối ưu
-        if (normalItems.Count > 0)
-        {
-            successNormal = await _userItemsRepository.InsertOrUpdateUserItemsBatchAsync(userId, normalItems);
-        }
+        // // 1. Xử lý các vật phẩm thường bằng câu lệnh Batch SQL tối ưu
+        // if (normalItems.Count > 0)
+        // {
+        //     successNormal = await _userItemsRepository.InsertOrUpdateUserItemsBatchAsync(userId, items);
+        // }
 
-        // 2. Xử lý các Chest bằng Stored Procedure
-        if (chestItems.Count > 0)
-        {
-            successChest = await _userItemsRepository.InsertOrUpdateUserItemsChestBatchViaProcAsync(userId, chestItems);
-        }
+        // // 2. Xử lý các Chest bằng Stored Procedure
+        // if (chestItems.Count > 0)
+        // {
+        //     successChest = await _userItemsRepository.InsertOrUpdateUserItemsChestBatchViaProcAsync(userId, chestItems);
+        // }
 
-        return successNormal && successChest;
+        return await _userItemsRepository.InsertOrUpdateUserItemsBatchAsync(userId, items);
     }
 
     /// <summary>

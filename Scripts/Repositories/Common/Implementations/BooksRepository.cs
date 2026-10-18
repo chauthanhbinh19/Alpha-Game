@@ -1053,7 +1053,7 @@ public class BooksRepository : IBooksRepository
                     SUM(a.percent_all_mental_attack) AS total_percent_all_mental_attack,
                     SUM(a.percent_all_mental_defense) AS total_percent_all_mental_defense
                 FROM Books a
-                JOIN user_books ua ON a.id = ua.skill_id
+                JOIN user_books ua ON a.id = ua.book_id
                 WHERE ua.user_id = @user_id;
             ";
 

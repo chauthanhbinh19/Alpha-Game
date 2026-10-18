@@ -22,6 +22,7 @@ public class RecipeRepository : IRecipeRepository
                 i.id AS item_id,
                 i.image AS item_image,
                 rli.quantity AS required_quantity,
+                rli.item_value AS item_value,
                 COALESCE(ui.quantity, 0) AS user_quantity,
                 rl.min_level AS recipe_min_level,
                 rl.max_level AS recipe_max_level
@@ -53,6 +54,7 @@ public class RecipeRepository : IRecipeRepository
                 ItemId = reader.GetStringSafe("item_id"),
                 ItemImage = reader.GetStringSafe("item_image"),
                 RequiredQuantity = reader.GetDoubleSafe("required_quantity"),
+                ItemValue = reader.GetDouble("item_value"),
                 UserQuantity = reader.GetDoubleSafe("user_quantity"),
                 MinLevel = reader.GetIntSafe("recipe_min_level"),
                 MaxLevel = reader.GetIntSafe("recipe_max_level"),
@@ -110,6 +112,7 @@ public class RecipeRepository : IRecipeRepository
             i.id AS item_id,
             i.image AS item_image,
             rli.quantity AS required_quantity,
+            rli.item_value AS item_value,
             COALESCE(ui.quantity, 0) AS user_quantity,
             rl.min_level AS recipe_min_level,
             rl.max_level AS recipe_max_level
@@ -144,6 +147,7 @@ public class RecipeRepository : IRecipeRepository
                 ItemId = reader.GetString("item_id"),
                 ItemImage = reader.GetString("item_image"),
                 RequiredQuantity = reader.GetDouble("required_quantity"),
+                ItemValue = reader.GetDouble("item_value"),
                 UserQuantity = reader.GetDouble("user_quantity"),
                 MinLevel = reader.GetIntSafe("recipe_min_level"),
                 MaxLevel = reader.GetIntSafe("recipe_max_level"),

@@ -852,6 +852,7 @@ public class UserBordersRepository : IUserBordersRepository
                             {
                                 Id = reader.GetStringSafe("border_id"),
                                 Level = reader.GetIntSafe("level"),
+                                Rarity = reader.GetStringSafe("rare"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Experience = reader.GetDoubleSafe("experience"),
                                 Star = reader.GetIntSafe("star"),

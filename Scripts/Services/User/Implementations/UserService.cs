@@ -126,12 +126,10 @@ public class UserService : IUserService
 
             // Border mặc định
             await _userBordersService.InsertUserBorderByIdAsync("BD359", userId);
-            await _bordersGalleryService.InsertBorderGalleryAsync(userId, "BD359");
             await _userBordersService.UpdateIsUsedUserBorderAsync("BD359", userId, true);
 
             // Avatar mặc định
             await _userAvatarsService.InsertUserAvatarByIdAsync("AT1", userId);
-            await _avatarsGalleryService.InsertAvatarGalleryAsync(userId, "AT1");
             await _userAvatarsService.UpdateIsUsedUserAvatarAsync("AT1", userId, true);
 
             // Stats & Settings

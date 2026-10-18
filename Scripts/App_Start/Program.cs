@@ -101,6 +101,8 @@ public class Program : MonoBehaviour
         ServiceContainer.RegisterInstance<IGameItemCatalogRepository>(new GameItemCatalogRepository());
         ServiceContainer.RegisterInstance<IUserShopPurchaseRepository>(new UserShopPurchaseRepository());
         ServiceContainer.RegisterInstance<IShopsRepository>(new ShopsRepository());
+        ServiceContainer.RegisterInstance<IGameConfigRepository>(new GameConfigRepository());
+        ServiceContainer.RegisterInstance<IGameGrowthConfigRepository>(new GameGrowthConfigRepository());
 
         // Repositories - Gallery
         ServiceContainer.RegisterInstance<IAchievementsGalleryRepository>(new AchievementsGalleryRepository());
@@ -348,6 +350,8 @@ public class Program : MonoBehaviour
         ServiceContainer.RegisterSingleton<IGameItemCatalogService, GameItemCatalogService>();
         ServiceContainer.RegisterSingleton<IUserShopPurchaseService, UserShopPurchaseService>();
         ServiceContainer.RegisterSingleton<IShopsService, ShopsService>();
+        // ServiceContainer.RegisterSingleton<IShopsService, ShopsService>();
+        ServiceContainer.RegisterSingleton<IGameGrowthConfigService, GameGrowthConfigService>();
 
         //Services - Gallery
         ServiceContainer.RegisterSingleton<IAchievementsGalleryService, AchievementsGalleryService>();

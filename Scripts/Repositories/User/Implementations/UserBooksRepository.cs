@@ -1575,9 +1575,9 @@ public class UserBooksRepository : IUserBooksRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_books uc
-                    INNER JOIN skills c ON uc.skill_id = c.id
-                    LEFT JOIN user_books_module ubm ON uc.skill_id = ubm.user_skill_id
-                    LEFT JOIN user_books_upgrade ubu ON uc.skill_id = ubu.user_skill_id
+                    INNER JOIN skills c ON uc.book_id = c.id
+                    LEFT JOIN user_books_module ubm ON uc.book_id = ubm.user_book_id
+                    LEFT JOIN user_books_upgrade ubu ON uc.book_id = ubu.user_book_id
                     WHERE uc.user_id = @user_id
                         AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )

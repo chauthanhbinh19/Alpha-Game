@@ -367,168 +367,168 @@ public class MainMenuManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath1ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber1WorldShopPanelAsync();
         });
 
         alliteriaPathNumber2WorldShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath2ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber2WorldShopPanelAsync();
         });
 
         alliteriaPathNumber3WorldShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath3ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber3WorldShopPanelAsync();
         });
 
         alliteriaPathNumber4WorldShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath4ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber4WorldShopPanelAsync();
         });
 
         alliteriaPathNumber5WorldShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath5ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber5WorldShopPanelAsync();
         });
 
         alliteriaPathNumber6WorldShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath6ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber6WorldShopPanelAsync();
         });
 
         alliteriaPathNumber7WorldShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath7ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber7WorldShopPanelAsync();
         });
 
         alliteriaPathNumber8WorldShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath8ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber8WorldShopPanelAsync();
         });
 
         alliteriaPathNumber9WorldShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath9ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber9WorldShopPanelAsync();
         });
 
         alliteriaPathNumber10WorldShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath10ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber10WorldShopPanelAsync();
         });
 
         alliteriaPathNumber11WorldShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath11ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber11WorldShopPanelAsync();
         });
 
         alliteriaPathNumber12WorldShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath12ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber12WorldShopPanelAsync();
         });
 
         alliteriaPathNumber13WorldShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath13ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber13WorldShopPanelAsync();
         });
 
         alliteriaPathNumber14WorldShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath14ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber14WorldShopPanelAsync();
         });
 
         alliteriaPathNumber15WorldShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath15ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber15WorldShopPanelAsync();
         });
 
         alliteriaPathNumber16WorldShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath16ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber16WorldShopPanelAsync();
         });
 
         alliteriaPathNumber17WorldShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath17ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber17WorldShopPanelAsync();
         });
 
         alliteriaPathNumber18WorldShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath18ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber18WorldShopPanelAsync();
         });
 
         alliteriaPathNumber19WorldShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath19ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber19WorldShopPanelAsync();
         });
 
         alliteriaPathNumber20WorldShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath20ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber20WorldShopPanelAsync();
         });
 
         alliteriaPathNumber21WorldShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath21ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber21WorldShopPanelAsync();
         });
 
         alliteriaPathNumber22WorldShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath22ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber22WorldShopPanelAsync();
         });
 
         alliteriaPathNumber23WorldShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath23ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber23WorldShopPanelAsync();
         });
 
         alliteriaPathNumber24WorldShopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await ShopManager.Instance.CreateAlliteriaPath24ShopPanelAsync();
+            await ShopManager.Instance.CreateAlliteriaPathNumber24WorldShopPanelAsync();
         });
     }
     public void CreateBuildPanel(Transform transform)

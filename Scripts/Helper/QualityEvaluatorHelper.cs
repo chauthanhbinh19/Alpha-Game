@@ -3,6 +3,7 @@ public static class QualityEvaluatorHelper
 {
     public static int CheckQuality(string rare)
     {
+        var a = rare;
         switch (rare)
         {
             case AppConstants.Rare.SR:

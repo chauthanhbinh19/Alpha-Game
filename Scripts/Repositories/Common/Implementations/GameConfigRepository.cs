@@ -7,113 +7,86 @@ using System.Threading.Tasks;
 
 public class GameConfigRepository : IGameConfigRepository
 {
-    public async Task<GameConfig> GetGameConfigAsync()
+    /// <summary>
+    /// Lấy chính xác 1 bản ghi cấu hình dựa trên object_type và object_column
+    /// </summary>
+    public async Task<GameConfig> GetGameConfigAsync(string objectType, string objectColumn)
     {
-        GameConfig gameConfig = new GameConfig();
-        string connectionString = DatabaseConfig.ConnectionString;
-
-        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        if (string.IsNullOrEmpty(objectType) || string.IsNullOrEmpty(objectColumn))
         {
-            try
+            return null;
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+        string selectSQL = @"SELECT object_type, object_column, min_value, max_value, description 
+                            FROM game_config 
+                            WHERE object_type = @object_type AND object_column = @object_column 
+                            LIMIT 1;";
+
+        await using MySqlConnection connection = new MySqlConnection(connectionString);
+        try
+        {
+            await connection.OpenAsync();
+            await using var command = new MySqlCommand(selectSQL, connection);
+
+            command.Parameters.AddWithValue("@object_type", objectType);
+            command.Parameters.AddWithValue("@object_column", objectColumn);
+
+            await using var reader = await command.ExecuteReaderAsync();
+
+            if (await reader.ReadAsync())
             {
-                await connection.OpenAsync();
-
-                string selectSQL = "SELECT config_key, config_value, description FROM game_config";
-
-                await using var selectCommand = new MySqlCommand(selectSQL, connection);
-                await using var reader = await selectCommand.ExecuteReaderAsync();
-
-                while (await reader.ReadAsync())
+                return new GameConfig
                 {
-                    gameConfig = new GameConfig
-                    {
-                        ConfigKey = reader.GetStringSafe("config_key"),
-                        ConfigValue = reader.GetStringSafe("config_value"),
-                        Description = reader.GetStringSafe("description")
-                    };
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-            }
-            finally
-            {
-                await connection.CloseAsync();
+                    ObjectType = reader.GetStringSafe("object_type"),
+                    ObjectColumn = reader.GetStringSafe("object_column"),
+                    MinValue = reader.GetStringSafe("min_value"),
+                    MaxValue = reader.GetStringSafe("max_value"),
+                    Description = reader.GetStringSafe("description")
+                };
             }
         }
-
-        return gameConfig;
-    }
-    public async Task<InsertOrUpdateResult<HICAs>> InsertHICAAsync(HICAs hica)
-    {
-        if (hica == null || string.IsNullOrEmpty(hica.Id))
+        catch (Exception ex)
         {
-            return InsertOrUpdateResult<HICAs>.Failure("Dữ liệu HICA hoặc ID không hợp lệ.");
+            Debug.LogError($"Error GetGameConfigAsync ({objectType} - {objectColumn}): {ex.Message}");
         }
 
+        return null;
+    }
+
+    /// <summary>
+    /// Lấy toàn bộ danh sách cấu hình trong game_config
+    /// </summary>
+    public async Task<List<GameConfig>> GetAllGameConfigsAsync()
+    {
+        var configList = new List<GameConfig>();
         string connectionString = DatabaseConfig.ConnectionString;
-        string insertSQL = @"INSERT INTO hicas (id, name, base_multiplier, max_level) 
-                        VALUES (@id, @name, @base_multiplier, @max_level);";
+        string selectSQL = @"SELECT object_type, object_column, min_value, max_value, description 
+                            FROM game_config;";
 
         await using MySqlConnection connection = new MySqlConnection(connectionString);
         try
         {
             await connection.OpenAsync();
-            await using var command = new MySqlCommand(insertSQL, connection);
+            await using var command = new MySqlCommand(selectSQL, connection);
+            await using var reader = await command.ExecuteReaderAsync();
 
-            command.Parameters.AddWithValue("@id", hica.Id);
-            command.Parameters.AddWithValue("@name", hica.Name);
-            command.Parameters.AddWithValue("@base_multiplier", hica.BaseMultiplier);
-            command.Parameters.AddWithValue("@max_level", hica.MaxLevel);
-
-            int rowsAffected = await command.ExecuteNonQueryAsync();
-
-            return rowsAffected > 0
-                ? InsertOrUpdateResult<HICAs>.Inserted(hica)
-                : InsertOrUpdateResult<HICAs>.Failure("Thêm mới HICA thất bại.");
+            while (await reader.ReadAsync())
+            {
+                configList.Add(new GameConfig
+                {
+                    ObjectType = reader.GetStringSafe("object_type"),
+                    ObjectColumn = reader.GetStringSafe("object_column"),
+                    MinValue = reader.GetStringSafe("min_value"),
+                    MaxValue = reader.GetStringSafe("max_value"),
+                    Description = reader.GetStringSafe("description")
+                });
+            }
         }
         catch (Exception ex)
         {
-            Debug.LogError("Error InsertHICA: " + ex.Message);
-            return InsertOrUpdateResult<HICAs>.Failure("Lỗi Insert: " + ex.Message);
+            Debug.LogError("Error GetAllGameConfigsAsync: " + ex.Message);
         }
-    }
-    public async Task<InsertOrUpdateResult<HICAs>> UpdateHICAAsync(HICAs hica)
-    {
-        if (hica == null || string.IsNullOrEmpty(hica.Id))
-        {
-            return InsertOrUpdateResult<HICAs>.Failure("Dữ liệu HICA hoặc ID không hợp lệ.");
-        }
-
-        string connectionString = DatabaseConfig.ConnectionString;
-        string updateSQL = @"UPDATE hicas 
-                        SET name = @name, 
-                            base_multiplier = @base_multiplier, 
-                            max_level = @max_level 
-                        WHERE id = @id;";
-
-        await using MySqlConnection connection = new MySqlConnection(connectionString);
-        try
-        {
-            await connection.OpenAsync();
-            await using var command = new MySqlCommand(updateSQL, connection);
-
-            command.Parameters.AddWithValue("@id", hica.Id);
-            command.Parameters.AddWithValue("@name", hica.Name);
-            command.Parameters.AddWithValue("@base_multiplier", hica.BaseMultiplier);
-            command.Parameters.AddWithValue("@max_level", hica.MaxLevel);
-
-            int rowsAffected = await command.ExecuteNonQueryAsync();
-
-            return rowsAffected > 0
-                ? InsertOrUpdateResult<HICAs>.Updated(hica)
-                : InsertOrUpdateResult<HICAs>.Failure("Không tìm thấy HICA để cập nhật.");
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError("Error UpdateHICA: " + ex.Message);
-            return InsertOrUpdateResult<HICAs>.Failure("Lỗi Update: " + ex.Message);
-        }
+        return configList;
     }
 }
