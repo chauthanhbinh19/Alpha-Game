@@ -33,6 +33,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                 SELECT 
                     uc.talisman_id, 
                     uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    uc.quantity,
                     c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier

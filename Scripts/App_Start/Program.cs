@@ -350,7 +350,7 @@ public class Program : MonoBehaviour
         ServiceContainer.RegisterSingleton<IGameItemCatalogService, GameItemCatalogService>();
         ServiceContainer.RegisterSingleton<IUserShopPurchaseService, UserShopPurchaseService>();
         ServiceContainer.RegisterSingleton<IShopsService, ShopsService>();
-        // ServiceContainer.RegisterSingleton<IShopsService, ShopsService>();
+        ServiceContainer.RegisterSingleton<IGameConfigService, GameConfigService>();
         ServiceContainer.RegisterSingleton<IGameGrowthConfigService, GameGrowthConfigService>();
 
         //Services - Gallery

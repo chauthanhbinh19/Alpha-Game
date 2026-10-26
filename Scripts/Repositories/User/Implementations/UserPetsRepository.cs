@@ -32,6 +32,7 @@ public class UserPetsRepository : IUserPetsRepository
                 SELECT 
                     uc.pet_id, 
                     uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block, uc.team_id, uc.position,
+                    uc.quantity,
                     c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
@@ -1530,9 +1531,9 @@ public class UserPetsRepository : IUserPetsRepository
                             * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
                         ) AS total_multiplier
                     FROM user_pets uc
-                    INNER JOIN skills c ON uc.skill_id = c.id
-                    LEFT JOIN user_pets_module ubm ON uc.skill_id = ubm.user_skill_id
-                    LEFT JOIN user_pets_upgrade ubu ON uc.skill_id = ubu.user_skill_id
+                    INNER JOIN skills c ON uc.pet_id = c.id
+                    LEFT JOIN user_pets_module ubm ON uc.pet_id = ubm.user_pet_id
+                    LEFT JOIN user_pets_upgrade ubu ON uc.pet_id = ubu.user_pet_id
                     WHERE uc.user_id = @user_id
                         AND c.is_active = TRUE AND c.is_deleted = FALSE
                 )

@@ -48,6 +48,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 SELECT 
                     us.skill_id, 
                     us.level, us.quality, us.experience, us.star, us.rare, us.block,
+                    us.quantity,
                     s.*,
                     sp.pattern_id,
 

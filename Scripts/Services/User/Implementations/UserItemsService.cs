@@ -33,11 +33,6 @@ public class UserItemsService : IUserItemsService
         return await _userItemsRepository.GetUserItemByCodeNameAsync(userId, codeName);
     }
 
-    public async Task<ItemExperienceDTO> GetUserItemExperienceByCodeNameAsync(string userId, string codeName)
-    {
-        return await _userItemsRepository.GetUserItemExperienceByCodeNameAsync(userId, codeName);
-    }
-
     public async Task<bool> InsertUserItemAsync(string userId, Items item, double quantity)
     {
         return await _userItemsRepository.InsertUserItemAsync(userId, item, quantity);

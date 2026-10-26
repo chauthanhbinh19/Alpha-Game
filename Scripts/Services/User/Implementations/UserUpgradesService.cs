@@ -36,7 +36,7 @@ public class UserUpgradesService : IUserUpgradesService
         { typeof(Foods), (DataBaseConstants.Table.USER_FOODS_UPGRADE, DataBaseConstants.Column.USER_FOOD_ID, "foods") },
         { typeof(Forges), (DataBaseConstants.Table.USER_FORGES_UPGRADE, DataBaseConstants.Column.USER_FORGE_ID, "forges") },
         { typeof(Furnitures), (DataBaseConstants.Table.USER_FURNITURES_UPGRADE, DataBaseConstants.Column.USER_FURNITURE_ID, "furnitures") },
-        { typeof(MagicFormationCircles), (DataBaseConstants.Table.USER_MAGIC_FORMATION_CIRCLES_UPGRADE, DataBaseConstants.Column.USER_MFC_ID, "magic_formation_circles") },
+        { typeof(MagicFormationCircles), (DataBaseConstants.Table.USER_MAGIC_FORMATION_CIRCLES_UPGRADE, DataBaseConstants.Column.USER_MAGIC_FORMATION_CIRCLE_ID, "magic_formation_circles") },
         { typeof(MechaBeasts), (DataBaseConstants.Table.USER_MECHA_BEASTS_UPGRADE, DataBaseConstants.Column.USER_MECHA_BEAST_ID, "mecha_beasts") },
         { typeof(Medals), (DataBaseConstants.Table.USER_MEDALS_UPGRADE, DataBaseConstants.Column.USER_MEDAL_ID, "medals") },
         { typeof(Pets), (DataBaseConstants.Table.USER_PETS_UPGRADE, DataBaseConstants.Column.USER_PET_ID, "pets") },
@@ -84,7 +84,7 @@ public class UserUpgradesService : IUserUpgradesService
         return await _userUpgradesRepository.GetSumUserUpgradesAsync(userId, stat.Id, mapping.Table, mapping.Column);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserUpgradesAsync(string userId, UserUpgrades upgrade, IStats stat)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserUpgradesAsync(string userId, UserUpgrades upgrade, IStats stat, List<RecipeItemDetailDTO> totalDeductions = null)
     {
         if (!UpgradeMappings.TryGetValue(stat.GetType(), out var mapping))
         {
@@ -92,7 +92,7 @@ public class UserUpgradesService : IUserUpgradesService
                 $"Unsupported stat type: {stat.GetType().Name}");
         }
 
-        var insertOrUpdateResult = await _userUpgradesRepository.InsertOrUpdateUserUpgradesAsync(userId, upgrade, stat.Id, mapping.Table, mapping.Column);
+        var insertOrUpdateResult = await _userUpgradesRepository.InsertOrUpdateUserUpgradesAsync(userId, upgrade, stat.Id, mapping.Table, mapping.Column, totalDeductions);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {

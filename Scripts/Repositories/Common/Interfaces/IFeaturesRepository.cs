@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 public interface IFeaturesRepository
 {
     Task<Dictionary<string, Features>> GetFeaturesByTypeAsync(string type);
+    Task<Features> GetFeatureByTypeAndCodeNameAsync(string type, string codeName);
     Task<Dictionary<string, FeatureScienceFictionDTO>> GetScienceFictionFeaturesByTypeAsync(string type);
     Task<Dictionary<string, FeatureResearchDTO>> GetResearchFeaturesByTypeAsync(string type);
     Task<Dictionary<string, FeatureArchiveDTO>> GetArchiveFeaturesByTypeAsync(string type);

@@ -21,9 +21,9 @@ public class UserAnimesService : IUserAnimesService
         return await _userAnimesRepository.GetSumUserAnimesAsync(userId);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAnimesAsync(string userId, UserAnimes Animes, string id)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAnimesAsync(string userId, UserAnimes Animes, string type, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var insertOrUpdateResult = await _userAnimesRepository.InsertOrUpdateUserAnimesAsync(userId, Animes, id);
+        var insertOrUpdateResult = await _userAnimesRepository.InsertOrUpdateUserAnimesAsync(userId, Animes, type, totalDeductions);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {

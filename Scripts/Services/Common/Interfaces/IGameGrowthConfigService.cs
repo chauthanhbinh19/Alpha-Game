@@ -10,7 +10,7 @@ public interface IGameGrowthConfigService
     /// <summary>
     /// Lấy cấu hình thô từ Cache (dùng khi cần xem thông số cụm)
     /// </summary>
-    Task<GameGrowthConfig?> GetConfigAsync(string objectType, string growthType, int currentLevel);
+    Task<GameGrowthConfig> GetConfigAsync(string objectType, string growthType, int currentLevel);
 
     /// <summary>
     /// Xóa Cache để Reload lại cấu hình mới nhất từ Database (Dùng khi Admin update game)

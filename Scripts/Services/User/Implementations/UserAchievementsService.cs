@@ -204,8 +204,16 @@ public class UserAchievementsService : IUserAchievementsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserAchievementLevelAsync(string userId, Achievements achievement)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserAchievementLevelAsync(
+        string userId,
+        Achievements achievement,
+        List<RecipeItemDTO> items)
     {
+        if (achievement == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Achievement is required.");
+        }
+
         var checkResult = await _achievementsService.IsAchievementDeletedOrInactiveAsync(achievement.Id);
         if (checkResult)
         {
@@ -220,7 +228,10 @@ public class UserAchievementsService : IUserAchievementsService
 
         Achievements oldUserAchievement = await _userAchievementsRepository.SumPowerUserAchievementsAsync(userId);
 
-        var updateResult = await _userAchievementsRepository.UpdateUserAchievementLevelAsync(userId, achievement);
+        var updateResult = await _userAchievementsRepository.UpdateUserAchievementLevelAsync(
+            userId,
+            achievement,
+            items);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

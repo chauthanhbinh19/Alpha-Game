@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using MySqlConnector;
 using System.Threading.Tasks;
+using System.Linq;
 public class UserMastersRepository : IUserMastersRepository
 {
     public async Task<UserMasters> GetUserMastersAsync(string userId, string masterId, string objectId, string userTable, string objectColumn)
@@ -113,15 +114,15 @@ public class UserMastersRepository : IUserMastersRepository
 
         return null;
     }
-    public async Task<InsertOrUpdateResult<UserMasters>> InsertOrUpdateUserMastersAsync(string userId, UserMasters userMaster, string objectId, string userTable, string objectColumn)
+    public async Task<InsertOrUpdateResult<UserMasters>> InsertOrUpdateUserMastersAsync(string userId, UserMasters userMaster, string objectId, string userTable, string objectColumn, List<RecipeItemDetailDTO> totalDeductions = null)
     {
-        // 1. Guard Clause: Kiểm tra tham số đầu vào
+        // 1. Guard Clause: Kiểm tra tham số đầu vào an toàn
         if (userMaster == null || string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(userMaster.Id) || string.IsNullOrWhiteSpace(objectId))
         {
             return InsertOrUpdateResult<UserMasters>.Failure("Dữ liệu master hoặc tham số ID truyền vào không hợp lệ.");
         }
 
-        // Sanitize tên bảng và tên cột động để chống SQL Injection
+        // Sanitize tên bảng và tên cột động để phòng chống SQL Injection
         string safeUserTable = userTable?.Replace("`", "").Trim();
         string safeObjectColumn = objectColumn?.Replace("`", "").Trim();
 
@@ -132,100 +133,215 @@ public class UserMastersRepository : IUserMastersRepository
 
         string connectionString = DatabaseConfig.ConnectionString;
 
-        // 2. Tối ưu câu lệnh Upsert (Giả định bảng có UNIQUE/PRIMARY KEY gồm: user_id, master_id, objectColumn)
-        string upsertSQL = $@"
-    INSERT INTO `{safeUserTable}` (
-        user_id, `{safeObjectColumn}`, master_id, master_level, power, health, mana, speed,
-        physical_attack, physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense,
-        atomic_attack, atomic_defense, mental_attack, mental_defense,
-        critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
-        penetration_rate, penetration_resistance_rate, evasion_rate,
-        damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
-        vitality_regeneration_rate, vitality_regeneration_resistance_rate, accuracy_rate, lifesteal_rate,
-        shield_strength, tenacity, resistance_rate,
-        combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
-        stun_rate, ignore_stun_rate, reflection_rate, ignore_reflection_rate,
-        reflection_damage_rate, reflection_resistance_rate, mana_regeneration_rate,
-        damage_to_different_faction_rate, resistance_to_different_faction_rate,
-        damage_to_same_faction_rate, resistance_to_same_faction_rate,
-        normal_damage_rate, normal_resistance_rate, skill_damage_rate, skill_resistance_rate,
-        percent_all_health, percent_all_physical_attack, percent_all_physical_defense,
-        percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, percent_all_chemical_defense,
-        percent_all_atomic_attack, percent_all_atomic_defense, percent_all_mental_attack, percent_all_mental_defense
-    )
-    VALUES (
-        @user_id, @objectId, @master_id, @master_level, @power, @health, @mana, @speed,
-        @physical_attack, @physical_defense, @magical_attack, @magical_defense,
-        @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
-        @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
-        @penetration_rate, @penetration_resistance_rate, @evasion_rate,
-        @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
-        @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
-        @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
-        @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate, @stun_rate, @ignore_stun_rate,
-        @reflection_rate, @ignore_reflection_rate,
-        @reflection_damage_rate, @reflection_resistance_rate, @mana_regeneration_rate,
-        @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
-        @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
-        @normal_damage_rate, @normal_resistance_rate,
-        @skill_damage_rate, @skill_resistance_rate,
-        @percent_all_health,
-        @percent_all_physical_attack, @percent_all_physical_defense,
-        @percent_all_magical_attack, @percent_all_magical_defense,
-        @percent_all_chemical_attack, @percent_all_chemical_defense,
-        @percent_all_atomic_attack, @percent_all_atomic_defense,
-        @percent_all_mental_attack, @percent_all_mental_defense
-    )
-    ON DUPLICATE KEY UPDATE
-        master_level = VALUES(master_level), power = VALUES(power), health = VALUES(health), mana = VALUES(mana), speed = VALUES(speed),
-        physical_attack = VALUES(physical_attack), physical_defense = VALUES(physical_defense),
-        magical_attack = VALUES(magical_attack), magical_defense = VALUES(magical_defense),
-        chemical_attack = VALUES(chemical_attack), chemical_defense = VALUES(chemical_defense),
-        atomic_attack = VALUES(atomic_attack), atomic_defense = VALUES(atomic_defense),
-        mental_attack = VALUES(mental_attack), mental_defense = VALUES(mental_defense),
-        critical_damage_rate = VALUES(critical_damage_rate), critical_rate = VALUES(critical_rate),
-        critical_resistance_rate = VALUES(critical_resistance_rate), ignore_critical_rate = VALUES(ignore_critical_rate),
-        penetration_rate = VALUES(penetration_rate), penetration_resistance_rate = VALUES(penetration_resistance_rate),
-        evasion_rate = VALUES(evasion_rate), damage_absorption_rate = VALUES(damage_absorption_rate),
-        ignore_damage_absorption_rate = VALUES(ignore_damage_absorption_rate), absorbed_damage_rate = VALUES(absorbed_damage_rate),
-        vitality_regeneration_rate = VALUES(vitality_regeneration_rate),
-        vitality_regeneration_resistance_rate = VALUES(vitality_regeneration_resistance_rate),
-        accuracy_rate = VALUES(accuracy_rate), lifesteal_rate = VALUES(lifesteal_rate),
-        shield_strength = VALUES(shield_strength), tenacity = VALUES(tenacity),
-        resistance_rate = VALUES(resistance_rate), combo_rate = VALUES(combo_rate),
-        ignore_combo_rate = VALUES(ignore_combo_rate), combo_damage_rate = VALUES(combo_damage_rate),
-        combo_resistance_rate = VALUES(combo_resistance_rate), stun_rate = VALUES(stun_rate),
-        ignore_stun_rate = VALUES(ignore_stun_rate), reflection_rate = VALUES(reflection_rate),
-        ignore_reflection_rate = VALUES(ignore_reflection_rate), reflection_damage_rate = VALUES(reflection_damage_rate),
-        reflection_resistance_rate = VALUES(reflection_resistance_rate), mana_regeneration_rate = VALUES(mana_regeneration_rate),
-        damage_to_different_faction_rate = VALUES(damage_to_different_faction_rate),
-        resistance_to_different_faction_rate = VALUES(resistance_to_different_faction_rate),
-        damage_to_same_faction_rate = VALUES(damage_to_same_faction_rate),
-        resistance_to_same_faction_rate = VALUES(resistance_to_same_faction_rate),
-        normal_damage_rate = VALUES(normal_damage_rate), normal_resistance_rate = VALUES(normal_resistance_rate),
-        skill_damage_rate = VALUES(skill_damage_rate), skill_resistance_rate = VALUES(skill_resistance_rate),
-        percent_all_health = VALUES(percent_all_health),
-        percent_all_physical_attack = VALUES(percent_all_physical_attack), percent_all_physical_defense = VALUES(percent_all_physical_defense),
-        percent_all_magical_attack = VALUES(percent_all_magical_attack), percent_all_magical_defense = VALUES(percent_all_magical_defense),
-        percent_all_chemical_attack = VALUES(percent_all_chemical_attack), percent_all_chemical_defense = VALUES(percent_all_chemical_defense),
-        percent_all_atomic_attack = VALUES(percent_all_atomic_attack), percent_all_atomic_defense = VALUES(percent_all_atomic_defense),
-        percent_all_mental_attack = VALUES(percent_all_mental_attack), percent_all_mental_defense = VALUES(percent_all_mental_defense);";
+        await using var connection = new MySqlConnection(connectionString);
+        await connection.OpenAsync();
+        await using var transaction = await connection.BeginTransactionAsync();
 
         try
         {
-            await using var connection = new MySqlConnection(connectionString);
-            await connection.OpenAsync();
+            // -------------------------------------------------------------------------------------
+            // BƯỚC 1: NHÓM NGUYÊN LIỆU THEO OBJECT_TYPE VÀ KHẤU TRỪ TỐI ƯU (IN + CASE WHEN)
+            // -------------------------------------------------------------------------------------
+            if (totalDeductions != null && totalDeductions.Count > 0)
+            {
+                // Lọc các vật phẩm có số lượng > 0 và gom nhóm theo ObjectType
+                var validDeductions = totalDeductions.Where(d => d != null && d.RequiredQuantity > 0).ToList();
+                var groupedDeductions = validDeductions.GroupBy(d => d.ObjectType?.Trim().ToUpper());
 
-            await using var command = new MySqlCommand(upsertSQL, connection);
+                foreach (var group in groupedDeductions)
+                {
+                    string rawObjectType = group.Key;
+                    if (string.IsNullOrWhiteSpace(rawObjectType)) continue;
 
-            // Gán thông số cho Command
+                    string tableName = GetUserTableNameByObjectType(rawObjectType);
+                    string idColumnName = GetIdColumnNameByObjectType(rawObjectType);
+
+                    if (string.IsNullOrEmpty(tableName)) continue;
+
+                    // Gom nhóm các item trùng ObjectId để cộng dồn số lượng cần trừ
+                    var itemList = group
+                        .GroupBy(x => x.ObjectId)
+                        .Select(g => new RecipeItemDetailDTO
+                        {
+                            ObjectId = g.Key,
+                            ObjectType = rawObjectType,
+                            RequiredQuantity = g.Sum(x => x.RequiredQuantity)
+                        })
+                        .ToList();
+
+                    // 1.1 Tạo IN Clause để SELECT FOR UPDATE 1 lần cho ObjectType này
+                    var objectIds = itemList.Select(i => i.ObjectId).Distinct().ToList();
+                    string inClause = string.Join(",", objectIds.Select((_, idx) => $"@id{idx}"));
+
+                    string checkStockSQL = $@"
+                SELECT {idColumnName} AS object_id, quantity 
+                FROM {tableName} 
+                WHERE user_id = @userId AND {idColumnName} IN ({inClause})
+                FOR UPDATE;";
+
+                    var currentStockMap = new Dictionary<string, double>();
+
+                    await using (var checkCommand = new MySqlCommand(checkStockSQL, connection, transaction))
+                    {
+                        checkCommand.Parameters.AddWithValue("@userId", userId);
+                        for (int i = 0; i < objectIds.Count; i++)
+                        {
+                            checkCommand.Parameters.AddWithValue($"@id{i}", objectIds[i]);
+                        }
+
+                        await using var reader = await checkCommand.ExecuteReaderAsync();
+                        while (await reader.ReadAsync())
+                        {
+                            string objId = reader.GetStringSafe("object_id");
+                            double qty = reader.GetDoubleSafe("quantity");
+                            currentStockMap[objId] = qty;
+                        }
+                    }
+
+                    // 1.2 Kiểm tra xem người dùng có đủ số lượng cho tất cả vật phẩm thuộc ObjectType này không
+                    foreach (var item in itemList)
+                    {
+                        double ownedQty = currentStockMap.TryGetValue(item.ObjectId, out double qty) ? qty : 0;
+                        if (ownedQty < item.RequiredQuantity)
+                        {
+                            await transaction.RollbackAsync();
+                            return InsertOrUpdateResult<UserMasters>.Failure(
+                                $"Thất bại: Không đủ nguyên liệu '{item.ObjectId}' ({rawObjectType}). " +
+                                $"Cần: {item.RequiredQuantity}, Hiện có: {ownedQty}.");
+                        }
+                    }
+
+                    // 1.3 Dùng CASE WHEN để UPDATE Bulk 1 lần duy nhất cho toàn bộ ObjectType này
+                    var caseStatements = new List<string>();
+                    for (int i = 0; i < itemList.Count; i++)
+                    {
+                        caseStatements.Add($"WHEN {idColumnName} = @updId{i} THEN quantity - @updQty{i}");
+                    }
+
+                    string bulkUpdateSQL = $@"
+                UPDATE {tableName}
+                SET quantity = CASE 
+                    {string.Join(" ", caseStatements)}
+                    ELSE quantity 
+                END
+                WHERE user_id = @userId AND {idColumnName} IN ({inClause});";
+
+                    await using (var updateCommand = new MySqlCommand(bulkUpdateSQL, connection, transaction))
+                    {
+                        updateCommand.Parameters.AddWithValue("@userId", userId);
+                        for (int i = 0; i < itemList.Count; i++)
+                        {
+                            updateCommand.Parameters.AddWithValue($"@updId{i}", itemList[i].ObjectId);
+                            updateCommand.Parameters.AddWithValue($"@updQty{i}", itemList[i].RequiredQuantity);
+                        }
+
+                        // Re-bind tham số cho IN Clause
+                        for (int i = 0; i < objectIds.Count; i++)
+                        {
+                            updateCommand.Parameters.AddWithValue($"@id{i}", objectIds[i]);
+                        }
+
+                        int affectedRows = await updateCommand.ExecuteNonQueryAsync();
+                        if (affectedRows == 0)
+                        {
+                            await transaction.RollbackAsync();
+                            return InsertOrUpdateResult<UserMasters>.Failure($"Thất bại khi cập nhật số lượng cho loại {rawObjectType}.");
+                        }
+                    }
+                }
+            }
+
+            // -------------------------------------------------------------------------------------
+            // BƯỚC 2: UPSERT BẢNG DỘNG USER_RANKS
+            // -------------------------------------------------------------------------------------
+            string upsertSQL = $@"
+        INSERT INTO `{safeUserTable}` (
+            user_id, `{safeObjectColumn}`, master_id, master_level, power, health, mana, speed,
+            physical_attack, physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense,
+            atomic_attack, atomic_defense, mental_attack, mental_defense,
+            critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
+            penetration_rate, penetration_resistance_rate, evasion_rate,
+            damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
+            vitality_regeneration_rate, vitality_regeneration_resistance_rate, accuracy_rate, lifesteal_rate,
+            shield_strength, tenacity, resistance_rate,
+            combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
+            stun_rate, ignore_stun_rate, reflection_rate, ignore_reflection_rate,
+            reflection_damage_rate, reflection_resistance_rate, mana_regeneration_rate,
+            damage_to_different_faction_rate, resistance_to_different_faction_rate,
+            damage_to_same_faction_rate, resistance_to_same_faction_rate,
+            normal_damage_rate, normal_resistance_rate, skill_damage_rate, skill_resistance_rate,
+            percent_all_health, percent_all_physical_attack, percent_all_physical_defense,
+            percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, percent_all_chemical_defense,
+            percent_all_atomic_attack, percent_all_atomic_defense, percent_all_mental_attack, percent_all_mental_defense
+        )
+        VALUES (
+            @user_id, @objectId, @master_id, @master_level, @power, @health, @mana, @speed,
+            @physical_attack, @physical_defense, @magical_attack, @magical_defense,
+            @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
+            @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
+            @penetration_rate, @penetration_resistance_rate, @evasion_rate,
+            @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
+            @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
+            @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
+            @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate, @stun_rate, @ignore_stun_rate,
+            @reflection_rate, @ignore_reflection_rate,
+            @reflection_damage_rate, @reflection_resistance_rate, @mana_regeneration_rate,
+            @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
+            @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
+            @normal_damage_rate, @normal_resistance_rate,
+            @skill_damage_rate, @skill_resistance_rate,
+            @percent_all_health,
+            @percent_all_physical_attack, @percent_all_physical_defense,
+            @percent_all_magical_attack, @percent_all_magical_defense,
+            @percent_all_chemical_attack, @percent_all_chemical_defense,
+            @percent_all_atomic_attack, @percent_all_atomic_defense,
+            @percent_all_mental_attack, @percent_all_mental_defense
+        )
+        ON DUPLICATE KEY UPDATE
+            master_level = VALUES(master_level), power = VALUES(power), health = VALUES(health), mana = VALUES(mana), speed = VALUES(speed),
+            physical_attack = VALUES(physical_attack), physical_defense = VALUES(physical_defense),
+            magical_attack = VALUES(magical_attack), magical_defense = VALUES(magical_defense),
+            chemical_attack = VALUES(chemical_attack), chemical_defense = VALUES(chemical_defense),
+            atomic_attack = VALUES(atomic_attack), atomic_defense = VALUES(atomic_defense),
+            mental_attack = VALUES(mental_attack), mental_defense = VALUES(mental_defense),
+            critical_damage_rate = VALUES(critical_damage_rate), critical_rate = VALUES(critical_rate),
+            critical_resistance_rate = VALUES(critical_resistance_rate), ignore_critical_rate = VALUES(ignore_critical_rate),
+            penetration_rate = VALUES(penetration_rate), penetration_resistance_rate = VALUES(penetration_resistance_rate),
+            evasion_rate = VALUES(evasion_rate), damage_absorption_rate = VALUES(damage_absorption_rate),
+            ignore_damage_absorption_rate = VALUES(ignore_damage_absorption_rate), absorbed_damage_rate = VALUES(absorbed_damage_rate),
+            vitality_regeneration_rate = VALUES(vitality_regeneration_rate),
+            vitality_regeneration_resistance_rate = VALUES(vitality_regeneration_resistance_rate),
+            accuracy_rate = VALUES(accuracy_rate), lifesteal_rate = VALUES(lifesteal_rate),
+            shield_strength = VALUES(shield_strength), tenacity = VALUES(tenacity),
+            resistance_rate = VALUES(resistance_rate), combo_rate = VALUES(combo_rate),
+            ignore_combo_rate = VALUES(ignore_combo_rate), combo_damage_rate = VALUES(combo_damage_rate),
+            combo_resistance_rate = VALUES(combo_resistance_rate), stun_rate = VALUES(stun_rate),
+            ignore_stun_rate = VALUES(ignore_stun_rate), reflection_rate = VALUES(reflection_rate),
+            ignore_reflection_rate = VALUES(ignore_reflection_rate), reflection_damage_rate = VALUES(reflection_damage_rate),
+            reflection_resistance_rate = VALUES(reflection_resistance_rate), mana_regeneration_rate = VALUES(mana_regeneration_rate),
+            damage_to_different_faction_rate = VALUES(damage_to_different_faction_rate),
+            resistance_to_different_faction_rate = VALUES(resistance_to_different_faction_rate),
+            damage_to_same_faction_rate = VALUES(damage_to_same_faction_rate),
+            resistance_to_same_faction_rate = VALUES(resistance_to_same_faction_rate),
+            normal_damage_rate = VALUES(normal_damage_rate), normal_resistance_rate = VALUES(normal_resistance_rate),
+            skill_damage_rate = VALUES(skill_damage_rate), skill_resistance_rate = VALUES(skill_resistance_rate),
+            percent_all_health = VALUES(percent_all_health),
+            percent_all_physical_attack = VALUES(percent_all_physical_attack), percent_all_physical_defense = VALUES(percent_all_physical_defense),
+            percent_all_magical_attack = VALUES(percent_all_magical_attack), percent_all_magical_defense = VALUES(percent_all_magical_defense),
+            percent_all_chemical_attack = VALUES(percent_all_chemical_attack), percent_all_chemical_defense = VALUES(percent_all_chemical_defense),
+            percent_all_atomic_attack = VALUES(percent_all_atomic_attack), percent_all_atomic_defense = VALUES(percent_all_atomic_defense),
+            percent_all_mental_attack = VALUES(percent_all_mental_attack), percent_all_mental_defense = VALUES(percent_all_mental_defense);";
+
+            await using var command = new MySqlCommand(upsertSQL, connection, transaction);
+
+            // Gọi hàm gán tất cả tham số
             AddAllParameters(command, userMaster, userId, userMaster.Id, objectId);
 
             int rowsAffected = await command.ExecuteNonQueryAsync();
 
-            // Xử lý kết quả trả về từ MySQL:
-            // - 1: Đã INSERT mới thành công
-            // - 2 hoặc 0: Đã UPDATE thành công (2 = có thay đổi dữ liệu, 0 = dữ liệu giữ nguyên)
+            // Cam kết Transaction thành công
+            await transaction.CommitAsync();
+
             if (rowsAffected == 1)
             {
                 return InsertOrUpdateResult<UserMasters>.Inserted(userMaster);
@@ -241,11 +357,13 @@ public class UserMastersRepository : IUserMastersRepository
         }
         catch (MySqlException ex)
         {
+            await transaction.RollbackAsync();
             Debug.LogError($"[InsertOrUpdateUserMastersAsync MySqlException]: {ex.Message}");
             return InsertOrUpdateResult<UserMasters>.Failure($"Lỗi Database: {ex.Message}");
         }
         catch (System.Exception ex)
         {
+            await transaction.RollbackAsync();
             Debug.LogError($"[InsertOrUpdateUserMastersAsync Exception]: {ex.Message}");
             return InsertOrUpdateResult<UserMasters>.Failure($"Lỗi hệ thống: {ex.Message}");
         }
@@ -484,5 +602,130 @@ public class UserMastersRepository : IUserMastersRepository
         command.Parameters.AddWithValue("@percent_all_atomic_defense", a.PercentAllAtomicDefense);
         command.Parameters.AddWithValue("@percent_all_mental_attack", a.PercentAllMentalAttack);
         command.Parameters.AddWithValue("@percent_all_mental_defense", a.PercentAllMentalDefense);
+    }
+    /// <summary>
+    /// Ánh xạ ObjectType sang Tên Bảng kho người dùng tương ứng (Sắp xếp A-Z)
+    /// </summary>
+    private string GetUserTableNameByObjectType(string objectType)
+    {
+        return objectType.ToUpper() switch
+        {
+            AppConstants.ObjectType.ACHIEVEMENTS => DataBaseConstants.Table.USER_ACHIEVEMENTS,
+            AppConstants.ObjectType.ALCHEMIES => DataBaseConstants.Table.USER_ALCHEMIES,
+            AppConstants.ObjectType.ARCHITECTURES => DataBaseConstants.Table.USER_ARCHITECTURES,
+            AppConstants.ObjectType.ARTIFACTS => DataBaseConstants.Table.USER_ARTIFACTS,
+            AppConstants.ObjectType.ARTWORKS => DataBaseConstants.Table.USER_ARTWORKS,
+            AppConstants.ObjectType.AVATARS => DataBaseConstants.Table.USER_AVATARS,
+            AppConstants.ObjectType.BADGES => DataBaseConstants.Table.USER_BADGES,
+            AppConstants.ObjectType.BEVERAGES => DataBaseConstants.Table.USER_BEVERAGES,
+            AppConstants.ObjectType.BOOKS => DataBaseConstants.Table.USER_BOOKS,
+            AppConstants.ObjectType.BORDERS => DataBaseConstants.Table.USER_BORDERS,
+            AppConstants.ObjectType.BUILDINGS => DataBaseConstants.Table.USER_BUILDINGS,
+            AppConstants.ObjectType.CARD_ADMIRALS => DataBaseConstants.Table.USER_CARD_ADMIRALS,
+            AppConstants.ObjectType.CARD_CAPTAINS => DataBaseConstants.Table.USER_CARD_CAPTAINS,
+            AppConstants.ObjectType.CARD_COLONELS => DataBaseConstants.Table.USER_CARD_COLONELS,
+            AppConstants.ObjectType.CARD_GENERALS => DataBaseConstants.Table.USER_CARD_GENERALS,
+            AppConstants.ObjectType.CARD_HEROES => DataBaseConstants.Table.USER_CARD_HEROES,
+            AppConstants.ObjectType.CARD_LIVES => DataBaseConstants.Table.USER_CARD_LIVES,
+            AppConstants.ObjectType.CARD_MILITARIES => DataBaseConstants.Table.USER_CARD_MILITARIES,
+            AppConstants.ObjectType.CARD_MONSTERS => DataBaseConstants.Table.USER_CARD_MONSTERS,
+            AppConstants.ObjectType.CARD_SOLDIERS => DataBaseConstants.Table.USER_CARD_SOLDIERS,
+            AppConstants.ObjectType.CARD_SPELLS => DataBaseConstants.Table.USER_CARD_SPELLS,
+            AppConstants.ObjectType.COLLABORATION_EQUIPMENTS => DataBaseConstants.Table.USER_COLLABORATION_EQUIPMENTS,
+            AppConstants.ObjectType.COLLABORATIONS => DataBaseConstants.Table.USER_COLLABORATIONS,
+            AppConstants.ObjectType.CORES => DataBaseConstants.Table.USER_CORES,
+            AppConstants.ObjectType.EMOJIS => DataBaseConstants.Table.USER_EMOJIS,
+            AppConstants.ObjectType.EQUIPMENTS => DataBaseConstants.Table.USER_EQUIPMENTS,
+            AppConstants.ObjectType.FASHIONS => DataBaseConstants.Table.USER_FASHIONS,
+            AppConstants.ObjectType.FOODS => DataBaseConstants.Table.USER_FOODS,
+            AppConstants.ObjectType.FORGES => DataBaseConstants.Table.USER_FORGES,
+            AppConstants.ObjectType.FURNITURES => DataBaseConstants.Table.USER_FURNITURES,
+            AppConstants.ObjectType.ITEMS => DataBaseConstants.Table.USER_ITEMS,
+            AppConstants.ObjectType.MAGIC_FORMATION_CIRCLES => DataBaseConstants.Table.USER_MAGIC_FORMATION_CIRCLES,
+            AppConstants.ObjectType.MECHA_BEASTS => DataBaseConstants.Table.USER_MECHA_BEASTS,
+            AppConstants.ObjectType.MEDALS => DataBaseConstants.Table.USER_MEDALS,
+            AppConstants.ObjectType.OUTFITS => DataBaseConstants.Table.USER_OUTFITS,
+            AppConstants.ObjectType.PETS => DataBaseConstants.Table.USER_PETS,
+            AppConstants.ObjectType.PLANTS => DataBaseConstants.Table.USER_PLANTS,
+            AppConstants.ObjectType.PUPPETS => DataBaseConstants.Table.USER_PUPPETS,
+            AppConstants.ObjectType.RELICS => DataBaseConstants.Table.USER_RELICS,
+            AppConstants.ObjectType.ROBOTS => DataBaseConstants.Table.USER_ROBOTS,
+            AppConstants.ObjectType.RUNES => DataBaseConstants.Table.USER_RUNES,
+            AppConstants.ObjectType.SKILLS => DataBaseConstants.Table.USER_SKILLS,
+            AppConstants.ObjectType.SPIRIT_BEASTS => DataBaseConstants.Table.USER_SPIRIT_BEASTS,
+            AppConstants.ObjectType.SPIRIT_CARDS => DataBaseConstants.Table.USER_SPIRIT_CARDS,
+            AppConstants.ObjectType.SYMBOLS => DataBaseConstants.Table.USER_SYMBOLS,
+            AppConstants.ObjectType.TALISMANS => DataBaseConstants.Table.USER_TALISMANS,
+            AppConstants.ObjectType.TECHNOLOGIES => DataBaseConstants.Table.USER_TECHNOLOGIES,
+            AppConstants.ObjectType.TITLES => DataBaseConstants.Table.USER_TITLES,
+            AppConstants.ObjectType.VEHICLES => DataBaseConstants.Table.USER_VEHICLES,
+            AppConstants.ObjectType.WEAPONS => DataBaseConstants.Table.USER_WEAPONS,
+            AppConstants.ObjectType.CURRENCIES => DataBaseConstants.Table.USER_CURRENCIES,
+
+            _ => DataBaseConstants.Table.USER_ITEMS
+        };
+    }
+
+    /// <summary>
+    /// Ánh xạ Cột ID chính trong bảng kho tương ứng (Sắp xếp A-Z)
+    /// </summary>
+    private string GetIdColumnNameByObjectType(string objectType)
+    {
+        return objectType.ToUpper() switch
+        {
+            AppConstants.ObjectType.ACHIEVEMENTS => DataBaseConstants.Column.ACHIEVEMENT_ID,
+            AppConstants.ObjectType.ALCHEMIES => DataBaseConstants.Column.ALCHEMY_ID,
+            AppConstants.ObjectType.ARCHITECTURES => DataBaseConstants.Column.ARCHITECTURE_ID,
+            AppConstants.ObjectType.ARTIFACTS => DataBaseConstants.Column.ARTIFACT_ID,
+            AppConstants.ObjectType.ARTWORKS => DataBaseConstants.Column.ARTWORK_ID,
+            AppConstants.ObjectType.AVATARS => DataBaseConstants.Column.AVATAR_ID,
+            AppConstants.ObjectType.BADGES => DataBaseConstants.Column.BADGE_ID,
+            AppConstants.ObjectType.BEVERAGES => DataBaseConstants.Column.BEVERAGE_ID,
+            AppConstants.ObjectType.BOOKS => DataBaseConstants.Column.BOOK_ID,
+            AppConstants.ObjectType.BORDERS => DataBaseConstants.Column.BORDER_ID,
+            AppConstants.ObjectType.BUILDINGS => DataBaseConstants.Column.BUILDING_ID,
+            AppConstants.ObjectType.CARD_ADMIRALS => DataBaseConstants.Column.CARD_ADMIRAL_ID,
+            AppConstants.ObjectType.CARD_CAPTAINS => DataBaseConstants.Column.CARD_CAPTAIN_ID,
+            AppConstants.ObjectType.CARD_COLONELS => DataBaseConstants.Column.CARD_COLONEL_ID,
+            AppConstants.ObjectType.CARD_GENERALS => DataBaseConstants.Column.CARD_GENERAL_ID,
+            AppConstants.ObjectType.CARD_HEROES => DataBaseConstants.Column.CARD_HERO_ID,
+            AppConstants.ObjectType.CARD_LIVES => DataBaseConstants.Column.CARD_LIFE_ID,
+            AppConstants.ObjectType.CARD_MILITARIES => DataBaseConstants.Column.CARD_MILITARY_ID,
+            AppConstants.ObjectType.CARD_MONSTERS => DataBaseConstants.Column.CARD_MONSTER_ID,
+            AppConstants.ObjectType.CARD_SOLDIERS => DataBaseConstants.Column.CARD_SOLDIER_ID,
+            AppConstants.ObjectType.CARD_SPELLS => DataBaseConstants.Column.CARD_SPELL_ID,
+            AppConstants.ObjectType.COLLABORATION_EQUIPMENTS => DataBaseConstants.Column.COLLABORATION_EQUIPMENT_ID,
+            AppConstants.ObjectType.COLLABORATIONS => DataBaseConstants.Column.COLLABORATION_ID,
+            AppConstants.ObjectType.CORES => DataBaseConstants.Column.CORE_ID,
+            AppConstants.ObjectType.EMOJIS => DataBaseConstants.Column.EMOJI_ID,
+            AppConstants.ObjectType.EQUIPMENTS => DataBaseConstants.Column.EQUIPMENT_ID,
+            AppConstants.ObjectType.FASHIONS => DataBaseConstants.Column.FASHION_ID,
+            AppConstants.ObjectType.FOODS => DataBaseConstants.Column.FOOD_ID,
+            AppConstants.ObjectType.FORGES => DataBaseConstants.Column.FORGE_ID,
+            AppConstants.ObjectType.FURNITURES => DataBaseConstants.Column.FURNITURE_ID,
+            AppConstants.ObjectType.ITEMS => DataBaseConstants.Column.ITEM_ID,
+            AppConstants.ObjectType.MAGIC_FORMATION_CIRCLES => DataBaseConstants.Column.MAGIC_FORMATION_CIRCLE_ID,
+            AppConstants.ObjectType.MECHA_BEASTS => DataBaseConstants.Column.MECHA_BEAST_ID,
+            AppConstants.ObjectType.MEDALS => DataBaseConstants.Column.MEDAL_ID,
+            AppConstants.ObjectType.OUTFITS => DataBaseConstants.Column.OUTFIT_ID,
+            AppConstants.ObjectType.PETS => DataBaseConstants.Column.PET_ID,
+            AppConstants.ObjectType.PLANTS => DataBaseConstants.Column.PLANT_ID,
+            AppConstants.ObjectType.PUPPETS => DataBaseConstants.Column.PUPPET_ID,
+            AppConstants.ObjectType.RELICS => DataBaseConstants.Column.RELIC_ID,
+            AppConstants.ObjectType.ROBOTS => DataBaseConstants.Column.ROBOT_ID,
+            AppConstants.ObjectType.RUNES => DataBaseConstants.Column.RUNE_ID,
+            AppConstants.ObjectType.SKILLS => DataBaseConstants.Column.SKILL_ID,
+            AppConstants.ObjectType.SPIRIT_BEASTS => DataBaseConstants.Column.SPIRIT_BEAST_ID,
+            AppConstants.ObjectType.SPIRIT_CARDS => DataBaseConstants.Column.SPIRIT_CARD_ID,
+            AppConstants.ObjectType.SYMBOLS => DataBaseConstants.Column.SYMBOL_ID,
+            AppConstants.ObjectType.TALISMANS => DataBaseConstants.Column.TALISMAN_ID,
+            AppConstants.ObjectType.TECHNOLOGIES => DataBaseConstants.Column.TECHNOLOGY_ID,
+            AppConstants.ObjectType.TITLES => DataBaseConstants.Column.TITLE_ID,
+            AppConstants.ObjectType.VEHICLES => DataBaseConstants.Column.VEHICLE_ID,
+            AppConstants.ObjectType.WEAPONS => DataBaseConstants.Column.WEAPON_ID,
+            AppConstants.ObjectType.CURRENCIES => DataBaseConstants.Column.CURRENCY_ID,
+
+            _ => DataBaseConstants.Column.ITEM_ID
+        };
     }
 }

@@ -21,9 +21,9 @@ public class UserArchivesService : IUserArchivesService
         return await _userArchivesRepository.GetSumUserArchivesAsync(userId);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArchivesAsync(string userId, UserArchives Archives, string id)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArchivesAsync(string userId, UserArchives Archives, string type, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var insertOrUpdateResult = await _userArchivesRepository.InsertOrUpdateUserArchivesAsync(userId, Archives, id);
+        var insertOrUpdateResult = await _userArchivesRepository.InsertOrUpdateUserArchivesAsync(userId, Archives, type, totalDeductions);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {

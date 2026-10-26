@@ -32,6 +32,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 SELECT 
                     uc.card_admiral_id, 
                     uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block, uc.team_id, uc.position,
+                    uc.quantity,
                     c.*,
                     COALESCE(t.team_number, 0) AS team_number,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
@@ -757,7 +758,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 LEFT JOIN AggregatedUpgrades au ON uc.card_admiral_id = au.user_card_admiral_id
                 LEFT JOIN teams t ON t.team_id = uc.team_id
                 WHERE uc.user_id = @userId 
-                    AND uc.is_main = 1
+                    AND t.is_main = 1
                     AND c.is_active = TRUE AND c.is_deleted = FALSE";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);

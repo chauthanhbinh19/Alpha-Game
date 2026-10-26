@@ -1493,6 +1493,7 @@ public static class AppConstants
         public const string OUTFITS = "OUTFITS";
 
         public const string ITEMS = "ITEMS";
+        public const string CURRENCIES = "CURRENCIES";
     }
     public static class Shop
     {
@@ -2045,6 +2046,124 @@ public static class AppConstants
         public const string FASHIONS_COLLECTION = "Fashions Collection";
         public const string EMOJIS_COLLECTION = "Emojis Collection";
         public const string OUTFITS_COLLECTION = "Outfits Collection";
+    }
+    public static class Level
+    {
+        public static class CodeName
+        {
+            // ========================================================
+            // UPGRADE LEVEL FEATURES (UPGLF1 -> UPGLF50)
+            // ========================================================
+            public const string UPGRADE_USERS_LEVEL = "upgrade_users_level_feature";
+            public const string UPGRADE_ACHIEVEMENTS_LEVEL = "upgrade_achievements_level_feature";
+            public const string UPGRADE_CARD_HEROES_LEVEL = "upgrade_card_heroes_level_feature";
+            public const string UPGRADE_BOOKS_LEVEL = "upgrade_books_level_feature";
+            public const string UPGRADE_PETS_LEVEL = "upgrade_pets_level_feature";
+            public const string UPGRADE_CARD_CAPTAINS_LEVEL = "upgrade_card_captains_level_feature";
+            public const string UPGRADE_COLLABORATION_EQUIPMENTS_LEVEL = "upgrade_collaboration_equipments_level_feature";
+            public const string UPGRADE_CARD_MILITARIES_LEVEL = "upgrade_card_militaries_level_feature";
+            public const string UPGRADE_CARD_SPELLS_LEVEL = "upgrade_card_spells_level_feature";
+            public const string UPGRADE_COLLABORATIONS_LEVEL = "upgrade_collaborations_level_feature";
+            public const string UPGRADE_CARD_MONSTERS_LEVEL = "upgrade_card_monsters_level_feature";
+            public const string UPGRADE_EQUIPMENTS_LEVEL = "upgrade_equipments_level_feature";
+            public const string UPGRADE_MEDALS_LEVEL = "upgrade_medals_level_feature";
+            public const string UPGRADE_SKILLS_LEVEL = "upgrade_skills_level_feature";
+            public const string UPGRADE_SYMBOLS_LEVEL = "upgrade_symbols_level_feature";
+            public const string UPGRADE_TITLES_LEVEL = "upgrade_titles_level_feature";
+            public const string UPGRADE_MAGIC_FORMATION_CIRCLES_LEVEL = "upgrade_magic_formation_circles_level_feature";
+            public const string UPGRADE_RELICS_LEVEL = "upgrade_relics_level_feature";
+            public const string UPGRADE_CARD_COLONELS_LEVEL = "upgrade_card_colonels_level_feature";
+            public const string UPGRADE_CARD_GENERALS_LEVEL = "upgrade_card_generals_level_feature";
+            public const string UPGRADE_CARD_ADMIRALS_LEVEL = "upgrade_card_admirals_level_feature";
+            public const string UPGRADE_CARD_SOLDIERS_LEVEL = "upgrade_card_soldiers_level_feature";
+            public const string UPGRADE_BORDERS_LEVEL = "upgrade_borders_level_feature";
+            public const string UPGRADE_TALISMANS_LEVEL = "upgrade_talismans_level_feature";
+            public const string UPGRADE_PUPPETS_LEVEL = "upgrade_puppets_level_feature";
+            public const string UPGRADE_ALCHEMIES_LEVEL = "upgrade_alchemies_level_feature";
+            public const string UPGRADE_FORGES_LEVEL = "upgrade_forges_level_feature";
+            public const string UPGRADE_CARD_LIVES_LEVEL = "upgrade_card_lives_level_feature";
+            public const string UPGRADE_ARTWORKS_LEVEL = "upgrade_artworks_level_feature";
+            public const string UPGRADE_SPIRIT_BEASTS_LEVEL = "upgrade_spirit_beasts_level_feature";
+            public const string UPGRADE_AVATARS_LEVEL = "upgrade_avatars_level_feature";
+            public const string UPGRADE_SPIRIT_CARDS_LEVEL = "upgrade_spirit_cards_level_feature";
+            public const string UPGRADE_ARTIFACTS_LEVEL = "upgrade_artifacts_level_feature";
+            public const string UPGRADE_ARCHITECTURES_LEVEL = "upgrade_architectures_level_feature";
+            public const string UPGRADE_TECHNOLOGIES_LEVEL = "upgrade_technologies_level_feature";
+            public const string UPGRADE_VEHICLES_LEVEL = "upgrade_vehicles_level_feature";
+            public const string UPGRADE_CORES_LEVEL = "upgrade_cores_level_feature";
+            public const string UPGRADE_WEAPONS_LEVEL = "upgrade_weapons_level_feature";
+            public const string UPGRADE_ROBOTS_LEVEL = "upgrade_robots_level_feature";
+            public const string UPGRADE_BADGES_LEVEL = "upgrade_badges_level_feature";
+            public const string UPGRADE_MECHA_BEASTS_LEVEL = "upgrade_mecha_beasts_level_feature";
+            public const string UPGRADE_RUNES_LEVEL = "upgrade_runes_level_feature";
+            public const string UPGRADE_FURNITURES_LEVEL = "upgrade_furnitures_level_feature";
+            public const string UPGRADE_FOODS_LEVEL = "upgrade_foods_level_feature";
+            public const string UPGRADE_BEVERAGES_LEVEL = "upgrade_beverages_level_feature";
+            public const string UPGRADE_BUILDINGS_LEVEL = "upgrade_buildings_level_feature";
+            public const string UPGRADE_PLANTS_LEVEL = "upgrade_plants_level_feature";
+            public const string UPGRADE_FASHIONS_LEVEL = "upgrade_fashions_level_feature";
+            public const string UPGRADE_EMOJIS_LEVEL = "upgrade_emojis_level_feature";
+            public const string UPGRADE_OUTFITS_LEVEL = "upgrade_outfits_level_feature";
+        }
+    }
+    public static class Star
+    {
+        public static class CodeName
+        {
+            // ========================================================
+            // UPGRADE STAR FEATURES (UPGSF1 -> UPGSF50)
+            // ========================================================
+            public const string UPGRADE_USERS_STAR = "upgrade_users_star_feature";
+            public const string UPGRADE_ACHIEVEMENTS_STAR = "upgrade_achievements_star_feature";
+            public const string UPGRADE_CARD_HEROES_STAR = "upgrade_card_heroes_star_feature";
+            public const string UPGRADE_BOOKS_STAR = "upgrade_books_star_feature";
+            public const string UPGRADE_PETS_STAR = "upgrade_pets_star_feature";
+            public const string UPGRADE_CARD_CAPTAINS_STAR = "upgrade_card_captains_star_feature";
+            public const string UPGRADE_COLLABORATION_EQUIPMENTS_STAR = "upgrade_collaboration_equipments_star_feature";
+            public const string UPGRADE_CARD_MILITARIES_STAR = "upgrade_card_militaries_star_feature";
+            public const string UPGRADE_CARD_SPELLS_STAR = "upgrade_card_spells_star_feature";
+            public const string UPGRADE_COLLABORATIONS_STAR = "upgrade_collaborations_star_feature";
+            public const string UPGRADE_CARD_MONSTERS_STAR = "upgrade_card_monsters_star_feature";
+            public const string UPGRADE_EQUIPMENTS_STAR = "upgrade_equipments_star_feature";
+            public const string UPGRADE_MEDALS_STAR = "upgrade_medals_star_feature";
+            public const string UPGRADE_SKILLS_STAR = "upgrade_skills_star_feature";
+            public const string UPGRADE_SYMBOLS_STAR = "upgrade_symbols_star_feature";
+            public const string UPGRADE_TITLES_STAR = "upgrade_titles_star_feature";
+            public const string UPGRADE_MAGIC_FORMATION_CIRCLES_STAR = "upgrade_magic_formation_circles_star_feature";
+            public const string UPGRADE_RELICS_STAR = "upgrade_relics_star_feature";
+            public const string UPGRADE_CARD_COLONELS_STAR = "upgrade_card_colonels_star_feature";
+            public const string UPGRADE_CARD_GENERALS_STAR = "upgrade_card_generals_star_feature";
+            public const string UPGRADE_CARD_ADMIRALS_STAR = "upgrade_card_admirals_star_feature";
+            public const string UPGRADE_CARD_SOLDIERS_STAR = "upgrade_card_soldiers_star_feature";
+            public const string UPGRADE_BORDERS_STAR = "upgrade_borders_star_feature";
+            public const string UPGRADE_TALISMANS_STAR = "upgrade_talismans_star_feature";
+            public const string UPGRADE_PUPPETS_STAR = "upgrade_puppets_star_feature";
+            public const string UPGRADE_ALCHEMIES_STAR = "upgrade_alchemies_star_feature";
+            public const string UPGRADE_FORGES_STAR = "upgrade_forges_star_feature";
+            public const string UPGRADE_CARD_LIVES_STAR = "upgrade_card_lives_star_feature";
+            public const string UPGRADE_ARTWORKS_STAR = "upgrade_artworks_star_feature";
+            public const string UPGRADE_SPIRIT_BEASTS_STAR = "upgrade_spirit_beasts_star_feature";
+            public const string UPGRADE_AVATARS_STAR = "upgrade_avatars_star_feature";
+            public const string UPGRADE_SPIRIT_CARDS_STAR = "upgrade_spirit_cards_star_feature";
+            public const string UPGRADE_ARTIFACTS_STAR = "upgrade_artifacts_star_feature";
+            public const string UPGRADE_ARCHITECTURES_STAR = "upgrade_architectures_star_feature";
+            public const string UPGRADE_TECHNOLOGIES_STAR = "upgrade_technologies_star_feature";
+            public const string UPGRADE_VEHICLES_STAR = "upgrade_vehicles_star_feature";
+            public const string UPGRADE_CORES_STAR = "upgrade_cores_star_feature";
+            public const string UPGRADE_WEAPONS_STAR = "upgrade_weapons_star_feature";
+            public const string UPGRADE_ROBOTS_STAR = "upgrade_robots_star_feature";
+            public const string UPGRADE_BADGES_STAR = "upgrade_badges_star_feature";
+            public const string UPGRADE_MECHA_BEASTS_STAR = "upgrade_mecha_beasts_star_feature";
+            public const string UPGRADE_RUNES_STAR = "upgrade_runes_star_feature";
+            public const string UPGRADE_FURNITURES_STAR = "upgrade_furnitures_star_feature";
+            public const string UPGRADE_FOODS_STAR = "upgrade_foods_star_feature";
+            public const string UPGRADE_BEVERAGES_STAR = "upgrade_beverages_star_feature";
+            public const string UPGRADE_BUILDINGS_STAR = "upgrade_buildings_star_feature";
+            public const string UPGRADE_PLANTS_STAR = "upgrade_plants_star_feature";
+            public const string UPGRADE_FASHIONS_STAR = "upgrade_fashions_star_feature";
+            public const string UPGRADE_EMOJIS_STAR = "upgrade_emojis_star_feature";
+            public const string UPGRADE_OUTFITS_STAR = "upgrade_outfits_star_feature";
+        }
     }
     public static class Anime
     {

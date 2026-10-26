@@ -17,12 +17,14 @@ public class AnimeController : MonoBehaviour
     private GameObject PopupAnimeButtonPrefab;
     private GameObject MainAnimePanelPrefab;
     private GameObject AnimeItemPrefab;
+    private GameObject AnimeItemPopupPrefab;
     private Transform Content;
     private const int ITEMS_PER_PAGE = 50;
     private int CurrentPage = 0;
     private List<KeyValuePair<string, FeatureAnimeDTO>> FeatureList;
     private PaginationManager PaginationManager;
     private string Type = "";
+    private string Image = "";
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -43,6 +45,7 @@ public class AnimeController : MonoBehaviour
 
     public async Task GetAnimeAsync(string type)
     {
+        Image = ImageConstants.Anime.ANIME_BACKGROUND_URL;
         switch (type)
         {
             case AppConstants.Anime.BLACK_CLOVER:
@@ -104,6 +107,7 @@ public class AnimeController : MonoBehaviour
         PopupAnimeButtonPrefab = UIManager.Instance.Get(PrefabConstants.Anime.POPUP_ANIME_BUTTON_PREFAB);
         MainAnimePanelPrefab = UIManager.Instance.Get(PrefabConstants.Anime.MAIN_ANIME_PANEL_PREFAB);
         AnimeItemPrefab = UIManager.Instance.Get(PrefabConstants.Anime.ANIME_ITEM_PREFAB);
+        AnimeItemPopupPrefab = UIManager.Instance.Get(PrefabConstants.Anime.ANIME_ITEM_POPUP_PREFAB);
     }
 
     public async Task CreateAnimeControllerAsync()
@@ -260,100 +264,98 @@ public class AnimeController : MonoBehaviour
     {
         GameObject currentObject = Instantiate(MainAnimePanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
+
         Button upgradeLevelButton = transform.Find("UpgradeLevelButton").GetComponent<Button>();
         Transform leftSideContent = transform.Find("LeftSideContent");
         Transform rightSideContent = transform.Find("RightSideContent");
         TextMeshProUGUI levelText = transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
         Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
+
         Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
-        homeButton.onClick.AddListener( () =>
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            
         });
-        
+
+        RawImage mapImage = transform.Find("MapImage").GetComponent<RawImage>();
+        Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_14");
+        mapImage.texture = mapTexture;
+
+        RawImage rankImage = transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
+        Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{Type}");
+        rankImage.texture = rankTexture;
+
+        RawImage background = transform.Find("Background").GetComponent<RawImage>();
+        background.texture = TextureHelper.LoadTexture2DCached(Image);
+
+        AnimationController.Instance.CreateAnimeAnimation(currentObject);
+
         Animes anime = await AnimesService.Create().GetAnimeByIdAsync(featureId);
         UserAnimes userAnime = await UserAnimesService.Create().GetUserAnimesAsync(User.CurrentUserId, featureId);
-        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userAnime.Level, User.CurrentUserId);
+        
+        int currentLevel = userAnime?.Level ?? 0;
+        RecipeResponseDTO recipeData = await RecipeService.Create().GetRecipeItemsAsync(featureName, currentLevel + 1, User.CurrentUserId);
 
-        if (recipeItems == null || recipeItems.Count == 0)
+        if (recipeData == null || recipeData.Recipes == null || recipeData.Recipes.Count == 0)
             return;
 
-        // Xoá item cũ nếu có
-        foreach (Transform child in leftSideContent)
-            Destroy(child.gameObject);
-
-        foreach (Transform child in rightSideContent)
-            Destroy(child.gameObject);
-
-        int total = recipeItems.Count;
-        int leftCount = Mathf.CeilToInt(total / 2f);
-
-        for (int i = 0; i < total; i++)
+        void RenderMainRecipes(List<RecipeItemDTO> recipes)
         {
-            Transform parent = (i < leftCount)
-                ? leftSideContent
-                : rightSideContent;
+            foreach (Transform child in leftSideContent) Destroy(child.gameObject);
+            foreach (Transform child in rightSideContent) Destroy(child.gameObject);
 
-            GameObject itemGO = Instantiate(AnimeItemPrefab, parent);
+            var allDetails = recipes.SelectMany(r => r.RecipeItemDetails).ToList();
+            int total = allDetails.Count;
+            int leftCount = Mathf.CeilToInt(total / 2f);
 
-            SetupAnimeItemUI(itemGO, recipeItems[i]);
+            for (int i = 0; i < total; i++)
+            {
+                Transform parent = (i < leftCount) ? leftSideContent : rightSideContent;
+                GameObject itemGO = Instantiate(AnimeItemPrefab, parent);
+                SetupAnimeItemUI(itemGO, allDetails[i], recipeData.UserInventory);
+            }
         }
 
-        int currentLevel = userAnime?.Level ?? 0;
+        RenderMainRecipes(recipeData.Recipes);
         levelText.text = currentLevel.ToString();
+
         async Task RefreshPanelAsync()
         {
             userAnime = await UserAnimesService.Create().GetUserAnimesAsync(User.CurrentUserId, featureId);
             currentLevel = userAnime?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 
-            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userAnime.Level, User.CurrentUserId);
-            if (refreshedRecipeItems == null)
-                return;
-
-            foreach (Transform child in leftSideContent)
-                Destroy(child.gameObject);
-            foreach (Transform child in rightSideContent)
-                Destroy(child.gameObject);
-
-            int refreshedTotal = refreshedRecipeItems.Count;
-            int refreshedLeftCount = Mathf.CeilToInt(refreshedTotal / 2f);
-
-            for (int i = 0; i < refreshedTotal; i++)
+            recipeData = await RecipeService.Create().GetRecipeItemsAsync(featureName, currentLevel + 1, User.CurrentUserId);
+            if (recipeData != null && recipeData.Recipes != null)
             {
-                Transform parent = (i < refreshedLeftCount)
-                    ? leftSideContent
-                    : rightSideContent;
-
-                GameObject itemGO = Instantiate(AnimeItemPrefab, parent);
-                SetupAnimeItemUI(itemGO, refreshedRecipeItems[i]);
+                RenderMainRecipes(recipeData.Recipes);
             }
         }
 
-
-        // Popup that allows upgrading multiple levels (wired to UpgradeLevelButton)
-        void CreatePopupUpgradePanelAsync()
+        // Popup Nâng Cấp Số Lượng
+        async void CreatePopupUpgradePanelAsync()
         {
-            GameObject gameObject =
-                Instantiate(PopupAnimeQuantityPanelPrefab, MainPanel);
-
+            GameObject gameObject = Instantiate(PopupAnimeQuantityPanelPrefab, MainPanel);
             Transform panelTransform = gameObject.transform;
 
             TextMeshProUGUI currentLevelText = panelTransform.Find("CurrentLevel").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI nextLevelText = panelTransform.Find("NextLevel").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI maxLevelText = panelTransform.Find("MaxLevel").GetComponent<TextMeshProUGUI>();
             Slider quantitySlider = panelTransform.Find("QuantitySlider").GetComponent<Slider>();
-            // TextMeshProUGUI userItemQuantityText = panelTransform.Find("UserItemQuantityText").GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI itemUsedQuantityText = panelTransform.Find("ItemUsedQuantityText").GetComponent<TextMeshProUGUI>();
-            // RawImage userItemImage = panelTransform.Find("UserItemImage").GetComponent<RawImage>();
-            // RawImage itemUsedImage = panelTransform.Find("ItemUsedImage").GetComponent<RawImage>();
+            
+            TMP_InputField levelInputField = panelTransform.Find("ItemUsedQuantityText")?.GetComponent<TMP_InputField>();
+            TextMeshProUGUI itemUsedQuantityText = panelTransform.Find("ItemUsedQuantityText")?.GetComponent<TextMeshProUGUI>();
+            
             TextMeshProUGUI notificationText = panelTransform.Find("Notification/ContentText").GetComponent<TextMeshProUGUI>();
+            RawImage notificationIconImage = panelTransform.Find("Notification/IconImage")?.GetComponent<RawImage>();
+
             Button increaseOneButton = panelTransform.Find("IncreaseOneButton").GetComponent<Button>();
             Button increaseTenButton = panelTransform.Find("IncreaseTenButton").GetComponent<Button>();
             Button increaseMaxButton = panelTransform.Find("IncreaseMaxButton").GetComponent<Button>();
@@ -362,15 +364,36 @@ public class AnimeController : MonoBehaviour
             Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
             Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
             Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+            Button previewButton = panelTransform.Find("PreviewButton").GetComponent<Button>();
+
             Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
             Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
+            Transform rightTransform = panelTransform.Find("Right Scroll View/Viewport/Content");
+
+            Transform leftScrollViewTransform = panelTransform.Find("Scroll View");
+            Transform rightScrollViewTransform = panelTransform.Find("Right Scroll View");
+
+            Image leftScrollViewBg = leftScrollViewTransform.GetComponent<Image>() ?? leftScrollViewTransform.Find("Viewport")?.GetComponent<Image>();
+            Image rightScrollViewBg = rightScrollViewTransform.GetComponent<Image>() ?? rightScrollViewTransform.Find("Viewport")?.GetComponent<Image>();
 
             int popupCurrentLevel = currentLevel;
-            int maxLevel = anime != null ? anime.MaxLevel : popupCurrentLevel;
-            int maxPossible = Mathf.Max(0, maxLevel - popupCurrentLevel);
+
+            // Fetch DTO Recipe duy nhất 1 lần
+            RecipeResponseDTO popupRecipeData = await RecipeService.Create().GetRecipeItemsAsync(featureName, popupCurrentLevel + 1, User.CurrentUserId);
+
+            // Max level của Recipe dùng làm maxValue cho Slider
+            int recipeMaxLevel = popupRecipeData?.Recipes != null && popupRecipeData.Recipes.Count > 0 
+                ? popupRecipeData.Recipes.Max(r => r.MaxLevel) 
+                : popupCurrentLevel;
+
+            // Max level của Anime hiển thị lên UI
+            int animeMaxLevel = anime != null ? anime.MaxLevel : recipeMaxLevel;
+
+            int maxSliderValue = Mathf.Max(0, recipeMaxLevel - popupCurrentLevel);
 
             currentLevelText.text = popupCurrentLevel.ToString();
-            nextLevelText.text = (popupCurrentLevel + 1).ToString();
+            nextLevelText.text = popupCurrentLevel.ToString();
+            if (maxLevelText != null) maxLevelText.text = animeMaxLevel.ToString(); // YÊU CẦU 1: Lấy từ anime.MaxLevel
 
             if (userAnime != null)
             {
@@ -378,36 +401,107 @@ public class AnimeController : MonoBehaviour
                 StatsManager.Instance.CreateStatsManager(userAnime, nextStatsContent);
             }
 
-            quantitySlider.minValue = 1;
-            quantitySlider.maxValue = Mathf.Max(1, maxPossible);
+            // Slider maxValue cấu hình theo Recipe
+            quantitySlider.minValue = 0;
+            quantitySlider.maxValue = maxSliderValue; // YÊU CẦU 1: maxValue = recipe.MaxLevel - currentLevel
             quantitySlider.wholeNumbers = true;
-            quantitySlider.value = 1;
+            quantitySlider.value = 0;
 
-            void SetPreviewNotification(string value, Color color)
+            bool isPreviewSelected = false;
+
+            Button[] adjustmentButtons = new Button[]
+            {
+                increaseOneButton, increaseTenButton, increaseMaxButton,
+                decreaseOneButton, decreaseTenButton, decreaseMaxButton
+            };
+
+            void UpdateSliderButtonsUI(bool isSelected)
+            {
+                Color targetBgColor = ColorHelper.HexToColor(isSelected ? ColorConstants.YELLOW_COLOR : ColorConstants.RED_COLOR);
+                Color targetTextColor = ColorHelper.HexToColor(isSelected ? ColorConstants.BLACK_COLOR : ColorConstants.WHITE_COLOR);
+
+                Image previewBtnImg = previewButton.GetComponent<Image>();
+                if (previewBtnImg != null) previewBtnImg.color = targetBgColor;
+
+                Color sidebarColor = new Color(targetBgColor.r, targetBgColor.g, targetBgColor.b, 0.35f);
+                if (leftScrollViewBg != null) leftScrollViewBg.color = sidebarColor;
+                if (rightScrollViewBg != null) rightScrollViewBg.color = sidebarColor;
+
+                UpdateScrollbarHandleColor(leftScrollViewTransform, targetBgColor);
+                UpdateScrollbarHandleColor(rightScrollViewTransform, targetBgColor);
+
+                if (quantitySlider.fillRect != null)
+                {
+                    Image fillImage = quantitySlider.fillRect.GetComponent<Image>();
+                    if (fillImage != null) fillImage.color = targetBgColor;
+                }
+                if (quantitySlider.handleRect != null)
+                {
+                    Image handleImage = quantitySlider.handleRect.GetComponent<Image>();
+                    if (handleImage != null) handleImage.color = targetBgColor;
+                }
+
+                foreach (var btn in adjustmentButtons)
+                {
+                    if (btn == null) continue;
+
+                    Image btnImage = btn.GetComponent<Image>();
+                    if (btnImage != null) btnImage.color = targetBgColor;
+
+                    TextMeshProUGUI btnText = btn.GetComponentInChildren<TextMeshProUGUI>();
+                    if (btnText != null) btnText.color = targetTextColor;
+                }
+            }
+
+            void SetPreviewNotification(string value, bool isSuccess)
             {
                 notificationText.text = LocalizationManager.Get(value);
-                notificationText.color = color;
+
+                string colorHex = isSuccess ? ColorConstants.GREEN_COLOR : ColorConstants.RED_COLOR;
+                string iconPath = isSuccess ? ImageConstants.status.CONFIRM_URL : ImageConstants.status.CANCEL_URL;
+
+                Color statusColor = ColorHelper.HexToColor(colorHex);
+                notificationText.color = statusColor;
+
+                if (notificationIconImage != null)
+                {
+                    Texture iconTex = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(iconPath));
+                    if (iconTex != null)
+                    {
+                        notificationIconImage.texture = iconTex;
+                        notificationIconImage.color = statusColor;
+                        notificationIconImage.gameObject.SetActive(true);
+                    }
+                }
             }
 
-            async void UpdatePreview()
+            void UpdateLevelDisplay(int levelValue)
             {
-                await UpdatePreviewAsync();
+                string formattedText = $"+{levelValue}";
+                if (levelInputField != null)
+                {
+                    levelInputField.text = levelValue.ToString();
+                }
+                else if (itemUsedQuantityText != null)
+                {
+                    itemUsedQuantityText.text = formattedText;
+                }
             }
 
-            async Task UpdatePreviewAsync()
+            void UpdatePreview()
             {
                 int requested = (int)quantitySlider.value;
 
-                if (maxPossible <= 0)
+                if (popupCurrentLevel >= animeMaxLevel)
                 {
                     var backgroundImage = confirmButton.transform.Find("Background2")?.GetComponent<RawImage>();
                     if (backgroundImage != null)
-                        backgroundImage.color = Color.gray;
+                        backgroundImage.color = ColorHelper.HexToColor(ColorConstants.GRAY_COLOR);
 
-                    SetPreviewNotification(MessageConstants.UPGRADE_ALREADY_MAX, Color.red);
+                    SetPreviewNotification(MessageConstants.UPGRADE_ALREADY_MAX, false);
                     nextLevelText.text = "MAX";
-                    confirmButton.interactable = true;
-                    itemUsedQuantityText.text = "0";
+                    confirmButton.interactable = false;
+                    UpdateLevelDisplay(0);
 
                     if (userAnime != null)
                         StatsManager.Instance.CreateStatsManager(userAnime, nextStatsContent);
@@ -415,30 +509,44 @@ public class AnimeController : MonoBehaviour
                     return;
                 }
 
-                var preview = await UpgradeFunctionHelper.PreviewUpgradeAsync(
-                    featureName,
-                    popupCurrentLevel,
-                    maxLevel,
-                    requested,
-                    User.CurrentUserId);
-
-                if (!preview.Success)
+                if (requested <= 0)
                 {
-                    SetPreviewNotification(preview.Message, Color.red);
+                    nextLevelText.text = popupCurrentLevel.ToString();
                     confirmButton.interactable = false;
-                    nextLevelText.text = preview.TargetLevel.ToString();
-                    itemUsedQuantityText.text = "0";
-                    // userItemQuantityText.text = "0";
+                    UpdateLevelDisplay(0);
+
+                    if (userAnime != null)
+                        StatsManager.Instance.CreateStatsManager(userAnime, nextStatsContent);
+
+                    foreach (Transform child in rightTransform) Destroy(child.gameObject);
+                    SetPreviewNotification(MessageConstants.READY_TO_UPGRADE, true);
                     return;
                 }
 
-                nextLevelText.text = preview.TargetLevel.ToString();
-                confirmButton.interactable = preview.UpgradedLevels > 0;
+                // YÊU CẦU 2: Tính toán bằng PreviewUpgrade (Tăng đúng 'requested' level không bị khống chế)
+                RecipePreviewResultDTO preview = RecipeCalculator.PreviewUpgrade(
+                    popupRecipeData, 
+                    popupCurrentLevel, 
+                    numberOfLevel: requested
+                );
 
-                if (preview.UpgradedLevels > 0)
+                nextLevelText.text = preview.TargetLevel.ToString();
+
+                if (isPreviewSelected)
+                {
+                    confirmButton.interactable = false;
+                }
+                else
+                {
+                    confirmButton.interactable = preview.CanAffordAll && preview.GainedLevels > 0;
+                }
+
+                int displayGained = preview.GainedLevels > 0 ? preview.GainedLevels : requested;
+
+                if (displayGained > 0 && userAnime != null)
                 {
                     UserAnimes previewAnime = userAnime.CloneUserAnime(userAnime);
-                    EnhanceHelper.EnhanceAnimes(previewAnime, preview.UpgradedLevels, anime.BaseMultiplier);
+                    EnhanceHelper.EnhanceAnimes(previewAnime, displayGained, anime.BaseMultiplier);
                     StatsManager.Instance.CreateStatsManager(previewAnime, nextStatsContent);
                 }
                 else if (userAnime != null)
@@ -446,62 +554,69 @@ public class AnimeController : MonoBehaviour
                     StatsManager.Instance.CreateStatsManager(userAnime, nextStatsContent);
                 }
 
-                bool hasEnough = true;
-                if (preview.RequiredItems != null && preview.RequiredItems.Count > 0)
+                // Cập nhật Slots Nguyên Liệu
+                var materials = preview.RequiredMaterials ?? new List<RecipePreviewDetailDTO>();
+                int existingChildCount = rightTransform.childCount;
+                int neededChildCount = materials.Count;
+
+                for (int i = existingChildCount - 1; i >= neededChildCount; i--)
                 {
-                    var first = preview.RequiredItems.First();
-                    string firstItemId = first.Key;
-                    double requiredQty = first.Value;
+                    Destroy(rightTransform.GetChild(i).gameObject);
+                }
 
-                    var recipeLevelItems = await RecipeService.Create()
-                        .GetRecipeItemsAsync(featureName, popupCurrentLevel + 1, User.CurrentUserId);
+                for (int i = 0; i < neededChildCount; i++)
+                {
+                    GameObject itemGO = (i < existingChildCount) 
+                        ? rightTransform.GetChild(i).gameObject 
+                        : Instantiate(AnimeItemPopupPrefab, rightTransform);
 
-                    double owned = 0;
-                    string imagePath = null;
-                    if (recipeLevelItems != null)
-                    {
-                        var match = recipeLevelItems.FirstOrDefault(x => x.ItemId == firstItemId);
-                        if (match != null)
-                        {
-                            owned = match.UserQuantity;
-                            imagePath = match.ItemImage;
-                        }
-                    }
+                    SetupAnimeItemUI2(itemGO, materials[i]);
+                }
 
-                    itemUsedQuantityText.text = requiredQty.ToString();
-                    // userItemQuantityText.text = owned.ToString();
+                UpdateLevelDisplay(displayGained);
 
-                    if (owned < requiredQty)
-                    {
-                        hasEnough = false;
-                    }
-
-                    Texture tex = null;
-                    if (!string.IsNullOrEmpty(imagePath))
-                        tex = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(imagePath));
-
-                    if (tex != null)
-                    {
-                        // itemUsedImage.texture = tex;
-                        // userItemImage.texture = tex;
-                    }
+                if (preview.CanAffordAll)
+                {
+                    SetPreviewNotification(MessageConstants.READY_TO_UPGRADE, true);
                 }
                 else
                 {
-                    itemUsedQuantityText.text = "0";
-                    // userItemQuantityText.text = "0";
-                }
-
-                if (preview.UpgradedLevels > 0 && hasEnough)
-                {
-                    SetPreviewNotification(MessageConstants.READY_TO_UPGRADE, Color.green);
-                }
-                else
-                {
-                    SetPreviewNotification(MessageConstants.NOT_ENOUGH_MATERIALS, Color.red);
+                    SetPreviewNotification(MessageConstants.NOT_ENOUGH_MATERIALS, false);
                     confirmButton.interactable = false;
                 }
             }
+
+            if (levelInputField != null)
+            {
+                levelInputField.onEndEdit.AddListener((inputValue) =>
+                {
+                    if (int.TryParse(inputValue, out int parsedLevel))
+                    {
+                        int clampedLevel = Mathf.Clamp(parsedLevel, 0, maxSliderValue);
+                        levelInputField.text = clampedLevel.ToString();
+                        quantitySlider.SetValueWithoutNotify(clampedLevel);
+                    }
+                    else
+                    {
+                        levelInputField.text = "0";
+                        quantitySlider.SetValueWithoutNotify(0);
+                    }
+
+                    UpdatePreview();
+                });
+            }
+
+            // Click Preview Toggle -> Reset Slider về 0
+            previewButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                isPreviewSelected = !isPreviewSelected;
+
+                UpdateSliderButtonsUI(isPreviewSelected);
+
+                quantitySlider.SetValueWithoutNotify(0);
+                UpdatePreview();
+            });
 
             quantitySlider.onValueChanged.AddListener(_ => UpdatePreview());
 
@@ -515,79 +630,108 @@ public class AnimeController : MonoBehaviour
                 quantitySlider.value = Mathf.Min(quantitySlider.maxValue, quantitySlider.value + 10);
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             });
-            increaseMaxButton.onClick.AddListener(async () =>
+            
+            // YÊU CẦU 2: Bấm Max Button
+            increaseMaxButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                quantitySlider.SetValueWithoutNotify(quantitySlider.maxValue);
-                await UpdatePreviewAsync();
+
+                if (isPreviewSelected)
+                {
+                    // Ở Preview Mode, bấm MAX sẽ đẩy Slider lên max của Recipe
+                    quantitySlider.value = quantitySlider.maxValue;
+                }
+                else
+                {
+                    // Ở Default Mode, bấm MAX sẽ nhảy đúng cấp tối đa mà kho đồ chi trả được
+                    RecipePreviewResultDTO maxAffordable = RecipeCalculator.PreviewMaxUpgrade(popupRecipeData, popupCurrentLevel);
+                    quantitySlider.value = Mathf.Clamp(maxAffordable.GainedLevels, 0, quantitySlider.maxValue);
+                }
             });
 
             decreaseOneButton.onClick.AddListener(() =>
             {
-                quantitySlider.value = Mathf.Max(quantitySlider.minValue, quantitySlider.value - 1);
+                quantitySlider.value = Mathf.Max(0, quantitySlider.value - 1);
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             });
             decreaseTenButton.onClick.AddListener(() =>
             {
-                quantitySlider.value = Mathf.Max(quantitySlider.minValue, quantitySlider.value - 10);
+                quantitySlider.value = Mathf.Max(0, quantitySlider.value - 10);
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             });
             decreaseMaxButton.onClick.AddListener(() =>
             {
-                quantitySlider.value = quantitySlider.minValue;
+                quantitySlider.value = 0;
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             });
 
+            UpdateSliderButtonsUI(false);
             UpdatePreview();
 
+            // Click Confirm
             confirmButton.onClick.AddListener(async () =>
             {
-                if (popupCurrentLevel >= maxLevel)
+                if (isPreviewSelected)
                 {
-                    notificationText.text = MessageConstants.UPGRADE_ALREADY_MAX;
-                    notificationText.color = Color.red;
+                    SetPreviewNotification(MessageConstants.CANNOT_CONFIRM_IN_PREVIEW_MODE, false);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+                    return;
+                }
+
+                if (popupCurrentLevel >= animeMaxLevel)
+                {
+                    SetPreviewNotification(MessageConstants.UPGRADE_ALREADY_MAX, false);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+                    return;
+                }
+
+                if ((int)quantitySlider.value <= 0)
+                {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
                     return;
                 }
 
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.LEVEL_UP_SOUND);
+                confirmButton.interactable = false;
+                closeButton.interactable = false;
 
                 int requested = (int)quantitySlider.value;
-                var result = await UpgradeFunctionHelper.UpgradeLevelAsync(
-                    featureName,
-                    popupCurrentLevel,
-                    maxLevel,
-                    requested,
-                    User.CurrentUserId);
+                RecipeCalculateDTO calcResult = RecipeCalculator.CalculateUpgradeByLevels(popupRecipeData, popupCurrentLevel, requested);
 
-                if (result.Success)
-                {
-                    userAnime = EnhanceHelper.EnhanceAnimes(userAnime, result.UpgradedLevels, anime.BaseMultiplier);
-                    var insertOrUpdateResult = await UserAnimesService.Create().InsertOrUpdateUserAnimesAsync(User.CurrentUserId, userAnime, featureId);
-
-                    if (insertOrUpdateResult.Data && insertOrUpdateResult.IsChangePower
-                    && (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated || insertOrUpdateResult.OperationType == DatabaseOperationType.Inserted))
-                    {
-                        PowerResultDTO powerResult = await UserService.Create().UpdateUserPowerAsync();
-
-                        if (powerResult.HasChanged)
-                        {
-                            PowerController.Instance.ShowPower(
-                                powerResult.CurrentPower,
-                                powerResult.Difference,
-                                1
-                            );
-                        }
-                    }
-
-                    Destroy(gameObject);
-                    await RefreshPanelAsync();
-                }
-                else
+                if (calcResult.GainedLevels <= 0)
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.ALERT_SOUND);
-                    notificationText.text = result.Message;
+                    confirmButton.interactable = true;
+                    closeButton.interactable = true;
+                    return;
                 }
+
+                userAnime = EnhanceHelper.EnhanceAnimes(userAnime, calcResult.GainedLevels, anime.BaseMultiplier);
+
+                var insertOrUpdateResult = await UserAnimesService.Create().InsertOrUpdateUserAnimesAsync(
+                    User.CurrentUserId, 
+                    userAnime, 
+                    featureId, 
+                    calcResult.TotalDeductions
+                );
+
+                if (insertOrUpdateResult.Data && insertOrUpdateResult.IsChangePower
+                    && (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated || insertOrUpdateResult.OperationType == DatabaseOperationType.Inserted))
+                {
+                    PowerResultDTO powerResult = await UserService.Create().UpdateUserPowerAsync();
+
+                    if (powerResult.HasChanged)
+                    {
+                        PowerController.Instance.ShowPower(
+                            powerResult.CurrentPower,
+                            powerResult.Difference,
+                            1
+                        );
+                    }
+                }
+
+                Destroy(gameObject);
+                await RefreshPanelAsync();
             });
 
             closeButton.onClick.AddListener(() =>
@@ -603,40 +747,94 @@ public class AnimeController : MonoBehaviour
             CreatePopupUpgradePanelAsync();
         });
     }
-    
-    private void SetupAnimeItemUI(GameObject itemGO,RecipeItemDto data)
+
+    private void SetupAnimeItemUI(GameObject itemGO, RecipeItemDetailDTO detail, Dictionary<string, double> userInventory)
     {
-        // TextMeshProUGUI nameText =
-        //     itemGO.transform.Find("ItemName")
-        //     .GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI requiredText = itemGO.transform.Find("RequiredText")?.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI ownedText = itemGO.transform.Find("AvailableText")?.GetComponent<TextMeshProUGUI>();
+        RawImage image = itemGO.transform.Find("Image")?.GetComponent<RawImage>();
 
-        TextMeshProUGUI requiredText =
-            itemGO.transform.Find("RequiredText")
-            .GetComponent<TextMeshProUGUI>();
+        double ownedQty = 0;
+        if (userInventory != null)
+        {
+            if (userInventory.TryGetValue(detail.ObjectId, out var qty) || 
+                userInventory.TryGetValue($"{detail.ObjectType}_{detail.ObjectId}", out qty))
+            {
+                ownedQty = qty;
+            }
+        }
 
-        TextMeshProUGUI ownedText =
-            itemGO.transform.Find("AvailableText")
-            .GetComponent<TextMeshProUGUI>();
+        bool isEnough = ownedQty >= detail.RequiredQuantity;
+        Color statusColor = ColorHelper.HexToColor(isEnough ? ColorConstants.GREEN_COLOR : ColorConstants.RED_COLOR);
 
-        RawImage image =
-            itemGO.transform.Find("Image")
-            .GetComponent<RawImage>();
+        if (requiredText != null)
+        {
+            requiredText.text = detail.RequiredQuantity.ToString();
+            requiredText.color = statusColor;
+        }
 
-        // nameText.text = data.ItemId;
+        if (ownedText != null)
+        {
+            ownedText.text = ownedQty.ToString();
+            ownedText.color = statusColor;
+        }
 
-        requiredText.text = data.RequiredQuantity.ToString();
-        ownedText.text = data.UserQuantity.ToString();
+        if (image != null && !string.IsNullOrEmpty(detail.ObjectImage))
+        {
+            Texture texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(detail.ObjectImage));
+            if (texture != null)
+                image.texture = texture;
+        }
+    }
 
-        // Nếu thiếu nguyên liệu -> đổi màu
-        if (data.UserQuantity < data.RequiredQuantity)
-            ownedText.color = Color.red;
-        else
-            ownedText.color = Color.green;
+    private void SetupAnimeItemUI2(GameObject itemGO, RecipePreviewDetailDTO data)
+    {
+        TextMeshProUGUI requiredText = itemGO.transform.Find("RequiredText")?.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI ownedText = itemGO.transform.Find("AvailableText")?.GetComponent<TextMeshProUGUI>();
+        RawImage image = itemGO.transform.Find("Image")?.GetComponent<RawImage>();
 
-        // Load icon nếu có
-        Texture texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(data.ItemImage));
-        if (texture != null)
-            image.texture = texture;
+        bool isEnough = data.CurrentUserQuantity >= data.TotalRequiredQuantity;
+        Color statusColor = ColorHelper.HexToColor(isEnough ? ColorConstants.GREEN_COLOR : ColorConstants.RED_COLOR);
+
+        if (requiredText != null)
+        {
+            requiredText.text = data.TotalRequiredQuantity.ToString();
+            requiredText.color = statusColor;
+        }
+
+        if (ownedText != null)
+        {
+            ownedText.text = data.CurrentUserQuantity.ToString();
+            ownedText.color = statusColor;
+        }
+
+        if (image != null && !string.IsNullOrEmpty(data.ObjectImage))
+        {
+            Texture texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(data.ObjectImage));
+            if (texture != null)
+                image.texture = texture;
+        }
+    }
+
+    private void UpdateScrollbarHandleColor(Transform scrollViewTransform, Color color)
+    {
+        if (scrollViewTransform == null) return;
+
+        Scrollbar scrollbar = scrollViewTransform.GetComponentInChildren<Scrollbar>();
+        if (scrollbar == null) return;
+
+        if (scrollbar.handleRect != null)
+        {
+            Image handleImage = scrollbar.handleRect.GetComponent<Image>();
+            if (handleImage != null)
+            {
+                handleImage.color = color;
+            }
+        }
+        else if (scrollbar.targetGraphic != null)
+        {
+            scrollbar.targetGraphic.color = color;
+        }
     }
 
 }

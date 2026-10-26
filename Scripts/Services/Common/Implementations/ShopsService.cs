@@ -38,7 +38,7 @@ public class ShopsService : IShopsService
         { AppConstants.ObjectType.FOODS, (DataBaseConstants.Table.FOODS, DataBaseConstants.Column.USER_FOOD_ID, "foods") },
         { AppConstants.ObjectType.FORGES, (DataBaseConstants.Table.FORGES, DataBaseConstants.Column.USER_FORGE_ID, "forges") },
         { AppConstants.ObjectType.FURNITURES, (DataBaseConstants.Table.FURNITURES, DataBaseConstants.Column.USER_FURNITURE_ID, "furnitures") },
-        { AppConstants.ObjectType.MAGIC_FORMATION_CIRCLES, (DataBaseConstants.Table.MAGIC_FORMATION_CIRCLES, DataBaseConstants.Column.USER_MFC_ID, "magic_formation_circles") },
+        { AppConstants.ObjectType.MAGIC_FORMATION_CIRCLES, (DataBaseConstants.Table.MAGIC_FORMATION_CIRCLES, DataBaseConstants.Column.USER_MAGIC_FORMATION_CIRCLE_ID, "magic_formation_circles") },
         { AppConstants.ObjectType.MECHA_BEASTS, (DataBaseConstants.Table.MECHA_BEASTS, DataBaseConstants.Column.USER_MECHA_BEAST_ID, "mecha_beasts") },
         { AppConstants.ObjectType.MEDALS, (DataBaseConstants.Table.MEDALS, DataBaseConstants.Column.USER_MEDAL_ID, "medals") },
         { AppConstants.ObjectType.OUTFITS, (DataBaseConstants.Table.OUTFITS, DataBaseConstants.Column.USER_OUTFIT_ID, "outfits") },
@@ -56,7 +56,8 @@ public class ShopsService : IShopsService
         { AppConstants.ObjectType.TECHNOLOGIES, (DataBaseConstants.Table.TECHNOLOGIES, DataBaseConstants.Column.USER_TECHNOLOGY_ID, "technologies") },
         { AppConstants.ObjectType.TITLES, (DataBaseConstants.Table.TITLES, DataBaseConstants.Column.USER_TITLE_ID, "titles") },
         { AppConstants.ObjectType.VEHICLES, (DataBaseConstants.Table.VEHICLES, DataBaseConstants.Column.USER_VEHICLE_ID, "vehicles") },
-        { AppConstants.ObjectType.WEAPONS, (DataBaseConstants.Table.WEAPONS, DataBaseConstants.Column.USER_WEAPON_ID, "weapons") }
+        { AppConstants.ObjectType.WEAPONS, (DataBaseConstants.Table.WEAPONS, DataBaseConstants.Column.USER_WEAPON_ID, "weapons") },
+        { AppConstants.ObjectType.ITEMS, (DataBaseConstants.Table.ITEMS, DataBaseConstants.Column.USER_WEAPON_ID, "weapons") }
     };
 
     public ShopsService(IShopsRepository shopsRepository)

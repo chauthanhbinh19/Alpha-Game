@@ -2138,6 +2138,60 @@ public static class StatsHelper
 
         return petsList;
     }
+    public static void ApplyTotalBuffs(this Objects card, TotalBuffs total)
+    {
+        if (total == null) return;
+        card.Health = card.Health + total.Health + card.BaseStats.Health * total.PercentAllHealth / 100;
+        card.PhysicalAttack = card.PhysicalAttack + total.PhysicalAttack + card.BaseStats.PhysicalAttack * total.PercentAllPhysicalAttack / 100;
+        card.PhysicalDefense = card.PhysicalDefense + total.PhysicalDefense + card.BaseStats.PhysicalDefense * total.PercentAllPhysicalDefense / 100;
+        card.MagicalAttack = card.MagicalAttack + total.MagicalAttack + card.BaseStats.MagicalAttack * total.PercentAllMagicalAttack / 100;
+        card.MagicalDefense = card.MagicalDefense + total.MagicalDefense + card.BaseStats.MagicalDefense * total.PercentAllMagicalDefense / 100;
+        card.ChemicalAttack = card.ChemicalAttack + total.ChemicalAttack + card.BaseStats.ChemicalAttack * total.PercentAllChemicalAttack / 100;
+        card.ChemicalDefense = card.ChemicalDefense + total.ChemicalDefense + card.BaseStats.ChemicalDefense * total.PercentAllChemicalDefense / 100;
+        card.AtomicAttack = card.AtomicAttack + total.AtomicAttack + card.BaseStats.AtomicAttack * total.PercentAllAtomicAttack / 100;
+        card.AtomicDefense = card.AtomicDefense + total.AtomicDefense + card.BaseStats.AtomicDefense * total.PercentAllAtomicDefense / 100;
+        card.MentalAttack = card.MentalAttack + total.MentalAttack + card.BaseStats.MentalAttack * total.PercentAllMentalAttack / 100;
+        card.MentalDefense = card.MentalDefense + total.MentalDefense + card.BaseStats.MentalDefense * total.PercentAllMentalDefense / 100;
+
+        card.Speed += total.Speed;
+        card.CriticalDamageRate += total.CriticalDamageRate;
+        card.CriticalRate += total.CriticalRate;
+        card.CriticalResistanceRate += total.CriticalResistanceRate;
+        card.IgnoreCriticalRate += total.IgnoreCriticalRate;
+        card.PenetrationRate += total.PenetrationRate;
+        card.PenetrationResistanceRate += total.PenetrationResistanceRate;
+        card.EvasionRate += total.EvasionRate;
+        card.DamageAbsorptionRate += total.DamageAbsorptionRate;
+        card.IgnoreDamageAbsorptionRate += total.IgnoreDamageAbsorptionRate;
+        card.AbsorbedDamageRate += total.AbsorbedDamageRate;
+        card.VitalityRegenerationRate += total.VitalityRegenerationRate;
+        card.VitalityRegenerationResistanceRate += total.VitalityRegenerationResistanceRate;
+        card.AccuracyRate += total.AccuracyRate;
+        card.LifestealRate += total.LifestealRate;
+        card.ShieldStrength += total.ShieldStrength;
+        card.Tenacity += total.Tenacity;
+        card.ResistanceRate += total.ResistanceRate;
+        card.ComboRate += total.ComboRate;
+        card.IgnoreComboRate += total.IgnoreComboRate;
+        card.ComboDamageRate += total.ComboDamageRate;
+        card.ComboResistanceRate += total.ComboResistanceRate;
+        card.StunRate += total.StunRate;
+        card.IgnoreStunRate += total.IgnoreStunRate;
+        card.ReflectionRate += total.ReflectionRate;
+        card.IgnoreReflectionRate += total.IgnoreReflectionRate;
+        card.ReflectionDamageRate += total.ReflectionDamageRate;
+        card.ReflectionResistanceRate += total.ReflectionResistanceRate;
+        card.Mana += total.Mana;
+        card.ManaRegenerationRate += total.ManaRegenerationRate;
+        card.DamageToDifferentFactionRate += total.DamageToDifferentFactionRate;
+        card.ResistanceToDifferentFactionRate += total.ResistanceToDifferentFactionRate;
+        card.DamageToSameFactionRate += total.DamageToSameFactionRate;
+        card.ResistanceToSameFactionRate += total.ResistanceToSameFactionRate;
+        card.NormalDamageRate += total.NormalDamageRate;
+        card.NormalResistanceRate += total.NormalResistanceRate;
+        card.SkillDamageRate += total.SkillDamageRate;
+        card.SkillResistanceRate += total.SkillResistanceRate;
+    }
     public static void ApplyTotalBuffs(this CardHeroes cardHero, TotalBuffs total)
     {
         if (total == null) return;
@@ -3472,6 +3526,32 @@ public static class StatsHelper
         cardHero.NormalResistanceRate = cardHero.NormalResistanceRate + userAnime.NormalResistanceRate;
         cardHero.SkillDamageRate = cardHero.SkillDamageRate + userAnime.SkillDamageRate;
         cardHero.SkillResistanceRate = cardHero.SkillResistanceRate + userAnime.SkillResistanceRate;
+    }
+    public static void RecalculatePower(this Objects card)
+    {
+        card.Power = PowerHelper.CalculatePower(
+            card.Health,
+            card.PhysicalAttack, card.PhysicalDefense,
+            card.MagicalAttack, card.MagicalDefense,
+            card.ChemicalAttack, card.ChemicalDefense,
+            card.AtomicAttack, card.AtomicDefense,
+            card.MentalAttack, card.MentalDefense,
+            card.Speed,
+            card.CriticalDamageRate, card.CriticalRate, card.CriticalResistanceRate, card.IgnoreCriticalRate,
+            card.PenetrationRate, card.PenetrationResistanceRate, card.EvasionRate,
+            card.DamageAbsorptionRate, card.IgnoreDamageAbsorptionRate, card.AbsorbedDamageRate,
+            card.VitalityRegenerationRate, card.VitalityRegenerationResistanceRate,
+            card.AccuracyRate, card.LifestealRate,
+            card.ShieldStrength, card.Tenacity, card.ResistanceRate,
+            card.ComboRate, card.IgnoreComboRate, card.ComboDamageRate, card.ComboResistanceRate,
+            card.StunRate, card.IgnoreStunRate,
+            card.ReflectionRate, card.IgnoreReflectionRate, card.ReflectionDamageRate, card.ReflectionResistanceRate,
+            card.Mana, card.ManaRegenerationRate,
+            card.DamageToDifferentFactionRate, card.ResistanceToDifferentFactionRate,
+            card.DamageToSameFactionRate, card.ResistanceToSameFactionRate,
+            card.NormalDamageRate, card.NormalResistanceRate,
+            card.SkillDamageRate, card.SkillResistanceRate
+        );
     }
     public static void RecalculatePower(this CardHeroes cardHero)
     {

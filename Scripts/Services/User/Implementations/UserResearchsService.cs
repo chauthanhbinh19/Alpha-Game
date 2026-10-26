@@ -21,9 +21,9 @@ public class UserResearchsService : IUserResearchsService
         return await _userResearchsRepository.GetSumUserResearchsAsync(userId);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserResearchsAsync(string userId, UserResearchs Researchs, string id)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserResearchsAsync(string userId, UserResearchs Researchs, string type, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var insertOrUpdateResult = await _userResearchsRepository.InsertOrUpdateUserResearchsAsync(userId, Researchs, id);
+        var insertOrUpdateResult = await _userResearchsRepository.InsertOrUpdateUserResearchsAsync(userId, Researchs, type, totalDeductions);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {

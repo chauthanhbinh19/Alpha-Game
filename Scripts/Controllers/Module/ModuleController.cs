@@ -12,15 +12,20 @@ public class ModuleController : MonoBehaviour
     private Transform MainPanel;
     private GameObject ModulePanelPrefab;
     private GameObject ModuleButtonPrefab;
-    // private GameObject PopupModulePanelPrefab;
+    private GameObject PopupModulePanelPrefab;
     private GameObject PopupModuleQuantityPanelPrefab;
     private GameObject PopupModuleButtonPrefab;
     private GameObject MainModulePanelPrefab;
     private GameObject ModuleItemPrefab;
+    private GameObject ModuleItemPopupPrefab;
     private Transform Content;
-    private FeatureModuleDTO FeatureModuleDTO;
+    private const int ITEMS_PER_PAGE = 50;
+    private int CurrentPage = 0;
+    private List<KeyValuePair<string, FeatureModuleDTO>> FeatureList;
+    private PaginationManager PaginationManager;
     private string Type = "";
     private string Image = "";
+    private IStats Stat;
 
     private void Awake()
     {
@@ -42,13 +47,14 @@ public class ModuleController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        ModulePanelPrefab = UIManager.Instance.Get("ModulePanelPrefab");
-        ModuleButtonPrefab = UIManager.Instance.Get("ModuleButtonPrefab");
-        // PopupModulePanelPrefab = UIManager.Instance.Get("PopupModulePanelPrefab");
-        PopupModuleQuantityPanelPrefab = UIManager.Instance.Get("PopupModuleQuantityPanelPrefab");
-        PopupModuleButtonPrefab = UIManager.Instance.Get("PopupModuleButtonPrefab");
-        MainModulePanelPrefab = UIManager.Instance.Get("MainModulePanelPrefab");
-        ModuleItemPrefab = UIManager.Instance.Get("ModuleItemPrefab");
+        ModulePanelPrefab = UIManager.Instance.Get(PrefabConstants.Module.MODULE_PANEL_PREFAB);
+        ModuleButtonPrefab = UIManager.Instance.Get(PrefabConstants.Module.MODULE_BUTTON_PREFAB);
+        PopupModulePanelPrefab = UIManager.Instance.Get(PrefabConstants.Module.POPUP_MODULE_PANEL_PREFAB);
+        PopupModuleQuantityPanelPrefab = UIManager.Instance.Get(PrefabConstants.Module.POPUP_MODULE_QUANTITY_PANEL_PREFAB);
+        PopupModuleButtonPrefab = UIManager.Instance.Get(PrefabConstants.Module.POPUP_MODULE_BUTTON_PREFAB);
+        MainModulePanelPrefab = UIManager.Instance.Get(PrefabConstants.Module.MAIN_MODULE_PANEL_PREFAB);
+        ModuleItemPrefab = UIManager.Instance.Get(PrefabConstants.Module.MODULE_ITEM_PREFAB);
+        ModuleItemPopupPrefab = UIManager.Instance.Get(PrefabConstants.Module.MODULE_ITEM_POPUP_PREFAB);
     }
     public async Task GetModuleAsync(string type, IStats stat)
     {
@@ -118,25 +124,169 @@ public class ModuleController : MonoBehaviour
                 break;
         }
     }
+
     public async Task CreateModuleControllerAsync(IStats stat)
     {
-        FeatureModuleDTO = (await FeaturesService.Create().GetModuleFeaturesByTypeAsync(Type, stat))
-                .Values
-                .FirstOrDefault();
+        GameObject currentObject = Instantiate(PopupModulePanelPrefab, MainPanel);
+        Transform transform = currentObject.transform;
+        Content = transform.Find("Scroll View/Viewport/Content");
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(currentObject);
+        });
+        Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
 
-        await CreateMainModulePanelAsync(FeatureModuleDTO.Id, FeatureModuleDTO.FeatureName, stat);
+        });
+        Dictionary<string, FeatureModuleDTO> uniqueTypes = new Dictionary<string, FeatureModuleDTO>();
+        uniqueTypes = await FeaturesService.Create().GetModuleFeaturesByTypeAsync(Type, stat);
+        uniqueTypes = uniqueTypes
+            .OrderBy(kvp =>
+            {
+                var match = Regex.Match(kvp.Value.FeatureName, @"\d+$");
+                return match.Success ? int.Parse(match.Value) : 0;
+            })
+            .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+        FeatureList = uniqueTypes.ToList();
+        CurrentPage = 0;
+        SetupPagination(currentObject);
+        RenderPage();
+        this.Stat = stat;
     }
 
-    public async Task CreateMainModulePanelAsync(string featureId, string featureName, IStats stat)
+    private void RenderPage()
+    {
+        // 1. Dọn dẹp các Prefab UI cũ ở trang trước
+        foreach (Transform child in Content)
+            Destroy(child.gameObject);
+
+        if (FeatureList == null || FeatureList.Count == 0) return;
+
+        // 2. Tính toán dải Index phân trang Client-side
+        int start = CurrentPage * ITEMS_PER_PAGE;
+        int end = Mathf.Min(start + ITEMS_PER_PAGE, FeatureList.Count);
+
+        int userLevel = User.CurrentUserLevel; // Cache level để tránh gọi Property nhiều lần trong vòng lặp
+
+        for (int i = start; i < end; i++)
+        {
+            var kvp = FeatureList[i];
+
+            // Tạo bản copy của giá trị để tránh lỗi bộ nhớ Closure trong Lambda Listener
+            string currentSubtype = kvp.Key;
+            int currentRequiredLevel = kvp.Value.RequiredLevel;
+            string currentFeatureId = kvp.Value.Id;
+            int displayIndex = i + 1;
+            bool isLocked = currentRequiredLevel > userLevel;
+
+            // Sinh đối tượng Prefab nút bấm
+            GameObject button = Instantiate(PopupModuleButtonPrefab, Content);
+            Transform btnTransform = button.transform; // Cache transform của button
+
+            // 3. Tối ưu tìm kiếm và gán Text (Dùng chuỗi format thay vì Replace trùng lặp)
+            string processedText = currentSubtype.Replace("_", " ");
+
+            TextMeshProUGUI buttonText = btnTransform.Find("ContentText")?.GetComponentInChildren<TextMeshProUGUI>();
+            if (buttonText != null) buttonText.text = processedText;
+
+            TextMeshProUGUI buttonText2 = btnTransform.Find("MainTitleText")?.GetComponentInChildren<TextMeshProUGUI>();
+            if (buttonText2 != null) buttonText2.text = processedText;
+
+            TextMeshProUGUI quantityText = btnTransform.Find("QuantityText")?.GetComponentInChildren<TextMeshProUGUI>();
+            if (quantityText != null) quantityText.text = displayIndex.ToString();
+
+            // 4. Xử lý trạng thái khóa/mở khóa cấp độ
+            Transform warningLevel = btnTransform.Find("WarningLevel");
+            if (warningLevel != null)
+            {
+                warningLevel.gameObject.SetActive(isLocked);
+                if (isLocked)
+                {
+                    TextMeshProUGUI levelText = warningLevel.Find("LevelText")?.GetComponent<TextMeshProUGUI>();
+                    if (levelText != null) levelText.text = currentRequiredLevel.ToString();
+                }
+            }
+
+            // 5. Gán sự kiện click chuột an toàn (Safe Event Binding)
+            Button btn = button.GetComponent<Button>();
+            if (btn != null)
+            {
+                btn.onClick.RemoveAllListeners(); // Đảm bảo sạch listener
+                btn.onClick.AddListener(async () =>
+                {
+                    if (isLocked)
+                    {
+                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+                        return;
+                    }
+
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    await CreateMainModulePanelAsync(currentFeatureId, currentSubtype);
+                });
+            }
+        }
+    }
+
+    private void SetupPagination(GameObject currentObject)
+    {
+        PaginationManager = currentObject.transform.Find("PaginationPanelPrefab")?.GetComponent<PaginationManager>();
+
+        if (PaginationManager != null)
+        {
+            PaginationManager.OnPageChanged -= OnPageSelected;
+            PaginationManager.OnPageChanged += OnPageSelected;
+
+            // Vẽ dải nút số phân trang trên UI
+            PaginationManager.InitPagination(FeatureList.Count, ITEMS_PER_PAGE, CurrentPage + 1);
+
+            // QUAN TRỌNG: Vẽ luôn dữ liệu trang hiện tại lên khung Content khi vừa setup xong
+            RenderPage();
+        }
+        else
+        {
+            Debug.LogError("Không tìm thấy component PaginationManager trong 'Pagination'!");
+        }
+    }
+
+    private void OnPageSelected(int pageNumber)
+    {
+        CurrentPage = pageNumber - 1;
+        RenderPage();
+    }
+
+    private void ResetOrUpdatePagination()
+    {
+        if (PaginationManager != null)
+        {
+            PaginationManager.OnPageChanged -= OnPageSelected;
+
+            CurrentPage = 0;
+
+            PaginationManager.InitPagination(FeatureList.Count, ITEMS_PER_PAGE, 1);
+
+            // Vẽ lại dữ liệu của Trang 1 sau khi thực hiện filter/search thành công
+            RenderPage();
+
+            PaginationManager.OnPageChanged += OnPageSelected;
+        }
+    }
+
+    public async Task CreateMainModulePanelAsync(string featureId, string featureName)
     {
         GameObject currentObject = Instantiate(MainModulePanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
+
         Button upgradeLevelButton = transform.Find("ModuleLevelButton").GetComponent<Button>();
         Transform leftSideContent = transform.Find("LeftSideContent");
         Transform rightSideContent = transform.Find("RightSideContent");
         TextMeshProUGUI levelText = transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
-
         Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -150,57 +300,77 @@ public class ModuleController : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
 
+        RawImage mapImage = transform.Find("MapImage").GetComponent<RawImage>();
+        Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_14");
+        mapImage.texture = mapTexture;
+
+        RawImage rankImage = transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
+        Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{Type}");
+        rankImage.texture = rankTexture;
+
+        RawImage background = transform.Find("Background").GetComponent<RawImage>();
+        background.texture = TextureHelper.LoadTexture2DCached(Image);
+
         AnimationController.Instance.CreateModuleAnimation(currentObject);
 
-        // --- LẤY DỮ LIỆU BAN ĐẦU ---
-        Modules upgrade = await ModulesService.Create().GetModuleByIdAsync(featureId);
-        UserModules userModule = await UserModulesService.Create().GetUserModulesAsync(User.CurrentUserId, featureId, stat);
+        Modules module = await ModulesService.Create().GetModuleByIdAsync(featureId);
+        UserModules userModule = await UserModulesService.Create().GetUserModulesAsync(User.CurrentUserId, featureId, Stat);
+        
+        int currentLevel = userModule?.Level ?? 0;
+        RecipeResponseDTO recipeData = await RecipeService.Create().GetRecipeItemsAsync(featureName, currentLevel + 1, User.CurrentUserId);
 
-        int currentLevel = userModule?.CurrentLevel ?? 0;
+        if (recipeData == null || recipeData.Recipes == null || recipeData.Recipes.Count == 0)
+            return;
 
-        // --- HÀM REFRESH MAIN PANEL ---
-        async Task RefreshMainPanelAsync()
+        void RenderMainRecipes(List<RecipeItemDTO> recipes)
         {
-            if (currentObject == null) return;
-
-            // 1. Cập nhật Text Level
-            levelText.text = currentLevel.ToString();
-
-            // 2. Cập nhật Nguyên liệu ở Main Panel dựa theo Level mới (+1 level kế tiếp)
-            // SỬA LỖI: Thay User.CurrentUserLevel bằng (currentLevel + 1)
-            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create()
-                .GetRecipeItemsAsync(featureName, currentLevel + 1, User.CurrentUserId);
-
-            if (refreshedRecipeItems == null || currentObject == null) return;
-
             foreach (Transform child in leftSideContent) Destroy(child.gameObject);
             foreach (Transform child in rightSideContent) Destroy(child.gameObject);
 
-            int refreshedTotal = refreshedRecipeItems.Count;
-            int refreshedLeftCount = Mathf.CeilToInt(refreshedTotal / 2f);
+            var allDetails = recipes.SelectMany(r => r.RecipeItemDetails).ToList();
+            int total = allDetails.Count;
+            int leftCount = Mathf.CeilToInt(total / 2f);
 
-            for (int i = 0; i < refreshedTotal; i++)
+            for (int i = 0; i < total; i++)
             {
-                Transform parent = (i < refreshedLeftCount) ? leftSideContent : rightSideContent;
+                Transform parent = (i < leftCount) ? leftSideContent : rightSideContent;
                 GameObject itemGO = Instantiate(ModuleItemPrefab, parent);
-                SetupModuleItemUI(itemGO, refreshedRecipeItems[i]);
+                SetupModuleItemUI(itemGO, allDetails[i], recipeData.UserInventory);
             }
         }
 
-        // Render Main Panel lần đầu
-        await RefreshMainPanelAsync();
+        RenderMainRecipes(recipeData.Recipes);
+        levelText.text = currentLevel.ToString();
 
-        // --- POPUP NÂNG CẤP ---
-        void CreatePopupModulePanel()
+        async Task RefreshPanelAsync()
         {
-            GameObject popupGO = Instantiate(PopupModuleQuantityPanelPrefab, MainPanel);
-            Transform panelTransform = popupGO.transform;
+            userModule = await UserModulesService.Create().GetUserModulesAsync(User.CurrentUserId, featureId, Stat);
+            currentLevel = userModule?.Level ?? 0;
+            levelText.text = currentLevel.ToString();
+
+            recipeData = await RecipeService.Create().GetRecipeItemsAsync(featureName, currentLevel + 1, User.CurrentUserId);
+            if (recipeData != null && recipeData.Recipes != null)
+            {
+                RenderMainRecipes(recipeData.Recipes);
+            }
+        }
+
+        // Popup Nâng Cấp Số Lượng
+        async void CreatePopupModulePanelAsync()
+        {
+            GameObject gameObject = Instantiate(PopupModuleQuantityPanelPrefab, MainPanel);
+            Transform panelTransform = gameObject.transform;
 
             TextMeshProUGUI currentLevelText = panelTransform.Find("CurrentLevel").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI nextLevelText = panelTransform.Find("NextLevel").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI maxLevelText = panelTransform.Find("MaxLevel").GetComponent<TextMeshProUGUI>();
             Slider quantitySlider = panelTransform.Find("QuantitySlider").GetComponent<Slider>();
-            TextMeshProUGUI itemUsedQuantityText = panelTransform.Find("ItemUsedQuantityText").GetComponent<TextMeshProUGUI>();
+            
+            TMP_InputField levelInputField = panelTransform.Find("ItemUsedQuantityText")?.GetComponent<TMP_InputField>();
+            TextMeshProUGUI itemUsedQuantityText = panelTransform.Find("ItemUsedQuantityText")?.GetComponent<TextMeshProUGUI>();
+            
             TextMeshProUGUI notificationText = panelTransform.Find("Notification/ContentText").GetComponent<TextMeshProUGUI>();
+            RawImage notificationIconImage = panelTransform.Find("Notification/IconImage")?.GetComponent<RawImage>();
 
             Button increaseOneButton = panelTransform.Find("IncreaseOneButton").GetComponent<Button>();
             Button increaseTenButton = panelTransform.Find("IncreaseTenButton").GetComponent<Button>();
@@ -209,274 +379,477 @@ public class ModuleController : MonoBehaviour
             Button decreaseTenButton = panelTransform.Find("DecreaseTenButton").GetComponent<Button>();
             Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
             Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
-            Button popupCloseButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+            Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+            Button previewButton = panelTransform.Find("PreviewButton").GetComponent<Button>();
+
             Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
             Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
+            Transform rightTransform = panelTransform.Find("Right Scroll View/Viewport/Content");
 
-            if (userModule != null && currentStatsContent != null)
+            Transform leftScrollViewTransform = panelTransform.Find("Scroll View");
+            Transform rightScrollViewTransform = panelTransform.Find("Right Scroll View");
+
+            Image leftScrollViewBg = leftScrollViewTransform.GetComponent<Image>() ?? leftScrollViewTransform.Find("Viewport")?.GetComponent<Image>();
+            Image rightScrollViewBg = rightScrollViewTransform.GetComponent<Image>() ?? rightScrollViewTransform.Find("Viewport")?.GetComponent<Image>();
+
+            int popupCurrentLevel = currentLevel;
+
+            // Fetch DTO Recipe duy nhất 1 lần
+            RecipeResponseDTO popupRecipeData = await RecipeService.Create().GetRecipeItemsAsync(featureName, popupCurrentLevel + 1, User.CurrentUserId);
+
+            // Max level của Recipe dùng làm maxValue cho Slider
+            int recipeMaxLevel = popupRecipeData?.Recipes != null && popupRecipeData.Recipes.Count > 0 
+                ? popupRecipeData.Recipes.Max(r => r.MaxLevel) 
+                : popupCurrentLevel;
+
+            // Max level của Module hiển thị lên UI
+            int moduleMaxLevel = module != null ? module.MaxLevel : recipeMaxLevel;
+
+            int maxSliderValue = Mathf.Max(0, recipeMaxLevel - popupCurrentLevel);
+
+            currentLevelText.text = popupCurrentLevel.ToString();
+            nextLevelText.text = popupCurrentLevel.ToString();
+            if (maxLevelText != null) maxLevelText.text = moduleMaxLevel.ToString(); // YÊU CẦU 1: Lấy từ module.MaxLevel
+
+            if (userModule != null)
             {
                 StatsManager.Instance.CreateStatsManager(userModule, currentStatsContent);
-            }
-
-            if (userModule != null && nextStatsContent != null)
-            {
                 StatsManager.Instance.CreateStatsManager(userModule, nextStatsContent);
             }
 
-            // Reset Trạng Thái Slider & Text
-            void ResetPopupState()
+            // Slider maxValue cấu hình theo Recipe
+            quantitySlider.minValue = 0;
+            quantitySlider.maxValue = maxSliderValue; // YÊU CẦU 1: maxValue = recipe.MaxLevel - currentLevel
+            quantitySlider.wholeNumbers = true;
+            quantitySlider.value = 0;
+
+            bool isPreviewSelected = false;
+
+            Button[] adjustmentButtons = new Button[]
             {
-                if (popupGO == null) return;
+                increaseOneButton, increaseTenButton, increaseMaxButton,
+                decreaseOneButton, decreaseTenButton, decreaseMaxButton
+            };
 
-                int maxLevel = upgrade != null ? upgrade.MaxLevel : currentLevel;
-                int maxPossible = Mathf.Max(0, maxLevel - currentLevel);
+            void UpdateSliderButtonsUI(bool isSelected)
+            {
+                Color targetBgColor = ColorHelper.HexToColor(isSelected ? ColorConstants.YELLOW_COLOR : ColorConstants.RED_COLOR);
+                Color targetTextColor = ColorHelper.HexToColor(isSelected ? ColorConstants.BLACK_COLOR : ColorConstants.WHITE_COLOR);
 
-                currentLevelText.text = currentLevel.ToString();
+                Image previewBtnImg = previewButton.GetComponent<Image>();
+                if (previewBtnImg != null) previewBtnImg.color = targetBgColor;
 
-                quantitySlider.onValueChanged.RemoveAllListeners();
+                Color sidebarColor = new Color(targetBgColor.r, targetBgColor.g, targetBgColor.b, 0.35f);
+                if (leftScrollViewBg != null) leftScrollViewBg.color = sidebarColor;
+                if (rightScrollViewBg != null) rightScrollViewBg.color = sidebarColor;
 
-                if (maxPossible <= 0)
+                UpdateScrollbarHandleColor(leftScrollViewTransform, targetBgColor);
+                UpdateScrollbarHandleColor(rightScrollViewTransform, targetBgColor);
+
+                if (quantitySlider.fillRect != null)
                 {
-                    quantitySlider.minValue = 0;
-                    quantitySlider.maxValue = 0;
-                    quantitySlider.value = 0;
-                    quantitySlider.interactable = false;
+                    Image fillImage = quantitySlider.fillRect.GetComponent<Image>();
+                    if (fillImage != null) fillImage.color = targetBgColor;
                 }
-                else
+                if (quantitySlider.handleRect != null)
                 {
-                    quantitySlider.interactable = true;
-                    quantitySlider.minValue = 1;
-                    quantitySlider.maxValue = maxPossible;
-                    quantitySlider.wholeNumbers = true;
-                    quantitySlider.value = 1;
+                    Image handleImage = quantitySlider.handleRect.GetComponent<Image>();
+                    if (handleImage != null) handleImage.color = targetBgColor;
                 }
 
-                quantitySlider.onValueChanged.AddListener(_ => UpdatePreview());
+                foreach (var btn in adjustmentButtons)
+                {
+                    if (btn == null) continue;
+
+                    Image btnImage = btn.GetComponent<Image>();
+                    if (btnImage != null) btnImage.color = targetBgColor;
+
+                    TextMeshProUGUI btnText = btn.GetComponentInChildren<TextMeshProUGUI>();
+                    if (btnText != null) btnText.color = targetTextColor;
+                }
             }
 
-            void SetPreviewNotification(string value, Color color)
+            void SetPreviewNotification(string value, bool isSuccess)
             {
-                if (notificationText == null) return;
                 notificationText.text = LocalizationManager.Get(value);
-                notificationText.color = color;
+
+                string colorHex = isSuccess ? ColorConstants.GREEN_COLOR : ColorConstants.RED_COLOR;
+                string iconPath = isSuccess ? ImageConstants.status.CONFIRM_URL : ImageConstants.status.CANCEL_URL;
+
+                Color statusColor = ColorHelper.HexToColor(colorHex);
+                notificationText.color = statusColor;
+
+                if (notificationIconImage != null)
+                {
+                    Texture iconTex = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(iconPath));
+                    if (iconTex != null)
+                    {
+                        notificationIconImage.texture = iconTex;
+                        notificationIconImage.color = statusColor;
+                        notificationIconImage.gameObject.SetActive(true);
+                    }
+                }
             }
 
-            async Task UpdatePreviewAsync()
+            void UpdateLevelDisplay(int levelValue)
             {
-                if (popupGO == null) return;
+                string formattedText = $"+{levelValue}";
+                if (levelInputField != null)
+                {
+                    levelInputField.text = levelValue.ToString();
+                }
+                else if (itemUsedQuantityText != null)
+                {
+                    itemUsedQuantityText.text = formattedText;
+                }
+            }
 
-                int maxLevel = upgrade != null ? upgrade.MaxLevel : currentLevel;
-                int maxPossible = Mathf.Max(0, maxLevel - currentLevel);
+            void UpdatePreview()
+            {
                 int requested = (int)quantitySlider.value;
 
-                if (maxPossible <= 0 || currentLevel >= maxLevel)
+                if (popupCurrentLevel >= moduleMaxLevel)
                 {
                     var backgroundImage = confirmButton.transform.Find("Background2")?.GetComponent<RawImage>();
-                    if (backgroundImage != null) backgroundImage.color = Color.gray;
+                    if (backgroundImage != null)
+                        backgroundImage.color = ColorHelper.HexToColor(ColorConstants.GRAY_COLOR);
 
-                    SetPreviewNotification(MessageConstants.UPGRADE_ALREADY_MAX, Color.red);
+                    SetPreviewNotification(MessageConstants.UPGRADE_ALREADY_MAX, false);
                     nextLevelText.text = "MAX";
                     confirmButton.interactable = false;
-                    itemUsedQuantityText.text = "0";
+                    UpdateLevelDisplay(0);
 
-                    if (userModule != null && nextStatsContent != null)
-                    {
+                    if (userModule != null)
                         StatsManager.Instance.CreateStatsManager(userModule, nextStatsContent);
-                    }
 
                     return;
                 }
 
-                var preview = await ModuleFunctionHelper.PreviewModuleAsync(
-                    featureName,
-                    currentLevel,
-                    maxLevel,
-                    requested,
-                    User.CurrentUserId);
-
-                if (popupGO == null) return;
-
-                if (!preview.Success)
+                if (requested <= 0)
                 {
-                    SetPreviewNotification(preview.Message, Color.red);
+                    nextLevelText.text = popupCurrentLevel.ToString();
                     confirmButton.interactable = false;
-                    nextLevelText.text = preview.TargetLevel.ToString();
-                    itemUsedQuantityText.text = "0";
+                    UpdateLevelDisplay(0);
+
+                    if (userModule != null)
+                        StatsManager.Instance.CreateStatsManager(userModule, nextStatsContent);
+
+                    foreach (Transform child in rightTransform) Destroy(child.gameObject);
+                    SetPreviewNotification(MessageConstants.READY_TO_UPGRADE, true);
                     return;
                 }
+
+                // YÊU CẦU 2: Tính toán bằng PreviewModule (Tăng đúng 'requested' level không bị khống chế)
+                RecipePreviewResultDTO preview = RecipeCalculator.PreviewUpgrade(
+                    popupRecipeData, 
+                    popupCurrentLevel, 
+                    numberOfLevel: requested
+                );
 
                 nextLevelText.text = preview.TargetLevel.ToString();
 
-                bool hasEnough = true;
-                if (preview.RequiredItems != null && preview.RequiredItems.Count > 0)
+                if (isPreviewSelected)
                 {
-                    var first = preview.RequiredItems.First();
-                    string firstItemId = first.Key;
-                    double requiredQty = first.Value;
-
-                    var recipeLevelItems = await RecipeService.Create()
-                        .GetRecipeItemsAsync(featureName, currentLevel + 1, User.CurrentUserId);
-
-                    double owned = 0;
-                    if (recipeLevelItems != null)
-                    {
-                        var match = recipeLevelItems.FirstOrDefault(x => x.ItemId == firstItemId);
-                        if (match != null) owned = match.UserQuantity;
-                    }
-
-                    itemUsedQuantityText.text = requiredQty.ToString();
-
-                    if (owned < requiredQty) hasEnough = false;
+                    confirmButton.interactable = false;
                 }
                 else
                 {
-                    itemUsedQuantityText.text = "0";
+                    confirmButton.interactable = preview.CanAffordAll && preview.GainedLevels > 0;
                 }
 
-                if (preview.ModuledLevels > 0)
+                int displayGained = preview.GainedLevels > 0 ? preview.GainedLevels : requested;
+
+                if (displayGained > 0 && userModule != null)
                 {
                     UserModules previewModule = userModule.CloneUserModule(userModule);
-                    if (previewModule != null)
-                    {
-                        EnhanceHelper.EnhanceModules(previewModule, preview.ModuledLevels, upgrade?.BaseMultiplier ?? 1);
-                        if (nextStatsContent != null)
-                        {
-                            StatsManager.Instance.CreateStatsManager(previewModule, nextStatsContent);
-                        }
-                    }
+                    EnhanceHelper.EnhanceModules(previewModule, displayGained, module.BaseMultiplier);
+                    StatsManager.Instance.CreateStatsManager(previewModule, nextStatsContent);
                 }
-                else if (userModule != null && nextStatsContent != null)
+                else if (userModule != null)
                 {
                     StatsManager.Instance.CreateStatsManager(userModule, nextStatsContent);
                 }
 
-                if (preview.ModuledLevels > 0 && hasEnough)
+                // Cập nhật Slots Nguyên Liệu
+                var materials = preview.RequiredMaterials ?? new List<RecipePreviewDetailDTO>();
+                int existingChildCount = rightTransform.childCount;
+                int neededChildCount = materials.Count;
+
+                for (int i = existingChildCount - 1; i >= neededChildCount; i--)
                 {
-                    SetPreviewNotification(MessageConstants.READY_TO_UPGRADE, Color.green);
-                    confirmButton.interactable = true;
+                    Destroy(rightTransform.GetChild(i).gameObject);
+                }
+
+                for (int i = 0; i < neededChildCount; i++)
+                {
+                    GameObject itemGO = (i < existingChildCount) 
+                        ? rightTransform.GetChild(i).gameObject 
+                        : Instantiate(ModuleItemPopupPrefab, rightTransform);
+
+                    SetupModuleItemUI2(itemGO, materials[i]);
+                }
+
+                UpdateLevelDisplay(displayGained);
+
+                if (preview.CanAffordAll)
+                {
+                    SetPreviewNotification(MessageConstants.READY_TO_UPGRADE, true);
                 }
                 else
                 {
-                    SetPreviewNotification(MessageConstants.NOT_ENOUGH_MATERIALS, Color.red);
+                    SetPreviewNotification(MessageConstants.NOT_ENOUGH_MATERIALS, false);
                     confirmButton.interactable = false;
                 }
             }
 
-            async void UpdatePreview() => await UpdatePreviewAsync();
+            if (levelInputField != null)
+            {
+                levelInputField.onEndEdit.AddListener((inputValue) =>
+                {
+                    if (int.TryParse(inputValue, out int parsedLevel))
+                    {
+                        int clampedLevel = Mathf.Clamp(parsedLevel, 0, maxSliderValue);
+                        levelInputField.text = clampedLevel.ToString();
+                        quantitySlider.SetValueWithoutNotify(clampedLevel);
+                    }
+                    else
+                    {
+                        levelInputField.text = "0";
+                        quantitySlider.SetValueWithoutNotify(0);
+                    }
 
-            increaseOneButton.onClick.AddListener(() => { quantitySlider.value += 1; AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND); });
-            increaseTenButton.onClick.AddListener(() => { quantitySlider.value += 10; AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND); });
-            increaseMaxButton.onClick.AddListener(async () =>
+                    UpdatePreview();
+                });
+            }
+
+            // Click Preview Toggle -> Reset Slider về 0
+            previewButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                quantitySlider.SetValueWithoutNotify(quantitySlider.maxValue);
-                await UpdatePreviewAsync();
+                isPreviewSelected = !isPreviewSelected;
+
+                UpdateSliderButtonsUI(isPreviewSelected);
+
+                quantitySlider.SetValueWithoutNotify(0);
+                UpdatePreview();
             });
 
-            decreaseOneButton.onClick.AddListener(() => { quantitySlider.value -= 1; AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND); });
-            decreaseTenButton.onClick.AddListener(() => { quantitySlider.value -= 10; AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND); });
-            decreaseMaxButton.onClick.AddListener(() => { quantitySlider.value = quantitySlider.minValue; AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND); });
+            quantitySlider.onValueChanged.AddListener(_ => UpdatePreview());
 
-            ResetPopupState();
+            increaseOneButton.onClick.AddListener(() =>
+            {
+                quantitySlider.value = Mathf.Min(quantitySlider.maxValue, quantitySlider.value + 1);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            });
+            increaseTenButton.onClick.AddListener(() =>
+            {
+                quantitySlider.value = Mathf.Min(quantitySlider.maxValue, quantitySlider.value + 10);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            });
+            
+            // YÊU CẦU 2: Bấm Max Button
+            increaseMaxButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+                if (isPreviewSelected)
+                {
+                    // Ở Preview Mode, bấm MAX sẽ đẩy Slider lên max của Recipe
+                    quantitySlider.value = quantitySlider.maxValue;
+                }
+                else
+                {
+                    // Ở Default Mode, bấm MAX sẽ nhảy đúng cấp tối đa mà kho đồ chi trả được
+                    RecipePreviewResultDTO maxAffordable = RecipeCalculator.PreviewMaxUpgrade(popupRecipeData, popupCurrentLevel);
+                    quantitySlider.value = Mathf.Clamp(maxAffordable.GainedLevels, 0, quantitySlider.maxValue);
+                }
+            });
+
+            decreaseOneButton.onClick.AddListener(() =>
+            {
+                quantitySlider.value = Mathf.Max(0, quantitySlider.value - 1);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            });
+            decreaseTenButton.onClick.AddListener(() =>
+            {
+                quantitySlider.value = Mathf.Max(0, quantitySlider.value - 10);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            });
+            decreaseMaxButton.onClick.AddListener(() =>
+            {
+                quantitySlider.value = 0;
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            });
+
+            UpdateSliderButtonsUI(false);
             UpdatePreview();
 
-            // --- XỬ LÝ NÚT CONFIRM ---
+            // Click Confirm
             confirmButton.onClick.AddListener(async () =>
             {
-                int maxLevel = upgrade != null ? upgrade.MaxLevel : currentLevel;
-
-                if (currentLevel >= maxLevel)
+                if (isPreviewSelected)
                 {
-                    SetPreviewNotification(MessageConstants.UPGRADE_ALREADY_MAX, Color.red);
+                    SetPreviewNotification(MessageConstants.CANNOT_CONFIRM_IN_PREVIEW_MODE, false);
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
                     return;
                 }
 
+                if (popupCurrentLevel >= moduleMaxLevel)
+                {
+                    SetPreviewNotification(MessageConstants.UPGRADE_ALREADY_MAX, false);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+                    return;
+                }
+
+                if ((int)quantitySlider.value <= 0)
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+                    return;
+                }
+
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.LEVEL_UP_SOUND);
                 confirmButton.interactable = false;
+                closeButton.interactable = false;
 
                 int requested = (int)quantitySlider.value;
-                var result = await ModuleFunctionHelper.ModuleLevelAsync(
-                    featureName,
-                    currentLevel,
-                    maxLevel,
-                    requested,
-                    User.CurrentUserId);
+                RecipeCalculateDTO calcResult = RecipeCalculator.CalculateUpgradeByLevels(popupRecipeData, popupCurrentLevel, requested);
 
-                if (result.Success)
-                {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.LEVEL_UP_SOUND);
-
-                    // 1. TÍNH TOÁN VÀ CẬP NHẬT DATABASE
-                    userModule = EnhanceHelper.EnhanceModules(userModule, result.ModuledLevels, upgrade.BaseMultiplier);
-                    var insertOrUpdateResult = await UserModulesService.Create().InsertOrUpdateUserModulesAsync(User.CurrentUserId, userModule, stat);
-
-                    // 2. QUERY LẠI DATABASE ĐỂ LẤY DỮ LIỆU CHUẨN NHẤT CỦA USER UPGRADE
-                    userModule = await UserModulesService.Create().GetUserModulesAsync(User.CurrentUserId, featureId, stat);
-
-                    // Cập nhật lại currentLevel từ data mới nhất vừa fetch
-                    currentLevel = userModule?.CurrentLevel ?? 0;
-
-                    // 3. Cập nhật Lực chiến
-                    if (insertOrUpdateResult.Data && insertOrUpdateResult.IsChangePower
-                    && (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated || insertOrUpdateResult.OperationType == DatabaseOperationType.Inserted))
-                    {
-                        PowerResultDTO powerResult = await UserService.Create().UpdateUserPowerAsync();
-
-                        if (powerResult.HasChanged)
-                        {
-                            PowerController.Instance.ShowPower(
-                                powerResult.CurrentPower,
-                                powerResult.Difference,
-                                1
-                            );
-                        }
-                    }
-
-                    // 4. Làm mới lại Main Panel ở dưới (sẽ query lại nguyên liệu theo level + 1 mới)
-                    await RefreshMainPanelAsync();
-
-                    // 5. Làm mới lại trạng thái Slider & Preview trên Popup
-                    ResetPopupState();
-                    await UpdatePreviewAsync();
-                }
-                else
+                if (calcResult.GainedLevels <= 0)
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.ALERT_SOUND);
-                    SetPreviewNotification(result.Message, Color.red);
                     confirmButton.interactable = true;
+                    closeButton.interactable = true;
+                    return;
                 }
+
+                userModule = EnhanceHelper.EnhanceModules(userModule, calcResult.GainedLevels, module.BaseMultiplier);
+
+                var insertOrUpdateResult = await UserModulesService.Create().InsertOrUpdateUserModulesAsync(
+                    User.CurrentUserId, 
+                    userModule, 
+                    Stat, 
+                    calcResult.TotalDeductions
+                );
+
+                if (insertOrUpdateResult.Data && insertOrUpdateResult.IsChangePower
+                    && (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated || insertOrUpdateResult.OperationType == DatabaseOperationType.Inserted))
+                {
+                    PowerResultDTO powerResult = await UserService.Create().UpdateUserPowerAsync();
+
+                    if (powerResult.HasChanged)
+                    {
+                        PowerController.Instance.ShowPower(
+                            powerResult.CurrentPower,
+                            powerResult.Difference,
+                            1
+                        );
+                    }
+                }
+
+                Destroy(gameObject);
+                await RefreshPanelAsync();
             });
 
-            popupCloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Destroy(popupGO);
+                Destroy(gameObject);
             });
         }
 
         upgradeLevelButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            CreatePopupModulePanel();
+            CreatePopupModulePanelAsync();
         });
     }
 
-    private void SetupModuleItemUI(GameObject itemGO, RecipeItemDto data)
+    private void SetupModuleItemUI(GameObject itemGO, RecipeItemDetailDTO detail, Dictionary<string, double> userInventory)
     {
-        TextMeshProUGUI requiredText = itemGO.transform.Find("RequiredText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI ownedText = itemGO.transform.Find("AvailableText").GetComponent<TextMeshProUGUI>();
-        RawImage image = itemGO.transform.Find("Image").GetComponent<RawImage>();
+        TextMeshProUGUI requiredText = itemGO.transform.Find("RequiredText")?.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI ownedText = itemGO.transform.Find("AvailableText")?.GetComponent<TextMeshProUGUI>();
+        RawImage image = itemGO.transform.Find("Image")?.GetComponent<RawImage>();
 
-        requiredText.text = data.RequiredQuantity.ToString();
-        ownedText.text = data.UserQuantity.ToString();
+        double ownedQty = 0;
+        if (userInventory != null)
+        {
+            if (userInventory.TryGetValue(detail.ObjectId, out var qty) || 
+                userInventory.TryGetValue($"{detail.ObjectType}_{detail.ObjectId}", out qty))
+            {
+                ownedQty = qty;
+            }
+        }
 
-        if (data.UserQuantity < data.RequiredQuantity)
-            ownedText.color = Color.red;
-        else
-            ownedText.color = Color.green;
+        bool isEnough = ownedQty >= detail.RequiredQuantity;
+        Color statusColor = ColorHelper.HexToColor(isEnough ? ColorConstants.GREEN_COLOR : ColorConstants.RED_COLOR);
 
-        Texture texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(data.ItemImage));
-        if (texture != null)
-            image.texture = texture;
+        if (requiredText != null)
+        {
+            requiredText.text = detail.RequiredQuantity.ToString();
+            requiredText.color = statusColor;
+        }
+
+        if (ownedText != null)
+        {
+            ownedText.text = ownedQty.ToString();
+            ownedText.color = statusColor;
+        }
+
+        if (image != null && !string.IsNullOrEmpty(detail.ObjectImage))
+        {
+            Texture texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(detail.ObjectImage));
+            if (texture != null)
+                image.texture = texture;
+        }
+    }
+
+    private void SetupModuleItemUI2(GameObject itemGO, RecipePreviewDetailDTO data)
+    {
+        TextMeshProUGUI requiredText = itemGO.transform.Find("RequiredText")?.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI ownedText = itemGO.transform.Find("AvailableText")?.GetComponent<TextMeshProUGUI>();
+        RawImage image = itemGO.transform.Find("Image")?.GetComponent<RawImage>();
+
+        bool isEnough = data.CurrentUserQuantity >= data.TotalRequiredQuantity;
+        Color statusColor = ColorHelper.HexToColor(isEnough ? ColorConstants.GREEN_COLOR : ColorConstants.RED_COLOR);
+
+        if (requiredText != null)
+        {
+            requiredText.text = data.TotalRequiredQuantity.ToString();
+            requiredText.color = statusColor;
+        }
+
+        if (ownedText != null)
+        {
+            ownedText.text = data.CurrentUserQuantity.ToString();
+            ownedText.color = statusColor;
+        }
+
+        if (image != null && !string.IsNullOrEmpty(data.ObjectImage))
+        {
+            Texture texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(data.ObjectImage));
+            if (texture != null)
+                image.texture = texture;
+        }
+    }
+
+    private void UpdateScrollbarHandleColor(Transform scrollViewTransform, Color color)
+    {
+        if (scrollViewTransform == null) return;
+
+        Scrollbar scrollbar = scrollViewTransform.GetComponentInChildren<Scrollbar>();
+        if (scrollbar == null) return;
+
+        if (scrollbar.handleRect != null)
+        {
+            Image handleImage = scrollbar.handleRect.GetComponent<Image>();
+            if (handleImage != null)
+            {
+                handleImage.color = color;
+            }
+        }
+        else if (scrollbar.targetGraphic != null)
+        {
+            scrollbar.targetGraphic.color = color;
+        }
     }
 }

@@ -46,7 +46,7 @@ public class UserRanksService : IUserRanksService
         return await _userRanksRepository.GetSumUserRanksAsync(userId, stat.Id, mapping.Table, mapping.Column);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserRanksAsync(string userId, UserRanks Ranks, IStats stat)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserRanksAsync(string userId, UserRanks Ranks, IStats stat, List<RecipeItemDetailDTO> totalDeductions = null)
     {
         if (!ModuleMappings.TryGetValue(stat.GetType(), out var mapping))
         {
@@ -54,7 +54,7 @@ public class UserRanksService : IUserRanksService
                 $"Unsupported stat type: {stat.GetType().Name}");
         }
         
-        var insertOrUpdateResult = await _userRanksRepository.InsertOrUpdateUserRanksAsync(userId, Ranks, stat.Id, mapping.Table, mapping.Column);
+        var insertOrUpdateResult = await _userRanksRepository.InsertOrUpdateUserRanksAsync(userId, Ranks, stat.Id, mapping.Table, mapping.Column, totalDeductions);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {

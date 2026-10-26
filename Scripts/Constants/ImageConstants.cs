@@ -40,6 +40,11 @@ public static class ImageConstants
         public const string FLAG_COLLECTION_URL = "UI/Background4/Green_Flag_Background";
         public const string FLAG_EQUIPMENT_URL = "UI/Background4/Green_Flag_Background";
     }
+    public static class status
+    {
+        public const string CONFIRM_URL = "UI/Icon/confirm";
+        public const string CANCEL_URL = "UI/Icon/cancel";
+    }
     public static class Main
     {
         public const string CARD_HERO_URL = "UI/Button/Main/CardHeroes";
@@ -296,8 +301,96 @@ public static class ImageConstants
         public const string SET_6_URL = "UI/Button/Main/Set_6";
         public const string SET_7_URL = "UI/Button/Main/Set_7";
     }
+    public static class Campaign
+    {
+        public const string EVENT_URL = "UI/Icon/Event_icon";
+        public const string ALLITERIA_CAMPAIGN_WORLD_URL = "UI/Icon/Enemy_iconv2";
+        public const string ARENA_URL = "UI/Icon/Headhunt_iconv2";
+        public const string GACHA_URL = "UI/Icon/PP_icon";
+        public const string ALLITERIA_PATH_NUMBER_1_WORLD_URL = "UI/Icon/Path_Number_1_Icon";
+        public const string ALLITERIA_PATH_NUMBER_2_WORLD_URL = "UI/Icon/Path_Number_2_Icon";
+        public const string ALLITERIA_PATH_NUMBER_3_WORLD_URL = "UI/Icon/Path_Number_3_Icon";
+        public const string ALLITERIA_PATH_NUMBER_4_WORLD_URL = "UI/Icon/Path_Number_4_Icon";
+        public const string ALLITERIA_PATH_NUMBER_5_WORLD_URL = "UI/Icon/Path_Number_5_Icon";
+        public const string ALLITERIA_PATH_NUMBER_6_WORLD_URL = "UI/Icon/Path_Number_6_Icon";
+        public const string ALLITERIA_PATH_NUMBER_7_WORLD_URL = "UI/Icon/Path_Number_7_Icon";
+        public const string ALLITERIA_PATH_NUMBER_8_WORLD_URL = "UI/Icon/Path_Number_8_Icon";
+        public const string ALLITERIA_PATH_NUMBER_9_WORLD_URL = "UI/Icon/Path_Number_9_Icon";
+        public const string ALLITERIA_PATH_NUMBER_10_WORLD_URL = "UI/Icon/Path_Number_10_Icon";
+        public const string ALLITERIA_PATH_NUMBER_11_WORLD_URL = "UI/Icon/Path_Number_11_Icon";
+        public const string ALLITERIA_PATH_NUMBER_12_WORLD_URL = "UI/Icon/Path_Number_12_Icon";
+        public const string ALLITERIA_PATH_NUMBER_13_WORLD_URL = "UI/Icon/Path_Number_13_Icon";
+        public const string ALLITERIA_PATH_NUMBER_14_WORLD_URL = "UI/Icon/Path_Number_14_Icon";
+        public const string ALLITERIA_PATH_NUMBER_15_WORLD_URL = "UI/Icon/Path_Number_15_Icon";
+        public const string ALLITERIA_PATH_NUMBER_16_WORLD_URL = "UI/Icon/Path_Number_16_Icon";
+        public const string ALLITERIA_PATH_NUMBER_17_WORLD_URL = "UI/Icon/Path_Number_17_Icon";
+        public const string ALLITERIA_PATH_NUMBER_18_WORLD_URL = "UI/Icon/Path_Number_18_Icon";
+        public const string ALLITERIA_PATH_NUMBER_19_WORLD_URL = "UI/Icon/Path_Number_19_Icon";
+        public const string ALLITERIA_PATH_NUMBER_20_WORLD_URL = "UI/Icon/Path_Number_20_Icon";
+        public const string ALLITERIA_PATH_NUMBER_21_WORLD_URL = "UI/Icon/Path_Number_21_Icon";
+        public const string ALLITERIA_PATH_NUMBER_22_WORLD_URL = "UI/Icon/Path_Number_22_Icon";
+        public const string ALLITERIA_PATH_NUMBER_23_WORLD_URL = "UI/Icon/Path_Number_23_Icon";
+        public const string ALLITERIA_PATH_NUMBER_24_WORLD_URL = "UI/Icon/Path_Number_24_Icon";
+    }
+    public static class Shop
+    {
+        public const string EVENT_URL = "UI/Icon/Event_icon";
+        public const string GENERAL_SHOP_URL = "Ui/Icon/shopping";
+        public const string ALLITERIA_CAMPAIGN_WORLD_URL = "UI/Icon/Enemy_iconv2";
+        public const string ALLITERIA_DARK_WORLD_URL = "UI/Icon/Dark_Icon";
+        public const string ALLITERIA_LIGHT_WORLD_URL = "UI/Icon/Light_Icon";
+        public const string ALLITERIA_PATH_NUMBER_1_WORLD_URL = "UI/Icon/Path_Number_1_Icon";
+        public const string ALLITERIA_PATH_NUMBER_2_WORLD_URL = "UI/Icon/Path_Number_2_Icon";
+        public const string ALLITERIA_PATH_NUMBER_3_WORLD_URL = "UI/Icon/Path_Number_3_Icon";
+        public const string ALLITERIA_PATH_NUMBER_4_WORLD_URL = "UI/Icon/Path_Number_4_Icon";
+        public const string ALLITERIA_PATH_NUMBER_5_WORLD_URL = "UI/Icon/Path_Number_5_Icon";
+        public const string ALLITERIA_PATH_NUMBER_6_WORLD_URL = "UI/Icon/Path_Number_6_Icon";
+        public const string ALLITERIA_PATH_NUMBER_7_WORLD_URL = "UI/Icon/Path_Number_7_Icon";
+        public const string ALLITERIA_PATH_NUMBER_8_WORLD_URL = "UI/Icon/Path_Number_8_Icon";
+        public const string ALLITERIA_PATH_NUMBER_9_WORLD_URL = "UI/Icon/Path_Number_9_Icon";
+        public const string ALLITERIA_PATH_NUMBER_10_WORLD_URL = "UI/Icon/Path_Number_10_Icon";
+        public const string ALLITERIA_PATH_NUMBER_11_WORLD_URL = "UI/Icon/Path_Number_11_Icon";
+        public const string ALLITERIA_PATH_NUMBER_12_WORLD_URL = "UI/Icon/Path_Number_12_Icon";
+        public const string ALLITERIA_PATH_NUMBER_13_WORLD_URL = "UI/Icon/Path_Number_13_Icon";
+        public const string ALLITERIA_PATH_NUMBER_14_WORLD_URL = "UI/Icon/Path_Number_14_Icon";
+        public const string ALLITERIA_PATH_NUMBER_15_WORLD_URL = "UI/Icon/Path_Number_15_Icon";
+        public const string ALLITERIA_PATH_NUMBER_16_WORLD_URL = "UI/Icon/Path_Number_16_Icon";
+        public const string ALLITERIA_PATH_NUMBER_17_WORLD_URL = "UI/Icon/Path_Number_17_Icon";
+        public const string ALLITERIA_PATH_NUMBER_18_WORLD_URL = "UI/Icon/Path_Number_18_Icon";
+        public const string ALLITERIA_PATH_NUMBER_19_WORLD_URL = "UI/Icon/Path_Number_19_Icon";
+        public const string ALLITERIA_PATH_NUMBER_20_WORLD_URL = "UI/Icon/Path_Number_20_Icon";
+        public const string ALLITERIA_PATH_NUMBER_21_WORLD_URL = "UI/Icon/Path_Number_21_Icon";
+        public const string ALLITERIA_PATH_NUMBER_22_WORLD_URL = "UI/Icon/Path_Number_22_Icon";
+        public const string ALLITERIA_PATH_NUMBER_23_WORLD_URL = "UI/Icon/Path_Number_23_Icon";
+        public const string ALLITERIA_PATH_NUMBER_24_WORLD_URL = "UI/Icon/Path_Number_24_Icon";
+    }
+    public static class Build
+    {
+        public const string TEAM_URL = "UI/Icon/team";
+        public const string MASTER_BOARD_URL = "UI/Icon/Special_Icon_Number_1";
+        public const string SCIENCE_FICTION_URL = "UI/Icon/Special_Icon_Number_2";
+        public const string GALLERY_URL = "UI/Icon/Special_Icon_Number_3";
+        public const string COLLECTION_URL = "UI/Icon/Special_Icon_Number_4";
+        public const string EQUIPMENT_URL = "UI/Icon/Special_Icon_Number_5";
+        public const string FEATURE_URL = "UI/Icon/Special_Icon_Number_6";
+        public const string RESEARCH_URL = "UI/Icon/Special_Icon_Number_7";
+        public const string ARCHIVE_URL = "UI/Icon/Special_Icon_Number_8";
+        public const string UNIVERSE_URL = "UI/Icon/Special_Icon_Number_9";
+        public const string STRUCTURE_URL = "UI/Icon/Special_Icon_Number_10";
+        public const string ANIME_URL = "UI/Icon/Special_Icon_Number_11";
+        public const string PATTERN_URL = "TUI/Icon/Special_Icon_Number_12";
+    }
+    public static class Mission
+    {
+        public const string MISSION_URL = "UI/Icon/Mission_Icon";
+    }
+    public static class Social
+    {
+        public const string GUILD_URL = "UI/Icon/Cyber_Guild";
+    }
     public static class Anime
     {
+        public const string ANIME_BACKGROUND_URL = "UI/Background1/Background_V1_327";
         public const string ANIME_ICON_URL = "UI/Icon/Anime";
         public const string ANIME_BORDER_URL = "UI/Button/Border/AnimeBorder";
         public const string ONE_PIECE_URL = "UI/Button/Anime/One Piece";
@@ -666,6 +759,16 @@ public static class ImageConstants
         public const string WASTE_URL = "UI/Icon/Waste";
         public const string WATER_URL = "UI/Icon/Water";
         public const string FACILITIES_URL = "UI/Icon/Facilities";
+        public const string HOUSING_BACKGROUND_URL = "UI/Background1/Background_V1_201";
+        public const string INFRASTRUCTURE_BACKGROUND_URL = "UI/Background1/Background_V1_202";
+        public const string LOGISTICS_BACKGROUND_URL = "UI/Background1/Background_V1_203";
+        public const string SANITATION_BACKGROUND_URL = "UI/Background1/Background_V1_204";
+        public const string TRANSPORTATION_BACKGROUND_URL = "UI/Background1/Background_V1_205";
+        public const string URBANIZATION_BACKGROUND_URL = "UI/Background1/Background_V1_206";
+        public const string UTILITIES_BACKGROUND_URL = "UI/Background1/Background_V1_207";
+        public const string WASTE_BACKGROUND_URL = "UI/Background1/Background_V1_208";
+        public const string WATER_BACKGROUND_URL = "UI/Background1/Background_V1_209";
+        public const string FACILITIES_BACKGROUND_URL = "UI/Background1/Background_V1_210";
 
         public const string CONSTRUCTION_URL = "UI/Icon/Construction";
         public const string ENERGY_URL = "UI/Icon/Energy";
@@ -677,6 +780,16 @@ public static class ImageConstants
         public const string MECHANICS_URL = "UI/Icon/Mechanics";
         public const string RESOURCE_URL = "UI/Icon/Resource";
         public const string SYSTEM_URL = "UI/Icon/System";
+        public const string CONSTRUCTION_BACKGROUND_URL = "UI/Background1/Background_V1_211";
+        public const string ENERGY_BACKGROUND_URL = "UI/Background1/Background_V1_212";
+        public const string ENGINEERING_BACKGROUND_URL = "UI/Background1/Background_V1_213";
+        public const string INDUSTRY_BACKGROUND_URL = "UI/Background1/Background_V1_214";
+        public const string MANUFACTURING_BACKGROUND_URL = "UI/Background1/Background_V1_215";
+        public const string MATERIALS_BACKGROUND_URL = "UI/Background1/Background_V1_216";
+        public const string POWER_BACKGROUND_URL = "UI/Background1/Background_V1_217";
+        public const string MECHANICS_BACKGROUND_URL = "UI/Background1/Background_V1_218";
+        public const string RESOURCE_BACKGROUND_URL = "UI/Background1/Background_V1_219";
+        public const string SYSTEM_BACKGROUND_URL = "UI/Background1/Background_V1_220";
 
         public const string ARMOR_URL = "UI/Icon/Armor";
         public const string DEFENSE_URL = "UI/Icon/Defense";
@@ -688,6 +801,16 @@ public static class ImageConstants
         public const string WEAPONS_URL = "UI/Icon/Weapons";
         public const string FORTIFICATION_URL = "UI/Icon/Fortification";
         public const string TACTICS_URL = "UI/Icon/Tactics";
+        public const string ARMOR_BACKGROUND_URL = "UI/Background1/Background_V1_221";
+        public const string DEFENSE_BACKGROUND_URL = "UI/Background1/Background_V1_222";
+        public const string DISASTER_BACKGROUND_URL = "UI/Background1/Background_V1_223";
+        public const string EMERGENCY_BACKGROUND_URL = "UI/Background1/Background_V1_224";
+        public const string MILITARY_BACKGROUND_URL = "UI/Background1/Background_V1_225";
+        public const string SAFETY_BACKGROUND_URL = "UI/Background1/Background_V1_226";
+        public const string SHIELDING_BACKGROUND_URL = "UI/Background1/Background_V1_227";
+        public const string WEAPONS_BACKGROUND_URL = "UI/Background1/Background_V1_228";
+        public const string FORTIFICATION_BACKGROUND_URL = "UI/Background1/Background_V1_229";
+        public const string TACTICS_BACKGROUND_URL = "UI/Background1/Background_V1_230";
 
         public const string COMMERCE_URL = "UI/Icon/Commerce";
         public const string ECONOMY_URL = "UI/Icon/Economy";
@@ -699,6 +822,16 @@ public static class ImageConstants
         public const string MARKET_URL = "UI/Icon/Market";
         public const string SUPPLY_URL = "UI/Icon/Supply";
         public const string DISTRIBUTION_URL = "UI/Icon/Distribution";
+        public const string COMMERCE_BACKGROUND_URL = "UI/Background1/Background_V1_231";
+        public const string ECONOMY_BACKGROUND_URL = "UI/Background1/Background_V1_232";
+        public const string FINANCE_BACKGROUND_URL = "UI/Background1/Background_V1_233";
+        public const string INVESTMENT_BACKGROUND_URL = "UI/Background1/Background_V1_234";
+        public const string PRODUCTIVITY_BACKGROUND_URL = "UI/Background1/Background_V1_235";
+        public const string TRADE_BACKGROUND_URL = "UI/Background1/Background_V1_236";
+        public const string ENTERPRISE_BACKGROUND_URL = "UI/Background1/Background_V1_237";
+        public const string MARKET_BACKGROUND_URL = "UI/Background1/Background_V1_238";
+        public const string SUPPLY_BACKGROUND_URL = "UI/Background1/Background_V1_239";
+        public const string DISTRIBUTION_BACKGROUND_URL = "UI/Background1/Background_V1_240";
 
         public const string CLIMATE_URL = "UI/Icon/Climate";
         public const string CONSERVATION_URL = "UI/Icon/Conservation";
@@ -710,6 +843,16 @@ public static class ImageConstants
         public const string PRESERVATION_URL = "UI/Icon/Preservation";
         public const string RENEWABLES_URL = "UI/Icon/Renewable";
         public const string RESTORATION_URL = "UI/Icon/Restoration";
+        public const string CLIMATE_BACKGROUND_URL = "UI/Background1/Background_V1_241";
+        public const string CONSERVATION_BACKGROUND_URL = "UI/Background1/Background_V1_242";
+        public const string ECOLOGY_BACKGROUND_URL = "UI/Background1/Background_V1_243";
+        public const string ENVIRONMENT_BACKGROUND_URL = "UI/Background1/Background_V1_244";
+        public const string POLLUTION_BACKGROUND_URL = "UI/Background1/Background_V1_245";
+        public const string RECYCLING_BACKGROUND_URL = "UI/Background1/Background_V1_246";
+        public const string SUSTAINABILITY_BACKGROUND_URL = "UI/Background1/Background_V1_247";
+        public const string PRESERVATION_BACKGROUND_URL = "UI/Background1/Background_V1_248";
+        public const string RENEWABLES_BACKGROUND_URL = "UI/Background1/Background_V1_249";
+        public const string RESTORATION_BACKGROUND_URL = "UI/Background1/Background_V1_250";
 
         public const string ASCENSION_URL = "UI/Icon/Ascension";
         public const string COLONIZATION_URL = "UI/Icon/Colonization";
@@ -721,6 +864,16 @@ public static class ImageConstants
         public const string TERRAFORMING_URL = "UI/Icon/Terraforming";
         public const string TIME_URL = "UI/Icon/Time";
         public const string COSMOLOGY_URL = "UI/Icon/Cosmology";
+        public const string ASCENSION_BACKGROUND_URL = "UI/Background1/Background_V1_251";
+        public const string COLONIZATION_BACKGROUND_URL = "UI/Background1/Background_V1_252";
+        public const string DIMENSIONAL_BACKGROUND_URL = "UI/Background1/Background_V1_253";
+        public const string EXPANSION_BACKGROUND_URL = "UI/Background1/Background_V1_254";
+        public const string EXPLORATION_BACKGROUND_URL = "UI/Background1/Background_V1_255";
+        public const string MEGASTRUCTURE_BACKGROUND_URL = "UI/Background1/Background_V1_256";
+        public const string SINGULARITY_BACKGROUND_URL = "UI/Background1/Background_V1_257";
+        public const string TERRAFORMING_BACKGROUND_URL = "UI/Background1/Background_V1_258";
+        public const string TIME_BACKGROUND_URL = "UI/Background1/Background_V1_259";
+        public const string COSMOLOGY_BACKGROUND_URL = "UI/Background1/Background_V1_260";
 
         public const string EPIDEMIOLOGY_URL = "UI/Icon/Epidemiology";
         public const string GENETICS_URL = "UI/Icon/Genetics";
@@ -732,6 +885,16 @@ public static class ImageConstants
         public const string NUTRITION_URL = "UI/Icon/Nutrition";
         public const string PHARMACEUTICALS_URL = "UI/Icon/Pharmaceuticals";
         public const string REGENERATION_URL = "UI/Icon/Regeneration";
+        public const string EPIDEMIOLOGY_BACKGROUND_URL = "UI/Background1/Background_V1_261";
+        public const string GENETICS_BACKGROUND_URL = "UI/Background1/Background_V1_262";
+        public const string HEALTH_BACKGROUND_URL = "UI/Background1/Background_V1_263";
+        public const string LONGEVITY_BACKGROUND_URL = "UI/Background1/Background_V1_264";
+        public const string MEDICINE_BACKGROUND_URL = "UI/Background1/Background_V1_265";
+        public const string IMMUNOLOGY_BACKGROUND_URL = "UI/Background1/Background_V1_266";
+        public const string BIOTECH_BACKGROUND_URL = "UI/Background1/Background_V1_267";
+        public const string NUTRITION_BACKGROUND_URL = "UI/Background1/Background_V1_268";
+        public const string PHARMACEUTICALS_BACKGROUND_URL = "UI/Background1/Background_V1_269";
+        public const string REGENERATION_BACKGROUND_URL = "UI/Background1/Background_V1_270";
 
         public const string AI_URL = "UI/Icon/AI";
         public const string COMMUNICATION_URL = "UI/Icon/Communication";
@@ -743,6 +906,16 @@ public static class ImageConstants
         public const string SURVEILLANCE_URL = "UI/Icon/Surveillance";
         public const string ANALYTICS_URL = "UI/Icon/Analytics";
         public const string CONTROL_URL = "UI/Icon/Control";
+        public const string AI_BACKGROUND_URL = "UI/Background1/Background_V1_271";
+        public const string COMMUNICATION_BACKGROUND_URL = "UI/Background1/Background_V1_272";
+        public const string CYBERSECURITY_BACKGROUND_URL = "UI/Background1/Background_V1_273";
+        public const string DATA_BACKGROUND_URL = "UI/Background1/Background_V1_274";
+        public const string INFORMATION_BACKGROUND_URL = "UI/Background1/Background_V1_275";
+        public const string NETWORKING_BACKGROUND_URL = "UI/Background1/Background_V1_276";
+        public const string SECURITY_BACKGROUND_URL = "UI/Background1/Background_V1_277";
+        public const string SURVEILLANCE_BACKGROUND_URL = "UI/Background1/Background_V1_278";
+        public const string ANALYTICS_BACKGROUND_URL = "UI/Background1/Background_V1_279";
+        public const string CONTROL_BACKGROUND_URL = "UI/Background1/Background_V1_280";
 
         public const string AUTOMATION_URL = "UI/Icon/Automation";
         public const string BIOLOGY_URL = "UI/Icon/Biology";
@@ -754,6 +927,16 @@ public static class ImageConstants
         public const string ROBOTICS_URL = "UI/Icon/Robotics";
         public const string SCIENCE_URL = "UI/Icon/Science";
         public const string INNOVATION_URL = "UI/Icon/Innovation";
+        public const string AUTOMATION_BACKGROUND_URL = "UI/Background1/Background_V1_281";
+        public const string BIOLOGY_BACKGROUND_URL = "UI/Background1/Background_V1_282";
+        public const string CHEMISTRY_BACKGROUND_URL = "UI/Background1/Background_V1_283";
+        public const string COMPUTING_BACKGROUND_URL = "UI/Background1/Background_V1_284";
+        public const string NANOTECHNOLOGY_BACKGROUND_URL = "UI/Background1/Background_V1_285";
+        public const string PHYSICS_BACKGROUND_URL = "UI/Background1/Background_V1_286";
+        public const string QUANTUM_BACKGROUND_URL = "UI/Background1/Background_V1_287";
+        public const string ROBOTICS_BACKGROUND_URL = "UI/Background1/Background_V1_288";
+        public const string SCIENCE_BACKGROUND_URL = "UI/Background1/Background_V1_289";
+        public const string INNOVATION_BACKGROUND_URL = "UI/Background1/Background_V1_290";
 
         public const string CULTURE_URL = "UI/Icon/Culture";
         public const string DEMOGRAPHY_URL = "UI/Icon/Demography";
@@ -765,6 +948,16 @@ public static class ImageConstants
         public const string POPULATION_URL = "UI/Icon/Population";
         public const string SOCIETY_URL = "UI/Icon/Society";
         public const string CIVICS_URL = "UI/Icon/Civics";
+        public const string CULTURE_BACKGROUND_URL = "UI/Background1/Background_V1_291";
+        public const string DEMOGRAPHY_BACKGROUND_URL = "UI/Background1/Background_V1_292";
+        public const string EDUCATION_BACKGROUND_URL = "UI/Background1/Background_V1_293";
+        public const string GOVERNANCE_BACKGROUND_URL = "UI/Background1/Background_V1_294";
+        public const string HAPPINESS_BACKGROUND_URL = "UI/Background1/Background_V1_295";
+        public const string LAW_BACKGROUND_URL = "UI/Background1/Background_V1_296";
+        public const string POLICY_BACKGROUND_URL = "UI/Background1/Background_V1_297";
+        public const string POPULATION_BACKGROUND_URL = "UI/Background1/Background_V1_298";
+        public const string SOCIETY_BACKGROUND_URL = "UI/Background1/Background_V1_299";
+        public const string CIVICS_BACKGROUND_URL = "UI/Background1/Background_V1_300";
     }
     public static class Archive
     {

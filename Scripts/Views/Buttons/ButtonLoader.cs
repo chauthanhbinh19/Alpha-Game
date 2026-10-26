@@ -86,10 +86,10 @@ public class ButtonLoader : MonoBehaviour
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_MONSTER_URL),
             contentPanel);
         // CreateButton(13, "equipments",backgroundImage,TextureHelper.LoadTexture2DCached($"UI/UI/equipments"), mainMenuButtonPanel);
-        CreateButtonUI(11, AppConstants.MainType.BAG, SubBackground, ItemBackground, 
-            TextureHelper.LoadTexture2DCached(ImageConstants.Main.BAG_URL), 
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BAG_URL),
-            contentPanel);
+        // CreateButtonUI(11, AppConstants.MainType.BAG, SubBackground, ItemBackground, 
+        //     TextureHelper.LoadTexture2DCached(ImageConstants.Main.BAG_URL), 
+        //     TextureHelper.LoadTexture2DCached(ImageConstants.Border.BAG_URL),
+        //     contentPanel);
         CreateButtonUI(12, AppConstants.MainType.COLLABORATION_EQUIPMENTS, SubBackground, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Main.COLLABORATION_EQUIPMENT_URL), 
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.COLLABORATION_EQUIPMENT_URL),

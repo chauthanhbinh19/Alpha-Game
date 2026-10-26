@@ -15,7 +15,7 @@ public class FeaturesRepository : IFeaturesRepository
         {
             await connection.OpenAsync();
 
-            string selectSQL = "SELECT id, feature_name, required_level FROM features WHERE type = @type";
+            string selectSQL = "SELECT id, feature_name, code_name, required_level FROM features WHERE type = @type";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
@@ -25,12 +25,13 @@ public class FeaturesRepository : IFeaturesRepository
                 {
                     while (await reader.ReadAsync())
                     {
-                        string featureName = reader.GetString(1);
+                        string featureName = reader.GetStringSafe("feature_name");
                         Features feature = new Features
                         {
-                            Id = reader.GetString(0),
-                            FeatureName = reader.GetString(1),
-                            RequiredLevel = reader.GetInt32(2)
+                            Id = reader.GetStringSafe("id"),
+                            FeatureName = featureName,
+                            CodeName = reader.GetStringSafe("code_name"),
+                            RequiredLevel = reader.GetIntSafe("required_level")
                         };
 
                         features[featureName] = feature;
@@ -41,6 +42,43 @@ public class FeaturesRepository : IFeaturesRepository
 
         return features;
     }
+
+    public async Task<Features> GetFeatureByTypeAndCodeNameAsync(string type, string codeName)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            await connection.OpenAsync();
+
+            const string selectSQL = @"
+                SELECT id, feature_name, code_name, required_level
+                FROM features
+                WHERE type = @type AND code_name = @code_name
+                LIMIT 1";
+
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+            {
+                selectCommand.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@code_name", codeName);
+
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                {
+                    if (!await reader.ReadAsync())
+                        return null;
+
+                    return new Features
+                    {
+                        Id = reader.GetStringSafe("id"),
+                        FeatureName = reader.GetStringSafe("feature_name"),
+                        CodeName = reader.GetStringSafe("code_name"),
+                        RequiredLevel = reader.GetIntSafe("required_level")
+                    };
+                }
+            }
+        }
+    }
+
     public async Task<Dictionary<string, FeatureScienceFictionDTO>> GetScienceFictionFeaturesByTypeAsync(string type)
     {
         Dictionary<string, FeatureScienceFictionDTO> features = new Dictionary<string, FeatureScienceFictionDTO>();

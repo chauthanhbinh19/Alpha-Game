@@ -3,6 +3,6 @@ using System.Threading.Tasks;
 public interface IUserMastersService
 { 
     Task<UserMasters> GetUserMastersAsync(string userId, string masterId, IStats stat);
-    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMastersAsync(string userId, UserMasters Masters, IStats stat);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMastersAsync(string userId, UserMasters Masters, IStats stat, List<RecipeItemDetailDTO> totalDeductions = null);
     Task<UserMasters> GetSumUserMastersAsync(string userId, IStats stat);
 }

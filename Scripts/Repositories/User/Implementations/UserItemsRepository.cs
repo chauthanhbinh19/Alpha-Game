@@ -235,65 +235,6 @@ public class UserItemsRepository : IUserItemsRepository
 
         return items;
     }
-    public async Task<ItemExperienceDTO> GetUserItemExperienceByCodeNameAsync(string userId, string codeName)
-    {
-        ItemExperienceDTO item = null;
-
-        string connectionString = DatabaseConfig.ConnectionString;
-
-        await using (MySqlConnection connection = new MySqlConnection(connectionString))
-        {
-            try
-            {
-                await connection.OpenAsync();
-
-                string selectSQL = @"
-                SELECT
-                    i.id AS item_id,
-                    i.name AS item_name,
-                    i.code_name AS item_code_name,
-                    i.image AS item_image,
-                    IFNULL(ui.quantity, 0) AS quantity,
-                    IFNULL(iec.experience_value, 0) AS experience_value
-                FROM items i
-                LEFT JOIN user_items ui
-                    ON ui.item_id = i.id AND ui.user_id = @userId AND 
-                LEFT JOIN item_experience_configs iec
-                    ON iec.item_id = i.id
-                WHERE i.code_name = @code_name";
-
-                await using (MySqlCommand command =
-                    new MySqlCommand(selectSQL, connection))
-                {
-                    command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@code_name", codeName);
-
-                    await using (MySqlDataReader reader =
-                        await command.ExecuteReaderAsync())
-                    {
-                        if (await reader.ReadAsync())
-                        {
-                            item = new ItemExperienceDTO
-                            {
-                                Id = reader.GetStringSafe("item_id"),
-                                Name = reader["item_name"]?.ToString() ?? "",
-                                CodeName = reader["item_code_name"]?.ToString() ?? "",
-                                Image = reader["item_image"]?.ToString() ?? "",
-                                Quantity = reader.GetDoubleSafe("quantity"),
-                                ExperienceValue = Convert.ToDouble(reader["experience_value"])
-                            };
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError(ex.Message);
-            }
-        }
-
-        return item;
-    }
     public async Task<bool> InsertUserItemAsync(string userId, Items item, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;

@@ -9,6 +9,7 @@ public static class PrefabConstants
         public const string POPUP_ANIME_BUTTON_PREFAB = "PopupAnimeButtonPrefab";
         public const string MAIN_ANIME_PANEL_PREFAB = "MainAnimePanelPrefab";
         public const string ANIME_ITEM_PREFAB = "AnimeItemPrefab";
+        public const string ANIME_ITEM_POPUP_PREFAB = "AnimeItemPopupPrefab";
     }
     public static class Archive
     {
@@ -19,6 +20,7 @@ public static class PrefabConstants
         public const string POPUP_ARCHIVE_BUTTON_PREFAB = "PopupArchiveButtonPrefab";
         public const string MAIN_ARCHIVE_PANEL_PREFAB = "MainArchivePanelPrefab";
         public const string ARCHIVE_ITEM_PREFAB = "ArchiveItemPrefab";
+        public const string ARCHIVE_ITEM_POPUP_PREFAB = "ArchiveItemPopupPrefab";
     }
     public static class Arena
     {
@@ -41,6 +43,7 @@ public static class PrefabConstants
         public const string GACHA_BUTTON_PREFAB = "GachaButtonPrefab";
         public const string TAB_BUTTON_PREFAB = "TabButtonPrefab";
         public const string ITEM_POPUP_PREFAB = "ItemPopupPrefab";
+        public const string ITEM_POPUP_2_PREFAB = "ItemPopup2Prefab";
         public const string ITEM_PREFAB = "ItemPrefab";
         public const string SETTING_BUTTON_PREFAB = "SettingButtonPrefab";
         public const string LANGUAGE_BUTTON_PREFAB = "LanguageButtonPrefab";
@@ -231,6 +234,7 @@ public static class PrefabConstants
         public const string POPUP_HICA_BUTTON_PREFAB = "PopupHICAButtonPrefab";
         public const string MAIN_HICA_PANEL_PREFAB = "MainHICAPanelPrefab";
         public const string HICA_ITEM_PREFAB = "HICAItemPrefab";
+        public const string HICA_ITEM_POPUP_PREFAB = "HICAItemPopupPrefab";
     }
     public static class HICB
     {
@@ -241,6 +245,7 @@ public static class PrefabConstants
         public const string POPUP_HICB_BUTTON_PREFAB = "PopupHICBButtonPrefab";
         public const string MAIN_HICB_PANEL_PREFAB = "MainHICBPanelPrefab";
         public const string HICB_ITEM_PREFAB = "HICBItemPrefab";
+        public const string HICB_ITEM_POPUP_PREFAB = "HICBItemPopupPrefab";
     }
     public static class HIDC
     {
@@ -251,6 +256,7 @@ public static class PrefabConstants
         public const string POPUP_HIDC_BUTTON_PREFAB = "PopupHIDCButtonPrefab";
         public const string MAIN_HIDC_PANEL_PREFAB = "MainHIDCPanelPrefab";
         public const string HIDC_ITEM_PREFAB = "HIDCItemPrefab";
+        public const string HIDC_ITEM_POPUP_PREFAB = "HIDCItemPopupPrefab";
     }
     public static class HIEN
     {
@@ -261,6 +267,7 @@ public static class PrefabConstants
         public const string POPUP_HIEN_BUTTON_PREFAB = "PopupHIENButtonPrefab";
         public const string MAIN_HIEN_PANEL_PREFAB = "MainHIENPanelPrefab";
         public const string HIEN_ITEM_PREFAB = "HIENItemPrefab";
+        public const string HIEN_ITEM_POPUP_PREFAB = "HIENItemPopupPrefab";
     }
     public static class HIHN
     {
@@ -271,6 +278,7 @@ public static class PrefabConstants
         public const string POPUP_HIHN_BUTTON_PREFAB = "PopupHIHNButtonPrefab";
         public const string MAIN_HIHN_PANEL_PREFAB = "MainHIHNPanelPrefab";
         public const string HIHN_ITEM_PREFAB = "HIHNItemPrefab";
+        public const string HIHN_ITEM_POPUP_PREFAB = "HIHNItemPopupPrefab";
     }
     public static class HIIN
     {
@@ -281,6 +289,7 @@ public static class PrefabConstants
         public const string POPUP_HIIN_BUTTON_PREFAB = "PopupHIINButtonPrefab";
         public const string MAIN_HIIN_PANEL_PREFAB = "MainHIINPanelPrefab";
         public const string HIIN_ITEM_PREFAB = "HIINItemPrefab";
+        public const string HIIN_ITEM_POPUP_PREFAB = "HIINItemPopupPrefab";
     }
     public static class HIRN
     {
@@ -291,6 +300,7 @@ public static class PrefabConstants
         public const string POPUP_HIRN_BUTTON_PREFAB = "PopupHIRNButtonPrefab";
         public const string MAIN_HIRN_PANEL_PREFAB = "MainHIRNPanelPrefab";
         public const string HIRN_ITEM_PREFAB = "HIRNItemPrefab";
+        public const string HIRN_ITEM_POPUP_PREFAB = "HIRNItemPopupPrefab";
     }
     public static class HISN
     {
@@ -301,6 +311,7 @@ public static class PrefabConstants
         public const string POPUP_HISN_BUTTON_PREFAB = "PopupHISNButtonPrefab";
         public const string MAIN_HISN_PANEL_PREFAB = "MainHISNPanelPrefab";
         public const string HISN_ITEM_PREFAB = "HISNItemPrefab";
+        public const string HISN_ITEM_POPUP_PREFAB = "HISNItemPopupPrefab";
     }
     public static class HITN
     {
@@ -311,6 +322,7 @@ public static class PrefabConstants
         public const string POPUP_HITN_BUTTON_PREFAB = "PopupHITNButtonPrefab";
         public const string MAIN_HITN_PANEL_PREFAB = "MainHITNPanelPrefab";
         public const string HITN_ITEM_PREFAB = "HITNItemPrefab";
+        public const string HITN_ITEM_POPUP_PREFAB = "HITNItemPopupPrefab";
     }
     public static class SSWN
     {
@@ -321,6 +333,7 @@ public static class PrefabConstants
         public const string POPUP_SSWN_BUTTON_PREFAB = "PopupSSWNButtonPrefab";
         public const string MAIN_SSWN_PANEL_PREFAB = "MainSSWNPanelPrefab";
         public const string SSWN_ITEM_PREFAB = "SSWNItemPrefab";
+        public const string SSWN_ITEM_POPUP_PREFAB = "SSWNItemPopupPrefab";
     }
     public static class Skill
     {
@@ -355,6 +368,7 @@ public static class PrefabConstants
         public const string POPUP_MASTER_BUTTON_PREFAB = "PopupMasterButtonPrefab";
         public const string MAIN_MASTER_PANEL_PREFAB = "MainMasterPanelPrefab";
         public const string MASTER_ITEM_PREFAB = "MasterItemPrefab";
+        public const string MASTER_ITEM_POPUP_PREFAB = "MasterItemPopupPrefab";
     }
     public static class Module
     {
@@ -365,6 +379,7 @@ public static class PrefabConstants
         public const string POPUP_MODULE_BUTTON_PREFAB = "PopupModuleButtonPrefab";
         public const string MAIN_MODULE_PANEL_PREFAB = "MainModulePanelPrefab";
         public const string MODULE_ITEM_PREFAB = "ModuleItemPrefab";
+        public const string MODULE_ITEM_POPUP_PREFAB = "ModuleItemPopupPrefab";
     }
     public static class Pattern
     {
@@ -387,6 +402,7 @@ public static class PrefabConstants
         public const string POPUP_RANK_BUTTON_PREFAB = "PopupRankButtonPrefab";
         public const string MAIN_RANK_PANEL_PREFAB = "MainRankPanelPrefab";
         public const string RANK_ITEM_PREFAB = "RankItemPrefab";
+        public const string RANK_ITEM_POPUP_PREFAB = "RankItemPopupPrefab";
         public const string SET_RANK_BUTTON_PREFAB = "SetRankButtonPrefab";
     }
     public static class Research
@@ -398,6 +414,7 @@ public static class PrefabConstants
         public const string POPUP_RESEARCH_BUTTON_PREFAB = "PopupResearchButtonPrefab";
         public const string MAIN_RESEARCH_PANEL_PREFAB = "MainResearchPanelPrefab";
         public const string RESEARCH_ITEM_PREFAB = "ResearchItemPrefab";
+        public const string RESEARCH_ITEM_POPUP_PREFAB = "ResearchItemPopupPrefab";
     }
     public static class ScienceFiction
     {
@@ -408,6 +425,7 @@ public static class PrefabConstants
         public const string POPUP_SCIENCE_FICTION_BUTTON_PREFAB = "PopupScienceFictionButtonPrefab";
         public const string MAIN_SCIENCE_FICTION_PANEL_PREFAB = "MainScienceFictionPanelPrefab";
         public const string SCIENCE_FICTION_ITEM_PREFAB = "ScienceFictionItemPrefab";
+        public const string SCIENCE_FICTION_ITEM_POPUP_PREFAB = "ScienceFictionItemPopupPrefab";
     }
     public static class Shop
     {
@@ -426,6 +444,7 @@ public static class PrefabConstants
         public const string POPUP_UNIVERSE_BUTTON_PREFAB = "PopupUniverseButtonPrefab";
         public const string MAIN_UNIVERSE_PANEL_PREFAB = "MainUniversePanelPrefab";
         public const string UNIVERSE_ITEM_PREFAB = "UniverseItemPrefab";
+        public const string UNIVERSE_ITEM_POPUP_PREFAB = "UniverseItemPopupPrefab";
     }
     public static class Upgrade
     {
@@ -436,5 +455,6 @@ public static class PrefabConstants
         public const string POPUP_UPGRADE_BUTTON_PREFAB = "PopupUpgradeButtonPrefab";
         public const string MAIN_UPGRADE_PANEL_PREFAB = "MainUpgradePanelPrefab";
         public const string UPGRADE_ITEM_PREFAB = "UpgradeItemPrefab";
+        public const string UPGRADE_ITEM_POPUP_PREFAB = "UpgradeItemPopupPrefab";
     }
 }

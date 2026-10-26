@@ -34,6 +34,7 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
             SELECT 
                     uc.card_hero_id, 
                     uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block, uc.team_id, uc.position,
+                    uc.quantity,
                     c.*,
                 COALESCE(t.team_number, 0) AS team_number,
                 COALESCE(am.total_module_mult, 0) AS module_multiplier,

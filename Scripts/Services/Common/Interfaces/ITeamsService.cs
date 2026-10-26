@@ -9,6 +9,7 @@ public interface ITeamsService
     // int GetMaxTeamId(MySqlConnection connection);
     Task<double> GetTeamsPowerAsync(string user_id);
     Task<List<TeamEmblems>> GetUserTeamEmblemsAsync(string user_id, string team_id, int position, string cardType);
+    Task<List<Objects>> GetUserObjectsInTeamAsync(string userId, UserStatsContextDTO context = null);
     Task<bool> InsertUserTeamEmblemsAsync(string user_id, string teamId, int position, EmblemDTO emblemDTO);
     Task<bool> DeleteUserTeamEmblemsAsync(string user_id, string teamId, int position, string cardType);
     Task<bool> UpdateUserCardHeroesTeamPositionsAsync(string userId);

@@ -21,9 +21,9 @@ public class UserHICAsService : IUserHICAsService
         return await _userHICAsRepository.GetSumUserHICAsAsync(userId);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserHICAsAsync(string userId, UserHICAs HICAs, string id)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserHICAsAsync(string userId, UserHICAs HICAs, string type, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var insertOrUpdateResult = await _userHICAsRepository.InsertOrUpdateUserHICAsAsync(userId, HICAs, id);
+        var insertOrUpdateResult = await _userHICAsRepository.InsertOrUpdateUserHICAsAsync(userId, HICAs, type, totalDeductions);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {

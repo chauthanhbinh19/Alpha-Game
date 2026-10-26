@@ -21,9 +21,9 @@ public class UserHIHNsService : IUserHIHNsService
         return await _userHIHNsRepository.GetSumUserHIHNsAsync(userId);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserHIHNsAsync(string userId, UserHIHNs HIHNs, string id)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserHIHNsAsync(string userId, UserHIHNs HIHNs, string type, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var insertOrUpdateResult = await _userHIHNsRepository.InsertOrUpdateUserHIHNsAsync(userId, HIHNs, id);
+        var insertOrUpdateResult = await _userHIHNsRepository.InsertOrUpdateUserHIHNsAsync(userId, HIHNs, type, totalDeductions);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {

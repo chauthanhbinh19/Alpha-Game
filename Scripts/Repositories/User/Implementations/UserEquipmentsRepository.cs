@@ -33,6 +33,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 SELECT 
                     ue.equipment_id, 
                     ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
+                    ue.quantity,
                     e.*,
                     
                     -- Bổ sung Multiplier từ Module và Upgrade (Tự động = 0 nếu NULL)
@@ -41,8 +42,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id
-                LEFT JOIN AggregatedModules am ON ue.id = am.user_equipment_id
-                LEFT JOIN AggregatedUpgrades au ON ue.id = au.user_equipment_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
                 WHERE ue.user_id = @userId";
 
@@ -277,8 +278,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id
-                LEFT JOIN AggregatedModules am ON ue.id = am.user_equipment_id
-                LEFT JOIN AggregatedUpgrades au ON ue.id = au.user_equipment_id
+                LEFT JOIN AggregatedModules am ON ue.equipment_id = am.user_equipment_id
+                LEFT JOIN AggregatedUpgrades au ON ue.equipment_id = au.user_equipment_id
 
                 WHERE ue.user_id = @userId";
 
@@ -1873,8 +1874,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     ue.equipment_id,  
                     ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
                     e.*,
-                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
-                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.equipment_id), 0) AS module_multiplier,
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.equipment_id), 0) AS upgrade_multiplier
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id
@@ -2036,8 +2037,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     ue.equipment_id, 
                     ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
                     e.*,
-                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
-                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.equipment_id), 0) AS module_multiplier,
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.equipment_id), 0) AS upgrade_multiplier
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id
@@ -2199,8 +2200,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     ue.equipment_id, 
                     ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
                     e.*,
-                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
-                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.equipment_id), 0) AS module_multiplier,
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.equipment_id), 0) AS upgrade_multiplier
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id
@@ -2362,8 +2363,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     ue.equipment_id, 
                     ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
                     e.*,
-                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
-                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.equipment_id), 0) AS module_multiplier,
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.equipment_id), 0) AS upgrade_multiplier
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id
@@ -2525,8 +2526,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     ue.equipment_id, 
                     ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
                     e.*,
-                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
-                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.equipment_id), 0) AS module_multiplier,
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.equipment_id), 0) AS upgrade_multiplier
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id
@@ -2688,8 +2689,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     ue.equipment_id, 
                     ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
                     e.*,
-                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
-                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.equipment_id), 0) AS module_multiplier,
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.equipment_id), 0) AS upgrade_multiplier
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id
@@ -2851,8 +2852,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     ue.equipment_id, 
                     ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
                     e.*,
-                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
-                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.equipment_id), 0) AS module_multiplier,
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.equipment_id), 0) AS upgrade_multiplier
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id
@@ -3014,8 +3015,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     ue.equipment_id, 
                     ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
                     e.*,
-                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
-                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.equipment_id), 0) AS module_multiplier,
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.equipment_id), 0) AS upgrade_multiplier
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id
@@ -3177,8 +3178,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     ue.equipment_id, 
                     ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
                     e.*,
-                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
-                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.equipment_id), 0) AS module_multiplier,
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.equipment_id), 0) AS upgrade_multiplier
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id
@@ -3340,8 +3341,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     ue.equipment_id, 
                     ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
                     e.*,
-                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
-                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.equipment_id), 0) AS module_multiplier,
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.equipment_id), 0) AS upgrade_multiplier
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id
@@ -3503,8 +3504,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     ue.equipment_id, 
                     ue.level, ue.quality, ue.experience, ue.star, ue.rare, ue.block,
                     e.*,
-                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.id), 0) AS module_multiplier,
-                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.id), 0) AS upgrade_multiplier
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_module WHERE user_equipment_id = ue.equipment_id), 0) AS module_multiplier,
+                    COALESCE((SELECT SUM(current_multiplier) FROM user_equipments_upgrade WHERE user_equipment_id = ue.equipment_id), 0) AS upgrade_multiplier
 
                 FROM user_equipments ue
                 INNER JOIN Equipments e ON ue.equipment_id = e.id

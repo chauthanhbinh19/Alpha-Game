@@ -7,7 +7,6 @@ public interface IUserItemsRepository
     Task<int> GetUserItemsCountAsync(string userId, string search, string type);
     Task<Items> GetUserItemByNameAsync(string userId, string itemName);
     Task<Items> GetUserItemByCodeNameAsync(string userId, string codeName);
-    Task<ItemExperienceDTO> GetUserItemExperienceByCodeNameAsync(string userId, string codeName);
     Task<bool> InsertUserItemAsync(string userId, Items items, double quantity);
     Task<Items> UpdateUserItemQuantityAsync(string userId, Items items);
     Task<Items> UpdateUserItemQuantityAsync(string userId, Items items, double quantity);

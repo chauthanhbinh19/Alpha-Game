@@ -21,9 +21,9 @@ public class UserUniversesService : IUserUniversesService
         return await _userUniversesRepository.GetSumUserUniversesAsync(userId);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserUniversesAsync(string userId, UserUniverses Universes, string id)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserUniversesAsync(string userId, UserUniverses userUniverses, string id, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var insertOrUpdateResult = await _userUniversesRepository.InsertOrUpdateUserUniversesAsync(userId, Universes, id);
+        var insertOrUpdateResult = await _userUniversesRepository.InsertOrUpdateUserUniversesAsync(userId, userUniverses, id, totalDeductions);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {

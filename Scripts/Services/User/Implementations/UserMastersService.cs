@@ -46,7 +46,7 @@ public class UserMastersService : IUserMastersService
         return await _userMastersRepository.GetSumUserMastersAsync(userId, stat.Id, mapping.Table, mapping.Column);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMastersAsync(string userId, UserMasters Masters, IStats stat)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMastersAsync(string userId, UserMasters Masters, IStats stat, List<RecipeItemDetailDTO> totalDeductions = null)
     {
         if (!ModuleMappings.TryGetValue(stat.GetType(), out var mapping))
         {
@@ -54,7 +54,7 @@ public class UserMastersService : IUserMastersService
                 $"Unsupported stat type: {stat.GetType().Name}");
         }
         
-        var insertOrUpdateResult = await _userMastersRepository.InsertOrUpdateUserMastersAsync(userId, Masters, stat.Id, mapping.Table, mapping.Column);
+        var insertOrUpdateResult = await _userMastersRepository.InsertOrUpdateUserMastersAsync(userId, Masters, stat.Id, mapping.Table, mapping.Column, totalDeductions);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {

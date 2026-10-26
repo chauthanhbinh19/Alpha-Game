@@ -106,7 +106,7 @@ public class MainMenuManager : MonoBehaviour
         contentParent = transform.Find("MainNavigation/Scroll View/Viewport/Content");
         // Button homeButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/HomeButton").GetComponent<Button>();
 
-        
+
         // Button profileButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton").GetComponent<Button>();    
 
         Button leaderboardButton = transform.Find("Sidebar/Content/LeaderboardButton").GetComponent<Button>();
@@ -118,7 +118,7 @@ public class MainMenuManager : MonoBehaviour
         CreateBuildPanel(transform);
         CreateMissionPanel(transform);
         CreateSocialPanel(transform);
-        
+
         leaderboardButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -195,6 +195,35 @@ public class MainMenuManager : MonoBehaviour
         Button alliteriaPathNumber22WorldButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/PlayContent/AlliteriaPathNumber22WorldButton").GetComponent<Button>();
         Button alliteriaPathNumber23WorldButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/PlayContent/AlliteriaPathNumber23WorldButton").GetComponent<Button>();
         Button alliteriaPathNumber24WorldButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/PlayContent/AlliteriaPathNumber24WorldButton").GetComponent<Button>();
+
+        AssignButtonEvent(eventButton, AppDisplayConstants.Title.Play.EVENT, ImageConstants.Campaign.EVENT_URL);
+        AssignButtonEvent(alliteriaCampaignWorldButton, AppDisplayConstants.Title.Play.ALLITERIA_CAMPAIGN_WORLD, ImageConstants.Campaign.ALLITERIA_CAMPAIGN_WORLD_URL);
+        AssignButtonEvent(arenaButton, AppDisplayConstants.Title.Play.ARENA, ImageConstants.Campaign.ARENA_URL);
+        AssignButtonEvent(gachaButton, AppDisplayConstants.Title.Play.GACHA, ImageConstants.Campaign.GACHA_URL);
+        AssignButtonEvent(alliteriaPathNumber1WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_1_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_1_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber2WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_2_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_2_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber3WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_3_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_3_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber4WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_4_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_4_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber5WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_5_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_5_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber6WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_6_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_6_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber7WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_7_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_7_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber8WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_8_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_8_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber9WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_9_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_9_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber10WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_10_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_10_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber11WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_11_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_11_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber12WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_12_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_12_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber13WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_13_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_13_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber14WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_14_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_14_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber15WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_15_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_15_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber16WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_16_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_16_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber17WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_17_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_17_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber18WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_18_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_18_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber19WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_19_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_19_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber20WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_20_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_20_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber21WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_21_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_21_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber22WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_22_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_22_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber23WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_23_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_23_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber24WorldButton, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_24_WORLD, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_24_WORLD_URL);
 
         eventButton.onClick.AddListener(() =>
         {
@@ -273,11 +302,17 @@ public class MainMenuManager : MonoBehaviour
     }
     public void CreateInventoryPanel(Transform transform)
     {
-        Button inventoryButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/InventoryContent/InventoryButton").GetComponent<Button>();
+        Button generalInventoryButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/InventoryContent/GeneralInventoryButton").GetComponent<Button>();
+        Button itemInventoryButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/InventoryContent/ItemInventoryButton").GetComponent<Button>();
         Button militaryButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/InventoryContent/MilitaryButton").GetComponent<Button>();
         Button deploymentButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/InventoryContent/DeploymentButton").GetComponent<Button>();
 
-        inventoryButton.onClick.AddListener(() =>
+        AssignButtonEvent(generalInventoryButton, AppDisplayConstants.Title.Inventory.GENERAL_INVENTORY, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_24_WORLD_URL);
+        AssignButtonEvent(itemInventoryButton, AppDisplayConstants.Title.Inventory.ITEM_INVENTORY, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_24_WORLD_URL);
+        AssignButtonEvent(militaryButton, AppDisplayConstants.Title.Inventory.MILITARY, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_24_WORLD_URL);
+        AssignButtonEvent(deploymentButton, AppDisplayConstants.Title.Inventory.DEPLOYMENT, ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_24_WORLD_URL);
+
+        generalInventoryButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
@@ -299,11 +334,16 @@ public class MainMenuManager : MonoBehaviour
             ButtonLoader.Instance.CreateInventoryButton(popupButtonPanel);
             GetMainButtonEvent(popupButtonPanel);
         });
+
+        itemInventoryButton.onClick.AddListener(async () =>
+        {
+            await GetTypeAsync(AppConstants.MainType.ITEM);
+        });
     }
     public void CreateShopPanel(Transform transform)
     {
         Button generalShopButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/ShopButton").GetComponent<Button>();
-        Button campaignShopButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/AlliteriaCampaignWorldShopButton").GetComponent<Button>();
+        Button alliteriaCampaignWorldShopButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/AlliteriaCampaignWorldShopButton").GetComponent<Button>();
         Button alliteriaDarkWorldShopButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/AlliteriaDarkWorldShopButton").GetComponent<Button>();
         Button alliteriaLightWorldShopButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/AlliteriaLightWorldShopButton").GetComponent<Button>();
         Button shopPackageButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/ShopPackageButton").GetComponent<Button>();
@@ -331,6 +371,36 @@ public class MainMenuManager : MonoBehaviour
         Button alliteriaPathNumber22WorldShopButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/AlliteriaPathNumber22WorldShopButton").GetComponent<Button>();
         Button alliteriaPathNumber23WorldShopButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/AlliteriaPathNumber23WorldShopButton").GetComponent<Button>();
         Button alliteriaPathNumber24WorldShopButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/AlliteriaPathNumber24WorldShopButton").GetComponent<Button>();
+
+        AssignButtonEvent(generalShopButton, AppDisplayConstants.Title.Shop.GENERAL_SHOP, ImageConstants.Shop.GENERAL_SHOP_URL);
+        AssignButtonEvent(alliteriaCampaignWorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_CAMPAIGN_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_CAMPAIGN_WORLD_URL);
+        AssignButtonEvent(alliteriaDarkWorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_DARK_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_DARK_WORLD_URL);
+        AssignButtonEvent(alliteriaLightWorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_LIGHT_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_LIGHT_WORLD_URL);
+        AssignButtonEvent(shopPackageButton, AppDisplayConstants.Title.Play.GACHA, ImageConstants.Campaign.GACHA_URL);
+        AssignButtonEvent(alliteriaPathNumber1WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_1_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_1_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber2WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_2_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_2_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber3WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_3_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_3_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber4WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_4_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_4_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber5WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_5_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_5_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber6WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_6_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_6_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber7WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_7_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_7_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber8WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_8_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_8_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber9WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_9_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_9_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber10WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_10_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_10_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber11WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_11_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_11_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber12WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_12_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_12_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber13WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_13_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_13_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber14WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_14_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_14_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber15WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_15_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_15_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber16WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_16_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_16_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber17WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_17_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_17_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber18WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_18_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_18_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber19WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_19_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_19_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber20WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_20_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_20_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber21WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_21_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_21_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber22WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_22_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_22_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber23WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_23_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_23_WORLD_URL);
+        AssignButtonEvent(alliteriaPathNumber24WorldShopButton, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_24_WORLD_SHOP, ImageConstants.Shop.ALLITERIA_PATH_NUMBER_24_WORLD_URL);
 
         generalShopButton.onClick.AddListener(async () =>
         {
@@ -547,6 +617,20 @@ public class MainMenuManager : MonoBehaviour
         Button animeButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/AnimeButton").GetComponent<Button>();
         Button patternButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/PatternButton").GetComponent<Button>();
 
+        AssignButtonEvent(teamButton, AppDisplayConstants.Title.Build.TEAM, ImageConstants.Build.TEAM_URL);
+        AssignButtonEvent(masterBoardButton, AppDisplayConstants.Title.Build.MASTER_BOARD, ImageConstants.Build.MASTER_BOARD_URL);
+        AssignButtonEvent(scienceFictionButton, AppDisplayConstants.Title.Build.SCIENCE_FICTION, ImageConstants.Build.SCIENCE_FICTION_URL);
+        AssignButtonEvent(galleryButton, AppDisplayConstants.Title.Build.GALLERY, ImageConstants.Build.GALLERY_URL);
+        AssignButtonEvent(collectionButton, AppDisplayConstants.Title.Build.COLLECTION, ImageConstants.Build.COLLECTION_URL);
+        AssignButtonEvent(equipmentButton, AppDisplayConstants.Title.Build.EQUIPMENT, ImageConstants.Build.EQUIPMENT_URL);
+        AssignButtonEvent(featureButton, AppDisplayConstants.Title.Build.FEATURE, ImageConstants.Build.FEATURE_URL);
+        AssignButtonEvent(researchButton, AppDisplayConstants.Title.Build.RESEARCH, ImageConstants.Build.RESEARCH_URL);
+        AssignButtonEvent(archiveButton, AppDisplayConstants.Title.Build.ARCHIVE, ImageConstants.Build.ARCHIVE_URL);
+        AssignButtonEvent(universeButton, AppDisplayConstants.Title.Build.UNIVERSE, ImageConstants.Build.UNIVERSE_URL);
+        AssignButtonEvent(structureButton, AppDisplayConstants.Title.Build.STRUCTURE, ImageConstants.Build.STRUCTURE_URL);
+        AssignButtonEvent(animeButton, AppDisplayConstants.Title.Build.ANIME, ImageConstants.Build.ANIME_URL);
+        AssignButtonEvent(patternButton, AppDisplayConstants.Title.Build.PATTERN, ImageConstants.Build.PATTERN_URL);
+
         teamButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -719,12 +803,13 @@ public class MainMenuManager : MonoBehaviour
     public void CreateMissionPanel(Transform transform)
     {
         Button missionButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/MissionContent/MissionButton").GetComponent<Button>();
-
+        AssignButtonEvent(missionButton, AppDisplayConstants.Title.Mission.MISSION, ImageConstants.Mission.MISSION_URL);
 
     }
     public void CreateSocialPanel(Transform transform)
     {
         Button guildButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/SocialContent/GuildButton").GetComponent<Button>();
+        AssignButtonEvent(guildButton, AppDisplayConstants.Title.Social.GUILD, ImageConstants.Social.GUILD_URL);
 
         guildButton.onClick.AddListener(() =>
         {
@@ -767,6 +852,26 @@ public class MainMenuManager : MonoBehaviour
 
             if (title != null) title.gameObject.SetActive(isActive);
             if (content != null) content.gameObject.SetActive(isActive);
+        }
+    }
+    public void AssignButtonEvent(Button button, string titleText, string image)
+    {
+        if (button == null) return;
+
+        Transform buttonTransform = button.transform;
+
+        // 1. Cập nhật Title
+        Transform titleTransform = buttonTransform.Find("TitleText");
+        if (titleTransform != null && titleTransform.TryGetComponent<TextMeshProUGUI>(out var title))
+        {
+            title.text = titleText;
+        }
+
+        // 2. Cập nhật Icon Image
+        Transform iconTransform = buttonTransform.Find("IconImage");
+        if (iconTransform != null && iconTransform.TryGetComponent<RawImage>(out var rawImage))
+        {
+            rawImage.texture = TextureHelper.LoadTexture2DCached(image);
         }
     }
     public void CreateMainPanelUserInformation(AuthResult authResult)
@@ -846,7 +951,7 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.CARD_SPELL));
         ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.CARD_MONSTER));
         // Button_13 Equipments có thể được thêm lại nếu cần
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.ITEM));
+        // ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.ITEM));
         ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.COLLABORATION_EQUIPMENT));
         ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.COLLABORATION));
         ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.MEDAL));

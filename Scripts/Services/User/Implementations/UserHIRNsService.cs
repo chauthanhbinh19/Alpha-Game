@@ -21,9 +21,9 @@ public class UserHIRNsService : IUserHIRNsService
         return await _userHIRNsRepository.GetSumUserHIRNsAsync(userId);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserHIRNsAsync(string userId, UserHIRNs HIRNs, string id)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserHIRNsAsync(string userId, UserHIRNs HIRNs, string type, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var insertOrUpdateResult = await _userHIRNsRepository.InsertOrUpdateUserHIRNsAsync(userId, HIRNs, id);
+        var insertOrUpdateResult = await _userHIRNsRepository.InsertOrUpdateUserHIRNsAsync(userId, HIRNs, type, totalDeductions);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {

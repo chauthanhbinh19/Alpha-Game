@@ -21,9 +21,9 @@ public class UserScienceFictionsService : IUserScienceFictionsService
         return await _userScienceFictionsRepository.GetSumUserScienceFictionsAsync(userId);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserScienceFictionsAsync(string userId, UserScienceFictions ScienceFictions, string id)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserScienceFictionsAsync(string userId, UserScienceFictions ScienceFictions, string type, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var insertOrUpdateResult = await _userScienceFictionsRepository.InsertOrUpdateUserScienceFictionsAsync(userId, ScienceFictions, id);
+        var insertOrUpdateResult = await _userScienceFictionsRepository.InsertOrUpdateUserScienceFictionsAsync(userId, ScienceFictions, type, totalDeductions);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {

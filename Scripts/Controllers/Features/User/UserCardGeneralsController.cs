@@ -212,10 +212,10 @@ public class UserCardGeneralsController : MonoBehaviour
         TextMeshProUGUI mainClassText = transform.Find("DictionaryCards/Class/MainClassText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI subClassText = transform.Find("DictionaryCards/Class/SubClassText").GetComponent<TextMeshProUGUI>();
 
-        mainClassImage.texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(cardGeneral.Class.MainImage));
-        subClassImage.texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(cardGeneral.Class.SubImage));
-        mainClassText.text = cardGeneral.Class.MainType;
-        subClassText.text = cardGeneral.Class.SubType;
+        // mainClassImage.texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(cardGeneral.Class.MainImage));
+        // subClassImage.texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(cardGeneral.Class.SubImage));
+        // mainClassText.text = cardGeneral.Class.MainType;
+        // subClassText.text = cardGeneral.Class.SubType;
 
         SetupStat(transform, "Health", AppConstants.StatFields.HEALTH, AppDisplayConstants.StatFieldsShort.HEALTH, cardGeneral.Health);
         SetupStat(transform, "PhysicalAttack", AppConstants.StatFields.PHYSICAL_ATTACK, AppDisplayConstants.StatFieldsShort.PHYSICAL_ATTACK, cardGeneral.PhysicalAttack);
@@ -244,8 +244,7 @@ public class UserCardGeneralsController : MonoBehaviour
         upgradeLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            ItemExperienceDTO itemExperienceDTO = await UserItemsService.Create().GetUserItemExperienceByCodeNameAsync(User.CurrentUserId, ItemConstants.Experiment.EXP_CARD_HEROES);
-            LevelController.Instance.CreateLevelPanel(cardGeneral, itemExperienceDTO, MAX_LEVEL, level => Math.Max(level, 1) * 500d);
+            await LevelController.Instance.CreateLevelPanelAsync(cardGeneral);
         });
 
         Button upgradeStarButton = transform.Find("DictionaryCards/DetailsPanel/Group1/Star/UpgradeStarButton").GetComponent<Button>();

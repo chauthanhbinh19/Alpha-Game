@@ -17,6 +17,7 @@ public class ResearchController : MonoBehaviour
     private GameObject PopupResearchButtonPrefab;
     private GameObject MainResearchPanelPrefab;
     private GameObject ResearchItemPrefab;
+    private GameObject ResearchItemPopupPrefab;
     private Transform Content;
     private const int ITEMS_PER_PAGE = 50;
     private int CurrentPage = 0;
@@ -51,6 +52,7 @@ public class ResearchController : MonoBehaviour
         PopupResearchButtonPrefab = UIManager.Instance.Get(PrefabConstants.Research.POPUP_RESEARCH_BUTTON_PREFAB);
         MainResearchPanelPrefab = UIManager.Instance.Get(PrefabConstants.Research.MAIN_RESEARCH_PANEL_PREFAB);
         ResearchItemPrefab = UIManager.Instance.Get(PrefabConstants.Research.RESEARCH_ITEM_PREFAB);
+        ResearchItemPopupPrefab = UIManager.Instance.Get(PrefabConstants.Research.RESEARCH_ITEM_POPUP_PREFAB);
     }
     public async Task GetResearchAsync(string type)
     {
@@ -58,503 +60,503 @@ public class ResearchController : MonoBehaviour
         {
             case AppConstants.Research.FACILITIES:
                 Type = type;
-                Image = ImageConstants.Research.FACILITIES_URL;
+                Image = ImageConstants.Research.FACILITIES_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.HOUSING:
                 Type = type;
-                Image = ImageConstants.Research.HOUSING_URL;
+                Image = ImageConstants.Research.HOUSING_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.INFRASTRUCTURE:
                 Type = type;
-                Image = ImageConstants.Research.INFRASTRUCTURE_URL;
+                Image = ImageConstants.Research.INFRASTRUCTURE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.LOGISTICS:
                 Type = type;
-                Image = ImageConstants.Research.LOGISTICS_URL;
+                Image = ImageConstants.Research.LOGISTICS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.SANITATION:
                 Type = type;
-                Image = ImageConstants.Research.SANITATION_URL;
+                Image = ImageConstants.Research.SANITATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.TRANSPORTATION:
                 Type = type;
-                Image = ImageConstants.Research.TRANSPORTATION_URL;
+                Image = ImageConstants.Research.TRANSPORTATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.URBANIZATION:
                 Type = type;
-                Image = ImageConstants.Research.URBANIZATION_URL;
+                Image = ImageConstants.Research.URBANIZATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.UTILITIES:
                 Type = type;
-                Image = ImageConstants.Research.UTILITIES_URL;
+                Image = ImageConstants.Research.UTILITIES_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.WASTE:
                 Type = type;
-                Image = ImageConstants.Research.WASTE_URL;
+                Image = ImageConstants.Research.WASTE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.WATER:
                 Type = type;
-                Image = ImageConstants.Research.WATER_URL;
+                Image = ImageConstants.Research.WATER_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.CONSTRUCTION:
                 Type = type;
-                Image = ImageConstants.Research.CONSTRUCTION_URL;
+                Image = ImageConstants.Research.CONSTRUCTION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.ENERGY:
                 Type = type;
-                Image = ImageConstants.Research.ENERGY_URL;
+                Image = ImageConstants.Research.ENERGY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.ENGINEERING:
                 Type = type;
-                Image = ImageConstants.Research.ENGINEERING_URL;
+                Image = ImageConstants.Research.ENGINEERING_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.INDUSTRY:
                 Type = type;
-                Image = ImageConstants.Research.INDUSTRY_URL;
+                Image = ImageConstants.Research.INDUSTRY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.MANUFACTURING:
                 Type = type;
-                Image = ImageConstants.Research.MANUFACTURING_URL;
+                Image = ImageConstants.Research.MANUFACTURING_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.MATERIALS:
                 Type = type;
-                Image = ImageConstants.Research.MATERIALS_URL;
+                Image = ImageConstants.Research.MATERIALS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.MECHANICS:
                 Type = type;
-                Image = ImageConstants.Research.MECHANICS_URL;
+                Image = ImageConstants.Research.MECHANICS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.POWER:
                 Type = type;
-                Image = ImageConstants.Research.POWER_URL;
+                Image = ImageConstants.Research.POWER_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.RESOURCE:
                 Type = type;
-                Image = ImageConstants.Research.RESOURCE_URL;
+                Image = ImageConstants.Research.RESOURCE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.SYSTEM:
                 Type = type;
-                Image = ImageConstants.Research.SYSTEM_URL;
+                Image = ImageConstants.Research.SYSTEM_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.ARMOR:
                 Type = type;
-                Image = ImageConstants.Research.ARMOR_URL;
+                Image = ImageConstants.Research.ARMOR_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.DEFENSE:
                 Type = type;
-                Image = ImageConstants.Research.DEFENSE_URL;
+                Image = ImageConstants.Research.DEFENSE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.DISASTER:
                 Type = type;
-                Image = ImageConstants.Research.DISASTER_URL;
+                Image = ImageConstants.Research.DISASTER_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.EMERGENCY:
                 Type = type;
-                Image = ImageConstants.Research.EMERGENCY_URL;
+                Image = ImageConstants.Research.EMERGENCY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.FORTIFICATION:
                 Type = type;
-                Image = ImageConstants.Research.FORTIFICATION_URL;
+                Image = ImageConstants.Research.FORTIFICATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.MILITARY:
                 Type = type;
-                Image = ImageConstants.Research.MILITARY_URL;
+                Image = ImageConstants.Research.MILITARY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.SAFETY:
                 Type = type;
-                Image = ImageConstants.Research.SAFETY_URL;
+                Image = ImageConstants.Research.SAFETY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.SHIELDING:
                 Type = type;
-                Image = ImageConstants.Research.SHIELDING_URL;
+                Image = ImageConstants.Research.SHIELDING_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.TACTICS:
                 Type = type;
-                Image = ImageConstants.Research.TACTICS_URL;
+                Image = ImageConstants.Research.TACTICS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.WEAPONS:
                 Type = type;
-                Image = ImageConstants.Research.WEAPONS_URL;
+                Image = ImageConstants.Research.WEAPONS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.COMMERCE:
                 Type = type;
-                Image = ImageConstants.Research.COMMERCE_URL;
+                Image = ImageConstants.Research.COMMERCE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.DISTRIBUTION:
                 Type = type;
-                Image = ImageConstants.Research.DISTRIBUTION_URL;
+                Image = ImageConstants.Research.DISTRIBUTION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.ECONOMY:
                 Type = type;
-                Image = ImageConstants.Research.ECONOMY_URL;
+                Image = ImageConstants.Research.ECONOMY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.ENTERPRISE:
                 Type = type;
-                Image = ImageConstants.Research.ENTERPRISE_URL;
+                Image = ImageConstants.Research.ENTERPRISE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.FINANCE:
                 Type = type;
-                Image = ImageConstants.Research.FINANCE_URL;
+                Image = ImageConstants.Research.FINANCE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.INVESTMENT:
                 Type = type;
-                Image = ImageConstants.Research.INVESTMENT_URL;
+                Image = ImageConstants.Research.INVESTMENT_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.MARKET:
                 Type = type;
-                Image = ImageConstants.Research.MARKET_URL;
+                Image = ImageConstants.Research.MARKET_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.PRODUCTIVITY:
                 Type = type;
-                Image = ImageConstants.Research.PRODUCTIVITY_URL;
+                Image = ImageConstants.Research.PRODUCTIVITY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.SUPPLY:
                 Type = type;
-                Image = ImageConstants.Research.SUPPLY_URL;
+                Image = ImageConstants.Research.SUPPLY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.TRADE:
                 Type = type;
-               Image = ImageConstants.Research.TRADE_URL;
+               Image = ImageConstants.Research.TRADE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.CLIMATE:
                 Type = type;
-                Image = ImageConstants.Research.CLIMATE_URL;
+                Image = ImageConstants.Research.CLIMATE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.CONSERVATION:
                 Type = type;
-                Image = ImageConstants.Research.CONSERVATION_URL;
+                Image = ImageConstants.Research.CONSERVATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.ECOLOGY:
                 Type = type;
-                Image = ImageConstants.Research.ECOLOGY_URL;
+                Image = ImageConstants.Research.ECOLOGY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.ENVIRONMENT:
                 Type = type;
-                Image = ImageConstants.Research.ENVIRONMENT_URL;
+                Image = ImageConstants.Research.ENVIRONMENT_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.POLLUTION:
                 Type = type;
-                Image = ImageConstants.Research.POLLUTION_URL;
+                Image = ImageConstants.Research.POLLUTION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.PRESERVATION:
                 Type = type;
-                Image = ImageConstants.Research.PRESERVATION_URL;
+                Image = ImageConstants.Research.PRESERVATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.RECYCLING:
                 Type = type;
-                Image = ImageConstants.Research.RECYCLING_URL;
+                Image = ImageConstants.Research.RECYCLING_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.RENEWABLES:
                 Type = type;
-                Image = ImageConstants.Research.RENEWABLES_URL;
+                Image = ImageConstants.Research.RENEWABLES_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.RESTORATION:
                 Type = type;
-                Image = ImageConstants.Research.RESTORATION_URL;
+                Image = ImageConstants.Research.RESTORATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.SUSTAINABILITY:
                 Type = type;
-                Image = ImageConstants.Research.SUSTAINABILITY_URL;
+                Image = ImageConstants.Research.SUSTAINABILITY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.ASCENSION:
                 Type = type;
-                Image = ImageConstants.Research.ASCENSION_URL;
+                Image = ImageConstants.Research.ASCENSION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.COLONIZATION:
                 Type = type;
-                Image = ImageConstants.Research.COLONIZATION_URL;
+                Image = ImageConstants.Research.COLONIZATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.COSMOLOGY:
                 Type = type;
-                Image = ImageConstants.Research.COSMOLOGY_URL;
+                Image = ImageConstants.Research.COSMOLOGY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.DIMENSIONAL:
                 Type = type;
-                Image = ImageConstants.Research.DIMENSIONAL_URL;
+                Image = ImageConstants.Research.DIMENSIONAL_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.EXPANSION:
                 Type = type;
-                Image = ImageConstants.Research.EXPANSION_URL;
+                Image = ImageConstants.Research.EXPANSION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.EXPLORATION:
                 Type = type;
-                Image = ImageConstants.Research.EXPLORATION_URL;
+                Image = ImageConstants.Research.EXPLORATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.MEGASTRUCTURE:
                 Type = type;
-                Image = ImageConstants.Research.MEGASTRUCTURE_URL;
+                Image = ImageConstants.Research.MEGASTRUCTURE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.SINGULARITY:
                 Type = type;
-                Image = ImageConstants.Research.SINGULARITY_URL;
+                Image = ImageConstants.Research.SINGULARITY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.TERRAFORMING:
                 Type = type;
-                Image = ImageConstants.Research.TERRAFORMING_URL;
+                Image = ImageConstants.Research.TERRAFORMING_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.TIME:
                 Type = type;
-                Image = ImageConstants.Research.TIME_URL;
+                Image = ImageConstants.Research.TIME_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.BIOTECH:
                 Type = type;
-                Image = ImageConstants.Research.BIOTECH_URL;
+                Image = ImageConstants.Research.BIOTECH_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.EPIDEMIOLOGY:
                 Type = type;
-                Image = ImageConstants.Research.EPIDEMIOLOGY_URL;
+                Image = ImageConstants.Research.EPIDEMIOLOGY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.GENETICS:
                 Type = type;
-                Image = ImageConstants.Research.GENETICS_URL;
+                Image = ImageConstants.Research.GENETICS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.HEALTH:
                 Type = type;
-                Image = ImageConstants.Research.HEALTH_URL;
+                Image = ImageConstants.Research.HEALTH_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.IMMUNOLOGY:
                 Type = type;
-                Image = ImageConstants.Research.IMMUNOLOGY_URL;
+                Image = ImageConstants.Research.IMMUNOLOGY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.LONGEVITY:
                 Type = type;
-                Image = ImageConstants.Research.LONGEVITY_URL;
+                Image = ImageConstants.Research.LONGEVITY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.MEDICINE:
                 Type = type;
-                Image = ImageConstants.Research.MEDICINE_URL;
+                Image = ImageConstants.Research.MEDICINE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.NUTRITION:
                 Type = type;
-                Image = ImageConstants.Research.NUTRITION_URL;
+                Image = ImageConstants.Research.NUTRITION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.PHARMACEUTICALS:
                 Type = type;
-                Image = ImageConstants.Research.PHARMACEUTICALS_URL;
+                Image = ImageConstants.Research.PHARMACEUTICALS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.REGENERATION:
                 Type = type;
-                Image = ImageConstants.Research.REGENERATION_URL;
+                Image = ImageConstants.Research.REGENERATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.AI:
                 Type = type;
-                Image = ImageConstants.Research.AI_URL;
+                Image = ImageConstants.Research.AI_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.ANALYTICS:
                 Type = type;
-                Image = ImageConstants.Research.ANALYTICS_URL;
+                Image = ImageConstants.Research.ANALYTICS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.COMMUNICATION:
                 Type = type;
-                Image = ImageConstants.Research.COMMUNICATION_URL;
+                Image = ImageConstants.Research.COMMUNICATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.CONTROL:
                 Type = type;
-                Image = ImageConstants.Research.CONTROL_URL;
+                Image = ImageConstants.Research.CONTROL_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.CYBERSECURITY:
                 Type = type;
-                Image = ImageConstants.Research.CYBERSECURITY_URL;
+                Image = ImageConstants.Research.CYBERSECURITY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.DATA:
                 Type = type;
-                Image = ImageConstants.Research.DATA_URL;
+                Image = ImageConstants.Research.DATA_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.INFORMATION:
                 Type = type;
-                Image = ImageConstants.Research.INFORMATION_URL;
+                Image = ImageConstants.Research.INFORMATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.NETWORKING:
                 Type = type;
-                Image = ImageConstants.Research.NETWORKING_URL;
+                Image = ImageConstants.Research.NETWORKING_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.SECURITY:
                 Type = type;
-                Image = ImageConstants.Research.SECURITY_URL;
+                Image = ImageConstants.Research.SECURITY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.SURVEILLANCE:
                 Type = type;
-               Image = ImageConstants.Research.SURVEILLANCE_URL;
+               Image = ImageConstants.Research.SURVEILLANCE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
 
             case AppConstants.Research.AUTOMATION:
                 Type = type;
-                Image = ImageConstants.Research.AUTOMATION_URL;
+                Image = ImageConstants.Research.AUTOMATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.BIOLOGY:
                 Type = type;
-                Image = ImageConstants.Research.BIOLOGY_URL;
+                Image = ImageConstants.Research.BIOLOGY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.CHEMISTRY:
                 Type = type;
-                Image = ImageConstants.Research.CHEMISTRY_URL;
+                Image = ImageConstants.Research.CHEMISTRY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.COMPUTING:
                 Type = type;
-                Image = ImageConstants.Research.COMPUTING_URL;
+                Image = ImageConstants.Research.COMPUTING_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.INNOVATION:
                 Type = type;
-                Image = ImageConstants.Research.INNOVATION_URL;
+                Image = ImageConstants.Research.INNOVATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.NANOTECHNOLOGY:
                 Type = type;
-                Image = ImageConstants.Research.NANOTECHNOLOGY_URL;
+                Image = ImageConstants.Research.NANOTECHNOLOGY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.PHYSICS:
                 Type = type;
-                Image = ImageConstants.Research.PHYSICS_URL;
+                Image = ImageConstants.Research.PHYSICS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.QUANTUM:
                 Type = type;
-                Image = ImageConstants.Research.QUANTUM_URL;
+                Image = ImageConstants.Research.QUANTUM_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.ROBOTICS:
                 Type = type;
-                Image = ImageConstants.Research.ROBOTICS_URL;
+                Image = ImageConstants.Research.ROBOTICS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.SCIENCE:
                 Type = type;
-                Image = ImageConstants.Research.SCIENCE_URL;
+                Image = ImageConstants.Research.SCIENCE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.CIVICS:
                 Type = type;
-                Image = ImageConstants.Research.CIVICS_URL;
+                Image = ImageConstants.Research.CIVICS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.CULTURE:
                 Type = type;
-                Image = ImageConstants.Research.CULTURE_URL;
+                Image = ImageConstants.Research.CULTURE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.DEMOGRAPHY:
                 Type = type;
-                Image = ImageConstants.Research.DEMOGRAPHY_URL;
+                Image = ImageConstants.Research.DEMOGRAPHY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.EDUCATION:
                 Type = type;
-                Image = ImageConstants.Research.EDUCATION_URL;
+                Image = ImageConstants.Research.EDUCATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.GOVERNANCE:
                 Type = type;
-                Image = ImageConstants.Research.GOVERNANCE_URL;
+                Image = ImageConstants.Research.GOVERNANCE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.HAPPINESS:
                 Type = type;
-                Image = ImageConstants.Research.HAPPINESS_URL;
+                Image = ImageConstants.Research.HAPPINESS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.LAW:
                 Type = type;
-                Image = ImageConstants.Research.LAW_URL;
+                Image = ImageConstants.Research.LAW_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.POLICY:
                 Type = type;
-                Image = ImageConstants.Research.POLICY_URL;
+                Image = ImageConstants.Research.POLICY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.POPULATION:
                 Type = type;
-                Image = ImageConstants.Research.POPULATION_URL;
+                Image = ImageConstants.Research.POPULATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.SOCIETY:
                 Type = type;
-                Image = ImageConstants.Research.SOCIETY_URL;
+                Image = ImageConstants.Research.SOCIETY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             default:
@@ -715,115 +717,98 @@ public class ResearchController : MonoBehaviour
     {
         GameObject currentObject = Instantiate(MainResearchPanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
+
         Button upgradeLevelButton = transform.Find("UpgradeLevelButton").GetComponent<Button>();
         Transform leftSideContent = transform.Find("LeftSideContent");
         Transform rightSideContent = transform.Find("RightSideContent");
         TextMeshProUGUI levelText = transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
         Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
+
         Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
         homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-
         });
+
         RawImage mapImage = transform.Find("MapImage").GetComponent<RawImage>();
-        Texture mapTexture = Resources.Load<Texture2D>("UI/Background2/Chapter_16");
+        Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_14");
         mapImage.texture = mapTexture;
+
         RawImage rankImage = transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
-        Texture rankTexture = Resources.Load<Texture2D>($"UI/Rank_Research/{Type}");
+        Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{Type}");
         rankImage.texture = rankTexture;
+
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(Image);
 
         AnimationController.Instance.CreateResearchAnimation(currentObject);
+
         Researchs research = await ResearchsService.Create().GetResearchByIdAsync(featureId);
         UserResearchs userResearch = await UserResearchsService.Create().GetUserResearchsAsync(User.CurrentUserId, featureId);
-        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userResearch.Level, User.CurrentUserId);
+        
+        int currentLevel = userResearch?.Level ?? 0;
+        RecipeResponseDTO recipeData = await RecipeService.Create().GetRecipeItemsAsync(featureName, currentLevel + 1, User.CurrentUserId);
 
-        if (recipeItems == null || recipeItems.Count == 0)
+        if (recipeData == null || recipeData.Recipes == null || recipeData.Recipes.Count == 0)
             return;
 
-        // Xoá item cũ nếu có
-        if (leftSideContent != null)
+        void RenderMainRecipes(List<RecipeItemDTO> recipes)
         {
-            for (int i = leftSideContent.childCount - 1; i >= 0; i--)
-                Destroy(leftSideContent.GetChild(i).gameObject);
+            foreach (Transform child in leftSideContent) Destroy(child.gameObject);
+            foreach (Transform child in rightSideContent) Destroy(child.gameObject);
+
+            var allDetails = recipes.SelectMany(r => r.RecipeItemDetails).ToList();
+            int total = allDetails.Count;
+            int leftCount = Mathf.CeilToInt(total / 2f);
+
+            for (int i = 0; i < total; i++)
+            {
+                Transform parent = (i < leftCount) ? leftSideContent : rightSideContent;
+                GameObject itemGO = Instantiate(ResearchItemPrefab, parent);
+                SetupResearchItemUI(itemGO, allDetails[i], recipeData.UserInventory);
+            }
         }
 
-        if (rightSideContent != null)
-        {
-            for (int i = rightSideContent.childCount - 1; i >= 0; i--)
-                Destroy(rightSideContent.GetChild(i).gameObject);
-        }
-
-        int total = recipeItems.Count;
-        int leftCount = Mathf.CeilToInt(total / 2f);
-
-        for (int i = 0; i < total; i++)
-        {
-            Transform parent = (i < leftCount)
-                ? leftSideContent
-                : rightSideContent;
-
-            GameObject itemGO = Instantiate(ResearchItemPrefab, parent);
-
-            SetupResearchItemUI(itemGO, recipeItems[i]);
-        }
-
-        int currentLevel = userResearch?.Level ?? 0;
+        RenderMainRecipes(recipeData.Recipes);
         levelText.text = currentLevel.ToString();
 
         async Task RefreshPanelAsync()
         {
-            userResearch = await UserResearchsService.Create().GetUserResearchsAsync(User.CurrentUserId,featureId);
+            userResearch = await UserResearchsService.Create().GetUserResearchsAsync(User.CurrentUserId, featureId);
             currentLevel = userResearch?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 
-            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userResearch.Level, User.CurrentUserId);
-            if (refreshedRecipeItems == null)
-                return;
-
-            foreach (Transform child in leftSideContent)
-                Destroy(child.gameObject);
-            foreach (Transform child in rightSideContent)
-                Destroy(child.gameObject);
-
-            int refreshedTotal = refreshedRecipeItems.Count;
-            int refreshedLeftCount = Mathf.CeilToInt(refreshedTotal / 2f);
-
-            for (int i = 0; i < refreshedTotal; i++)
+            recipeData = await RecipeService.Create().GetRecipeItemsAsync(featureName, currentLevel + 1, User.CurrentUserId);
+            if (recipeData != null && recipeData.Recipes != null)
             {
-                Transform parent = (i < refreshedLeftCount)
-                    ? leftSideContent
-                    : rightSideContent;
-
-                GameObject itemGO = Instantiate(ResearchItemPrefab, parent);
-                SetupResearchItemUI(itemGO, refreshedRecipeItems[i]);
+                RenderMainRecipes(recipeData.Recipes);
             }
         }
 
-        // Popup that allows upgrading multiple levels (wired to UpgradeLevelButton)
-        void CreatePopupUpgradePanelAsync()
+        // Popup Nâng Cấp Số Lượng
+        async void CreatePopupUpgradePanelAsync()
         {
-            GameObject gameObject =
-                Instantiate(PopupResearchQuantityPanelPrefab, MainPanel);
-
+            GameObject gameObject = Instantiate(PopupResearchQuantityPanelPrefab, MainPanel);
             Transform panelTransform = gameObject.transform;
 
             TextMeshProUGUI currentLevelText = panelTransform.Find("CurrentLevel").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI nextLevelText = panelTransform.Find("NextLevel").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI maxLevelText = panelTransform.Find("MaxLevel").GetComponent<TextMeshProUGUI>();
             Slider quantitySlider = panelTransform.Find("QuantitySlider").GetComponent<Slider>();
-            // TextMeshProUGUI userItemQuantityText = panelTransform.Find("UserItemQuantityText").GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI itemUsedQuantityText = panelTransform.Find("ItemUsedQuantityText").GetComponent<TextMeshProUGUI>();
-            // RawImage userItemImage = panelTransform.Find("UserItemImage").GetComponent<RawImage>();
-            // RawImage itemUsedImage = panelTransform.Find("ItemUsedImage").GetComponent<RawImage>();
+            
+            TMP_InputField levelInputField = panelTransform.Find("ItemUsedQuantityText")?.GetComponent<TMP_InputField>();
+            TextMeshProUGUI itemUsedQuantityText = panelTransform.Find("ItemUsedQuantityText")?.GetComponent<TextMeshProUGUI>();
+            
             TextMeshProUGUI notificationText = panelTransform.Find("Notification/ContentText").GetComponent<TextMeshProUGUI>();
+            RawImage notificationIconImage = panelTransform.Find("Notification/IconImage")?.GetComponent<RawImage>();
+
             Button increaseOneButton = panelTransform.Find("IncreaseOneButton").GetComponent<Button>();
             Button increaseTenButton = panelTransform.Find("IncreaseTenButton").GetComponent<Button>();
             Button increaseMaxButton = panelTransform.Find("IncreaseMaxButton").GetComponent<Button>();
@@ -832,15 +817,36 @@ public class ResearchController : MonoBehaviour
             Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
             Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
             Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+            Button previewButton = panelTransform.Find("PreviewButton").GetComponent<Button>();
+
             Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
             Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
+            Transform rightTransform = panelTransform.Find("Right Scroll View/Viewport/Content");
+
+            Transform leftScrollViewTransform = panelTransform.Find("Scroll View");
+            Transform rightScrollViewTransform = panelTransform.Find("Right Scroll View");
+
+            Image leftScrollViewBg = leftScrollViewTransform.GetComponent<Image>() ?? leftScrollViewTransform.Find("Viewport")?.GetComponent<Image>();
+            Image rightScrollViewBg = rightScrollViewTransform.GetComponent<Image>() ?? rightScrollViewTransform.Find("Viewport")?.GetComponent<Image>();
 
             int popupCurrentLevel = currentLevel;
-            int maxLevel = research != null ? research.MaxLevel : popupCurrentLevel;
-            int maxPossible = Mathf.Max(0, maxLevel - popupCurrentLevel);
+
+            // Fetch DTO Recipe duy nhất 1 lần
+            RecipeResponseDTO popupRecipeData = await RecipeService.Create().GetRecipeItemsAsync(featureName, popupCurrentLevel + 1, User.CurrentUserId);
+
+            // Max level của Recipe dùng làm maxValue cho Slider
+            int recipeMaxLevel = popupRecipeData?.Recipes != null && popupRecipeData.Recipes.Count > 0 
+                ? popupRecipeData.Recipes.Max(r => r.MaxLevel) 
+                : popupCurrentLevel;
+
+            // Max level của Research hiển thị lên UI
+            int researchMaxLevel = research != null ? research.MaxLevel : recipeMaxLevel;
+
+            int maxSliderValue = Mathf.Max(0, recipeMaxLevel - popupCurrentLevel);
 
             currentLevelText.text = popupCurrentLevel.ToString();
-            nextLevelText.text = (popupCurrentLevel + 1).ToString();
+            nextLevelText.text = popupCurrentLevel.ToString();
+            if (maxLevelText != null) maxLevelText.text = researchMaxLevel.ToString(); // YÊU CẦU 1: Lấy từ research.MaxLevel
 
             if (userResearch != null)
             {
@@ -848,36 +854,107 @@ public class ResearchController : MonoBehaviour
                 StatsManager.Instance.CreateStatsManager(userResearch, nextStatsContent);
             }
 
-            quantitySlider.minValue = 1;
-            quantitySlider.maxValue = Mathf.Max(1, maxPossible);
+            // Slider maxValue cấu hình theo Recipe
+            quantitySlider.minValue = 0;
+            quantitySlider.maxValue = maxSliderValue; // YÊU CẦU 1: maxValue = recipe.MaxLevel - currentLevel
             quantitySlider.wholeNumbers = true;
-            quantitySlider.value = 1;
+            quantitySlider.value = 0;
 
-            void SetPreviewNotification(string value, Color color)
+            bool isPreviewSelected = false;
+
+            Button[] adjustmentButtons = new Button[]
+            {
+                increaseOneButton, increaseTenButton, increaseMaxButton,
+                decreaseOneButton, decreaseTenButton, decreaseMaxButton
+            };
+
+            void UpdateSliderButtonsUI(bool isSelected)
+            {
+                Color targetBgColor = ColorHelper.HexToColor(isSelected ? ColorConstants.YELLOW_COLOR : ColorConstants.RED_COLOR);
+                Color targetTextColor = ColorHelper.HexToColor(isSelected ? ColorConstants.BLACK_COLOR : ColorConstants.WHITE_COLOR);
+
+                Image previewBtnImg = previewButton.GetComponent<Image>();
+                if (previewBtnImg != null) previewBtnImg.color = targetBgColor;
+
+                Color sidebarColor = new Color(targetBgColor.r, targetBgColor.g, targetBgColor.b, 0.35f);
+                if (leftScrollViewBg != null) leftScrollViewBg.color = sidebarColor;
+                if (rightScrollViewBg != null) rightScrollViewBg.color = sidebarColor;
+
+                UpdateScrollbarHandleColor(leftScrollViewTransform, targetBgColor);
+                UpdateScrollbarHandleColor(rightScrollViewTransform, targetBgColor);
+
+                if (quantitySlider.fillRect != null)
+                {
+                    Image fillImage = quantitySlider.fillRect.GetComponent<Image>();
+                    if (fillImage != null) fillImage.color = targetBgColor;
+                }
+                if (quantitySlider.handleRect != null)
+                {
+                    Image handleImage = quantitySlider.handleRect.GetComponent<Image>();
+                    if (handleImage != null) handleImage.color = targetBgColor;
+                }
+
+                foreach (var btn in adjustmentButtons)
+                {
+                    if (btn == null) continue;
+
+                    Image btnImage = btn.GetComponent<Image>();
+                    if (btnImage != null) btnImage.color = targetBgColor;
+
+                    TextMeshProUGUI btnText = btn.GetComponentInChildren<TextMeshProUGUI>();
+                    if (btnText != null) btnText.color = targetTextColor;
+                }
+            }
+
+            void SetPreviewNotification(string value, bool isSuccess)
             {
                 notificationText.text = LocalizationManager.Get(value);
-                notificationText.color = color;
+
+                string colorHex = isSuccess ? ColorConstants.GREEN_COLOR : ColorConstants.RED_COLOR;
+                string iconPath = isSuccess ? ImageConstants.status.CONFIRM_URL : ImageConstants.status.CANCEL_URL;
+
+                Color statusColor = ColorHelper.HexToColor(colorHex);
+                notificationText.color = statusColor;
+
+                if (notificationIconImage != null)
+                {
+                    Texture iconTex = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(iconPath));
+                    if (iconTex != null)
+                    {
+                        notificationIconImage.texture = iconTex;
+                        notificationIconImage.color = statusColor;
+                        notificationIconImage.gameObject.SetActive(true);
+                    }
+                }
             }
 
-            async void UpdatePreview()
+            void UpdateLevelDisplay(int levelValue)
             {
-                await UpdatePreviewAsync();
+                string formattedText = $"+{levelValue}";
+                if (levelInputField != null)
+                {
+                    levelInputField.text = levelValue.ToString();
+                }
+                else if (itemUsedQuantityText != null)
+                {
+                    itemUsedQuantityText.text = formattedText;
+                }
             }
 
-            async Task UpdatePreviewAsync()
+            void UpdatePreview()
             {
                 int requested = (int)quantitySlider.value;
 
-                if (maxPossible <= 0)
+                if (popupCurrentLevel >= researchMaxLevel)
                 {
                     var backgroundImage = confirmButton.transform.Find("Background2")?.GetComponent<RawImage>();
                     if (backgroundImage != null)
-                        backgroundImage.color = Color.gray;
+                        backgroundImage.color = ColorHelper.HexToColor(ColorConstants.GRAY_COLOR);
 
-                    SetPreviewNotification(MessageConstants.UPGRADE_ALREADY_MAX, Color.red);
+                    SetPreviewNotification(MessageConstants.UPGRADE_ALREADY_MAX, false);
                     nextLevelText.text = "MAX";
-                    confirmButton.interactable = true;
-                    itemUsedQuantityText.text = "0";
+                    confirmButton.interactable = false;
+                    UpdateLevelDisplay(0);
 
                     if (userResearch != null)
                         StatsManager.Instance.CreateStatsManager(userResearch, nextStatsContent);
@@ -885,30 +962,44 @@ public class ResearchController : MonoBehaviour
                     return;
                 }
 
-                var preview = await UpgradeFunctionHelper.PreviewUpgradeAsync(
-                    featureName,
-                    popupCurrentLevel,
-                    maxLevel,
-                    requested,
-                    User.CurrentUserId);
-
-                if (!preview.Success)
+                if (requested <= 0)
                 {
-                    SetPreviewNotification(preview.Message, Color.red);
+                    nextLevelText.text = popupCurrentLevel.ToString();
                     confirmButton.interactable = false;
-                    nextLevelText.text = preview.TargetLevel.ToString();
-                    itemUsedQuantityText.text = "0";
-                    // userItemQuantityText.text = "0";
+                    UpdateLevelDisplay(0);
+
+                    if (userResearch != null)
+                        StatsManager.Instance.CreateStatsManager(userResearch, nextStatsContent);
+
+                    foreach (Transform child in rightTransform) Destroy(child.gameObject);
+                    SetPreviewNotification(MessageConstants.READY_TO_UPGRADE, true);
                     return;
                 }
 
-                nextLevelText.text = preview.TargetLevel.ToString();
-                confirmButton.interactable = preview.UpgradedLevels > 0;
+                // YÊU CẦU 2: Tính toán bằng PreviewUpgrade (Tăng đúng 'requested' level không bị khống chế)
+                RecipePreviewResultDTO preview = RecipeCalculator.PreviewUpgrade(
+                    popupRecipeData, 
+                    popupCurrentLevel, 
+                    numberOfLevel: requested
+                );
 
-                if (preview.UpgradedLevels > 0)
+                nextLevelText.text = preview.TargetLevel.ToString();
+
+                if (isPreviewSelected)
+                {
+                    confirmButton.interactable = false;
+                }
+                else
+                {
+                    confirmButton.interactable = preview.CanAffordAll && preview.GainedLevels > 0;
+                }
+
+                int displayGained = preview.GainedLevels > 0 ? preview.GainedLevels : requested;
+
+                if (displayGained > 0 && userResearch != null)
                 {
                     UserResearchs previewResearch = userResearch.CloneUserResearch(userResearch);
-                    EnhanceHelper.EnhanceResearchs(previewResearch, preview.UpgradedLevels, research.BaseMultiplier);
+                    EnhanceHelper.EnhanceResearchs(previewResearch, displayGained, research.BaseMultiplier);
                     StatsManager.Instance.CreateStatsManager(previewResearch, nextStatsContent);
                 }
                 else if (userResearch != null)
@@ -916,62 +1007,69 @@ public class ResearchController : MonoBehaviour
                     StatsManager.Instance.CreateStatsManager(userResearch, nextStatsContent);
                 }
 
-                bool hasEnough = true;
-                if (preview.RequiredItems != null && preview.RequiredItems.Count > 0)
+                // Cập nhật Slots Nguyên Liệu
+                var materials = preview.RequiredMaterials ?? new List<RecipePreviewDetailDTO>();
+                int existingChildCount = rightTransform.childCount;
+                int neededChildCount = materials.Count;
+
+                for (int i = existingChildCount - 1; i >= neededChildCount; i--)
                 {
-                    var first = preview.RequiredItems.First();
-                    string firstItemId = first.Key;
-                    double requiredQty = first.Value;
+                    Destroy(rightTransform.GetChild(i).gameObject);
+                }
 
-                    var recipeLevelItems = await RecipeService.Create()
-                        .GetRecipeItemsAsync(featureName, popupCurrentLevel + 1, User.CurrentUserId);
+                for (int i = 0; i < neededChildCount; i++)
+                {
+                    GameObject itemGO = (i < existingChildCount) 
+                        ? rightTransform.GetChild(i).gameObject 
+                        : Instantiate(ResearchItemPopupPrefab, rightTransform);
 
-                    double owned = 0;
-                    string imagePath = null;
-                    if (recipeLevelItems != null)
-                    {
-                        var match = recipeLevelItems.FirstOrDefault(x => x.ItemId == firstItemId);
-                        if (match != null)
-                        {
-                            owned = match.UserQuantity;
-                            imagePath = match.ItemImage;
-                        }
-                    }
+                    SetupResearchItemUI2(itemGO, materials[i]);
+                }
 
-                    itemUsedQuantityText.text = requiredQty.ToString();
-                    // userItemQuantityText.text = owned.ToString();
+                UpdateLevelDisplay(displayGained);
 
-                    if (owned < requiredQty)
-                    {
-                        hasEnough = false;
-                    }
-
-                    Texture tex = null;
-                    if (!string.IsNullOrEmpty(imagePath))
-                        tex = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(imagePath));
-
-                    if (tex != null)
-                    {
-                        // itemUsedImage.texture = tex;
-                        // userItemImage.texture = tex;
-                    }
+                if (preview.CanAffordAll)
+                {
+                    SetPreviewNotification(MessageConstants.READY_TO_UPGRADE, true);
                 }
                 else
                 {
-                    itemUsedQuantityText.text = "0";
-                    // userItemQuantityText.text = "0";
-                }
-
-                if (preview.UpgradedLevels > 0 && hasEnough)
-                {
-                    SetPreviewNotification(MessageConstants.READY_TO_UPGRADE, Color.green);
-                }
-                else
-                {
-                    SetPreviewNotification(MessageConstants.NOT_ENOUGH_MATERIALS, Color.red);
+                    SetPreviewNotification(MessageConstants.NOT_ENOUGH_MATERIALS, false);
                     confirmButton.interactable = false;
                 }
             }
+
+            if (levelInputField != null)
+            {
+                levelInputField.onEndEdit.AddListener((inputValue) =>
+                {
+                    if (int.TryParse(inputValue, out int parsedLevel))
+                    {
+                        int clampedLevel = Mathf.Clamp(parsedLevel, 0, maxSliderValue);
+                        levelInputField.text = clampedLevel.ToString();
+                        quantitySlider.SetValueWithoutNotify(clampedLevel);
+                    }
+                    else
+                    {
+                        levelInputField.text = "0";
+                        quantitySlider.SetValueWithoutNotify(0);
+                    }
+
+                    UpdatePreview();
+                });
+            }
+
+            // Click Preview Toggle -> Reset Slider về 0
+            previewButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                isPreviewSelected = !isPreviewSelected;
+
+                UpdateSliderButtonsUI(isPreviewSelected);
+
+                quantitySlider.SetValueWithoutNotify(0);
+                UpdatePreview();
+            });
 
             quantitySlider.onValueChanged.AddListener(_ => UpdatePreview());
 
@@ -985,79 +1083,108 @@ public class ResearchController : MonoBehaviour
                 quantitySlider.value = Mathf.Min(quantitySlider.maxValue, quantitySlider.value + 10);
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             });
-            increaseMaxButton.onClick.AddListener(async () =>
+            
+            // YÊU CẦU 2: Bấm Max Button
+            increaseMaxButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                quantitySlider.SetValueWithoutNotify(quantitySlider.maxValue);
-                await UpdatePreviewAsync();
+
+                if (isPreviewSelected)
+                {
+                    // Ở Preview Mode, bấm MAX sẽ đẩy Slider lên max của Recipe
+                    quantitySlider.value = quantitySlider.maxValue;
+                }
+                else
+                {
+                    // Ở Default Mode, bấm MAX sẽ nhảy đúng cấp tối đa mà kho đồ chi trả được
+                    RecipePreviewResultDTO maxAffordable = RecipeCalculator.PreviewMaxUpgrade(popupRecipeData, popupCurrentLevel);
+                    quantitySlider.value = Mathf.Clamp(maxAffordable.GainedLevels, 0, quantitySlider.maxValue);
+                }
             });
 
             decreaseOneButton.onClick.AddListener(() =>
             {
-                quantitySlider.value = Mathf.Max(quantitySlider.minValue, quantitySlider.value - 1);
+                quantitySlider.value = Mathf.Max(0, quantitySlider.value - 1);
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             });
             decreaseTenButton.onClick.AddListener(() =>
             {
-                quantitySlider.value = Mathf.Max(quantitySlider.minValue, quantitySlider.value - 10);
+                quantitySlider.value = Mathf.Max(0, quantitySlider.value - 10);
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             });
             decreaseMaxButton.onClick.AddListener(() =>
             {
-                quantitySlider.value = quantitySlider.minValue;
+                quantitySlider.value = 0;
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             });
 
+            UpdateSliderButtonsUI(false);
             UpdatePreview();
 
+            // Click Confirm
             confirmButton.onClick.AddListener(async () =>
             {
-                if (popupCurrentLevel >= maxLevel)
+                if (isPreviewSelected)
                 {
-                    notificationText.text = MessageConstants.UPGRADE_ALREADY_MAX;
-                    notificationText.color = Color.red;
+                    SetPreviewNotification(MessageConstants.CANNOT_CONFIRM_IN_PREVIEW_MODE, false);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+                    return;
+                }
+
+                if (popupCurrentLevel >= researchMaxLevel)
+                {
+                    SetPreviewNotification(MessageConstants.UPGRADE_ALREADY_MAX, false);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+                    return;
+                }
+
+                if ((int)quantitySlider.value <= 0)
+                {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
                     return;
                 }
 
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.LEVEL_UP_SOUND);
+                confirmButton.interactable = false;
+                closeButton.interactable = false;
 
                 int requested = (int)quantitySlider.value;
-                var result = await UpgradeFunctionHelper.UpgradeLevelAsync(
-                    featureName,
-                    popupCurrentLevel,
-                    maxLevel,
-                    requested,
-                    User.CurrentUserId);
+                RecipeCalculateDTO calcResult = RecipeCalculator.CalculateUpgradeByLevels(popupRecipeData, popupCurrentLevel, requested);
 
-                if (result.Success)
-                {
-                    userResearch = EnhanceHelper.EnhanceResearchs(userResearch, result.UpgradedLevels, research.BaseMultiplier);
-                    var insertOrUpdateResult = await UserResearchsService.Create().InsertOrUpdateUserResearchsAsync(User.CurrentUserId, userResearch, featureId);
-
-                    if (insertOrUpdateResult.Data && insertOrUpdateResult.IsChangePower
-                    && (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated || insertOrUpdateResult.OperationType == DatabaseOperationType.Inserted))
-                    {
-                        PowerResultDTO powerResult = await UserService.Create().UpdateUserPowerAsync();
-
-                        if (powerResult.HasChanged)
-                        {
-                            PowerController.Instance.ShowPower(
-                                powerResult.CurrentPower,
-                                powerResult.Difference,
-                                1
-                            );
-                        }
-                    }
-
-                    Destroy(gameObject);
-                    await RefreshPanelAsync();
-                }
-                else
+                if (calcResult.GainedLevels <= 0)
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.ALERT_SOUND);
-                    notificationText.text = result.Message;
+                    confirmButton.interactable = true;
+                    closeButton.interactable = true;
+                    return;
                 }
+
+                userResearch = EnhanceHelper.EnhanceResearchs(userResearch, calcResult.GainedLevels, research.BaseMultiplier);
+
+                var insertOrUpdateResult = await UserResearchsService.Create().InsertOrUpdateUserResearchsAsync(
+                    User.CurrentUserId, 
+                    userResearch, 
+                    featureId, 
+                    calcResult.TotalDeductions
+                );
+
+                if (insertOrUpdateResult.Data && insertOrUpdateResult.IsChangePower
+                    && (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated || insertOrUpdateResult.OperationType == DatabaseOperationType.Inserted))
+                {
+                    PowerResultDTO powerResult = await UserService.Create().UpdateUserPowerAsync();
+
+                    if (powerResult.HasChanged)
+                    {
+                        PowerController.Instance.ShowPower(
+                            powerResult.CurrentPower,
+                            powerResult.Difference,
+                            1
+                        );
+                    }
+                }
+
+                Destroy(gameObject);
+                await RefreshPanelAsync();
             });
 
             closeButton.onClick.AddListener(() =>
@@ -1073,40 +1200,94 @@ public class ResearchController : MonoBehaviour
             CreatePopupUpgradePanelAsync();
         });
     }
-    
-    private void SetupResearchItemUI(GameObject itemGO,RecipeItemDto data)
+
+    private void SetupResearchItemUI(GameObject itemGO, RecipeItemDetailDTO detail, Dictionary<string, double> userInventory)
     {
-        // TextMeshProUGUI nameText =
-        //     itemGO.transform.Find("ItemName")
-        //     .GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI requiredText = itemGO.transform.Find("RequiredText")?.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI ownedText = itemGO.transform.Find("AvailableText")?.GetComponent<TextMeshProUGUI>();
+        RawImage image = itemGO.transform.Find("Image")?.GetComponent<RawImage>();
 
-        TextMeshProUGUI requiredText =
-            itemGO.transform.Find("RequiredText")
-            .GetComponent<TextMeshProUGUI>();
+        double ownedQty = 0;
+        if (userInventory != null)
+        {
+            if (userInventory.TryGetValue(detail.ObjectId, out var qty) || 
+                userInventory.TryGetValue($"{detail.ObjectType}_{detail.ObjectId}", out qty))
+            {
+                ownedQty = qty;
+            }
+        }
 
-        TextMeshProUGUI ownedText =
-            itemGO.transform.Find("AvailableText")
-            .GetComponent<TextMeshProUGUI>();
+        bool isEnough = ownedQty >= detail.RequiredQuantity;
+        Color statusColor = ColorHelper.HexToColor(isEnough ? ColorConstants.GREEN_COLOR : ColorConstants.RED_COLOR);
 
-        RawImage image =
-            itemGO.transform.Find("Image")
-            .GetComponent<RawImage>();
+        if (requiredText != null)
+        {
+            requiredText.text = detail.RequiredQuantity.ToString();
+            requiredText.color = statusColor;
+        }
 
-        // nameText.text = data.ItemId;
+        if (ownedText != null)
+        {
+            ownedText.text = ownedQty.ToString();
+            ownedText.color = statusColor;
+        }
 
-        requiredText.text = data.RequiredQuantity.ToString();
-        ownedText.text = data.UserQuantity.ToString();
+        if (image != null && !string.IsNullOrEmpty(detail.ObjectImage))
+        {
+            Texture texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(detail.ObjectImage));
+            if (texture != null)
+                image.texture = texture;
+        }
+    }
 
-        // Nếu thiếu nguyên liệu -> đổi màu
-        if (data.UserQuantity < data.RequiredQuantity)
-            ownedText.color = Color.red;
-        else
-            ownedText.color = Color.green;
+    private void SetupResearchItemUI2(GameObject itemGO, RecipePreviewDetailDTO data)
+    {
+        TextMeshProUGUI requiredText = itemGO.transform.Find("RequiredText")?.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI ownedText = itemGO.transform.Find("AvailableText")?.GetComponent<TextMeshProUGUI>();
+        RawImage image = itemGO.transform.Find("Image")?.GetComponent<RawImage>();
 
-        // Load icon nếu có
-        Texture texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(data.ItemImage));
-        if (texture != null)
-            image.texture = texture;
+        bool isEnough = data.CurrentUserQuantity >= data.TotalRequiredQuantity;
+        Color statusColor = ColorHelper.HexToColor(isEnough ? ColorConstants.GREEN_COLOR : ColorConstants.RED_COLOR);
+
+        if (requiredText != null)
+        {
+            requiredText.text = data.TotalRequiredQuantity.ToString();
+            requiredText.color = statusColor;
+        }
+
+        if (ownedText != null)
+        {
+            ownedText.text = data.CurrentUserQuantity.ToString();
+            ownedText.color = statusColor;
+        }
+
+        if (image != null && !string.IsNullOrEmpty(data.ObjectImage))
+        {
+            Texture texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(data.ObjectImage));
+            if (texture != null)
+                image.texture = texture;
+        }
+    }
+
+    private void UpdateScrollbarHandleColor(Transform scrollViewTransform, Color color)
+    {
+        if (scrollViewTransform == null) return;
+
+        Scrollbar scrollbar = scrollViewTransform.GetComponentInChildren<Scrollbar>();
+        if (scrollbar == null) return;
+
+        if (scrollbar.handleRect != null)
+        {
+            Image handleImage = scrollbar.handleRect.GetComponent<Image>();
+            if (handleImage != null)
+            {
+                handleImage.color = color;
+            }
+        }
+        else if (scrollbar.targetGraphic != null)
+        {
+            scrollbar.targetGraphic.color = color;
+        }
     }
 
 }

@@ -137,6 +137,395 @@ public class TeamsRepository : ITeamsRepository
 
         return teamEmblem;
     }
+    public async Task<List<Objects>> GetUserObjectsInTeamAsync(string userId)
+    {
+        List<Objects> objects = new List<Objects>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using MySqlConnection connection = new MySqlConnection(connectionString);
+
+        try
+        {
+            await connection.OpenAsync();
+
+            string selectSQL = @"
+            SELECT 'CARD_HEROES' AS object_type, uc.card_hero_id AS card_id, uc.level, uc.quality, uc.star, uc.rare, uc.team_id, uc.position, 
+                    COALESCE(am.total_module_mult, 0) AS module_multiplier, COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier,
+                    c.power, c.health, c.physical_attack, c.physical_defense, c.magical_attack, c.magical_defense, 
+                    c.chemical_attack, c.chemical_defense, c.atomic_attack, c.atomic_defense, c.mental_attack, c.mental_defense, 
+                    c.speed, c.critical_damage_rate, c.critical_rate, c.critical_resistance_rate, c.ignore_critical_rate, 
+                    c.penetration_rate, c.penetration_resistance_rate, c.evasion_rate, c.damage_absorption_rate, 
+                    c.ignore_damage_absorption_rate, c.absorbed_damage_rate, c.vitality_regeneration_rate, 
+                    c.vitality_regeneration_resistance_rate, c.accuracy_rate, c.lifesteal_rate, c.shield_strength, 
+                    c.tenacity, c.resistance_rate, c.combo_rate, c.ignore_combo_rate, c.combo_damage_rate, 
+                    c.combo_resistance_rate, c.stun_rate, c.ignore_stun_rate, c.reflection_rate, c.ignore_reflection_rate, 
+                    c.reflection_damage_rate, c.reflection_resistance_rate, c.mana, c.mana_regeneration_rate, 
+                    c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate, c.damage_to_same_faction_rate, 
+                    c.resistance_to_same_faction_rate, c.normal_damage_rate, c.normal_resistance_rate, c.skill_damage_rate, c.skill_resistance_rate
+            FROM user_card_heroes uc
+            INNER JOIN card_heroes c ON uc.card_hero_id = c.id
+            LEFT JOIN (SELECT user_card_hero_id, SUM(current_multiplier) AS total_module_mult FROM user_card_heroes_module GROUP BY user_card_hero_id) am ON uc.card_hero_id = am.user_card_hero_id
+            LEFT JOIN (SELECT user_card_hero_id, SUM(current_multiplier) AS total_upgrade_mult FROM user_card_heroes_upgrade GROUP BY user_card_hero_id) au ON uc.card_hero_id = au.user_card_hero_id
+            LEFT JOIN teams t ON t.team_id = uc.team_id
+            WHERE uc.user_id = @userId AND t.is_main = 1 AND c.is_active = TRUE AND c.is_deleted = FALSE
+
+            UNION ALL
+
+            SELECT 'CARD_CAPTAINS' AS object_type, uc.card_captain_id AS card_id, uc.level, uc.quality, uc.star, uc.rare, uc.team_id, uc.position, 
+                    COALESCE(am.total_module_mult, 0), COALESCE(au.total_upgrade_mult, 0),
+                    c.power, c.health, c.physical_attack, c.physical_defense, c.magical_attack, c.magical_defense, 
+                    c.chemical_attack, c.chemical_defense, c.atomic_attack, c.atomic_defense, c.mental_attack, c.mental_defense, 
+                    c.speed, c.critical_damage_rate, c.critical_rate, c.critical_resistance_rate, c.ignore_critical_rate, 
+                    c.penetration_rate, c.penetration_resistance_rate, c.evasion_rate, c.damage_absorption_rate, 
+                    c.ignore_damage_absorption_rate, c.absorbed_damage_rate, c.vitality_regeneration_rate, 
+                    c.vitality_regeneration_resistance_rate, c.accuracy_rate, c.lifesteal_rate, c.shield_strength, 
+                    c.tenacity, c.resistance_rate, c.combo_rate, c.ignore_combo_rate, c.combo_damage_rate, 
+                    c.combo_resistance_rate, c.stun_rate, c.ignore_stun_rate, c.reflection_rate, c.ignore_reflection_rate, 
+                    c.reflection_damage_rate, c.reflection_resistance_rate, c.mana, c.mana_regeneration_rate, 
+                    c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate, c.damage_to_same_faction_rate, 
+                    c.resistance_to_same_faction_rate, c.normal_damage_rate, c.normal_resistance_rate, c.skill_damage_rate, c.skill_resistance_rate
+            FROM user_card_captains uc
+            INNER JOIN card_captains c ON uc.card_captain_id = c.id
+            LEFT JOIN (SELECT user_card_captain_id, SUM(current_multiplier) AS total_module_mult FROM user_card_captains_module GROUP BY user_card_captain_id) am ON uc.card_captain_id = am.user_card_captain_id
+            LEFT JOIN (SELECT user_card_captain_id, SUM(current_multiplier) AS total_upgrade_mult FROM user_card_captains_upgrade GROUP BY user_card_captain_id) au ON uc.card_captain_id = au.user_card_captain_id
+            LEFT JOIN teams t ON t.team_id = uc.team_id
+            WHERE uc.user_id = @userId AND t.is_main = 1 AND c.is_active = TRUE AND c.is_deleted = FALSE
+
+            UNION ALL
+
+            SELECT 'CARD_COLONELS' AS object_type, uc.card_colonel_id AS card_id, uc.level, uc.quality, uc.star, uc.rare, uc.team_id, uc.position, 
+                    COALESCE(am.total_module_mult, 0), COALESCE(au.total_upgrade_mult, 0),
+                    c.power, c.health, c.physical_attack, c.physical_defense, c.magical_attack, c.magical_defense, 
+                    c.chemical_attack, c.chemical_defense, c.atomic_attack, c.atomic_defense, c.mental_attack, c.mental_defense, 
+                    c.speed, c.critical_damage_rate, c.critical_rate, c.critical_resistance_rate, c.ignore_critical_rate, 
+                    c.penetration_rate, c.penetration_resistance_rate, c.evasion_rate, c.damage_absorption_rate, 
+                    c.ignore_damage_absorption_rate, c.absorbed_damage_rate, c.vitality_regeneration_rate, 
+                    c.vitality_regeneration_resistance_rate, c.accuracy_rate, c.lifesteal_rate, c.shield_strength, 
+                    c.tenacity, c.resistance_rate, c.combo_rate, c.ignore_combo_rate, c.combo_damage_rate, 
+                    c.combo_resistance_rate, c.stun_rate, c.ignore_stun_rate, c.reflection_rate, c.ignore_reflection_rate, 
+                    c.reflection_damage_rate, c.reflection_resistance_rate, c.mana, c.mana_regeneration_rate, 
+                    c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate, c.damage_to_same_faction_rate, 
+                    c.resistance_to_same_faction_rate, c.normal_damage_rate, c.normal_resistance_rate, c.skill_damage_rate, c.skill_resistance_rate
+            FROM user_card_colonels uc
+            INNER JOIN card_colonels c ON uc.card_colonel_id = c.id
+            LEFT JOIN (SELECT user_card_colonel_id, SUM(current_multiplier) AS total_module_mult FROM user_card_colonels_module GROUP BY user_card_colonel_id) am ON uc.card_colonel_id = am.user_card_colonel_id
+            LEFT JOIN (SELECT user_card_colonel_id, SUM(current_multiplier) AS total_upgrade_mult FROM user_card_colonels_upgrade GROUP BY user_card_colonel_id) au ON uc.card_colonel_id = au.user_card_colonel_id
+            LEFT JOIN teams t ON t.team_id = uc.team_id
+            WHERE uc.user_id = @userId AND t.is_main = 1 AND c.is_active = TRUE AND c.is_deleted = FALSE
+
+            UNION ALL
+
+            SELECT 'CARD_GENERALS' AS object_type, uc.card_general_id AS card_id, uc.level, uc.quality, uc.star, uc.rare, uc.team_id, uc.position, 
+                    COALESCE(am.total_module_mult, 0), COALESCE(au.total_upgrade_mult, 0),
+                    c.power, c.health, c.physical_attack, c.physical_defense, c.magical_attack, c.magical_defense, 
+                    c.chemical_attack, c.chemical_defense, c.atomic_attack, c.atomic_defense, c.mental_attack, c.mental_defense, 
+                    c.speed, c.critical_damage_rate, c.critical_rate, c.critical_resistance_rate, c.ignore_critical_rate, 
+                    c.penetration_rate, c.penetration_resistance_rate, c.evasion_rate, c.damage_absorption_rate, 
+                    c.ignore_damage_absorption_rate, c.absorbed_damage_rate, c.vitality_regeneration_rate, 
+                    c.vitality_regeneration_resistance_rate, c.accuracy_rate, c.lifesteal_rate, c.shield_strength, 
+                    c.tenacity, c.resistance_rate, c.combo_rate, c.ignore_combo_rate, c.combo_damage_rate, 
+                    c.combo_resistance_rate, c.stun_rate, c.ignore_stun_rate, c.reflection_rate, c.ignore_reflection_rate, 
+                    c.reflection_damage_rate, c.reflection_resistance_rate, c.mana, c.mana_regeneration_rate, 
+                    c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate, c.damage_to_same_faction_rate, 
+                    c.resistance_to_same_faction_rate, c.normal_damage_rate, c.normal_resistance_rate, c.skill_damage_rate, c.skill_resistance_rate
+            FROM user_card_generals uc
+            INNER JOIN card_generals c ON uc.card_general_id = c.id
+            LEFT JOIN (SELECT user_card_general_id, SUM(current_multiplier) AS total_module_mult FROM user_card_generals_module GROUP BY user_card_general_id) am ON uc.card_general_id = am.user_card_general_id
+            LEFT JOIN (SELECT user_card_general_id, SUM(current_multiplier) AS total_upgrade_mult FROM user_card_generals_upgrade GROUP BY user_card_general_id) au ON uc.card_general_id = au.user_card_general_id
+            LEFT JOIN teams t ON t.team_id = uc.team_id
+            WHERE uc.user_id = @userId AND t.is_main = 1 AND c.is_active = TRUE AND c.is_deleted = FALSE
+
+            UNION ALL
+
+            SELECT 'CARD_ADMIRALS' AS object_type, uc.card_admiral_id AS card_id, uc.level, uc.quality, uc.star, uc.rare, uc.team_id, uc.position, 
+                    COALESCE(am.total_module_mult, 0), COALESCE(au.total_upgrade_mult, 0),
+                    c.power, c.health, c.physical_attack, c.physical_defense, c.magical_attack, c.magical_defense, 
+                    c.chemical_attack, c.chemical_defense, c.atomic_attack, c.atomic_defense, c.mental_attack, c.mental_defense, 
+                    c.speed, c.critical_damage_rate, c.critical_rate, c.critical_resistance_rate, c.ignore_critical_rate, 
+                    c.penetration_rate, c.penetration_resistance_rate, c.evasion_rate, c.damage_absorption_rate, 
+                    c.ignore_damage_absorption_rate, c.absorbed_damage_rate, c.vitality_regeneration_rate, 
+                    c.vitality_regeneration_resistance_rate, c.accuracy_rate, c.lifesteal_rate, c.shield_strength, 
+                    c.tenacity, c.resistance_rate, c.combo_rate, c.ignore_combo_rate, c.combo_damage_rate, 
+                    c.combo_resistance_rate, c.stun_rate, c.ignore_stun_rate, c.reflection_rate, c.ignore_reflection_rate, 
+                    c.reflection_damage_rate, c.reflection_resistance_rate, c.mana, c.mana_regeneration_rate, 
+                    c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate, c.damage_to_same_faction_rate, 
+                    c.resistance_to_same_faction_rate, c.normal_damage_rate, c.normal_resistance_rate, c.skill_damage_rate, c.skill_resistance_rate
+            FROM user_card_admirals uc
+            INNER JOIN card_admirals c ON uc.card_admiral_id = c.id
+            LEFT JOIN (SELECT user_card_admiral_id, SUM(current_multiplier) AS total_module_mult FROM user_card_admirals_module GROUP BY user_card_admiral_id) am ON uc.card_admiral_id = am.user_card_admiral_id
+            LEFT JOIN (SELECT user_card_admiral_id, SUM(current_multiplier) AS total_upgrade_mult FROM user_card_admirals_upgrade GROUP BY user_card_admiral_id) au ON uc.card_admiral_id = au.user_card_admiral_id
+            LEFT JOIN teams t ON t.team_id = uc.team_id
+            WHERE uc.user_id = @userId AND t.is_main = 1 AND c.is_active = TRUE AND c.is_deleted = FALSE
+
+            UNION ALL
+
+            SELECT 'CARD_MONSTERS' AS object_type, uc.card_monster_id AS card_id, uc.level, uc.quality, uc.star, uc.rare, uc.team_id, uc.position, 
+                    COALESCE(am.total_module_mult, 0), COALESCE(au.total_upgrade_mult, 0),
+                    c.power, c.health, c.physical_attack, c.physical_defense, c.magical_attack, c.magical_defense, 
+                    c.chemical_attack, c.chemical_defense, c.atomic_attack, c.atomic_defense, c.mental_attack, c.mental_defense, 
+                    c.speed, c.critical_damage_rate, c.critical_rate, c.critical_resistance_rate, c.ignore_critical_rate, 
+                    c.penetration_rate, c.penetration_resistance_rate, c.evasion_rate, c.damage_absorption_rate, 
+                    c.ignore_damage_absorption_rate, c.absorbed_damage_rate, c.vitality_regeneration_rate, 
+                    c.vitality_regeneration_resistance_rate, c.accuracy_rate, c.lifesteal_rate, c.shield_strength, 
+                    c.tenacity, c.resistance_rate, c.combo_rate, c.ignore_combo_rate, c.combo_damage_rate, 
+                    c.combo_resistance_rate, c.stun_rate, c.ignore_stun_rate, c.reflection_rate, c.ignore_reflection_rate, 
+                    c.reflection_damage_rate, c.reflection_resistance_rate, c.mana, c.mana_regeneration_rate, 
+                    c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate, c.damage_to_same_faction_rate, 
+                    c.resistance_to_same_faction_rate, c.normal_damage_rate, c.normal_resistance_rate, c.skill_damage_rate, c.skill_resistance_rate
+            FROM user_card_monsters uc
+            INNER JOIN card_monsters c ON uc.card_monster_id = c.id
+            LEFT JOIN (SELECT user_card_monster_id, SUM(current_multiplier) AS total_module_mult FROM user_card_monsters_module GROUP BY user_card_monster_id) am ON uc.card_monster_id = am.user_card_monster_id
+            LEFT JOIN (SELECT user_card_monster_id, SUM(current_multiplier) AS total_upgrade_mult FROM user_card_monsters_upgrade GROUP BY user_card_monster_id) au ON uc.card_monster_id = au.user_card_monster_id
+            LEFT JOIN teams t ON t.team_id = uc.team_id
+            WHERE uc.user_id = @userId AND t.is_main = 1 AND c.is_active = TRUE AND c.is_deleted = FALSE
+
+            UNION ALL
+
+            SELECT 'CARD_MILITARIES' AS object_type, uc.card_military_id AS card_id, uc.level, uc.quality, uc.star, uc.rare, uc.team_id, uc.position, 
+                    COALESCE(am.total_module_mult, 0), COALESCE(au.total_upgrade_mult, 0),
+                    c.power, c.health, c.physical_attack, c.physical_defense, c.magical_attack, c.magical_defense, 
+                    c.chemical_attack, c.chemical_defense, c.atomic_attack, c.atomic_defense, c.mental_attack, c.mental_defense, 
+                    c.speed, c.critical_damage_rate, c.critical_rate, c.critical_resistance_rate, c.ignore_critical_rate, 
+                    c.penetration_rate, c.penetration_resistance_rate, c.evasion_rate, c.damage_absorption_rate, 
+                    c.ignore_damage_absorption_rate, c.absorbed_damage_rate, c.vitality_regeneration_rate, 
+                    c.vitality_regeneration_resistance_rate, c.accuracy_rate, c.lifesteal_rate, c.shield_strength, 
+                    c.tenacity, c.resistance_rate, c.combo_rate, c.ignore_combo_rate, c.combo_damage_rate, 
+                    c.combo_resistance_rate, c.stun_rate, c.ignore_stun_rate, c.reflection_rate, c.ignore_reflection_rate, 
+                    c.reflection_damage_rate, c.reflection_resistance_rate, c.mana, c.mana_regeneration_rate, 
+                    c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate, c.damage_to_same_faction_rate, 
+                    c.resistance_to_same_faction_rate, c.normal_damage_rate, c.normal_resistance_rate, c.skill_damage_rate, c.skill_resistance_rate
+            FROM user_card_militaries uc
+            INNER JOIN card_militaries c ON uc.card_military_id = c.id
+            LEFT JOIN (SELECT user_card_military_id, SUM(current_multiplier) AS total_module_mult FROM user_card_militaries_module GROUP BY user_card_military_id) am ON uc.card_military_id = am.user_card_military_id
+            LEFT JOIN (SELECT user_card_military_id, SUM(current_multiplier) AS total_upgrade_mult FROM user_card_militaries_upgrade GROUP BY user_card_military_id) au ON uc.card_military_id = au.user_card_military_id
+            LEFT JOIN teams t ON t.team_id = uc.team_id
+            WHERE uc.user_id = @userId AND t.is_main = 1 AND c.is_active = TRUE AND c.is_deleted = FALSE
+
+            UNION ALL
+
+            SELECT 'CARD_SOLDIERS' AS object_type, uc.card_soldier_id AS card_id, uc.level, uc.quality, uc.star, uc.rare, uc.team_id, uc.position, 
+                    COALESCE(am.total_module_mult, 0), COALESCE(au.total_upgrade_mult, 0),
+                    c.power, c.health, c.physical_attack, c.physical_defense, c.magical_attack, c.magical_defense, 
+                    c.chemical_attack, c.chemical_defense, c.atomic_attack, c.atomic_defense, c.mental_attack, c.mental_defense, 
+                    c.speed, c.critical_damage_rate, c.critical_rate, c.critical_resistance_rate, c.ignore_critical_rate, 
+                    c.penetration_rate, c.penetration_resistance_rate, c.evasion_rate, c.damage_absorption_rate, 
+                    c.ignore_damage_absorption_rate, c.absorbed_damage_rate, c.vitality_regeneration_rate, 
+                    c.vitality_regeneration_resistance_rate, c.accuracy_rate, c.lifesteal_rate, c.shield_strength, 
+                    c.tenacity, c.resistance_rate, c.combo_rate, c.ignore_combo_rate, c.combo_damage_rate, 
+                    c.combo_resistance_rate, c.stun_rate, c.ignore_stun_rate, c.reflection_rate, c.ignore_reflection_rate, 
+                    c.reflection_damage_rate, c.reflection_resistance_rate, c.mana, c.mana_regeneration_rate, 
+                    c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate, c.damage_to_same_faction_rate, 
+                    c.resistance_to_same_faction_rate, c.normal_damage_rate, c.normal_resistance_rate, c.skill_damage_rate, c.skill_resistance_rate
+            FROM user_card_soldiers uc
+            INNER JOIN card_soldiers c ON uc.card_soldier_id = c.id
+            LEFT JOIN (SELECT user_card_soldier_id, SUM(current_multiplier) AS total_module_mult FROM user_card_soldiers_module GROUP BY user_card_soldier_id) am ON uc.card_soldier_id = am.user_card_soldier_id
+            LEFT JOIN (SELECT user_card_soldier_id, SUM(current_multiplier) AS total_upgrade_mult FROM user_card_soldiers_upgrade GROUP BY user_card_soldier_id) au ON uc.card_soldier_id = au.user_card_soldier_id
+            LEFT JOIN teams t ON t.team_id = uc.team_id
+            WHERE uc.user_id = @userId AND t.is_main = 1 AND c.is_active = TRUE AND c.is_deleted = FALSE
+
+            UNION ALL
+
+            SELECT 'CARD_SPELLS' AS object_type, uc.card_spell_id AS card_id, uc.level, uc.quality, uc.star, uc.rare, uc.team_id, uc.position, 
+                    COALESCE(am.total_module_mult, 0), COALESCE(au.total_upgrade_mult, 0),
+                    c.power, c.health, c.physical_attack, c.physical_defense, c.magical_attack, c.magical_defense, 
+                    c.chemical_attack, c.chemical_defense, c.atomic_attack, c.atomic_defense, c.mental_attack, c.mental_defense, 
+                    c.speed, c.critical_damage_rate, c.critical_rate, c.critical_resistance_rate, c.ignore_critical_rate, 
+                    c.penetration_rate, c.penetration_resistance_rate, c.evasion_rate, c.damage_absorption_rate, 
+                    c.ignore_damage_absorption_rate, c.absorbed_damage_rate, c.vitality_regeneration_rate, 
+                    c.vitality_regeneration_resistance_rate, c.accuracy_rate, c.lifesteal_rate, c.shield_strength, 
+                    c.tenacity, c.resistance_rate, c.combo_rate, c.ignore_combo_rate, c.combo_damage_rate, 
+                    c.combo_resistance_rate, c.stun_rate, c.ignore_stun_rate, c.reflection_rate, c.ignore_reflection_rate, 
+                    c.reflection_damage_rate, c.reflection_resistance_rate, c.mana, c.mana_regeneration_rate, 
+                    c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate, c.damage_to_same_faction_rate, 
+                    c.resistance_to_same_faction_rate, c.normal_damage_rate, c.normal_resistance_rate, c.skill_damage_rate, c.skill_resistance_rate
+            FROM user_card_spells uc
+            INNER JOIN card_spells c ON uc.card_spell_id = c.id
+            LEFT JOIN (SELECT user_card_spell_id, SUM(current_multiplier) AS total_module_mult FROM user_card_spells_module GROUP BY user_card_spell_id) am ON uc.card_spell_id = am.user_card_spell_id
+            LEFT JOIN (SELECT user_card_spell_id, SUM(current_multiplier) AS total_upgrade_mult FROM user_card_spells_upgrade GROUP BY user_card_spell_id) au ON uc.card_spell_id = au.user_card_spell_id
+            LEFT JOIN teams t ON t.team_id = uc.team_id
+            WHERE uc.user_id = @userId AND t.is_main = 1 AND c.is_active = TRUE AND c.is_deleted = FALSE;
+        ";
+
+            await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@userId", userId);
+
+            await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
+            {
+                Objects card = new Objects
+                {
+                    Id = reader.GetStringSafe("card_id"),
+                    Rarity = reader.GetStringSafe("rare"),
+                    Quality = reader.GetDoubleSafe("quality"),
+                    ObjectType = reader.GetStringSafe("object_type"),
+                    Star = reader.GetIntSafe("star"),
+                    Level = reader.GetIntSafe("level"),
+                    TeamId = reader.IsDBNull(reader.GetOrdinal("team_id")) ? null : reader.GetStringSafe("team_id"),
+                    Position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetStringSafe("position"),
+
+                    Power = reader.GetDoubleSafe("power"),
+                    Health = reader.GetDoubleSafe("health"),
+                    PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
+                    PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
+                    MagicalAttack = reader.GetDoubleSafe("magical_attack"),
+                    MagicalDefense = reader.GetDoubleSafe("magical_defense"),
+                    ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
+                    ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
+                    AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
+                    AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
+                    MentalAttack = reader.GetDoubleSafe("mental_attack"),
+                    MentalDefense = reader.GetDoubleSafe("mental_defense"),
+                    Speed = reader.GetDoubleSafe("speed"),
+                    CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
+                    CriticalRate = reader.GetDoubleSafe("critical_rate"),
+                    CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
+                    IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
+                    PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
+                    PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
+                    EvasionRate = reader.GetDoubleSafe("evasion_rate"),
+                    DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
+                    IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
+                    AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
+                    VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
+                    VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
+                    AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
+                    LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
+                    ShieldStrength = reader.GetDoubleSafe("shield_strength"),
+                    Tenacity = reader.GetDoubleSafe("tenacity"),
+                    ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
+                    ComboRate = reader.GetDoubleSafe("combo_rate"),
+                    IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
+                    ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
+                    ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
+                    StunRate = reader.GetDoubleSafe("stun_rate"),
+                    IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
+                    ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
+                    IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
+                    ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
+                    ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
+                    Mana = reader.GetDoubleSafe("mana"),
+                    ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
+                    DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
+                    ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
+                    DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
+                    ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
+                    NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
+                    NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
+                    SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
+                    SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
+                    Description = reader.GetStringSafe("description"),
+
+                    BaseStats = new BaseStats
+                    {
+                        Power = reader.GetDoubleSafe("power"),
+                        Health = reader.GetDoubleSafe("health"),
+                        PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
+                        PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
+                        MagicalAttack = reader.GetDoubleSafe("magical_attack"),
+                        MagicalDefense = reader.GetDoubleSafe("magical_defense"),
+                        ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
+                        ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
+                        AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
+                        AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
+                        MentalAttack = reader.GetDoubleSafe("mental_attack"),
+                        MentalDefense = reader.GetDoubleSafe("mental_defense"),
+                        Speed = reader.GetDoubleSafe("speed"),
+                        CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
+                        CriticalRate = reader.GetDoubleSafe("critical_rate"),
+                        CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDoubleSafe("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
+                        LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
+                        ShieldStrength = reader.GetDoubleSafe("shield_strength"),
+                        Tenacity = reader.GetDoubleSafe("tenacity"),
+                        ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
+                        ComboRate = reader.GetDoubleSafe("combo_rate"),
+                        IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
+                        StunRate = reader.GetDoubleSafe("stun_rate"),
+                        IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
+                        Mana = reader.GetDoubleSafe("mana"),
+                        ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
+                    }
+                };
+
+                // Đọc chuỗi JSON từ Database
+                // string emblemsJson = reader.GetStringSafe("emblems_json");
+
+                // if (!string.IsNullOrEmpty(emblemsJson))
+                // {
+                //     try
+                //     {
+                //         // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                //         cardHero.Emblems = JsonHelper.DeserializeEmblems(emblemsJson);
+                //     }
+                //     catch
+                //     {
+                //         // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                //         cardHero.Emblems = new List<Emblems>();
+                //     }
+                // }
+
+                // string classesJson = reader.GetStringSafe("classes_json");
+
+                // if (!string.IsNullOrEmpty(classesJson))
+                // {
+                //     try
+                //     {
+                //         // Chuyển đổi chuỗi JSON thành List<Classes> trong C#
+                //         cardHero.Class = JsonHelper.DeserializeClasses(classesJson);
+                //     }
+                //     catch
+                //     {
+                //         // Phòng trường hợp Hero không có class, MySQL sinh ra chuỗi "[null]"
+                //         cardHero.Class = new Classes();
+                //     }
+                // }
+                UserModules userModule = new UserModules
+                {
+                    CurrentMultiplier = reader.GetDoubleSafe("module_multiplier"),
+                };
+
+                UserUpgrades userUpgrade = new UserUpgrades
+                {
+                    CurrentMultiplier = reader.GetDoubleSafe("upgrade_multiplier"),
+                };
+
+                card.UserModules = userModule;
+                card.UserUpgrades = userUpgrade;
+
+                objects.Add(card);
+            }
+        }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+        }
+
+        return objects;
+    }
     public async Task<bool> InsertUserTeamEmblemsAsync(string user_id, string teamId, int position, EmblemDTO emblemDTO)
     {
         string connectionString = DatabaseConfig.ConnectionString;

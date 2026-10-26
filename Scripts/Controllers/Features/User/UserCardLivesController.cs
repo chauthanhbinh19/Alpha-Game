@@ -184,8 +184,7 @@ public class UserCardLivesController : MonoBehaviour
         upgradeLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            ItemExperienceDTO itemExperienceDTO = await UserItemsService.Create().GetUserItemExperienceByCodeNameAsync(User.CurrentUserId, ItemConstants.Experiment.EXP_CARD_HEROES);
-            LevelController.Instance.CreateLevelPanel(cardLife, itemExperienceDTO, MAX_LEVEL, level => Math.Max(level, 1) * 500d);
+            await LevelController.Instance.CreateLevelPanelAsync(cardLife);
         });
 
         Button upgradeStarButton = transform.Find("DictionaryCards/DetailsPanel/Group1/Star/UpgradeStarButton").GetComponent<Button>();

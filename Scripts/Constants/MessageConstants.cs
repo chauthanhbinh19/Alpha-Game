@@ -43,6 +43,7 @@ public static class MessageConstants
     public const string TRANSACTION_ALREADY_PROCESSED = "Notification.TransactionAlreadyProcessed";
     public const string TRANSACTION_PENDING = "Notification.TransactionPending";
     public const string PURCHASE_FAILED = "Notification.PurchaseFailed";
+    public const string CANNOT_CONFIRM_IN_PREVIEW_MODE = "Notification.CannotConfirmInPreviewMode";
 
     public const string USER_NOT_FOUND = "Notification.UserNotFound";
     public const string USER_DELETED = "Notification.UserDeleted";

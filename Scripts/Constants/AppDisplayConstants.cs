@@ -406,227 +406,316 @@ public static class AppDisplayConstants
         public const string HIDC_FULLNAME = "Title.HIDC_FULLNAME";
         public const string HICB_FULLNAME = "Title.HICB_FULLNAME";
         public const string HISN_FULLNAME = "Title.HISN_FULLNAME";
+        public static class Play
+        {
+            public const string EVENT = "Title.Play.Event";
+            public const string ALLITERIA_CAMPAIGN_WORLD = "Title.Play.AlliteriaCampaignWorld";
+            public const string ARENA = "Title.Play.Arena";
+            public const string GACHA = "Title.Play.Gacha";
+            public const string ALLITERIA_PATH_NUMBER_1_WORLD = "Title.Play.AlliteriaPathNumber1World";
+            public const string ALLITERIA_PATH_NUMBER_2_WORLD = "Title.Play.AlliteriaPathNumber2World";
+            public const string ALLITERIA_PATH_NUMBER_3_WORLD = "Title.Play.AlliteriaPathNumber3World";
+            public const string ALLITERIA_PATH_NUMBER_4_WORLD = "Title.Play.AlliteriaPathNumber4World";
+            public const string ALLITERIA_PATH_NUMBER_5_WORLD = "Title.Play.AlliteriaPathNumber5World";
+            public const string ALLITERIA_PATH_NUMBER_6_WORLD = "Title.Play.AlliteriaPathNumber6World";
+            public const string ALLITERIA_PATH_NUMBER_7_WORLD = "Title.Play.AlliteriaPathNumber7World";
+            public const string ALLITERIA_PATH_NUMBER_8_WORLD = "Title.Play.AlliteriaPathNumber8World";
+            public const string ALLITERIA_PATH_NUMBER_9_WORLD = "Title.Play.AlliteriaPathNumber9World";
+            public const string ALLITERIA_PATH_NUMBER_10_WORLD = "Title.Play.AlliteriaPathNumber10World";
+            public const string ALLITERIA_PATH_NUMBER_11_WORLD = "Title.Play.AlliteriaPathNumber11World";
+            public const string ALLITERIA_PATH_NUMBER_12_WORLD = "Title.Play.AlliteriaPathNumber12World";
+            public const string ALLITERIA_PATH_NUMBER_13_WORLD = "Title.Play.AlliteriaPathNumber13World";
+            public const string ALLITERIA_PATH_NUMBER_14_WORLD = "Title.Play.AlliteriaPathNumber14World";
+            public const string ALLITERIA_PATH_NUMBER_15_WORLD = "Title.Play.AlliteriaPathNumber15World";
+            public const string ALLITERIA_PATH_NUMBER_16_WORLD = "Title.Play.AlliteriaPathNumber16World";
+            public const string ALLITERIA_PATH_NUMBER_17_WORLD = "Title.Play.AlliteriaPathNumber17World";
+            public const string ALLITERIA_PATH_NUMBER_18_WORLD = "Title.Play.AlliteriaPathNumber18World";
+            public const string ALLITERIA_PATH_NUMBER_19_WORLD = "Title.Play.AlliteriaPathNumber19World";
+            public const string ALLITERIA_PATH_NUMBER_20_WORLD = "Title.Play.AlliteriaPathNumber20World";
+            public const string ALLITERIA_PATH_NUMBER_21_WORLD = "Title.Play.AlliteriaPathNumber21World";
+            public const string ALLITERIA_PATH_NUMBER_22_WORLD = "Title.Play.AlliteriaPathNumber22World";
+            public const string ALLITERIA_PATH_NUMBER_23_WORLD = "Title.Play.AlliteriaPathNumber23World";
+            public const string ALLITERIA_PATH_NUMBER_24_WORLD = "Title.Play.AlliteriaPathNumber24World";
+        
+        }
         public static class Inventory
         {
-
+            public const string GENERAL_INVENTORY = "Title.Inventory.GeneralInventory";
+            public const string ITEM_INVENTORY = "Title.Inventory.ItemInventory";
+            public const string MILITARY = "Title.Inventory.Military";
+            public const string DEPLOYMENT = "Title.Inventory.Deployment";
         }
 
         public static class Shop
         {
-            public const string ACHIEVEMENTS_SHOP = "Title.AchievementsShop";
-            public const string CARD_HEROES_SHOP = "Title.CardHeroesShop";
-            public const string ALCHEMIES_SHOP = "Title.AlchemiesShop";
-            public const string AVATARS_SHOP = "Title.AvatarsShop";
-            public const string BORDERS_SHOP = "Title.BordersShop";
-            public const string BOOKS_SHOP = "Title.BooksShop";
-            public const string CARD_ADMIRALS_SHOP = "Title.CardAdmiralsShop";
-            public const string CARD_CAPTAINS_SHOP = "Title.CardCaptainsShop";
-            public const string CARD_COLONELS_SHOP = "Title.CardColonelsShop";
-            public const string CARD_GENERALS_SHOP = "Title.CardGeneralsShop";
-            public const string CARD_LIVES_SHOP = "Title.CardLivesShop";
-            public const string CARD_MILITARIES_SHOP = "Title.CardMilitariesShop";
-            public const string CARD_MONSTERS_SHOP = "Title.CardMonstersShop";
-            public const string CARD_SPELLS_SHOP = "Title.CardSpellsShop";
-            public const string CARD_SOLDIERS_SHOP = "Title.CardSoldiersShop";
-            public const string COLLABORATION_EQUIPMENTS_SHOP = "Title.CollaborationEquipmentsShop";
-            public const string COLLABORATIONS_SHOP = "Title.CollaborationsShop";
-            public const string EQUIPMENTS_SHOP = "Title.EquipmentsShop";
-            public const string FORGES_SHOP = "Title.ForgesShop";
-            public const string MAGIC_FORMATION_CIRCLES_SHOP = "Title.MagicFormationCirclesShop";
-            public const string MEDALS_SHOP = "Title.MedalsShop";
-            public const string PETS_SHOP = "Title.PetsShop";
-            public const string PUPPETS_SHOP = "Title.PuppetsShop";
-            public const string RELICS_SHOP = "Title.RelicsShop";
-            public const string SKILLS_SHOP = "Title.SkillsShop";
-            public const string SYMBOLS_SHOP = "Title.SymbolsShop";
-            public const string TALISMANS_SHOP = "Title.TalismansShop";
-            public const string TITLES_SHOP = "Title.TitlesShop";
+            public const string ACHIEVEMENTS_SHOP = "Title.Shop.AchievementsShop";
+            public const string CARD_HEROES_SHOP = "Title.Shop.CardHeroesShop";
+            public const string ALCHEMIES_SHOP = "Title.Shop.AlchemiesShop";
+            public const string AVATARS_SHOP = "Title.Shop.AvatarsShop";
+            public const string BORDERS_SHOP = "Title.Shop.BordersShop";
+            public const string BOOKS_SHOP = "Title.Shop.BooksShop";
+            public const string CARD_ADMIRALS_SHOP = "Title.Shop.CardAdmiralsShop";
+            public const string CARD_CAPTAINS_SHOP = "Title.Shop.CardCaptainsShop";
+            public const string CARD_COLONELS_SHOP = "Title.Shop.CardColonelsShop";
+            public const string CARD_GENERALS_SHOP = "Title.Shop.CardGeneralsShop";
+            public const string CARD_LIVES_SHOP = "Title.Shop.CardLivesShop";
+            public const string CARD_MILITARIES_SHOP = "Title.Shop.CardMilitariesShop";
+            public const string CARD_MONSTERS_SHOP = "Title.Shop.CardMonstersShop";
+            public const string CARD_SPELLS_SHOP = "Title.Shop.CardSpellsShop";
+            public const string CARD_SOLDIERS_SHOP = "Title.Shop.CardSoldiersShop";
+            public const string COLLABORATION_EQUIPMENTS_SHOP = "Title.Shop.CollaborationEquipmentsShop";
+            public const string COLLABORATIONS_SHOP = "Title.Shop.CollaborationsShop";
+            public const string EQUIPMENTS_SHOP = "Title.Shop.EquipmentsShop";
+            public const string FORGES_SHOP = "Title.Shop.ForgesShop";
+            public const string MAGIC_FORMATION_CIRCLES_SHOP = "Title.Shop.MagicFormationCirclesShop";
+            public const string MEDALS_SHOP = "Title.Shop.MedalsShop";
+            public const string PETS_SHOP = "Title.Shop.PetsShop";
+            public const string PUPPETS_SHOP = "Title.Shop.PuppetsShop";
+            public const string RELICS_SHOP = "Title.Shop.RelicsShop";
+            public const string SKILLS_SHOP = "Title.Shop.SkillsShop";
+            public const string SYMBOLS_SHOP = "Title.Shop.SymbolsShop";
+            public const string TALISMANS_SHOP = "Title.Shop.TalismansShop";
+            public const string TITLES_SHOP = "Title.Shop.TitlesShop";
             public const string ITEMS_SHOP = "itemsShop";
-            public const string ARTWORKS_SHOP = "Title.ArtworksShop";
-            public const string SPIRIT_BEASTS_SHOP = "Title.SpiritBeastsShop";
-            public const string SPIRIT_CARDS_SHOP = "Title.SpiritCardsShop";
-            public const string ARCHITECTURES_SHOP = "Title.ArchitecturesShop";
-            public const string TECHNOLOGIES_SHOP = "Title.TechnologiesShop";
-            public const string VEHICLES_SHOP = "Title.VehiclesShop";
-            public const string ARTIFACTS_SHOP = "Title.ArtifactsShop";
-            public const string CORES_SHOP = "Title.CoresShop";
-            public const string WEAPONS_SHOP = "Title.WeaponsShop";
-            public const string ROBOTS_SHOP = "Title.RobotsShop";
-            public const string BADGES_SHOP = "Title.BadgesShop";
-            public const string MECHA_BEASTS_SHOP = "Title.MechaBeastsShop";
-            public const string RUNES_SHOP = "Title.RunesShop";
-            public const string FURNITURES_SHOP = "Title.FurnituresShop";
-            public const string FOODS_SHOP = "Title.FoodsShop";
-            public const string BEVERAGES_SHOP = "Title.BeveragesShop";
-            public const string BUILDINGS_SHOP = "Title.BuildingsShop";
-            public const string PLANTS_SHOP = "Title.PlantsShop";
-            public const string FASHIONS_SHOP = "Title.FashionsShop";
-            public const string EMOJIS_SHOP = "Title.EmojisShop";
-            public const string OUTFITS_SHOP = "Title.OutfitsShop";
+            public const string ARTWORKS_SHOP = "Title.Shop.ArtworksShop";
+            public const string SPIRIT_BEASTS_SHOP = "Title.Shop.SpiritBeastsShop";
+            public const string SPIRIT_CARDS_SHOP = "Title.Shop.SpiritCardsShop";
+            public const string ARCHITECTURES_SHOP = "Title.Shop.ArchitecturesShop";
+            public const string TECHNOLOGIES_SHOP = "Title.Shop.TechnologiesShop";
+            public const string VEHICLES_SHOP = "Title.Shop.VehiclesShop";
+            public const string ARTIFACTS_SHOP = "Title.Shop.ArtifactsShop";
+            public const string CORES_SHOP = "Title.Shop.CoresShop";
+            public const string WEAPONS_SHOP = "Title.Shop.WeaponsShop";
+            public const string ROBOTS_SHOP = "Title.Shop.RobotsShop";
+            public const string BADGES_SHOP = "Title.Shop.BadgesShop";
+            public const string MECHA_BEASTS_SHOP = "Title.Shop.MechaBeastsShop";
+            public const string RUNES_SHOP = "Title.Shop.RunesShop";
+            public const string FURNITURES_SHOP = "Title.Shop.FurnituresShop";
+            public const string FOODS_SHOP = "Title.Shop.FoodsShop";
+            public const string BEVERAGES_SHOP = "Title.Shop.BeveragesShop";
+            public const string BUILDINGS_SHOP = "Title.Shop.BuildingsShop";
+            public const string PLANTS_SHOP = "Title.Shop.PlantsShop";
+            public const string FASHIONS_SHOP = "Title.Shop.FashionsShop";
+            public const string EMOJIS_SHOP = "Title.Shop.EmojisShop";
+            public const string OUTFITS_SHOP = "Title.Shop.OutfitsShop";
 
-            public const string ALLITERIA_CAMPAIGN_WORLD_A_SHOP = "Title.AlliteriaCampaignWorldAShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_B_SHOP = "Title.AlliteriaCampaignWorldBShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_C_SHOP = "Title.AlliteriaCampaignWorldCShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_D_SHOP = "Title.AlliteriaCampaignWorldDShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_E_SHOP = "Title.AlliteriaCampaignWorldEShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_F_SHOP = "Title.AlliteriaCampaignWorldFShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_G_SHOP = "Title.AlliteriaCampaignWorldGShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_H_SHOP = "Title.AlliteriaCampaignWorldHShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_I_SHOP = "Title.AlliteriaCampaignWorldIShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_J_SHOP = "Title.AlliteriaCampaignWorldJShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_K_SHOP = "Title.AlliteriaCampaignWorldKShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_L_SHOP = "Title.AlliteriaCampaignWorldLShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_M_SHOP = "Title.AlliteriaCampaignWorldMShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_N_SHOP = "Title.AlliteriaCampaignWorldNShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_O_SHOP = "Title.AlliteriaCampaignWorldOShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_P_SHOP = "Title.AlliteriaCampaignWorldPShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_Q_SHOP = "Title.AlliteriaCampaignWorldQShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_R_SHOP = "Title.AlliteriaCampaignWorldRShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_S_SHOP = "Title.AlliteriaCampaignWorldSShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_T_SHOP = "Title.AlliteriaCampaignWorldTShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_U_SHOP = "Title.AlliteriaCampaignWorldUShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_V_SHOP = "Title.AlliteriaCampaignWorldVShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_W_SHOP = "Title.AlliteriaCampaignWorldWShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_X_SHOP = "Title.AlliteriaCampaignWorldXShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_Y_SHOP = "Title.AlliteriaCampaignWorldYShop";
-            public const string ALLITERIA_CAMPAIGN_WORLD_Z_SHOP = "Title.AlliteriaCampaignWorldZShop";
+            public const string GENERAL_SHOP = "Title.Shop.GeneralShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_SHOP = "Title.Shop.AlliteriaCampaignWorldShop";
 
-            public const string ALLITERIA_DARK_WORLD_BRONZE_MYTHIC_SHOP = "Title.AlliteriaDarkWorldBronzeMythicShop";
-            public const string ALLITERIA_DARK_WORLD_SILVER_MYTHIC_SHOP = "Title.AlliteriaDarkWorldSilverMythicShop";
-            public const string ALLITERIA_DARK_WORLD_EMERALD_MYTHIC_SHOP = "Title.AlliteriaDarkWorldEmeraldMythicShop";
-            public const string ALLITERIA_DARK_WORLD_AMETHYST_MYTHIC_SHOP = "Title.AlliteriaDarkWorldAmethystMythicShop";
-            public const string ALLITERIA_DARK_WORLD_GOLD_MYTHIC_SHOP = "Title.AlliteriaDarkWorldGoldMythicShop";
-            public const string ALLITERIA_DARK_WORLD_DIAMOND_MYTHIC_SHOP = "Title.AlliteriaDarkWorldDiamondMythicShop";
-            public const string ALLITERIA_DARK_WORLD_SOLAR_MYTHIC_SHOP = "Title.AlliteriaDarkWorldSolarMythicShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_A_SHOP = "Title.Shop.AlliteriaCampaignWorldAShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_B_SHOP = "Title.Shop.AlliteriaCampaignWorldBShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_C_SHOP = "Title.Shop.AlliteriaCampaignWorldCShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_D_SHOP = "Title.Shop.AlliteriaCampaignWorldDShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_E_SHOP = "Title.Shop.AlliteriaCampaignWorldEShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_F_SHOP = "Title.Shop.AlliteriaCampaignWorldFShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_G_SHOP = "Title.Shop.AlliteriaCampaignWorldGShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_H_SHOP = "Title.Shop.AlliteriaCampaignWorldHShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_I_SHOP = "Title.Shop.AlliteriaCampaignWorldIShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_J_SHOP = "Title.Shop.AlliteriaCampaignWorldJShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_K_SHOP = "Title.Shop.AlliteriaCampaignWorldKShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_L_SHOP = "Title.Shop.AlliteriaCampaignWorldLShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_M_SHOP = "Title.Shop.AlliteriaCampaignWorldMShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_N_SHOP = "Title.Shop.AlliteriaCampaignWorldNShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_O_SHOP = "Title.Shop.AlliteriaCampaignWorldOShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_P_SHOP = "Title.Shop.AlliteriaCampaignWorldPShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_Q_SHOP = "Title.Shop.AlliteriaCampaignWorldQShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_R_SHOP = "Title.Shop.AlliteriaCampaignWorldRShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_S_SHOP = "Title.Shop.AlliteriaCampaignWorldSShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_T_SHOP = "Title.Shop.AlliteriaCampaignWorldTShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_U_SHOP = "Title.Shop.AlliteriaCampaignWorldUShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_V_SHOP = "Title.Shop.AlliteriaCampaignWorldVShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_W_SHOP = "Title.Shop.AlliteriaCampaignWorldWShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_X_SHOP = "Title.Shop.AlliteriaCampaignWorldXShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_Y_SHOP = "Title.Shop.AlliteriaCampaignWorldYShop";
+            public const string ALLITERIA_CAMPAIGN_WORLD_Z_SHOP = "Title.Shop.AlliteriaCampaignWorldZShop";
 
-            public const string ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_SHOP = "Title.AlliteriaLightWorldBronzeMythicShop";
-            public const string ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_SHOP = "Title.AlliteriaLightWorldSilverMythicShop";
-            public const string ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_SHOP = "Title.AlliteriaLightWorldEmeraldMythicShop";
-            public const string ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_SHOP = "Title.AlliteriaLightWorldAmethystMythicShop";
-            public const string ALLITERIA_LIGHT_WORLD_GOLD_MYTHIC_SHOP = "Title.AlliteriaLightWorldGoldMythicShop";
-            public const string ALLITERIA_LIGHT_WORLD_DIAMOND_MYTHIC_SHOP = "Title.AlliteriaLightWorldDiamondMythicShop";
-            public const string ALLITERIA_LIGHT_WORLD_SOLAR_MYTHIC_SHOP = "Title.AlliteriaLightWorldSolarMythicShop";
+            public const string ALLITERIA_DARK_WORLD_BRONZE_MYTHIC_SHOP = "Title.Shop.AlliteriaDarkWorldBronzeMythicShop";
+            public const string ALLITERIA_DARK_WORLD_SILVER_MYTHIC_SHOP = "Title.Shop.AlliteriaDarkWorldSilverMythicShop";
+            public const string ALLITERIA_DARK_WORLD_EMERALD_MYTHIC_SHOP = "Title.Shop.AlliteriaDarkWorldEmeraldMythicShop";
+            public const string ALLITERIA_DARK_WORLD_AMETHYST_MYTHIC_SHOP = "Title.Shop.AlliteriaDarkWorldAmethystMythicShop";
+            public const string ALLITERIA_DARK_WORLD_GOLD_MYTHIC_SHOP = "Title.Shop.AlliteriaDarkWorldGoldMythicShop";
+            public const string ALLITERIA_DARK_WORLD_DIAMOND_MYTHIC_SHOP = "Title.Shop.AlliteriaDarkWorldDiamondMythicShop";
+            public const string ALLITERIA_DARK_WORLD_SOLAR_MYTHIC_SHOP = "Title.Shop.AlliteriaDarkWorldSolarMythicShop";
 
-            public const string ALLITERIA_PATH_NUMBER_1_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber1WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_1_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber1WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_1_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber1WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_1_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber1WorldLegendaryShop";
+            public const string ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_SHOP = "Title.Shop.AlliteriaLightWorldBronzeMythicShop";
+            public const string ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_SHOP = "Title.Shop.AlliteriaLightWorldSilverMythicShop";
+            public const string ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_SHOP = "Title.Shop.AlliteriaLightWorldEmeraldMythicShop";
+            public const string ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_SHOP = "Title.Shop.AlliteriaLightWorldAmethystMythicShop";
+            public const string ALLITERIA_LIGHT_WORLD_GOLD_MYTHIC_SHOP = "Title.Shop.AlliteriaLightWorldGoldMythicShop";
+            public const string ALLITERIA_LIGHT_WORLD_DIAMOND_MYTHIC_SHOP = "Title.Shop.AlliteriaLightWorldDiamondMythicShop";
+            public const string ALLITERIA_LIGHT_WORLD_SOLAR_MYTHIC_SHOP = "Title.Shop.AlliteriaLightWorldSolarMythicShop";
 
-            public const string ALLITERIA_PATH_NUMBER_2_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber2WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_2_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber2WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_2_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber2WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_2_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber2WorldLegendaryShop";
+            public const string ALLITERIA_DARK_WORLD_SHOP = "Title.Shop.AlliteriaDarkWorldShop";
+            public const string ALLITERIA_LIGHT_WORLD_SHOP = "Title.Shop.AlliteriaLightWorldShop";
+            public const string ALLITERIA_PATH_NUMBER_1_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber1WorldShop";
+            public const string ALLITERIA_PATH_NUMBER_2_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber2WorldShop";
+            public const string ALLITERIA_PATH_NUMBER_3_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber3WorldShop";
+            public const string ALLITERIA_PATH_NUMBER_4_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber4WorldShop";
+            public const string ALLITERIA_PATH_NUMBER_5_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber5WorldShop";
+            public const string ALLITERIA_PATH_NUMBER_6_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber6WorldShop";
+            public const string ALLITERIA_PATH_NUMBER_7_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber7WorldShop";
+            public const string ALLITERIA_PATH_NUMBER_8_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber8WorldShop";
+            public const string ALLITERIA_PATH_NUMBER_9_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber9WorldShop";
+            public const string ALLITERIA_PATH_NUMBER_10_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber10WorldShop";
+            public const string ALLITERIA_PATH_NUMBER_11_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber11WorldShop";
+            public const string ALLITERIA_PATH_NUMBER_12_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber12WorldShop";
+            public const string ALLITERIA_PATH_NUMBER_13_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber13WorldShop";
+            public const string ALLITERIA_PATH_NUMBER_14_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber14WorldShop";
+            public const string ALLITERIA_PATH_NUMBER_15_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber15WorldShop";
+            public const string ALLITERIA_PATH_NUMBER_16_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber16WorldShop";
+            public const string ALLITERIA_PATH_NUMBER_17_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber17WorldShop";
+            public const string ALLITERIA_PATH_NUMBER_18_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber18WorldShop";
+            public const string ALLITERIA_PATH_NUMBER_19_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber19WorldShop";
+            public const string ALLITERIA_PATH_NUMBER_20_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber20WorldShop";
+            public const string ALLITERIA_PATH_NUMBER_21_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber21WorldShop";
+            public const string ALLITERIA_PATH_NUMBER_22_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber22WorldShop";
+            public const string ALLITERIA_PATH_NUMBER_23_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber23WorldShop";
+            public const string ALLITERIA_PATH_NUMBER_24_WORLD_SHOP = "Title.Shop.AlliteriaPathNumber24WorldShop";
 
-            public const string ALLITERIA_PATH_NUMBER_3_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber3WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_3_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber3WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_3_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber3WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_3_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber3WorldLegendaryShop";
+            public const string ALLITERIA_PATH_NUMBER_1_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber1WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_1_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber1WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_1_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber1WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_1_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber1WorldLegendaryShop";
 
-            public const string ALLITERIA_PATH_NUMBER_4_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber4WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_4_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber4WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_4_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber4WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_4_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber4WorldLegendaryShop";
+            public const string ALLITERIA_PATH_NUMBER_2_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber2WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_2_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber2WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_2_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber2WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_2_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber2WorldLegendaryShop";
 
-            public const string ALLITERIA_PATH_NUMBER_5_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber5WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_5_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber5WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_5_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber5WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_5_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber5WorldLegendaryShop";
+            public const string ALLITERIA_PATH_NUMBER_3_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber3WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_3_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber3WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_3_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber3WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_3_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber3WorldLegendaryShop";
 
-            public const string ALLITERIA_PATH_NUMBER_6_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber6WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_6_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber6WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_6_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber6WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_6_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber6WorldLegendaryShop";
+            public const string ALLITERIA_PATH_NUMBER_4_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber4WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_4_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber4WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_4_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber4WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_4_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber4WorldLegendaryShop";
 
-            public const string ALLITERIA_PATH_NUMBER_7_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber7WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_7_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber7WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_7_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber7WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_7_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber7WorldLegendaryShop";
+            public const string ALLITERIA_PATH_NUMBER_5_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber5WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_5_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber5WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_5_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber5WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_5_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber5WorldLegendaryShop";
 
-            public const string ALLITERIA_PATH_NUMBER_8_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber8WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_8_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber8WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_8_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber8WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_8_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber8WorldLegendaryShop";
+            public const string ALLITERIA_PATH_NUMBER_6_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber6WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_6_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber6WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_6_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber6WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_6_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber6WorldLegendaryShop";
 
-            public const string ALLITERIA_PATH_NUMBER_9_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber9WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_9_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber9WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_9_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber9WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_9_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber9WorldLegendaryShop";
+            public const string ALLITERIA_PATH_NUMBER_7_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber7WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_7_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber7WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_7_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber7WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_7_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber7WorldLegendaryShop";
 
-            public const string ALLITERIA_PATH_NUMBER_10_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber10WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_10_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber10WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_10_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber10WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_10_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber10WorldLegendaryShop";
+            public const string ALLITERIA_PATH_NUMBER_8_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber8WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_8_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber8WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_8_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber8WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_8_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber8WorldLegendaryShop";
 
-            public const string ALLITERIA_PATH_NUMBER_11_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber11WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_11_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber11WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_11_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber11WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_11_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber11WorldLegendaryShop";
+            public const string ALLITERIA_PATH_NUMBER_9_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber9WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_9_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber9WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_9_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber9WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_9_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber9WorldLegendaryShop";
 
-            public const string ALLITERIA_PATH_NUMBER_12_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber12WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_12_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber12WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_12_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber12WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_12_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber12WorldLegendaryShop";
+            public const string ALLITERIA_PATH_NUMBER_10_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber10WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_10_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber10WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_10_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber10WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_10_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber10WorldLegendaryShop";
 
-            public const string ALLITERIA_PATH_NUMBER_13_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber13WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_13_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber13WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_13_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber13WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_13_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber13WorldLegendaryShop";
+            public const string ALLITERIA_PATH_NUMBER_11_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber11WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_11_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber11WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_11_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber11WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_11_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber11WorldLegendaryShop";
 
-            public const string ALLITERIA_PATH_NUMBER_14_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber14WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_14_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber14WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_14_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber14WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_14_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber14WorldLegendaryShop";
+            public const string ALLITERIA_PATH_NUMBER_12_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber12WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_12_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber12WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_12_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber12WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_12_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber12WorldLegendaryShop";
 
-            public const string ALLITERIA_PATH_NUMBER_15_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber15WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_15_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber15WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_15_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber15WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_15_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber15WorldLegendaryShop";
+            public const string ALLITERIA_PATH_NUMBER_13_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber13WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_13_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber13WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_13_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber13WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_13_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber13WorldLegendaryShop";
 
-            public const string ALLITERIA_PATH_NUMBER_16_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber16WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_16_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber16WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_16_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber16WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_16_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber16WorldLegendaryShop";
+            public const string ALLITERIA_PATH_NUMBER_14_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber14WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_14_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber14WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_14_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber14WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_14_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber14WorldLegendaryShop";
 
-            public const string ALLITERIA_PATH_NUMBER_17_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber17WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_17_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber17WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_17_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber17WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_17_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber17WorldLegendaryShop";
+            public const string ALLITERIA_PATH_NUMBER_15_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber15WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_15_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber15WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_15_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber15WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_15_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber15WorldLegendaryShop";
 
-            public const string ALLITERIA_PATH_NUMBER_18_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber18WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_18_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber18WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_18_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber18WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_18_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber18WorldLegendaryShop";
+            public const string ALLITERIA_PATH_NUMBER_16_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber16WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_16_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber16WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_16_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber16WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_16_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber16WorldLegendaryShop";
 
-            public const string ALLITERIA_PATH_NUMBER_19_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber19WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_19_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber19WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_19_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber19WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_19_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber19WorldLegendaryShop";
+            public const string ALLITERIA_PATH_NUMBER_17_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber17WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_17_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber17WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_17_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber17WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_17_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber17WorldLegendaryShop";
 
-            public const string ALLITERIA_PATH_NUMBER_20_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber20WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_20_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber20WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_20_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber20WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_20_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber20WorldLegendaryShop";
+            public const string ALLITERIA_PATH_NUMBER_18_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber18WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_18_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber18WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_18_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber18WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_18_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber18WorldLegendaryShop";
 
-            public const string ALLITERIA_PATH_NUMBER_21_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber21WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_21_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber21WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_21_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber21WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_21_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber21WorldLegendaryShop";
+            public const string ALLITERIA_PATH_NUMBER_19_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber19WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_19_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber19WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_19_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber19WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_19_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber19WorldLegendaryShop";
 
-            public const string ALLITERIA_PATH_NUMBER_22_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber22WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_22_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber22WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_22_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber22WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_22_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber22WorldLegendaryShop";
+            public const string ALLITERIA_PATH_NUMBER_20_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber20WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_20_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber20WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_20_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber20WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_20_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber20WorldLegendaryShop";
 
-            public const string ALLITERIA_PATH_NUMBER_23_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber23WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_23_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber23WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_23_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber23WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_23_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber23WorldLegendaryShop";
+            public const string ALLITERIA_PATH_NUMBER_21_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber21WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_21_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber21WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_21_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber21WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_21_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber21WorldLegendaryShop";
 
-            public const string ALLITERIA_PATH_NUMBER_24_WORLD_RARE_SHOP = "Title.AlliteriaPathNumber24WorldRareShop";
-            public const string ALLITERIA_PATH_NUMBER_24_WORLD_SUPER_RARE_SHOP = "Title.AlliteriaPathNumber24WorldSuperRareShop";
-            public const string ALLITERIA_PATH_NUMBER_24_WORLD_ULTRA_RARE_SHOP = "Title.AlliteriaPathNumber24WorldUltraRareShop";
-            public const string ALLITERIA_PATH_NUMBER_24_WORLD_LEGENDARY_SHOP = "Title.AlliteriaPathNumber24WorldLegendaryShop";
+            public const string ALLITERIA_PATH_NUMBER_22_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber22WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_22_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber22WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_22_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber22WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_22_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber22WorldLegendaryShop";
 
+            public const string ALLITERIA_PATH_NUMBER_23_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber23WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_23_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber23WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_23_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber23WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_23_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber23WorldLegendaryShop";
+
+            public const string ALLITERIA_PATH_NUMBER_24_WORLD_RARE_SHOP = "Title.Shop.AlliteriaPathNumber24WorldRareShop";
+            public const string ALLITERIA_PATH_NUMBER_24_WORLD_SUPER_RARE_SHOP = "Title.Shop.AlliteriaPathNumber24WorldSuperRareShop";
+            public const string ALLITERIA_PATH_NUMBER_24_WORLD_ULTRA_RARE_SHOP = "Title.Shop.AlliteriaPathNumber24WorldUltraRareShop";
+            public const string ALLITERIA_PATH_NUMBER_24_WORLD_LEGENDARY_SHOP = "Title.Shop.AlliteriaPathNumber24WorldLegendaryShop";
+
+        }
+        public static class Build
+        {
+            public const string TEAM = "Title.Build.Team";
+            public const string MASTER_BOARD = "Title.Build.MasterBoard";
+            public const string SCIENCE_FICTION = "Title.Build.ScienceFiction";
+            public const string GALLERY = "Title.Build.Gallery";
+            public const string COLLECTION = "Title.Build.Collection";
+            public const string EQUIPMENT = "Title.Build.Equipment";
+            public const string FEATURE = "Title..Build.Feature";
+            public const string RESEARCH = "Title.Build.Research";
+            public const string ARCHIVE = "Title.Build.Archive";
+            public const string UNIVERSE = "Title.Build.Universe";
+            public const string STRUCTURE = "Title.Build.Structure";
+            public const string ANIME = "Title.Build.Anime";
+            public const string PATTERN = "Title.Build.Pattern";
+        }
+        public static class Mission
+        {
+            public const string MISSION = "Title.Mission.Mission";
+        }
+        public static class Social
+        {
+            public const string GUILD = "Title.Social.Guild";
         }
     }
     public static class Gallery

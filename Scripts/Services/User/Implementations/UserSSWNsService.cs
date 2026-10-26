@@ -21,9 +21,9 @@ public class UserSSWNsService : IUserSSWNsService
         return await _userSSWNsRepository.GetSumUserSSWNsAsync(userId);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSSWNsAsync(string userId, UserSSWNs SSWNs, string id)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSSWNsAsync(string userId, UserSSWNs SSWNs, string type, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var insertOrUpdateResult = await _userSSWNsRepository.InsertOrUpdateUserSSWNsAsync(userId, SSWNs, id);
+        var insertOrUpdateResult = await _userSSWNsRepository.InsertOrUpdateUserSSWNsAsync(userId, SSWNs, type, totalDeductions);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {

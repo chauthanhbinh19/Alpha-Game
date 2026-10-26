@@ -33,6 +33,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                 SELECT 
                     uc.achievement_id, 
                     uc.level, uc.quality, uc.experience, uc.star, uc.rare, uc.block,
+                    uc.quantity,
                     c.*,
                     COALESCE(am.total_module_mult, 0) AS module_multiplier,
                     COALESCE(au.total_upgrade_mult, 0) AS upgrade_multiplier
@@ -561,64 +562,154 @@ public class UserAchievementsRepository : IUserAchievementsRepository
             return InsertOrUpdateResult<BatchOperationResultDTO<Achievements>>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserAchievementLevelAsync(string userId, Achievements achievement)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserAchievementLevelAsync(
+        string userId,
+        Achievements achievement,
+        List<RecipeItemDTO> items)
     {
-        if (achievement == null)
+        if (string.IsNullOrWhiteSpace(userId) ||
+            achievement == null ||
+            string.IsNullOrWhiteSpace(achievement.Id) ||
+            items == null ||
+            items.Count == 0 ||
+            achievement.Level < 1)
         {
-            return new InsertOrUpdateResult<bool>
+            return InsertOrUpdateResult<bool>.Failure("Invalid achievement level-up request.");
+        }
+
+        var quantitiesByItem = new Dictionary<string, double>();
+        foreach (RecipeItemDTO item in items)
+        {
+            if (item == null ||
+                string.IsNullOrWhiteSpace(item.ItemId) ||
+                item.RequiredQuantity <= 0 ||
+                double.IsNaN(item.RequiredQuantity) ||
+                double.IsInfinity(item.RequiredQuantity))
             {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                Message = MessageConstants.NOTHING_WAS_UPDATED
-            };
+                return InsertOrUpdateResult<bool>.Failure("Invalid item quantity in achievement level-up request.");
+            }
+
+            if (quantitiesByItem.ContainsKey(item.ItemId))
+                quantitiesByItem[item.ItemId] += item.RequiredQuantity;
+            else
+                quantitiesByItem.Add(item.ItemId, item.RequiredQuantity);
+        }
+
+        if (quantitiesByItem.Values.Any(quantity =>
+                quantity <= 0 || double.IsNaN(quantity) || double.IsInfinity(quantity)))
+        {
+            return InsertOrUpdateResult<bool>.Failure("Invalid item quantity in achievement level-up request.");
         }
 
         string connectionString = DatabaseConfig.ConnectionString;
-
         await using MySqlConnection connection = new MySqlConnection(connectionString);
 
         try
         {
             await connection.OpenAsync();
+            await using var transaction = await connection.BeginTransactionAsync();
 
-            // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
-            string updateSQL = @"
-            UPDATE user_achievements uc INNER JOIN achievements c ON c.id = uc.achievement_id
-            SET 
-                uc.level = @level, 
-                uc.experience = @experience
-            WHERE uc.user_id = @user_id 
-              AND uc.achievement_id = @achievement_id
-              AND (uc.level != @level OR uc.experience != @experience)
-              AND c.is_active = TRUE AND c.is_deleted = FALSE;
-        ";
+            const string lockAchievementSql = @"
+                SELECT ua.level
+                FROM user_achievements ua
+                INNER JOIN achievements a ON a.id = ua.achievement_id
+                WHERE ua.user_id = @user_id
+                  AND ua.achievement_id = @achievement_id
+                  AND a.is_active = TRUE
+                  AND a.is_deleted = FALSE
+                FOR UPDATE";
 
-            await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+            int currentLevel;
+            await using (var lockAchievementCommand = new MySqlCommand(lockAchievementSql, connection, transaction))
+            {
+                lockAchievementCommand.Parameters.AddWithValue("@user_id", userId);
+                lockAchievementCommand.Parameters.AddWithValue("@achievement_id", achievement.Id);
+                object levelValue = await lockAchievementCommand.ExecuteScalarAsync();
+                if (levelValue == null || levelValue == DBNull.Value)
+                {
+                    await transaction.RollbackAsync();
+                    return InsertOrUpdateResult<bool>.Failure(MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE);
+                }
 
+                currentLevel = Convert.ToInt32(levelValue);
+            }
+
+            if (achievement.Level <= currentLevel)
+            {
+                await transaction.RollbackAsync();
+                return InsertOrUpdateResult<bool>.Failure(
+                    "The achievement level must be higher than its current level.");
+            }
+
+            var deductSql = new System.Text.StringBuilder(
+                "UPDATE user_items SET quantity = quantity - CASE item_id ");
+            List<string> itemIds = quantitiesByItem.Keys.ToList();
+            await using (var deductItemsCommand = new MySqlCommand
+            {
+                Connection = connection,
+                Transaction = transaction
+            })
+            {
+                deductItemsCommand.Parameters.AddWithValue("@user_id", userId);
+
+                for (int index = 0; index < itemIds.Count; index++)
+                {
+                    string itemIdParameter = $"@item_id_{index}";
+                    string quantityParameter = $"@quantity_{index}";
+                    string itemId = itemIds[index];
+
+                    deductSql.Append($"WHEN {itemIdParameter} THEN {quantityParameter} ");
+                    deductItemsCommand.Parameters.AddWithValue(itemIdParameter, itemId);
+                    deductItemsCommand.Parameters.AddWithValue(quantityParameter, quantitiesByItem[itemId]);
+                }
+
+                deductSql.Append("END WHERE user_id = @user_id AND item_id IN (");
+                deductSql.Append(string.Join(", ", itemIds.Select((_, index) => $"@item_id_{index}")));
+                deductSql.Append(") AND quantity >= CASE item_id ");
+                for (int index = 0; index < itemIds.Count; index++)
+                {
+                    deductSql.Append($"WHEN @item_id_{index} THEN @quantity_{index} ");
+                }
+                deductSql.Append("END");
+
+                deductItemsCommand.CommandText = deductSql.ToString();
+                int itemRowsAffected = await deductItemsCommand.ExecuteNonQueryAsync();
+                if (itemRowsAffected != itemIds.Count)
+                {
+                    await transaction.RollbackAsync();
+                    return InsertOrUpdateResult<bool>.Failure(
+                        string.Format(MessageConstants.ITEM_NOT_ENOUGH, "selected items"));
+                }
+            }
+
+            const string updateAchievementSql = @"
+                UPDATE user_achievements ua
+                INNER JOIN achievements a ON a.id = ua.achievement_id
+                SET ua.level = @level
+                WHERE ua.user_id = @user_id
+                  AND ua.achievement_id = @achievement_id
+                  AND a.is_active = TRUE
+                  AND a.is_deleted = FALSE
+                  AND ua.level <> @level";
+
+            await using var updateCommand = new MySqlCommand(updateAchievementSql, connection, transaction);
             updateCommand.Parameters.AddWithValue("@user_id", userId);
             updateCommand.Parameters.AddWithValue("@achievement_id", achievement.Id);
             updateCommand.Parameters.AddWithValue("@level", achievement.Level);
-            updateCommand.Parameters.AddWithValue("@experience", achievement.Experience);
 
             int rowsAffected = await updateCommand.ExecuteNonQueryAsync();
+            if (rowsAffected == 0)
+            {
+                await transaction.RollbackAsync();
+                return InsertOrUpdateResult<bool>.Failure(MessageConstants.NOTHING_WAS_UPDATED);
+            }
 
-            if (rowsAffected > 0)
-            {
-                return InsertOrUpdateResult<bool>.Updated(true);
-            }
-            else
-            {
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = false,
-                    OperationType = DatabaseOperationType.None,
-                    Message = MessageConstants.NOTHING_WAS_UPDATED
-                };
-            }
+            await transaction.CommitAsync();
+            return InsertOrUpdateResult<bool>.Updated(true);
         }
-        catch (MySqlException ex)
+        catch (Exception ex)
         {
-            Debug.LogError("Error UpdateUserAchievementLevel: " + ex.Message);
+            Debug.LogError("Error UpdateUserAchievementLevel: " + ex);
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }

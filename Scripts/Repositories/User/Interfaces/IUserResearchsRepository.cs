@@ -3,6 +3,6 @@ using System.Threading.Tasks;
 public interface IUserResearchsRepository
 {
     Task<UserResearchs> GetUserResearchsAsync(string userId, string id);
-    Task<InsertOrUpdateResult<UserResearchs>> InsertOrUpdateUserResearchsAsync(string userId, UserResearchs Researchs, string id);
+    Task<InsertOrUpdateResult<UserResearchs>> InsertOrUpdateUserResearchsAsync(string userId, UserResearchs Researchs, string type, List<RecipeItemDetailDTO> totalDeductions);
     Task<UserResearchs> GetSumUserResearchsAsync(string userId);
 }

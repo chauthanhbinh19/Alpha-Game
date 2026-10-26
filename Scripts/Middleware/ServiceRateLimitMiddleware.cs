@@ -7,7 +7,7 @@ using System.Runtime.ExceptionServices;
 public class ServiceRateLimitMiddleware<TService> : DispatchProxy
     where TService : class
 {
-    private const int MaximumCalls = 5;
+    private const int MaximumCalls = 10;
     private static readonly TimeSpan Window = TimeSpan.FromSeconds(1);
     private static readonly SlidingWindowRateLimiter RateLimiter =
         new SlidingWindowRateLimiter(MaximumCalls, Window);

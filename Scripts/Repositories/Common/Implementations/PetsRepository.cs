@@ -904,7 +904,7 @@ public class PetsRepository : IPetsRepository
                     SUM(a.percent_all_mental_attack) AS total_percent_all_mental_attack,
                     SUM(a.percent_all_mental_defense) AS total_percent_all_mental_defense
                 FROM Pets a
-                JOIN user_pets ua ON a.id = ua.skill_id
+                JOIN user_pets ua ON a.id = ua.pet_id
                 WHERE ua.user_id = @user_id;
             ";
 
