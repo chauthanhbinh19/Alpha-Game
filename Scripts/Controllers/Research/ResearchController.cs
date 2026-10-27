@@ -24,7 +24,7 @@ public class ResearchController : MonoBehaviour
     private List<KeyValuePair<string, FeatureResearchDTO>> FeatureList;
     private PaginationManager PaginationManager;
     private string Type = "";
-    private string Image = "";
+    private string BackgroundImage = "";
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -60,503 +60,503 @@ public class ResearchController : MonoBehaviour
         {
             case AppConstants.Research.FACILITIES:
                 Type = type;
-                Image = ImageConstants.Research.FACILITIES_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.FACILITIES_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.HOUSING:
                 Type = type;
-                Image = ImageConstants.Research.HOUSING_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.HOUSING_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.INFRASTRUCTURE:
                 Type = type;
-                Image = ImageConstants.Research.INFRASTRUCTURE_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.INFRASTRUCTURE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.LOGISTICS:
                 Type = type;
-                Image = ImageConstants.Research.LOGISTICS_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.LOGISTICS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.SANITATION:
                 Type = type;
-                Image = ImageConstants.Research.SANITATION_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.SANITATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.TRANSPORTATION:
                 Type = type;
-                Image = ImageConstants.Research.TRANSPORTATION_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.TRANSPORTATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.URBANIZATION:
                 Type = type;
-                Image = ImageConstants.Research.URBANIZATION_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.URBANIZATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.UTILITIES:
                 Type = type;
-                Image = ImageConstants.Research.UTILITIES_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.UTILITIES_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.WASTE:
                 Type = type;
-                Image = ImageConstants.Research.WASTE_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.WASTE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.WATER:
                 Type = type;
-                Image = ImageConstants.Research.WATER_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.WATER_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.CONSTRUCTION:
                 Type = type;
-                Image = ImageConstants.Research.CONSTRUCTION_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.CONSTRUCTION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.ENERGY:
                 Type = type;
-                Image = ImageConstants.Research.ENERGY_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.ENERGY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.ENGINEERING:
                 Type = type;
-                Image = ImageConstants.Research.ENGINEERING_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.ENGINEERING_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.INDUSTRY:
                 Type = type;
-                Image = ImageConstants.Research.INDUSTRY_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.INDUSTRY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.MANUFACTURING:
                 Type = type;
-                Image = ImageConstants.Research.MANUFACTURING_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.MANUFACTURING_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.MATERIALS:
                 Type = type;
-                Image = ImageConstants.Research.MATERIALS_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.MATERIALS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.MECHANICS:
                 Type = type;
-                Image = ImageConstants.Research.MECHANICS_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.MECHANICS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.POWER:
                 Type = type;
-                Image = ImageConstants.Research.POWER_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.POWER_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.RESOURCE:
                 Type = type;
-                Image = ImageConstants.Research.RESOURCE_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.RESOURCE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.SYSTEM:
                 Type = type;
-                Image = ImageConstants.Research.SYSTEM_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.SYSTEM_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.ARMOR:
                 Type = type;
-                Image = ImageConstants.Research.ARMOR_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.ARMOR_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.DEFENSE:
                 Type = type;
-                Image = ImageConstants.Research.DEFENSE_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.DEFENSE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.DISASTER:
                 Type = type;
-                Image = ImageConstants.Research.DISASTER_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.DISASTER_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.EMERGENCY:
                 Type = type;
-                Image = ImageConstants.Research.EMERGENCY_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.EMERGENCY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.FORTIFICATION:
                 Type = type;
-                Image = ImageConstants.Research.FORTIFICATION_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.FORTIFICATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.MILITARY:
                 Type = type;
-                Image = ImageConstants.Research.MILITARY_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.MILITARY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.SAFETY:
                 Type = type;
-                Image = ImageConstants.Research.SAFETY_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.SAFETY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.SHIELDING:
                 Type = type;
-                Image = ImageConstants.Research.SHIELDING_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.SHIELDING_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.TACTICS:
                 Type = type;
-                Image = ImageConstants.Research.TACTICS_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.TACTICS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.WEAPONS:
                 Type = type;
-                Image = ImageConstants.Research.WEAPONS_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.WEAPONS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.COMMERCE:
                 Type = type;
-                Image = ImageConstants.Research.COMMERCE_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.COMMERCE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.DISTRIBUTION:
                 Type = type;
-                Image = ImageConstants.Research.DISTRIBUTION_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.DISTRIBUTION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.ECONOMY:
                 Type = type;
-                Image = ImageConstants.Research.ECONOMY_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.ECONOMY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.ENTERPRISE:
                 Type = type;
-                Image = ImageConstants.Research.ENTERPRISE_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.ENTERPRISE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.FINANCE:
                 Type = type;
-                Image = ImageConstants.Research.FINANCE_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.FINANCE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.INVESTMENT:
                 Type = type;
-                Image = ImageConstants.Research.INVESTMENT_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.INVESTMENT_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.MARKET:
                 Type = type;
-                Image = ImageConstants.Research.MARKET_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.MARKET_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.PRODUCTIVITY:
                 Type = type;
-                Image = ImageConstants.Research.PRODUCTIVITY_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.PRODUCTIVITY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.SUPPLY:
                 Type = type;
-                Image = ImageConstants.Research.SUPPLY_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.SUPPLY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.TRADE:
                 Type = type;
-               Image = ImageConstants.Research.TRADE_BACKGROUND_URL;
+               BackgroundImage = ImageConstants.Research.TRADE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.CLIMATE:
                 Type = type;
-                Image = ImageConstants.Research.CLIMATE_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.CLIMATE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.CONSERVATION:
                 Type = type;
-                Image = ImageConstants.Research.CONSERVATION_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.CONSERVATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.ECOLOGY:
                 Type = type;
-                Image = ImageConstants.Research.ECOLOGY_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.ECOLOGY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.ENVIRONMENT:
                 Type = type;
-                Image = ImageConstants.Research.ENVIRONMENT_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.ENVIRONMENT_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.POLLUTION:
                 Type = type;
-                Image = ImageConstants.Research.POLLUTION_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.POLLUTION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.PRESERVATION:
                 Type = type;
-                Image = ImageConstants.Research.PRESERVATION_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.PRESERVATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.RECYCLING:
                 Type = type;
-                Image = ImageConstants.Research.RECYCLING_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.RECYCLING_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.RENEWABLES:
                 Type = type;
-                Image = ImageConstants.Research.RENEWABLES_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.RENEWABLES_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.RESTORATION:
                 Type = type;
-                Image = ImageConstants.Research.RESTORATION_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.RESTORATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.SUSTAINABILITY:
                 Type = type;
-                Image = ImageConstants.Research.SUSTAINABILITY_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.SUSTAINABILITY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.ASCENSION:
                 Type = type;
-                Image = ImageConstants.Research.ASCENSION_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.ASCENSION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.COLONIZATION:
                 Type = type;
-                Image = ImageConstants.Research.COLONIZATION_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.COLONIZATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.COSMOLOGY:
                 Type = type;
-                Image = ImageConstants.Research.COSMOLOGY_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.COSMOLOGY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.DIMENSIONAL:
                 Type = type;
-                Image = ImageConstants.Research.DIMENSIONAL_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.DIMENSIONAL_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.EXPANSION:
                 Type = type;
-                Image = ImageConstants.Research.EXPANSION_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.EXPANSION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.EXPLORATION:
                 Type = type;
-                Image = ImageConstants.Research.EXPLORATION_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.EXPLORATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.MEGASTRUCTURE:
                 Type = type;
-                Image = ImageConstants.Research.MEGASTRUCTURE_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.MEGASTRUCTURE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.SINGULARITY:
                 Type = type;
-                Image = ImageConstants.Research.SINGULARITY_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.SINGULARITY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.TERRAFORMING:
                 Type = type;
-                Image = ImageConstants.Research.TERRAFORMING_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.TERRAFORMING_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.TIME:
                 Type = type;
-                Image = ImageConstants.Research.TIME_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.TIME_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.BIOTECH:
                 Type = type;
-                Image = ImageConstants.Research.BIOTECH_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.BIOTECH_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.EPIDEMIOLOGY:
                 Type = type;
-                Image = ImageConstants.Research.EPIDEMIOLOGY_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.EPIDEMIOLOGY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.GENETICS:
                 Type = type;
-                Image = ImageConstants.Research.GENETICS_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.GENETICS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.HEALTH:
                 Type = type;
-                Image = ImageConstants.Research.HEALTH_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.HEALTH_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.IMMUNOLOGY:
                 Type = type;
-                Image = ImageConstants.Research.IMMUNOLOGY_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.IMMUNOLOGY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.LONGEVITY:
                 Type = type;
-                Image = ImageConstants.Research.LONGEVITY_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.LONGEVITY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.MEDICINE:
                 Type = type;
-                Image = ImageConstants.Research.MEDICINE_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.MEDICINE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.NUTRITION:
                 Type = type;
-                Image = ImageConstants.Research.NUTRITION_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.NUTRITION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.PHARMACEUTICALS:
                 Type = type;
-                Image = ImageConstants.Research.PHARMACEUTICALS_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.PHARMACEUTICALS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.REGENERATION:
                 Type = type;
-                Image = ImageConstants.Research.REGENERATION_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.REGENERATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.AI:
                 Type = type;
-                Image = ImageConstants.Research.AI_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.AI_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.ANALYTICS:
                 Type = type;
-                Image = ImageConstants.Research.ANALYTICS_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.ANALYTICS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.COMMUNICATION:
                 Type = type;
-                Image = ImageConstants.Research.COMMUNICATION_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.COMMUNICATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.CONTROL:
                 Type = type;
-                Image = ImageConstants.Research.CONTROL_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.CONTROL_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.CYBERSECURITY:
                 Type = type;
-                Image = ImageConstants.Research.CYBERSECURITY_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.CYBERSECURITY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.DATA:
                 Type = type;
-                Image = ImageConstants.Research.DATA_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.DATA_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.INFORMATION:
                 Type = type;
-                Image = ImageConstants.Research.INFORMATION_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.INFORMATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.NETWORKING:
                 Type = type;
-                Image = ImageConstants.Research.NETWORKING_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.NETWORKING_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.SECURITY:
                 Type = type;
-                Image = ImageConstants.Research.SECURITY_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.SECURITY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.SURVEILLANCE:
                 Type = type;
-               Image = ImageConstants.Research.SURVEILLANCE_BACKGROUND_URL;
+               BackgroundImage = ImageConstants.Research.SURVEILLANCE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
 
             case AppConstants.Research.AUTOMATION:
                 Type = type;
-                Image = ImageConstants.Research.AUTOMATION_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.AUTOMATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.BIOLOGY:
                 Type = type;
-                Image = ImageConstants.Research.BIOLOGY_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.BIOLOGY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.CHEMISTRY:
                 Type = type;
-                Image = ImageConstants.Research.CHEMISTRY_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.CHEMISTRY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.COMPUTING:
                 Type = type;
-                Image = ImageConstants.Research.COMPUTING_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.COMPUTING_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.INNOVATION:
                 Type = type;
-                Image = ImageConstants.Research.INNOVATION_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.INNOVATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.NANOTECHNOLOGY:
                 Type = type;
-                Image = ImageConstants.Research.NANOTECHNOLOGY_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.NANOTECHNOLOGY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.PHYSICS:
                 Type = type;
-                Image = ImageConstants.Research.PHYSICS_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.PHYSICS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.QUANTUM:
                 Type = type;
-                Image = ImageConstants.Research.QUANTUM_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.QUANTUM_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.ROBOTICS:
                 Type = type;
-                Image = ImageConstants.Research.ROBOTICS_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.ROBOTICS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.SCIENCE:
                 Type = type;
-                Image = ImageConstants.Research.SCIENCE_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.SCIENCE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.CIVICS:
                 Type = type;
-                Image = ImageConstants.Research.CIVICS_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.CIVICS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.CULTURE:
                 Type = type;
-                Image = ImageConstants.Research.CULTURE_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.CULTURE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.DEMOGRAPHY:
                 Type = type;
-                Image = ImageConstants.Research.DEMOGRAPHY_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.DEMOGRAPHY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.EDUCATION:
                 Type = type;
-                Image = ImageConstants.Research.EDUCATION_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.EDUCATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.GOVERNANCE:
                 Type = type;
-                Image = ImageConstants.Research.GOVERNANCE_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.GOVERNANCE_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.HAPPINESS:
                 Type = type;
-                Image = ImageConstants.Research.HAPPINESS_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.HAPPINESS_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.LAW:
                 Type = type;
-                Image = ImageConstants.Research.LAW_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.LAW_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.POLICY:
                 Type = type;
-                Image = ImageConstants.Research.POLICY_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.POLICY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.POPULATION:
                 Type = type;
-                Image = ImageConstants.Research.POPULATION_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.POPULATION_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             case AppConstants.Research.SOCIETY:
                 Type = type;
-                Image = ImageConstants.Research.SOCIETY_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Research.SOCIETY_BACKGROUND_URL;
                 await CreateResearchControllerAsync();
                 break;
             default:
@@ -746,7 +746,7 @@ public class ResearchController : MonoBehaviour
         rankImage.texture = rankTexture;
 
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
-        background.texture = TextureHelper.LoadTexture2DCached(Image);
+        background.texture = TextureHelper.LoadTexture2DCached(BackgroundImage);
 
         AnimationController.Instance.CreateResearchAnimation(currentObject);
 

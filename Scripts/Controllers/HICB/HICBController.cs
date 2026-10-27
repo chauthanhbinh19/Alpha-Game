@@ -24,7 +24,7 @@ public class HICBController : MonoBehaviour
     private List<KeyValuePair<string, FeatureHICBDTO>> FeatureList;
     private PaginationManager PaginationManager;
     private string Type = "";
-    private string Image = "";
+    private string BackgroundImage = "";
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -60,52 +60,52 @@ public class HICBController : MonoBehaviour
         {
             case AppConstants.HICB.HICB_I:
                 Type = type;
-                Image = ImageConstants.HICB.HICB_I_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HICB.HICB_I_BACKGROUND_URL;
                 await CreateHICBControllerAsync();
                 break;
             case AppConstants.HICB.HICB_II:
                 Type = type;
-                Image = ImageConstants.HICB.HICB_II_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HICB.HICB_II_BACKGROUND_URL;
                 await CreateHICBControllerAsync();
                 break;
             case AppConstants.HICB.HICB_III:
                 Type = type;
-                Image = ImageConstants.HICB.HICB_III_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HICB.HICB_III_BACKGROUND_URL;
                 await CreateHICBControllerAsync();
                 break;
             case AppConstants.HICB.HICB_IV:
                 Type = type;
-                Image = ImageConstants.HICB.HICB_IV_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HICB.HICB_IV_BACKGROUND_URL;
                 await CreateHICBControllerAsync();
                 break;
             case AppConstants.HICB.HICB_V:
                 Type = type;
-                Image = ImageConstants.HICB.HICB_V_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HICB.HICB_V_BACKGROUND_URL;
                 await CreateHICBControllerAsync();
                 break;
             case AppConstants.HICB.HICB_VI:
                 Type = type;
-                Image = ImageConstants.HICB.HICB_VI_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HICB.HICB_VI_BACKGROUND_URL;
                 await CreateHICBControllerAsync();
                 break;
             case AppConstants.HICB.HICB_VII:
                 Type = type;
-                Image = ImageConstants.HICB.HICB_VII_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HICB.HICB_VII_BACKGROUND_URL;
                 await CreateHICBControllerAsync();
                 break;
             case AppConstants.HICB.HICB_VIII:
                 Type = type;
-                Image = ImageConstants.HICB.HICB_VIII_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HICB.HICB_VIII_BACKGROUND_URL;
                 await CreateHICBControllerAsync();
                 break;
             case AppConstants.HICB.HICB_IX:
                 Type = type;
-                Image = ImageConstants.HICB.HICB_IX_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HICB.HICB_IX_BACKGROUND_URL;
                 await CreateHICBControllerAsync();
                 break;
             case AppConstants.HICB.HICB_X:
                 Type = type;
-                Image = ImageConstants.HICB.HICB_X_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HICB.HICB_X_BACKGROUND_URL;
                 await CreateHICBControllerAsync();
                 break;
             default:
@@ -295,7 +295,7 @@ public class HICBController : MonoBehaviour
         rankImage.texture = rankTexture;
 
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
-        background.texture = TextureHelper.LoadTexture2DCached(Image);
+        background.texture = TextureHelper.LoadTexture2DCached(BackgroundImage);
 
         AnimationController.Instance.CreateHICBAnimation(currentObject);
 

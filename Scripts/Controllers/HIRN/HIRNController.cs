@@ -24,7 +24,7 @@ public class HIRNController : MonoBehaviour
     private List<KeyValuePair<string, FeatureHIRNDTO>> FeatureList;
     private PaginationManager PaginationManager;
     private string Type = "";
-    private string Image = "";
+    private string BackgroundImage = "";
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -60,52 +60,52 @@ public class HIRNController : MonoBehaviour
         {
             case AppConstants.HIRN.HIRN_I:
                 Type = type;
-                Image = ImageConstants.HIRN.HIRN_I_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HIRN.HIRN_I_BACKGROUND_URL;
                 await CreateHIRNControllerAsync();
                 break;
             case AppConstants.HIRN.HIRN_II:
                 Type = type;
-                Image = ImageConstants.HIRN.HIRN_II_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HIRN.HIRN_II_BACKGROUND_URL;
                 await CreateHIRNControllerAsync();
                 break;
             case AppConstants.HIRN.HIRN_III:
                 Type = type;
-                Image = ImageConstants.HIRN.HIRN_III_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HIRN.HIRN_III_BACKGROUND_URL;
                 await CreateHIRNControllerAsync();
                 break;
             case AppConstants.HIRN.HIRN_IV:
                 Type = type;
-                Image = ImageConstants.HIRN.HIRN_IV_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HIRN.HIRN_IV_BACKGROUND_URL;
                 await CreateHIRNControllerAsync();
                 break;
             case AppConstants.HIRN.HIRN_V:
                 Type = type;
-                Image = ImageConstants.HIRN.HIRN_V_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HIRN.HIRN_V_BACKGROUND_URL;
                 await CreateHIRNControllerAsync();
                 break;
             case AppConstants.HIRN.HIRN_VI:
                 Type = type;
-                Image = ImageConstants.HIRN.HIRN_VI_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HIRN.HIRN_VI_BACKGROUND_URL;
                 await CreateHIRNControllerAsync();
                 break;
             case AppConstants.HIRN.HIRN_VII:
                 Type = type;
-                Image = ImageConstants.HIRN.HIRN_VII_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HIRN.HIRN_VII_BACKGROUND_URL;
                 await CreateHIRNControllerAsync();
                 break;
             case AppConstants.HIRN.HIRN_VIII:
                 Type = type;
-                Image = ImageConstants.HIRN.HIRN_VIII_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HIRN.HIRN_VIII_BACKGROUND_URL;
                 await CreateHIRNControllerAsync();
                 break;
             case AppConstants.HIRN.HIRN_IX:
                 Type = type;
-                Image = ImageConstants.HIRN.HIRN_IX_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HIRN.HIRN_IX_BACKGROUND_URL;
                 await CreateHIRNControllerAsync();
                 break;
             case AppConstants.HIRN.HIRN_X:
                 Type = type;
-                Image = ImageConstants.HIRN.HIRN_X_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HIRN.HIRN_X_BACKGROUND_URL;
                 await CreateHIRNControllerAsync();
                 break;
             default:
@@ -295,7 +295,7 @@ public class HIRNController : MonoBehaviour
         rankImage.texture = rankTexture;
 
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
-        background.texture = TextureHelper.LoadTexture2DCached(Image);
+        background.texture = TextureHelper.LoadTexture2DCached(BackgroundImage);
 
         AnimationController.Instance.CreateHIRNAnimation(currentObject);
 

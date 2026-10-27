@@ -24,7 +24,7 @@ public class UniverseController : MonoBehaviour
     private List<KeyValuePair<string, FeatureUniverseDTO>> FeatureList;
     private PaginationManager PaginationManager;
     private string Type = "";
-    private string Image = "";
+    private string BackgroundImage = "";
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -60,52 +60,52 @@ public class UniverseController : MonoBehaviour
         {
             case AppConstants.Universe.UNIVERSE_I:
                 Type = type;
-                Image = ImageConstants.Universe.UNIVERSE_I_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Universe.UNIVERSE_I_BACKGROUND_URL;
                 await CreateUniverseControllerAsync();
                 break;
             case AppConstants.Universe.UNIVERSE_II:
                 Type = type;
-                Image = ImageConstants.Universe.UNIVERSE_II_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Universe.UNIVERSE_II_BACKGROUND_URL;
                 await CreateUniverseControllerAsync();
                 break;
             case AppConstants.Universe.UNIVERSE_III:
                 Type = type;
-                Image = ImageConstants.Universe.UNIVERSE_III_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Universe.UNIVERSE_III_BACKGROUND_URL;
                 await CreateUniverseControllerAsync();
                 break;
             case AppConstants.Universe.UNIVERSE_IV:
                 Type = type;
-                Image = ImageConstants.Universe.UNIVERSE_IV_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Universe.UNIVERSE_IV_BACKGROUND_URL;
                 await CreateUniverseControllerAsync();
                 break;
             case AppConstants.Universe.UNIVERSE_V:
                 Type = type;
-                Image = ImageConstants.Universe.UNIVERSE_V_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Universe.UNIVERSE_V_BACKGROUND_URL;
                 await CreateUniverseControllerAsync();
                 break;
             case AppConstants.Universe.UNIVERSE_VI:
                 Type = type;
-                Image = ImageConstants.Universe.UNIVERSE_VI_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Universe.UNIVERSE_VI_BACKGROUND_URL;
                 await CreateUniverseControllerAsync();
                 break;
             case AppConstants.Universe.UNIVERSE_VII:
                 Type = type;
-                Image = ImageConstants.Universe.UNIVERSE_VII_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Universe.UNIVERSE_VII_BACKGROUND_URL;
                 await CreateUniverseControllerAsync();
                 break;
             case AppConstants.Universe.UNIVERSE_VIII:
                 Type = type;
-                Image = ImageConstants.Universe.UNIVERSE_VIII_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Universe.UNIVERSE_VIII_BACKGROUND_URL;
                 await CreateUniverseControllerAsync();
                 break;
             case AppConstants.Universe.UNIVERSE_IX:
                 Type = type;
-                Image = ImageConstants.Universe.UNIVERSE_IX_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Universe.UNIVERSE_IX_BACKGROUND_URL;
                 await CreateUniverseControllerAsync();
                 break;
             case AppConstants.Universe.UNIVERSE_X:
                 Type = type;
-                Image = ImageConstants.Universe.UNIVERSE_X_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.Universe.UNIVERSE_X_BACKGROUND_URL;
                 await CreateUniverseControllerAsync();
                 break;
             // case AppConstants.Universe.UNIVERSE_X:
@@ -300,7 +300,7 @@ public class UniverseController : MonoBehaviour
         rankImage.texture = rankTexture;
 
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
-        background.texture = TextureHelper.LoadTexture2DCached(Image);
+        background.texture = TextureHelper.LoadTexture2DCached(BackgroundImage);
 
         AnimationController.Instance.CreateUniverseAnimation(currentObject);
 

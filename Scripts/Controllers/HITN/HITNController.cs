@@ -24,7 +24,7 @@ public class HITNController : MonoBehaviour
     private List<KeyValuePair<string, FeatureHITNDTO>> FeatureList;
     private PaginationManager PaginationManager;
     private string Type = "";
-    private string Image = "";
+    private string BackgroundImage = "";
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -60,52 +60,52 @@ public class HITNController : MonoBehaviour
         {
             case AppConstants.HITN.HITN_I:
                 Type = type;
-                Image = ImageConstants.HITN.HITN_I_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HITN.HITN_I_BACKGROUND_URL;
                 await CreateHITNControllerAsync();
                 break;
             case AppConstants.HITN.HITN_II:
                 Type = type;
-                Image = ImageConstants.HITN.HITN_II_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HITN.HITN_II_BACKGROUND_URL;
                 await CreateHITNControllerAsync();
                 break;
             case AppConstants.HITN.HITN_III:
                 Type = type;
-                Image = ImageConstants.HITN.HITN_III_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HITN.HITN_III_BACKGROUND_URL;
                 await CreateHITNControllerAsync();
                 break;
             case AppConstants.HITN.HITN_IV:
                 Type = type;
-                Image = ImageConstants.HITN.HITN_IV_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HITN.HITN_IV_BACKGROUND_URL;
                 await CreateHITNControllerAsync();
                 break;
             case AppConstants.HITN.HITN_V:
                 Type = type;
-                Image = ImageConstants.HITN.HITN_V_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HITN.HITN_V_BACKGROUND_URL;
                 await CreateHITNControllerAsync();
                 break;
             case AppConstants.HITN.HITN_VI:
                 Type = type;
-                Image = ImageConstants.HITN.HITN_VI_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HITN.HITN_VI_BACKGROUND_URL;
                 await CreateHITNControllerAsync();
                 break;
             case AppConstants.HITN.HITN_VII:
                 Type = type;
-                Image = ImageConstants.HITN.HITN_VII_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HITN.HITN_VII_BACKGROUND_URL;
                 await CreateHITNControllerAsync();
                 break;
             case AppConstants.HITN.HITN_VIII:
                 Type = type;
-                Image = ImageConstants.HITN.HITN_VIII_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HITN.HITN_VIII_BACKGROUND_URL;
                 await CreateHITNControllerAsync();
                 break;
             case AppConstants.HITN.HITN_IX:
                 Type = type;
-                Image = ImageConstants.HITN.HITN_IX_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HITN.HITN_IX_BACKGROUND_URL;
                 await CreateHITNControllerAsync();
                 break;
             case AppConstants.HITN.HITN_X:
                 Type = type;
-                Image = ImageConstants.HITN.HITN_X_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HITN.HITN_X_BACKGROUND_URL;
                 await CreateHITNControllerAsync();
                 break;
             default:
@@ -295,7 +295,7 @@ public class HITNController : MonoBehaviour
         rankImage.texture = rankTexture;
 
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
-        background.texture = TextureHelper.LoadTexture2DCached(Image);
+        background.texture = TextureHelper.LoadTexture2DCached(BackgroundImage);
 
         AnimationController.Instance.CreateHITNAnimation(currentObject);
 

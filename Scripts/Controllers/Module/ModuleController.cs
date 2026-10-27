@@ -24,7 +24,7 @@ public class ModuleController : MonoBehaviour
     private List<KeyValuePair<string, FeatureModuleDTO>> FeatureList;
     private PaginationManager PaginationManager;
     private string Type = "";
-    private string Image = "";
+    private string BackgroundImage = "";
     private IStats Stat;
 
     private void Awake()
@@ -309,7 +309,7 @@ public class ModuleController : MonoBehaviour
         rankImage.texture = rankTexture;
 
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
-        background.texture = TextureHelper.LoadTexture2DCached(Image);
+        background.texture = TextureHelper.LoadTexture2DCached(BackgroundImage);
 
         AnimationController.Instance.CreateModuleAnimation(currentObject);
 

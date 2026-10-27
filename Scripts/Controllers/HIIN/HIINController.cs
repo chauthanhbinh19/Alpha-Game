@@ -24,7 +24,7 @@ public class HIINController : MonoBehaviour
     private List<KeyValuePair<string, FeatureHIINDTO>> FeatureList;
     private PaginationManager PaginationManager;
     private string Type = "";
-    private string Image = "";
+    private string BackgroundImage = "";
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -60,52 +60,52 @@ public class HIINController : MonoBehaviour
         {
             case AppConstants.HIIN.HIIN_I:
                 Type = type;
-                Image = ImageConstants.HIIN.HIIN_I_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HIIN.HIIN_I_BACKGROUND_URL;
                 await CreateHIINControllerAsync();
                 break;
             case AppConstants.HIIN.HIIN_II:
                 Type = type;
-                Image = ImageConstants.HIIN.HIIN_II_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HIIN.HIIN_II_BACKGROUND_URL;
                 await CreateHIINControllerAsync();
                 break;
             case AppConstants.HIIN.HIIN_III:
                 Type = type;
-                Image = ImageConstants.HIIN.HIIN_III_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HIIN.HIIN_III_BACKGROUND_URL;
                 await CreateHIINControllerAsync();
                 break;
             case AppConstants.HIIN.HIIN_IV:
                 Type = type;
-                Image = ImageConstants.HIIN.HIIN_IV_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HIIN.HIIN_IV_BACKGROUND_URL;
                 await CreateHIINControllerAsync();
                 break;
             case AppConstants.HIIN.HIIN_V:
                 Type = type;
-                Image = ImageConstants.HIIN.HIIN_V_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HIIN.HIIN_V_BACKGROUND_URL;
                 await CreateHIINControllerAsync();
                 break;
             case AppConstants.HIIN.HIIN_VI:
                 Type = type;
-                Image = ImageConstants.HIIN.HIIN_VI_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HIIN.HIIN_VI_BACKGROUND_URL;
                 await CreateHIINControllerAsync();
                 break;
             case AppConstants.HIIN.HIIN_VII:
                 Type = type;
-                Image = ImageConstants.HIIN.HIIN_VII_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HIIN.HIIN_VII_BACKGROUND_URL;
                 await CreateHIINControllerAsync();
                 break;
             case AppConstants.HIIN.HIIN_VIII:
                 Type = type;
-                Image = ImageConstants.HIIN.HIIN_VIII_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HIIN.HIIN_VIII_BACKGROUND_URL;
                 await CreateHIINControllerAsync();
                 break;
             case AppConstants.HIIN.HIIN_IX:
                 Type = type;
-                Image = ImageConstants.HIIN.HIIN_IX_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HIIN.HIIN_IX_BACKGROUND_URL;
                 await CreateHIINControllerAsync();
                 break;
             case AppConstants.HIIN.HIIN_X:
                 Type = type;
-                Image = ImageConstants.HIIN.HIIN_X_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HIIN.HIIN_X_BACKGROUND_URL;
                 await CreateHIINControllerAsync();
                 break;
             default:
@@ -295,7 +295,7 @@ public class HIINController : MonoBehaviour
         rankImage.texture = rankTexture;
 
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
-        background.texture = TextureHelper.LoadTexture2DCached(Image);
+        background.texture = TextureHelper.LoadTexture2DCached(BackgroundImage);
 
         AnimationController.Instance.CreateHIINAnimation(currentObject);
 

@@ -24,7 +24,7 @@ public class AnimeController : MonoBehaviour
     private List<KeyValuePair<string, FeatureAnimeDTO>> FeatureList;
     private PaginationManager PaginationManager;
     private string Type = "";
-    private string Image = "";
+    private string BackgroundImage = "";
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -45,7 +45,7 @@ public class AnimeController : MonoBehaviour
 
     public async Task GetAnimeAsync(string type)
     {
-        Image = ImageConstants.Anime.ANIME_BACKGROUND_URL;
+        BackgroundImage = ImageConstants.Anime.ANIME_BACKGROUND_URL;
         switch (type)
         {
             case AppConstants.Anime.BLACK_CLOVER:
@@ -293,7 +293,7 @@ public class AnimeController : MonoBehaviour
         rankImage.texture = rankTexture;
 
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
-        background.texture = TextureHelper.LoadTexture2DCached(Image);
+        background.texture = TextureHelper.LoadTexture2DCached(BackgroundImage);
 
         AnimationController.Instance.CreateAnimeAnimation(currentObject);
 

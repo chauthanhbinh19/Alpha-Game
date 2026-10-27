@@ -24,7 +24,7 @@ public class UpgradeController : MonoBehaviour
     private List<KeyValuePair<string, FeatureUpgradeDTO>> FeatureList;
     private PaginationManager PaginationManager;
     private string Type = "";
-    private string Image = "";
+    private string BackgroundImage = "";
     private IStats Stat;
 
     private void Awake()
@@ -319,7 +319,7 @@ public class UpgradeController : MonoBehaviour
         rankImage.texture = rankTexture;
 
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
-        background.texture = TextureHelper.LoadTexture2DCached(Image);
+        background.texture = TextureHelper.LoadTexture2DCached(BackgroundImage);
 
         AnimationController.Instance.CreateUpgradeAnimation(currentObject);
 

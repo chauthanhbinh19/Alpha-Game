@@ -864,7 +864,7 @@ public class MainMenuManager : MonoBehaviour
         Transform titleTransform = buttonTransform.Find("TitleText");
         if (titleTransform != null && titleTransform.TryGetComponent<TextMeshProUGUI>(out var title))
         {
-            title.text = titleText;
+            title.text = LocalizationManager.Get(titleText);
         }
 
         // 2. Cập nhật Icon Image

@@ -24,7 +24,7 @@ public class HICAController : MonoBehaviour
     private List<KeyValuePair<string, FeatureHICADTO>> FeatureList;
     private PaginationManager PaginationManager;
     private string Type = "";
-    private string Image = "";
+    private string BackgroundImage = "";
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -61,52 +61,52 @@ public class HICAController : MonoBehaviour
         {
             case AppConstants.HICA.HICA_I:
                 Type = type;
-                Image = ImageConstants.HICA.HICA_I_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HICA.HICA_I_BACKGROUND_URL;
                 await CreateHICAControllerAsync();
                 break;
             case AppConstants.HICA.HICA_II:
                 Type = type;
-                Image = ImageConstants.HICA.HICA_II_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HICA.HICA_II_BACKGROUND_URL;
                 await CreateHICAControllerAsync();
                 break;
             case AppConstants.HICA.HICA_III:
                 Type = type;
-                Image = ImageConstants.HICA.HICA_III_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HICA.HICA_III_BACKGROUND_URL;
                 await CreateHICAControllerAsync();
                 break;
             case AppConstants.HICA.HICA_IV:
                 Type = type;
-                Image = ImageConstants.HICA.HICA_IV_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HICA.HICA_IV_BACKGROUND_URL;
                 await CreateHICAControllerAsync();
                 break;
             case AppConstants.HICA.HICA_V:
                 Type = type;
-                Image = ImageConstants.HICA.HICA_V_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HICA.HICA_V_BACKGROUND_URL;
                 await CreateHICAControllerAsync();
                 break;
             case AppConstants.HICA.HICA_VI:
                 Type = type;
-                Image = ImageConstants.HICA.HICA_VI_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HICA.HICA_VI_BACKGROUND_URL;
                 await CreateHICAControllerAsync();
                 break;
             case AppConstants.HICA.HICA_VII:
                 Type = type;
-                Image = ImageConstants.HICA.HICA_VII_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HICA.HICA_VII_BACKGROUND_URL;
                 await CreateHICAControllerAsync();
                 break;
             case AppConstants.HICA.HICA_VIII:
                 Type = type;
-                Image = ImageConstants.HICA.HICA_VIII_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HICA.HICA_VIII_BACKGROUND_URL;
                 await CreateHICAControllerAsync();
                 break;
             case AppConstants.HICA.HICA_IX:
                 Type = type;
-                Image = ImageConstants.HICA.HICA_IX_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HICA.HICA_IX_BACKGROUND_URL;
                 await CreateHICAControllerAsync();
                 break;
             case AppConstants.HICA.HICA_X:
                 Type = type;
-                Image = ImageConstants.HICA.HICA_X_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.HICA.HICA_X_BACKGROUND_URL;
                 await CreateHICAControllerAsync();
                 break;
             default:
@@ -296,7 +296,7 @@ public class HICAController : MonoBehaviour
         rankImage.texture = rankTexture;
 
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
-        background.texture = TextureHelper.LoadTexture2DCached(Image);
+        background.texture = TextureHelper.LoadTexture2DCached(BackgroundImage);
 
         AnimationController.Instance.CreateHICAAnimation(currentObject);
 

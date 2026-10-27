@@ -24,7 +24,7 @@ public class SSWNController : MonoBehaviour
     private List<KeyValuePair<string, FeatureSSWNDTO>> FeatureList;
     private PaginationManager PaginationManager;
     private string Type = "";
-    private string Image = "";
+    private string BackgroundImage = "";
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -60,52 +60,52 @@ public class SSWNController : MonoBehaviour
         {
             case AppConstants.SSWN.SSWN_I:
                 Type = type;
-                Image = ImageConstants.SSWN.SSWN_I_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.SSWN.SSWN_I_BACKGROUND_URL;
                 await CreateSSWNControllerAsync();
                 break;
             case AppConstants.SSWN.SSWN_II:
                 Type = type;
-                Image = ImageConstants.SSWN.SSWN_II_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.SSWN.SSWN_II_BACKGROUND_URL;
                 await CreateSSWNControllerAsync();
                 break;
             case AppConstants.SSWN.SSWN_III:
                 Type = type;
-                Image = ImageConstants.SSWN.SSWN_III_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.SSWN.SSWN_III_BACKGROUND_URL;
                 await CreateSSWNControllerAsync();
                 break;
             case AppConstants.SSWN.SSWN_IV:
                 Type = type;
-                Image = ImageConstants.SSWN.SSWN_IV_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.SSWN.SSWN_IV_BACKGROUND_URL;
                 await CreateSSWNControllerAsync();
                 break;
             case AppConstants.SSWN.SSWN_V:
                 Type = type;
-                Image = ImageConstants.SSWN.SSWN_V_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.SSWN.SSWN_V_BACKGROUND_URL;
                 await CreateSSWNControllerAsync();
                 break;
             case AppConstants.SSWN.SSWN_VI:
                 Type = type;
-                Image = ImageConstants.SSWN.SSWN_VI_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.SSWN.SSWN_VI_BACKGROUND_URL;
                 await CreateSSWNControllerAsync();
                 break;
             case AppConstants.SSWN.SSWN_VII:
                 Type = type;
-                Image = ImageConstants.SSWN.SSWN_VII_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.SSWN.SSWN_VII_BACKGROUND_URL;
                 await CreateSSWNControllerAsync();
                 break;
             case AppConstants.SSWN.SSWN_VIII:
                 Type = type;
-                Image = ImageConstants.SSWN.SSWN_VIII_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.SSWN.SSWN_VIII_BACKGROUND_URL;
                 await CreateSSWNControllerAsync();
                 break;
             case AppConstants.SSWN.SSWN_IX:
                 Type = type;
-                Image = ImageConstants.SSWN.SSWN_IX_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.SSWN.SSWN_IX_BACKGROUND_URL;
                 await CreateSSWNControllerAsync();
                 break;
             case AppConstants.SSWN.SSWN_X:
                 Type = type;
-                Image = ImageConstants.SSWN.SSWN_X_BACKGROUND_URL;
+                BackgroundImage = ImageConstants.SSWN.SSWN_X_BACKGROUND_URL;
                 await CreateSSWNControllerAsync();
                 break;
             default:
@@ -295,7 +295,7 @@ public class SSWNController : MonoBehaviour
         rankImage.texture = rankTexture;
 
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
-        background.texture = TextureHelper.LoadTexture2DCached(Image);
+        background.texture = TextureHelper.LoadTexture2DCached(BackgroundImage);
 
         AnimationController.Instance.CreateSSWNAnimation(currentObject);
 
