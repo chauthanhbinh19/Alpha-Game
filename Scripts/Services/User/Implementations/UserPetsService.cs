@@ -273,43 +273,43 @@ public class UserPetsService : IUserPetsService
     {
         List<Pets> result = await _userPetsRepository.GetUserPetsAsync(userId, search, type, pageSize, offset, rare);
 
-        var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(userId);
-        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(userId);
-        var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(userId);
-        var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(userId);
-        var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(userId);
-        var hiinTask = UserHIINsService.Create().GetSumUserHIINsAsync(userId);
-        var sswnTask = UserSSWNsService.Create().GetSumUserSSWNsAsync(userId);
-        var hitnTask = UserHITNsService.Create().GetSumUserHITNsAsync(userId);
-        var hihnTask = UserHIHNsService.Create().GetSumUserHIHNsAsync(userId);
-        var hienTask = UserHIENsService.Create().GetSumUserHIENsAsync(userId);
-        var hicaTask = UserHICAsService.Create().GetSumUserHICAsAsync(userId);
-        var hirnTask = UserHIRNsService.Create().GetSumUserHIRNsAsync(userId);
-        var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(userId);
-        var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(userId);
-        var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(userId);
-        var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(userId);
+        // var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(userId);
+        // var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(userId);
+        // var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(userId);
+        // var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(userId);
+        // var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(userId);
+        // var hiinTask = UserHIINsService.Create().GetSumUserHIINsAsync(userId);
+        // var sswnTask = UserSSWNsService.Create().GetSumUserSSWNsAsync(userId);
+        // var hitnTask = UserHITNsService.Create().GetSumUserHITNsAsync(userId);
+        // var hihnTask = UserHIHNsService.Create().GetSumUserHIHNsAsync(userId);
+        // var hienTask = UserHIENsService.Create().GetSumUserHIENsAsync(userId);
+        // var hicaTask = UserHICAsService.Create().GetSumUserHICAsAsync(userId);
+        // var hirnTask = UserHIRNsService.Create().GetSumUserHIRNsAsync(userId);
+        // var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(userId);
+        // var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(userId);
+        // var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(userId);
+        // var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(userId);
 
-        await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
-        universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
-        hidcTask, hicbTask, hisnTask, animeStatsTask);
+        // await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
+        // universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
+        // hidcTask, hicbTask, hisnTask, animeStatsTask);
 
-        var powerManagerData = await powerManagerTask;
-        var scienceFictionData = await scienceFictionTask;
-        var researchData = await researchTask;
-        var archiveData = await archiveTask;
-        var universeData = await universeTask;
-        var hiinData = await hiinTask;
-        var sswnData = await sswnTask;
-        var hitnData = await hitnTask;
-        var hihnData = await hihnTask;
-        var hienData = await hienTask;
-        var hicaData = await hicaTask;
-        var hirnData = await hirnTask;
-        var hidcData = await hidcTask;
-        var hicbData = await hicbTask;
-        var hisnData = await hisnTask;
-        var animeStatsData = await animeStatsTask;
+        // var powerManagerData = await powerManagerTask;
+        // var scienceFictionData = await scienceFictionTask;
+        // var researchData = await researchTask;
+        // var archiveData = await archiveTask;
+        // var universeData = await universeTask;
+        // var hiinData = await hiinTask;
+        // var sswnData = await sswnTask;
+        // var hitnData = await hitnTask;
+        // var hihnData = await hihnTask;
+        // var hienData = await hienTask;
+        // var hicaData = await hicaTask;
+        // var hirnData = await hirnTask;
+        // var hidcData = await hidcTask;
+        // var hicbData = await hicbTask;
+        // var hisnData = await hisnTask;
+        // var animeStatsData = await animeStatsTask;
 
         foreach (var item in result)
         {
@@ -326,22 +326,22 @@ public class UserPetsService : IUserPetsService
         // result = await GetAllMasterPowerAsync(userId, result);
         foreach (var pet in result)
         {
-            pet.ApplyPowerStats(powerManagerData);
-            pet.ApplyScienceFictionStats(scienceFictionData);
-            pet.ApplyResearchStats(researchData);
-            pet.ApplyArchiveStats(archiveData);
-            pet.ApplyUniverseStats(universeData);
-            pet.ApplyHIINStats(hiinData);
-            pet.ApplySSWNStats(sswnData);
-            pet.ApplyHITNStats(hitnData);
-            pet.ApplyHIHNStats(hihnData);
-            pet.ApplyHIENStats(hienData);
-            pet.ApplyHICAStats(hicaData);
-            pet.ApplyHIRNStats(hirnData);
-            pet.ApplyHIDCStats(hidcData);
-            pet.ApplyHICBStats(hicbData);
-            pet.ApplyHISNStats(hisnData);
-            pet.ApplyAllUserAnimes(animeStatsData);
+            // pet.ApplyPowerStats(powerManagerData);
+            // pet.ApplyScienceFictionStats(scienceFictionData);
+            // pet.ApplyResearchStats(researchData);
+            // pet.ApplyArchiveStats(archiveData);
+            // pet.ApplyUniverseStats(universeData);
+            // pet.ApplyHIINStats(hiinData);
+            // pet.ApplySSWNStats(sswnData);
+            // pet.ApplyHITNStats(hitnData);
+            // pet.ApplyHIHNStats(hihnData);
+            // pet.ApplyHIENStats(hienData);
+            // pet.ApplyHICAStats(hicaData);
+            // pet.ApplyHIRNStats(hirnData);
+            // pet.ApplyHIDCStats(hidcData);
+            // pet.ApplyHICBStats(hicbData);
+            // pet.ApplyHISNStats(hisnData);
+            // pet.ApplyAllUserAnimes(animeStatsData);
             pet.RecalculatePower();
         }
         ListSortHelper.SortByPower(result);
@@ -352,43 +352,43 @@ public class UserPetsService : IUserPetsService
     {
         List<Pets> result = await _userPetsRepository.GetUserPetsTeamAsync(userId, teamId);
 
-        var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(userId);
-        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(userId);
-        var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(userId);
-        var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(userId);
-        var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(userId);
-        var hiinTask = UserHIINsService.Create().GetSumUserHIINsAsync(userId);
-        var sswnTask = UserSSWNsService.Create().GetSumUserSSWNsAsync(userId);
-        var hitnTask = UserHITNsService.Create().GetSumUserHITNsAsync(userId);
-        var hihnTask = UserHIHNsService.Create().GetSumUserHIHNsAsync(userId);
-        var hienTask = UserHIENsService.Create().GetSumUserHIENsAsync(userId);
-        var hicaTask = UserHICAsService.Create().GetSumUserHICAsAsync(userId);
-        var hirnTask = UserHIRNsService.Create().GetSumUserHIRNsAsync(userId);
-        var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(userId);
-        var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(userId);
-        var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(userId);
-        var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(userId);
+        // var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(userId);
+        // var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(userId);
+        // var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(userId);
+        // var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(userId);
+        // var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(userId);
+        // var hiinTask = UserHIINsService.Create().GetSumUserHIINsAsync(userId);
+        // var sswnTask = UserSSWNsService.Create().GetSumUserSSWNsAsync(userId);
+        // var hitnTask = UserHITNsService.Create().GetSumUserHITNsAsync(userId);
+        // var hihnTask = UserHIHNsService.Create().GetSumUserHIHNsAsync(userId);
+        // var hienTask = UserHIENsService.Create().GetSumUserHIENsAsync(userId);
+        // var hicaTask = UserHICAsService.Create().GetSumUserHICAsAsync(userId);
+        // var hirnTask = UserHIRNsService.Create().GetSumUserHIRNsAsync(userId);
+        // var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(userId);
+        // var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(userId);
+        // var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(userId);
+        // var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(userId);
 
-        await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
-        universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
-        hidcTask, hicbTask, hisnTask, animeStatsTask);
+        // await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
+        // universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
+        // hidcTask, hicbTask, hisnTask, animeStatsTask);
 
-        var powerManagerData = await powerManagerTask;
-        var scienceFictionData = await scienceFictionTask;
-        var researchData = await researchTask;
-        var archiveData = await archiveTask;
-        var universeData = await universeTask;
-        var hiinData = await hiinTask;
-        var sswnData = await sswnTask;
-        var hitnData = await hitnTask;
-        var hihnData = await hihnTask;
-        var hienData = await hienTask;
-        var hicaData = await hicaTask;
-        var hirnData = await hirnTask;
-        var hidcData = await hidcTask;
-        var hicbData = await hicbTask;
-        var hisnData = await hisnTask;
-        var animeStatsData = await animeStatsTask;
+        // var powerManagerData = await powerManagerTask;
+        // var scienceFictionData = await scienceFictionTask;
+        // var researchData = await researchTask;
+        // var archiveData = await archiveTask;
+        // var universeData = await universeTask;
+        // var hiinData = await hiinTask;
+        // var sswnData = await sswnTask;
+        // var hitnData = await hitnTask;
+        // var hihnData = await hihnTask;
+        // var hienData = await hienTask;
+        // var hicaData = await hicaTask;
+        // var hirnData = await hirnTask;
+        // var hidcData = await hidcTask;
+        // var hicbData = await hicbTask;
+        // var hisnData = await hisnTask;
+        // var animeStatsData = await animeStatsTask;
 
         // result = await GetAllSpiritBeastPowerAsync(userId, result);
         result = QualityEvaluatorHelper.GetQualityPower(result);
@@ -401,22 +401,22 @@ public class UserPetsService : IUserPetsService
         // result = await GetAllMasterPowerAsync(userId, result);
         foreach (var pet in result)
         {
-            pet.ApplyPowerStats(powerManagerData);
-            pet.ApplyScienceFictionStats(scienceFictionData);
-            pet.ApplyResearchStats(researchData);
-            pet.ApplyArchiveStats(archiveData);
-            pet.ApplyUniverseStats(universeData);
-            pet.ApplyHIINStats(hiinData);
-            pet.ApplySSWNStats(sswnData);
-            pet.ApplyHITNStats(hitnData);
-            pet.ApplyHIHNStats(hihnData);
-            pet.ApplyHIENStats(hienData);
-            pet.ApplyHICAStats(hicaData);
-            pet.ApplyHIRNStats(hirnData);
-            pet.ApplyHIDCStats(hidcData);
-            pet.ApplyHICBStats(hicbData);
-            pet.ApplyHISNStats(hisnData);
-            pet.ApplyAllUserAnimes(animeStatsData);
+            // pet.ApplyPowerStats(powerManagerData);
+            // pet.ApplyScienceFictionStats(scienceFictionData);
+            // pet.ApplyResearchStats(researchData);
+            // pet.ApplyArchiveStats(archiveData);
+            // pet.ApplyUniverseStats(universeData);
+            // pet.ApplyHIINStats(hiinData);
+            // pet.ApplySSWNStats(sswnData);
+            // pet.ApplyHITNStats(hitnData);
+            // pet.ApplyHIHNStats(hihnData);
+            // pet.ApplyHIENStats(hienData);
+            // pet.ApplyHICAStats(hicaData);
+            // pet.ApplyHIRNStats(hirnData);
+            // pet.ApplyHIDCStats(hidcData);
+            // pet.ApplyHICBStats(hicbData);
+            // pet.ApplyHISNStats(hisnData);
+            // pet.ApplyAllUserAnimes(animeStatsData);
             pet.RecalculatePower();
         }
         ListSortHelper.SortByPower(result);
@@ -716,31 +716,31 @@ public class UserPetsService : IUserPetsService
         var totalStats = await _userPetsRepository.GetTeamTotalStatsAsync(userId);
         var baseStats = await _userPetsRepository.GetTeamTotalStatsWithoutQualityAsync(userId);
 
-        UserStatsContextDTO context = sharedContext;
-        if (context == null)
-        {
-            context = await UserStatsService.Create().GetUserStatsContextAsync(userId);
-        }
+        // UserStatsContextDTO context = sharedContext;
+        // if (context == null)
+        // {
+        //     context = await UserStatsService.Create().GetUserStatsContextAsync(userId);
+        // }
 
-        TotalBuffs totalBuffs = new TotalBuffs();
-        totalBuffs.AddBuff(context.PowerManagerData);
-        totalBuffs.AddBuff(context.ScienceFictionData);
-        totalBuffs.AddBuff(context.ResearchData);
-        totalBuffs.AddBuff(context.ArchiveData);
-        totalBuffs.AddBuff(context.UniverseData);
-        totalBuffs.AddBuff(context.HiinData);
-        totalBuffs.AddBuff(context.SswnData);
-        totalBuffs.AddBuff(context.HitnData);
-        totalBuffs.AddBuff(context.HihnData);
-        totalBuffs.AddBuff(context.HienData);
-        totalBuffs.AddBuff(context.HicaData);
-        totalBuffs.AddBuff(context.HirnData);
-        totalBuffs.AddBuff(context.HidcData);
-        totalBuffs.AddBuff(context.HicbData);
-        totalBuffs.AddBuff(context.HisnData);
-        totalBuffs.AddBuff(context.AnimeStatsData);
+        // TotalBuffs totalBuffs = new TotalBuffs();
+        // totalBuffs.AddBuff(context.PowerManagerData);
+        // totalBuffs.AddBuff(context.ScienceFictionData);
+        // totalBuffs.AddBuff(context.ResearchData);
+        // totalBuffs.AddBuff(context.ArchiveData);
+        // totalBuffs.AddBuff(context.UniverseData);
+        // totalBuffs.AddBuff(context.HiinData);
+        // totalBuffs.AddBuff(context.SswnData);
+        // totalBuffs.AddBuff(context.HitnData);
+        // totalBuffs.AddBuff(context.HihnData);
+        // totalBuffs.AddBuff(context.HienData);
+        // totalBuffs.AddBuff(context.HicaData);
+        // totalBuffs.AddBuff(context.HirnData);
+        // totalBuffs.AddBuff(context.HidcData);
+        // totalBuffs.AddBuff(context.HicbData);
+        // totalBuffs.AddBuff(context.HisnData);
+        // totalBuffs.AddBuff(context.AnimeStatsData);
 
-        totalStats.ApplyTotalBuffs(baseStats, totalBuffs);
+        // totalStats.ApplyTotalBuffs(baseStats, totalBuffs);
         totalStats.RecalculatePower();
 
         return totalStats;

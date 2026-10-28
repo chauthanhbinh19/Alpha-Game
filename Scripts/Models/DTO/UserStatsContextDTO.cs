@@ -1,5 +1,6 @@
 public class UserStatsContextDTO
 {
+    public UserPowers UserPowersData { get; set; }
     public PowerManager PowerManagerData { get; set; }
     public UserScienceFictions ScienceFictionData { get; set; }
     public UserResearchs ResearchData { get; set; }

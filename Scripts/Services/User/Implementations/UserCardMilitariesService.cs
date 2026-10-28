@@ -304,22 +304,23 @@ public class UserCardMilitariesService : IUserCardMilitariesService
         // var skillsLookup = skillData.ToLookup(s => s.CardId);
 
         TotalBuffs totalBuffs = new TotalBuffs();
+        totalBuffs.AddBuff(context.UserPowersData);
         totalBuffs.AddBuff(context.PowerManagerData);
-        totalBuffs.AddBuff(context.ScienceFictionData);
-        totalBuffs.AddBuff(context.ResearchData);
-        totalBuffs.AddBuff(context.ArchiveData);
-        totalBuffs.AddBuff(context.UniverseData);
-        totalBuffs.AddBuff(context.HiinData);
-        totalBuffs.AddBuff(context.SswnData);
-        totalBuffs.AddBuff(context.HitnData);
-        totalBuffs.AddBuff(context.HihnData);
-        totalBuffs.AddBuff(context.HienData);
-        totalBuffs.AddBuff(context.HicaData);
-        totalBuffs.AddBuff(context.HirnData);
-        totalBuffs.AddBuff(context.HidcData);
-        totalBuffs.AddBuff(context.HicbData);
-        totalBuffs.AddBuff(context.HisnData);
-        totalBuffs.AddBuff(context.AnimeStatsData);
+        // totalBuffs.AddBuff(context.ScienceFictionData);
+        // totalBuffs.AddBuff(context.ResearchData);
+        // totalBuffs.AddBuff(context.ArchiveData);
+        // totalBuffs.AddBuff(context.UniverseData);
+        // totalBuffs.AddBuff(context.HiinData);
+        // totalBuffs.AddBuff(context.SswnData);
+        // totalBuffs.AddBuff(context.HitnData);
+        // totalBuffs.AddBuff(context.HihnData);
+        // totalBuffs.AddBuff(context.HienData);
+        // totalBuffs.AddBuff(context.HicaData);
+        // totalBuffs.AddBuff(context.HirnData);
+        // totalBuffs.AddBuff(context.HidcData);
+        // totalBuffs.AddBuff(context.HicbData);
+        // totalBuffs.AddBuff(context.HisnData);
+        // totalBuffs.AddBuff(context.AnimeStatsData);
 
         foreach (var item in result)
         {
@@ -379,22 +380,23 @@ public class UserCardMilitariesService : IUserCardMilitariesService
         // var skillsLookup = skillData.ToLookup(s => s.CardId);
 
         TotalBuffs totalBuffs = new TotalBuffs();
+        totalBuffs.AddBuff(context.UserPowersData);
         totalBuffs.AddBuff(context.PowerManagerData);
-        totalBuffs.AddBuff(context.ScienceFictionData);
-        totalBuffs.AddBuff(context.ResearchData);
-        totalBuffs.AddBuff(context.ArchiveData);
-        totalBuffs.AddBuff(context.UniverseData);
-        totalBuffs.AddBuff(context.HiinData);
-        totalBuffs.AddBuff(context.SswnData);
-        totalBuffs.AddBuff(context.HitnData);
-        totalBuffs.AddBuff(context.HihnData);
-        totalBuffs.AddBuff(context.HienData);
-        totalBuffs.AddBuff(context.HicaData);
-        totalBuffs.AddBuff(context.HirnData);
-        totalBuffs.AddBuff(context.HidcData);
-        totalBuffs.AddBuff(context.HicbData);
-        totalBuffs.AddBuff(context.HisnData);
-        totalBuffs.AddBuff(context.AnimeStatsData);
+        // totalBuffs.AddBuff(context.ScienceFictionData);
+        // totalBuffs.AddBuff(context.ResearchData);
+        // totalBuffs.AddBuff(context.ArchiveData);
+        // totalBuffs.AddBuff(context.UniverseData);
+        // totalBuffs.AddBuff(context.HiinData);
+        // totalBuffs.AddBuff(context.SswnData);
+        // totalBuffs.AddBuff(context.HitnData);
+        // totalBuffs.AddBuff(context.HihnData);
+        // totalBuffs.AddBuff(context.HienData);
+        // totalBuffs.AddBuff(context.HicaData);
+        // totalBuffs.AddBuff(context.HirnData);
+        // totalBuffs.AddBuff(context.HidcData);
+        // totalBuffs.AddBuff(context.HicbData);
+        // totalBuffs.AddBuff(context.HisnData);
+        // totalBuffs.AddBuff(context.AnimeStatsData);
 
         // result = await GetAllSpiritBeastPowerAsync(userId, result);
         result = QualityEvaluatorHelper.GetQualityPower(result);
@@ -450,22 +452,23 @@ public class UserCardMilitariesService : IUserCardMilitariesService
         // var skillsLookup = skillData.ToLookup(s => s.CardId);
 
         TotalBuffs totalBuffs = new TotalBuffs();
+        totalBuffs.AddBuff(context.UserPowersData);
         totalBuffs.AddBuff(context.PowerManagerData);
-        totalBuffs.AddBuff(context.ScienceFictionData);
-        totalBuffs.AddBuff(context.ResearchData);
-        totalBuffs.AddBuff(context.ArchiveData);
-        totalBuffs.AddBuff(context.UniverseData);
-        totalBuffs.AddBuff(context.HiinData);
-        totalBuffs.AddBuff(context.SswnData);
-        totalBuffs.AddBuff(context.HitnData);
-        totalBuffs.AddBuff(context.HihnData);
-        totalBuffs.AddBuff(context.HienData);
-        totalBuffs.AddBuff(context.HicaData);
-        totalBuffs.AddBuff(context.HirnData);
-        totalBuffs.AddBuff(context.HidcData);
-        totalBuffs.AddBuff(context.HicbData);
-        totalBuffs.AddBuff(context.HisnData);
-        totalBuffs.AddBuff(context.AnimeStatsData);
+        // totalBuffs.AddBuff(context.ScienceFictionData);
+        // totalBuffs.AddBuff(context.ResearchData);
+        // totalBuffs.AddBuff(context.ArchiveData);
+        // totalBuffs.AddBuff(context.UniverseData);
+        // totalBuffs.AddBuff(context.HiinData);
+        // totalBuffs.AddBuff(context.SswnData);
+        // totalBuffs.AddBuff(context.HitnData);
+        // totalBuffs.AddBuff(context.HihnData);
+        // totalBuffs.AddBuff(context.HienData);
+        // totalBuffs.AddBuff(context.HicaData);
+        // totalBuffs.AddBuff(context.HirnData);
+        // totalBuffs.AddBuff(context.HidcData);
+        // totalBuffs.AddBuff(context.HicbData);
+        // totalBuffs.AddBuff(context.HisnData);
+        // totalBuffs.AddBuff(context.AnimeStatsData);
 
         // result = await GetAllSpiritBeastPowerAsync(userId, result);
         result = QualityEvaluatorHelper.GetQualityPower(result);
@@ -521,22 +524,23 @@ public class UserCardMilitariesService : IUserCardMilitariesService
         // var skillsLookup = skillData.ToLookup(s => s.CardId);
 
         TotalBuffs totalBuffs = new TotalBuffs();
+        totalBuffs.AddBuff(context.UserPowersData);
         totalBuffs.AddBuff(context.PowerManagerData);
-        totalBuffs.AddBuff(context.ScienceFictionData);
-        totalBuffs.AddBuff(context.ResearchData);
-        totalBuffs.AddBuff(context.ArchiveData);
-        totalBuffs.AddBuff(context.UniverseData);
-        totalBuffs.AddBuff(context.HiinData);
-        totalBuffs.AddBuff(context.SswnData);
-        totalBuffs.AddBuff(context.HitnData);
-        totalBuffs.AddBuff(context.HihnData);
-        totalBuffs.AddBuff(context.HienData);
-        totalBuffs.AddBuff(context.HicaData);
-        totalBuffs.AddBuff(context.HirnData);
-        totalBuffs.AddBuff(context.HidcData);
-        totalBuffs.AddBuff(context.HicbData);
-        totalBuffs.AddBuff(context.HisnData);
-        totalBuffs.AddBuff(context.AnimeStatsData);
+        // totalBuffs.AddBuff(context.ScienceFictionData);
+        // totalBuffs.AddBuff(context.ResearchData);
+        // totalBuffs.AddBuff(context.ArchiveData);
+        // totalBuffs.AddBuff(context.UniverseData);
+        // totalBuffs.AddBuff(context.HiinData);
+        // totalBuffs.AddBuff(context.SswnData);
+        // totalBuffs.AddBuff(context.HitnData);
+        // totalBuffs.AddBuff(context.HihnData);
+        // totalBuffs.AddBuff(context.HienData);
+        // totalBuffs.AddBuff(context.HicaData);
+        // totalBuffs.AddBuff(context.HirnData);
+        // totalBuffs.AddBuff(context.HidcData);
+        // totalBuffs.AddBuff(context.HicbData);
+        // totalBuffs.AddBuff(context.HisnData);
+        // totalBuffs.AddBuff(context.AnimeStatsData);
 
         // result = await GetAllSpiritBeastPowerAsync(userId, result);
         result = QualityEvaluatorHelper.GetQualityPower(result);
@@ -795,22 +799,23 @@ public class UserCardMilitariesService : IUserCardMilitariesService
         var skillsLookup = skillData.ToLookup(s => s.CardId);
 
         TotalBuffs totalBuffs = new TotalBuffs();
+        totalBuffs.AddBuff(context.UserPowersData);
         totalBuffs.AddBuff(context.PowerManagerData);
-        totalBuffs.AddBuff(context.ScienceFictionData);
-        totalBuffs.AddBuff(context.ResearchData);
-        totalBuffs.AddBuff(context.ArchiveData);
-        totalBuffs.AddBuff(context.UniverseData);
-        totalBuffs.AddBuff(context.HiinData);
-        totalBuffs.AddBuff(context.SswnData);
-        totalBuffs.AddBuff(context.HitnData);
-        totalBuffs.AddBuff(context.HihnData);
-        totalBuffs.AddBuff(context.HienData);
-        totalBuffs.AddBuff(context.HicaData);
-        totalBuffs.AddBuff(context.HirnData);
-        totalBuffs.AddBuff(context.HidcData);
-        totalBuffs.AddBuff(context.HicbData);
-        totalBuffs.AddBuff(context.HisnData);
-        totalBuffs.AddBuff(context.AnimeStatsData);
+        // totalBuffs.AddBuff(context.ScienceFictionData);
+        // totalBuffs.AddBuff(context.ResearchData);
+        // totalBuffs.AddBuff(context.ArchiveData);
+        // totalBuffs.AddBuff(context.UniverseData);
+        // totalBuffs.AddBuff(context.HiinData);
+        // totalBuffs.AddBuff(context.SswnData);
+        // totalBuffs.AddBuff(context.HitnData);
+        // totalBuffs.AddBuff(context.HihnData);
+        // totalBuffs.AddBuff(context.HienData);
+        // totalBuffs.AddBuff(context.HicaData);
+        // totalBuffs.AddBuff(context.HirnData);
+        // totalBuffs.AddBuff(context.HidcData);
+        // totalBuffs.AddBuff(context.HicbData);
+        // totalBuffs.AddBuff(context.HisnData);
+        // totalBuffs.AddBuff(context.AnimeStatsData);
 
         foreach (var item in result)
         {
@@ -854,22 +859,23 @@ public class UserCardMilitariesService : IUserCardMilitariesService
         }
 
         TotalBuffs totalBuffs = new TotalBuffs();
+        totalBuffs.AddBuff(context.UserPowersData);
         totalBuffs.AddBuff(context.PowerManagerData);
-        totalBuffs.AddBuff(context.ScienceFictionData);
-        totalBuffs.AddBuff(context.ResearchData);
-        totalBuffs.AddBuff(context.ArchiveData);
-        totalBuffs.AddBuff(context.UniverseData);
-        totalBuffs.AddBuff(context.HiinData);
-        totalBuffs.AddBuff(context.SswnData);
-        totalBuffs.AddBuff(context.HitnData);
-        totalBuffs.AddBuff(context.HihnData);
-        totalBuffs.AddBuff(context.HienData);
-        totalBuffs.AddBuff(context.HicaData);
-        totalBuffs.AddBuff(context.HirnData);
-        totalBuffs.AddBuff(context.HidcData);
-        totalBuffs.AddBuff(context.HicbData);
-        totalBuffs.AddBuff(context.HisnData);
-        totalBuffs.AddBuff(context.AnimeStatsData);
+        // totalBuffs.AddBuff(context.ScienceFictionData);
+        // totalBuffs.AddBuff(context.ResearchData);
+        // totalBuffs.AddBuff(context.ArchiveData);
+        // totalBuffs.AddBuff(context.UniverseData);
+        // totalBuffs.AddBuff(context.HiinData);
+        // totalBuffs.AddBuff(context.SswnData);
+        // totalBuffs.AddBuff(context.HitnData);
+        // totalBuffs.AddBuff(context.HihnData);
+        // totalBuffs.AddBuff(context.HienData);
+        // totalBuffs.AddBuff(context.HicaData);
+        // totalBuffs.AddBuff(context.HirnData);
+        // totalBuffs.AddBuff(context.HidcData);
+        // totalBuffs.AddBuff(context.HicbData);
+        // totalBuffs.AddBuff(context.HisnData);
+        // totalBuffs.AddBuff(context.AnimeStatsData);
 
         totalStats.ApplyTotalBuffs(baseStats, totalBuffs);
         totalStats.RecalculatePower();

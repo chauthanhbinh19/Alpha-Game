@@ -96,6 +96,59 @@ public static class StatsHelper
             }
         }
     }
+    public static void AddBuff(this TotalBuffs total, UserPowers source)
+    {
+        if (source == null) return;
+        total.Health += source.Health; total.PercentAllHealth += source.PercentAllHealth;
+        total.PhysicalAttack += source.PhysicalAttack; total.PercentAllPhysicalAttack += source.PercentAllPhysicalAttack;
+        total.PhysicalDefense += source.PhysicalDefense; total.PercentAllPhysicalDefense += source.PercentAllPhysicalDefense;
+        total.MagicalAttack += source.MagicalAttack; total.PercentAllMagicalAttack += source.PercentAllMagicalAttack;
+        total.MagicalDefense += source.MagicalDefense; total.PercentAllMagicalDefense += source.PercentAllMagicalDefense;
+        total.ChemicalAttack += source.ChemicalAttack; total.PercentAllChemicalAttack += source.PercentAllChemicalAttack;
+        total.ChemicalDefense += source.ChemicalDefense; total.PercentAllChemicalDefense += source.PercentAllChemicalDefense;
+        total.AtomicAttack += source.AtomicAttack; total.PercentAllAtomicAttack += source.PercentAllAtomicAttack;
+        total.AtomicDefense += source.AtomicDefense; total.PercentAllAtomicDefense += source.PercentAllAtomicDefense;
+        total.MentalAttack += source.MentalAttack; total.PercentAllMentalAttack += source.PercentAllMentalAttack;
+        total.MentalDefense += source.MentalDefense; total.PercentAllMentalDefense += source.PercentAllMentalDefense;
+        total.Speed += source.Speed;
+        total.CriticalDamageRate += source.CriticalDamageRate;
+        total.CriticalRate += source.CriticalRate;
+        total.CriticalResistanceRate += source.CriticalResistanceRate;
+        total.IgnoreCriticalRate += source.IgnoreCriticalRate;
+        total.PenetrationRate += source.PenetrationRate;
+        total.PenetrationResistanceRate += source.PenetrationResistanceRate;
+        total.EvasionRate += source.EvasionRate;
+        total.DamageAbsorptionRate += source.DamageAbsorptionRate;
+        total.IgnoreDamageAbsorptionRate += source.IgnoreDamageAbsorptionRate;
+        total.AbsorbedDamageRate += source.AbsorbedDamageRate;
+        total.VitalityRegenerationRate += source.VitalityRegenerationRate;
+        total.VitalityRegenerationResistanceRate += source.VitalityRegenerationResistanceRate;
+        total.AccuracyRate += source.AccuracyRate;
+        total.LifestealRate += source.LifestealRate;
+        total.ShieldStrength += source.ShieldStrength;
+        total.Tenacity += source.Tenacity;
+        total.ResistanceRate += source.ResistanceRate;
+        total.ComboRate += source.ComboRate;
+        total.IgnoreComboRate += source.IgnoreComboRate;
+        total.ComboDamageRate += source.ComboDamageRate;
+        total.ComboResistanceRate += source.ComboResistanceRate;
+        total.StunRate += source.StunRate;
+        total.IgnoreStunRate += source.IgnoreStunRate;
+        total.ReflectionRate += source.ReflectionRate;
+        total.IgnoreReflectionRate += source.IgnoreReflectionRate;
+        total.ReflectionDamageRate += source.ReflectionDamageRate;
+        total.ReflectionResistanceRate += source.ReflectionResistanceRate;
+        total.Mana += source.Mana;
+        total.ManaRegenerationRate += source.ManaRegenerationRate;
+        total.DamageToDifferentFactionRate += source.DamageToDifferentFactionRate;
+        total.ResistanceToDifferentFactionRate += source.ResistanceToDifferentFactionRate;
+        total.DamageToSameFactionRate += source.DamageToSameFactionRate;
+        total.ResistanceToSameFactionRate += source.ResistanceToSameFactionRate;
+        total.NormalDamageRate += source.NormalDamageRate;
+        total.NormalResistanceRate += source.NormalResistanceRate;
+        total.SkillDamageRate += source.SkillDamageRate;
+        total.SkillResistanceRate += source.SkillResistanceRate;
+    }
     public static void AddBuff(this TotalBuffs total, PowerManager source)
     {
         if (source == null) return;

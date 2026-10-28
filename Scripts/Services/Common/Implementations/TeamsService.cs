@@ -14,11 +14,11 @@ public class TeamsService : ITeamsService
 
     public static ITeamsService Create() => ServiceContainer.GetService<ITeamsService>();
 
-    public async Task<List<Teams>> GetUserTeamsAsync(string user_id)
-        => await _teamsRepository.GetUserTeamsAsync(user_id);
+    public async Task<List<Teams>> GetUserTeamsAsync(string userId)
+        => await _teamsRepository.GetUserTeamsAsync(userId);
 
-    public async Task<bool> InsertUserTeamsAsync(string user_id, int team_number)
-        => await _teamsRepository.InsertUserTeamsAsync(user_id, team_number);
+    public async Task<bool> InsertUserTeamsAsync(string userId, int team_number)
+        => await _teamsRepository.InsertUserTeamsAsync(userId, team_number);
 
     // public int GetMaxTeamId(MySqlConnection connection)
     //     => _teamsRepository.GetMaxTeamId(connection);
@@ -58,9 +58,9 @@ public class TeamsService : ITeamsService
         return totalPower;
     }
 
-    public Task<List<TeamEmblems>> GetUserTeamEmblemsAsync(string user_id, string team_id, int position, string cardType)
+    public Task<List<TeamEmblems>> GetUserTeamEmblemsAsync(string userId, string teamId, int position, string cardType)
     {
-        return _teamsRepository.GetUserTeamEmblemsAsync(user_id, team_id, position, cardType);
+        return _teamsRepository.GetUserTeamEmblemsAsync(userId, teamId, position, cardType);
     }
 
     public async Task<List<Objects>> GetUserObjectsInTeamAsync(string userId, UserStatsContextDTO context = null)
@@ -68,22 +68,23 @@ public class TeamsService : ITeamsService
         var result = await _teamsRepository.GetUserObjectsInTeamAsync(userId);
 
         TotalBuffs totalBuffs = new TotalBuffs();
+        totalBuffs.AddBuff(context.UserPowersData);
         totalBuffs.AddBuff(context.PowerManagerData);
-        totalBuffs.AddBuff(context.ScienceFictionData);
-        totalBuffs.AddBuff(context.ResearchData);
-        totalBuffs.AddBuff(context.ArchiveData);
-        totalBuffs.AddBuff(context.UniverseData);
-        totalBuffs.AddBuff(context.HiinData);
-        totalBuffs.AddBuff(context.SswnData);
-        totalBuffs.AddBuff(context.HitnData);
-        totalBuffs.AddBuff(context.HihnData);
-        totalBuffs.AddBuff(context.HienData);
-        totalBuffs.AddBuff(context.HicaData);
-        totalBuffs.AddBuff(context.HirnData);
-        totalBuffs.AddBuff(context.HidcData);
-        totalBuffs.AddBuff(context.HicbData);
-        totalBuffs.AddBuff(context.HisnData);
-        totalBuffs.AddBuff(context.AnimeStatsData);
+        // totalBuffs.AddBuff(context.ScienceFictionData);
+        // totalBuffs.AddBuff(context.ResearchData);
+        // totalBuffs.AddBuff(context.ArchiveData);
+        // totalBuffs.AddBuff(context.UniverseData);
+        // totalBuffs.AddBuff(context.HiinData);
+        // totalBuffs.AddBuff(context.SswnData);
+        // totalBuffs.AddBuff(context.HitnData);
+        // totalBuffs.AddBuff(context.HihnData);
+        // totalBuffs.AddBuff(context.HienData);
+        // totalBuffs.AddBuff(context.HicaData);
+        // totalBuffs.AddBuff(context.HirnData);
+        // totalBuffs.AddBuff(context.HidcData);
+        // totalBuffs.AddBuff(context.HicbData);
+        // totalBuffs.AddBuff(context.HisnData);
+        // totalBuffs.AddBuff(context.AnimeStatsData);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);
@@ -111,14 +112,14 @@ public class TeamsService : ITeamsService
         return result;
     }
 
-    public Task<bool> InsertUserTeamEmblemsAsync(string user_id, string teamId, int position, EmblemDTO emblemDTO)
+    public Task<bool> InsertUserTeamEmblemsAsync(string userId, string teamId, int position, EmblemDTO emblemDTO)
     {
-        return _teamsRepository.InsertUserTeamEmblemsAsync(user_id, teamId, position, emblemDTO);
+        return _teamsRepository.InsertUserTeamEmblemsAsync(userId, teamId, position, emblemDTO);
     }
 
-    public Task<bool> DeleteUserTeamEmblemsAsync(string user_id, string teamId, int position, string cardType)
+    public Task<bool> DeleteUserTeamEmblemsAsync(string userId, string teamId, int position, string cardType)
     {
-        return _teamsRepository.DeleteUserTeamEmblemsAsync(user_id, teamId, position, cardType);
+        return _teamsRepository.DeleteUserTeamEmblemsAsync(userId, teamId, position, cardType);
     }
 
     public Task<bool> UpdateUserCardHeroesTeamPositionsAsync(string userId)
