@@ -283,17 +283,17 @@ public class RankManager : MonoBehaviour
         CreateButtonWithBackgroundUI(22, AppDisplayConstants.MainMenuSet2.STARFORGE, ImageConstants.Background.ADVANCED_BACKGROUND_22_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Starforge"), contentPanel);
         CreateButtonWithBackgroundUI(23, AppDisplayConstants.MainMenuSet2.ORBITALIS, ImageConstants.Background.ADVANCED_BACKGROUND_23_URL, TextureHelper.LoadTexture2DCached($"UI/Button/Main/Orbitalis"), contentPanel);
 
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.DARK, stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.LIGHT, stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.FIRE, stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.ICE, stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.EARTH, stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.THUNDER, stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.LIFE, stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.SPACE, stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.TIME, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.DARK_POWER, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.LIGHT_POWER, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.FIRE_POWER, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.ICE_POWER, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.EARTH_POWER, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.THUNDER_POWER, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.LIFE_POWER, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.SPACE_POWER, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.TIME_POWER, stat));
         ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.NANOTECH, stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.QUANTUM, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.QUANTUM_POWER, stat));
         ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.HOLOGRAPHY, stat));
         ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.PLASMA, stat));
         ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet2.BIOMECH, stat));
@@ -615,7 +615,7 @@ public class RankManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.OBLIVIUM, stat));
         ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.PARAGON, stat));
         ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.PARALLAX, stat));
-        ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.SINGULARITY, stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.SINGULARITY_POWER, stat));
         ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.UMBRA, stat));
         ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, async () => await RankController.Instance.GetRankAsync(AppConstants.MainMenuSet6.ZENITH, stat));
     }

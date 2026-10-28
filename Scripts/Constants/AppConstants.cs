@@ -2651,18 +2651,18 @@ public static class AppConstants
     }
     public static class MainMenuSet2
     {
-        public const string DARK = "Dark";
-        public const string LIGHT = "Light";
-        public const string FIRE = "Fire";
-        public const string ICE = "Ice";
-        public const string EARTH = "Earth";
-        public const string THUNDER = "Thunder";
-        public const string LIFE = "Life";
-        public const string SPACE = "Space";
-        public const string TIME = "Time";
+        public const string DARK_POWER = "Dark Power";
+        public const string LIGHT_POWER = "Light Power";
+        public const string FIRE_POWER = "Fire Power";
+        public const string ICE_POWER = "Ice Power";
+        public const string EARTH_POWER = "Earth Power";
+        public const string THUNDER_POWER = "Thunder Power";
+        public const string LIFE_POWER = "Life Power";
+        public const string SPACE_POWER = "Space Power";
+        public const string TIME_POWER = "Time Power";
 
         public const string NANOTECH = "Nanotech";
-        public const string QUANTUM = "Quantum";
+        public const string QUANTUM_POWER = "Quantum Power";
         public const string HOLOGRAPHY = "Holography";
         public const string PLASMA = "Plasma";
         public const string BIOMECH = "Biomech";
@@ -2771,7 +2771,7 @@ public static class AppConstants
         public const string AXIOM = "Axiom";
         public const string PARALLAX = "Parallax";
         public const string ENTROPY = "Entropy";
-        public const string SINGULARITY = "Singularity";
+        public const string SINGULARITY_POWER = "Singularity Power";
         public const string GENESIS = "Genesis";
         public const string INFERNUM = "Infernum";
         public const string ELYSIUM = "Elysium";

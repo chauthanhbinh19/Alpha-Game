@@ -179,47 +179,47 @@ public class RankController : MonoBehaviour
                 break;
 
             // Set 2 (24 - 46)
-            case AppConstants.MainMenuSet2.DARK:
+            case AppConstants.MainMenuSet2.DARK_POWER:
                 Type = type;
                 BackgroundImage = ImageConstants.MainMenuSet2.DARK;
                 await CreateRankControllerAsync(stat);
                 break;
-            case AppConstants.MainMenuSet2.LIGHT:
+            case AppConstants.MainMenuSet2.LIGHT_POWER:
                 Type = type;
                 BackgroundImage = ImageConstants.MainMenuSet2.LIGHT;
                 await CreateRankControllerAsync(stat);
                 break;
-            case AppConstants.MainMenuSet2.FIRE:
+            case AppConstants.MainMenuSet2.FIRE_POWER:
                 Type = type;
                 BackgroundImage = ImageConstants.MainMenuSet2.FIRE;
                 await CreateRankControllerAsync(stat);
                 break;
-            case AppConstants.MainMenuSet2.ICE:
+            case AppConstants.MainMenuSet2.ICE_POWER:
                 Type = type;
                 BackgroundImage = ImageConstants.MainMenuSet2.ICE;
                 await CreateRankControllerAsync(stat);
                 break;
-            case AppConstants.MainMenuSet2.EARTH:
+            case AppConstants.MainMenuSet2.EARTH_POWER:
                 Type = type;
                 BackgroundImage = ImageConstants.MainMenuSet2.EARTH;
                 await CreateRankControllerAsync(stat);
                 break;
-            case AppConstants.MainMenuSet2.THUNDER:
+            case AppConstants.MainMenuSet2.THUNDER_POWER:
                 Type = type;
                 BackgroundImage = ImageConstants.MainMenuSet2.THUNDER;
                 await CreateRankControllerAsync(stat);
                 break;
-            case AppConstants.MainMenuSet2.LIFE:
+            case AppConstants.MainMenuSet2.LIFE_POWER:
                 Type = type;
                 BackgroundImage = ImageConstants.MainMenuSet2.LIFE;
                 await CreateRankControllerAsync(stat);
                 break;
-            case AppConstants.MainMenuSet2.SPACE:
+            case AppConstants.MainMenuSet2.SPACE_POWER:
                 Type = type;
                 BackgroundImage = ImageConstants.MainMenuSet2.SPACE;
                 await CreateRankControllerAsync(stat);
                 break;
-            case AppConstants.MainMenuSet2.TIME:
+            case AppConstants.MainMenuSet2.TIME_POWER:
                 Type = type;
                 BackgroundImage = ImageConstants.MainMenuSet2.TIME;
                 await CreateRankControllerAsync(stat);
@@ -229,7 +229,7 @@ public class RankController : MonoBehaviour
                 BackgroundImage = ImageConstants.MainMenuSet2.NANOTECH;
                 await CreateRankControllerAsync(stat);
                 break;
-            case AppConstants.MainMenuSet2.QUANTUM:
+            case AppConstants.MainMenuSet2.QUANTUM_POWER:
                 Type = type;
                 BackgroundImage = ImageConstants.MainMenuSet2.QUANTUM;
                 await CreateRankControllerAsync(stat);
@@ -687,7 +687,7 @@ public class RankController : MonoBehaviour
                 BackgroundImage = ImageConstants.MainMenuSet6.ENTROPY;
                 await CreateRankControllerAsync(stat);
                 break;
-            case AppConstants.MainMenuSet6.SINGULARITY:
+            case AppConstants.MainMenuSet6.SINGULARITY_POWER:
                 Type = type;
                 BackgroundImage = ImageConstants.MainMenuSet6.SINGULARITY;
                 await CreateRankControllerAsync(stat);
