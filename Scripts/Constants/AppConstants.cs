@@ -2591,6 +2591,59 @@ public static class AppConstants
         public const string HISN_IX = "HISN IX";
         public const string HISN_X = "HISN X";
     }
+    public static class CosmicImprint
+    {
+        public const string COSMIC_IMPRINT_I = "Cosmic Imprint I";
+        public const string COSMIC_IMPRINT_II = "Cosmic Imprint II";
+        public const string COSMIC_IMPRINT_III = "Cosmic Imprint III";
+        public const string COSMIC_IMPRINT_IV = "Cosmic Imprint IV";
+        public const string COSMIC_IMPRINT_V = "Cosmic Imprint V";
+        public const string COSMIC_IMPRINT_VI = "Cosmic Imprint VI";
+        public const string COSMIC_IMPRINT_VII = "Cosmic Imprint VII";
+        public const string COSMIC_IMPRINT_VIII = "Cosmic Imprint VIII";
+        public const string COSMIC_IMPRINT_IX = "Cosmic Imprint IX";
+        public const string COSMIC_IMPRINT_X = "Cosmic Imprint X";
+    }
+    public static class PrimordialImprint
+    {
+        public const string PRIMORDIAL_IMPRINT_I = "Primordial Imprint I";
+        public const string PRIMORDIAL_IMPRINT_II = "Primordial Imprint II";
+        public const string PRIMORDIAL_IMPRINT_III = "Primordial Imprint III";
+        public const string PRIMORDIAL_IMPRINT_IV = "Primordial Imprint IV";
+        public const string PRIMORDIAL_IMPRINT_V = "Primordial Imprint V";
+        public const string PRIMORDIAL_IMPRINT_VI = "Primordial Imprint VI";
+        public const string PRIMORDIAL_IMPRINT_VII = "Primordial Imprint VII";
+        public const string PRIMORDIAL_IMPRINT_VIII = "Primordial Imprint VIII";
+        public const string PRIMORDIAL_IMPRINT_IX = "Primordial Imprint IX";
+        public const string PRIMORDIAL_IMPRINT_X = "Primordial Imprint X";
+    }
+    public static class PathOfLordImprint
+    {
+        public const string PATH_OF_LORD_IMPRINT_I = "Path Of Lord Imprint I";
+        public const string PATH_OF_LORD_IMPRINT_II = "Path Of Lord Imprint II";
+        public const string PATH_OF_LORD_IMPRINT_III = "Path Of Lord Imprint III";
+        public const string PATH_OF_LORD_IMPRINT_IV = "Path Of Lord Imprint IV";
+        public const string PATH_OF_LORD_IMPRINT_V = "Path Of Lord Imprint V";
+        public const string PATH_OF_LORD_IMPRINT_VI = "Path Of Lord Imprint VI";
+        public const string PATH_OF_LORD_IMPRINT_VII = "Path Of Lord Imprint VII";
+        public const string PATH_OF_LORD_IMPRINT_VIII = "Path Of Lord Imprint VIII";
+        public const string PATH_OF_LORD_IMPRINT_IX = "Path Of Lord Imprint IX";
+        public const string PATH_OF_LORD_IMPRINT_X = "Path Of Lord Imprint X";
+        public const string PATH_OF_LORD_IMPRINT_XI = "Path Of Lord Imprint XI";
+        public const string PATH_OF_LORD_IMPRINT_XII = "Path Of Lord Imprint XII";
+        public const string PATH_OF_LORD_IMPRINT_XIII = "Path Of Lord Imprint XIII";
+        public const string PATH_OF_LORD_IMPRINT_XIV = "Path Of Lord Imprint XIV";
+        public const string PATH_OF_LORD_IMPRINT_XV = "Path Of Lord Imprint XV";
+        public const string PATH_OF_LORD_IMPRINT_XVI = "Path Of Lord Imprint XVI";
+        public const string PATH_OF_LORD_IMPRINT_XVII = "Path Of Lord Imprint XVII";
+        public const string PATH_OF_LORD_IMPRINT_XVIII = "Path Of Lord Imprint XVIII";
+        public const string PATH_OF_LORD_IMPRINT_XIX = "Path Of Lord Imprint XIX";
+        public const string PATH_OF_LORD_IMPRINT_XX = "Path Of Lord Imprint XX";
+        public const string PATH_OF_LORD_IMPRINT_XXI = "Path Of Lord Imprint XXI";
+        public const string PATH_OF_LORD_IMPRINT_XXII = "Path Of Lord Imprint XXII";
+        public const string PATH_OF_LORD_IMPRINT_XXIII = "Path Of Lord Imprint XXIII";
+        public const string PATH_OF_LORD_IMPRINT_XXIV = "Path Of Lord Imprint XXIV";
+    }
     public static class Module
     {
         public const string MODULE_BREAKTHROUGH = "Module Breakthrough";

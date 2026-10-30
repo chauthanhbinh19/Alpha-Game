@@ -24,5 +24,8 @@ public interface IFeaturesService
     Task<Dictionary<string, FeatureAnimeDTO>> GetAnimeFeaturesByTypeAsync(string type);
     Task<Dictionary<string, FeatureMasterDTO>> GetMasterFeaturesByTypeAsync(string type, IStats stat);
     Task<Dictionary<string, FeatureRankDTO>> GetRankFeaturesByTypeAsync(string type, IStats stat);
+    Task<Dictionary<string, FeatureCosmicImprintDTO>> GetCosmicImprintFeaturesByTypeAsync(string type);
+    Task<Dictionary<string, FeaturePrimordialImprintDTO>> GetPrimordialImprintFeaturesByTypeAsync(string type);
+    Task<Dictionary<string, FeaturePathOfLordImprintDTO>> GetPathOfLordImprintFeaturesByTypeAsync(string type);
     // Add other potential methods related to Features data access here if needed
 }

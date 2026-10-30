@@ -1329,6 +1329,112 @@ public static class ImageConstants
         public const string HISN_IX_BACKGROUND_URL = "UI/Background1/Synthetic_Background_99";
         public const string HISN_X_BACKGROUND_URL = "UI/Background1/Synthetic_Background_100";
     }
+    public static class CosmicImprint
+    {
+        public const string COSMIC_IMPRINT_ICON_URL = "UI/Icon/HISN";
+        public const string COSMIC_IMPRINT_BORDER_URL = "UI/Button/Border/HISNBorder";
+        public const string COSMIC_IMPRINT_I_URL = "UI/Rank_Research/HISN I";
+        public const string COSMIC_IMPRINT_II_URL = "UI/Rank_Research/HISN II";
+        public const string COSMIC_IMPRINT_III_URL = "UI/Rank_Research/HISN III";
+        public const string COSMIC_IMPRINT_IV_URL = "UI/Rank_Research/HISN IV";
+        public const string COSMIC_IMPRINT_V_URL = "UI/Rank_Research/HISN V";
+        public const string COSMIC_IMPRINT_VI_URL = "UI/Rank_Research/HISN VI";
+        public const string COSMIC_IMPRINT_VII_URL = "UI/Rank_Research/HISN VII";
+        public const string COSMIC_IMPRINT_VIII_URL = "UI/Rank_Research/HISN VIII";
+        public const string COSMIC_IMPRINT_IX_URL = "UI/Rank_Research/HISN IX";
+        public const string COSMIC_IMPRINT_X_URL = "UI/Rank_Research/HISN X";
+
+        public const string COSMIC_IMPRINT_I_BACKGROUND_URL = "UI/Background1/Synthetic_Background_91";
+        public const string COSMIC_IMPRINT_II_BACKGROUND_URL = "UI/Background1/Synthetic_Background_92";
+        public const string COSMIC_IMPRINT_III_BACKGROUND_URL = "UI/Background1/Synthetic_Background_93";
+        public const string COSMIC_IMPRINT_IV_BACKGROUND_URL = "UI/Background1/Synthetic_Background_94";
+        public const string COSMIC_IMPRINT_V_BACKGROUND_URL = "UI/Background1/Synthetic_Background_95";
+        public const string COSMIC_IMPRINT_VI_BACKGROUND_URL = "UI/Background1/Synthetic_Background_96";
+        public const string COSMIC_IMPRINT_VII_BACKGROUND_URL = "UI/Background1/Synthetic_Background_97";
+        public const string COSMIC_IMPRINT_VIII_BACKGROUND_URL = "UI/Background1/Synthetic_Background_98";
+        public const string COSMIC_IMPRINT_IX_BACKGROUND_URL = "UI/Background1/Synthetic_Background_99";
+        public const string COSMIC_IMPRINT_X_BACKGROUND_URL = "UI/Background1/Synthetic_Background_100";
+    }
+    public static class PrimordialImprint
+    {
+        public const string PRIMORDIAL_IMPRINT_ICON_URL = "UI/Icon/HISN";
+        public const string PRIMORDIAL_IMPRINT_BORDER_URL = "UI/Button/Border/HISNBorder";
+        public const string PRIMORDIAL_IMPRINT_I_URL = "UI/Rank_Research/HISN I";
+        public const string PRIMORDIAL_IMPRINT_II_URL = "UI/Rank_Research/HISN II";
+        public const string PRIMORDIAL_IMPRINT_III_URL = "UI/Rank_Research/HISN III";
+        public const string PRIMORDIAL_IMPRINT_IV_URL = "UI/Rank_Research/HISN IV";
+        public const string PRIMORDIAL_IMPRINT_V_URL = "UI/Rank_Research/HISN V";
+        public const string PRIMORDIAL_IMPRINT_VI_URL = "UI/Rank_Research/HISN VI";
+        public const string PRIMORDIAL_IMPRINT_VII_URL = "UI/Rank_Research/HISN VII";
+        public const string PRIMORDIAL_IMPRINT_VIII_URL = "UI/Rank_Research/HISN VIII";
+        public const string PRIMORDIAL_IMPRINT_IX_URL = "UI/Rank_Research/HISN IX";
+        public const string PRIMORDIAL_IMPRINT_X_URL = "UI/Rank_Research/HISN X";
+
+        public const string PRIMORDIAL_IMPRINT_I_BACKGROUND_URL = "UI/Background1/Synthetic_Background_91";
+        public const string PRIMORDIAL_IMPRINT_II_BACKGROUND_URL = "UI/Background1/Synthetic_Background_92";
+        public const string PRIMORDIAL_IMPRINT_III_BACKGROUND_URL = "UI/Background1/Synthetic_Background_93";
+        public const string PRIMORDIAL_IMPRINT_IV_BACKGROUND_URL = "UI/Background1/Synthetic_Background_94";
+        public const string PRIMORDIAL_IMPRINT_V_BACKGROUND_URL = "UI/Background1/Synthetic_Background_95";
+        public const string PRIMORDIAL_IMPRINT_VI_BACKGROUND_URL = "UI/Background1/Synthetic_Background_96";
+        public const string PRIMORDIAL_IMPRINT_VII_BACKGROUND_URL = "UI/Background1/Synthetic_Background_97";
+        public const string PRIMORDIAL_IMPRINT_VIII_BACKGROUND_URL = "UI/Background1/Synthetic_Background_98";
+        public const string PRIMORDIAL_IMPRINT_IX_BACKGROUND_URL = "UI/Background1/Synthetic_Background_99";
+        public const string PRIMORDIAL_IMPRINT_X_BACKGROUND_URL = "UI/Background1/Synthetic_Background_100";
+    }
+    public static class PathOfLordImprint
+    {
+        public const string PATH_OF_LORD_IMPRINT_ICON_URL = "UI/Icon/HISN";
+        public const string PATH_OF_LORD_IMPRINT_BORDER_URL = "UI/Button/Border/HISNBorder";
+        public const string PATH_OF_LORD_IMPRINT_I_URL = "UI/Rank_Research/HISN I";
+        public const string PATH_OF_LORD_IMPRINT_II_URL = "UI/Rank_Research/HISN II";
+        public const string PATH_OF_LORD_IMPRINT_III_URL = "UI/Rank_Research/HISN III";
+        public const string PATH_OF_LORD_IMPRINT_IV_URL = "UI/Rank_Research/HISN IV";
+        public const string PATH_OF_LORD_IMPRINT_V_URL = "UI/Rank_Research/HISN V";
+        public const string PATH_OF_LORD_IMPRINT_VI_URL = "UI/Rank_Research/HISN VI";
+        public const string PATH_OF_LORD_IMPRINT_VII_URL = "UI/Rank_Research/HISN VII";
+        public const string PATH_OF_LORD_IMPRINT_VIII_URL = "UI/Rank_Research/HISN VIII";
+        public const string PATH_OF_LORD_IMPRINT_IX_URL = "UI/Rank_Research/HISN IX";
+        public const string PATH_OF_LORD_IMPRINT_X_URL = "UI/Rank_Research/HISN X";
+        public const string PATH_OF_LORD_IMPRINT_XI_URL = "UI/Rank_Research/HISN I";
+        public const string PATH_OF_LORD_IMPRINT_XII_URL = "UI/Rank_Research/HISN II";
+        public const string PATH_OF_LORD_IMPRINT_XIII_URL = "UI/Rank_Research/HISN III";
+        public const string PATH_OF_LORD_IMPRINT_XIV_URL = "UI/Rank_Research/HISN IV";
+        public const string PATH_OF_LORD_IMPRINT_XV_URL = "UI/Rank_Research/HISN V";
+        public const string PATH_OF_LORD_IMPRINT_XVI_URL = "UI/Rank_Research/HISN VI";
+        public const string PATH_OF_LORD_IMPRINT_XVII_URL = "UI/Rank_Research/HISN VII";
+        public const string PATH_OF_LORD_IMPRINT_XVIII_URL = "UI/Rank_Research/HISN VIII";
+        public const string PATH_OF_LORD_IMPRINT_XIX_URL = "UI/Rank_Research/HISN IX";
+        public const string PATH_OF_LORD_IMPRINT_XX_URL = "UI/Rank_Research/HISN X";
+        public const string PATH_OF_LORD_IMPRINT_XXI_URL = "UI/Rank_Research/HISN I";
+        public const string PATH_OF_LORD_IMPRINT_XXII_URL = "UI/Rank_Research/HISN II";
+        public const string PATH_OF_LORD_IMPRINT_XXIII_URL = "UI/Rank_Research/HISN III";
+        public const string PATH_OF_LORD_IMPRINT_XXIV_URL = "UI/Rank_Research/HISN IV";
+
+        public const string PATH_OF_LORD_IMPRINT_I_BACKGROUND_URL = "UI/Background1/Synthetic_Background_91";
+        public const string PATH_OF_LORD_IMPRINT_II_BACKGROUND_URL = "UI/Background1/Synthetic_Background_92";
+        public const string PATH_OF_LORD_IMPRINT_III_BACKGROUND_URL = "UI/Background1/Synthetic_Background_93";
+        public const string PATH_OF_LORD_IMPRINT_IV_BACKGROUND_URL = "UI/Background1/Synthetic_Background_94";
+        public const string PATH_OF_LORD_IMPRINT_V_BACKGROUND_URL = "UI/Background1/Synthetic_Background_95";
+        public const string PATH_OF_LORD_IMPRINT_VI_BACKGROUND_URL = "UI/Background1/Synthetic_Background_96";
+        public const string PATH_OF_LORD_IMPRINT_VII_BACKGROUND_URL = "UI/Background1/Synthetic_Background_97";
+        public const string PATH_OF_LORD_IMPRINT_VIII_BACKGROUND_URL = "UI/Background1/Synthetic_Background_98";
+        public const string PATH_OF_LORD_IMPRINT_IX_BACKGROUND_URL = "UI/Background1/Synthetic_Background_99";
+        public const string PATH_OF_LORD_IMPRINT_X_BACKGROUND_URL = "UI/Background1/Synthetic_Background_100";
+        public const string PATH_OF_LORD_IMPRINT_XI_BACKGROUND_URL = "UI/Background1/Synthetic_Background_91";
+        public const string PATH_OF_LORD_IMPRINT_XII_BACKGROUND_URL = "UI/Background1/Synthetic_Background_92";
+        public const string PATH_OF_LORD_IMPRINT_XIII_BACKGROUND_URL = "UI/Background1/Synthetic_Background_93";
+        public const string PATH_OF_LORD_IMPRINT_XIV_BACKGROUND_URL = "UI/Background1/Synthetic_Background_94";
+        public const string PATH_OF_LORD_IMPRINT_XV_BACKGROUND_URL = "UI/Background1/Synthetic_Background_95";
+        public const string PATH_OF_LORD_IMPRINT_XVI_BACKGROUND_URL = "UI/Background1/Synthetic_Background_96";
+        public const string PATH_OF_LORD_IMPRINT_XVII_BACKGROUND_URL = "UI/Background1/Synthetic_Background_97";
+        public const string PATH_OF_LORD_IMPRINT_XVIII_BACKGROUND_URL = "UI/Background1/Synthetic_Background_98";
+        public const string PATH_OF_LORD_IMPRINT_XIX_BACKGROUND_URL = "UI/Background1/Synthetic_Background_99";
+        public const string PATH_OF_LORD_IMPRINT_XX_BACKGROUND_URL = "UI/Background1/Synthetic_Background_100";
+        public const string PATH_OF_LORD_IMPRINT_XXI_BACKGROUND_URL = "UI/Background1/Synthetic_Background_91";
+        public const string PATH_OF_LORD_IMPRINT_XXII_BACKGROUND_URL = "UI/Background1/Synthetic_Background_92";
+        public const string PATH_OF_LORD_IMPRINT_XXIII_BACKGROUND_URL = "UI/Background1/Synthetic_Background_93";
+        public const string PATH_OF_LORD_IMPRINT_XXIV_BACKGROUND_URL = "UI/Background1/Synthetic_Background_94";
+    }
     public static class Module
     {
         public const string MODULE_BREAKTHROUGH_URL = "UI/Button/Main/Module_Breakthrough";

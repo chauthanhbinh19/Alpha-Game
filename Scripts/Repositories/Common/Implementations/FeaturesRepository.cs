@@ -999,4 +999,148 @@ public class FeaturesRepository : IFeaturesRepository
 
         return features;
     }
+    public async Task<Dictionary<string, FeatureCosmicImprintDTO>> GetCosmicImprintFeaturesByTypeAsync(string type)
+    {
+        Dictionary<string, FeatureCosmicImprintDTO> features = new Dictionary<string, FeatureCosmicImprintDTO>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            await connection.OpenAsync();
+
+            string selectSQL = @"SELECT f.id, 
+                f.feature_name, 
+                f.required_level,
+                f.code_name,
+                r.base_multiplier,
+                COALESCE(ur.cosmic_imprint_level, 0) AS current_level
+            FROM features f
+            LEFT JOIN cosmic_imprints r on f.id = r.id
+            LEFT JOIN user_cosmic_imprints ur on r.id = ur.cosmic_imprint_id
+            WHERE type = @type
+            ORDER BY required_level ASC";
+
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+            {
+                selectCommand.Parameters.AddWithValue("@type", type);
+
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        string featureName = reader.GetString(1);
+                        FeatureCosmicImprintDTO feature = new FeatureCosmicImprintDTO
+                        {
+                            Id = reader.GetStringSafe("id"),
+                            FeatureName = reader.GetStringSafe("feature_name"),
+                            RequiredLevel = reader.GetIntSafe("required_level"),
+                            CodeName = reader.GetStringSafe("code_name"),
+                            BaseMultiplier = reader.GetDoubleSafe("base_multiplier"),
+                            CurrentLevel = reader.GetIntSafe("current_level")
+                        };
+
+                        features[featureName] = feature;
+                    }
+                }
+            }
+        }
+
+        return features;
+    }
+    public async Task<Dictionary<string, FeaturePrimordialImprintDTO>> GetPrimordialImprintFeaturesByTypeAsync(string type)
+    {
+        Dictionary<string, FeaturePrimordialImprintDTO> features = new Dictionary<string, FeaturePrimordialImprintDTO>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            await connection.OpenAsync();
+
+            string selectSQL = @"SELECT f.id, 
+                f.feature_name, 
+                f.required_level,
+                f.code_name,
+                r.base_multiplier,
+                COALESCE(ur.primordial_imprint_level, 0) AS current_level
+            FROM features f
+            LEFT JOIN primordial_imprints r on f.id = r.id
+            LEFT JOIN user_primordial_imprints ur on r.id = ur.primordial_imprint_id
+            WHERE type = @type
+            ORDER BY required_level ASC";
+
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+            {
+                selectCommand.Parameters.AddWithValue("@type", type);
+
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        string featureName = reader.GetString(1);
+                        FeaturePrimordialImprintDTO feature = new FeaturePrimordialImprintDTO
+                        {
+                            Id = reader.GetStringSafe("id"),
+                            FeatureName = reader.GetStringSafe("feature_name"),
+                            RequiredLevel = reader.GetIntSafe("required_level"),
+                            CodeName = reader.GetStringSafe("code_name"),
+                            BaseMultiplier = reader.GetDoubleSafe("base_multiplier"),
+                            CurrentLevel = reader.GetIntSafe("current_level")
+                        };
+
+                        features[featureName] = feature;
+                    }
+                }
+            }
+        }
+
+        return features;
+    }
+    public async Task<Dictionary<string, FeaturePathOfLordImprintDTO>> GetPathOfLordImprintFeaturesByTypeAsync(string type)
+    {
+        Dictionary<string, FeaturePathOfLordImprintDTO> features = new Dictionary<string, FeaturePathOfLordImprintDTO>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            await connection.OpenAsync();
+
+            string selectSQL = @"SELECT f.id, 
+                f.feature_name, 
+                f.required_level,
+                f.code_name,
+                r.base_multiplier,
+                COALESCE(ur.path_of_lord_imprint_level, 0) AS current_level
+            FROM features f
+            LEFT JOIN path_of_lord_imprints r on f.id = r.id
+            LEFT JOIN user_path_of_lord_imprints ur on r.id = ur.path_of_lord_imprint_id
+            WHERE type = @type
+            ORDER BY required_level ASC";
+
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+            {
+                selectCommand.Parameters.AddWithValue("@type", type);
+
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        string featureName = reader.GetString(1);
+                        FeaturePathOfLordImprintDTO feature = new FeaturePathOfLordImprintDTO
+                        {
+                            Id = reader.GetStringSafe("id"),
+                            FeatureName = reader.GetStringSafe("feature_name"),
+                            RequiredLevel = reader.GetIntSafe("required_level"),
+                            CodeName = reader.GetStringSafe("code_name"),
+                            BaseMultiplier = reader.GetDoubleSafe("base_multiplier"),
+                            CurrentLevel = reader.GetIntSafe("current_level")
+                        };
+
+                        features[featureName] = feature;
+                    }
+                }
+            }
+        }
+
+        return features;
+    }
 }

@@ -3006,4 +3006,487 @@ public static class EnhanceHelper
         userUpgrade.CurrentLevel = endLevel; // Cập nhật cấp độ cuối cùng sau khi nâng cấp
         return userUpgrade;
     }
+    public static UserCosmicImprints EnhanceCosmicImprints(UserCosmicImprints userCosmicImprint, int level, double multiplier = 1)
+    {
+        int startLevel = userCosmicImprint.Level;
+        int endLevel = startLevel + level;
+
+        for (int lvl = startLevel; lvl < endLevel; lvl++)
+        {
+            double statMultiplier = multiplier;  // Hệ số nhân dựa trên cấp độ hiện tại
+
+            if (lvl >= 0 && lvl <= 500)
+            {
+                userCosmicImprint.Health += 100000000 * statMultiplier;
+            }
+            else if (lvl > 500 && lvl <= 1000)
+            {
+                userCosmicImprint.PhysicalAttack += 15000000 * statMultiplier;
+                userCosmicImprint.PhysicalDefense += 15000000 * statMultiplier;
+            }
+            else if (lvl > 1000 && lvl <= 1500)
+            {
+                userCosmicImprint.MagicalAttack += 15000000 * statMultiplier;
+                userCosmicImprint.MagicalDefense += 15000000 * statMultiplier;
+            }
+            else if (lvl > 1500 && lvl <= 2000)
+            {
+                userCosmicImprint.ChemicalAttack += 15000000 * statMultiplier;
+                userCosmicImprint.ChemicalDefense += 15000000 * statMultiplier;
+            }
+            else if (lvl > 2000 && lvl <= 2500)
+            {
+                userCosmicImprint.AtomicAttack += 15000000 * statMultiplier;
+                userCosmicImprint.AtomicDefense += 15000000 * statMultiplier;
+            }
+            else if (lvl > 2500 && lvl <= 3000)
+            {
+                userCosmicImprint.MentalAttack += 15000000 * statMultiplier;
+                userCosmicImprint.MentalDefense += 15000000 * statMultiplier;
+            }
+            else if (lvl > 3000 && lvl <= 3500)
+            {
+                userCosmicImprint.Speed += 15000000 * statMultiplier;
+                userCosmicImprint.CriticalDamageRate += 0.1 * statMultiplier;
+                userCosmicImprint.CriticalRate += 0.1 * statMultiplier;
+                userCosmicImprint.CriticalResistanceRate += 0.1 * statMultiplier;
+                userCosmicImprint.IgnoreCriticalRate += 0.1 * statMultiplier;
+                userCosmicImprint.PenetrationRate += 0.1 * statMultiplier;
+                userCosmicImprint.PenetrationResistanceRate += 0.1 * statMultiplier;
+            }
+            else if (lvl > 3500 && lvl <= 4000)
+            {
+                userCosmicImprint.EvasionRate += 0.1 * statMultiplier;
+                userCosmicImprint.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userCosmicImprint.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                userCosmicImprint.AbsorbedDamageRate += 0.1 * statMultiplier;
+                userCosmicImprint.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userCosmicImprint.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                userCosmicImprint.AccuracyRate += 0.1 * statMultiplier;
+            }
+            else if (lvl > 4000 && lvl <= 4500)
+            {
+                userCosmicImprint.LifestealRate += 0.1 * statMultiplier;
+                userCosmicImprint.Mana += 15000000 * statMultiplier;
+                userCosmicImprint.ManaRegenerationRate += 0.1 * statMultiplier;
+                userCosmicImprint.ShieldStrength += 15000000 * statMultiplier;
+            }
+            else if (lvl > 4500 && lvl <= 5000)
+            {
+                userCosmicImprint.Tenacity += 0.5 * statMultiplier;
+                userCosmicImprint.ResistanceRate += 0.1 * statMultiplier;
+                userCosmicImprint.ComboRate += 0.1 * statMultiplier;
+                userCosmicImprint.IgnoreComboRate += 0.1 * statMultiplier;
+                userCosmicImprint.ComboDamageRate += 0.1 * statMultiplier;
+                userCosmicImprint.ComboResistanceRate += 0.1 * statMultiplier;
+                userCosmicImprint.StunRate += 0.1 * statMultiplier;
+                userCosmicImprint.IgnoreStunRate += 0.1 * statMultiplier;
+            }
+            else if (lvl > 5000 && lvl <= 5500)
+            {
+                userCosmicImprint.ReflectionRate += 0.1 * statMultiplier;
+                userCosmicImprint.IgnoreReflectionRate += 0.1 * statMultiplier;
+                userCosmicImprint.ReflectionDamageRate += 0.1 * statMultiplier;
+                userCosmicImprint.ReflectionResistanceRate += 0.1 * statMultiplier;
+                userCosmicImprint.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userCosmicImprint.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userCosmicImprint.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userCosmicImprint.ResistanceToSameFactionRate += 0.1 * statMultiplier;
+            }
+            else if (lvl > 6000 && lvl <= 6500)
+            {
+                userCosmicImprint.NormalDamageRate += 0.1 * statMultiplier;
+                userCosmicImprint.NormalResistanceRate += 0.1 * statMultiplier;
+                userCosmicImprint.SkillDamageRate += 0.1 * statMultiplier;
+                userCosmicImprint.SkillResistanceRate += 0.1 * statMultiplier;
+                userCosmicImprint.PercentAllHealth += 5 * statMultiplier;
+                userCosmicImprint.PercentAllPhysicalAttack += 5 * statMultiplier;
+                userCosmicImprint.PercentAllPhysicalDefense += 5 * statMultiplier;
+            }
+            else if (lvl > 6500 && lvl <= 7000)
+            {
+                userCosmicImprint.PercentAllMagicalAttack += 5 * statMultiplier;
+                userCosmicImprint.PercentAllMagicalDefense += 5 * statMultiplier;
+            }
+            else if (lvl > 7000 && lvl <= 7500)
+            {
+                userCosmicImprint.PercentAllChemicalAttack += 5 * statMultiplier;
+                userCosmicImprint.PercentAllChemicalDefense += 5 * statMultiplier;
+            }
+            else if (lvl > 7500 && lvl <= 8000)
+            {
+                userCosmicImprint.PercentAllAtomicAttack += 5 * statMultiplier;
+                userCosmicImprint.PercentAllAtomicDefense += 5 * statMultiplier;
+            }
+            else if (lvl > 8000 && lvl <= 8500)
+            {
+                userCosmicImprint.PercentAllMentalAttack += 5 * statMultiplier;
+                userCosmicImprint.PercentAllMentalDefense += 5 * statMultiplier;
+            }
+            else if (lvl > 8500 && lvl <= 9000)
+            {
+                userCosmicImprint.PhysicalAttack += 15000000 * statMultiplier;
+                userCosmicImprint.MagicalAttack += 15000000 * statMultiplier;
+                userCosmicImprint.ChemicalAttack += 15000000 * statMultiplier;
+                userCosmicImprint.AtomicAttack += 15000000 * statMultiplier;
+                userCosmicImprint.MentalAttack += 15000000 * statMultiplier;
+            }
+            else if (lvl > 9000 && lvl <= 9500)
+            {
+                userCosmicImprint.PhysicalDefense += 15000000 * statMultiplier;
+                userCosmicImprint.MagicalDefense += 15000000 * statMultiplier;
+                userCosmicImprint.ChemicalDefense += 15000000 * statMultiplier;
+                userCosmicImprint.AtomicDefense += 15000000 * statMultiplier;
+                userCosmicImprint.MentalDefense += 15000000 * statMultiplier;
+            }
+            else if (lvl > 9500 && lvl <= 10000)
+            {
+                userCosmicImprint.Speed += 15000000 * statMultiplier;
+                userCosmicImprint.CriticalDamageRate += 0.1 * statMultiplier;
+                userCosmicImprint.CriticalRate += 0.1 * statMultiplier;
+                userCosmicImprint.PenetrationRate += 0.1 * statMultiplier;
+                userCosmicImprint.EvasionRate += 0.1 * statMultiplier;
+                userCosmicImprint.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userCosmicImprint.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userCosmicImprint.AccuracyRate += 0.1 * statMultiplier;
+                userCosmicImprint.LifestealRate += 0.1 * statMultiplier;
+                userCosmicImprint.Mana += 15000000 * statMultiplier;
+                userCosmicImprint.ManaRegenerationRate += 0.1 * statMultiplier;
+                userCosmicImprint.ShieldStrength += 15000000 * statMultiplier;
+                userCosmicImprint.Tenacity += 0.5 * statMultiplier;
+                userCosmicImprint.ResistanceRate += 0.1 * statMultiplier;
+                userCosmicImprint.ComboRate += 0.1 * statMultiplier;
+                userCosmicImprint.ReflectionRate += 0.1 * statMultiplier;
+                userCosmicImprint.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userCosmicImprint.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userCosmicImprint.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userCosmicImprint.ResistanceToSameFactionRate += 0.1 * statMultiplier;
+            }
+        }
+
+        userCosmicImprint.Level = endLevel; // Cập nhật cấp độ cuối cùng sau khi nâng cấp
+        return userCosmicImprint;
+    }
+    public static UserPrimordialImprints EnhancePrimordialImprints(UserPrimordialImprints userPrimordialImprint, int level, double multiplier = 1)
+    {
+        int startLevel = userPrimordialImprint.Level;
+        int endLevel = startLevel + level;
+
+        for (int lvl = startLevel; lvl < endLevel; lvl++)
+        {
+            double statMultiplier = multiplier;  // Hệ số nhân dựa trên cấp độ hiện tại
+
+            if (lvl >= 0 && lvl <= 500)
+            {
+                userPrimordialImprint.Health += 100000000 * statMultiplier;
+            }
+            else if (lvl > 500 && lvl <= 1000)
+            {
+                userPrimordialImprint.PhysicalAttack += 15000000 * statMultiplier;
+                userPrimordialImprint.PhysicalDefense += 15000000 * statMultiplier;
+            }
+            else if (lvl > 1000 && lvl <= 1500)
+            {
+                userPrimordialImprint.MagicalAttack += 15000000 * statMultiplier;
+                userPrimordialImprint.MagicalDefense += 15000000 * statMultiplier;
+            }
+            else if (lvl > 1500 && lvl <= 2000)
+            {
+                userPrimordialImprint.ChemicalAttack += 15000000 * statMultiplier;
+                userPrimordialImprint.ChemicalDefense += 15000000 * statMultiplier;
+            }
+            else if (lvl > 2000 && lvl <= 2500)
+            {
+                userPrimordialImprint.AtomicAttack += 15000000 * statMultiplier;
+                userPrimordialImprint.AtomicDefense += 15000000 * statMultiplier;
+            }
+            else if (lvl > 2500 && lvl <= 3000)
+            {
+                userPrimordialImprint.MentalAttack += 15000000 * statMultiplier;
+                userPrimordialImprint.MentalDefense += 15000000 * statMultiplier;
+            }
+            else if (lvl > 3000 && lvl <= 3500)
+            {
+                userPrimordialImprint.Speed += 15000000 * statMultiplier;
+                userPrimordialImprint.CriticalDamageRate += 0.1 * statMultiplier;
+                userPrimordialImprint.CriticalRate += 0.1 * statMultiplier;
+                userPrimordialImprint.CriticalResistanceRate += 0.1 * statMultiplier;
+                userPrimordialImprint.IgnoreCriticalRate += 0.1 * statMultiplier;
+                userPrimordialImprint.PenetrationRate += 0.1 * statMultiplier;
+                userPrimordialImprint.PenetrationResistanceRate += 0.1 * statMultiplier;
+            }
+            else if (lvl > 3500 && lvl <= 4000)
+            {
+                userPrimordialImprint.EvasionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.AbsorbedDamageRate += 0.1 * statMultiplier;
+                userPrimordialImprint.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userPrimordialImprint.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                userPrimordialImprint.AccuracyRate += 0.1 * statMultiplier;
+            }
+            else if (lvl > 4000 && lvl <= 4500)
+            {
+                userPrimordialImprint.LifestealRate += 0.1 * statMultiplier;
+                userPrimordialImprint.Mana += 15000000 * statMultiplier;
+                userPrimordialImprint.ManaRegenerationRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ShieldStrength += 15000000 * statMultiplier;
+            }
+            else if (lvl > 4500 && lvl <= 5000)
+            {
+                userPrimordialImprint.Tenacity += 0.5 * statMultiplier;
+                userPrimordialImprint.ResistanceRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ComboRate += 0.1 * statMultiplier;
+                userPrimordialImprint.IgnoreComboRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ComboDamageRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ComboResistanceRate += 0.1 * statMultiplier;
+                userPrimordialImprint.StunRate += 0.1 * statMultiplier;
+                userPrimordialImprint.IgnoreStunRate += 0.1 * statMultiplier;
+            }
+            else if (lvl > 5000 && lvl <= 5500)
+            {
+                userPrimordialImprint.ReflectionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.IgnoreReflectionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ReflectionDamageRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ReflectionResistanceRate += 0.1 * statMultiplier;
+                userPrimordialImprint.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ResistanceToSameFactionRate += 0.1 * statMultiplier;
+            }
+            else if (lvl > 6000 && lvl <= 6500)
+            {
+                userPrimordialImprint.NormalDamageRate += 0.1 * statMultiplier;
+                userPrimordialImprint.NormalResistanceRate += 0.1 * statMultiplier;
+                userPrimordialImprint.SkillDamageRate += 0.1 * statMultiplier;
+                userPrimordialImprint.SkillResistanceRate += 0.1 * statMultiplier;
+                userPrimordialImprint.PercentAllHealth += 5 * statMultiplier;
+                userPrimordialImprint.PercentAllPhysicalAttack += 5 * statMultiplier;
+                userPrimordialImprint.PercentAllPhysicalDefense += 5 * statMultiplier;
+            }
+            else if (lvl > 6500 && lvl <= 7000)
+            {
+                userPrimordialImprint.PercentAllMagicalAttack += 5 * statMultiplier;
+                userPrimordialImprint.PercentAllMagicalDefense += 5 * statMultiplier;
+            }
+            else if (lvl > 7000 && lvl <= 7500)
+            {
+                userPrimordialImprint.PercentAllChemicalAttack += 5 * statMultiplier;
+                userPrimordialImprint.PercentAllChemicalDefense += 5 * statMultiplier;
+            }
+            else if (lvl > 7500 && lvl <= 8000)
+            {
+                userPrimordialImprint.PercentAllAtomicAttack += 5 * statMultiplier;
+                userPrimordialImprint.PercentAllAtomicDefense += 5 * statMultiplier;
+            }
+            else if (lvl > 8000 && lvl <= 8500)
+            {
+                userPrimordialImprint.PercentAllMentalAttack += 5 * statMultiplier;
+                userPrimordialImprint.PercentAllMentalDefense += 5 * statMultiplier;
+            }
+            else if (lvl > 8500 && lvl <= 9000)
+            {
+                userPrimordialImprint.PhysicalAttack += 15000000 * statMultiplier;
+                userPrimordialImprint.MagicalAttack += 15000000 * statMultiplier;
+                userPrimordialImprint.ChemicalAttack += 15000000 * statMultiplier;
+                userPrimordialImprint.AtomicAttack += 15000000 * statMultiplier;
+                userPrimordialImprint.MentalAttack += 15000000 * statMultiplier;
+            }
+            else if (lvl > 9000 && lvl <= 9500)
+            {
+                userPrimordialImprint.PhysicalDefense += 15000000 * statMultiplier;
+                userPrimordialImprint.MagicalDefense += 15000000 * statMultiplier;
+                userPrimordialImprint.ChemicalDefense += 15000000 * statMultiplier;
+                userPrimordialImprint.AtomicDefense += 15000000 * statMultiplier;
+                userPrimordialImprint.MentalDefense += 15000000 * statMultiplier;
+            }
+            else if (lvl > 9500 && lvl <= 10000)
+            {
+                userPrimordialImprint.Speed += 15000000 * statMultiplier;
+                userPrimordialImprint.CriticalDamageRate += 0.1 * statMultiplier;
+                userPrimordialImprint.CriticalRate += 0.1 * statMultiplier;
+                userPrimordialImprint.PenetrationRate += 0.1 * statMultiplier;
+                userPrimordialImprint.EvasionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userPrimordialImprint.AccuracyRate += 0.1 * statMultiplier;
+                userPrimordialImprint.LifestealRate += 0.1 * statMultiplier;
+                userPrimordialImprint.Mana += 15000000 * statMultiplier;
+                userPrimordialImprint.ManaRegenerationRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ShieldStrength += 15000000 * statMultiplier;
+                userPrimordialImprint.Tenacity += 0.5 * statMultiplier;
+                userPrimordialImprint.ResistanceRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ComboRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ReflectionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ResistanceToSameFactionRate += 0.1 * statMultiplier;
+            }
+        }
+
+        userPrimordialImprint.Level = endLevel; // Cập nhật cấp độ cuối cùng sau khi nâng cấp
+        return userPrimordialImprint;
+    }
+    public static UserPathOfLordImprints EnhancePathOfLordImprints(UserPathOfLordImprints userPathOfLordImprint, int level, double multiplier = 1)
+    {
+        int startLevel = userPathOfLordImprint.Level;
+        int endLevel = startLevel + level;
+
+        for (int lvl = startLevel; lvl < endLevel; lvl++)
+        {
+            double statMultiplier = multiplier;  // Hệ số nhân dựa trên cấp độ hiện tại
+
+            if (lvl >= 0 && lvl <= 500)
+            {
+                userPathOfLordImprint.Health += 100000000 * statMultiplier;
+            }
+            else if (lvl > 500 && lvl <= 1000)
+            {
+                userPathOfLordImprint.PhysicalAttack += 15000000 * statMultiplier;
+                userPathOfLordImprint.PhysicalDefense += 15000000 * statMultiplier;
+            }
+            else if (lvl > 1000 && lvl <= 1500)
+            {
+                userPathOfLordImprint.MagicalAttack += 15000000 * statMultiplier;
+                userPathOfLordImprint.MagicalDefense += 15000000 * statMultiplier;
+            }
+            else if (lvl > 1500 && lvl <= 2000)
+            {
+                userPathOfLordImprint.ChemicalAttack += 15000000 * statMultiplier;
+                userPathOfLordImprint.ChemicalDefense += 15000000 * statMultiplier;
+            }
+            else if (lvl > 2000 && lvl <= 2500)
+            {
+                userPathOfLordImprint.AtomicAttack += 15000000 * statMultiplier;
+                userPathOfLordImprint.AtomicDefense += 15000000 * statMultiplier;
+            }
+            else if (lvl > 2500 && lvl <= 3000)
+            {
+                userPathOfLordImprint.MentalAttack += 15000000 * statMultiplier;
+                userPathOfLordImprint.MentalDefense += 15000000 * statMultiplier;
+            }
+            else if (lvl > 3000 && lvl <= 3500)
+            {
+                userPathOfLordImprint.Speed += 15000000 * statMultiplier;
+                userPathOfLordImprint.CriticalDamageRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.CriticalRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.CriticalResistanceRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.IgnoreCriticalRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.PenetrationRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.PenetrationResistanceRate += 0.1 * statMultiplier;
+            }
+            else if (lvl > 3500 && lvl <= 4000)
+            {
+                userPathOfLordImprint.EvasionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.AbsorbedDamageRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.AccuracyRate += 0.1 * statMultiplier;
+            }
+            else if (lvl > 4000 && lvl <= 4500)
+            {
+                userPathOfLordImprint.LifestealRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.Mana += 15000000 * statMultiplier;
+                userPathOfLordImprint.ManaRegenerationRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ShieldStrength += 15000000 * statMultiplier;
+            }
+            else if (lvl > 4500 && lvl <= 5000)
+            {
+                userPathOfLordImprint.Tenacity += 0.5 * statMultiplier;
+                userPathOfLordImprint.ResistanceRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ComboRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.IgnoreComboRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ComboDamageRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ComboResistanceRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.StunRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.IgnoreStunRate += 0.1 * statMultiplier;
+            }
+            else if (lvl > 5000 && lvl <= 5500)
+            {
+                userPathOfLordImprint.ReflectionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.IgnoreReflectionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ReflectionDamageRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ReflectionResistanceRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ResistanceToSameFactionRate += 0.1 * statMultiplier;
+            }
+            else if (lvl > 6000 && lvl <= 6500)
+            {
+                userPathOfLordImprint.NormalDamageRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.NormalResistanceRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.SkillDamageRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.SkillResistanceRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.PercentAllHealth += 5 * statMultiplier;
+                userPathOfLordImprint.PercentAllPhysicalAttack += 5 * statMultiplier;
+                userPathOfLordImprint.PercentAllPhysicalDefense += 5 * statMultiplier;
+            }
+            else if (lvl > 6500 && lvl <= 7000)
+            {
+                userPathOfLordImprint.PercentAllMagicalAttack += 5 * statMultiplier;
+                userPathOfLordImprint.PercentAllMagicalDefense += 5 * statMultiplier;
+            }
+            else if (lvl > 7000 && lvl <= 7500)
+            {
+                userPathOfLordImprint.PercentAllChemicalAttack += 5 * statMultiplier;
+                userPathOfLordImprint.PercentAllChemicalDefense += 5 * statMultiplier;
+            }
+            else if (lvl > 7500 && lvl <= 8000)
+            {
+                userPathOfLordImprint.PercentAllAtomicAttack += 5 * statMultiplier;
+                userPathOfLordImprint.PercentAllAtomicDefense += 5 * statMultiplier;
+            }
+            else if (lvl > 8000 && lvl <= 8500)
+            {
+                userPathOfLordImprint.PercentAllMentalAttack += 5 * statMultiplier;
+                userPathOfLordImprint.PercentAllMentalDefense += 5 * statMultiplier;
+            }
+            else if (lvl > 8500 && lvl <= 9000)
+            {
+                userPathOfLordImprint.PhysicalAttack += 15000000 * statMultiplier;
+                userPathOfLordImprint.MagicalAttack += 15000000 * statMultiplier;
+                userPathOfLordImprint.ChemicalAttack += 15000000 * statMultiplier;
+                userPathOfLordImprint.AtomicAttack += 15000000 * statMultiplier;
+                userPathOfLordImprint.MentalAttack += 15000000 * statMultiplier;
+            }
+            else if (lvl > 9000 && lvl <= 9500)
+            {
+                userPathOfLordImprint.PhysicalDefense += 15000000 * statMultiplier;
+                userPathOfLordImprint.MagicalDefense += 15000000 * statMultiplier;
+                userPathOfLordImprint.ChemicalDefense += 15000000 * statMultiplier;
+                userPathOfLordImprint.AtomicDefense += 15000000 * statMultiplier;
+                userPathOfLordImprint.MentalDefense += 15000000 * statMultiplier;
+            }
+            else if (lvl > 9500 && lvl <= 10000)
+            {
+                userPathOfLordImprint.Speed += 15000000 * statMultiplier;
+                userPathOfLordImprint.CriticalDamageRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.CriticalRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.PenetrationRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.EvasionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.AccuracyRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.LifestealRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.Mana += 15000000 * statMultiplier;
+                userPathOfLordImprint.ManaRegenerationRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ShieldStrength += 15000000 * statMultiplier;
+                userPathOfLordImprint.Tenacity += 0.5 * statMultiplier;
+                userPathOfLordImprint.ResistanceRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ComboRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ReflectionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ResistanceToSameFactionRate += 0.1 * statMultiplier;
+            }
+        }
+
+        userPathOfLordImprint.Level = endLevel; // Cập nhật cấp độ cuối cùng sau khi nâng cấp
+        return userPathOfLordImprint;
+    }
 }

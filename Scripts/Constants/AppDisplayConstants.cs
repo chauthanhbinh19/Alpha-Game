@@ -395,6 +395,9 @@ public static class AppDisplayConstants
         public const string HISN = "Title.HISN";
         public const string MASTER = "Title.Master";
         public const string RANK = "Title.Rank";
+        public const string COSMIC_IMPRINT = "Title.CosmicImprint";
+        public const string PRIMORDIAL_IMPRINT = "Title.PrimordialImprint";
+        public const string PATH_OF_LORD_IMPRINT = "Title.PathOfLordImprint";
 
         public const string HIIN_FULLNAME = "Title.HIIN_FULLNAME";
         public const string SSWN_FULLNAME = "Title.SSWN_FULLNAME";
@@ -1218,6 +1221,59 @@ public static class AppDisplayConstants
         public const string HISN_VIII = "HISN.HISNVIII";
         public const string HISN_IX = "HISN.HISNIX";
         public const string HISN_X = "HISN.HISNX";
+    }
+    public static class CosmicImprint
+    {
+        public const string COSMIC_IMPRINT_I = "CosmicImprint.CosmicImprintI";
+        public const string COSMIC_IMPRINT_II = "CosmicImprint.CosmicImprintII";
+        public const string COSMIC_IMPRINT_III = "CosmicImprint.CosmicImprintIII";
+        public const string COSMIC_IMPRINT_IV = "CosmicImprint.CosmicImprintIV";
+        public const string COSMIC_IMPRINT_V = "CosmicImprint.CosmicImprintV";
+        public const string COSMIC_IMPRINT_VI = "CosmicImprint.CosmicImprintVI";
+        public const string COSMIC_IMPRINT_VII = "CosmicImprint.CosmicImprintVII";
+        public const string COSMIC_IMPRINT_VIII = "CosmicImprint.CosmicImprintVIII";
+        public const string COSMIC_IMPRINT_IX = "CosmicImprint.CosmicImprintIX";
+        public const string COSMIC_IMPRINT_X = "CosmicImprint.CosmicImprintX";
+    }
+    public static class PrimordialImprint
+    {
+        public const string PRIMORDIAL_IMPRINT_I = "PrimordialImprint.PrimordialImprintI";
+        public const string PRIMORDIAL_IMPRINT_II = "PrimordialImprint.PrimordialImprintII";
+        public const string PRIMORDIAL_IMPRINT_III = "PrimordialImprint.PrimordialImprintIII";
+        public const string PRIMORDIAL_IMPRINT_IV = "PrimordialImprint.PrimordialImprintIV";
+        public const string PRIMORDIAL_IMPRINT_V = "PrimordialImprint.PrimordialImprintV";
+        public const string PRIMORDIAL_IMPRINT_VI = "PrimordialImprint.PrimordialImprintVI";
+        public const string PRIMORDIAL_IMPRINT_VII = "PrimordialImprint.PrimordialImprintVII";
+        public const string PRIMORDIAL_IMPRINT_VIII = "PrimordialImprint.PrimordialImprintVIII";
+        public const string PRIMORDIAL_IMPRINT_IX = "PrimordialImprint.PrimordialImprintIX";
+        public const string PRIMORDIAL_IMPRINT_X = "PrimordialImprint.PrimordialImprintX";
+    }
+    public static class PathOfLordImprint
+    {
+        public const string PATH_OF_LORD_IMPRINT_I = "PathOfLordImprint.PathOfLordImprintI";
+        public const string PATH_OF_LORD_IMPRINT_II = "PathOfLordImprint.PathOfLordImprintII";
+        public const string PATH_OF_LORD_IMPRINT_III = "PathOfLordImprint.PathOfLordImprintIII";
+        public const string PATH_OF_LORD_IMPRINT_IV = "PathOfLordImprint.PathOfLordImprintIV";
+        public const string PATH_OF_LORD_IMPRINT_V = "PathOfLordImprint.PathOfLordImprintV";
+        public const string PATH_OF_LORD_IMPRINT_VI = "PathOfLordImprint.PathOfLordImprintVI";
+        public const string PATH_OF_LORD_IMPRINT_VII = "PathOfLordImprint.PathOfLordImprintVII";
+        public const string PATH_OF_LORD_IMPRINT_VIII = "PathOfLordImprint.PathOfLordImprintVIII";
+        public const string PATH_OF_LORD_IMPRINT_IX = "PathOfLordImprint.PathOfLordImprintIX";
+        public const string PATH_OF_LORD_IMPRINT_X = "PathOfLordImprint.PathOfLordImprintX";
+        public const string PATH_OF_LORD_IMPRINT_XI = "PathOfLordImprint.PathOfLordImprintXI";
+        public const string PATH_OF_LORD_IMPRINT_XII = "PathOfLordImprint.PathOfLordImprintXII";
+        public const string PATH_OF_LORD_IMPRINT_XIII = "PathOfLordImprint.PathOfLordImprintXIII";
+        public const string PATH_OF_LORD_IMPRINT_XIV = "PathOfLordImprint.PathOfLordImprintXIV";
+        public const string PATH_OF_LORD_IMPRINT_XV = "PathOfLordImprint.PathOfLordImprintXV";
+        public const string PATH_OF_LORD_IMPRINT_XVI = "PathOfLordImprint.PathOfLordImprintXVI";
+        public const string PATH_OF_LORD_IMPRINT_XVII = "PathOfLordImprint.PathOfLordImprintXVII";
+        public const string PATH_OF_LORD_IMPRINT_XVIII = "PathOfLordImprint.PathOfLordImprintXVIII";
+        public const string PATH_OF_LORD_IMPRINT_XIX = "PathOfLordImprint.PathOfLordImprintXIX";
+        public const string PATH_OF_LORD_IMPRINT_XX = "PathOfLordImprint.PathOfLordImprintXX";
+        public const string PATH_OF_LORD_IMPRINT_XXI = "PathOfLordImprint.PathOfLordImprintXI";
+        public const string PATH_OF_LORD_IMPRINT_XXII = "PathOfLordImprint.PathOfLordImprintXXII";
+        public const string PATH_OF_LORD_IMPRINT_XXIII = "PathOfLordImprint.PathOfLordImprintXXIII";
+        public const string PATH_OF_LORD_IMPRINT_XXIV = "PathOfLordImprint.PathOfLordImprintXXIV";
     }
     public static class Module
     {

@@ -335,6 +335,39 @@ public static class PrefabConstants
         public const string SSWN_ITEM_PREFAB = "SSWNItemPrefab";
         public const string SSWN_ITEM_POPUP_PREFAB = "SSWNItemPopupPrefab";
     }
+    public static class PrimordialImprint
+    {
+        public const string PRIMORDIAL_IMPRINT_PANEL_PREFAB = "PrimordialImprintPanelPrefab";
+        public const string PRIMORDIAL_IMPRINT_BUTTON_PREFAB = "PrimordialImprintButtonPrefab";
+        public const string POPUP_PRIMORDIAL_IMPRINT_PANEL_PREFAB = "PopupPrimordialImprintPanelPrefab";
+        public const string POPUP_PRIMORDIAL_IMPRINT_QUANTITY_PANEL_PREFAB = "PopupPrimordialImprintQuantityPanelPrefab";
+        public const string POPUP_PRIMORDIAL_IMPRINT_BUTTON_PREFAB = "PopupPrimordialImprintButtonPrefab";
+        public const string MAIN_PRIMORDIAL_IMPRINT_PANEL_PREFAB = "MainPrimordialImprintPanelPrefab";
+        public const string PRIMORDIAL_IMPRINT_ITEM_PREFAB = "PrimordialImprintItemPrefab";
+        public const string PRIMORDIAL_IMPRINT_ITEM_POPUP_PREFAB = "PrimordialImprintItemPopupPrefab";
+    }
+    public static class CosmicImprint
+    {
+        public const string COSMIC_IMPRINT_PANEL_PREFAB = "CosmicImprintPanelPrefab";
+        public const string COSMIC_IMPRINT_BUTTON_PREFAB = "CosmicImprintButtonPrefab";
+        public const string POPUP_COSMIC_IMPRINT_PANEL_PREFAB = "PopupCosmicImprintPanelPrefab";
+        public const string POPUP_COSMIC_IMPRINT_QUANTITY_PANEL_PREFAB = "PopupCosmicImprintQuantityPanelPrefab";
+        public const string POPUP_COSMIC_IMPRINT_BUTTON_PREFAB = "PopupCosmicImprintButtonPrefab";
+        public const string MAIN_COSMIC_IMPRINT_PANEL_PREFAB = "MainCosmicImprintPanelPrefab";
+        public const string COSMIC_IMPRINT_ITEM_PREFAB = "CosmicImprintItemPrefab";
+        public const string COSMIC_IMPRINT_ITEM_POPUP_PREFAB = "CosmicImprintItemPopupPrefab";
+    }
+    public static class PathOfLordImprint
+    {
+        public const string PATH_OF_LORD_IMPRINT_PANEL_PREFAB = "PathOfLordImprintPanelPrefab";
+        public const string PATH_OF_LORD_IMPRINT_BUTTON_PREFAB = "PathOfLordImprintButtonPrefab";
+        public const string POPUP_PATH_OF_LORD_IMPRINT_PANEL_PREFAB = "PopupPathOfLordImprintPanelPrefab";
+        public const string POPUP_PATH_OF_LORD_IMPRINT_QUANTITY_PANEL_PREFAB = "PopupPathOfLordImprintQuantityPanelPrefab";
+        public const string POPUP_PATH_OF_LORD_IMPRINT_BUTTON_PREFAB = "PopupPathOfLordImprintButtonPrefab";
+        public const string MAIN_PATH_OF_LORD_IMPRINT_PANEL_PREFAB = "MainPathOfLordImprintPanelPrefab";
+        public const string PATH_OF_LORD_IMPRINT_ITEM_PREFAB = "PathOfLordImprintItemPrefab";
+        public const string PATH_OF_LORD_IMPRINT_ITEM_POPUP_PREFAB = "PathOfLordImprintItemPopupPrefab";
+    }
     public static class Skill
     {
         public const string SKILL_PANEL_PREFAB = "SkillPanelPrefab";

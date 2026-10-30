@@ -104,6 +104,9 @@ public class Program : MonoBehaviour
         ServiceContainer.RegisterInstance<IGameConfigRepository>(new GameConfigRepository());
         ServiceContainer.RegisterInstance<IGameGrowthConfigRepository>(new GameGrowthConfigRepository());
         ServiceContainer.RegisterInstance<IUserPowersRepository>(new UserPowersRepository());
+        ServiceContainer.RegisterInstance<ICosmicImprintsRepository>(new CosmicImprintsRepository());
+        ServiceContainer.RegisterInstance<IPrimordialImprintsRepository>(new PrimordialImprintsRepository());
+        ServiceContainer.RegisterInstance<IPathOfLordImprintsRepository>(new PathOfLordImprintsRepository());
 
         // Repositories - Gallery
         ServiceContainer.RegisterInstance<IAchievementsGalleryRepository>(new AchievementsGalleryRepository());
@@ -256,6 +259,9 @@ public class Program : MonoBehaviour
         ServiceContainer.RegisterInstance<IUserVehiclesRepository>(new UserVehiclesRepository());
         ServiceContainer.RegisterInstance<IUserWeaponsRepository>(new UserWeaponsRepository());
         ServiceContainer.RegisterInstance<IUserWorldsRepository>(new UserWorldsRepository());
+        ServiceContainer.RegisterInstance<IUserCosmicImprintsRepository>(new UserCosmicImprintsRepository());
+        ServiceContainer.RegisterInstance<IUserPrimordialImprintsRepository>(new UserPrimordialImprintsRepository());
+        ServiceContainer.RegisterInstance<IUserPathOfLordImprintsRepository>(new UserPathOfLordImprintsRepository());
 
         // 2. Đăng ký Service chính 
         // Container sẽ tự soi Constructor của PowerManagerService, 
@@ -354,6 +360,9 @@ public class Program : MonoBehaviour
         ServiceContainer.RegisterSingleton<IGameConfigService, GameConfigService>();
         ServiceContainer.RegisterSingleton<IGameGrowthConfigService, GameGrowthConfigService>();
         ServiceContainer.RegisterSingleton<IUserPowersService, UserPowersService>();
+        ServiceContainer.RegisterSingleton<ICosmicImprintsService, CosmicImprintsService>();
+        ServiceContainer.RegisterSingleton<IPrimordialImprintsService, PrimordialImprintsService>();
+        ServiceContainer.RegisterSingleton<IPathOfLordImprintsService, PathOfLordImprintsService>();
 
         //Services - Gallery
         ServiceContainer.RegisterSingleton<IAchievementsGalleryService, AchievementsGalleryService>();
@@ -507,6 +516,8 @@ public class Program : MonoBehaviour
         ServiceContainer.RegisterSingleton<IUserVehiclesService, UserVehiclesService>();
         ServiceContainer.RegisterSingleton<IUserWeaponsService, UserWeaponsService>();
         // ServiceContainer.RegisterSingleton<IUserWorldsService, UserWorldsService>();
-
+        ServiceContainer.RegisterSingleton<IUserCosmicImprintsService, UserCosmicImprintsService>();
+        ServiceContainer.RegisterSingleton<IUserPrimordialImprintsService, UserPrimordialImprintsService>();
+        ServiceContainer.RegisterSingleton<IUserPathOfLordImprintsService, UserPathOfLordImprintsService>();
     }
 }

@@ -234,6 +234,21 @@ public class FeaturesService : IFeaturesService
         return await _featuresRepository.GetHISNFeaturesByTypeAsync(type);
     }
 
+    public async Task<Dictionary<string, FeatureCosmicImprintDTO>> GetCosmicImprintFeaturesByTypeAsync(string type)
+    {
+        return await _featuresRepository.GetCosmicImprintFeaturesByTypeAsync(type);
+    }
+
+    public async Task<Dictionary<string, FeaturePrimordialImprintDTO>> GetPrimordialImprintFeaturesByTypeAsync(string type)
+    {
+        return await _featuresRepository.GetPrimordialImprintFeaturesByTypeAsync(type);
+    }
+
+    public async Task<Dictionary<string, FeaturePathOfLordImprintDTO>> GetPathOfLordImprintFeaturesByTypeAsync(string type)
+    {
+        return await _featuresRepository.GetPathOfLordImprintFeaturesByTypeAsync(type);
+    }
+
     public async Task<Dictionary<string, FeatureModuleDTO>> GetModuleFeaturesByTypeAsync(string type, IStats stat)
     {
         if (!ModuleMappings.TryGetValue(stat.GetType(), out var mapping))
