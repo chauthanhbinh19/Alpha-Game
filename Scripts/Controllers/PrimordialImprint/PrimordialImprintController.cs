@@ -25,6 +25,7 @@ public class PrimordialImprintController : MonoBehaviour
     private PaginationManager PaginationManager;
     private string Type = "";
     private string BackgroundImage = "";
+    private string MainImage = "";
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -61,51 +62,61 @@ public class PrimordialImprintController : MonoBehaviour
             case AppConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_I:
                 Type = type;
                 BackgroundImage = ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_I_BACKGROUND_URL;
+                MainImage = ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_I_MAIN_IMAGE_URL;
                 await CreatePrimordialImprintControllerAsync();
                 break;
             case AppConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_II:
                 Type = type;
                 BackgroundImage = ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_II_BACKGROUND_URL;
+                MainImage = ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_II_MAIN_IMAGE_URL;
                 await CreatePrimordialImprintControllerAsync();
                 break;
             case AppConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_III:
                 Type = type;
                 BackgroundImage = ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_III_BACKGROUND_URL;
+                MainImage = ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_III_MAIN_IMAGE_URL;
                 await CreatePrimordialImprintControllerAsync();
                 break;
             case AppConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_IV:
                 Type = type;
                 BackgroundImage = ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_IV_BACKGROUND_URL;
+                MainImage = ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_IV_MAIN_IMAGE_URL;
                 await CreatePrimordialImprintControllerAsync();
                 break;
             case AppConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_V:
                 Type = type;
                 BackgroundImage = ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_V_BACKGROUND_URL;
+                MainImage = ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_V_MAIN_IMAGE_URL;
                 await CreatePrimordialImprintControllerAsync();
                 break;
             case AppConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_VI:
                 Type = type;
                 BackgroundImage = ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_VI_BACKGROUND_URL;
+                MainImage = ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_VI_MAIN_IMAGE_URL;
                 await CreatePrimordialImprintControllerAsync();
                 break;
             case AppConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_VII:
                 Type = type;
                 BackgroundImage = ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_VII_BACKGROUND_URL;
+                MainImage = ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_VII_MAIN_IMAGE_URL;
                 await CreatePrimordialImprintControllerAsync();
                 break;
             case AppConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_VIII:
                 Type = type;
                 BackgroundImage = ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_VIII_BACKGROUND_URL;
+                MainImage = ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_VIII_MAIN_IMAGE_URL;
                 await CreatePrimordialImprintControllerAsync();
                 break;
             case AppConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_IX:
                 Type = type;
                 BackgroundImage = ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_IX_BACKGROUND_URL;
+                MainImage = ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_IX_MAIN_IMAGE_URL;
                 await CreatePrimordialImprintControllerAsync();
                 break;
             case AppConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_X:
                 Type = type;
                 BackgroundImage = ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_X_BACKGROUND_URL;
+                MainImage = ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_X_MAIN_IMAGE_URL;
                 await CreatePrimordialImprintControllerAsync();
                 break;
             default:
@@ -296,6 +307,9 @@ public class PrimordialImprintController : MonoBehaviour
 
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(BackgroundImage);
+
+        RawImage mainImage = transform.Find("MainImage").GetComponent<RawImage>();
+        mainImage.texture = TextureHelper.LoadTexture2DCached(MainImage);
 
         AnimationController.Instance.CreatePrimordialImprintAnimation(currentObject);
 

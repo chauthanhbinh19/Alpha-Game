@@ -25,6 +25,7 @@ public class ScienceFictionController : MonoBehaviour
     private PaginationManager PaginationManager;
     private string Type = "";
     private string BackgroundImage = "";
+    private string MainImage = "";
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -62,101 +63,121 @@ public class ScienceFictionController : MonoBehaviour
             case AppConstants.ScienceFiction.SCIENCE_FICTION_I:
                 Type = type;
                 BackgroundImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_1_BACKGROUND_URL;
+                MainImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_1_MAIN_IMAGE_URL;
                 await CreateScienceFictionControllerAsync();
                 break;
             case AppConstants.ScienceFiction.SCIENCE_FICTION_II:
                 Type = type;
                 BackgroundImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_2_BACKGROUND_URL;
+                MainImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_2_MAIN_IMAGE_URL;
                 await CreateScienceFictionControllerAsync();
                 break;
             case AppConstants.ScienceFiction.SCIENCE_FICTION_III:
                 Type = type;
                 BackgroundImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_3_BACKGROUND_URL;
+                MainImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_3_MAIN_IMAGE_URL;
                 await CreateScienceFictionControllerAsync();
                 break;
             case AppConstants.ScienceFiction.SCIENCE_FICTION_IV:
                 Type = type;
                 BackgroundImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_4_BACKGROUND_URL;
+                MainImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_4_MAIN_IMAGE_URL;
                 await CreateScienceFictionControllerAsync();
                 break;
             case AppConstants.ScienceFiction.SCIENCE_FICTION_V:
                 Type = type;
                 BackgroundImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_5_BACKGROUND_URL;
+                MainImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_5_MAIN_IMAGE_URL;
                 await CreateScienceFictionControllerAsync();
                 break;
             case AppConstants.ScienceFiction.SCIENCE_FICTION_VI:
                 Type = type;
                 BackgroundImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_6_BACKGROUND_URL;
+                MainImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_6_MAIN_IMAGE_URL;
                 await CreateScienceFictionControllerAsync();
                 break;
             case AppConstants.ScienceFiction.SCIENCE_FICTION_VII:
                 Type = type;
                 BackgroundImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_7_BACKGROUND_URL;
+                MainImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_7_MAIN_IMAGE_URL;
                 await CreateScienceFictionControllerAsync();
                 break;
             case AppConstants.ScienceFiction.SCIENCE_FICTION_VIII:
                 Type = type;
                 BackgroundImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_8_BACKGROUND_URL;
+                MainImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_8_MAIN_IMAGE_URL;
                 await CreateScienceFictionControllerAsync();
                 break;
             case AppConstants.ScienceFiction.SCIENCE_FICTION_IX:
                 Type = type;
                 BackgroundImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_9_BACKGROUND_URL;
+                MainImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_9_MAIN_IMAGE_URL;
                 await CreateScienceFictionControllerAsync();
                 break;
             case AppConstants.ScienceFiction.SCIENCE_FICTION_X:
                 Type = type;
                 BackgroundImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_10_BACKGROUND_URL;
+                MainImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_10_MAIN_IMAGE_URL;
                 await CreateScienceFictionControllerAsync();
                 break;
             case AppConstants.ScienceFiction.SCIENCE_FICTION_XI:
                 Type = type;
                 BackgroundImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_11_BACKGROUND_URL;
+                MainImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_11_MAIN_IMAGE_URL;
                 await CreateScienceFictionControllerAsync();
                 break;
             case AppConstants.ScienceFiction.SCIENCE_FICTION_XII:
                 Type = type;
                 BackgroundImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_12_BACKGROUND_URL;
+                MainImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_12_MAIN_IMAGE_URL;
                 await CreateScienceFictionControllerAsync();
                 break;
             case AppConstants.ScienceFiction.SCIENCE_FICTION_XIII:
                 Type = type;
                 BackgroundImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_13_BACKGROUND_URL;
+                MainImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_13_MAIN_IMAGE_URL;
                 await CreateScienceFictionControllerAsync();
                 break;
             case AppConstants.ScienceFiction.SCIENCE_FICTION_XIV:
                 Type = type;
                 BackgroundImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_14_BACKGROUND_URL;
+                MainImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_14_MAIN_IMAGE_URL;
                 await CreateScienceFictionControllerAsync();
                 break;
             case AppConstants.ScienceFiction.SCIENCE_FICTION_XV:
                 Type = type;
                 BackgroundImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_15_BACKGROUND_URL;
+                MainImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_15_MAIN_IMAGE_URL;
                 await CreateScienceFictionControllerAsync();
                 break;
             case AppConstants.ScienceFiction.SCIENCE_FICTION_XVI:
                 Type = type;
                 BackgroundImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_16_BACKGROUND_URL;
+                MainImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_16_MAIN_IMAGE_URL;
                 await CreateScienceFictionControllerAsync();
                 break;
             case AppConstants.ScienceFiction.SCIENCE_FICTION_XVII:
                 Type = type;
                 BackgroundImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_17_BACKGROUND_URL;
+                MainImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_17_MAIN_IMAGE_URL;
                 await CreateScienceFictionControllerAsync();
                 break;
             case AppConstants.ScienceFiction.SCIENCE_FICTION_XVIII:
                 Type = type;
                 BackgroundImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_18_BACKGROUND_URL;
+                MainImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_18_MAIN_IMAGE_URL;
                 await CreateScienceFictionControllerAsync();
                 break;
             case AppConstants.ScienceFiction.SCIENCE_FICTION_XIX:
                 Type = type;
                 BackgroundImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_19_BACKGROUND_URL;
+                MainImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_19_MAIN_IMAGE_URL;
                 await CreateScienceFictionControllerAsync();
                 break;
             case AppConstants.ScienceFiction.SCIENCE_FICTION_XX:
                 Type = type;
                 BackgroundImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_20_BACKGROUND_URL;
+                MainImage = ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_20_MAIN_IMAGE_URL;
                 await CreateScienceFictionControllerAsync();
                 break;
             default:
@@ -348,6 +369,9 @@ public class ScienceFictionController : MonoBehaviour
 
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(BackgroundImage);
+
+        RawImage mainImage = transform.Find("MainImage").GetComponent<RawImage>();
+        mainImage.texture = TextureHelper.LoadTexture2DCached(MainImage);
 
         AnimationController.Instance.CreateScienceFictionAnimation(currentObject);
 

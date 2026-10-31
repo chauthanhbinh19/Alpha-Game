@@ -25,6 +25,7 @@ public class ModuleController : MonoBehaviour
     private PaginationManager PaginationManager;
     private string Type = "";
     private string BackgroundImage = "";
+    private string MainImage = "";
     private IStats Stat;
 
     private void Awake()
@@ -63,61 +64,73 @@ public class ModuleController : MonoBehaviour
             case AppConstants.Module.MODULE_APOTHEOSIS:
                 Type = type;
                 // Image = ImageConstants.Module.MODULE_I_BACKGROUND_URL;
+                MainImage = ImageConstants.Module.MODULE_APOTHEOSIS_MAIN_IMAGE_URL;
                 await CreateModuleControllerAsync(stat);
                 break;
             case AppConstants.Module.MODULE_ASCENSION:
                 Type = type;
                 // Image = ImageConstants.Module.MODULE_II_BACKGROUND_URL;
+                MainImage = ImageConstants.Module.MODULE_ASCENSION_MAIN_IMAGE_URL;
                 await CreateModuleControllerAsync(stat);
                 break;
             case AppConstants.Module.MODULE_AWAKENING:
                 Type = type;
                 // Image = ImageConstants.Module.MODULE_III_BACKGROUND_URL;
+                MainImage = ImageConstants.Module.MODULE_AWAKENING_MAIN_IMAGE_URL;
                 await CreateModuleControllerAsync(stat);
                 break;
             case AppConstants.Module.MODULE_BREAKTHROUGH:
                 Type = type;
                 // Image = ImageConstants.Module.MODULE_IV_BACKGROUND_URL;
+                MainImage = ImageConstants.Module.MODULE_BREAKTHROUGH_MAIN_IMAGE_URL;
                 await CreateModuleControllerAsync(stat);
                 break;
             case AppConstants.Module.MODULE_ENGRAVING:
                 Type = type;
                 // Image = ImageConstants.Module.MODULE_V_BACKGROUND_URL;
+                MainImage = ImageConstants.Module.MODULE_ENGRAVING_MAIN_IMAGE_URL;
                 await CreateModuleControllerAsync(stat);
                 break;
             case AppConstants.Module.MODULE_ENHANCEMENT:
                 Type = type;
                 // Image = ImageConstants.Module.MODULE_VI_BACKGROUND_URL;
+                MainImage = ImageConstants.Module.MODULE_ENHANCEMENT_MAIN_IMAGE_URL;
                 await CreateModuleControllerAsync(stat);
                 break;
             case AppConstants.Module.MODULE_EVOLUTION:
                 Type = type;
                 // Image = ImageConstants.Module.MODULE_VII_BACKGROUND_URL;
+                MainImage = ImageConstants.Module.MODULE_EVOLUTION_MAIN_IMAGE_URL;
                 await CreateModuleControllerAsync(stat);
                 break;
             case AppConstants.Module.MODULE_INTEGRATION:
                 Type = type;
                 // Image = ImageConstants.Module.MODULE_VIII_BACKGROUND_URL;
+                MainImage = ImageConstants.Module.MODULE_INTEGRATION_MAIN_IMAGE_URL;
                 await CreateModuleControllerAsync(stat);
                 break;
             case AppConstants.Module.MODULE_REFINEMENT:
                 Type = type;
                 // Image = ImageConstants.Module.MODULE_IX_BACKGROUND_URL;
+                MainImage = ImageConstants.Module.MODULE_REFINEMENT_MAIN_IMAGE_URL;
                 await CreateModuleControllerAsync(stat);
                 break;
             case AppConstants.Module.MODULE_RESONANCE:
                 Type = type;
                 // Image = ImageConstants.Module.MODULE_X_BACKGROUND_URL;
+                MainImage = ImageConstants.Module.MODULE_RESONANCE_MAIN_IMAGE_URL;
                 await CreateModuleControllerAsync(stat);
                 break;
             case AppConstants.Module.MODULE_SANCTIFICATION:
                 Type = type;
                 // Image = ImageConstants.Module.MODULE_XI_BACKGROUND_URL;
+                MainImage = ImageConstants.Module.MODULE_SANCTIFICATION_MAIN_IMAGE_URL;
                 await CreateModuleControllerAsync(stat);
                 break;
             case AppConstants.Module.MODULE_SYNCHRONIZATION:
                 Type = type;
                 // Image = ImageConstants.Module.MODULE_XII_BACKGROUND_URL;
+                MainImage = ImageConstants.Module.MODULE_SYNCHRONIZATION_MAIN_IMAGE_URL;
                 await CreateModuleControllerAsync(stat);
                 break;
             default:
@@ -310,6 +323,9 @@ public class ModuleController : MonoBehaviour
 
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(BackgroundImage);
+
+        RawImage mainImage = transform.Find("MainImage").GetComponent<RawImage>();
+        mainImage.texture = TextureHelper.LoadTexture2DCached(MainImage);
 
         AnimationController.Instance.CreateModuleAnimation(currentObject);
 

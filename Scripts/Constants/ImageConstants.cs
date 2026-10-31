@@ -430,6 +430,27 @@ public static class ImageConstants
         public const string SCIENCE_FICTION_NUMBER_19_URL = "UI/Rank_Research/Science_Fiction_XIX";
         public const string SCIENCE_FICTION_NUMBER_20_URL = "UI/Rank_Research/Science_Fiction_XX";
 
+        public const string SCIENCE_FICTION_NUMBER_1_MAIN_IMAGE_URL = "UI/Background2/Science_Fiction_I";
+        public const string SCIENCE_FICTION_NUMBER_2_MAIN_IMAGE_URL = "UI/Background2/Science_Fiction_II";
+        public const string SCIENCE_FICTION_NUMBER_3_MAIN_IMAGE_URL = "UI/Background2/Science_Fiction_III";
+        public const string SCIENCE_FICTION_NUMBER_4_MAIN_IMAGE_URL = "UI/Background2/Science_Fiction_IV";
+        public const string SCIENCE_FICTION_NUMBER_5_MAIN_IMAGE_URL = "UI/Background2/Science_Fiction_V";
+        public const string SCIENCE_FICTION_NUMBER_6_MAIN_IMAGE_URL = "UI/Background2/Science_Fiction_VI";
+        public const string SCIENCE_FICTION_NUMBER_7_MAIN_IMAGE_URL = "UI/Background2/Science_Fiction_VII";
+        public const string SCIENCE_FICTION_NUMBER_8_MAIN_IMAGE_URL = "UI/Background2/Science_Fiction_VIII";
+        public const string SCIENCE_FICTION_NUMBER_9_MAIN_IMAGE_URL = "UI/Background2/Science_Fiction_IX";
+        public const string SCIENCE_FICTION_NUMBER_10_MAIN_IMAGE_URL = "UI/Background2/Science_Fiction_X";
+        public const string SCIENCE_FICTION_NUMBER_11_MAIN_IMAGE_URL = "UI/Background2/Science_Fiction_XI";
+        public const string SCIENCE_FICTION_NUMBER_12_MAIN_IMAGE_URL = "UI/Background2/Science_Fiction_XII";
+        public const string SCIENCE_FICTION_NUMBER_13_MAIN_IMAGE_URL = "UI/Background2/Science_Fiction_XIII";
+        public const string SCIENCE_FICTION_NUMBER_14_MAIN_IMAGE_URL = "UI/Background2/Science_Fiction_XIV";
+        public const string SCIENCE_FICTION_NUMBER_15_MAIN_IMAGE_URL = "UI/Background2/Science_Fiction_XV";
+        public const string SCIENCE_FICTION_NUMBER_16_MAIN_IMAGE_URL = "UI/Background2/Science_Fiction_XVI";
+        public const string SCIENCE_FICTION_NUMBER_17_MAIN_IMAGE_URL = "UI/Background2/Science_Fiction_XVII";
+        public const string SCIENCE_FICTION_NUMBER_18_MAIN_IMAGE_URL = "UI/Background2/Science_Fiction_XVIII";
+        public const string SCIENCE_FICTION_NUMBER_19_MAIN_IMAGE_URL = "UI/Background2/Science_Fiction_XIX";
+        public const string SCIENCE_FICTION_NUMBER_20_MAIN_IMAGE_URL = "UI/Background2/Science_Fiction_XX";
+
         public const string SCIENCE_FICTION_NUMBER_1_BACKGROUND_URL = "UI/Background1/Synthetic_Background_101";
         public const string SCIENCE_FICTION_NUMBER_2_BACKGROUND_URL = "UI/Background1/Synthetic_Background_102";
         public const string SCIENCE_FICTION_NUMBER_3_BACKGROUND_URL = "UI/Background1/Synthetic_Background_103";
@@ -1003,6 +1024,46 @@ public static class ImageConstants
         public const string ARCHIVE_XXXVIII_URL = "UI/Rank_Research/Archive XXXVIII";
         public const string ARCHIVE_XXXIX_URL = "UI/Rank_Research/Archive XXXIX";
 
+        public const string ARCHIVE_I_MAIN_IMAGE_URL = "UI/Background2/Archive_I";
+        public const string ARCHIVE_II_MAIN_IMAGE_URL = "UI/Background2/Archive_II";
+        public const string ARCHIVE_III_MAIN_IMAGE_URL = "UI/Background2/Archive_III";
+        public const string ARCHIVE_IV_MAIN_IMAGE_URL = "UI/Background2/Archive_IV";
+        public const string ARCHIVE_V_MAIN_IMAGE_URL = "UI/Background2/Archive_V";
+        public const string ARCHIVE_VI_MAIN_IMAGE_URL = "UI/Background2/Archive_VI";
+        public const string ARCHIVE_VII_MAIN_IMAGE_URL = "UI/Background2/Archive_VII";
+        public const string ARCHIVE_VIII_MAIN_IMAGE_URL = "UI/Background2/Archive_VIII";
+        public const string ARCHIVE_IX_MAIN_IMAGE_URL = "UI/Background2/Archive_IX";
+        public const string ARCHIVE_X_MAIN_IMAGE_URL = "UI/Background2/Archive_X";
+        public const string ARCHIVE_XI_MAIN_IMAGE_URL = "UI/Background2/Archive_XI";
+        public const string ARCHIVE_XII_MAIN_IMAGE_URL = "UI/Background2/Archive_XII";
+        public const string ARCHIVE_XIII_MAIN_IMAGE_URL = "UI/Background2/Archive_XIII";
+        public const string ARCHIVE_XIV_MAIN_IMAGE_URL = "UI/Background2/Archive_XIV";
+        public const string ARCHIVE_XV_MAIN_IMAGE_URL = "UI/Background2/Archive_XV";
+        public const string ARCHIVE_XVI_MAIN_IMAGE_URL = "UI/Background2/Archive_XVI";
+        public const string ARCHIVE_XVII_MAIN_IMAGE_URL = "UI/Background2/Archive_XVII";
+        public const string ARCHIVE_XVIII_MAIN_IMAGE_URL = "UI/Background2/Archive_XVIII";
+        public const string ARCHIVE_XIX_MAIN_IMAGE_URL = "UI/Background2/Archive_XIX";
+        public const string ARCHIVE_XX_MAIN_IMAGE_URL = "UI/Background2/Archive_XX";
+        public const string ARCHIVE_XXI_MAIN_IMAGE_URL = "UI/Background2/Archive_XXI";
+        public const string ARCHIVE_XXII_MAIN_IMAGE_URL = "UI/Background2/Archive_XXII";
+        public const string ARCHIVE_XXIII_MAIN_IMAGE_URL = "UI/Background2/Archive_XXIII";
+        public const string ARCHIVE_XXIV_MAIN_IMAGE_URL = "UI/Background2/Archive_XXIV";
+        public const string ARCHIVE_XXV_MAIN_IMAGE_URL = "UI/Background2/Archive_XXV";
+        public const string ARCHIVE_XXVI_MAIN_IMAGE_URL = "UI/Background2/Archive_XXVI";
+        public const string ARCHIVE_XXVII_MAIN_IMAGE_URL = "UI/Background2/Archive_XXVII";
+        public const string ARCHIVE_XXVIII_MAIN_IMAGE_URL = "UI/Background2/Archive_XXVIII";
+        public const string ARCHIVE_XXIX_MAIN_IMAGE_URL = "UI/Background2/Archive_XXIX";
+        public const string ARCHIVE_XXX_MAIN_IMAGE_URL = "UI/Background2/Archive_XXX";
+        public const string ARCHIVE_XXXI_MAIN_IMAGE_URL = "UI/Background2/Archive_XXXI";
+        public const string ARCHIVE_XXXII_MAIN_IMAGE_URL = "UI/Background2/Archive_XXXII";
+        public const string ARCHIVE_XXXIII_MAIN_IMAGE_URL = "UI/Background2/Archive_XXXIII";
+        public const string ARCHIVE_XXXIV_MAIN_IMAGE_URL = "UI/Background2/Archive_XXXIV";
+        public const string ARCHIVE_XXXV_MAIN_IMAGE_URL = "UI/Background2/Archive_XXXV";
+        public const string ARCHIVE_XXXVI_MAIN_IMAGE_URL = "UI/Background2/Archive_XXXVI";
+        public const string ARCHIVE_XXXVII_MAIN_IMAGE_URL = "UI/Background2/Archive_XXXVII";
+        public const string ARCHIVE_XXXVIII_MAIN_IMAGE_URL = "UI/Background2/Archive_XXXVIII";
+        public const string ARCHIVE_XXXIX_MAIN_IMAGE_URL = "UI/Background2/Archive_XXXIX";
+
         public const string ARCHIVE_I_BACKGROUND_URL = "UI/Background1/Background_V1_283";
         public const string ARCHIVE_II_BACKGROUND_URL = "UI/Background1/Background_V1_284";
         public const string ARCHIVE_III_BACKGROUND_URL = "UI/Background1/Background_V1_285";
@@ -1058,6 +1119,17 @@ public static class ImageConstants
         public const string UNIVERSE_IX_URL = "UI/Rank_Research/Universe IX";
         public const string UNIVERSE_X_URL = "UI/Rank_Research/Universe X";
 
+        public const string UNIVERSE_I_MAIN_IMAGE_URL = "UI/Background2/Universe_I";
+        public const string UNIVERSE_II_MAIN_IMAGE_URL = "UI/Background2/Universe_II";
+        public const string UNIVERSE_III_MAIN_IMAGE_URL = "UI/Background2/Universe_III";
+        public const string UNIVERSE_IV_MAIN_IMAGE_URL = "UI/Background2/Universe_IV";
+        public const string UNIVERSE_V_MAIN_IMAGE_URL = "UI/Background2/Universe_V";
+        public const string UNIVERSE_VI_MAIN_IMAGE_URL = "UI/Background2/Universe_VI";
+        public const string UNIVERSE_VII_MAIN_IMAGE_URL = "UI/Background2/Universe_VII";
+        public const string UNIVERSE_VIII_MAIN_IMAGE_URL = "UI/Background2/Universe_VIII";
+        public const string UNIVERSE_IX_MAIN_IMAGE_URL = "UI/Background2/Universe_IX";
+        public const string UNIVERSE_X_MAIN_IMAGE_URL = "UI/Background2/Universe_X";
+
         public const string UNIVERSE_I_BACKGROUND_URL = "UI/Background1/Background_V1_273";
         public const string UNIVERSE_II_BACKGROUND_URL = "UI/Background1/Background_V1_274";
         public const string UNIVERSE_III_BACKGROUND_URL = "UI/Background1/Background_V1_275";
@@ -1083,6 +1155,17 @@ public static class ImageConstants
         public const string HIIN_VIII_URL = "UI/Rank_Research/HIIN VIII";
         public const string HIIN_IX_URL = "UI/Rank_Research/HIIN IX";
         public const string HIIN_X_URL = "UI/Rank_Research/HIIN X";
+
+        public const string HIIN_I_MAIN_IMAGE_URL = "UI/Background2/HIIN_I";
+        public const string HIIN_II_MAIN_IMAGE_URL = "UI/Background2/HIIN_II";
+        public const string HIIN_III_MAIN_IMAGE_URL = "UI/Background2/HIIN_III";
+        public const string HIIN_IV_MAIN_IMAGE_URL = "UI/Background2/HIIN_IV";
+        public const string HIIN_V_MAIN_IMAGE_URL = "UI/Background2/HIIN_V";
+        public const string HIIN_VI_MAIN_IMAGE_URL = "UI/Background2/HIIN_VI";
+        public const string HIIN_VII_MAIN_IMAGE_URL = "UI/Background2/HIIN_VII";
+        public const string HIIN_VIII_MAIN_IMAGE_URL = "UI/Background2/HIIN_VIII";
+        public const string HIIN_IX_MAIN_IMAGE_URL = "UI/Background2/HIIN_IX";
+        public const string HIIN_X_MAIN_IMAGE_URL = "UI/Background2/HIIN_X";
 
         public const string HIIN_I_BACKGROUND_URL = "UI/Background1/Synthetic_Background_1";
         public const string HIIN_II_BACKGROUND_URL = "UI/Background1/Synthetic_Background_2";
@@ -1110,6 +1193,17 @@ public static class ImageConstants
         public const string SSWN_IX_URL = "UI/Rank_Research/SSWN IX";
         public const string SSWN_X_URL = "UI/Rank_Research/SSWN X";
 
+        public const string SSWN_I_MAIN_IMAGE_URL = "UI/Background2/SSWN_I";
+        public const string SSWN_II_MAIN_IMAGE_URL = "UI/Background2/SSWN_II";
+        public const string SSWN_III_MAIN_IMAGE_URL = "UI/Background2/SSWN_III";
+        public const string SSWN_IV_MAIN_IMAGE_URL = "UI/Background2/SSWN_IV";
+        public const string SSWN_V_MAIN_IMAGE_URL = "UI/Background2/SSWN_V";
+        public const string SSWN_VI_MAIN_IMAGE_URL = "UI/Background2/SSWN_VI";
+        public const string SSWN_VII_MAIN_IMAGE_URL = "UI/Background2/SSWN_VII";
+        public const string SSWN_VIII_MAIN_IMAGE_URL = "UI/Background2/SSWN_VIII";
+        public const string SSWN_IX_MAIN_IMAGE_URL = "UI/Background2/SSWN_IX";
+        public const string SSWN_X_MAIN_IMAGE_URL = "UI/Background2/SSWN_X";
+
         public const string SSWN_I_BACKGROUND_URL = "UI/Background1/Synthetic_Background_11";
         public const string SSWN_II_BACKGROUND_URL = "UI/Background1/Synthetic_Background_12";
         public const string SSWN_III_BACKGROUND_URL = "UI/Background1/Synthetic_Background_13";
@@ -1135,6 +1229,17 @@ public static class ImageConstants
         public const string HITN_VIII_URL = "UI/Rank_Research/HITN VIII";
         public const string HITN_IX_URL = "UI/Rank_Research/HITN IX";
         public const string HITN_X_URL = "UI/Rank_Research/HITN X";
+
+        public const string HITN_I_MAIN_IMAGE_URL = "UI/Background2/HITN_I";
+        public const string HITN_II_MAIN_IMAGE_URL = "UI/Background2/HITN_II";
+        public const string HITN_III_MAIN_IMAGE_URL = "UI/Background2/HITN_III";
+        public const string HITN_IV_MAIN_IMAGE_URL = "UI/Background2/HITN_IV";
+        public const string HITN_V_MAIN_IMAGE_URL = "UI/Background2/HITN_V";
+        public const string HITN_VI_MAIN_IMAGE_URL = "UI/Background2/HITN_VI";
+        public const string HITN_VII_MAIN_IMAGE_URL = "UI/Background2/HITN_VII";
+        public const string HITN_VIII_MAIN_IMAGE_URL = "UI/Background2/HITN_VIII";
+        public const string HITN_IX_MAIN_IMAGE_URL = "UI/Background2/HITN_IX";
+        public const string HITN_X_MAIN_IMAGE_URL = "UI/Background2/HITN_X";
 
         public const string HITN_I_BACKGROUND_URL = "UI/Background1/Synthetic_Background_21";
         public const string HITN_II_BACKGROUND_URL = "UI/Background1/Synthetic_Background_22";
@@ -1162,6 +1267,17 @@ public static class ImageConstants
         public const string HIHN_IX_URL = "UI/Rank_Research/HIHN IX";
         public const string HIHN_X_URL = "UI/Rank_Research/HIHN X";
 
+        public const string HIHN_I_MAIN_IMAGE_URL = "UI/Background2/HIHN_I";
+        public const string HIHN_II_MAIN_IMAGE_URL = "UI/Background2/HIHN_II";
+        public const string HIHN_III_MAIN_IMAGE_URL = "UI/Background2/HIHN_III";
+        public const string HIHN_IV_MAIN_IMAGE_URL = "UI/Background2/HIHN_IV";
+        public const string HIHN_V_MAIN_IMAGE_URL = "UI/Background2/HIHN_V";
+        public const string HIHN_VI_MAIN_IMAGE_URL = "UI/Background2/HIHN_VI";
+        public const string HIHN_VII_MAIN_IMAGE_URL = "UI/Background2/HIHN_VII";
+        public const string HIHN_VIII_MAIN_IMAGE_URL = "UI/Background2/HIHN_VIII";
+        public const string HIHN_IX_MAIN_IMAGE_URL = "UI/Background2/HIHN_IX";
+        public const string HIHN_X_MAIN_IMAGE_URL = "UI/Background2/HIHN_X";
+
         public const string HIHN_I_BACKGROUND_URL = "UI/Background1/Synthetic_Background_31";
         public const string HIHN_II_BACKGROUND_URL = "UI/Background1/Synthetic_Background_32";
         public const string HIHN_III_BACKGROUND_URL = "UI/Background1/Synthetic_Background_33";
@@ -1187,6 +1303,17 @@ public static class ImageConstants
         public const string HIEN_VIII_URL = "UI/Rank_Research/HIEN VIII";
         public const string HIEN_IX_URL = "UI/Rank_Research/HIEN IX";
         public const string HIEN_X_URL = "UI/Rank_Research/HIEN X";
+
+        public const string HIEN_I_MAIN_IMAGE_URL = "UI/Background2/HIEN_I";
+        public const string HIEN_II_MAIN_IMAGE_URL = "UI/Background2/HIEN_II";
+        public const string HIEN_III_MAIN_IMAGE_URL = "UI/Background2/HIEN_III";
+        public const string HIEN_IV_MAIN_IMAGE_URL = "UI/Background2/HIEN_IV";
+        public const string HIEN_V_MAIN_IMAGE_URL = "UI/Background2/HIEN_V";
+        public const string HIEN_VI_MAIN_IMAGE_URL = "UI/Background2/HIEN_VI";
+        public const string HIEN_VII_MAIN_IMAGE_URL = "UI/Background2/HIEN_VII";
+        public const string HIEN_VIII_MAIN_IMAGE_URL = "UI/Background2/HIEN_VIII";
+        public const string HIEN_IX_MAIN_IMAGE_URL = "UI/Background2/HIEN_IX";
+        public const string HIEN_X_MAIN_IMAGE_URL = "UI/Background2/HIEN_X";
 
         public const string HIEN_I_BACKGROUND_URL = "UI/Background1/Synthetic_Background_41";
         public const string HIEN_II_BACKGROUND_URL = "UI/Background1/Synthetic_Background_42";
@@ -1214,6 +1341,17 @@ public static class ImageConstants
         public const string HICA_IX_URL = "UI/Rank_Research/HICA IX";
         public const string HICA_X_URL = "UI/Rank_Research/HICA X";
 
+        public const string HICA_I_MAIN_IMAGE_URL = "UI/Background2/HICA_I";
+        public const string HICA_II_MAIN_IMAGE_URL = "UI/Background2/HICA_II";
+        public const string HICA_III_MAIN_IMAGE_URL = "UI/Background2/HICA_III";
+        public const string HICA_IV_MAIN_IMAGE_URL = "UI/Background2/HICA_IV";
+        public const string HICA_V_MAIN_IMAGE_URL = "UI/Background2/HICA_V";
+        public const string HICA_VI_MAIN_IMAGE_URL = "UI/Background2/HICA_VI";
+        public const string HICA_VII_MAIN_IMAGE_URL = "UI/Background2/HICA_VII";
+        public const string HICA_VIII_MAIN_IMAGE_URL = "UI/Background2/HICA_VIII";
+        public const string HICA_IX_MAIN_IMAGE_URL = "UI/Background2/HICA_IX";
+        public const string HICA_X_MAIN_IMAGE_URL = "UI/Background2/HICA_X";
+
         public const string HICA_I_BACKGROUND_URL = "UI/Background1/Synthetic_Background_51";
         public const string HICA_II_BACKGROUND_URL = "UI/Background1/Synthetic_Background_52";
         public const string HICA_III_BACKGROUND_URL = "UI/Background1/Synthetic_Background_53";
@@ -1239,6 +1377,17 @@ public static class ImageConstants
         public const string HIRN_VIII_URL = "UI/Rank_Research/HIRN VIII";
         public const string HIRN_IX_URL = "UI/Rank_Research/HIRN IX";
         public const string HIRN_X_URL = "UI/Rank_Research/HIRN X";
+
+        public const string HIRN_I_MAIN_IMAGE_URL = "UI/Background2/HIRN_I";
+        public const string HIRN_II_MAIN_IMAGE_URL = "UI/Background2/HIRN_II";
+        public const string HIRN_III_MAIN_IMAGE_URL = "UI/Background2/HIRN_III";
+        public const string HIRN_IV_MAIN_IMAGE_URL = "UI/Background2/HIRN_IV";
+        public const string HIRN_V_MAIN_IMAGE_URL = "UI/Background2/HIRN_V";
+        public const string HIRN_VI_MAIN_IMAGE_URL = "UI/Background2/HIRN_VI";
+        public const string HIRN_VII_MAIN_IMAGE_URL = "UI/Background2/HIRN_VII";
+        public const string HIRN_VIII_MAIN_IMAGE_URL = "UI/Background2/HIRN_VIII";
+        public const string HIRN_IX_MAIN_IMAGE_URL = "UI/Background2/HIRN_IX";
+        public const string HIRN_X_MAIN_IMAGE_URL = "UI/Background2/HIRN_X";
 
         public const string HIRN_I_BACKGROUND_URL = "UI/Background1/Synthetic_Background_61";
         public const string HIRN_II_BACKGROUND_URL = "UI/Background1/Synthetic_Background_62";
@@ -1266,6 +1415,17 @@ public static class ImageConstants
         public const string HIDC_IX_URL = "UI/Rank_Research/HIDC IX";
         public const string HIDC_X_URL = "UI/Rank_Research/HIDC X";
 
+        public const string HIDC_I_MAIN_IMAGE_URL = "UI/Background2/HIDC_I";
+        public const string HIDC_II_MAIN_IMAGE_URL = "UI/Background2/HIDC_II";
+        public const string HIDC_III_MAIN_IMAGE_URL = "UI/Background2/HIDC_III";
+        public const string HIDC_IV_MAIN_IMAGE_URL = "UI/Background2/HIDC_IV";
+        public const string HIDC_V_MAIN_IMAGE_URL = "UI/Background2/HIDC_V";
+        public const string HIDC_VI_MAIN_IMAGE_URL = "UI/Background2/HIDC_VI";
+        public const string HIDC_VII_MAIN_IMAGE_URL = "UI/Background2/HIDC_VII";
+        public const string HIDC_VIII_MAIN_IMAGE_URL = "UI/Background2/HIDC_VIII";
+        public const string HIDC_IX_MAIN_IMAGE_URL = "UI/Background2/HIDC_IX";
+        public const string HIDC_X_MAIN_IMAGE_URL = "UI/Background2/HIDC_X";
+
         public const string HIDC_I_BACKGROUND_URL = "UI/Background1/Synthetic_Background_71";
         public const string HIDC_II_BACKGROUND_URL = "UI/Background1/Synthetic_Background_72";
         public const string HIDC_III_BACKGROUND_URL = "UI/Background1/Synthetic_Background_73";
@@ -1291,6 +1451,17 @@ public static class ImageConstants
         public const string HICB_VIII_URL = "UI/Rank_Research/HICB VIII";
         public const string HICB_IX_URL = "UI/Rank_Research/HICB IX";
         public const string HICB_X_URL = "UI/Rank_Research/HICB X";
+
+        public const string HICB_I_MAIN_IMAGE_URL = "UI/Background2/HICB_I";
+        public const string HICB_II_MAIN_IMAGE_URL = "UI/Background2/HICB_II";
+        public const string HICB_III_MAIN_IMAGE_URL = "UI/Background2/HICB_III";
+        public const string HICB_IV_MAIN_IMAGE_URL = "UI/Background2/HICB_IV";
+        public const string HICB_V_MAIN_IMAGE_URL = "UI/Background2/HICB_V";
+        public const string HICB_VI_MAIN_IMAGE_URL = "UI/Background2/HICB_VI";
+        public const string HICB_VII_MAIN_IMAGE_URL = "UI/Background2/HICB_VII";
+        public const string HICB_VIII_MAIN_IMAGE_URL = "UI/Background2/HICB_VIII";
+        public const string HICB_IX_MAIN_IMAGE_URL = "UI/Background2/HICB_IX";
+        public const string HICB_X_MAIN_IMAGE_URL = "UI/Background2/HICB_X";
 
         public const string HICB_I_BACKGROUND_URL = "UI/Background1/Synthetic_Background_81";
         public const string HICB_II_BACKGROUND_URL = "UI/Background1/Synthetic_Background_82";
@@ -1318,6 +1489,17 @@ public static class ImageConstants
         public const string HISN_IX_URL = "UI/Rank_Research/HISN IX";
         public const string HISN_X_URL = "UI/Rank_Research/HISN X";
 
+        public const string HISN_I_MAIN_IMAGE_URL = "UI/Background2/HISN_I";
+        public const string HISN_II_MAIN_IMAGE_URL = "UI/Background2/HISN_II";
+        public const string HISN_III_MAIN_IMAGE_URL = "UI/Background2/HISN_III";
+        public const string HISN_IV_MAIN_IMAGE_URL = "UI/Background2/HISN_IV";
+        public const string HISN_V_MAIN_IMAGE_URL = "UI/Background2/HISN_V";
+        public const string HISN_VI_MAIN_IMAGE_URL = "UI/Background2/HISN_VI";
+        public const string HISN_VII_MAIN_IMAGE_URL = "UI/Background2/HISN_VII";
+        public const string HISN_VIII_MAIN_IMAGE_URL = "UI/Background2/HISN_VIII";
+        public const string HISN_IX_MAIN_IMAGE_URL = "UI/Background2/HISN_IX";
+        public const string HISN_X_MAIN_IMAGE_URL = "UI/Background2/HISN_X";
+
         public const string HISN_I_BACKGROUND_URL = "UI/Background1/Synthetic_Background_91";
         public const string HISN_II_BACKGROUND_URL = "UI/Background1/Synthetic_Background_92";
         public const string HISN_III_BACKGROUND_URL = "UI/Background1/Synthetic_Background_93";
@@ -1344,6 +1526,17 @@ public static class ImageConstants
         public const string COSMIC_IMPRINT_IX_URL = "UI/Rank_Research/HISN IX";
         public const string COSMIC_IMPRINT_X_URL = "UI/Rank_Research/HISN X";
 
+        public const string COSMIC_IMPRINT_I_MAIN_IMAGE_URL = "UI/Background2/Cosmic_Imprint_I";
+        public const string COSMIC_IMPRINT_II_MAIN_IMAGE_URL = "UI/Background2/Cosmic_Imprint_II";
+        public const string COSMIC_IMPRINT_III_MAIN_IMAGE_URL = "UI/Background2/Cosmic_Imprint_III";
+        public const string COSMIC_IMPRINT_IV_MAIN_IMAGE_URL = "UI/Background2/Cosmic_Imprint_IV";
+        public const string COSMIC_IMPRINT_V_MAIN_IMAGE_URL = "UI/Background2/Cosmic_Imprint_V";
+        public const string COSMIC_IMPRINT_VI_MAIN_IMAGE_URL = "UI/Background2/Cosmic_Imprint_VI";
+        public const string COSMIC_IMPRINT_VII_MAIN_IMAGE_URL = "UI/Background2/Cosmic_Imprint_VII";
+        public const string COSMIC_IMPRINT_VIII_MAIN_IMAGE_URL = "UI/Background2/Cosmic_Imprint_VIII";
+        public const string COSMIC_IMPRINT_IX_MAIN_IMAGE_URL = "UI/Background2/Cosmic_Imprint_IX";
+        public const string COSMIC_IMPRINT_X_MAIN_IMAGE_URL = "UI/Background2/Cosmic_Imprint_X";
+
         public const string COSMIC_IMPRINT_I_BACKGROUND_URL = "UI/Background1/Synthetic_Background_91";
         public const string COSMIC_IMPRINT_II_BACKGROUND_URL = "UI/Background1/Synthetic_Background_92";
         public const string COSMIC_IMPRINT_III_BACKGROUND_URL = "UI/Background1/Synthetic_Background_93";
@@ -1369,6 +1562,17 @@ public static class ImageConstants
         public const string PRIMORDIAL_IMPRINT_VIII_URL = "UI/Rank_Research/HISN VIII";
         public const string PRIMORDIAL_IMPRINT_IX_URL = "UI/Rank_Research/HISN IX";
         public const string PRIMORDIAL_IMPRINT_X_URL = "UI/Rank_Research/HISN X";
+
+        public const string PRIMORDIAL_IMPRINT_I_MAIN_IMAGE_URL = "UI/Background2/Primordial_Imprint_I";
+        public const string PRIMORDIAL_IMPRINT_II_MAIN_IMAGE_URL = "UI/Background2/Primordial_Imprint_II";
+        public const string PRIMORDIAL_IMPRINT_III_MAIN_IMAGE_URL = "UI/Background2/Primordial_Imprint_III";
+        public const string PRIMORDIAL_IMPRINT_IV_MAIN_IMAGE_URL = "UI/Background2/Primordial_Imprint_IV";
+        public const string PRIMORDIAL_IMPRINT_V_MAIN_IMAGE_URL = "UI/Background2/Primordial_Imprint_V";
+        public const string PRIMORDIAL_IMPRINT_VI_MAIN_IMAGE_URL = "UI/Background2/Primordial_Imprint_VI";
+        public const string PRIMORDIAL_IMPRINT_VII_MAIN_IMAGE_URL = "UI/Background2/Primordial_Imprint_VII";
+        public const string PRIMORDIAL_IMPRINT_VIII_MAIN_IMAGE_URL = "UI/Background2/Primordial_Imprint_VIII";
+        public const string PRIMORDIAL_IMPRINT_IX_MAIN_IMAGE_URL = "UI/Background2/Primordial_Imprint_IX";
+        public const string PRIMORDIAL_IMPRINT_X_MAIN_IMAGE_URL = "UI/Background2/Primordial_Imprint_X";
 
         public const string PRIMORDIAL_IMPRINT_I_BACKGROUND_URL = "UI/Background1/Synthetic_Background_91";
         public const string PRIMORDIAL_IMPRINT_II_BACKGROUND_URL = "UI/Background1/Synthetic_Background_92";
@@ -1410,6 +1614,31 @@ public static class ImageConstants
         public const string PATH_OF_LORD_IMPRINT_XXIII_URL = "UI/Rank_Research/HISN III";
         public const string PATH_OF_LORD_IMPRINT_XXIV_URL = "UI/Rank_Research/HISN IV";
 
+        public const string PATH_OF_LORD_IMPRINT_I_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_I";
+        public const string PATH_OF_LORD_IMPRINT_II_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_II";
+        public const string PATH_OF_LORD_IMPRINT_III_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_III";
+        public const string PATH_OF_LORD_IMPRINT_IV_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_IV";
+        public const string PATH_OF_LORD_IMPRINT_V_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_V";
+        public const string PATH_OF_LORD_IMPRINT_VI_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_VI";
+        public const string PATH_OF_LORD_IMPRINT_VII_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_VII";
+        public const string PATH_OF_LORD_IMPRINT_VIII_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_VIII";
+        public const string PATH_OF_LORD_IMPRINT_IX_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_IX";
+        public const string PATH_OF_LORD_IMPRINT_X_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_X";
+        public const string PATH_OF_LORD_IMPRINT_XI_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_I";
+        public const string PATH_OF_LORD_IMPRINT_XII_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_II";
+        public const string PATH_OF_LORD_IMPRINT_XIII_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_III";
+        public const string PATH_OF_LORD_IMPRINT_XIV_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_IV";
+        public const string PATH_OF_LORD_IMPRINT_XV_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_V";
+        public const string PATH_OF_LORD_IMPRINT_XVI_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_VI";
+        public const string PATH_OF_LORD_IMPRINT_XVII_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_VII";
+        public const string PATH_OF_LORD_IMPRINT_XVIII_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_VIII";
+        public const string PATH_OF_LORD_IMPRINT_XIX_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_IX";
+        public const string PATH_OF_LORD_IMPRINT_XX_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_X";
+        public const string PATH_OF_LORD_IMPRINT_XXI_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_I";
+        public const string PATH_OF_LORD_IMPRINT_XXII_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_II";
+        public const string PATH_OF_LORD_IMPRINT_XXIII_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_III";
+        public const string PATH_OF_LORD_IMPRINT_XXIV_MAIN_IMAGE_URL = "UI/Background2/Path_Of_Lord_Imprint_IV";
+
         public const string PATH_OF_LORD_IMPRINT_I_BACKGROUND_URL = "UI/Background1/Synthetic_Background_91";
         public const string PATH_OF_LORD_IMPRINT_II_BACKGROUND_URL = "UI/Background1/Synthetic_Background_92";
         public const string PATH_OF_LORD_IMPRINT_III_BACKGROUND_URL = "UI/Background1/Synthetic_Background_93";
@@ -1450,6 +1679,19 @@ public static class ImageConstants
         public const string MODULE_SYNCHRONIZATION_URL = "UI/Button/Main/Module_Synchronization";
         public const string MODULE_INTEGRATION_URL = "UI/Button/Main/Module_Integration";
 
+        public const string MODULE_BREAKTHROUGH_MAIN_IMAGE_URL = "UI/Background2/Module_Breakthrough";
+        public const string MODULE_AWAKENING_MAIN_IMAGE_URL = "UI/Background2/Module_Awakening";
+        public const string MODULE_ASCENSION_MAIN_IMAGE_URL = "UI/Background2/Module_Ascension";
+        public const string MODULE_RESONANCE_MAIN_IMAGE_URL = "UI/Background2/Module_Resonance";
+        public const string MODULE_ENHANCEMENT_MAIN_IMAGE_URL = "UI/Background2/Module_Enhancement";
+        public const string MODULE_REFINEMENT_MAIN_IMAGE_URL = "UI/Background2/Module_Refinement";
+        public const string MODULE_EVOLUTION_MAIN_IMAGE_URL = "UI/Background2/Module_Evolution";
+        public const string MODULE_APOTHEOSIS_MAIN_IMAGE_URL = "UI/Background2/Module_Apotheosis";
+        public const string MODULE_ENGRAVING_MAIN_IMAGE_URL = "UI/Background2/Module_Engraving";
+        public const string MODULE_SANCTIFICATION_MAIN_IMAGE_URL = "UI/Background2/Module_Sanctification";
+        public const string MODULE_SYNCHRONIZATION_MAIN_IMAGE_URL = "UI/Background2/Module_Synchronization";
+        public const string MODULE_INTEGRATION_MAIN_IMAGE_URL = "UI/Background2/Module_Integration";
+
         public const string MODULE_BREAKTHROUGH_BACKGROUND_URL = "UI/Background1/Background_V1_261";
         public const string MODULE_AWAKENING_BACKGROUND_URL = "UI/Background1/Background_V1_262";
         public const string MODULE_ASCENSION_BACKGROUND_URL = "UI/Background1/Background_V1_263";
@@ -1472,6 +1714,19 @@ public static class ImageConstants
         public const string UPGRADE_SYNCHRONIZATION_URL = "UI/Button/Main/Upgrade_Synchronization";
         public const string UPGRADE_INTEGRATION_URL = "UI/Button/Main/Upgrade_Integration";
 
+        public const string UPGRADE_BREAKTHROUGH_MAIN_IMAGE_URL = "UI/Background2//Upgrade_Breakthrough";
+        public const string UPGRADE_AWAKENING_MAIN_IMAGE_URL = "UI/Background2//Upgrade_Awakening";
+        public const string UPGRADE_ASCENSION_MAIN_IMAGE_URL = "UI/Background2//Upgrade_Ascension";
+        public const string UPGRADE_RESONANCE_MAIN_IMAGE_URL = "UI/Background2//Upgrade_Resonance";
+        public const string UPGRADE_ENHANCEMENT_MAIN_IMAGE_URL = "UI/Background2//Upgrade_Enhancement";
+        public const string UPGRADE_REFINEMENT_MAIN_IMAGE_URL = "UI/Background2//Upgrade_Refinement";
+        public const string UPGRADE_EVOLUTION_MAIN_IMAGE_URL = "UI/Background2//Upgrade_Evolution";
+        public const string UPGRADE_APOTHEOSIS_MAIN_IMAGE_URL = "UI/Background2//Upgrade_Apotheosis";
+        public const string UPGRADE_ENGRAVING_MAIN_IMAGE_URL = "UI/Background2//Upgrade_Engraving";
+        public const string UPGRADE_SANCTIFICATION_MAIN_IMAGE_URL = "UI/Background2//Upgrade_Sanctification";
+        public const string UPGRADE_SYNCHRONIZATION_MAIN_IMAGE_URL = "UI/Background2//Upgrade_Synchronization";
+        public const string UPGRADE_INTEGRATION_MAIN_IMAGE_URL = "UI/Background2//Upgrade_Integration";
+
         public const string UPGRADE_BREAKTHROUGH_BACKGROUND_URL = "UI/Background1/Background_V1_267";
         public const string UPGRADE_AWAKENING_BACKGROUND_URL = "UI/Background1/Background_V1_268";
         public const string UPGRADE_ASCENSION_BACKGROUND_URL = "UI/Background1/Background_V1_269";
@@ -1492,6 +1747,18 @@ public static class ImageConstants
         public const string MASTER_OF_PHYSICAL_URL = "UI/Button/Main/Master_Of_Physical";
         public const string MASTER_OF_ATOMIC_URL = "UI/Button/Main/Master_Of_Atomic";
         public const string MASTER_OF_MENTAL_URL = "UI/Button/Main/Master_Of_Mental";
+
+        public const string MASTER_OF_BEAST_MAIN_IMAGE_URL = "UI/Background2//Master_Of_Beast";
+        public const string MASTER_OF_DRAGON_MAIN_IMAGE_URL = "UI/Background2//Master_Of_Dragon";
+        public const string MASTER_OF_MAGIC_MAIN_IMAGE_URL = "UI/Background2//Master_Of_Magic";
+        public const string MASTER_OF_MUSIC_MAIN_IMAGE_URL = "UI/Background2//Master_Of_Music";
+        public const string MASTER_OF_SCIENCE_MAIN_IMAGE_URL = "UI/Background2//Master_Of_Science";
+        public const string MASTER_OF_SPIRIT_MAIN_IMAGE_URL = "UI/Background2//Master_Of_Spirit";
+        public const string MASTER_OF_WEAPON_MAIN_IMAGE_URL = "UI/Background2//Master_Of_Weapon";
+        public const string MASTER_OF_CHEMICAL_MAIN_IMAGE_URL = "UI/Background2//Master_Of_Chemical";
+        public const string MASTER_OF_PHYSICAL_MAIN_IMAGE_URL = "UI/Background2//Master_Of_Physical";
+        public const string MASTER_OF_ATOMIC_MAIN_IMAGE_URL = "UI/Background2//Master_Of_Atomic";
+        public const string MASTER_OF_MENTAL_MAIN_IMAGE_URL = "UI/Background2//Master_Of_Mental";
 
         public const string MASTER_OF_BEAST_BACKGROUND_URL = "UI/Background1/Background_V1_317";
         public const string MASTER_OF_DRAGON_BACKGROUND_URL = "UI/Background1/Background_V1_318";

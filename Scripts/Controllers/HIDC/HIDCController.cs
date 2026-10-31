@@ -25,6 +25,7 @@ public class HIDCController : MonoBehaviour
     private PaginationManager PaginationManager;
     private string Type = "";
     private string BackgroundImage = "";
+    private string MainImage = "";
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -61,51 +62,61 @@ public class HIDCController : MonoBehaviour
             case AppConstants.HIDC.HIDC_I:
                 Type = type;
                 BackgroundImage = ImageConstants.HIDC.HIDC_I_BACKGROUND_URL;
+                MainImage = ImageConstants.HIDC.HIDC_I_MAIN_IMAGE_URL;
                 await CreateHIDCControllerAsync();
                 break;
             case AppConstants.HIDC.HIDC_II:
                 Type = type;
                 BackgroundImage = ImageConstants.HIDC.HIDC_II_BACKGROUND_URL;
+                MainImage = ImageConstants.HIDC.HIDC_II_MAIN_IMAGE_URL;
                 await CreateHIDCControllerAsync();
                 break;
             case AppConstants.HIDC.HIDC_III:
                 Type = type;
                 BackgroundImage = ImageConstants.HIDC.HIDC_III_BACKGROUND_URL;
+                MainImage = ImageConstants.HIDC.HIDC_III_MAIN_IMAGE_URL;
                 await CreateHIDCControllerAsync();
                 break;
             case AppConstants.HIDC.HIDC_IV:
                 Type = type;
                 BackgroundImage = ImageConstants.HIDC.HIDC_IV_BACKGROUND_URL;
+                MainImage = ImageConstants.HIDC.HIDC_IV_MAIN_IMAGE_URL;
                 await CreateHIDCControllerAsync();
                 break;
             case AppConstants.HIDC.HIDC_V:
                 Type = type;
                 BackgroundImage = ImageConstants.HIDC.HIDC_V_BACKGROUND_URL;
+                MainImage = ImageConstants.HIDC.HIDC_V_MAIN_IMAGE_URL;
                 await CreateHIDCControllerAsync();
                 break;
             case AppConstants.HIDC.HIDC_VI:
                 Type = type;
                 BackgroundImage = ImageConstants.HIDC.HIDC_VI_BACKGROUND_URL;
+                MainImage = ImageConstants.HIDC.HIDC_VI_MAIN_IMAGE_URL;
                 await CreateHIDCControllerAsync();
                 break;
             case AppConstants.HIDC.HIDC_VII:
                 Type = type;
                 BackgroundImage = ImageConstants.HIDC.HIDC_VII_BACKGROUND_URL;
+                MainImage = ImageConstants.HIDC.HIDC_VII_MAIN_IMAGE_URL;
                 await CreateHIDCControllerAsync();
                 break;
             case AppConstants.HIDC.HIDC_VIII:
                 Type = type;
                 BackgroundImage = ImageConstants.HIDC.HIDC_VIII_BACKGROUND_URL;
+                MainImage = ImageConstants.HIDC.HIDC_VIII_MAIN_IMAGE_URL;
                 await CreateHIDCControllerAsync();
                 break;
             case AppConstants.HIDC.HIDC_IX:
                 Type = type;
                 BackgroundImage = ImageConstants.HIDC.HIDC_IX_BACKGROUND_URL;
+                MainImage = ImageConstants.HIDC.HIDC_IX_MAIN_IMAGE_URL;
                 await CreateHIDCControllerAsync();
                 break;
             case AppConstants.HIDC.HIDC_X:
                 Type = type;
                 BackgroundImage = ImageConstants.HIDC.HIDC_X_BACKGROUND_URL;
+                MainImage = ImageConstants.HIDC.HIDC_X_MAIN_IMAGE_URL;
                 await CreateHIDCControllerAsync();
                 break;
             default:
@@ -296,6 +307,9 @@ public class HIDCController : MonoBehaviour
 
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(BackgroundImage);
+
+        RawImage mainImage = transform.Find("MainImage").GetComponent<RawImage>();
+        mainImage.texture = TextureHelper.LoadTexture2DCached(MainImage);
 
         AnimationController.Instance.CreateHIDCAnimation(currentObject);
 

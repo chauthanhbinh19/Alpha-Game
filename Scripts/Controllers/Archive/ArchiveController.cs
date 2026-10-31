@@ -25,6 +25,7 @@ public class ArchiveController : MonoBehaviour
     private PaginationManager PaginationManager;
     private string Type = "";
     private string BackgroundImage = "";
+    private string MainImage = "";
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -62,196 +63,235 @@ public class ArchiveController : MonoBehaviour
             case AppConstants.Archive.ARCHIVE_I:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_I_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_I_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_II:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_II_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_II_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_III:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_III_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_III_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_IV:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_IV_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_IV_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_V:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_V_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_V_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_VI:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_VI_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_VI_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_VII:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_VII_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_VII_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_VIII:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_VIII_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_VIII_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_IX:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_IX_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_IX_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_X:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_X_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_X_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XI:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XI_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XI_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XII:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XII_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XII_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XIII:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XIII_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XIII_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XIV:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XIV_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XIV_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XV:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XV_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XV_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XVI:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XVI_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XVI_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XVII:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XVII_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XVII_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XVIII:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XVIII_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XVIII_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XIX:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XIX_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XIX_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XX:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XX_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XX_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XXI:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XXI_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XXI_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XXII:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XXII_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XXII_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XXIII:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XXIII_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XXIII_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XXIV:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XXIV_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XXIV_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XXV:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XXV_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XXV_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XXVI:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XXVI_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XXVI_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XXVII:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XXVII_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XXVII_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XXVIII:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XXVIII_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XXVIII_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XXIX:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XXIX_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XXIX_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XXX:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XXX_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XXX_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XXXI:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XXXI_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XXXI_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XXXII:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XXXII_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XXXII_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XXXIII:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XXXIII_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XXXIII_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XXXIV:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XXXIV_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XXXIV_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XXXV:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XXXV_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XXXV_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XXXVI:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XXXVI_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XXXVI_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XXXVII:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XXXVII_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XXXVII_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XXXVIII:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XXXVIII_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XXXVIII_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             case AppConstants.Archive.ARCHIVE_XXXIX:
                 Type = type;
                 BackgroundImage = ImageConstants.Archive.ARCHIVE_XXXIX_BACKGROUND_URL;
+                MainImage = ImageConstants.Archive.ARCHIVE_XXXIX_MAIN_IMAGE_URL;
                 await CreateArchiveControllerAsync();
                 break;
             // case AppConstants.Archive.ARCHIVE_X:
@@ -448,6 +488,9 @@ public class ArchiveController : MonoBehaviour
 
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(BackgroundImage);
+
+        RawImage mainImage = transform.Find("MainImage").GetComponent<RawImage>();
+        mainImage.texture = TextureHelper.LoadTexture2DCached(MainImage);
 
         AnimationController.Instance.CreateArchiveAnimation(currentObject);
 

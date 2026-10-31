@@ -27,6 +27,7 @@ public class MasterController : MonoBehaviour
     private PaginationManager PaginationManager;
     private string Type = "";
     private string BackgroundImage = "";
+    private string MainImage = "";
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -63,56 +64,67 @@ public class MasterController : MonoBehaviour
             case AppConstants.Master.MASTER_OF_ATOMIC:
                 Type = type;
                 BackgroundImage = ImageConstants.Master.MASTER_OF_ATOMIC_BACKGROUND_URL;
+                MainImage = ImageConstants.Master.MASTER_OF_ATOMIC_MAIN_IMAGE_URL;
                 await CreateMasterControllerAsync(stat);
                 break;
             case AppConstants.Master.MASTER_OF_BEAST:
                 Type = type;
                 BackgroundImage = ImageConstants.Master.MASTER_OF_BEAST_BACKGROUND_URL;
+                MainImage = ImageConstants.Master.MASTER_OF_BEAST_MAIN_IMAGE_URL;
                 await CreateMasterControllerAsync(stat);
                 break;
             case AppConstants.Master.MASTER_OF_CHEMICAL:
                 Type = type;
                 BackgroundImage = ImageConstants.Master.MASTER_OF_CHEMICAL_BACKGROUND_URL;
+                MainImage = ImageConstants.Master.MASTER_OF_CHEMICAL_MAIN_IMAGE_URL;
                 await CreateMasterControllerAsync(stat);
                 break;
             case AppConstants.Master.MASTER_OF_DRAGON:
                 Type = type;
                 BackgroundImage = ImageConstants.Master.MASTER_OF_DRAGON_BACKGROUND_URL;
+                MainImage = ImageConstants.Master.MASTER_OF_DRAGON_MAIN_IMAGE_URL;
                 await CreateMasterControllerAsync(stat);
                 break;
             case AppConstants.Master.MASTER_OF_MAGIC:
                 Type = type;
                 BackgroundImage = ImageConstants.Master.MASTER_OF_MAGIC_BACKGROUND_URL;
+                MainImage = ImageConstants.Master.MASTER_OF_MAGIC_MAIN_IMAGE_URL;
                 await CreateMasterControllerAsync(stat);
                 break;
             case AppConstants.Master.MASTER_OF_MENTAL:
                 Type = type;
                 BackgroundImage = ImageConstants.Master.MASTER_OF_MENTAL_BACKGROUND_URL;
+                MainImage = ImageConstants.Master.MASTER_OF_MENTAL_MAIN_IMAGE_URL;
                 await CreateMasterControllerAsync(stat);
                 break;
             case AppConstants.Master.MASTER_OF_MUSIC:
                 Type = type;
                 BackgroundImage = ImageConstants.Master.MASTER_OF_MUSIC_BACKGROUND_URL;
+                MainImage = ImageConstants.Master.MASTER_OF_MUSIC_MAIN_IMAGE_URL;
                 await CreateMasterControllerAsync(stat);
                 break;
             case AppConstants.Master.MASTER_OF_PHYSICAL:
                 Type = type;
                 BackgroundImage = ImageConstants.Master.MASTER_OF_PHYSICAL_BACKGROUND_URL;
+                MainImage = ImageConstants.Master.MASTER_OF_PHYSICAL_MAIN_IMAGE_URL;
                 await CreateMasterControllerAsync(stat);
                 break;
             case AppConstants.Master.MASTER_OF_SCIENCE:
                 Type = type;
                 BackgroundImage = ImageConstants.Master.MASTER_OF_SCIENCE_BACKGROUND_URL;
+                MainImage = ImageConstants.Master.MASTER_OF_SCIENCE_MAIN_IMAGE_URL;
                 await CreateMasterControllerAsync(stat);
                 break;
             case AppConstants.Master.MASTER_OF_SPIRIT:
                 Type = type;
                 BackgroundImage = ImageConstants.Master.MASTER_OF_SPIRIT_BACKGROUND_URL;
+                MainImage = ImageConstants.Master.MASTER_OF_SPIRIT_MAIN_IMAGE_URL;
                 await CreateMasterControllerAsync(stat);
                 break;
             case AppConstants.Master.MASTER_OF_WEAPON:
                 Type = type;
                 BackgroundImage = ImageConstants.Master.MASTER_OF_WEAPON_BACKGROUND_URL;
+                MainImage = ImageConstants.Master.MASTER_OF_WEAPON_MAIN_IMAGE_URL;
                 await CreateMasterControllerAsync(stat);
                 break;
             default:
@@ -305,6 +317,9 @@ public class MasterController : MonoBehaviour
 
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(BackgroundImage);
+
+        RawImage mainImage = transform.Find("MainImage").GetComponent<RawImage>();
+        mainImage.texture = TextureHelper.LoadTexture2DCached(MainImage);
 
         AnimationController.Instance.CreateMasterAnimation(currentObject);
 

@@ -25,6 +25,7 @@ public class UpgradeController : MonoBehaviour
     private PaginationManager PaginationManager;
     private string Type = "";
     private string BackgroundImage = "";
+    private string MainImage = "";
     private IStats Stat;
 
     private void Awake()
@@ -64,61 +65,73 @@ public class UpgradeController : MonoBehaviour
             case AppConstants.Upgrade.UPGRADE_APOTHEOSIS:
                 Type = type;
                 // Image = ImageConstants.Upgrade.UPGRADE_I_BACKGROUND_URL;
+                MainImage = ImageConstants.Upgrade.UPGRADE_APOTHEOSIS_MAIN_IMAGE_URL;
                 await CreateUpgradeControllerAsync(stat);
                 break;
             case AppConstants.Upgrade.UPGRADE_ASCENSION:
                 Type = type;
                 // Image = ImageConstants.Upgrade.UPGRADE_II_BACKGROUND_URL;
+                MainImage = ImageConstants.Upgrade.UPGRADE_ASCENSION_MAIN_IMAGE_URL;
                 await CreateUpgradeControllerAsync(stat);
                 break;
             case AppConstants.Upgrade.UPGRADE_AWAKENING:
                 Type = type;
                 // Image = ImageConstants.Upgrade.UPGRADE_III_BACKGROUND_URL;
+                MainImage = ImageConstants.Upgrade.UPGRADE_AWAKENING_MAIN_IMAGE_URL;
                 await CreateUpgradeControllerAsync(stat);
                 break;
             case AppConstants.Upgrade.UPGRADE_BREAKTHROUGH:
                 Type = type;
                 // Image = ImageConstants.Upgrade.UPGRADE_IV_BACKGROUND_URL;
+                MainImage = ImageConstants.Upgrade.UPGRADE_BREAKTHROUGH_MAIN_IMAGE_URL;
                 await CreateUpgradeControllerAsync(stat);
                 break;
             case AppConstants.Upgrade.UPGRADE_ENGRAVING:
                 Type = type;
                 // Image = ImageConstants.Upgrade.UPGRADE_V_BACKGROUND_URL;
+                MainImage = ImageConstants.Upgrade.UPGRADE_ENGRAVING_MAIN_IMAGE_URL;
                 await CreateUpgradeControllerAsync(stat);
                 break;
             case AppConstants.Upgrade.UPGRADE_ENHANCEMENT:
                 Type = type;
                 // Image = ImageConstants.Upgrade.UPGRADE_VI_BACKGROUND_URL;
+                MainImage = ImageConstants.Upgrade.UPGRADE_ENHANCEMENT_MAIN_IMAGE_URL;
                 await CreateUpgradeControllerAsync(stat);
                 break;
             case AppConstants.Upgrade.UPGRADE_EVOLUTION:
                 Type = type;
                 // Image = ImageConstants.Upgrade.UPGRADE_VII_BACKGROUND_URL;
+                MainImage = ImageConstants.Upgrade.UPGRADE_EVOLUTION_MAIN_IMAGE_URL;
                 await CreateUpgradeControllerAsync(stat);
                 break;
             case AppConstants.Upgrade.UPGRADE_INTEGRATION:
                 Type = type;
                 // Image = ImageConstants.Upgrade.UPGRADE_VIII_BACKGROUND_URL;
+                MainImage = ImageConstants.Upgrade.UPGRADE_INTEGRATION_MAIN_IMAGE_URL;
                 await CreateUpgradeControllerAsync(stat);
                 break;
             case AppConstants.Upgrade.UPGRADE_REFINEMENT:
                 Type = type;
                 // Image = ImageConstants.Upgrade.UPGRADE_IX_BACKGROUND_URL;
+                MainImage = ImageConstants.Upgrade.UPGRADE_REFINEMENT_MAIN_IMAGE_URL;
                 await CreateUpgradeControllerAsync(stat);
                 break;
             case AppConstants.Upgrade.UPGRADE_RESONANCE:
                 Type = type;
                 // Image = ImageConstants.Upgrade.UPGRADE_X_BACKGROUND_URL;
+                MainImage = ImageConstants.Upgrade.UPGRADE_RESONANCE_MAIN_IMAGE_URL;
                 await CreateUpgradeControllerAsync(stat);
                 break;
             case AppConstants.Upgrade.UPGRADE_SANCTIFICATION:
                 Type = type;
                 // Image = ImageConstants.Upgrade.UPGRADE_XI_BACKGROUND_URL;
+                MainImage = ImageConstants.Upgrade.UPGRADE_SANCTIFICATION_MAIN_IMAGE_URL;
                 await CreateUpgradeControllerAsync(stat);
                 break;
             case AppConstants.Upgrade.UPGRADE_SYNCHRONIZATION:
                 Type = type;
                 // Image = ImageConstants.Upgrade.UPGRADE_XII_BACKGROUND_URL;
+                MainImage = ImageConstants.Upgrade.UPGRADE_SYNCHRONIZATION_MAIN_IMAGE_URL;
                 await CreateUpgradeControllerAsync(stat);
                 break;
             default:
@@ -320,6 +333,9 @@ public class UpgradeController : MonoBehaviour
 
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(BackgroundImage);
+
+        RawImage mainImage = transform.Find("MainImage").GetComponent<RawImage>();
+        mainImage.texture = TextureHelper.LoadTexture2DCached(MainImage);
 
         AnimationController.Instance.CreateUpgradeAnimation(currentObject);
 

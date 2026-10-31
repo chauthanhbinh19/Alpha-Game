@@ -25,6 +25,7 @@ public class HISNController : MonoBehaviour
     private PaginationManager PaginationManager;
     private string Type = "";
     private string BackgroundImage = "";
+    private string MainImage = "";
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -61,51 +62,61 @@ public class HISNController : MonoBehaviour
             case AppConstants.HISN.HISN_I:
                 Type = type;
                 BackgroundImage = ImageConstants.HISN.HISN_I_BACKGROUND_URL;
+                MainImage = ImageConstants.HISN.HISN_I_MAIN_IMAGE_URL;
                 await CreateHISNControllerAsync();
                 break;
             case AppConstants.HISN.HISN_II:
                 Type = type;
                 BackgroundImage = ImageConstants.HISN.HISN_II_BACKGROUND_URL;
+                MainImage = ImageConstants.HISN.HISN_II_MAIN_IMAGE_URL;
                 await CreateHISNControllerAsync();
                 break;
             case AppConstants.HISN.HISN_III:
                 Type = type;
                 BackgroundImage = ImageConstants.HISN.HISN_III_BACKGROUND_URL;
+                MainImage = ImageConstants.HISN.HISN_III_MAIN_IMAGE_URL;
                 await CreateHISNControllerAsync();
                 break;
             case AppConstants.HISN.HISN_IV:
                 Type = type;
                 BackgroundImage = ImageConstants.HISN.HISN_IV_BACKGROUND_URL;
+                MainImage = ImageConstants.HISN.HISN_IV_MAIN_IMAGE_URL;
                 await CreateHISNControllerAsync();
                 break;
             case AppConstants.HISN.HISN_V:
                 Type = type;
                 BackgroundImage = ImageConstants.HISN.HISN_V_BACKGROUND_URL;
+                MainImage = ImageConstants.HISN.HISN_V_MAIN_IMAGE_URL;
                 await CreateHISNControllerAsync();
                 break;
             case AppConstants.HISN.HISN_VI:
                 Type = type;
                 BackgroundImage = ImageConstants.HISN.HISN_VI_BACKGROUND_URL;
+                MainImage = ImageConstants.HISN.HISN_VI_MAIN_IMAGE_URL;
                 await CreateHISNControllerAsync();
                 break;
             case AppConstants.HISN.HISN_VII:
                 Type = type;
                 BackgroundImage = ImageConstants.HISN.HISN_VII_BACKGROUND_URL;
+                MainImage = ImageConstants.HISN.HISN_VII_MAIN_IMAGE_URL;
                 await CreateHISNControllerAsync();
                 break;
             case AppConstants.HISN.HISN_VIII:
                 Type = type;
                 BackgroundImage = ImageConstants.HISN.HISN_VIII_BACKGROUND_URL;
+                MainImage = ImageConstants.HISN.HISN_VIII_MAIN_IMAGE_URL;
                 await CreateHISNControllerAsync();
                 break;
             case AppConstants.HISN.HISN_IX:
                 Type = type;
                 BackgroundImage = ImageConstants.HISN.HISN_IX_BACKGROUND_URL;
+                MainImage = ImageConstants.HISN.HISN_IX_MAIN_IMAGE_URL;
                 await CreateHISNControllerAsync();
                 break;
             case AppConstants.HISN.HISN_X:
                 Type = type;
                 BackgroundImage = ImageConstants.HISN.HISN_X_BACKGROUND_URL;
+                MainImage = ImageConstants.HISN.HISN_X_MAIN_IMAGE_URL;
                 await CreateHISNControllerAsync();
                 break;
             default:
@@ -296,6 +307,9 @@ public class HISNController : MonoBehaviour
 
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(BackgroundImage);
+
+        RawImage mainImage = transform.Find("MainImage").GetComponent<RawImage>();
+        mainImage.texture = TextureHelper.LoadTexture2DCached(MainImage);
 
         AnimationController.Instance.CreateHISNAnimation(currentObject);
 

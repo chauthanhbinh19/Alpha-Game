@@ -25,6 +25,7 @@ public class PathOfLordImprintController : MonoBehaviour
     private PaginationManager PaginationManager;
     private string Type = "";
     private string BackgroundImage = "";
+    private string MainImage = "";
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -61,121 +62,145 @@ public class PathOfLordImprintController : MonoBehaviour
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_I:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_I_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_I_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_II:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_II_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_II_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_III:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_III_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_III_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_IV:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_IV_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_IV_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_V:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_V_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_V_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_VI:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_VI_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_VI_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_VII:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_VII_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_VII_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_VIII:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_VIII_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_VIII_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_IX:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_IX_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_IX_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_X:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_X_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_X_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XI:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XI_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XI_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XII:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XII_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XII_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XIII:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XIII_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XIII_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XIV:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XIV_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XIV_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XV:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XV_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XV_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XVI:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XVI_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XVI_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XVII:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XVII_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XVII_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XVIII:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XVIII_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XVIII_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XIX:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XIX_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XIX_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XX:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XX_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XX_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XXI:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XXI_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XXI_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XXII:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XXII_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XXII_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XXIII:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XXIII_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XXIII_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             case AppConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XXIV:
                 Type = type;
                 BackgroundImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XXIV_BACKGROUND_URL;
+                MainImage = ImageConstants.PathOfLordImprint.PATH_OF_LORD_IMPRINT_XXIV_MAIN_IMAGE_URL;
                 await CreatePathOfLordImprintControllerAsync();
                 break;
             default:
@@ -366,6 +391,9 @@ public class PathOfLordImprintController : MonoBehaviour
 
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(BackgroundImage);
+
+        RawImage mainImage = transform.Find("MainImage").GetComponent<RawImage>();
+        mainImage.texture = TextureHelper.LoadTexture2DCached(MainImage);
 
         AnimationController.Instance.CreatePathOfLordImprintAnimation(currentObject);
 
