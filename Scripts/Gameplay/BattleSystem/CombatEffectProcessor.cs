@@ -209,11 +209,11 @@ public static class CombatEffectProcessor
             case AppConstants.EffectProperty.HEALTH:
                 if (effect.ValueType.Equals(AppConstants.EffectPropertyAction.PERCENTAGE))
                 {
-                    target.CurrentHealth = target.CurrentHealth + (target.Health * effect.Value / 100);
+                    target.SetCurrentHealth(target.CurrentHealth + (target.Health * effect.Value / 100));
                 }
                 else if (effect.ValueType.Equals(AppConstants.EffectPropertyAction.FLAT))
                 {
-                    target.CurrentHealth = target.CurrentHealth + effect.Value;
+                    target.SetCurrentHealth(target.CurrentHealth + effect.Value);
                 }
                 break;
 
@@ -765,11 +765,11 @@ public static class CombatEffectProcessor
             case AppConstants.EffectProperty.HEALTH:
                 if (effect.ValueType.Equals(AppConstants.EffectPropertyAction.PERCENTAGE))
                 {
-                    target.CurrentHealth = target.CurrentHealth - (target.Health * effect.Value / 100);
+                    target.SetCurrentHealth(target.CurrentHealth - (target.Health * effect.Value / 100));
                 }
                 else if (effect.ValueType.Equals(AppConstants.EffectPropertyAction.FLAT))
                 {
-                    target.CurrentHealth = target.CurrentHealth - effect.Value;
+                    target.SetCurrentHealth(target.CurrentHealth - effect.Value);
                 }
                 break;
 
@@ -1321,11 +1321,11 @@ public static class CombatEffectProcessor
             case AppConstants.EffectProperty.HEALTH:
                 if (effect.ValueType.Equals(AppConstants.EffectPropertyAction.PERCENTAGE))
                 {
-                    target.CurrentHealth = (target.Health * effect.Value / 100);
+                    target.SetCurrentHealth(target.Health * effect.Value / 100);
                 }
                 else if (effect.ValueType.Equals(AppConstants.EffectPropertyAction.FLAT))
                 {
-                    target.CurrentHealth = effect.Value;
+                    target.SetCurrentHealth(effect.Value);
                 }
                 break;
 
@@ -1964,11 +1964,11 @@ public static class CombatEffectProcessor
             case AppConstants.EffectProperty.HEALTH:
                 if (effect.ValueType.Equals(AppConstants.EffectPropertyAction.PERCENTAGE))
                 {
-                    target.CurrentHealth = (target.Health * effect.Value / 100);
+                    target.SetCurrentHealth(target.Health * effect.Value / 100);
                 }
                 else if (effect.ValueType.Equals(AppConstants.EffectPropertyAction.FLAT))
                 {
-                    target.CurrentHealth = effect.Value;
+                    target.SetCurrentHealth(effect.Value);
                 }
                 break;
 
@@ -2533,8 +2533,8 @@ public static class CombatEffectProcessor
                 {
                     stealValue = effect.Value;
                 }
-                target.CurrentHealth = target.CurrentHealth - stealValue;
-                caster.CurrentHealth = caster.CurrentHealth + stealValue;
+                target.SetCurrentHealth(target.CurrentHealth - stealValue, caster);
+                caster.SetCurrentHealth(caster.CurrentHealth + stealValue, target);
                 break;
 
             // --- ATTACK STATS ---
@@ -3186,7 +3186,7 @@ public static class CombatEffectProcessor
         {
             // --- HEALTH ---
             case AppConstants.EffectProperty.HEALTH:
-                caster.CurrentHealth = target.CurrentHealth;
+                caster.SetCurrentHealth(target.CurrentHealth, target);
                 break;
 
             // --- ATTACK STATS ---
@@ -3609,86 +3609,63 @@ public static class CombatEffectProcessor
     {
         if (effect == null || target == null || caster == null) return;
 
-        DamageCalculator.AttackOutcome totalOutcome = new DamageCalculator.AttackOutcome
-        {
-            Damage = 0,
-            IsHit = false,
-            IsCrit = false,
-            IsMiss = true
-        };
+        string propertyCode = effect.EffectProperty != null ? effect.EffectProperty.PropertyCode : null;
+        AttackType attackType = caster.isSkillAttack ? AttackType.Skill : AttackType.Normal;
+        double damageMultiplier = GetEffectValueMultiplier(effect);
+        DamageCalculator.AttackOutcome outcome;
 
-        if (caster.isSkillAttack)
+        if (string.IsNullOrWhiteSpace(propertyCode))
         {
-            switch (effect.EffectProperty.PropertyCode)
-            {
-                case AppConstants.EffectProperty.PHYSICAL:
-                    CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CausePhysicalSkillAttack(caster, target));
-                    break;
-                case AppConstants.EffectProperty.MAGICAL:
-                    CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseMagicalSkillAttack(caster, target));
-                    break;
-                case AppConstants.EffectProperty.CHEMICAL:
-                    CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseChemicalSkillAttack(caster, target));
-                    break;
-                case AppConstants.EffectProperty.ATOMIC:
-                    CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseAtomicSkillAttack(caster, target));
-                    break;
-                case AppConstants.EffectProperty.MENTAL:
-                    CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseMentalSkillAttack(caster, target));
-                    break;
-                default:
-                    break;
-            }
+            outcome = DamageCalculator.CauseCombinedDamage(caster, target, attackType, damageMultiplier);
         }
         else
         {
-            switch (effect.EffectProperty.PropertyCode)
+            AttackElement element;
+            switch (propertyCode)
             {
                 case AppConstants.EffectProperty.PHYSICAL:
-                    CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CausePhysicalNormalAttack(caster, target));
+                    element = AttackElement.Physical;
                     break;
                 case AppConstants.EffectProperty.MAGICAL:
-                    CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseMagicalNormalAttack(caster, target));
+                    element = AttackElement.Magical;
                     break;
                 case AppConstants.EffectProperty.CHEMICAL:
-                    CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseChemicalNormalAttack(caster, target));
+                    element = AttackElement.Chemical;
                     break;
                 case AppConstants.EffectProperty.ATOMIC:
-                    CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseAtomicNormalAttack(caster, target));
+                    element = AttackElement.Atomic;
                     break;
                 case AppConstants.EffectProperty.MENTAL:
-                    CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseMentalNormalAttack(caster, target));
+                    element = AttackElement.Mental;
                     break;
                 default:
-                    break;
+                    Debug.LogWarning($"[CombatEffectProcessor] Unsupported damage property '{propertyCode}'.");
+                    return;
             }
+
+            outcome = DamageCalculator.CauseDamage(caster, target, attackType, element, damageMultiplier);
         }
 
-        if (totalOutcome.Damage > 0)
+        if (outcome.Damage > 0)
         {
-            float value = UnityEngine.Random.Range((float)effect.MinValue, (float)effect.MaxValue + 1);
-            totalOutcome.Damage = totalOutcome.Damage * value / 100;
-            GridManager.Instance?.SpawnDamagePopup(target, totalOutcome.Damage, DamageTextType.Default, false, 1f);
+            GridManager.Instance?.SpawnDamagePopup(target, outcome.Damage, DamageTextType.Default, false, 1f);
         }
 
-        // CombatEngagementEngine.Instance?.HandleAttackOutcome(caster, target, totalOutcome, string.IsNullOrWhiteSpace(effect.TriggerPhase) ? "MAIN" : effect.TriggerPhase.ToUpper());
-    }
-
-    private static void CombineAttackOutcomes(ref DamageCalculator.AttackOutcome aggregate, DamageCalculator.AttackOutcome next)
-    {
-        aggregate.Damage += next.Damage;
-        aggregate.IsHit |= next.IsHit;
-        aggregate.IsCrit |= next.IsCrit;
-        aggregate.IsMiss &= next.IsMiss;
+        CombatEngagementEngine.Instance?.HandleAttackOutcome(
+            caster,
+            target,
+            outcome,
+            string.IsNullOrWhiteSpace(effect.TriggerPhase) ? "MAIN" : effect.TriggerPhase);
     }
 
     private static void ExecuteHeal(Effects effect, CardBase caster, CardBase target)
     {
-        if (effect == null || target == null || caster == null) return;
+        if (effect == null || target == null || caster == null || !target.IsAlive) return;
 
         double healAmount = 0;
 
-        switch (effect.EffectProperty.PropertyCode)
+        string propertyCode = effect.EffectProperty != null ? effect.EffectProperty.PropertyCode : null;
+        switch (propertyCode)
         {
             case AppConstants.EffectProperty.PHYSICAL:
                 healAmount = HealCalculator.CausePhysicalSkillAttack(caster, target);
@@ -3706,17 +3683,39 @@ public static class CombatEffectProcessor
                 healAmount = HealCalculator.CauseMentalSkillAttack(caster, target);
                 break;
             default:
-                break;
+                Debug.LogWarning($"[CombatEffectProcessor] Unsupported heal property '{propertyCode}'.");
+                return;
         }
 
         if (healAmount > 0)
         {
-            float value = UnityEngine.Random.Range((float)effect.MinValue, (float)effect.MaxValue + 1);
-            healAmount = healAmount * value / 100;
-            GridManager.Instance?.SpawnDamagePopup(target, healAmount, DamageTextType.Default, true, 1f);
-        }
+            double previousHealth = target.CurrentHealth;
+            healAmount *= GetEffectValueMultiplier(effect);
+            target.SetCurrentHealth(Math.Max(previousHealth, Math.Min(target.Health, previousHealth + healAmount)), caster);
 
-        // CombatEngagementEngine.Instance?.HandleHealOutcome(caster, target, string.IsNullOrWhiteSpace(effect.TriggerPhase) ? "MAIN" : effect.TriggerPhase.ToUpper());
+            double appliedHeal = target.CurrentHealth - previousHealth;
+            if (appliedHeal > 0)
+            {
+                GridManager.Instance?.SpawnDamagePopup(target, appliedHeal, DamageTextType.Default, true, 1f);
+                CombatEngagementEngine.Instance?.HandleHealOutcome(
+                    caster,
+                    target,
+                    string.IsNullOrWhiteSpace(effect.TriggerPhase) ? "MAIN" : effect.TriggerPhase);
+            }
+        }
+    }
+
+    private static double GetEffectValueMultiplier(Effects effect)
+    {
+        if (effect.MinValue == 0 && effect.MaxValue == 0) return 1;
+
+        double minimum = Math.Min(effect.MinValue, effect.MaxValue);
+        double maximum = Math.Max(effect.MinValue, effect.MaxValue);
+        float percentage = minimum == maximum
+            ? (float)minimum
+            : UnityEngine.Random.Range((float)minimum, (float)maximum + 1f);
+
+        return Math.Max(0, percentage / 100.0);
     }
 
     private static void ExecuteLimitAction(Effects effect, CardBase target)

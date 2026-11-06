@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 public static class RecipeCalculator
 {
@@ -20,8 +21,8 @@ public static class RecipeCalculator
         if (response == null || response.Recipes == null || response.UserInventory == null || numberOfLevel <= 0)
             return result;
 
-        int maxConfiguredLevel = response.Recipes.Max(r => r.MaxLevel);
-        int targetMax = Math.Min(currentLevel + numberOfLevel, maxConfiguredLevel);
+        double maxConfiguredLevel = response.Recipes.Max(r => r.MaxLevel);
+        double targetMax = Math.Min(currentLevel + numberOfLevel, maxConfiguredLevel);
 
         SimulateUpgrade(response, currentLevel, targetMax, result);
 
@@ -44,7 +45,7 @@ public static class RecipeCalculator
         if (response == null || response.Recipes == null || response.UserInventory == null)
             return result;
 
-        int maxConfiguredLevel = response.Recipes.Max(r => r.MaxLevel);
+        double maxConfiguredLevel = response.Recipes.Max(r => r.MaxLevel);
 
         SimulateUpgrade(response, currentLevel, maxConfiguredLevel, result);
 
@@ -54,7 +55,7 @@ public static class RecipeCalculator
     /// <summary>
     /// Logic mô phỏng tính toán chung cho cả 2 hàm
     /// </summary>
-    private static void SimulateUpgrade(RecipeResponseDTO response, int currentLevel, int limitLevel, RecipeCalculateDTO result)
+    private static void SimulateUpgrade(RecipeResponseDTO response, int currentLevel, double limitLevel, RecipeCalculateDTO result)
     {
         // Copy kho đồ giả lập
         var simulatedInventory = new Dictionary<string, double>(response.UserInventory, StringComparer.OrdinalIgnoreCase);
@@ -148,8 +149,8 @@ public static class RecipeCalculator
         if (response == null || response.Recipes == null || response.UserInventory == null || numberOfLevel <= 0)
             return result;
 
-        int recipeMaxLevel = response.Recipes.Max(r => r.MaxLevel);
-        int targetLevel = Math.Min(currentLevel + numberOfLevel, recipeMaxLevel);
+        double recipeMaxLevel = response.Recipes.Max(r => r.MaxLevel);
+        double targetLevel = Math.Min(currentLevel + numberOfLevel, recipeMaxLevel);
 
         var deductionMap = new Dictionary<string, RecipePreviewDetailDTO>();
 
@@ -222,5 +223,200 @@ public static class RecipeCalculator
                 };
             }).ToList()
         };
+    }
+    /// <summary>
+    /// Hàm 1 (Value-based): Nâng thử N cấp dựa trên LevelDTO chứa nhiều khoảng Configs khác nhau.
+    /// </summary>
+    public static Task<RecipeCalculateDTO> CalculateUpgradeByLevelsValueBasedAsync(
+        RecipeResponseDTO response, 
+        int currentLevel, 
+        int numberOfLevel, 
+        double maxLevel,
+        LevelDTO levelDto) 
+    {
+        var result = new RecipeCalculateDTO
+        {
+            TargetLevel = currentLevel,
+            GainedLevels = 0,
+            TotalDeductions = new List<RecipeItemDetailDTO>()
+        };
+
+        if (response == null || response.Recipes == null || response.UserInventory == null || numberOfLevel <= 0)
+            return Task.FromResult(result);
+
+        double targetMax = Math.Min(currentLevel + numberOfLevel, maxLevel);
+
+        SimulateUpgradeValueBased(response, currentLevel, targetMax, levelDto, result);
+
+        return Task.FromResult(result);
+    }
+
+    /// <summary>
+    /// Hàm 2 (Value-based): Nâng MAX cấp tối đa kho đồ chịu được dựa trên LevelDTO.
+    /// </summary>
+    public static Task<RecipeCalculateDTO> CalculateMaxUpgradeValueBasedAsync(
+        RecipeResponseDTO response, 
+        int currentLevel, 
+        double maxLevel,
+        LevelDTO levelDto) 
+    {
+        var result = new RecipeCalculateDTO
+        {
+            TargetLevel = currentLevel,
+            GainedLevels = 0,
+            TotalDeductions = new List<RecipeItemDetailDTO>()
+        };
+
+        if (response == null || response.Recipes == null || response.UserInventory == null)
+            return Task.FromResult(result);
+
+        SimulateUpgradeValueBased(response, currentLevel, maxLevel, levelDto, result);
+
+        return Task.FromResult(result);
+    }
+
+    /// <summary>
+    /// Logic mô phỏng tính toán tuần tự theo ObjectValue và tra cứu Config theo khoảng Level
+    /// </summary>
+    private static void SimulateUpgradeValueBased(
+        RecipeResponseDTO response, 
+        int currentLevel, 
+        double limitLevel, 
+        LevelDTO levelDto, 
+        RecipeCalculateDTO result)
+    {
+        // Copy kho đồ giả lập để trừ dần theo số lượng thực tế
+        var simulatedInventory = new Dictionary<string, double>(response.UserInventory, StringComparer.OrdinalIgnoreCase);
+        var deductionMap = new Dictionary<string, RecipeItemDetailDTO>();
+
+        int checkLevel = currentLevel + 1;
+
+        while (checkLevel <= limitLevel)
+        {
+            // 1. Tìm GameGrowthConfig tương ứng với khoảng level hiện tại (checkLevel nằm trong MinLevel và MaxLevel)
+            var currentConfig = levelDto?.Configs?.FirstOrDefault(c => checkLevel >= c.MinLevel && checkLevel <= c.MaxLevel);
+            
+            // Nếu không tìm thấy config cho level này thì dừng lại
+            if (currentConfig == null)
+                break;
+
+            // 2. Tính số lượng / giá trị yêu cầu (exp/value) cho cấp độ này dựa trên FormulaType của config đó
+            long requiredValueForThisLevel = CalculateRequiredExp(currentConfig, checkLevel);
+
+            // 3. Tìm công thức nguyên liệu cho level hiện tại
+            var recipeForLevel = response.Recipes.FirstOrDefault(r => checkLevel >= r.MinLevel && checkLevel <= r.MaxLevel);
+
+            if (recipeForLevel == null || recipeForLevel.RecipeItemDetails == null || recipeForLevel.RecipeItemDetails.Count == 0)
+                break;
+
+            var stepDeductions = new List<(string key, RecipeItemDetailDTO detail, double quantityConsumed, double valueConsumed)>();
+            long remainingValueNeeded = requiredValueForThisLevel;
+
+            // 4. XỬ LÝ TUẦN TỰ (Sequential): Duyệt qua từng item để bù đắp đủ requiredValueForThisLevel
+            foreach (var detail in recipeForLevel.RecipeItemDetails)
+            {
+                if (remainingValueNeeded <= 0) break;
+
+                string invKey = GetInventoryKey(simulatedInventory, detail.ObjectType, detail.ObjectId);
+                double ownedQty = (invKey != null && simulatedInventory.TryGetValue(invKey, out var qty)) ? qty : 0;
+
+                if (ownedQty <= 0) continue;
+
+                // Giá trị của 1 unit item (ObjectValue)
+                double unitValue = detail.ObjectValue > 0 ? detail.ObjectValue : 1;
+
+                // Tổng giá trị user đang có từ item này trong kho giả lập
+                double totalAvailableValueFromItem = ownedQty * unitValue;
+
+                // Lấy giá trị cần thiết từ item này
+                double valueToTakeFromThisItem = Math.Min(remainingValueNeeded, totalAvailableValueFromItem);
+
+                // Tính quantity tương ứng cần trừ
+                double quantityToConsume = Math.Ceiling(valueToTakeFromThisItem / unitValue);
+                double actualValueConsumed = quantityToConsume * unitValue;
+
+                // Nếu kho không đủ quantity, vét sạch số lượng hiện có
+                if (ownedQty < quantityToConsume)
+                {
+                    quantityToConsume = ownedQty;
+                    actualValueConsumed = quantityToConsume * unitValue;
+                }
+
+                simulatedInventory[invKey] -= quantityToConsume;
+                remainingValueNeeded -= (long)actualValueConsumed;
+
+                stepDeductions.Add((invKey, detail, quantityToConsume, actualValueConsumed));
+            }
+
+            // Nếu duyệt hết các item mà vẫn thiếu giá trị yêu cầu -> Dừng nâng cấp
+            if (remainingValueNeeded > 0)
+            {
+                break;
+            }
+
+            // 5. Ghi nhận khấu trừ vào kết quả tổng cộng
+            foreach (var step in stepDeductions)
+            {
+                string mapKey = $"{step.detail.ObjectType}_{step.detail.ObjectId}";
+                if (!deductionMap.TryGetValue(mapKey, out var totalDetail))
+                {
+                    totalDetail = new RecipeItemDetailDTO
+                    {
+                        ObjectId = step.detail.ObjectId,
+                        ObjectType = step.detail.ObjectType,
+                        ObjectImage = step.detail.ObjectImage,
+                        ObjectValue = step.detail.ObjectValue,
+                        RequiredQuantity = 0
+                    };
+                    deductionMap.Add(mapKey, totalDetail);
+                }
+
+                totalDetail.RequiredQuantity += step.quantityConsumed;
+            }
+
+            result.GainedLevels++;
+            checkLevel++;
+        }
+
+        result.TargetLevel = currentLevel + result.GainedLevels;
+        result.TotalDeductions = deductionMap.Values.ToList();
+    }
+
+    /// <summary>
+    /// Hàm tính toán giá trị EXP yêu cầu dựa trên công thức cấu hình riêng của từng khoảng level
+    /// </summary>
+    private static long CalculateRequiredExp(GameGrowthConfig config, int currentLevel)
+    {
+        if (config == null) return 1000;
+
+        double exp = 0;
+
+        switch (config.FormulaType?.ToUpper())
+        {
+            case "POWER":
+                exp = config.BaseExp + 
+                      (Math.Pow(currentLevel, config.PowerFactor) * config.BaseMultiplier) + 
+                      (currentLevel * config.LinearFactor);
+                break;
+
+            case "ROUND_STEP":
+                double rawExp = config.BaseExp + 
+                                (Math.Pow(currentLevel, config.PowerFactor) * config.BaseMultiplier) + 
+                                (currentLevel * config.LinearFactor);
+                
+                int step = config.StepSize > 0 ? config.StepSize : 1;
+                exp = Math.Round(rawExp / step) * step;
+                break;
+
+            case "EXPONENTIAL":
+                exp = config.BaseExp * Math.Pow(config.BaseMultiplier, currentLevel - 1);
+                break;
+
+            default:
+                exp = config.BaseExp > 0 ? config.BaseExp : 1000;
+                break;
+        }
+
+        return (long)Math.Floor(exp);
     }
 }

@@ -44,6 +44,9 @@ public class GridManager : MonoBehaviour
     private List<GridCell> CurrentCalculatedPath = new List<GridCell>();
     private GridCell CurrentlySelectedCell;
     private GridCell TargetDestinationCell; // Ô đích được chọn
+    private Skills selectedActiveSkill;
+    private CardBase activeSkillCaster;
+    private GridCell activeSkillCasterCell;
     // Các hàm tương tác phục vụ nút bấm UI
     public List<GridCell> GetCurrentPath() => CurrentCalculatedPath;
     public void ClearCurrentPathData() => CurrentCalculatedPath.Clear();
@@ -176,6 +179,10 @@ public class GridManager : MonoBehaviour
     // Hàm xóa hiển thị range của TẤT CẢ các ô trên bàn cờ
     public void ClearAllMovementRanges()
     {
+        selectedActiveSkill = null;
+        activeSkillCaster = null;
+        activeSkillCasterCell = null;
+
         foreach (var cell in GridDict.Values)
         {
             cell.HideMovementRange();
@@ -702,6 +709,14 @@ public class GridManager : MonoBehaviour
     /// </summary>
     public void HandleCellClick(GridCell clickedCell)
     {
+        if (clickedCell == null) return;
+
+        if (selectedActiveSkill != null)
+        {
+            HandleActiveSkillTargetClick(clickedCell);
+            return;
+        }
+
         if (CurrentlySelectedCell == null) return; // Chưa chọn tướng xuất phát thì không làm gì cả
 
         // Lấy dữ liệu quân cờ đang chọn để biết tầm đi gốc
@@ -729,6 +744,7 @@ public class GridManager : MonoBehaviour
                     cellUI.ShowUI(true);
                 }
             }
+
         }
         // ================= TRƯỜNG HỢP 2: CLICK VÀO Ô TRONG TẦM TẤN CÔNG =================
         else if (clickedCell.IsAttackRange)
@@ -765,6 +781,55 @@ public class GridManager : MonoBehaviour
                     Debug.LogWarning("Chưa khởi tạo MovementWarningUI trong Scene!");
                 }
             }
+        }
+    }
+
+    private void HandleActiveSkillTargetClick(GridCell clickedCell)
+    {
+        if (clickedCell == null || !clickedCell.IsAttackRange || !IsValidActiveSkillTarget(clickedCell))
+        {
+            Debug.Log("[GridManager] Choose a valid occupied target in the skill range.");
+            return;
+        }
+
+        if (CombatEngagementEngine.Instance == null)
+        {
+            Debug.LogError("[GridManager] CombatEngagementEngine is not available.");
+            return;
+        }
+
+        if (CombatEngagementEngine.Instance.ExecuteActiveSkill(
+            activeSkillCaster,
+            activeSkillCasterCell,
+            clickedCell,
+            selectedActiveSkill))
+        {
+            ClearAllMovementRanges();
+        }
+    }
+
+    private bool IsValidActiveSkillTarget(GridCell targetCell)
+    {
+        if (targetCell == null || targetCell.OccupiedCard == null || activeSkillCaster == null) return false;
+
+        string subtype = selectedActiveSkill.SkillSubType != null
+            ? selectedActiveSkill.SkillSubType.SubTypeCode
+            : string.Empty;
+
+        switch (subtype)
+        {
+            case AppConstants.SkillType.DAMAGE:
+            case AppConstants.SkillType.DEBUFF:
+            case AppConstants.SkillType.CONTROL:
+                return targetCell.OccupiedCard.Team != activeSkillCaster.Team;
+
+            case AppConstants.SkillType.HEAL:
+            case AppConstants.SkillType.BUFF:
+            case AppConstants.SkillType.CLEANSE:
+                return targetCell.OccupiedCard.Team == activeSkillCaster.Team;
+
+            default:
+                return true;
         }
     }
 
@@ -974,6 +1039,7 @@ public class GridManager : MonoBehaviour
                             {
                                 TriggerTargetUI(cellTargetUI, skillSubType);
                             }
+
                         }
                         else if (targetIsAlly)
                         {
@@ -1000,6 +1066,86 @@ public class GridManager : MonoBehaviour
     /// <summary>
     /// Hàm phụ trợ kích hoạt chính xác Panel UI tương ứng trên TargetUI của ô cờ
     /// </summary>
+    public bool SelectActiveSkill(Skills skill, CardBase caster, int attackRange)
+    {
+        ClearAllMovementRanges();
+
+        if (skill == null || caster == null)
+        {
+            Debug.LogWarning("[GridManager] Cannot select an active skill without a skill and caster.");
+            return false;
+        }
+
+        if (skill.Effects == null || skill.Effects.Count == 0)
+        {
+            Debug.LogWarning($"[GridManager] Skill {skill.Name} has no effects to execute.");
+            return false;
+        }
+
+        if (!string.IsNullOrWhiteSpace(skill.SkillType)
+            && !string.Equals(skill.SkillType, "ACTIVE", System.StringComparison.OrdinalIgnoreCase))
+        {
+            Debug.LogWarning($"[GridManager] Skill {skill.Name} is passive and cannot be manually selected.");
+            return false;
+        }
+
+        GridCell casterCell = GetCellOfCard(caster);
+        if (casterCell == null) return false;
+
+        if (skill.Pattern != null && !string.IsNullOrWhiteSpace(skill.Pattern.Id))
+        {
+            Patterns cachedPattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
+            if (cachedPattern != null)
+            {
+                skill.Pattern = cachedPattern;
+            }
+            else
+            {
+                Debug.LogWarning($"[GridManager] Pattern {skill.Pattern.Id} is not loaded; the skill will target only its selected cell.");
+            }
+        }
+
+        bool targetsCasterOnly = true;
+        foreach (Effects effect in skill.Effects)
+        {
+            if (effect == null) continue;
+
+            string targetId = effect.Target != null && effect.Target.Id != null
+                ? effect.Target.Id.Trim()
+                : string.Empty;
+            if (!string.Equals(targetId, AppConstants.Target.CASTER, System.StringComparison.OrdinalIgnoreCase)
+                && !string.Equals(targetId, AppConstants.Target.SELF, System.StringComparison.OrdinalIgnoreCase))
+            {
+                targetsCasterOnly = false;
+                break;
+            }
+        }
+
+        if (targetsCasterOnly)
+        {
+            if (CombatEngagementEngine.Instance == null)
+            {
+                Debug.LogError("[GridManager] CombatEngagementEngine is not available.");
+                return false;
+            }
+
+            return CombatEngagementEngine.Instance.ExecuteActiveSkill(caster, casterCell, casterCell, skill);
+        }
+
+        ShowSkillAttackRange(
+            casterCell.GridPosition,
+            attackRange,
+            skill.SkillSubType != null ? skill.SkillSubType.SubTypeCode : string.Empty,
+            caster);
+
+        if (attackRange <= 0) return false;
+
+        selectedActiveSkill = skill;
+        activeSkillCaster = caster;
+        activeSkillCasterCell = casterCell;
+        return true;
+    }
+
     private void TriggerTargetUI(TargetUI targetUI, string skillSubType)
     {
         switch (skillSubType)

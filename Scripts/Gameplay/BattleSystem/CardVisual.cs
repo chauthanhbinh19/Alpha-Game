@@ -3,10 +3,11 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
-public class CardVisual : MonoBehaviour, IPointerClickHandler
+public class CardVisual : MonoBehaviour, IPointerClickHandler, IGameplayObserver<HealthChangedEvent>
 {
     private MeshRenderer MeshRenderer;
     private CardBase CardData;
+    private System.IDisposable healthChangedSubscription;
 
     [Header("Status Sliders")]
     public Slider HealthSlider;
@@ -15,6 +16,25 @@ public class CardVisual : MonoBehaviour, IPointerClickHandler
     public TextMeshProUGUI HealthRatioText;
     public TextMeshProUGUI ManaRatioText;
     public TextMeshProUGUI ShieldRatioText;
+
+    [Header("Damage Feedback")]
+    [SerializeField] private Animator CombatAnimator;
+    [SerializeField] private string DamageAnimationTrigger = "Hit";
+    [SerializeField] private string DamageSfxName;
+    [SerializeField] private GameObject DamageEffectPrefab;
+
+    [Header("Death Feedback")]
+    [SerializeField] private string DeathAnimationTrigger = "Death";
+    [SerializeField] private string DeathSfxName;
+    [SerializeField] private GameObject DeathEffectPrefab;
+
+    [Header("Heal Feedback")]
+    [SerializeField] private string HealAnimationTrigger = "Heal";
+    [SerializeField] private string HealSfxName;
+    [SerializeField] private GameObject HealEffectPrefab;
+
+    [SerializeField] private Transform EffectSpawnPoint;
+    [SerializeField] private Vector3 EffectSpawnOffset;
 
     // Đoạn code này đặt trong script Quản lý tương tác chuột (ví dụ: BattleManager hoặc InputHandler)
     public enum ActionState { None, MoveMode, AttackMode }
@@ -27,11 +47,26 @@ public class CardVisual : MonoBehaviour, IPointerClickHandler
     {
         // Lấy MeshRenderer gắn trên chính tấm Plane này
         MeshRenderer = GetComponent<MeshRenderer>();
+        if (CombatAnimator == null)
+        {
+            CombatAnimator = GetComponentInChildren<Animator>();
+        }
 
         if (MeshRenderer == null)
         {
             Debug.LogError($"GameObject {gameObject.name} không có MeshRenderer! Hãy chắc chắn đây là một Plane.");
         }
+    }
+
+    private void OnEnable()
+    {
+        healthChangedSubscription = GameplayEventHub.HealthChanged.Subscribe(this);
+    }
+
+    private void OnDisable()
+    {
+        healthChangedSubscription?.Dispose();
+        healthChangedSubscription = null;
     }
 
     /// <summary>
@@ -57,6 +92,48 @@ public class CardVisual : MonoBehaviour, IPointerClickHandler
         }
 
         UpdateStatusSliders();
+    }
+
+    public void OnEvent(HealthChangedEvent eventData)
+    {
+        if (eventData == null || CardData == null || eventData.Target != CardData)
+        {
+            return;
+        }
+
+        UpdateStatusSliders();
+
+        switch (eventData.ChangeType)
+        {
+            case HealthChangeType.Damage:
+                PlayFeedback(DamageAnimationTrigger, DamageSfxName, DamageEffectPrefab);
+                break;
+            case HealthChangeType.Heal:
+                PlayFeedback(HealAnimationTrigger, HealSfxName, HealEffectPrefab);
+                break;
+            case HealthChangeType.Death:
+                PlayFeedback(DeathAnimationTrigger, DeathSfxName, DeathEffectPrefab);
+                break;
+        }
+    }
+
+    private void PlayFeedback(string animationTrigger, string sfxName, GameObject effectPrefab)
+    {
+        if (CombatAnimator != null && !string.IsNullOrWhiteSpace(animationTrigger))
+        {
+            CombatAnimator.SetTrigger(animationTrigger);
+        }
+
+        if (AudioManager.Instance != null && !string.IsNullOrWhiteSpace(sfxName))
+        {
+            AudioManager.Instance.PlaySFX(sfxName);
+        }
+
+        if (effectPrefab != null)
+        {
+            Vector3 spawnPosition = EffectSpawnPoint != null ? EffectSpawnPoint.position : transform.position;
+            Instantiate(effectPrefab, spawnPosition + EffectSpawnOffset, transform.rotation);
+        }
     }
 
     // Khi người chơi bấm vào nút "ATTACK" trên ActionMenu (như trong ảnh image_3cecc3.jpg của bạn)

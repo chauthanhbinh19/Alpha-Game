@@ -16,6 +16,11 @@ public class RecipeService : IRecipeService
         return await _recipeRepository.GetRecipeItemsAsync(featureName, level, userId);
     }
 
+    public async Task<RecipeResponseDTO> GetRecipeItemsByFeatureCodeNameAsync(string featureCodeName, int level, string userId)
+    {
+        return await _recipeRepository.GetRecipeItemsByFeatureCodeNameAsync(featureCodeName, level, userId);
+    }
+
     public async Task<RecipeResponseDTO> GetRecipeItemsAsync(string featureName, string userId)
     {
         return await _recipeRepository.GetRecipeItemsAsync(featureName, userId);

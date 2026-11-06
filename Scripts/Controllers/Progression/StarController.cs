@@ -1,16 +1,77 @@
 using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Newtonsoft.Json;
 
 public class StarController : MonoBehaviour
 {
+    private const string UpgradeStarFeatureType = "Upgrade Star";
+    private const string StarObjectColumn = "STAR";
+    private const string StarGrowthType = "STAR";
+
+    private static readonly Dictionary<Type, (string ObjectType, string FeatureCodeName)> StarUpSettingsByStatType =
+        new Dictionary<Type, (string ObjectType, string FeatureCodeName)>
+    {
+        { typeof(Achievements), (AppConstants.ObjectType.ACHIEVEMENTS, AppConstants.Star.CodeName.UPGRADE_ACHIEVEMENTS_STAR) },
+        { typeof(Alchemies), (AppConstants.ObjectType.ALCHEMIES, AppConstants.Star.CodeName.UPGRADE_ALCHEMIES_STAR) },
+        { typeof(Architectures), (AppConstants.ObjectType.ARCHITECTURES, AppConstants.Star.CodeName.UPGRADE_ARCHITECTURES_STAR) },
+        { typeof(Artifacts), (AppConstants.ObjectType.ARTIFACTS, AppConstants.Star.CodeName.UPGRADE_ARTIFACTS_STAR) },
+        { typeof(Artworks), (AppConstants.ObjectType.ARTWORKS, AppConstants.Star.CodeName.UPGRADE_ARTWORKS_STAR) },
+        { typeof(Avatars), (AppConstants.ObjectType.AVATARS, AppConstants.Star.CodeName.UPGRADE_AVATARS_STAR) },
+        { typeof(Badges), (AppConstants.ObjectType.BADGES, AppConstants.Star.CodeName.UPGRADE_BADGES_STAR) },
+        { typeof(Beverages), (AppConstants.ObjectType.BEVERAGES, AppConstants.Star.CodeName.UPGRADE_BEVERAGES_STAR) },
+        { typeof(Books), (AppConstants.ObjectType.BOOKS, AppConstants.Star.CodeName.UPGRADE_BOOKS_STAR) },
+        { typeof(Borders), (AppConstants.ObjectType.BORDERS, AppConstants.Star.CodeName.UPGRADE_BORDERS_STAR) },
+        { typeof(Buildings), (AppConstants.ObjectType.BUILDINGS, AppConstants.Star.CodeName.UPGRADE_BUILDINGS_STAR) },
+        { typeof(CardAdmirals), (AppConstants.ObjectType.CARD_ADMIRALS, AppConstants.Star.CodeName.UPGRADE_CARD_ADMIRALS_STAR) },
+        { typeof(CardCaptains), (AppConstants.ObjectType.CARD_CAPTAINS, AppConstants.Star.CodeName.UPGRADE_CARD_CAPTAINS_STAR) },
+        { typeof(CardColonels), (AppConstants.ObjectType.CARD_COLONELS, AppConstants.Star.CodeName.UPGRADE_CARD_COLONELS_STAR) },
+        { typeof(CardGenerals), (AppConstants.ObjectType.CARD_GENERALS, AppConstants.Star.CodeName.UPGRADE_CARD_GENERALS_STAR) },
+        { typeof(CardHeroes), (AppConstants.ObjectType.CARD_HEROES, AppConstants.Star.CodeName.UPGRADE_CARD_HEROES_STAR) },
+        { typeof(CardLives), (AppConstants.ObjectType.CARD_LIVES, AppConstants.Star.CodeName.UPGRADE_CARD_LIVES_STAR) },
+        { typeof(CardMilitaries), (AppConstants.ObjectType.CARD_MILITARIES, AppConstants.Star.CodeName.UPGRADE_CARD_MILITARIES_STAR) },
+        { typeof(CardMonsters), (AppConstants.ObjectType.CARD_MONSTERS, AppConstants.Star.CodeName.UPGRADE_CARD_MONSTERS_STAR) },
+        { typeof(CardSoldiers), (AppConstants.ObjectType.CARD_SOLDIERS, AppConstants.Star.CodeName.UPGRADE_CARD_SOLDIERS_STAR) },
+        { typeof(CardSpells), (AppConstants.ObjectType.CARD_SPELLS, AppConstants.Star.CodeName.UPGRADE_CARD_SPELLS_STAR) },
+        { typeof(CollaborationEquipments), (AppConstants.ObjectType.COLLABORATION_EQUIPMENTS, AppConstants.Star.CodeName.UPGRADE_COLLABORATION_EQUIPMENTS_STAR) },
+        { typeof(Collaborations), (AppConstants.ObjectType.COLLABORATIONS, AppConstants.Star.CodeName.UPGRADE_COLLABORATIONS_STAR) },
+        { typeof(Cores), (AppConstants.ObjectType.CORES, AppConstants.Star.CodeName.UPGRADE_CORES_STAR) },
+        { typeof(Emojis), (AppConstants.ObjectType.EMOJIS, AppConstants.Star.CodeName.UPGRADE_EMOJIS_STAR) },
+        { typeof(Equipments), (AppConstants.ObjectType.EQUIPMENTS, AppConstants.Star.CodeName.UPGRADE_EQUIPMENTS_STAR) },
+        { typeof(Fashions), (AppConstants.ObjectType.FASHIONS, AppConstants.Star.CodeName.UPGRADE_FASHIONS_STAR) },
+        { typeof(Foods), (AppConstants.ObjectType.FOODS, AppConstants.Star.CodeName.UPGRADE_FOODS_STAR) },
+        { typeof(Forges), (AppConstants.ObjectType.FORGES, AppConstants.Star.CodeName.UPGRADE_FORGES_STAR) },
+        { typeof(Furnitures), (AppConstants.ObjectType.FURNITURES, AppConstants.Star.CodeName.UPGRADE_FURNITURES_STAR) },
+        { typeof(MagicFormationCircles), (AppConstants.ObjectType.MAGIC_FORMATION_CIRCLES, AppConstants.Star.CodeName.UPGRADE_MAGIC_FORMATION_CIRCLES_STAR) },
+        { typeof(MechaBeasts), (AppConstants.ObjectType.MECHA_BEASTS, AppConstants.Star.CodeName.UPGRADE_MECHA_BEASTS_STAR) },
+        { typeof(Medals), (AppConstants.ObjectType.MEDALS, AppConstants.Star.CodeName.UPGRADE_MEDALS_STAR) },
+        { typeof(Pets), (AppConstants.ObjectType.PETS, AppConstants.Star.CodeName.UPGRADE_PETS_STAR) },
+        { typeof(Plants), (AppConstants.ObjectType.PLANTS, AppConstants.Star.CodeName.UPGRADE_PLANTS_STAR) },
+        { typeof(Puppets), (AppConstants.ObjectType.PUPPETS, AppConstants.Star.CodeName.UPGRADE_PUPPETS_STAR) },
+        { typeof(Relics), (AppConstants.ObjectType.RELICS, AppConstants.Star.CodeName.UPGRADE_RELICS_STAR) },
+        { typeof(Robots), (AppConstants.ObjectType.ROBOTS, AppConstants.Star.CodeName.UPGRADE_ROBOTS_STAR) },
+        { typeof(Runes), (AppConstants.ObjectType.RUNES, AppConstants.Star.CodeName.UPGRADE_RUNES_STAR) },
+        { typeof(Skills), (AppConstants.ObjectType.SKILLS, AppConstants.Star.CodeName.UPGRADE_SKILLS_STAR) },
+        { typeof(SpiritBeasts), (AppConstants.ObjectType.SPIRIT_BEASTS, AppConstants.Star.CodeName.UPGRADE_SPIRIT_BEASTS_STAR) },
+        { typeof(SpiritCards), (AppConstants.ObjectType.SPIRIT_CARDS, AppConstants.Star.CodeName.UPGRADE_SPIRIT_CARDS_STAR) },
+        { typeof(Symbols), (AppConstants.ObjectType.SYMBOLS, AppConstants.Star.CodeName.UPGRADE_SYMBOLS_STAR) },
+        { typeof(Talismans), (AppConstants.ObjectType.TALISMANS, AppConstants.Star.CodeName.UPGRADE_TALISMANS_STAR) },
+        { typeof(Technologies), (AppConstants.ObjectType.TECHNOLOGIES, AppConstants.Star.CodeName.UPGRADE_TECHNOLOGIES_STAR) },
+        { typeof(Titles), (AppConstants.ObjectType.TITLES, AppConstants.Star.CodeName.UPGRADE_TITLES_STAR) },
+        { typeof(Vehicles), (AppConstants.ObjectType.VEHICLES, AppConstants.Star.CodeName.UPGRADE_VEHICLES_STAR) },
+        { typeof(Weapons), (AppConstants.ObjectType.WEAPONS, AppConstants.Star.CodeName.UPGRADE_WEAPONS_STAR) },
+        { typeof(Outfits), (AppConstants.ObjectType.OUTFITS, AppConstants.Star.CodeName.UPGRADE_OUTFITS_STAR) }
+    };
+
     public static StarController Instance { get; private set; }
     private Transform MainPanel;
     public GameObject StarPanelPrefab;
-    private GameObject CurrentPanel;
+    private GameObject StarItemPopupPrefab;
+    private GameObject TradingPanelPrefab;
 
     private void Awake()
     {
@@ -33,31 +94,26 @@ public class StarController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
         StarPanelPrefab = UIManager.Instance.Get(PrefabConstants.Progression.STAR_PANEL_PREFAB);
+        StarItemPopupPrefab = UIManager.Instance.Get(PrefabConstants.Universe.UNIVERSE_ITEM_POPUP_PREFAB);
+        TradingPanelPrefab = UIManager.Instance.Get(PrefabConstants.Progression.TRADING_PANEL_PREFAB);
     }
 
-    public void CreateStarPanel<T>(T stat, int maxStar, Func<int, double> starRule, Predicate<T> statFilter = null) where T : IStats
+    // Popup Nâng Cấp Sao (Star) theo cơ chế Value-based
+    public async Task CreateStarPanelAsync<T>(T stat) where T : IStats
     {
-        if (statFilter != null && !statFilter(stat))
-        {
-            Debug.LogWarning("Đối tượng stat không thỏa mãn điều kiện lọc!");
-            return;
-        }
+        GameObject gameObject = Instantiate(StarPanelPrefab, MainPanel);
+        Transform panelTransform = gameObject.transform;
 
-        CurrentPanel = Instantiate(StarPanelPrefab, MainPanel);
-        Transform panelTransform = CurrentPanel.transform;
-
-        // --- Khởi tạo và tìm UI Components ---
-        Transform currentStarTransform = panelTransform.Find("CurrentStarGridLayout");
-        Transform nextStarTransform = panelTransform.Find("NextStarGridLayout");
-        Slider progressionSlider = panelTransform.Find("ProgressionSlider").GetComponent<Slider>();
+        TextMeshProUGUI currentStarText = panelTransform.Find("CurrentLevel").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI nextStarText = panelTransform.Find("NextLevel").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI maxStarText = panelTransform.Find("MaxLevel").GetComponent<TextMeshProUGUI>();
         Slider quantitySlider = panelTransform.Find("QuantitySlider").GetComponent<Slider>();
-        TextMeshProUGUI experienceText = panelTransform.Find("ExperienceText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI userQuantityText = panelTransform.Find("UserItemQuantityText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI usedQuantityText = panelTransform.Find("ItemUsedQuantityText").GetComponent<TextMeshProUGUI>();
-        RawImage userItemImage = panelTransform.Find("UserItemImage").GetComponent<RawImage>();
-        RawImage usedItemImage = panelTransform.Find("ItemUsedImage").GetComponent<RawImage>();
+
+        TMP_InputField starInputField = panelTransform.Find("ItemUsedQuantityText")?.GetComponent<TMP_InputField>();
+        TextMeshProUGUI itemUsedQuantityText = panelTransform.Find("ItemUsedQuantityText")?.GetComponent<TextMeshProUGUI>();
 
         TextMeshProUGUI notificationText = panelTransform.Find("Notification/ContentText").GetComponent<TextMeshProUGUI>();
+        RawImage notificationIconImage = panelTransform.Find("Notification/IconImage")?.GetComponent<RawImage>();
 
         Button increaseOneButton = panelTransform.Find("IncreaseOneButton").GetComponent<Button>();
         Button increaseTenButton = panelTransform.Find("IncreaseTenButton").GetComponent<Button>();
@@ -67,677 +123,460 @@ public class StarController : MonoBehaviour
         Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
         Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
         Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+        Button previewButton = panelTransform.Find("PreviewButton").GetComponent<Button>();
+
         Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
         Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
+        Transform rightTransform = panelTransform.Find("Right Scroll View/Viewport/Content");
 
-        int currentStar = stat.Star;
-        int targetStar = currentStar;
+        Transform leftScrollViewTransform = panelTransform.Find("Scroll View");
+        Transform rightScrollViewTransform = panelTransform.Find("Right Scroll View");
 
-        int currentMaterialCount = 0;
-        int lastTargetStar = -1;
+        Image leftScrollViewBg = leftScrollViewTransform.GetComponent<Image>() ?? leftScrollViewTransform.Find("Viewport")?.GetComponent<Image>();
+        Image rightScrollViewBg = rightScrollViewTransform.GetComponent<Image>() ?? rightScrollViewTransform.Find("Viewport")?.GetComponent<Image>();
 
-        string texturePath = ImageHelper.RemoveImageExtension("UI/Icon/storage");
+        int popupCurrentStar = stat.Star;
 
-        userItemImage.texture = TextureHelper.LoadTexture2DCached(texturePath);
-        usedItemImage.texture = TextureHelper.LoadTexture2DCached(texturePath);
+        string objectType = null;
+        string featureCodeName = null;
+        Type statType = stat.GetType();
+        if (StarUpSettingsByStatType.TryGetValue(statType, out var setting))
+        {
+            objectType = setting.ObjectType;
+            featureCodeName = setting.FeatureCodeName;
+        }
+
+        GameConfig gameConfig = await GameConfigService.Create().GetGameConfigAsync(objectType, StarObjectColumn);
+        List<GameGrowthConfig> growthConfig = await GameGrowthConfigService.Create().GetConfigAsync(objectType, StarGrowthType, popupCurrentStar);
+
+        RecipeResponseDTO popupRecipeData = await RecipeService.Create().GetRecipeItemsByFeatureCodeNameAsync(featureCodeName, popupCurrentStar + 1, User.CurrentUserId);
+
+        double recipeMaxStar = popupRecipeData?.Recipes != null && popupRecipeData.Recipes.Count > 0
+            ? popupRecipeData.Recipes.Max(r => r.MaxLevel)
+            : popupCurrentStar;
+
+        int maxStar = int.Parse(gameConfig.MaxValue);
+        float maxSliderValue = Mathf.Max(0, (float)(recipeMaxStar - popupCurrentStar));
+
+        LevelDTO levelDto = new LevelDTO
+        {
+            Level = popupCurrentStar,
+            Configs = growthConfig,
+        };
+
+        currentStarText.text = popupCurrentStar.ToString();
+        nextStarText.text = popupCurrentStar.ToString();
+        if (maxStarText != null) maxStarText.text = maxStar.ToString();
+
+        if (stat != null)
+        {
+            StatsManager.Instance.CreateStatsManager(stat, currentStatsContent);
+            StatsManager.Instance.CreateStatsManager(stat, nextStatsContent);
+        }
 
         quantitySlider.minValue = 0;
-        quantitySlider.maxValue = (float)stat.Quantity;
+        quantitySlider.maxValue = maxSliderValue;
+        quantitySlider.wholeNumbers = true;
+        quantitySlider.value = 0;
 
-        #region Local Functions
+        bool isPreviewSelected = false;
 
-        void SetNotification(string translationKey, Color color, params object[] args)
+        Button[] adjustmentButtons = new Button[]
         {
-            if (notificationText == null) return;
+            increaseOneButton, increaseTenButton, increaseMaxButton,
+            decreaseOneButton, decreaseTenButton, decreaseMaxButton
+        };
 
-            string translatedValue = LocalizationManager.Get(translationKey);
+        void UpdateSliderButtonsUI(bool isSelected)
+        {
+            Color targetBgColor = ColorHelper.HexToColor(isSelected ? ColorConstants.YELLOW_COLOR : ColorConstants.RED_COLOR);
+            Color targetTextColor = ColorHelper.HexToColor(isSelected ? ColorConstants.BLACK_COLOR : ColorConstants.WHITE_COLOR);
 
-            if (args != null && args.Length > 0)
+            Image previewBtnImg = previewButton.GetComponent<Image>();
+            if (previewBtnImg != null) previewBtnImg.color = targetBgColor;
+
+            Color sidebarColor = new Color(targetBgColor.r, targetBgColor.g, targetBgColor.b, 0.35f);
+            if (leftScrollViewBg != null) leftScrollViewBg.color = sidebarColor;
+            if (rightScrollViewBg != null) rightScrollViewBg.color = sidebarColor;
+
+            UpdateScrollbarHandleColor(leftScrollViewTransform, targetBgColor);
+            UpdateScrollbarHandleColor(rightScrollViewTransform, targetBgColor);
+
+            if (quantitySlider.fillRect != null)
             {
-                translatedValue = string.Format(translatedValue, args);
+                Image fillImage = quantitySlider.fillRect.GetComponent<Image>();
+                if (fillImage != null) fillImage.color = targetBgColor;
+            }
+            if (quantitySlider.handleRect != null)
+            {
+                Image handleImage = quantitySlider.handleRect.GetComponent<Image>();
+                if (handleImage != null) handleImage.color = targetBgColor;
             }
 
-            notificationText.text = translatedValue;
-            notificationText.color = color;
-        }
-
-        void SetConfirmButtonState(bool interactable, bool isMax = false)
-        {
-            confirmButton.interactable = interactable;
-        }
-
-        void CalculateStarFromMaterials(long materials)
-        {
-            double remain = materials;
-            int tempStar = currentStar;
-
-            while (tempStar < maxStar)
+            foreach (var btn in adjustmentButtons)
             {
-                double required = starRule(tempStar);
+                if (btn == null) continue;
 
-                if (required <= 0) break;
-                if (remain < required) break;
+                Image btnImage = btn.GetComponent<Image>();
+                if (btnImage != null) btnImage.color = targetBgColor;
 
-                remain -= required;
-                tempStar++;
+                TextMeshProUGUI btnText = btn.GetComponentInChildren<TextMeshProUGUI>();
+                if (btnText != null) btnText.color = targetTextColor;
             }
-
-            targetStar = tempStar;
         }
 
-        int CalculateMaxMaterialsNeeded()
+        void SetPreviewNotification(string value, bool isSuccess)
         {
-            // Nếu nguyên liệu hiện có bằng 0 hoặc đã Max Star thì không cần tính
-            if (stat.Quantity <= 0 || currentStar >= maxStar) return 0;
+            notificationText.text = LocalizationManager.Get(value);
 
-            double total = 0;
+            string colorHex = isSuccess ? ColorConstants.GREEN_COLOR : ColorConstants.RED_COLOR;
+            string iconPath = isSuccess ? ImageConstants.status.CONFIRM_URL : ImageConstants.status.CANCEL_URL;
 
-            for (int star = currentStar; star < maxStar; star++)
+            Color statusColor = ColorHelper.HexToColor(colorHex);
+            notificationText.color = statusColor;
+
+            if (notificationIconImage != null)
             {
-                total += starRule(star);
-                // Tránh cộng dồn quá lớn gây tràn số double/int
-                if (total >= int.MaxValue)
+                Texture iconTex = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(iconPath));
+                if (iconTex != null)
                 {
-                    return int.MaxValue;
-                }
-            }
-
-            // Ép kiểu an toàn tránh overflow sang số âm
-            long ceilingTotal = (long)Math.Ceiling(total);
-            return (int)Math.Min(ceilingTotal, int.MaxValue);
-        }
-
-        // Tạo bản Clone Preview BaseStats theo targetStar
-        IStats CreatePreviewBaseStats(int newStar)
-        {
-            try
-            {
-                var baseStatsProp = typeof(T).GetProperty("BaseStats");
-                object originalBaseStats = baseStatsProp?.GetValue(stat);
-
-                object sourceToClone = originalBaseStats ?? stat;
-                if (sourceToClone == null) return null;
-
-                string json = JsonConvert.SerializeObject(sourceToClone);
-                Type typeToDeserialize = sourceToClone.GetType();
-                IStats previewBaseStats = (IStats)JsonConvert.DeserializeObject(json, typeToDeserialize);
-
-                if (previewBaseStats != null)
-                {
-                    previewBaseStats.Star = newStar;
-
-                    QualityEvaluatorHelper.GetQualityPower(previewBaseStats);
-                    LevelEvaluatorHelper.GetLevelPower(previewBaseStats);
-                    StarEvaluatorHelper.GetStarPower(previewBaseStats);
-                }
-
-                return previewBaseStats;
-            }
-            catch (Exception ex)
-            {
-                Debug.LogWarning($"Lỗi khi clone Preview BaseStats: {ex.Message}");
-                return null;
-            }
-        }
-
-        // 1. Render CurrentStats (Chỉ gọi 1 lần khi tạo)
-        void RenderCurrentStats()
-        {
-            if (currentStatsContent == null) return;
-
-            var baseStatsProp = typeof(T).GetProperty("BaseStats");
-            object currentBaseStatsObj = baseStatsProp?.GetValue(stat);
-
-            IStats currentDisplayStats = stat;
-            if (currentBaseStatsObj != null)
-            {
-                string json = JsonConvert.SerializeObject(currentBaseStatsObj);
-                currentDisplayStats = (IStats)JsonConvert.DeserializeObject(json, currentBaseStatsObj.GetType());
-            }
-
-            if (currentDisplayStats != null)
-            {
-                currentDisplayStats.Star = currentStar;
-                QualityEvaluatorHelper.GetQualityPower(currentDisplayStats);
-                LevelEvaluatorHelper.GetLevelPower(currentDisplayStats);
-                StarEvaluatorHelper.GetStarPower(currentDisplayStats);
-
-                StatsManager.Instance.CreateStatsManager(currentDisplayStats, currentStatsContent);
-            }
-        }
-
-        // 2. Render NextStats (Chỉ gọi khi Target Star thực sự thay đổi)
-        void RenderNextStats()
-        {
-            if (nextStatsContent == null) return;
-
-            if (targetStar == currentStar)
-            {
-                var baseStatsProp = typeof(T).GetProperty("BaseStats");
-                object currentBaseStatsObj = baseStatsProp?.GetValue(stat);
-
-                IStats currentDisplayStats = stat;
-                if (currentBaseStatsObj != null)
-                {
-                    string json = JsonConvert.SerializeObject(currentBaseStatsObj);
-                    currentDisplayStats = (IStats)JsonConvert.DeserializeObject(json, currentBaseStatsObj.GetType());
-                }
-
-                if (currentDisplayStats != null)
-                {
-                    currentDisplayStats.Star = currentStar;
-                    QualityEvaluatorHelper.GetQualityPower(currentDisplayStats);
-                    LevelEvaluatorHelper.GetLevelPower(currentDisplayStats);
-                    StarEvaluatorHelper.GetStarPower(currentDisplayStats);
-
-                    StatsManager.Instance.CreateStatsManager(currentDisplayStats, nextStatsContent);
-                }
-            }
-            else
-            {
-                IStats previewBaseStats = CreatePreviewBaseStats(targetStar);
-                if (previewBaseStats != null)
-                {
-                    StatsManager.Instance.CreateStatsManager(previewBaseStats, nextStatsContent);
+                    notificationIconImage.texture = iconTex;
+                    notificationIconImage.color = statusColor;
+                    notificationIconImage.gameObject.SetActive(true);
                 }
             }
         }
 
-        // 3. Refresh UI chính
-        void RefreshUI()
+        void UpdateStarDisplay(int starValue)
         {
-            TextureHelper.SetupStars(currentStarTransform, currentStar);
-            TextureHelper.SetupStars(nextStarTransform, targetStar);
-
-            userQuantityText.text = NumberFormatterHelper.FormatNumber(stat.Quantity, true);
-            usedQuantityText.text = NumberFormatterHelper.FormatNumber(currentMaterialCount, true);
-            quantitySlider.SetValueWithoutNotify(currentMaterialCount);
-
-            // B. TÍNH TIẾN ĐỘ VÀ EXP TEXT
-            if (currentStar >= maxStar)
+            string formattedText = $"+{starValue}";
+            if (starInputField != null)
             {
-                progressionSlider.minValue = 0;
-                progressionSlider.maxValue = 1;
-                progressionSlider.SetValueWithoutNotify(1);
-                experienceText.text = "MAX";
+                starInputField.text = starValue.ToString();
             }
-            else
+            else if (itemUsedQuantityText != null)
             {
-                double required = starRule(currentStar);
-                if (required <= 0) required = 1;
-
-                double progress = Math.Min(currentMaterialCount, required);
-
-                progressionSlider.minValue = 0;
-                progressionSlider.maxValue = (float)required;
-                progressionSlider.SetValueWithoutNotify((float)progress);
-
-                experienceText.text = $"{NumberFormatterHelper.FormatNumber(progress, true)} / {NumberFormatterHelper.FormatNumber(required, true)}";
-            }
-
-            // C. CHỈ RE-RENDER NEXT STATS KHI TARGET STAR THAY ĐỔI
-            if (targetStar != lastTargetStar)
-            {
-                RenderNextStats();
-                lastTargetStar = targetStar;
-            }
-
-            // D. THÔNG BÁO & TRẠNG THÁI NÚT
-            if (currentStar >= maxStar)
-            {
-                SetNotification(MessageConstants.UPGRADE_ALREADY_MAX, Color.green);
-                SetConfirmButtonState(false, true);
-            }
-            else if (currentMaterialCount <= 0)
-            {
-                SetNotification(MessageConstants.PLEASE_SELECT_QUANTITY, Color.yellow);
-                SetConfirmButtonState(false);
-            }
-            else if (currentMaterialCount < starRule(currentStar))
-            {
-                SetNotification(MessageConstants.NOT_ENOUGH_MATERIALS, Color.red);
-                SetConfirmButtonState(false);
-            }
-            else if (targetStar >= maxStar)
-            {
-                SetNotification(MessageConstants.MAX_LEVEL_REACHED, Color.green, maxStar);
-                SetConfirmButtonState(true);
-            }
-            else
-            {
-                SetNotification(MessageConstants.READY_TO_UPGRADE, Color.green, targetStar);
-                SetConfirmButtonState(true);
+                itemUsedQuantityText.text = formattedText;
             }
         }
 
-        void ChangeMaterialCount(int amount)
+        async void UpdatePreview()
         {
-            // Nếu người chơi không có nguyên liệu, luôn giữ là 0
-            if (stat.Quantity <= 0)
+            int requested = (int)quantitySlider.value;
+
+            if (popupCurrentStar >= maxStar)
             {
-                currentMaterialCount = 0;
-                CalculateStarFromMaterials(0);
-                RefreshUI();
+                var backgroundImage = confirmButton.transform.Find("Background2")?.GetComponent<RawImage>();
+                if (backgroundImage != null)
+                    backgroundImage.color = ColorHelper.HexToColor(ColorConstants.GRAY_COLOR);
+
+                SetPreviewNotification(MessageConstants.UPGRADE_ALREADY_MAX, false);
+                nextStarText.text = "MAX";
+                confirmButton.interactable = false;
+                UpdateStarDisplay(0);
+
+                if (stat != null)
+                    StatsManager.Instance.CreateStatsManager(stat, nextStatsContent);
+
                 return;
             }
 
-            currentMaterialCount += amount;
-            // Đảm bảo giá trị luôn nằm trong khoảng [0, stat.Quantity]
-            currentMaterialCount = Math.Max(0, Math.Min(currentMaterialCount, stat.Quantity));
-
-            CalculateStarFromMaterials(currentMaterialCount);
-            RefreshUI();
-        }
-
-        void SetMaxMaterialCount()
-        {
-            // 1. Kiểm tra điều kiện chặn ngay từ đầu
-            if (currentStar >= maxStar || stat.Quantity <= 0)
+            if (requested <= 0)
             {
-                currentMaterialCount = 0;
-                CalculateStarFromMaterials(0);
-                RefreshUI();
+                nextStarText.text = popupCurrentStar.ToString();
+                confirmButton.interactable = false;
+                UpdateStarDisplay(0);
+
+                if (stat != null)
+                    StatsManager.Instance.CreateStatsManager(stat, nextStatsContent);
+
+                foreach (Transform child in rightTransform) Destroy(child.gameObject);
+                SetPreviewNotification(MessageConstants.READY_TO_UPGRADE, true);
                 return;
             }
 
-            // 2. Tính toán nguyên liệu max cần thiết
-            int maxNeed = CalculateMaxMaterialsNeeded();
+            RecipeCalculateDTO preview = await RecipeCalculator.CalculateUpgradeByLevelsValueBasedAsync(
+                popupRecipeData,
+                popupCurrentStar,
+                requested,
+                maxStar,
+                levelDto
+            );
 
-            // 3. Gán giá trị an toàn
-            currentMaterialCount = Math.Min(maxNeed, stat.Quantity);
-            currentMaterialCount = Math.Max(0, currentMaterialCount); // Bảo đảm không bao giờ âm
+            nextStarText.text = preview.TargetLevel.ToString();
 
-            CalculateStarFromMaterials(currentMaterialCount);
-            RefreshUI();
+            if (isPreviewSelected)
+            {
+                confirmButton.interactable = false;
+            }
+            else
+            {
+                confirmButton.interactable = preview.GainedLevels > 0;
+            }
+
+            int displayGained = preview.GainedLevels > 0 ? preview.GainedLevels : requested;
+
+            if (displayGained > 0 && stat != null)
+            {
+                StatsManager.Instance.CreateStatsManager(stat, nextStatsContent);
+            }
+            else if (stat != null)
+            {
+                StatsManager.Instance.CreateStatsManager(stat, nextStatsContent);
+            }
+
+            var materials = preview.TotalDeductions ?? new List<RecipeItemDetailDTO>();
+            int existingChildCount = rightTransform.childCount;
+            int neededChildCount = materials.Count;
+
+            for (int i = existingChildCount - 1; i >= neededChildCount; i--)
+            {
+                Destroy(rightTransform.GetChild(i).gameObject);
+            }
+
+            for (int i = 0; i < neededChildCount; i++)
+            {
+                GameObject itemGO = (i < existingChildCount)
+                    ? rightTransform.GetChild(i).gameObject
+                    : Instantiate(StarItemPopupPrefab, rightTransform);
+
+                SetupStarItemUI2(itemGO, new RecipePreviewDetailDTO
+                {
+                    ObjectId = materials[i].ObjectId,
+                    ObjectType = materials[i].ObjectType,
+                    ObjectImage = materials[i].ObjectImage,
+                    TotalRequiredQuantity = materials[i].RequiredQuantity,
+                    CurrentUserQuantity = materials[i].UserQuantity,
+                    IsEnough = true
+                });
+            }
+
+            UpdateStarDisplay(displayGained);
+            SetPreviewNotification(MessageConstants.READY_TO_UPGRADE, true);
         }
 
-        #endregion
-
-        quantitySlider.onValueChanged.AddListener(value =>
+        if (starInputField != null)
         {
-            currentMaterialCount = (int)Math.Round(value);
-            CalculateStarFromMaterials(currentMaterialCount);
-            RefreshUI();
+            starInputField.onEndEdit.AddListener((inputValue) =>
+            {
+                if (int.TryParse(inputValue, out int parsedStar))
+                {
+                    float clampedStar = Mathf.Clamp(parsedStar, 0, maxSliderValue);
+                    starInputField.text = clampedStar.ToString();
+                    quantitySlider.SetValueWithoutNotify(clampedStar);
+                }
+                else
+                {
+                    starInputField.text = "0";
+                    quantitySlider.SetValueWithoutNotify(0);
+                }
+
+                UpdatePreview();
+            });
+        }
+
+        previewButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            isPreviewSelected = !isPreviewSelected;
+
+            UpdateSliderButtonsUI(isPreviewSelected);
+
+            quantitySlider.SetValueWithoutNotify(0);
+            UpdatePreview();
         });
 
-        RenderCurrentStats();
-        CalculateStarFromMaterials(0);
-        RefreshUI();
+        quantitySlider.onValueChanged.AddListener(_ => UpdatePreview());
 
-        async Task ExecuteServiceInsertAsync()
-        {
-            try
-            {
-                if (stat is Achievements achievement)
-                {
-                    await UserAchievementsService.Create().UpdateUserAchievementStarAsync(User.CurrentUserId, achievement);
-                    UserAchievementsController.Instance.RefreshCurrentDetailsUI(achievement);
-                }
-                else if (stat is Alchemies alchemy)
-                {
-                    await UserAlchemiesService.Create().UpdateUserAlchemyStarAsync(User.CurrentUserId, alchemy);
-                    UserAlchemiesController.Instance.RefreshCurrentDetailsUI(alchemy);
-                }
-                else if (stat is Architectures architecture)
-                {
-                    await UserArchitecturesService.Create().UpdateUserArchitectureStarAsync(User.CurrentUserId, architecture);
-                    UserArchitecturesController.Instance.RefreshCurrentDetailsUI(architecture);
-                }
-                else if (stat is Artifacts artifact)
-                {
-                    await UserArtifactsService.Create().UpdateUserArtifactStarAsync(User.CurrentUserId, artifact);
-                    UserArtifactsController.Instance.RefreshCurrentDetailsUI(artifact);
-                }
-                else if (stat is Artworks artwork)
-                {
-                    await UserArtworksService.Create().UpdateUserArtworkStarAsync(User.CurrentUserId, artwork);
-                    UserArtworksController.Instance.RefreshCurrentDetailsUI(artwork);
-                }
-                else if (stat is Avatars avatar)
-                {
-                    await UserAvatarsService.Create().UpdateUserAvatarStarAsync(User.CurrentUserId, avatar);
-                    UserAvatarsController.Instance.RefreshCurrentDetailsUI(avatar);
-                }
-                else if (stat is Badges badge)
-                {
-                    await UserBadgesService.Create().UpdateUserBadgeStarAsync(User.CurrentUserId, badge);
-                    UserBadgesController.Instance.RefreshCurrentDetailsUI(badge);
-                }
-                else if (stat is Beverages beverage)
-                {
-                    await UserBeveragesService.Create().UpdateUserBeverageStarAsync(User.CurrentUserId, beverage);
-                    UserBeveragesController.Instance.RefreshCurrentDetailsUI(beverage);
-                }
-                else if (stat is Books book)
-                {
-                    await UserBooksService.Create().UpdateUserBookStarAsync(User.CurrentUserId, book);
-                    UserBooksController.Instance.RefreshCurrentDetailsUI(book);
-                }
-                else if (stat is Borders border)
-                {
-                    await UserBordersService.Create().UpdateUserBorderStarAsync(User.CurrentUserId, border);
-                    UserBordersController.Instance.RefreshCurrentDetailsUI(border);
-                }
-                else if (stat is Buildings building)
-                {
-                    await UserBuildingsService.Create().UpdateUserBuildingStarAsync(User.CurrentUserId, building);
-                    UserBuildingsController.Instance.RefreshCurrentDetailsUI(building);
-                }
-                else if (stat is CardAdmirals admiral)
-                {
-                    await UserCardAdmiralsService.Create().UpdateUserCardAdmiralStarAsync(User.CurrentUserId, admiral);
-                    UserCardAdmiralsController.Instance.RefreshCurrentDetailsUI(admiral);
-                }
-                else if (stat is CardCaptains captain)
-                {
-                    await UserCardCaptainsService.Create().UpdateUserCardCaptainStarAsync(User.CurrentUserId, captain);
-                    UserCardCaptainsController.Instance.RefreshCurrentDetailsUI(captain);
-                }
-                else if (stat is CardColonels colonel)
-                {
-                    await UserCardColonelsService.Create().UpdateUserCardColonelStarAsync(User.CurrentUserId, colonel);
-                    UserCardColonelsController.Instance.RefreshCurrentDetailsUI(colonel);
-                }
-                else if (stat is CardGenerals general)
-                {
-                    await UserCardGeneralsService.Create().UpdateUserCardGeneralStarAsync(User.CurrentUserId, general);
-                    UserCardGeneralsController.Instance.RefreshCurrentDetailsUI(general);
-                }
-                else if (stat is CardHeroes hero)
-                {
-                    await UserCardHeroesService.Create().UpdateUserCardHeroStarAsync(User.CurrentUserId, hero);
-                    UserCardHeroesController.Instance.RefreshCurrentDetailsUI(hero);
-                }
-                else if (stat is CardLives cardLife)
-                {
-                    await UserCardLivesService.Create().UpdateUserCardLifeStarAsync(User.CurrentUserId, cardLife);
-                    UserCardLivesController.Instance.RefreshCurrentDetailsUI(cardLife);
-                }
-                else if (stat is CardMilitaries military)
-                {
-                    await UserCardMilitariesService.Create().UpdateUserCardMilitaryStarAsync(User.CurrentUserId, military);
-                    UserCardMilitariesController.Instance.RefreshCurrentDetailsUI(military);
-                }
-                else if (stat is CardMonsters monster)
-                {
-                    await UserCardMonstersService.Create().UpdateUserCardMonsterStarAsync(User.CurrentUserId, monster);
-                    UserCardMonstersController.Instance.RefreshCurrentDetailsUI(monster);
-                }
-                else if (stat is CardSoldiers soldier)
-                {
-                    await UserCardSoldiersService.Create().UpdateUserCardSoldierStarAsync(User.CurrentUserId, soldier);
-                    UserCardSoldiersController.Instance.RefreshCurrentDetailsUI(soldier);
-                }
-                else if (stat is CardSpells spell)
-                {
-                    await UserCardSpellsService.Create().UpdateUserCardSpellStarAsync(User.CurrentUserId, spell);
-                    UserCardSpellsController.Instance.RefreshCurrentDetailsUI(spell);
-                }
-                else if (stat is CollaborationEquipments collabEquip)
-                {
-                    await UserCollaborationEquipmentsService.Create().UpdateUserCollaborationEquipmentStarAsync(User.CurrentUserId, collabEquip);
-                    UserCollaborationEquipmentsController.Instance.RefreshCurrentDetailsUI(collabEquip);
-                }
-                else if (stat is Collaborations collab)
-                {
-                    await UserCollaborationsService.Create().UpdateUserCollaborationStarAsync(User.CurrentUserId, collab);
-                    UserCollaborationsController.Instance.RefreshCurrentDetailsUI(collab);
-                }
-                else if (stat is Cores core)
-                {
-                    await UserCoresService.Create().UpdateUserCoreStarAsync(User.CurrentUserId, core);
-                    UserCoresController.Instance.RefreshCurrentDetailsUI(core);
-                }
-                else if (stat is Emojis emoji)
-                {
-                    await UserEmojisService.Create().UpdateUserEmojiStarAsync(User.CurrentUserId, emoji);
-                    UserEmojisController.Instance.RefreshCurrentDetailsUI(emoji);
-                }
-                else if (stat is Equipments equipment)
-                {
-                    await UserEquipmentsService.Create().UpdateUserEquipmentStarAsync(User.CurrentUserId, equipment);
-                    UserEquipmentsController.Instance.RefreshCurrentDetailsUI(equipment);
-                }
-                else if (stat is Fashions fashion)
-                {
-                    await UserFashionsService.Create().UpdateUserFashionStarAsync(User.CurrentUserId, fashion);
-                    UserFashionsController.Instance.RefreshCurrentDetailsUI(fashion);
-                }
-                else if (stat is Foods food)
-                {
-                    await UserFoodsService.Create().UpdateUserFoodStarAsync(User.CurrentUserId, food);
-                    UserFoodsController.Instance.RefreshCurrentDetailsUI(food);
-                }
-                else if (stat is Forges forge)
-                {
-                    await UserForgesService.Create().UpdateUserForgeStarAsync(User.CurrentUserId, forge);
-                    UserForgesController.Instance.RefreshCurrentDetailsUI(forge);
-                }
-                else if (stat is Furnitures furniture)
-                {
-                    await UserFurnituresService.Create().UpdateUserFurnitureStarAsync(User.CurrentUserId, furniture);
-                    UserFurnituresController.Instance.RefreshCurrentDetailsUI(furniture);
-                }
-                else if (stat is MagicFormationCircles circle)
-                {
-                    await UserMagicFormationCirclesService.Create().UpdateUserMagicFormationCircleStarAsync(User.CurrentUserId, circle);
-                    UserMagicFormationCirclesController.Instance.RefreshCurrentDetailsUI(circle);
-                }
-                else if (stat is MechaBeasts mechaBeast)
-                {
-                    await UserMechaBeastsService.Create().UpdateUserMechaBeastStarAsync(User.CurrentUserId, mechaBeast);
-                    UserMechaBeastsController.Instance.RefreshCurrentDetailsUI(mechaBeast);
-                }
-                else if (stat is Medals medal)
-                {
-                    await UserMedalsService.Create().UpdateUserMedalStarAsync(User.CurrentUserId, medal);
-                    UserMedalsController.Instance.RefreshCurrentDetailsUI(medal);
-                }
-                else if (stat is Pets pet)
-                {
-                    await UserPetsService.Create().UpdateUserPetStarAsync(User.CurrentUserId, pet);
-                    UserPetsController.Instance.RefreshCurrentDetailsUI(pet);
-                }
-                else if (stat is Plants plant)
-                {
-                    await UserPlantsService.Create().UpdateUserPlantStarAsync(User.CurrentUserId, plant);
-                    UserPlantsController.Instance.RefreshCurrentDetailsUI(plant);
-                }
-                else if (stat is Puppets puppet)
-                {
-                    await UserPuppetsService.Create().UpdateUserPuppetStarAsync(User.CurrentUserId, puppet);
-                    UserPuppetsController.Instance.RefreshCurrentDetailsUI(puppet);
-                }
-                else if (stat is Relics relic)
-                {
-                    await UserRelicsService.Create().UpdateUserRelicStarAsync(User.CurrentUserId, relic);
-                    UserRelicsController.Instance.RefreshCurrentDetailsUI(relic);
-                }
-                else if (stat is Robots robot)
-                {
-                    await UserRobotsService.Create().UpdateUserRobotStarAsync(User.CurrentUserId, robot);
-                    UserRobotsController.Instance.RefreshCurrentDetailsUI(robot);
-                }
-                else if (stat is Runes rune)
-                {
-                    await UserRunesService.Create().UpdateUserRuneStarAsync(User.CurrentUserId, rune);
-                    UserRunesController.Instance.RefreshCurrentDetailsUI(rune);
-                }
-                else if (stat is Skills skill)
-                {
-                    await UserSkillsService.Create().UpdateUserSkillStarAsync(User.CurrentUserId, skill);
-                    UserSkillsController.Instance.RefreshCurrentDetailsUI(skill);
-                }
-                else if (stat is SpiritBeasts spiritBeast)
-                {
-                    await UserSpiritBeastsService.Create().UpdateUserSpiritBeastStarAsync(User.CurrentUserId, spiritBeast);
-                    UserSpiritBeastsController.Instance.RefreshCurrentDetailsUI(spiritBeast);
-                }
-                else if (stat is SpiritCards spiritCard)
-                {
-                    await UserSpiritCardsService.Create().UpdateUserSpiritCardStarAsync(User.CurrentUserId, spiritCard);
-                    UserSpiritCardsController.Instance.RefreshCurrentDetailsUI(spiritCard);
-                }
-                else if (stat is Symbols symbol)
-                {
-                    await UserSymbolsService.Create().UpdateUserSymbolStarAsync(User.CurrentUserId, symbol);
-                    UserSymbolsController.Instance.RefreshCurrentDetailsUI(symbol);
-                }
-                else if (stat is Talismans talisman)
-                {
-                    await UserTalismansService.Create().UpdateUserTalismanStarAsync(User.CurrentUserId, talisman);
-                    UserTalismansController.Instance.RefreshCurrentDetailsUI(talisman);
-                }
-                else if (stat is Technologies technology)
-                {
-                    await UserTechnologiesService.Create().UpdateUserTechnologyStarAsync(User.CurrentUserId, technology);
-                    UserTechnologiesController.Instance.RefreshCurrentDetailsUI(technology);
-                }
-                else if (stat is Titles title)
-                {
-                    await UserTitlesService.Create().UpdateUserTitleStarAsync(User.CurrentUserId, title);
-                    UserTitlesController.Instance.RefreshCurrentDetailsUI(title);
-                }
-                else if (stat is Vehicles vehicle)
-                {
-                    await UserVehiclesService.Create().UpdateUserVehicleStarAsync(User.CurrentUserId, vehicle);
-                    UserVehiclesController.Instance.RefreshCurrentDetailsUI(vehicle);
-                }
-                else if (stat is Weapons weapon)
-                {
-                    await UserWeaponsService.Create().UpdateUserWeaponStarAsync(User.CurrentUserId, weapon);
-                    UserWeaponsController.Instance.RefreshCurrentDetailsUI(weapon);
-                }
-                else if (stat is Outfits outfit)
-                {
-                    await UserOutfitsService.Create().UpdateUserOutfitStarAsync(User.CurrentUserId, outfit);
-                    UserOutfitsController.Instance.RefreshCurrentDetailsUI(outfit);
-                }
-            }
-            catch (Exception ex)
-            {
-                SetNotification(MessageConstants.SERVER_ERROR, Color.red, ex.Message);
-                throw;
-            }
-        }
-
-        #region Button Events listeners
         increaseOneButton.onClick.AddListener(() =>
         {
+            quantitySlider.value = Mathf.Min(quantitySlider.maxValue, quantitySlider.value + 1);
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            ChangeMaterialCount(1);
         });
-
         increaseTenButton.onClick.AddListener(() =>
         {
+            quantitySlider.value = Mathf.Min(quantitySlider.maxValue, quantitySlider.value + 10);
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            ChangeMaterialCount(10);
         });
-
-        increaseMaxButton.onClick.AddListener(() =>
+        increaseMaxButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            SetMaxMaterialCount();
+
+            if (isPreviewSelected)
+            {
+                quantitySlider.value = quantitySlider.maxValue;
+            }
+            else
+            {
+                RecipeCalculateDTO maxAffordable = await RecipeCalculator.CalculateMaxUpgradeValueBasedAsync(
+                    popupRecipeData,
+                    popupCurrentStar,
+                    maxStar,
+                    levelDto
+                );
+                quantitySlider.value = Mathf.Clamp(maxAffordable.GainedLevels, 0, quantitySlider.maxValue);
+            }
         });
 
         decreaseOneButton.onClick.AddListener(() =>
         {
+            quantitySlider.value = Mathf.Max(0, quantitySlider.value - 1);
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            ChangeMaterialCount(-1);
         });
-
         decreaseTenButton.onClick.AddListener(() =>
         {
+            quantitySlider.value = Mathf.Max(0, quantitySlider.value - 10);
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            ChangeMaterialCount(-10);
         });
-
         decreaseMaxButton.onClick.AddListener(() =>
         {
+            quantitySlider.value = 0;
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            currentMaterialCount = 0;
-            CalculateStarFromMaterials(0);
-            RefreshUI();
         });
 
-        closeButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(CurrentPanel);
-        });
+        UpdateSliderButtonsUI(false);
+        UpdatePreview();
 
-        confirmButton.onClick.AddListener((UnityEngine.Events.UnityAction)(async () =>
+        // Click Confirm: Thực hiện tăng Star và gọi hàm service tương ứng
+        confirmButton.onClick.AddListener(async () =>
         {
-            if (currentStar >= maxStar)
+            if (isPreviewSelected)
             {
-                notificationText.text = MessageConstants.UPGRADE_ALREADY_MAX;
-                notificationText.color = Color.red;
+                SetPreviewNotification(MessageConstants.CANNOT_CONFIRM_IN_PREVIEW_MODE, false);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+                return;
+            }
+
+            if (popupCurrentStar >= maxStar)
+            {
+                SetPreviewNotification(MessageConstants.UPGRADE_ALREADY_MAX, false);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+                return;
+            }
+
+            int requested = (int)quantitySlider.value;
+            if (requested <= 0)
+            {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
                 return;
             }
 
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.LEVEL_UP_SOUND);
-
-            if (currentMaterialCount <= 0)
-            {
-                SetNotification(MessageConstants.PLEASE_SELECT_QUANTITY, Color.red);
-                return;
-            }
-
-            if (currentMaterialCount > stat.Quantity)
-            {
-                SetNotification(MessageConstants.NOT_ENOUGH_MATERIALS, Color.red);
-                return;
-            }
-
             confirmButton.interactable = false;
             closeButton.interactable = false;
 
-            SetNotification(MessageConstants.PROCESSING_UPGRADE, Color.cyan);
+            RecipeCalculateDTO calcResult = await RecipeCalculator.CalculateUpgradeByLevelsValueBasedAsync(
+                popupRecipeData,
+                popupCurrentStar,
+                requested,
+                maxStar,
+                levelDto
+            );
 
-            try
+            if (calcResult.GainedLevels <= 0)
             {
-                // Cập nhật giá trị Star mới cho stat gốc
-                stat.Star = targetStar;
-                stat.Quantity = Math.Max(0, stat.Quantity - currentMaterialCount);
-
-                // Cập nhật BaseStats (nếu có)
-                var baseStatsProp = typeof(T).GetProperty("BaseStats");
-                if (baseStatsProp != null)
-                {
-                    var baseStatsObj = baseStatsProp.GetValue(stat);
-                    if (baseStatsObj != null)
-                    {
-                        var baseStarProp = baseStatsObj.GetType().GetProperty("Star");
-                        if (baseStarProp != null && baseStarProp.CanWrite)
-                        {
-                            baseStarProp.SetValue(baseStatsObj, targetStar);
-                        }
-                    }
-                }
-
-                // Cập nhật lại sức mạnh
-                QualityEvaluatorHelper.GetQualityPower(stat);
-                LevelEvaluatorHelper.GetLevelPower(stat);
-                StarEvaluatorHelper.GetStarPower(stat);
-
-                // Gọi Service lưu vào DB
-                await ExecuteServiceInsertAsync();
-
-                SetNotification(MessageConstants.UPGRADE_SUCCESS, Color.green);
-
-                await Task.Delay(500);
-
-                Destroy(CurrentPanel);
-            }
-            catch (Exception ex)
-            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ALERT_SOUND);
                 confirmButton.interactable = true;
                 closeButton.interactable = true;
-
-                SetNotification(MessageConstants.UPGRADE_FAILED, Color.red, ex.Message);
+                return;
             }
-        }));
-        #endregion
+
+            // Gán giá trị Star mới cho stat
+            stat.Star = calcResult.TargetLevel;
+
+            // Gọi hàm thực thi service update Star tương ứng
+            await ExecuteServiceStarInsertAsync(stat);
+
+            Destroy(gameObject);
+            await RefreshPanelAsync(stat);
+        });
+
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(gameObject);
+        });
+    }
+
+    private async Task RefreshPanelAsync<T>(T stat) where T : IStats
+    {
+        await Task.CompletedTask;
+    }
+
+    private void SetupStarItemUI2(GameObject itemGO, RecipePreviewDetailDTO data)
+    {
+        TextMeshProUGUI requiredText = itemGO.transform.Find("RequiredText")?.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI ownedText = itemGO.transform.Find("AvailableText")?.GetComponent<TextMeshProUGUI>();
+        RawImage image = itemGO.transform.Find("Image")?.GetComponent<RawImage>();
+
+        bool isEnough = data.CurrentUserQuantity >= data.TotalRequiredQuantity;
+        Color statusColor = ColorHelper.HexToColor(isEnough ? ColorConstants.GREEN_COLOR : ColorConstants.RED_COLOR);
+
+        if (requiredText != null)
+        {
+            requiredText.text = data.TotalRequiredQuantity.ToString();
+            requiredText.color = statusColor;
+        }
+
+        if (ownedText != null)
+        {
+            ownedText.text = data.CurrentUserQuantity.ToString();
+            ownedText.color = statusColor;
+        }
+
+        if (image != null && !string.IsNullOrEmpty(data.ObjectImage))
+        {
+            Texture texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(data.ObjectImage));
+            if (texture != null)
+                image.texture = texture;
+        }
+    }
+
+    private void UpdateScrollbarHandleColor(Transform scrollViewTransform, Color color)
+    {
+        if (scrollViewTransform == null) return;
+
+        Scrollbar scrollbar = scrollViewTransform.GetComponentInChildren<Scrollbar>();
+        if (scrollbar == null) return;
+
+        if (scrollbar.handleRect != null)
+        {
+            Image handleImage = scrollbar.handleRect.GetComponent<Image>();
+            if (handleImage != null)
+            {
+                handleImage.color = color;
+            }
+        }
+        else if (scrollbar.targetGraphic != null)
+        {
+            scrollbar.targetGraphic.color = color;
+        }
+    }
+
+    public async Task ExecuteServiceStarInsertAsync(IStats stat)
+    {
+        try
+        {
+            if (stat is Achievements achievement)
+            {
+                // Gọi service update Star của Achievement nếu có
+            }
+            else if (stat is CardHeroes hero)
+            {
+                await UserCardHeroesService.Create().UpdateUserCardHeroStarAsync(User.CurrentUserId, hero);
+                UserCardHeroesController.Instance.RefreshCurrentDetailsUI(hero);
+            }
+            // Thêm các nhánh điều kiện cho các stat khác tương tự như LevelController nhưng gọi hàm Update Star tương ứng
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error updating star for {stat.GetType().Name}: {ex.Message}");
+            throw;
+        }
+    }
+
+    internal void CreateStarPanel(Titles title, int mAX_LEVEL, Func<object, object> value)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -1112,18 +1112,6 @@ public class TeamsManager : MonoBehaviour
         }
         await TeamsService.Create().DeleteUserTeamEmblemsAsync(User.CurrentUserId, TeamId, TeamPositionIndex, MainType);
     }
-
-    private async Task<double> RemoveCardPowerAsync(double removedPower)
-    {
-        double currentPower = User.CurrentUserPower;
-        double updatedPower = currentPower - removedPower;
-
-        await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-        User.CurrentUserPower = updatedPower;
-
-        return currentPower;
-    }
-
     public void CreateUserCards(List<ICard> cards, Transform contentPanel, ICard oldCard = null)
     {
         foreach (Transform child in contentPanel)
@@ -1649,7 +1637,9 @@ public class TeamsManager : MonoBehaviour
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     await UserCardHeroesService.Create().UpdateTeamUserCardHeroAsync(User.CurrentUserId, null, null, matchingCardHero.Id);
-                    double currentPower = await RemoveCardPowerAsync(matchingCardHero.Power);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardHero.Power, 0);
                     await CreatePositionAsync(positionPanel, teamsObject);
                     await LoadCardDataByTypeAsync(MainType, SelectedOptionName, TeamLimit, TeamOffset, ChoseTeam);
@@ -1730,7 +1720,9 @@ public class TeamsManager : MonoBehaviour
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     await UserCardCaptainsService.Create().UpdateTeamUserCardCaptainAsync(User.CurrentUserId, null, null, matchingCardCaptain.Id);
-                    double currentPower = await RemoveCardPowerAsync(matchingCardCaptain.Power);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardCaptain.Power, 0);
                     await CreatePositionAsync(positionPanel, teamsObject);
                     await LoadCardDataByTypeAsync(MainType, SelectedOptionName, TeamLimit, TeamOffset, ChoseTeam);
@@ -1811,7 +1803,9 @@ public class TeamsManager : MonoBehaviour
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     await UserCardColonelsService.Create().UpdateTeamUserCardColonelAsync(User.CurrentUserId, null, null, matchingCardColonel.Id);
-                    double currentPower = await RemoveCardPowerAsync(matchingCardColonel.Power);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardColonel.Power, 0);
                     await CreatePositionAsync(positionPanel, teamsObject);
                     await LoadCardDataByTypeAsync(MainType, SelectedOptionName, TeamLimit, TeamOffset, ChoseTeam);
@@ -1892,7 +1886,9 @@ public class TeamsManager : MonoBehaviour
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     await UserCardGeneralsService.Create().UpdateTeamUserCardGeneralAsync(User.CurrentUserId, null, null, matchingCardGeneral.Id);
-                    double currentPower = await RemoveCardPowerAsync(matchingCardGeneral.Power);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardGeneral.Power, 0);
                     await CreatePositionAsync(positionPanel, teamsObject);
                     await LoadCardDataByTypeAsync(MainType, SelectedOptionName, TeamLimit, TeamOffset, ChoseTeam);
@@ -1973,7 +1969,9 @@ public class TeamsManager : MonoBehaviour
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     await UserCardAdmiralsService.Create().UpdateTeamUserCardAdmiralAsync(User.CurrentUserId, null, null, matchingCardAdmiral.Id);
-                    double currentPower = await RemoveCardPowerAsync(matchingCardAdmiral.Power);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardAdmiral.Power, 0);
                     await CreatePositionAsync(positionPanel, teamsObject);
                     await LoadCardDataByTypeAsync(MainType, SelectedOptionName, TeamLimit, TeamOffset, ChoseTeam);
@@ -2054,7 +2052,9 @@ public class TeamsManager : MonoBehaviour
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     await UserCardMonstersService.Create().UpdateTeamUserCardMonsterAsync(User.CurrentUserId, null, null, matchingCardMonster.Id);
-                    double currentPower = await RemoveCardPowerAsync(matchingCardMonster.Power);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardMonster.Power, 0);
                     await CreatePositionAsync(positionPanel, teamsObject);
                     await LoadCardDataByTypeAsync(MainType, SelectedOptionName, TeamLimit, TeamOffset, ChoseTeam);
@@ -2135,7 +2135,9 @@ public class TeamsManager : MonoBehaviour
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     await UserCardMilitariesService.Create().UpdateTeamUserCardMilitaryAsync(User.CurrentUserId, null, null, matchingCardMilitary.Id);
-                    double currentPower = await RemoveCardPowerAsync(matchingCardMilitary.Power);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardMilitary.Power, 0);
                     await CreatePositionAsync(positionPanel, teamsObject);
                     await LoadCardDataByTypeAsync(MainType, SelectedOptionName, TeamLimit, TeamOffset, ChoseTeam);
@@ -2216,7 +2218,9 @@ public class TeamsManager : MonoBehaviour
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     await UserCardSpellsService.Create().UpdateTeamUserCardSpellAsync(User.CurrentUserId, null, null, matchingCardSpell.Id);
-                    double currentPower = await RemoveCardPowerAsync(matchingCardSpell.Power);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardSpell.Power, 0);
                     await CreatePositionAsync(positionPanel, teamsObject);
                     await LoadCardDataByTypeAsync(MainType, SelectedOptionName, TeamLimit, TeamOffset, ChoseTeam);

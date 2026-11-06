@@ -61,8 +61,92 @@ public class RecipeRepository : IRecipeRepository
                         {
                             RecipeId = recipeId,
                             RecipeLevelId = recipeLevelId,
-                            MinLevel = reader.GetIntSafe("recipe_min_level"),
-                            MaxLevel = reader.GetIntSafe("recipe_max_level"),
+                            MinLevel = reader.GetDoubleSafe("recipe_min_level"),
+                            MaxLevel = reader.GetDoubleSafe("recipe_max_level"),
+                            RecipeItemDetails = new List<RecipeItemDetailDTO>()
+                        };
+                        recipeMap.Add(mapKey, recipeDto);
+                    }
+
+                    recipeDto.RecipeItemDetails.Add(new RecipeItemDetailDTO
+                    {
+                        ObjectId = reader.GetStringSafe("object_id"),
+                        ObjectType = reader.GetStringSafe("object_type"),
+                        ObjectImage = reader.GetStringSafe("object_image"),
+                        RequiredQuantity = reader.GetDoubleSafe("required_quantity"),
+                        ObjectValue = reader.GetDoubleSafe("object_value")
+                    });
+                }
+            }
+
+            response.Recipes = recipeMap.Values.ToList();
+
+            // Đọc kho đồ duy nhất 1 lần cho tất cả nguyên liệu xuất hiện trong danh sách
+            var allDetails = response.Recipes.SelectMany(r => r.RecipeItemDetails).ToList();
+            if (allDetails.Count > 0)
+            {
+                response.UserInventory = await GetUserInventoryDictAsync(connection, userId, allDetails);
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Error GetRecipeItemsAsync (Level): " + ex.Message);
+        }
+
+        return response;
+    }
+    public async Task<RecipeResponseDTO> GetRecipeItemsByFeatureCodeNameAsync(string featureCodeName, int level, string userId)
+    {
+        var response = new RecipeResponseDTO();
+        var recipeMap = new Dictionary<string, RecipeItemDTO>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        const string selectSQL = @"
+            SELECT 
+                r.id AS recipe_id,
+                rl.id AS recipe_level_id,
+                rl.min_level AS recipe_min_level,
+                rl.max_level AS recipe_max_level,
+                rli.item_id AS object_id,
+                rli.object_type AS object_type,
+                COALESCE(cat.image, '') AS object_image,
+                rli.quantity AS required_quantity,
+                rli.item_value AS object_value
+            FROM features f
+            JOIN feature_recipe fr ON f.id = fr.feature_id
+            JOIN recipes r ON fr.recipe_id = r.id
+            JOIN recipe_level_items rli ON r.id = rli.recipe_id
+            JOIN recipe_levels rl ON rli.recipe_level_id = rl.id
+            LEFT JOIN game_item_catalog cat ON rli.item_id = cat.object_id AND rli.object_type = cat.object_type
+            WHERE f.code_name = @featureCodeName
+              AND @level BETWEEN rl.min_level AND rl.max_level;";
+
+        try
+        {
+            await using var connection = new MySqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            await using (var selectCommand = new MySqlCommand(selectSQL, connection))
+            {
+                selectCommand.Parameters.AddWithValue("@featureCodeName", featureCodeName);
+                selectCommand.Parameters.AddWithValue("@level", level);
+
+                await using var reader = await selectCommand.ExecuteReaderAsync();
+
+                while (await reader.ReadAsync())
+                {
+                    string recipeId = reader.GetStringSafe("recipe_id");
+                    string recipeLevelId = reader.GetStringSafe("recipe_level_id");
+                    string mapKey = $"{recipeId}_{recipeLevelId}";
+
+                    if (!recipeMap.TryGetValue(mapKey, out var recipeDto))
+                    {
+                        recipeDto = new RecipeItemDTO
+                        {
+                            RecipeId = recipeId,
+                            RecipeLevelId = recipeLevelId,
+                            MinLevel = reader.GetDoubleSafe("recipe_min_level"),
+                            MaxLevel = reader.GetDoubleSafe("recipe_max_level"),
                             RecipeItemDetails = new List<RecipeItemDetailDTO>()
                         };
                         recipeMap.Add(mapKey, recipeDto);
@@ -147,8 +231,8 @@ public class RecipeRepository : IRecipeRepository
                         {
                             RecipeId = recipeId,
                             RecipeLevelId = recipeLevelId,
-                            MinLevel = reader.GetIntSafe("recipe_min_level"),
-                            MaxLevel = reader.GetIntSafe("recipe_max_level"),
+                            MinLevel = reader.GetDoubleSafe("recipe_min_level"),
+                            MaxLevel = reader.GetDoubleSafe("recipe_max_level"),
                             RecipeItemDetails = new List<RecipeItemDetailDTO>()
                         };
                         recipeMap.Add(mapKey, recipeDto);
@@ -238,8 +322,8 @@ public class RecipeRepository : IRecipeRepository
                         {
                             RecipeId = recipeId,
                             RecipeLevelId = recipeLevelId,
-                            MinLevel = reader.GetIntSafe("recipe_min_level"),
-                            MaxLevel = reader.GetIntSafe("recipe_max_level"),
+                            MinLevel = reader.GetDoubleSafe("recipe_min_level"),
+                            MaxLevel = reader.GetDoubleSafe("recipe_max_level"),
                             RecipeItemDetails = new List<RecipeItemDetailDTO>()
                         };
                         recipeMap.Add(mapKey, recipeDto);
@@ -301,14 +385,20 @@ public class RecipeRepository : IRecipeRepository
                         UPDATE {tableName}
                         SET quantity = quantity - @quantity
                         WHERE user_id = @userId
-                          AND {idColumnName} = @objectId;";
+                          AND {idColumnName} = @objectId
+                          AND quantity >= @quantity;";
 
                     await using var updateCommand = new MySqlCommand(updateSQL, connection, transaction);
                     updateCommand.Parameters.AddWithValue("@quantity", detail.RequiredQuantity);
                     updateCommand.Parameters.AddWithValue("@userId", userId);
                     updateCommand.Parameters.AddWithValue("@objectId", detail.ObjectId);
 
-                    await updateCommand.ExecuteNonQueryAsync();
+                    int affectedRows = await updateCommand.ExecuteNonQueryAsync();
+                    if (affectedRows != 1)
+                    {
+                        throw new InvalidOperationException(
+                            $"Insufficient inventory or missing item '{detail.ObjectId}' ({detail.ObjectType}).");
+                    }
                 }
 
                 await transaction.CommitAsync();
@@ -323,6 +413,7 @@ public class RecipeRepository : IRecipeRepository
         catch (Exception ex)
         {
             Debug.LogError("Error DeductItemsAsync Connection: " + ex.Message);
+            throw;
         }
     }
 

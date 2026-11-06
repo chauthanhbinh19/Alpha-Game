@@ -61,7 +61,7 @@ public static class DamageCalculator
         var outcome = CalculateDamage(playerCard, enemyCard, AttackType.Normal, AttackElement.Physical);
         if (outcome.Damage > 0)
         {
-            enemyCard.TakeDamage(outcome.Damage);
+            enemyCard.TakeDamage(outcome.Damage, playerCard);
         }
 
         return outcome;
@@ -72,7 +72,7 @@ public static class DamageCalculator
         var outcome = CalculateDamage(playerCard, enemyCard, AttackType.Normal, AttackElement.Magical);
         if (outcome.Damage > 0)
         {
-            enemyCard.TakeDamage(outcome.Damage);
+            enemyCard.TakeDamage(outcome.Damage, playerCard);
         }
 
         return outcome;
@@ -83,7 +83,7 @@ public static class DamageCalculator
         var outcome = CalculateDamage(playerCard, enemyCard, AttackType.Normal, AttackElement.Chemical);
         if (outcome.Damage > 0)
         {
-            enemyCard.TakeDamage(outcome.Damage);
+            enemyCard.TakeDamage(outcome.Damage, playerCard);
         }
 
         return outcome;
@@ -94,7 +94,7 @@ public static class DamageCalculator
         var outcome = CalculateDamage(playerCard, enemyCard, AttackType.Normal, AttackElement.Atomic);
         if (outcome.Damage > 0)
         {
-            enemyCard.TakeDamage(outcome.Damage);
+            enemyCard.TakeDamage(outcome.Damage, playerCard);
         }
 
         return outcome;
@@ -105,7 +105,7 @@ public static class DamageCalculator
         var outcome = CalculateDamage(playerCard, enemyCard, AttackType.Normal, AttackElement.Mental);
         if (outcome.Damage > 0)
         {
-            enemyCard.TakeDamage(outcome.Damage);
+            enemyCard.TakeDamage(outcome.Damage, playerCard);
         }
 
         return outcome;
@@ -116,7 +116,7 @@ public static class DamageCalculator
         var outcome = CalculateDamage(playerCard, enemyCard, AttackType.Skill, AttackElement.Physical);
         if (outcome.Damage > 0)
         {
-            enemyCard.TakeDamage(outcome.Damage);
+            enemyCard.TakeDamage(outcome.Damage, playerCard);
         }
 
         return outcome;
@@ -127,7 +127,7 @@ public static class DamageCalculator
         var outcome = CalculateDamage(playerCard, enemyCard, AttackType.Skill, AttackElement.Magical);
         if (outcome.Damage > 0)
         {
-            enemyCard.TakeDamage(outcome.Damage);
+            enemyCard.TakeDamage(outcome.Damage, playerCard);
         }
 
         return outcome;
@@ -138,7 +138,7 @@ public static class DamageCalculator
         var outcome = CalculateDamage(playerCard, enemyCard, AttackType.Skill, AttackElement.Chemical);
         if (outcome.Damage > 0)
         {
-            enemyCard.TakeDamage(outcome.Damage);
+            enemyCard.TakeDamage(outcome.Damage, playerCard);
         }
 
         return outcome;
@@ -149,7 +149,7 @@ public static class DamageCalculator
         var outcome = CalculateDamage(playerCard, enemyCard, AttackType.Skill, AttackElement.Atomic);
         if (outcome.Damage > 0)
         {
-            enemyCard.TakeDamage(outcome.Damage);
+            enemyCard.TakeDamage(outcome.Damage, playerCard);
         }
 
         return outcome;
@@ -160,7 +160,7 @@ public static class DamageCalculator
         var outcome = CalculateDamage(playerCard, enemyCard, AttackType.Skill, AttackElement.Mental);
         if (outcome.Damage > 0)
         {
-            enemyCard.TakeDamage(outcome.Damage);
+            enemyCard.TakeDamage(outcome.Damage, playerCard);
         }
 
         return outcome;
@@ -255,5 +255,60 @@ public static class DamageCalculator
 
         result.Damage = Math.Max(0, flooredDamage);
         return result;
+    }
+
+    public static AttackOutcome CauseDamage(
+        CardBase attacker,
+        CardBase target,
+        AttackType attackType,
+        AttackElement attackElement,
+        double damageMultiplier)
+    {
+        AttackOutcome outcome = new AttackOutcome { Damage = 0, IsHit = false, IsCrit = false, IsMiss = true };
+        if (attacker == null || target == null || !target.IsAlive) return outcome;
+
+        outcome = CalculateDamage(attacker, target, attackType, attackElement);
+        outcome.Damage = Math.Max(0, outcome.Damage * Math.Max(0, damageMultiplier));
+
+        if (outcome.Damage > 0)
+        {
+            target.TakeDamage(outcome.Damage, attacker);
+        }
+
+        return outcome;
+    }
+
+    public static AttackOutcome CauseCombinedDamage(
+        CardBase attacker,
+        CardBase target,
+        AttackType attackType,
+        double damageMultiplier)
+    {
+        AttackOutcome combinedOutcome = new AttackOutcome
+        {
+            Damage = 0,
+            IsHit = false,
+            IsCrit = false,
+            IsMiss = true
+        };
+
+        if (attacker == null || target == null || !target.IsAlive) return combinedOutcome;
+
+        foreach (AttackElement element in Enum.GetValues(typeof(AttackElement)))
+        {
+            AttackOutcome elementOutcome = CalculateDamage(attacker, target, attackType, element);
+            combinedOutcome.Damage += elementOutcome.Damage;
+            combinedOutcome.IsHit |= elementOutcome.IsHit;
+            combinedOutcome.IsCrit |= elementOutcome.IsCrit;
+            combinedOutcome.IsMiss &= elementOutcome.IsMiss;
+        }
+
+        combinedOutcome.Damage = Math.Max(0, combinedOutcome.Damage * Math.Max(0, damageMultiplier));
+        if (combinedOutcome.Damage > 0)
+        {
+            target.TakeDamage(combinedOutcome.Damage, attacker);
+        }
+
+        return combinedOutcome;
     }
 }

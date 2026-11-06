@@ -9,9 +9,9 @@ public class GameGrowthConfigRepository : IGameGrowthConfigRepository
     /// <summary>
     /// Lấy cấu hình cụm chứa level hiện tại bằng MySqlDataReader
     /// </summary>
-    public async Task<GameGrowthConfig> GetConfigAsync(string objectType, string growthType, int currentLevel)
+    public async Task<List<GameGrowthConfig>> GetConfigAsync(string objectType, string growthType, int currentLevel)
     {
-        GameGrowthConfig config = null;
+        var configList = new List<GameGrowthConfig>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         const string sql = @"
@@ -47,7 +47,7 @@ public class GameGrowthConfigRepository : IGameGrowthConfigRepository
 
             if (await reader.ReadAsync())
             {
-                config = MapReaderToGameGrowthConfig(reader);
+                configList.Add(MapReaderToGameGrowthConfig(reader));
             }
         }
         catch (Exception ex)
@@ -55,7 +55,7 @@ public class GameGrowthConfigRepository : IGameGrowthConfigRepository
             Debug.LogError($"Error GetConfigAsync ({objectType}, {growthType}, {currentLevel}): " + ex.Message);
         }
 
-        return config;
+        return configList;
     }
 
     /// <summary>
@@ -156,13 +156,13 @@ public class GameGrowthConfigRepository : IGameGrowthConfigRepository
     {
         return new GameGrowthConfig
         {
-            Id = reader.IsDBNull(reader.GetOrdinal("id")) ? string.Empty : reader.GetString(reader.GetOrdinal("id")),
+            Id = reader.IsDBNull(reader.GetOrdinal("id")) ? "0" : reader.GetValue(reader.GetOrdinal("id")).ToString(),
             ObjectType = reader.IsDBNull(reader.GetOrdinal("object_type")) ? string.Empty : reader.GetString(reader.GetOrdinal("object_type")),
             GrowthType = reader.IsDBNull(reader.GetOrdinal("growth_type")) ? string.Empty : reader.GetString(reader.GetOrdinal("growth_type")),
             MinLevel = reader.IsDBNull(reader.GetOrdinal("min_level")) ? 0 : reader.GetInt32(reader.GetOrdinal("min_level")),
             MaxLevel = reader.IsDBNull(reader.GetOrdinal("max_level")) ? 0 : reader.GetInt32(reader.GetOrdinal("max_level")),
             FormulaType = reader.IsDBNull(reader.GetOrdinal("formula_type")) ? string.Empty : reader.GetString(reader.GetOrdinal("formula_type")),
-            BaseExp = reader.IsDBNull(reader.GetOrdinal("base_exp")) ? 0.0 : reader.GetDouble(reader.GetOrdinal("base_exp")),
+            BaseExp = reader.IsDBNull(reader.GetOrdinal("base_exp")) ? 0.0 : reader.GetInt64(reader.GetOrdinal("base_exp")), // base_exp là BIGINT trong DB
             BaseMultiplier = reader.IsDBNull(reader.GetOrdinal("base_multiplier")) ? 0.0 : reader.GetDouble(reader.GetOrdinal("base_multiplier")),
             PowerFactor = reader.IsDBNull(reader.GetOrdinal("power_factor")) ? 0.0 : reader.GetDouble(reader.GetOrdinal("power_factor")),
             LinearFactor = reader.IsDBNull(reader.GetOrdinal("linear_factor")) ? 0.0 : reader.GetDouble(reader.GetOrdinal("linear_factor")),

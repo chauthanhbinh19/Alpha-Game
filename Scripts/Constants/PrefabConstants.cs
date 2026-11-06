@@ -44,6 +44,7 @@ public static class PrefabConstants
         public const string TAB_BUTTON_PREFAB = "TabButtonPrefab";
         public const string ITEM_POPUP_PREFAB = "ItemPopupPrefab";
         public const string ITEM_POPUP_2_PREFAB = "ItemPopup2Prefab";
+        public const string ITEM_POPUP_3_PREFAB = "ItemPopup3Prefab";
         public const string ITEM_PREFAB = "ItemPrefab";
         public const string SETTING_BUTTON_PREFAB = "SettingButtonPrefab";
         public const string LANGUAGE_BUTTON_PREFAB = "LanguageButtonPrefab";
@@ -425,6 +426,7 @@ public static class PrefabConstants
     {
         public const string LEVEL_PANEL_PREFAB = "LevelPanelPrefab";
         public const string STAR_PANEL_PREFAB = "StarPanelPrefab";
+        public const string TRADING_PANEL_PREFAB = "TradingPanelPrefab";
     }
     public static class Rank
     {

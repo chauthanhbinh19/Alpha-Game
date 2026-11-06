@@ -88,6 +88,7 @@ public class TurnManager : MonoBehaviour
     private readonly Queue<CardBase> actionQueue = new Queue<CardBase>();
     private CardBase currentActiveCard;
     private Coroutine battleLoopCoroutine;
+    private bool battlePassivesInitialized;
 
     private void Awake()
     {
@@ -152,10 +153,20 @@ public class TurnManager : MonoBehaviour
             StopCoroutine(battleLoopCoroutine);
         }
 
+        if (!battlePassivesInitialized && CombatEngagementEngine.Instance != null)
+        {
+            CombatEngagementEngine.Instance.InitializeBattlePassives(AllCards);
+            CombatEngagementEngine.Instance.ApplyBattleStartPassives(AllCards);
+            battlePassivesInitialized = true;
+        }
+        else if (!battlePassivesInitialized)
+        {
+            Debug.LogError("[TurnManager] Cannot initialize battle passives because CombatEngagementEngine is missing.");
+        }
+
         CurrentTurnNumber = Mathf.Max(1, CurrentTurnNumber);
         CurrentPhase = null;
         CurrentBattleState = BattleState.GameStart;
-        // TriggerPassiveEffects("START", AppConstants.TriggerCondition.ON_BATTLE_START);
         battleLoopCoroutine = StartCoroutine(BattleLoop());
     }
 
@@ -539,7 +550,12 @@ public class TurnManager : MonoBehaviour
                     Actions = new List<BattlePhaseAction>
                     {
                         new BattlePhaseAction { ActionType = BattlePhaseActionType.ResetCardsForTurn },
-                        new BattlePhaseAction { ActionType = BattlePhaseActionType.TriggerPassiveEffects, PhaseCode = "START", TriggerCondition = "TURN_START" },
+                        new BattlePhaseAction
+                        {
+                            ActionType = BattlePhaseActionType.TriggerPassiveEffects,
+                            PhaseCode = "START",
+                            TriggerCondition = AppConstants.TriggerCondition.ON_TURN_START
+                        },
                         new BattlePhaseAction { ActionType = BattlePhaseActionType.Wait, Duration = 1f }
                     }
                 },

@@ -9,7 +9,7 @@ public class RecipeItemDTO
     public double RequiredQuantity { get; set; }
     public double ItemValue { get; set; }
     public double UserQuantity { get; set; }
-    public int MinLevel { get; set; }   // thêm
-    public int MaxLevel { get; set; }   // thêm
+    public double MinLevel { get; set; }   // thêm
+    public double MaxLevel { get; set; }   // thêm
     public List<RecipeItemDetailDTO> RecipeItemDetails { get; set; } // thêm
 }

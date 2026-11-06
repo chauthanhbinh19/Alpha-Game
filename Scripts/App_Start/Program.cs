@@ -262,6 +262,7 @@ public class Program : MonoBehaviour
         ServiceContainer.RegisterInstance<IUserCosmicImprintsRepository>(new UserCosmicImprintsRepository());
         ServiceContainer.RegisterInstance<IUserPrimordialImprintsRepository>(new UserPrimordialImprintsRepository());
         ServiceContainer.RegisterInstance<IUserPathOfLordImprintsRepository>(new UserPathOfLordImprintsRepository());
+        ServiceContainer.RegisterInstance<IUserGearEquipmentRepository>(new UserGearEquipmentRepository());
 
         // 2. Đăng ký Service chính 
         // Container sẽ tự soi Constructor của PowerManagerService, 
@@ -519,5 +520,6 @@ public class Program : MonoBehaviour
         ServiceContainer.RegisterSingleton<IUserCosmicImprintsService, UserCosmicImprintsService>();
         ServiceContainer.RegisterSingleton<IUserPrimordialImprintsService, UserPrimordialImprintsService>();
         ServiceContainer.RegisterSingleton<IUserPathOfLordImprintsService, UserPathOfLordImprintsService>();
+        ServiceContainer.RegisterSingleton<IUserGearEquipmentService, UserGearEquipmentService>();
     }
 }

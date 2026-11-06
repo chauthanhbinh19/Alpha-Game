@@ -225,6 +225,8 @@ public static class AppConstants
     }
     public static class TriggerCondition
     {
+        public const string ON_BATTLE_START = "ON_BATTLE_START";
+        public const string ON_TURN_START = "ON_TURN_START";
         public const string ON_ATTACK = "ON_ATTACK";
         public const string ON_HIT = "ON_HIT";
         public const string ON_CRIT = "ON_CRIT";

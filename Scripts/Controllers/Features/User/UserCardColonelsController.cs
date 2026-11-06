@@ -248,10 +248,10 @@ public class UserCardColonelsController : MonoBehaviour
         });
 
         Button upgradeStarButton = transform.Find("DictionaryCards/DetailsPanel/Group1/Star/UpgradeStarButton").GetComponent<Button>();
-        upgradeStarButton.onClick.AddListener(() =>
+        upgradeStarButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            StarController.Instance.CreateStarPanel(cardColonel, MAX_LEVEL, level => Math.Max(level, 1) * 2d);
+            await StarController.Instance.CreateStarPanelAsync(cardColonel);
         });
 
         Button moduleButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Module").GetComponent<Button>();

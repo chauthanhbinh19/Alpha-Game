@@ -203,25 +203,14 @@ public class UserService : IUserService
             // 4. Load thông tin phụ (Avatar, Border, Daily Checkin, Settings)
             await LoadUserAdditionalDataAsync(user);
 
-            string token = AuthManager.CreateJwtFromUserId(user.Id);
-            if (!string.IsNullOrWhiteSpace(token))
-            {
-                AuthManager.SaveToken(token);
-            }
-            else
-            {
-                AuthManager.SaveUserId(user.Id);
-            }
-
-            User.CurrentUserId = user.Id;
+            AuthService.SaveUserId(user.Id);
 
             return new AuthResult
             {
                 Success = true,
                 ErrorField = "",
                 ErrorMessage = "",
-                User = user,
-                Token = token
+                User = user
             };
         }
         catch (Exception ex)

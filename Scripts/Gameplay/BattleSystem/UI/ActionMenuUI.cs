@@ -394,12 +394,7 @@ public class ActionMenuUI : MonoBehaviour
 
                         if (currentRealCell != null)
                         {
-                            GridManager.Instance.ShowSkillAttackRange(
-                                currentRealCell.GridPosition,
-                                AttackRange,
-                                skill.SkillSubType.SubTypeCode,
-                                CardData
-                            );
+                            GridManager.Instance.SelectActiveSkill(skill, CardData, AttackRange);
                         }
                     }
 

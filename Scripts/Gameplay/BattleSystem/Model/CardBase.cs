@@ -194,17 +194,59 @@ public abstract class CardBase
 
     public virtual void TakeDamage(double amount)
     {
-        CurrentHealth -= amount;
-        if (CurrentHealth < 0) CurrentHealth = 0;
+        TakeDamage(amount, null);
+    }
 
+    public virtual void TakeDamage(double amount, CardBase source)
+    {
+        if (amount <= 0 || double.IsNaN(amount) || double.IsInfinity(amount))
+        {
+            return;
+        }
+
+        SetCurrentHealth(CurrentHealth - amount, source);
+    }
+
+    public void SetCurrentHealth(double value, CardBase source = null)
+    {
+        if (double.IsNaN(value) || double.IsInfinity(value))
+        {
+            return;
+        }
+
+        double previousHealth = CurrentHealth;
+        CurrentHealth = Math.Max(0, value);
         IsAlive = CurrentHealth > 0;
 
         if (healthBar != null)
         {
             healthBar.SetHealth(CurrentHealth);
         }
-        // Có thể thêm hiệu ứng hoặc sự kiện khi bị tấn công ở đây
-        // ShowDamagePopup(amount); // Hiển thị popup sát thương
+
+        if (CurrentHealth == previousHealth)
+        {
+            return;
+        }
+
+        HealthChangeType changeType = CurrentHealth < previousHealth
+            ? HealthChangeType.Damage
+            : HealthChangeType.Heal;
+        GameplayEventHub.HealthChanged.Publish(new HealthChangedEvent(
+            this,
+            source,
+            changeType,
+            previousHealth,
+            CurrentHealth));
+
+        if (previousHealth > 0 && !IsAlive)
+        {
+            GameplayEventHub.HealthChanged.Publish(new HealthChangedEvent(
+                this,
+                source,
+                HealthChangeType.Death,
+                previousHealth,
+                CurrentHealth));
+        }
     }
 
     // public void RegenerateMana()

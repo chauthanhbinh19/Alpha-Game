@@ -3,93 +3,115 @@ using UnityEngine;
 
 public static class CombatTargetSelector
 {
-    /// <summary>
-    /// Quét toàn bộ ô cờ chịu ảnh hưởng dựa trên dữ liệu Patterns (đọc từ DB) của kỹ năng
-    /// </summary>
-    /// <param name="castTargetCell">Ô cờ được click chọn làm tâm (hoặc ô mục tiêu chỉ định)</param>
-    /// <param name="skillPattern">Dữ liệu cấu trúc Pattern bóc từ kỹ năng</param>
     public static List<GridCell> GetCellsInPattern(GridCell castTargetCell, Patterns skillPattern)
     {
         List<GridCell> affectedCells = new List<GridCell>();
-
         if (castTargetCell == null) return affectedCells;
 
-        // Nếu kỹ năng không cấu hình Pattern (hoặc danh sách ô trống), mặc định chỉ ảnh hưởng ô tâm
         if (skillPattern == null || skillPattern.Cells == null || skillPattern.Cells.Count == 0)
         {
             affectedCells.Add(castTargetCell);
             return affectedCells;
         }
 
-        // Lấy tọa độ Vector2Int của ô cờ thực tế đang được chọn làm tâm trên bàn cờ
-        Vector2Int centerGridPos = castTargetCell.GridPosition;
+        if (GridManager.Instance == null) return affectedCells;
 
-        // Duyệt qua từng ô định dạng Offset (X, Y) được nạp từ Database
+        HashSet<GridCell> uniqueCells = new HashSet<GridCell>();
         foreach (var patternCell in skillPattern.Cells)
         {
-            // Tọa độ ô trên bàn cờ = Tọa độ ô Tâm + Độ lệch (OffsetX/OffsetY) của chiêu thức
-            int targetX = centerGridPos.x + patternCell.OffsetX;
-            int targetY = centerGridPos.y + patternCell.OffsetY;
+            GridCell cell = GridManager.Instance.GetCellAt(
+                castTargetCell.GridPosition.x + patternCell.OffsetX,
+                castTargetCell.GridPosition.y + patternCell.OffsetY);
 
-            Vector2Int targetGridPos = new Vector2Int(targetX, targetY);
-
-            // Gọi GridManager kiểm tra xem tọa độ này có tồn tại ô cờ thực tế hay không
-            GridCell cellOnBoard = GridManager.Instance.GetCellAt(targetX, targetY);
-
-            if (cellOnBoard != null)
+            if (cell != null && uniqueCells.Add(cell))
             {
-                affectedCells.Add(cellOnBoard);
+                affectedCells.Add(cell);
             }
         }
 
         return affectedCells;
     }
+
     public static List<CardBase> GetAffectedTargets(string targetId, GridCell casterCell, GridCell castTargetCell, Patterns skillPattern)
     {
-        List<CardBase> targetList = new List<CardBase>();
+        List<CardBase> targets = new List<CardBase>();
+        HashSet<CardBase> uniqueTargets = new HashSet<CardBase>();
+        string normalizedTargetId = targetId != null ? targetId.Trim().ToUpperInvariant() : string.Empty;
 
-        switch (targetId.ToUpper())
+        switch (normalizedTargetId)
         {
-            case "CASTER":
-                if (casterCell != null && casterCell.OccupiedCard != null)
-                    targetList.Add(casterCell.OccupiedCard);
+            case AppConstants.Target.CASTER:
+            case AppConstants.Target.SELF:
+                AddTarget(casterCell != null ? casterCell.OccupiedCard : null, targets, uniqueTargets);
                 break;
 
             case "CAST_TARGET":
-                if (castTargetCell != null && castTargetCell.OccupiedCard != null)
-                    targetList.Add(castTargetCell.OccupiedCard);
+            case AppConstants.Target.PATTERN_MAIN:
+                AddTarget(castTargetCell != null ? castTargetCell.OccupiedCard : null, targets, uniqueTargets);
                 break;
 
-            case "PATTERN_ALL":
-                // Lấy toàn bộ các ô nằm trong vùng ảnh hưởng cấu hình từ DB
-                List<GridCell> allPatternCells = GetCellsInPattern(castTargetCell, skillPattern);
-                foreach (var cell in allPatternCells)
-                {
-                    if (cell.OccupiedCard != null)
-                        targetList.Add(cell.OccupiedCard);
-                }
+            case AppConstants.Target.PATTERN_ALL:
+                AddPatternTargets(GetCellsInPattern(castTargetCell, skillPattern), targets, uniqueTargets, castTargetCell, false);
                 break;
 
-            case "PATTERN_SPLASH":
-                // Chỉ lấy các ô phụ xung quanh, bỏ qua ô chính tâm (nơi có OffsetX = 0 và OffsetY = 0 hoặc có IsMain)
-                List<GridCell> splashCells = GetCellsInPattern(castTargetCell, skillPattern);
-                foreach (var cell in splashCells)
-                {
-                    // Tìm vị trí tương đối so với ô tâm để biết ô này có phải ô chính hay không
-                    int currentOffsetX = cell.GridPosition.x - castTargetCell.GridPosition.x;
-                    int currentOffsetY = cell.GridPosition.y - castTargetCell.GridPosition.y;
-
-                    // Nếu trùng đúng vị trí tâm (0,0), bỏ qua không tính sát thương lan (Splash)
-                    if (currentOffsetX == 0 && currentOffsetY == 0) continue;
-
-                    if (cell.OccupiedCard != null)
-                        targetList.Add(cell.OccupiedCard);
-                }
+            case AppConstants.Target.PATTERN_SPLASH:
+                AddPatternTargets(GetCellsInPattern(castTargetCell, skillPattern), targets, uniqueTargets, castTargetCell, true);
                 break;
 
-                // Các logic phe phái ALL_ENEMIES, ALL_ALLIES giữ nguyên...
+            case AppConstants.Target.ALLY:
+            case AppConstants.Target.ENEMY:
+                AddTeamTargets(normalizedTargetId, casterCell, targets, uniqueTargets);
+                break;
+
+            default:
+                Debug.LogWarning($"[CombatTargetSelector] Unsupported or empty target id '{targetId}'.");
+                break;
         }
 
-        return targetList;
+        return targets;
+    }
+
+    private static void AddPatternTargets(
+        IEnumerable<GridCell> cells,
+        List<CardBase> targets,
+        HashSet<CardBase> uniqueTargets,
+        GridCell centerCell,
+        bool excludeCenter)
+    {
+        foreach (GridCell cell in cells)
+        {
+            if (cell == null || (excludeCenter && cell == centerCell)) continue;
+            AddTarget(cell.OccupiedCard, targets, uniqueTargets);
+        }
+    }
+
+    private static void AddTeamTargets(
+        string targetId,
+        GridCell casterCell,
+        List<CardBase> targets,
+        HashSet<CardBase> uniqueTargets)
+    {
+        CardBase caster = casterCell != null ? casterCell.OccupiedCard : null;
+        if (caster == null || TurnManager.Instance == null || TurnManager.Instance.AllCards == null) return;
+
+        bool targetAllies = targetId == AppConstants.Target.ALLY;
+        foreach (CardBase card in TurnManager.Instance.AllCards)
+        {
+            if (card == null || card == caster || !card.IsAlive) continue;
+
+            bool isSameTeam = card.Team == caster.Team;
+            if (isSameTeam == targetAllies)
+            {
+                AddTarget(card, targets, uniqueTargets);
+            }
+        }
+    }
+
+    private static void AddTarget(CardBase target, List<CardBase> targets, HashSet<CardBase> uniqueTargets)
+    {
+        if (target != null && target.IsAlive && uniqueTargets.Add(target))
+        {
+            targets.Add(target);
+        }
     }
 }

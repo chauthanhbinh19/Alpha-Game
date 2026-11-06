@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System;
 
 public class MasterController : MonoBehaviour
 {
@@ -408,14 +409,14 @@ public class MasterController : MonoBehaviour
             RecipeResponseDTO popupRecipeData = await RecipeService.Create().GetRecipeItemsAsync(featureName, popupCurrentLevel + 1, User.CurrentUserId);
 
             // Max level của Recipe dùng làm maxValue cho Slider
-            int recipeMaxLevel = popupRecipeData?.Recipes != null && popupRecipeData.Recipes.Count > 0 
+            double recipeMaxLevel = popupRecipeData?.Recipes != null && popupRecipeData.Recipes.Count > 0 
                 ? popupRecipeData.Recipes.Max(r => r.MaxLevel) 
                 : popupCurrentLevel;
 
             // Max level của Master hiển thị lên UI
-            int masterMaxLevel = master != null ? master.MaxLevel : recipeMaxLevel;
+            double masterMaxLevel = master != null ? master.MaxLevel : recipeMaxLevel;
 
-            int maxSliderValue = Mathf.Max(0, recipeMaxLevel - popupCurrentLevel);
+            double maxSliderValue = Math.Max(0.0, recipeMaxLevel - popupCurrentLevel);
 
             currentLevelText.text = popupCurrentLevel.ToString();
             nextLevelText.text = popupCurrentLevel.ToString();
@@ -429,7 +430,7 @@ public class MasterController : MonoBehaviour
 
             // Slider maxValue cấu hình theo Recipe
             quantitySlider.minValue = 0;
-            quantitySlider.maxValue = maxSliderValue; // YÊU CẦU 1: maxValue = recipe.MaxLevel - currentLevel
+            quantitySlider.maxValue = (float)maxSliderValue; // YÊU CẦU 1: maxValue = recipe.MaxLevel - currentLevel
             quantitySlider.wholeNumbers = true;
             quantitySlider.value = 0;
 
@@ -616,11 +617,11 @@ public class MasterController : MonoBehaviour
             {
                 levelInputField.onEndEdit.AddListener((inputValue) =>
                 {
-                    if (int.TryParse(inputValue, out int parsedLevel))
+                    if (double.TryParse(inputValue, out double parsedLevel))
                     {
-                        int clampedLevel = Mathf.Clamp(parsedLevel, 0, maxSliderValue);
+                        double clampedLevel = Math.Max(0.0, Math.Min(parsedLevel, maxSliderValue));
                         levelInputField.text = clampedLevel.ToString();
-                        quantitySlider.SetValueWithoutNotify(clampedLevel);
+                        quantitySlider.SetValueWithoutNotify((float)clampedLevel);
                     }
                     else
                     {
