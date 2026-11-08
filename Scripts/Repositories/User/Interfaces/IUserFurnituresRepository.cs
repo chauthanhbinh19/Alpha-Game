@@ -7,7 +7,7 @@ public interface IUserFurnituresRepository
     Task<int> GetUserFurnituresCountAsync(string userId, string search, string type, string rare);
     Task<InsertOrUpdateResult<Furnitures>> InsertOrUpdateUserFurnitureAsync(string userId, Furnitures furniture);
     Task<InsertOrUpdateResult<BatchOperationResultDTO<Furnitures>>> InsertOrUpdateUserFurnituresBatchAsync(string userId, List<Furnitures> furnitures);
-    Task<InsertOrUpdateResult<bool>> UpdateUserFurnitureLevelAsync(string userId, Furnitures furniture);
+    Task<InsertOrUpdateResult<bool>> UpdateUserFurnitureLevelAsync(string userId, Furnitures furniture, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserFurnitureStarAsync(string userId, Furnitures furniture);
     Task<Furnitures> GetUserFurnitureByIdAsync(string userId, string Id);
     Task<Furnitures> SumPowerUserFurnituresAsync(string userId);

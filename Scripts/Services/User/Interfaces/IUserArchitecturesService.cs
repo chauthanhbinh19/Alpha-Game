@@ -7,7 +7,7 @@ public interface IUserArchitecturesService
     Task<int> GetUserArchitecturesCountAsync(string userId, string search, string rare);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArchitectureAsync(string userId, Architectures architecture);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArchitecturesBatchAsync(string userId, List<Architectures> architectures);
-    Task<InsertOrUpdateResult<bool>> UpdateUserArchitectureLevelAsync(string userId, Architectures architecture);
+    Task<InsertOrUpdateResult<bool>> UpdateUserArchitectureLevelAsync(string userId, Architectures architecture, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserArchitectureStarAsync(string userId, Architectures architecture);
     Task<Architectures> GetUserArchitectureByIdAsync(string userId, string Id);
     Task<Architectures> SumPowerUserArchitecturesAsync(string userId);

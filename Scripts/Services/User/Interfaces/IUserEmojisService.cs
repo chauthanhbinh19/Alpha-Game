@@ -7,7 +7,7 @@ public interface IUserEmojisService
     Task<int> GetUserEmojisCountAsync(string userId, string search, string rare);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserEmojiAsync(string userId, Emojis emoji);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserEmojisBatchAsync(string userId, List<Emojis> emojis);
-    Task<InsertOrUpdateResult<bool>> UpdateUserEmojiLevelAsync(string userId, Emojis emoji);
+    Task<InsertOrUpdateResult<bool>> UpdateUserEmojiLevelAsync(string userId, Emojis emoji, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserEmojiStarAsync(string userId, Emojis emoji);
     Task<Emojis> GetUserEmojiByIdAsync(string userId, string Id);
     Task<Emojis> SumPowerUserEmojisAsync(string userId);

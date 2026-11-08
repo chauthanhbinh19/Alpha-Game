@@ -201,10 +201,15 @@ public class UserCoresService : IUserCoresService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserCoreLevelAsync(string userId, Cores core)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCoreLevelAsync(string userId, Cores core, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkCoreResult = await _coresService.IsCoreDeletedOrInactiveAsync(core.Id);
-        if (checkCoreResult)
+        if (core == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Core is required.");
+        }
+
+        var checkResult = await _coresService.IsCoreDeletedOrInactiveAsync(core.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserCoresService : IUserCoresService
 
         Cores oldUserCore = await _userCoresRepository.SumPowerUserCoresAsync(userId);
 
-        var updateResult = await _userCoresRepository.UpdateUserCoreLevelAsync(userId, core);
+        var updateResult = await _userCoresRepository.UpdateUserCoreLevelAsync(
+            userId,
+            core,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

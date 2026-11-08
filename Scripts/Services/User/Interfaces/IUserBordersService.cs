@@ -8,7 +8,7 @@ public interface IUserBordersService
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBorderAsync(string userId, Borders border);
     Task<InsertOrUpdateResult<bool>> InsertUserBorderByIdAsync(string borderId, string userId);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBordersBatchAsync(string userId, List<Borders> borders);
-    Task<InsertOrUpdateResult<bool>> UpdateUserBorderLevelAsync(string userId, Borders border);
+    Task<InsertOrUpdateResult<bool>> UpdateUserBorderLevelAsync(string userId, Borders border, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserBorderStarAsync(string userId, Borders border);
     Task<Borders> GetUserBorderByUsedAsync(string userId);
     Task<Borders> GetUserBorderByIdAsync(string userId, string Id);

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -123,11 +124,11 @@ public class AnimeController : MonoBehaviour
             Destroy(currentObject);
         });
         Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
-        homeButton.onClick.AddListener( () =>
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            
+
         });
         Dictionary<string, FeatureAnimeDTO> uniqueTypes = new Dictionary<string, FeatureAnimeDTO>();
         uniqueTypes = await FeaturesService.Create().GetAnimeFeaturesByTypeAsync(Type);
@@ -143,7 +144,7 @@ public class AnimeController : MonoBehaviour
         SetupPagination(currentObject);
         RenderPage();
     }
-    
+
     private void RenderPage()
     {
         // 1. Dọn dẹp các Prefab UI cũ ở trang trước
@@ -300,7 +301,7 @@ public class AnimeController : MonoBehaviour
 
         Animes anime = await AnimesService.Create().GetAnimeByIdAsync(featureId);
         UserAnimes userAnime = await UserAnimesService.Create().GetUserAnimesAsync(User.CurrentUserId, featureId);
-        
+
         int currentLevel = userAnime?.Level ?? 0;
         RecipeResponseDTO recipeData = await RecipeService.Create().GetRecipeItemsAsync(featureName, currentLevel + 1, User.CurrentUserId);
 
@@ -350,10 +351,10 @@ public class AnimeController : MonoBehaviour
             TextMeshProUGUI nextLevelText = panelTransform.Find("NextLevel").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI maxLevelText = panelTransform.Find("MaxLevel").GetComponent<TextMeshProUGUI>();
             Slider quantitySlider = panelTransform.Find("QuantitySlider").GetComponent<Slider>();
-            
+
             TMP_InputField levelInputField = panelTransform.Find("ItemUsedQuantityText")?.GetComponent<TMP_InputField>();
             TextMeshProUGUI itemUsedQuantityText = panelTransform.Find("ItemUsedQuantityText")?.GetComponent<TextMeshProUGUI>();
-            
+
             TextMeshProUGUI notificationText = panelTransform.Find("Notification/ContentText").GetComponent<TextMeshProUGUI>();
             RawImage notificationIconImage = panelTransform.Find("Notification/IconImage")?.GetComponent<RawImage>();
 
@@ -366,6 +367,8 @@ public class AnimeController : MonoBehaviour
             Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
             Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
             Button previewButton = panelTransform.Find("PreviewButton").GetComponent<Button>();
+            Transform previewDefaultObj = previewButton.transform.Find("Default");
+            Transform previewSelectedObj = previewButton.transform.Find("Selected");
 
             Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
             Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
@@ -383,8 +386,8 @@ public class AnimeController : MonoBehaviour
             RecipeResponseDTO popupRecipeData = await RecipeService.Create().GetRecipeItemsAsync(featureName, popupCurrentLevel + 1, User.CurrentUserId);
 
             // Max level của Recipe dùng làm maxValue cho Slider
-            double recipeMaxLevel = popupRecipeData?.Recipes != null && popupRecipeData.Recipes.Count > 0 
-                ? popupRecipeData.Recipes.Max(r => r.MaxLevel) 
+            double recipeMaxLevel = popupRecipeData?.Recipes != null && popupRecipeData.Recipes.Count > 0
+                ? popupRecipeData.Recipes.Max(r => r.MaxLevel)
                 : popupCurrentLevel;
 
             // Max level của Anime hiển thị lên UI
@@ -415,6 +418,13 @@ public class AnimeController : MonoBehaviour
                 increaseOneButton, increaseTenButton, increaseMaxButton,
                 decreaseOneButton, decreaseTenButton, decreaseMaxButton
             };
+
+            // Hàm cập nhật trạng thái hiển thị của Default và Selected
+            void UpdatePreviewButtonState(bool isSelected)
+            {
+                if (previewDefaultObj != null) previewDefaultObj.gameObject.SetActive(!isSelected);
+                if (previewSelectedObj != null) previewSelectedObj.gameObject.SetActive(isSelected);
+            }
 
             void UpdateSliderButtonsUI(bool isSelected)
             {
@@ -526,8 +536,8 @@ public class AnimeController : MonoBehaviour
 
                 // YÊU CẦU 2: Tính toán bằng PreviewUpgrade (Tăng đúng 'requested' level không bị khống chế)
                 RecipePreviewResultDTO preview = RecipeCalculator.PreviewUpgrade(
-                    popupRecipeData, 
-                    popupCurrentLevel, 
+                    popupRecipeData,
+                    popupCurrentLevel,
                     numberOfLevel: requested
                 );
 
@@ -567,8 +577,8 @@ public class AnimeController : MonoBehaviour
 
                 for (int i = 0; i < neededChildCount; i++)
                 {
-                    GameObject itemGO = (i < existingChildCount) 
-                        ? rightTransform.GetChild(i).gameObject 
+                    GameObject itemGO = (i < existingChildCount)
+                        ? rightTransform.GetChild(i).gameObject
                         : Instantiate(AnimeItemPopupPrefab, rightTransform);
 
                     SetupAnimeItemUI2(itemGO, materials[i]);
@@ -589,29 +599,23 @@ public class AnimeController : MonoBehaviour
 
             if (levelInputField != null)
             {
-                levelInputField.onEndEdit.AddListener((inputValue) =>
+                levelInputField.onEndEdit.AddListener(inputValue =>
                 {
-                    if (double.TryParse(inputValue, out double parsedLevel))
-                    {
-                        double clampedLevel = Math.Max(0.0, Math.Min(parsedLevel, maxSliderValue));
-                        levelInputField.text = clampedLevel.ToString();
-                        quantitySlider.SetValueWithoutNotify((float)clampedLevel);
-                    }
-                    else
-                    {
-                        levelInputField.text = "0";
-                        quantitySlider.SetValueWithoutNotify(0);
-                    }
-
-                    UpdatePreview();
+                    ValidateAndApplyInputValue(inputValue, maxSliderValue, levelInputField, quantitySlider, UpdatePreview);
                 });
             }
+
+            // Gán trạng thái ban đầu: Mặc định bật Default, tắt Selected
+            UpdatePreviewButtonState(false);
 
             // Click Preview Toggle -> Reset Slider về 0
             previewButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 isPreviewSelected = !isPreviewSelected;
+
+                // Cập nhật hiển thị Active qua lại giữa Default và Selected
+                UpdatePreviewButtonState(isPreviewSelected);
 
                 UpdateSliderButtonsUI(isPreviewSelected);
 
@@ -631,7 +635,7 @@ public class AnimeController : MonoBehaviour
                 quantitySlider.value = Mathf.Min(quantitySlider.maxValue, quantitySlider.value + 10);
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             });
-            
+
             // YÊU CẦU 2: Bấm Max Button
             increaseMaxButton.onClick.AddListener(() =>
             {
@@ -710,9 +714,9 @@ public class AnimeController : MonoBehaviour
                 userAnime = EnhanceHelper.EnhanceAnimes(userAnime, calcResult.GainedLevels, anime.BaseMultiplier);
 
                 var insertOrUpdateResult = await UserAnimesService.Create().InsertOrUpdateUserAnimesAsync(
-                    User.CurrentUserId, 
-                    userAnime, 
-                    featureId, 
+                    User.CurrentUserId,
+                    userAnime,
+                    featureId,
                     calcResult.TotalDeductions
                 );
 
@@ -758,7 +762,7 @@ public class AnimeController : MonoBehaviour
         double ownedQty = 0;
         if (userInventory != null)
         {
-            if (userInventory.TryGetValue(detail.ObjectId, out var qty) || 
+            if (userInventory.TryGetValue(detail.ObjectId, out var qty) ||
                 userInventory.TryGetValue($"{detail.ObjectType}_{detail.ObjectId}", out qty))
             {
                 ownedQty = qty;
@@ -837,5 +841,22 @@ public class AnimeController : MonoBehaviour
             scrollbar.targetGraphic.color = color;
         }
     }
+    private void ValidateAndApplyInputValue(string inputValue, double maxSliderValue, TMP_InputField levelInputField, Slider quantitySlider, Action onValidValueApplied)
+    {
+        double clampedLevel = double.TryParse(inputValue, NumberStyles.Any, CultureInfo.InvariantCulture, out double val)
+            ? Math.Max(0.0, Math.Min(val, maxSliderValue))
+            : 0.0;
 
+        if (levelInputField != null)
+        {
+            levelInputField.text = clampedLevel.ToString("0", CultureInfo.InvariantCulture);
+        }
+
+        if (quantitySlider != null)
+        {
+            quantitySlider.SetValueWithoutNotify((float)clampedLevel);
+        }
+
+        onValidValueApplied?.Invoke();
+    }
 }

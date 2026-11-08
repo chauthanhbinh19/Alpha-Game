@@ -10,10 +10,7 @@ public interface IUserAchievementsService
     Task<int> GetUserAchievementsCountAsync(string userId, string search, string rare);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAchievementAsync(string userId, Achievements achievement);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAchievementsBatchAsync(string userId, List<Achievements> achievements);
-    Task<InsertOrUpdateResult<bool>> UpdateUserAchievementLevelAsync(
-        string userId,
-        Achievements achievement,
-        List<RecipeItemDTO> items);
+    Task<InsertOrUpdateResult<bool>> UpdateUserAchievementLevelAsync(string userId, Achievements achievement, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserAchievementStarAsync(string userId, Achievements achievement);
     Task<Achievements> GetUserAchievementByIdAsync(string userId, string id);
     Task<Achievements> SumPowerUserAchievementsAsync(string userId);

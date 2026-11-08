@@ -289,10 +289,15 @@ public class UserBordersService : IUserBordersService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserBorderLevelAsync(string userId, Borders border)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserBorderLevelAsync(string userId, Borders border, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkBorderResult = await _bordersService.IsBorderDeletedOrInactiveAsync(border.Id);
-        if (checkBorderResult)
+        if (border == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Border is required.");
+        }
+
+        var checkResult = await _bordersService.IsBorderDeletedOrInactiveAsync(border.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -305,7 +310,10 @@ public class UserBordersService : IUserBordersService
 
         Borders oldUserBorder = await _userBordersRepository.SumPowerUserBordersAsync(userId);
 
-        var updateResult = await _userBordersRepository.UpdateUserBorderLevelAsync(userId, border);
+        var updateResult = await _userBordersRepository.UpdateUserBorderLevelAsync(
+            userId,
+            border,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

@@ -17,7 +17,7 @@ public interface IUserCardHeroesService
     Task<int> GetUserCardHeroesTeamsCountAsync(string userId, string teamId);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardHeroAsync(string userId, CardHeroes cardHero);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardHeroesBatchAsync(string userId, List<CardHeroes> cardHeroes);
-    Task<InsertOrUpdateResult<bool>> UpdateUserCardHeroLevelAsync(string userId, CardHeroes cardHero);
+    Task<InsertOrUpdateResult<bool>> UpdateUserCardHeroLevelAsync(string userId, CardHeroes cardHero, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardHeroStarAsync(string userId, CardHeroes cardHero);
     Task<CardHeroes> GetUserCardHeroByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null);
     Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null);

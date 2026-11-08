@@ -204,10 +204,7 @@ public class UserAchievementsService : IUserAchievementsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserAchievementLevelAsync(
-        string userId,
-        Achievements achievement,
-        List<RecipeItemDTO> items)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserAchievementLevelAsync(string userId, Achievements achievement, List<RecipeItemDetailDTO> totalDeductions)
     {
         if (achievement == null)
         {
@@ -231,7 +228,7 @@ public class UserAchievementsService : IUserAchievementsService
         var updateResult = await _userAchievementsRepository.UpdateUserAchievementLevelAsync(
             userId,
             achievement,
-            items);
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

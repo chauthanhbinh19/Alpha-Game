@@ -201,10 +201,15 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationEquipmentLevelAsync(string userId, CollaborationEquipments collaborationEquipment)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationEquipmentLevelAsync(string userId, CollaborationEquipments collaborationEquipment, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkCollaborationEquipmentResult = await _collaborationEquipmentsService.IsCollaborationEquipmentDeletedOrInactiveAsync(collaborationEquipment.Id);
-        if (checkCollaborationEquipmentResult)
+        if (collaborationEquipment == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("CollaborationEquipment is required.");
+        }
+
+        var checkResult = await _collaborationEquipmentsService.IsCollaborationEquipmentDeletedOrInactiveAsync(collaborationEquipment.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
 
         CollaborationEquipments oldUserCollaborationEquipment = await _userCollaborationEquipmentsRepository.SumPowerUserCollaborationEquipmentsAsync(userId);
 
-        var updateResult = await _userCollaborationEquipmentsRepository.UpdateUserCollaborationEquipmentLevelAsync(userId, collaborationEquipment);
+        var updateResult = await _userCollaborationEquipmentsRepository.UpdateUserCollaborationEquipmentLevelAsync(
+            userId,
+            collaborationEquipment,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

@@ -591,10 +591,15 @@ public class UserBooksService : IUserBooksService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserBookLevelAsync(string userId, Books book)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserBookLevelAsync(string userId, Books book, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkBookResult = await _booksService.IsBookDeletedOrInactiveAsync(book.Id);
-        if (checkBookResult)
+        if (book == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Book is required.");
+        }
+
+        var checkResult = await _booksService.IsBookDeletedOrInactiveAsync(book.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -607,7 +612,10 @@ public class UserBooksService : IUserBooksService
 
         Books oldUserBook = await _userBooksRepository.SumPowerUserBooksAsync(userId);
 
-        var updateResult = await _userBooksRepository.UpdateUserBookLevelAsync(userId, book);
+        var updateResult = await _userBooksRepository.UpdateUserBookLevelAsync(
+            userId,
+            book,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

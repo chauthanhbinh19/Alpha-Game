@@ -9,7 +9,7 @@ public interface IUserBooksRepository
     Task<int> GetUserBooksCountAsync(string userId, string search, string type, string rare);
     Task<InsertOrUpdateResult<Books>> InsertOrUpdateUserBookAsync(string userId, Books book);
     Task<InsertOrUpdateResult<BatchOperationResultDTO<Books>>> InsertOrUpdateUserBooksBatchAsync(string userId, List<Books> books);
-    Task<InsertOrUpdateResult<bool>> UpdateUserBookLevelAsync(string userId, Books book);
+    Task<InsertOrUpdateResult<bool>> UpdateUserBookLevelAsync(string userId, Books book, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserBookStarAsync(string userId, Books book);
     Task<bool> UpdateTeamUserBookAsync(string userId, string team_id, string position, string book_id);
     Task<Books> GetUserBookByIdAsync(string userId, string Id);

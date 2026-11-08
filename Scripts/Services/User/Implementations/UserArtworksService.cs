@@ -202,10 +202,15 @@ public class UserArtworksService : IUserArtworksService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserArtworkLevelAsync(string userId, Artworks artwork)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserArtworkLevelAsync(string userId, Artworks artwork, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkArtworkResult = await _artworksService.IsArtworkDeletedOrInactiveAsync(artwork.Id);
-        if (checkArtworkResult)
+        if (artwork == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Artwork is required.");
+        }
+
+        var checkResult = await _artworksService.IsArtworkDeletedOrInactiveAsync(artwork.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -218,7 +223,10 @@ public class UserArtworksService : IUserArtworksService
 
         Artworks oldUserArtwork = await _userArtworksRepository.SumPowerUserArtworksAsync(userId);
 
-        var updateResult = await _userArtworksRepository.UpdateUserArtworkLevelAsync(userId, artwork);
+        var updateResult = await _userArtworksRepository.UpdateUserArtworkLevelAsync(
+            userId,
+            artwork,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

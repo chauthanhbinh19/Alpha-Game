@@ -209,10 +209,15 @@ public class UserSkillsService : IUserSkillsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserSkillLevelAsync(string userId, Skills skill)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserSkillLevelAsync(string userId, Skills skill, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkSkillResult = await _skillsService.IsSkillDeletedOrInactiveAsync(skill.Id);
-        if (checkSkillResult)
+        if (skill == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Skill is required.");
+        }
+
+        var checkResult = await _skillsService.IsSkillDeletedOrInactiveAsync(skill.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -225,7 +230,10 @@ public class UserSkillsService : IUserSkillsService
 
         Skills oldUserSkill = await _userSkillsRepository.SumPowerUserSkillsAsync(userId);
 
-        var updateResult = await _userSkillsRepository.UpdateUserSkillLevelAsync(userId, skill);
+        var updateResult = await _userSkillsRepository.UpdateUserSkillLevelAsync(
+            userId,
+            skill,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

@@ -7,7 +7,7 @@ public interface IUserCollaborationEquipmentsService
     Task<int> GetUserCollaborationEquipmentsCountAsync(string userId, string search, string type, string rare);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCollaborationEquipmentAsync(string userId, CollaborationEquipments collaborationEquipment);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCollaborationEquipmentsBatchAsync(string userId, List<CollaborationEquipments> collaborationEquipments);
-    Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationEquipmentLevelAsync(string userId, CollaborationEquipments collaborationEquipment);
+    Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationEquipmentLevelAsync(string userId, CollaborationEquipments collaborationEquipment, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationEquipmentStarAsync(string userId, CollaborationEquipments collaborationEquipment);
     Task<CollaborationEquipments> GetUserCollaborationEquipmentByIdAsync(string userId, string Id);
     Task<CollaborationEquipments> SumPowerUserCollaborationEquipmentsAsync(string userId);

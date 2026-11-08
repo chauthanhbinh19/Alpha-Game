@@ -7,7 +7,7 @@ public interface IUserCoresRepository
     Task<int> GetUserCoresCountAsync(string userId, string search, string rare);
     Task<InsertOrUpdateResult<Cores>> InsertOrUpdateUserCoreAsync(string userId, Cores core);
     Task<InsertOrUpdateResult<BatchOperationResultDTO<Cores>>> InsertOrUpdateUserCoresBatchAsync(string userId, List<Cores> cores);
-    Task<InsertOrUpdateResult<bool>> UpdateUserCoreLevelAsync(string userId, Cores core);
+    Task<InsertOrUpdateResult<bool>> UpdateUserCoreLevelAsync(string userId, Cores core, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserCoreStarAsync(string userId, Cores core);
     Task<Cores> GetUserCoreByIdAsync(string userId, string Id);
     Task<Cores> SumPowerUserCoresAsync(string userId);

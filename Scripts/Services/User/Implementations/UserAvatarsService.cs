@@ -286,10 +286,15 @@ public class UserAvatarsService : IUserAvatarsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserAvatarLevelAsync(string userId, Avatars avatar)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserAvatarLevelAsync(string userId, Avatars avatar, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkAvatarResult = await _avatarsService.IsAvatarDeletedOrInactiveAsync(avatar.Id);
-        if (checkAvatarResult)
+        if (avatar == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Avatar is required.");
+        }
+
+        var checkResult = await _avatarsService.IsAvatarDeletedOrInactiveAsync(avatar.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -302,7 +307,10 @@ public class UserAvatarsService : IUserAvatarsService
 
         Avatars oldUserAvatar = await _userAvatarsRepository.SumPowerUserAvatarsAsync(userId);
 
-        var updateResult = await _userAvatarsRepository.UpdateUserAvatarLevelAsync(userId, avatar);
+        var updateResult = await _userAvatarsRepository.UpdateUserAvatarLevelAsync(
+            userId,
+            avatar,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -334,12 +342,12 @@ public class UserAvatarsService : IUserAvatarsService
         }
 
         return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = false,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
     }
 
     public async Task<InsertOrUpdateResult<bool>> UpdateUserAvatarStarAsync(string userId, Avatars avatar)

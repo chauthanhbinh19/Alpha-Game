@@ -201,10 +201,15 @@ public class UserFoodsService : IUserFoodsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserFoodLevelAsync(string userId, Foods food)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserFoodLevelAsync(string userId, Foods food, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkFoodResult = await _foodsService.IsFoodDeletedOrInactiveAsync(food.Id);
-        if (checkFoodResult)
+        if (food == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Food is required.");
+        }
+
+        var checkResult = await _foodsService.IsFoodDeletedOrInactiveAsync(food.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserFoodsService : IUserFoodsService
 
         Foods oldUserFood = await _userFoodsRepository.SumPowerUserFoodsAsync(userId);
 
-        var updateResult = await _userFoodsRepository.UpdateUserFoodLevelAsync(userId, food);
+        var updateResult = await _userFoodsRepository.UpdateUserFoodLevelAsync(
+            userId,
+            food,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

@@ -201,10 +201,15 @@ public class UserArtifactsService : IUserArtifactsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserArtifactLevelAsync(string userId, Artifacts artifact)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserArtifactLevelAsync(string userId, Artifacts artifact, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkArtifactResult = await _artifactsService.IsArtifactDeletedOrInactiveAsync(artifact.Id);
-        if (checkArtifactResult)
+        if (artifact == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Artifact is required.");
+        }
+
+        var checkResult = await _artifactsService.IsArtifactDeletedOrInactiveAsync(artifact.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserArtifactsService : IUserArtifactsService
 
         Artifacts oldUserArtifact = await _userArtifactsRepository.SumPowerUserArtifactsAsync(userId);
 
-        var updateResult = await _userArtifactsRepository.UpdateUserArtifactLevelAsync(userId, artifact);
+        var updateResult = await _userArtifactsRepository.UpdateUserArtifactLevelAsync(
+            userId,
+            artifact,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

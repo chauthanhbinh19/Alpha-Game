@@ -201,10 +201,15 @@ public class UserTechnologiesService : IUserTechnologiesService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserTechnologyLevelAsync(string userId, Technologies technology)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserTechnologyLevelAsync(string userId, Technologies technology, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkTechnologyResult = await _technologiesService.IsTechnologyDeletedOrInactiveAsync(technology.Id);
-        if (checkTechnologyResult)
+        if (technology == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Technology is required.");
+        }
+
+        var checkResult = await _technologiesService.IsTechnologyDeletedOrInactiveAsync(technology.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserTechnologiesService : IUserTechnologiesService
 
         Technologies oldUserTechnology = await _userTechnologiesRepository.SumPowerUserTechnologiesAsync(userId);
 
-        var updateResult = await _userTechnologiesRepository.UpdateUserTechnologyLevelAsync(userId, technology);
+        var updateResult = await _userTechnologiesRepository.UpdateUserTechnologyLevelAsync(
+            userId,
+            technology,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

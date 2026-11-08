@@ -681,7 +681,7 @@ public class UserCardColonelsService : IUserCardColonelsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardColonelLevelAsync(string userId, CardColonels cardColonel)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardColonelLevelAsync(string userId, CardColonels cardColonel, List<RecipeItemDetailDTO> totalDeductions)
     {
         var checkCardColonelResult = await _cardColonelsService.IsCardColonelDeletedOrInactiveAsync(cardColonel.Id);
         if (checkCardColonelResult)
@@ -695,7 +695,7 @@ public class UserCardColonelsService : IUserCardColonelsService
             };
         }
 
-        var updateResult = await _userCardColonelsRepository.UpdateUserCardColonelLevelAsync(userId, cardColonel);
+        var updateResult = await _userCardColonelsRepository.UpdateUserCardColonelLevelAsync(userId, cardColonel, totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

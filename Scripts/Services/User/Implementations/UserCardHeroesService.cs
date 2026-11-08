@@ -697,7 +697,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardHeroLevelAsync(string userId, CardHeroes cardHero)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardHeroLevelAsync(string userId, CardHeroes cardHero, List<RecipeItemDetailDTO> totalDeductions)
     {
         var checkCardHeroResult = await _cardHeroesService.IsCardHeroDeletedOrInactiveAsync(cardHero.Id);
         if (checkCardHeroResult)
@@ -711,7 +711,7 @@ public class UserCardHeroesService : IUserCardHeroesService
             };
         }
 
-        var updateResult = await _userCardHeroesRepository.UpdateUserCardHeroLevelAsync(userId, cardHero);
+        var updateResult = await _userCardHeroesRepository.UpdateUserCardHeroLevelAsync(userId, cardHero, totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

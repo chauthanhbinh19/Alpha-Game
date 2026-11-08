@@ -201,10 +201,15 @@ public class UserMedalsService : IUserMedalsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserMedalLevelAsync(string userId, Medals medal)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserMedalLevelAsync(string userId, Medals medal, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkMedalResult = await _medalsService.IsMedalDeletedOrInactiveAsync(medal.Id);
-        if (checkMedalResult)
+        if (medal == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Medal is required.");
+        }
+
+        var checkResult = await _medalsService.IsMedalDeletedOrInactiveAsync(medal.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserMedalsService : IUserMedalsService
 
         Medals oldUserMedal = await _userMedalsRepository.SumPowerUserMedalsAsync(userId);
 
-        var updateResult = await _userMedalsRepository.UpdateUserMedalLevelAsync(userId, medal);
+        var updateResult = await _userMedalsRepository.UpdateUserMedalLevelAsync(
+            userId,
+            medal,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

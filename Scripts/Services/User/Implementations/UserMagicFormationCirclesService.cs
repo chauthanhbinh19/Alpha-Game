@@ -201,10 +201,15 @@ public class UserMagicFormationCirclesService : IUserMagicFormationCirclesServic
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserMagicFormationCircleLevelAsync(string userId, MagicFormationCircles magicFormationCircle)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserMagicFormationCircleLevelAsync(string userId, MagicFormationCircles magicFormationCircle, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkMagicFormationCircleResult = await _magicFormationCirclesService.IsMagicFormationCircleDeletedOrInactiveAsync(magicFormationCircle.Id);
-        if (checkMagicFormationCircleResult)
+        if (magicFormationCircle == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("MagicFormationCircle is required.");
+        }
+
+        var checkResult = await _magicFormationCirclesService.IsMagicFormationCircleDeletedOrInactiveAsync(magicFormationCircle.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserMagicFormationCirclesService : IUserMagicFormationCirclesServic
 
         MagicFormationCircles oldUserMagicFormationCircle = await _userMagicFormationCirclesRepository.SumPowerUserMagicFormationCirclesAsync(userId);
 
-        var updateResult = await _userMagicFormationCirclesRepository.UpdateUserMagicFormationCircleLevelAsync(userId, magicFormationCircle);
+        var updateResult = await _userMagicFormationCirclesRepository.UpdateUserMagicFormationCircleLevelAsync(
+            userId,
+            magicFormationCircle,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

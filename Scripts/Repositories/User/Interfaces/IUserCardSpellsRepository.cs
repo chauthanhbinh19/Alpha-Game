@@ -16,7 +16,7 @@ public interface IUserCardSpellsRepository
     Task<int> GetUserCardSpellsTeamsCountAsync(string userId, string team_id);
     Task<InsertOrUpdateResult<CardSpells>> InsertOrUpdateUserCardSpellAsync(string userId, CardSpells cardSpell);
     Task<InsertOrUpdateResult<BatchOperationResultDTO<CardSpells>>> InsertOrUpdateUserCardSpellsBatchAsync(string userId, List<CardSpells> cardSpells);
-    Task<InsertOrUpdateResult<bool>> UpdateUserCardSpellLevelAsync(string userId, CardSpells cardSpell);
+    Task<InsertOrUpdateResult<bool>> UpdateUserCardSpellLevelAsync(string userId, CardSpells cardSpell, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardSpellStarAsync(string userId, CardSpells cardSpell);
     Task<CardSpells> GetUserCardSpellByIdAsync(string userId, string Id);
     Task<List<string>> GetTeamIdsAsync(string userId);

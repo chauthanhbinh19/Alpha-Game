@@ -201,10 +201,15 @@ public class UserFurnituresService : IUserFurnituresService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserFurnitureLevelAsync(string userId, Furnitures furniture)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserFurnitureLevelAsync(string userId, Furnitures furniture, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkFurnitureResult = await _furnituresService.IsFurnitureDeletedOrInactiveAsync(furniture.Id);
-        if (checkFurnitureResult)
+        if (furniture == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Furniture is required.");
+        }
+
+        var checkResult = await _furnituresService.IsFurnitureDeletedOrInactiveAsync(furniture.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserFurnituresService : IUserFurnituresService
 
         Furnitures oldUserFurniture = await _userFurnituresRepository.SumPowerUserFurnituresAsync(userId);
 
-        var updateResult = await _userFurnituresRepository.UpdateUserFurnitureLevelAsync(userId, furniture);
+        var updateResult = await _userFurnituresRepository.UpdateUserFurnitureLevelAsync(
+            userId,
+            furniture,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

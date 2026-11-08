@@ -201,10 +201,15 @@ public class UserFashionsService : IUserFashionsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserFashionLevelAsync(string userId, Fashions fashion)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserFashionLevelAsync(string userId, Fashions fashion, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkFashionResult = await _fashionsService.IsFashionDeletedOrInactiveAsync(fashion.Id);
-        if (checkFashionResult)
+        if (fashion == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Fashion is required.");
+        }
+
+        var checkResult = await _fashionsService.IsFashionDeletedOrInactiveAsync(fashion.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserFashionsService : IUserFashionsService
 
         Fashions oldUserFashion = await _userFashionsRepository.SumPowerUserFashionsAsync(userId);
 
-        var updateResult = await _userFashionsRepository.UpdateUserFashionLevelAsync(userId, fashion);
+        var updateResult = await _userFashionsRepository.UpdateUserFashionLevelAsync(
+            userId,
+            fashion,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

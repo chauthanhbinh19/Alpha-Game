@@ -201,10 +201,15 @@ public class UserPuppetsService : IUserPuppetsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserPuppetLevelAsync(string userId, Puppets puppet)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserPuppetLevelAsync(string userId, Puppets puppet, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkPuppetResult = await _puppetsService.IsPuppetDeletedOrInactiveAsync(puppet.Id);
-        if (checkPuppetResult)
+        if (puppet == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Puppet is required.");
+        }
+
+        var checkResult = await _puppetsService.IsPuppetDeletedOrInactiveAsync(puppet.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserPuppetsService : IUserPuppetsService
 
         Puppets oldUserPuppet = await _userPuppetsRepository.SumPowerUserPuppetsAsync(userId);
 
-        var updateResult = await _userPuppetsRepository.UpdateUserPuppetLevelAsync(userId, puppet);
+        var updateResult = await _userPuppetsRepository.UpdateUserPuppetLevelAsync(
+            userId,
+            puppet,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

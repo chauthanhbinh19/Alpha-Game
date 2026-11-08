@@ -616,6 +616,9 @@ public class MainMenuManager : MonoBehaviour
         Button structureButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/StructureButton").GetComponent<Button>();
         Button animeButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/AnimeButton").GetComponent<Button>();
         Button patternButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/PatternButton").GetComponent<Button>();
+        Button cosmicImprintButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/CosmicImprintButton").GetComponent<Button>();
+        Button primordialImprintButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/PrimordialImprintButton").GetComponent<Button>();
+        Button pathOfLordImprintButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/PathOfLordImprintButton").GetComponent<Button>();
 
         AssignButtonEvent(teamButton, AppDisplayConstants.Title.Build.TEAM, ImageConstants.Build.TEAM_URL);
         AssignButtonEvent(masterBoardButton, AppDisplayConstants.Title.Build.MASTER_BOARD, ImageConstants.Build.MASTER_BOARD_URL);
@@ -630,6 +633,9 @@ public class MainMenuManager : MonoBehaviour
         AssignButtonEvent(structureButton, AppDisplayConstants.Title.Build.STRUCTURE, ImageConstants.Build.STRUCTURE_URL);
         AssignButtonEvent(animeButton, AppDisplayConstants.Title.Build.ANIME, ImageConstants.Build.ANIME_URL);
         AssignButtonEvent(patternButton, AppDisplayConstants.Title.Build.PATTERN, ImageConstants.Build.PATTERN_URL);
+        AssignButtonEvent(cosmicImprintButton, AppDisplayConstants.Title.Build.PATTERN, ImageConstants.Build.PATTERN_URL);
+        AssignButtonEvent(primordialImprintButton, AppDisplayConstants.Title.Build.PATTERN, ImageConstants.Build.PATTERN_URL);
+        AssignButtonEvent(pathOfLordImprintButton, AppDisplayConstants.Title.Build.PATTERN, ImageConstants.Build.PATTERN_URL);
 
         teamButton.onClick.AddListener(async () =>
         {
@@ -798,6 +804,27 @@ public class MainMenuManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
             await PatternController.Instance.CreatePatternPanel();
+        });
+
+        cosmicImprintButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+            CosmicImprintManager.Instance.CreateCosmicImprint();
+        });
+
+        primordialImprintButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+            PrimordialImprintManager.Instance.CreatePrimordialImprint();
+        });
+
+        pathOfLordImprintButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+            PathOfLordImprintManager.Instance.CreatePathOfLordImprint();
         });
     }
     public void CreateMissionPanel(Transform transform)

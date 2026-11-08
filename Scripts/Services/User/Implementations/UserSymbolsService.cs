@@ -201,10 +201,15 @@ public class UserSymbolsService : IUserSymbolsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserSymbolLevelAsync(string userId, Symbols symbol)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserSymbolLevelAsync(string userId, Symbols symbol, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkSymbolResult = await _symbolsService.IsSymbolDeletedOrInactiveAsync(symbol.Id);
-        if (checkSymbolResult)
+        if (symbol == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Symbol is required.");
+        }
+
+        var checkResult = await _symbolsService.IsSymbolDeletedOrInactiveAsync(symbol.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserSymbolsService : IUserSymbolsService
 
         Symbols oldUserSymbol = await _userSymbolsRepository.SumPowerUserSymbolsAsync(userId);
 
-        var updateResult = await _userSymbolsRepository.UpdateUserSymbolLevelAsync(userId, symbol);
+        var updateResult = await _userSymbolsRepository.UpdateUserSymbolLevelAsync(
+            userId,
+            symbol,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

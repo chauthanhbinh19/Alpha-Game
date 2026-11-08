@@ -201,10 +201,15 @@ public class UserRunesService : IUserRunesService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserRuneLevelAsync(string userId, Runes rune)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserRuneLevelAsync(string userId, Runes rune, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkRuneResult = await _runesService.IsRuneDeletedOrInactiveAsync(rune.Id);
-        if (checkRuneResult)
+        if (rune == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Rune is required.");
+        }
+
+        var checkResult = await _runesService.IsRuneDeletedOrInactiveAsync(rune.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserRunesService : IUserRunesService
 
         Runes oldUserRune = await _userRunesRepository.SumPowerUserRunesAsync(userId);
 
-        var updateResult = await _userRunesRepository.UpdateUserRuneLevelAsync(userId, rune);
+        var updateResult = await _userRunesRepository.UpdateUserRuneLevelAsync(
+            userId,
+            rune,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

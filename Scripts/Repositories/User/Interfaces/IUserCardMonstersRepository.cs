@@ -16,7 +16,7 @@ public interface IUserCardMonstersRepository
     Task<int> GetUserCardMonstersTeamsCountAsync(string userId, string team_id);
     Task<InsertOrUpdateResult<CardMonsters>> InsertOrUpdateUserCardMonsterAsync(string userId, CardMonsters cardMonster);
     Task<InsertOrUpdateResult<BatchOperationResultDTO<CardMonsters>>> InsertOrUpdateUserCardMonstersBatchAsync(string userId, List<CardMonsters> cardMonsters);
-    Task<InsertOrUpdateResult<bool>> UpdateUserCardMonsterLevelAsync(string userId, CardMonsters cardMonster);
+    Task<InsertOrUpdateResult<bool>> UpdateUserCardMonsterLevelAsync(string userId, CardMonsters cardMonster, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardMonsterStarAsync(string userId, CardMonsters cardMonster);
     Task<CardMonsters> GetUserCardMonsterByIdAsync(string userId, string Id);
     Task<List<string>> GetTeamIdsAsync(string userId);

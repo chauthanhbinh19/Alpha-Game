@@ -7,7 +7,7 @@ public interface IUserSkillsRepository
     Task<int> GetUserSkillsCountAsync(string userId, string search, string type, string rare);
     Task<InsertOrUpdateResult<Skills>> InsertOrUpdateUserSkillAsync(string userId, Skills skill);
     Task<InsertOrUpdateResult<BatchOperationResultDTO<Skills>>> InsertOrUpdateUserSkillsBatchAsync(string userId, List<Skills> skills);
-    Task<InsertOrUpdateResult<bool>> UpdateUserSkillLevelAsync(string userId, Skills skill);
+    Task<InsertOrUpdateResult<bool>> UpdateUserSkillLevelAsync(string userId, Skills skill, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserSkillStarAsync(string userId, Skills skill);
     Task<Skills> GetUserSkillsByIdAsync(string userId, string Id);
     Task<Skills> SumPowerUserSkillsAsync(string userId);

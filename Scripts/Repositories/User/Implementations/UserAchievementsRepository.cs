@@ -581,7 +581,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
         {
             // -------------------------------------------------------------------------------------
             // BƯỚC 1: NHÓM NGUYÊN LIỆU THEO OBJECT_TYPE VÀ KHẤU TRỪ TỐI ƯU (IN + CASE WHEN)
-            // (Được bốc nguyên cấu trúc tối ưu từ InsertOrUpdateUserArchivesAsync)
+            // (Được bốc nguyên cấu trúc tối ưu từ InsertOrUpdateUserAchievementsAsync)
             // -------------------------------------------------------------------------------------
             if (totalDeductions != null && totalDeductions.Count > 0)
             {

@@ -201,10 +201,15 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserSpiritBeastLevelAsync(string userId, SpiritBeasts spiritBeast)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserSpiritBeastLevelAsync(string userId, SpiritBeasts spiritBeast, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkSpiritBeastResult = await _spiritBeastsService.IsSpiritBeastDeletedOrInactiveAsync(spiritBeast.Id);
-        if (checkSpiritBeastResult)
+        if (spiritBeast == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("SpiritBeast is required.");
+        }
+
+        var checkResult = await _spiritBeastsService.IsSpiritBeastDeletedOrInactiveAsync(spiritBeast.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
 
         SpiritBeasts oldUserSpiritBeast = await _userSpiritBeastsRepository.SumPowerUserSpiritBeastsAsync(userId);
 
-        var updateResult = await _userSpiritBeastsRepository.UpdateUserSpiritBeastLevelAsync(userId, spiritBeast);
+        var updateResult = await _userSpiritBeastsRepository.UpdateUserSpiritBeastLevelAsync(
+            userId,
+            spiritBeast,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

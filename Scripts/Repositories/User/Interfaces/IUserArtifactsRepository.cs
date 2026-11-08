@@ -7,7 +7,7 @@ public interface IUserArtifactsRepository
     Task<int> GetUserArtifactsCountAsync(string userId, string search, string rare);
     Task<InsertOrUpdateResult<Artifacts>> InsertOrUpdateUserArtifactAsync(string userId, Artifacts artifact);
     Task<InsertOrUpdateResult<BatchOperationResultDTO<Artifacts>>> InsertOrUpdateUserArtifactsBatchAsync(string userId, List<Artifacts> artifacts);
-    Task<InsertOrUpdateResult<bool>> UpdateUserArtifactLevelAsync(string userId, Artifacts artifact);
+    Task<InsertOrUpdateResult<bool>> UpdateUserArtifactLevelAsync(string userId, Artifacts artifact, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserArtifactStarAsync(string userId, Artifacts artifact);
     Task<Artifacts> GetUserArtifactByIdAsync(string userId, string Id);
     Task<Artifacts> SumPowerUserArtifactsAsync(string userId);

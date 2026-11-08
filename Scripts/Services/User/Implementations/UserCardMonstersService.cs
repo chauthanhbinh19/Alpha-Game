@@ -681,7 +681,7 @@ public class UserCardMonstersService : IUserCardMonstersService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardMonsterLevelAsync(string userId, CardMonsters cardMonster)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardMonsterLevelAsync(string userId, CardMonsters cardMonster, List<RecipeItemDetailDTO> totalDeductions)
     {
         var checkCardMonsterResult = await _cardMonstersService.IsCardMonsterDeletedOrInactiveAsync(cardMonster.Id);
         if (checkCardMonsterResult)
@@ -695,7 +695,7 @@ public class UserCardMonstersService : IUserCardMonstersService
             };
         }
 
-        var updateResult = await _userCardMonstersRepository.UpdateUserCardMonsterLevelAsync(userId, cardMonster);
+        var updateResult = await _userCardMonstersRepository.UpdateUserCardMonsterLevelAsync(userId, cardMonster, totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

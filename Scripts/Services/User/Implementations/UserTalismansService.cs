@@ -201,10 +201,15 @@ public class UserTalismansService : IUserTalismansService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserTalismanLevelAsync(string userId, Talismans talisman)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserTalismanLevelAsync(string userId, Talismans talisman, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkTalismanResult = await _talismansService.IsTalismanDeletedOrInactiveAsync(talisman.Id);
-        if (checkTalismanResult)
+        if (talisman == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Talisman is required.");
+        }
+
+        var checkResult = await _talismansService.IsTalismanDeletedOrInactiveAsync(talisman.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserTalismansService : IUserTalismansService
 
         Talismans oldUserTalisman = await _userTalismansRepository.SumPowerUserTalismansAsync(userId);
 
-        var updateResult = await _userTalismansRepository.UpdateUserTalismanLevelAsync(userId, talisman);
+        var updateResult = await _userTalismansRepository.UpdateUserTalismanLevelAsync(
+            userId,
+            talisman,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

@@ -66,7 +66,7 @@ public static class PowerHelper
         double adjustedManaRegeneration = (manaRegenerationRate / 100) * mana;
 
         // Tổng sức mạnh
-        return health * weight + totalAttack + totalDefense + speed * weight +
+        return (health * weight + totalAttack + totalDefense + speed * weight +
         adjusted_critical_rate + adjusted_critical_damage + adjusted_critical_resistance_rate + adjusted_ignore_critical_rate + 
         adjusted_penetration + adjusted_penetration_resistance_rate +
         adjusted_evasion + adjusted_absorption + adjusted_ignore_damage_absorption_rate + adjusted_absorbed_damage_rate + 
@@ -79,6 +79,6 @@ public static class PowerHelper
         adjusted_damage_to_same_faction + adjusted_resistance_to_same_faction +
         adjustedMana + adjustedManaRegeneration + 
         adjusted_normal_damage_rate + adjusted_normal_resistance_rate +
-        adjusted_skill_damage_rate + adjusted_skill_resistance_rate;
+        adjusted_skill_damage_rate + adjusted_skill_resistance_rate)/10;
     }
 }

@@ -693,7 +693,7 @@ public class UserCardGeneralsService : IUserCardGeneralsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardGeneralLevelAsync(string userId, CardGenerals cardGeneral)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardGeneralLevelAsync(string userId, CardGenerals cardGeneral, List<RecipeItemDetailDTO> totalDeductions)
     {
         var checkCardGeneralResult = await _cardGeneralsService.IsCardGeneralDeletedOrInactiveAsync(cardGeneral.Id);
         if (checkCardGeneralResult)
@@ -707,7 +707,7 @@ public class UserCardGeneralsService : IUserCardGeneralsService
             };
         }
 
-        var updateResult = await _userCardGeneralsRepository.UpdateUserCardGeneralLevelAsync(userId, cardGeneral);
+        var updateResult = await _userCardGeneralsRepository.UpdateUserCardGeneralLevelAsync(userId, cardGeneral, totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

@@ -7,7 +7,7 @@ public interface IUserSpiritCardsService
     Task<int> GetUserSpiritCardCountAsync(string userId, string search, string type, string rare);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSpiritCardAsync(string userId, SpiritCards spiritCard);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSpiritCardsBatchAsync(string userId, List<SpiritCards> spiritCards);
-    Task<InsertOrUpdateResult<bool>> UpdateUserSpiritCardLevelAsync(string userId, SpiritCards spiritCard);
+    Task<InsertOrUpdateResult<bool>> UpdateUserSpiritCardLevelAsync(string userId, SpiritCards spiritCard, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserSpiritCardStarAsync(string userId, SpiritCards spiritCard);
     Task<SpiritCards> GetUserSpiritCardByIdAsync(string userId, string Id);
     Task<SpiritCards> SumPowerUserSpiritCardsAsync(string userId);

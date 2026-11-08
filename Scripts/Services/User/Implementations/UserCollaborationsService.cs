@@ -201,10 +201,15 @@ public class UserCollaborationsService : IUserCollaborationsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationLevelAsync(string userId, Collaborations collaboration)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationLevelAsync(string userId, Collaborations collaboration, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkCollaborationResult = await _collaborationsService.IsCollaborationDeletedOrInactiveAsync(collaboration.Id);
-        if (checkCollaborationResult)
+        if (collaboration == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Collaboration is required.");
+        }
+
+        var checkResult = await _collaborationsService.IsCollaborationDeletedOrInactiveAsync(collaboration.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserCollaborationsService : IUserCollaborationsService
 
         Collaborations oldUserCollaboration = await _userCollaborationsRepository.SumPowerUserCollaborationsAsync(userId);
 
-        var updateResult = await _userCollaborationsRepository.UpdateUserCollaborationLevelAsync(userId, collaboration);
+        var updateResult = await _userCollaborationsRepository.UpdateUserCollaborationLevelAsync(
+            userId,
+            collaboration,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

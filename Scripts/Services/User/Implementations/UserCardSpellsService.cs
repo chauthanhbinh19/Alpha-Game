@@ -693,7 +693,7 @@ public class UserCardSpellsService : IUserCardSpellsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardSpellLevelAsync(string userId, CardSpells cardSpell)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardSpellLevelAsync(string userId, CardSpells cardSpell, List<RecipeItemDetailDTO> totalDeductions)
     {
         var checkCardSpellResult = await _cardSpellsService.IsCardSpellDeletedOrInactiveAsync(cardSpell.Id);
         if (checkCardSpellResult)
@@ -707,7 +707,7 @@ public class UserCardSpellsService : IUserCardSpellsService
             };
         }
 
-        var updateResult = await _userCardSpellsRepository.UpdateUserCardSpellLevelAsync(userId, cardSpell);
+        var updateResult = await _userCardSpellsRepository.UpdateUserCardSpellLevelAsync(userId, cardSpell, totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

@@ -16,7 +16,7 @@ public interface IUserCardAdmiralsRepository
     Task<int> GetUserCardAdmiralsTeamsCountAsync(string userId, string team_id);
     Task<InsertOrUpdateResult<CardAdmirals>> InsertOrUpdateUserCardAdmiralAsync(string userId, CardAdmirals cardAdmiral);
     Task<InsertOrUpdateResult<BatchOperationResultDTO<CardAdmirals>>> InsertOrUpdateUserCardAdmiralsBatchAsync(string userId, List<CardAdmirals> cardAdmirals);
-    Task<InsertOrUpdateResult<bool>> UpdateUserCardAdmiralLevelAsync(string userId, CardAdmirals cardAdmiral);
+    Task<InsertOrUpdateResult<bool>> UpdateUserCardAdmiralLevelAsync(string userId, CardAdmirals cardAdmiral, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardAdmiralStarAsync(string userId, CardAdmirals cardAdmiral);
     Task<CardAdmirals> GetUserCardAdmiralByIdAsync(string userId, string Id);
     Task<List<string>> GetTeamIdsAsync(string userId);

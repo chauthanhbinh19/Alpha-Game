@@ -9,7 +9,7 @@ public interface IUserPetsRepository
     Task<int> GetUserPetsCountAsync(string userId, string search, string type, string rare);
     Task<InsertOrUpdateResult<Pets>> InsertOrUpdateUserPetAsync(string userId, Pets pet);
     Task<InsertOrUpdateResult<BatchOperationResultDTO<Pets>>> InsertOrUpdateUserPetsBatchAsync(string userId, List<Pets> pets);
-    Task<InsertOrUpdateResult<bool>> UpdateUserPetLevelAsync(string userId, Pets pet);
+    Task<InsertOrUpdateResult<bool>> UpdateUserPetLevelAsync(string userId, Pets pet, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserPetStarAsync(string userId, Pets pet);
     Task<bool> UpdateTeamUserPetAsync(string userId, string team_id, string cardId);
     Task<Pets> GetUserPetByIdAsync(string userId, string Id);

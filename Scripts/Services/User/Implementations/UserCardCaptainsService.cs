@@ -694,7 +694,7 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardCaptainLevelAsync(string userId, CardCaptains cardCaptain)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardCaptainLevelAsync(string userId, CardCaptains cardCaptain, List<RecipeItemDetailDTO> totalDeductions)
     {
         var checkCardCaptainResult = await _cardCaptainsService.IsCardCaptainDeletedOrInactiveAsync(cardCaptain.Id);
         if (checkCardCaptainResult)
@@ -708,7 +708,7 @@ public class UserCardCaptainsService : IUserCardCaptainsService
             };
         }
 
-        var updateResult = await _userCardCaptainsRepository.UpdateUserCardCaptainLevelAsync(userId, cardCaptain);
+        var updateResult = await _userCardCaptainsRepository.UpdateUserCardCaptainLevelAsync(userId, cardCaptain, totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

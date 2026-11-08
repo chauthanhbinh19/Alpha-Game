@@ -201,10 +201,15 @@ public class UserRelicsService : IUserRelicsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserRelicLevelAsync(string userId, Relics relic)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserRelicLevelAsync(string userId, Relics relic, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkRelicResult = await _relicsService.IsRelicDeletedOrInactiveAsync(relic.Id);
-        if (checkRelicResult)
+        if (relic == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Relic is required.");
+        }
+
+        var checkResult = await _relicsService.IsRelicDeletedOrInactiveAsync(relic.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserRelicsService : IUserRelicsService
 
         Relics oldUserRelic = await _userRelicsRepository.SumPowerUserRelicsAsync(userId);
 
-        var updateResult = await _userRelicsRepository.UpdateUserRelicLevelAsync(userId, relic);
+        var updateResult = await _userRelicsRepository.UpdateUserRelicLevelAsync(
+            userId,
+            relic,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

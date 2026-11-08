@@ -7,7 +7,7 @@ public interface IUserCollaborationsRepository
     Task<int> GetUserCollaborationsCountAsync(string userId, string search, string rare);
     Task<InsertOrUpdateResult<Collaborations>> InsertOrUpdateUserCollaborationAsync(string userId, Collaborations collaboration);
     Task<InsertOrUpdateResult<BatchOperationResultDTO<Collaborations>>> InsertOrUpdateUserCollaborationsBatchAsync(string userId, List<Collaborations> collaborations);
-    Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationLevelAsync(string userId, Collaborations collaboration);
+    Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationLevelAsync(string userId, Collaborations collaboration, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationStarAsync(string userId, Collaborations collaboration);
     Task<Collaborations> GetUserCollaborationByIdAsync(string userId, string Id);
     Task<Collaborations> SumPowerUserCollaborationsAsync(string userId);

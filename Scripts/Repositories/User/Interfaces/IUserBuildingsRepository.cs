@@ -7,7 +7,7 @@ public interface IUserBuildingsRepository
     Task<int> GetUserBuildingsCountAsync(string userId, string search, string type, string rare);
     Task<InsertOrUpdateResult<Buildings>> InsertOrUpdateUserBuildingAsync(string userId, Buildings building);
     Task<InsertOrUpdateResult<BatchOperationResultDTO<Buildings>>> InsertOrUpdateUserBuildingsBatchAsync(string userId, List<Buildings> buildings);
-    Task<InsertOrUpdateResult<bool>> UpdateUserBuildingLevelAsync(string userId, Buildings building);
+    Task<InsertOrUpdateResult<bool>> UpdateUserBuildingLevelAsync(string userId, Buildings building, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserBuildingStarAsync(string userId, Buildings building);
     Task<Buildings> GetUserBuildingByIdAsync(string userId, string Id);
     Task<Buildings> SumPowerUserBuildingsAsync(string userId);

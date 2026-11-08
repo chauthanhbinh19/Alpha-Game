@@ -201,10 +201,15 @@ public class UserBeveragesService : IUserBeveragesService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserBeverageLevelAsync(string userId, Beverages beverage)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserBeverageLevelAsync(string userId, Beverages beverage, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkBeverageResult = await _beveragesService.IsBeverageDeletedOrInactiveAsync(beverage.Id);
-        if (checkBeverageResult)
+        if (beverage == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Beverage is required.");
+        }
+
+        var checkResult = await _beveragesService.IsBeverageDeletedOrInactiveAsync(beverage.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserBeveragesService : IUserBeveragesService
 
         Beverages oldUserBeverage = await _userBeveragesRepository.SumPowerUserBeveragesAsync(userId);
 
-        var updateResult = await _userBeveragesRepository.UpdateUserBeverageLevelAsync(userId, beverage);
+        var updateResult = await _userBeveragesRepository.UpdateUserBeverageLevelAsync(
+            userId,
+            beverage,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

@@ -835,65 +835,165 @@ public class UserPetsRepository : IUserPetsRepository
             return InsertOrUpdateResult<BatchOperationResultDTO<Pets>>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserPetLevelAsync(string userId, Pets pet)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserPetLevelAsync(string userId, Pets pet, List<RecipeItemDetailDTO> totalDeductions)
     {
-        if (pet == null)
+        // 1. Guard Clauses
+        if (pet == null || string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(pet.Id) || pet.Level < 1)
         {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                Message = MessageConstants.NOTHING_WAS_UPDATED
-            };
+            return InsertOrUpdateResult<bool>.Failure("Dữ liệu đầu vào hoặc cấp độ pet không hợp lệ.");
         }
 
         string connectionString = DatabaseConfig.ConnectionString;
 
-        await using MySqlConnection connection = new MySqlConnection(connectionString);
+        await using var connection = new MySqlConnection(connectionString);
+        await connection.OpenAsync();
+
+        await using var transaction = await connection.BeginTransactionAsync();
 
         try
         {
-            await connection.OpenAsync();
-
-            // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
-            string updateSQL = @"
-            UPDATE user_pets uc INNER JOIN pets c ON c.id = uc.pet_id
-            SET 
-                uc.level = @level, 
-                uc.experience = @experience
-            WHERE uc.user_id = @user_id 
-              AND uc.pet_id = @pet_id
-              AND (uc.level != @level OR uc.experience != @experience)
-              AND c.is_active = TRUE AND c.is_deleted = FALSE;
-        ";
-
-            await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-
-            updateCommand.Parameters.AddWithValue("@user_id", userId);
-            updateCommand.Parameters.AddWithValue("@pet_id", pet.Id);
-            updateCommand.Parameters.AddWithValue("@level", pet.Level);
-            updateCommand.Parameters.AddWithValue("@experience", pet.Experience);
-
-            int rowsAffected = await updateCommand.ExecuteNonQueryAsync();
-
-            if (rowsAffected > 0)
+            // -------------------------------------------------------------------------------------
+            // BƯỚC 1: NHÓM NGUYÊN LIỆU THEO OBJECT_TYPE VÀ KHẤU TRỪ TỐI ƯU (IN + CASE WHEN)
+            // (Được bốc nguyên cấu trúc tối ưu từ InsertOrUpdateUserPetsAsync)
+            // -------------------------------------------------------------------------------------
+            if (totalDeductions != null && totalDeductions.Count > 0)
             {
-                return InsertOrUpdateResult<bool>.Updated(true);
-            }
-            else
-            {
-                return new InsertOrUpdateResult<bool>
+                var validDeductions = totalDeductions.Where(d => d.RequiredQuantity > 0).ToList();
+                var groupedDeductions = validDeductions.GroupBy(d => d.ObjectType.ToUpper());
+
+                foreach (var group in groupedDeductions)
                 {
-                    Data = false,
-                    OperationType = DatabaseOperationType.None,
-                    Message = MessageConstants.NOTHING_WAS_UPDATED
-                };
+                    string objectType = group.Key;
+                    var itemList = group.ToList();
+
+                    string tableName = DatabaseHelper.GetUserTableNameByObjectType(objectType);
+                    string idColumnName = DatabaseHelper.GetIdColumnNameByObjectType(objectType);
+
+                    if (string.IsNullOrEmpty(tableName)) continue;
+
+                    // 1.1 Tạo IN Clause để SELECT FOR UPDATE 1 lần cho ObjectType này
+                    var objectIds = itemList.Select(i => i.ObjectId).Distinct().ToList();
+                    string inClause = string.Join(",", objectIds.Select((_, idx) => $"@id{idx}"));
+
+                    string checkStockSQL = $@"
+                    SELECT {idColumnName} AS object_id, quantity 
+                    FROM {tableName} 
+                    WHERE user_id = @userId AND {idColumnName} IN ({inClause})
+                    FOR UPDATE;";
+
+                    var currentStockMap = new Dictionary<string, double>();
+
+                    await using (var checkCommand = new MySqlCommand(checkStockSQL, connection, transaction))
+                    {
+                        checkCommand.Parameters.AddWithValue("@userId", userId);
+                        for (int i = 0; i < objectIds.Count; i++)
+                        {
+                            checkCommand.Parameters.AddWithValue($"@id{i}", objectIds[i]);
+                        }
+
+                        await using var reader = await checkCommand.ExecuteReaderAsync();
+                        while (await reader.ReadAsync())
+                        {
+                            string objId = reader.GetStringSafe("object_id");
+                            double qty = reader.GetDoubleSafe("quantity");
+                            currentStockMap[objId] = qty;
+                        }
+                    }
+
+                    // 1.2 Kiểm tra xem người dùng có đủ số lượng cho tất cả vật phẩm thuộc ObjectType này không
+                    foreach (var item in itemList)
+                    {
+                        if (!currentStockMap.TryGetValue(item.ObjectId, out double ownedQty) || ownedQty < item.RequiredQuantity)
+                        {
+                            await transaction.RollbackAsync();
+                            return InsertOrUpdateResult<bool>.Failure(
+                                $"Thất bại: Không đủ nguyên liệu '{item.ObjectId}' ({objectType}). " +
+                                $"Cần: {item.RequiredQuantity}, Hiện có: {(currentStockMap.ContainsKey(item.ObjectId) ? currentStockMap[item.ObjectId] : 0)}.");
+                        }
+                    }
+
+                    // 1.3 Dùng CASE WHEN để UPDATE Bulk 1 lần duy nhất cho toàn bộ ObjectType này
+                    var caseStatements = new List<string>();
+                    for (int i = 0; i < itemList.Count; i++)
+                    {
+                        caseStatements.Add($"WHEN {idColumnName} = @updId{i} THEN quantity - @updQty{i}");
+                    }
+
+                    string bulkUpdateSQL = $@"
+                    UPDATE {tableName}
+                    SET quantity = CASE 
+                        {string.Join(" ", caseStatements)}
+                        ELSE quantity 
+                    END
+                    WHERE user_id = @userId AND {idColumnName} IN ({inClause});";
+
+                    await using (var updateCommand = new MySqlCommand(bulkUpdateSQL, connection, transaction))
+                    {
+                        updateCommand.Parameters.AddWithValue("@userId", userId);
+                        for (int i = 0; i < itemList.Count; i++)
+                        {
+                            updateCommand.Parameters.AddWithValue($"@updId{i}", itemList[i].ObjectId);
+                            updateCommand.Parameters.AddWithValue($"@updQty{i}", itemList[i].RequiredQuantity);
+                        }
+
+                        for (int i = 0; i < objectIds.Count; i++)
+                        {
+                            updateCommand.Parameters.AddWithValue($"@id{i}", objectIds[i]);
+                        }
+
+                        int affectedRows = await updateCommand.ExecuteNonQueryAsync();
+                        if (affectedRows == 0)
+                        {
+                            await transaction.RollbackAsync();
+                            return InsertOrUpdateResult<bool>.Failure($"Thất bại khi cập nhật số lượng nguyên liệu cho loại {objectType}.");
+                        }
+                    }
+                }
             }
+
+            // -------------------------------------------------------------------------------------
+            // BƯỚC 2: UPSERT / UPDATE BẢNG USER_ACHIEVEMENTS (Dùng cú pháp chuẩn INSERT ... ON DUPLICATE KEY UPDATE)
+            // -------------------------------------------------------------------------------------
+            string upsertPetSQL = @"
+            INSERT INTO user_pets (user_id, pet_id, level)
+            SELECT @user_id, a.id, @level
+            FROM pets a
+            WHERE a.id = @pet_id AND a.is_active = TRUE AND a.is_deleted = FALSE
+            ON DUPLICATE KEY UPDATE
+                level = VALUES(level);";
+
+            int rowsAffected = 0;
+            await using (var command = new MySqlCommand(upsertPetSQL, connection, transaction))
+            {
+                command.Parameters.AddWithValue("@user_id", userId);
+                command.Parameters.AddWithValue("@pet_id", pet.Id);
+                command.Parameters.AddWithValue("@level", pet.Level);
+
+                rowsAffected = await command.ExecuteNonQueryAsync();
+            }
+
+            if (rowsAffected == 0)
+            {
+                await transaction.RollbackAsync();
+                return InsertOrUpdateResult<bool>.Failure("Thất bại: Pet không tồn tại hoặc đã bị khóa/xóa.");
+            }
+
+            await transaction.CommitAsync();
+
+            // Trả về kết quả Thành công (nếu rowsAffected == 1 là insert mới, > 1 là update)
+            return InsertOrUpdateResult<bool>.Updated(true);
         }
         catch (MySqlException ex)
         {
-            Debug.LogError("Error UpdateUserPetLevel: " + ex.Message);
-            return InsertOrUpdateResult<bool>.Failure(ex.Message);
+            await transaction.RollbackAsync();
+            Debug.LogError($"[UpdateUserPetLevelAsync MySqlException]: {ex.Message}");
+            return InsertOrUpdateResult<bool>.Failure($"Lỗi Database: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            await transaction.RollbackAsync();
+            Debug.LogError($"[UpdateUserPetLevelAsync Exception]: {ex.Message}");
+            return InsertOrUpdateResult<bool>.Failure($"Lỗi hệ thống: {ex.Message}");
         }
     }
     public async Task<InsertOrUpdateResult<bool>> UpdateUserPetStarAsync(string userId, Pets pet)

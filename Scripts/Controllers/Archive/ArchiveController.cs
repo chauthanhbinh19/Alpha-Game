@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -317,11 +318,11 @@ public class ArchiveController : MonoBehaviour
             Destroy(currentObject);
         });
         Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
-        homeButton.onClick.AddListener( () =>
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            
+
         });
         Dictionary<string, FeatureArchiveDTO> uniqueTypes = new Dictionary<string, FeatureArchiveDTO>();
         uniqueTypes = await FeaturesService.Create().GetArchiveFeaturesByTypeAsync(AppConstants.Archive.ARCHIVE_III);
@@ -337,7 +338,7 @@ public class ArchiveController : MonoBehaviour
         SetupPagination(currentObject);
         RenderPage();
     }
-    
+
     private void RenderPage()
     {
         // 1. Dọn dẹp các Prefab UI cũ ở trang trước
@@ -497,7 +498,7 @@ public class ArchiveController : MonoBehaviour
 
         Archives archive = await ArchivesService.Create().GetArchiveByIdAsync(featureId);
         UserArchives userArchive = await UserArchivesService.Create().GetUserArchivesAsync(User.CurrentUserId, featureId);
-        
+
         int currentLevel = userArchive?.Level ?? 0;
         RecipeResponseDTO recipeData = await RecipeService.Create().GetRecipeItemsAsync(featureName, currentLevel + 1, User.CurrentUserId);
 
@@ -547,10 +548,10 @@ public class ArchiveController : MonoBehaviour
             TextMeshProUGUI nextLevelText = panelTransform.Find("NextLevel").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI maxLevelText = panelTransform.Find("MaxLevel").GetComponent<TextMeshProUGUI>();
             Slider quantitySlider = panelTransform.Find("QuantitySlider").GetComponent<Slider>();
-            
+
             TMP_InputField levelInputField = panelTransform.Find("ItemUsedQuantityText")?.GetComponent<TMP_InputField>();
             TextMeshProUGUI itemUsedQuantityText = panelTransform.Find("ItemUsedQuantityText")?.GetComponent<TextMeshProUGUI>();
-            
+
             TextMeshProUGUI notificationText = panelTransform.Find("Notification/ContentText").GetComponent<TextMeshProUGUI>();
             RawImage notificationIconImage = panelTransform.Find("Notification/IconImage")?.GetComponent<RawImage>();
 
@@ -563,6 +564,8 @@ public class ArchiveController : MonoBehaviour
             Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
             Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
             Button previewButton = panelTransform.Find("PreviewButton").GetComponent<Button>();
+            Transform previewDefaultObj = previewButton.transform.Find("Default");
+            Transform previewSelectedObj = previewButton.transform.Find("Selected");
 
             Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
             Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
@@ -580,8 +583,8 @@ public class ArchiveController : MonoBehaviour
             RecipeResponseDTO popupRecipeData = await RecipeService.Create().GetRecipeItemsAsync(featureName, popupCurrentLevel + 1, User.CurrentUserId);
 
             // Max level của Recipe dùng làm maxValue cho Slider
-            double recipeMaxLevel = popupRecipeData?.Recipes != null && popupRecipeData.Recipes.Count > 0 
-                ? popupRecipeData.Recipes.Max(r => r.MaxLevel) 
+            double recipeMaxLevel = popupRecipeData?.Recipes != null && popupRecipeData.Recipes.Count > 0
+                ? popupRecipeData.Recipes.Max(r => r.MaxLevel)
                 : popupCurrentLevel;
 
             // Max level của Archive hiển thị lên UI
@@ -612,6 +615,13 @@ public class ArchiveController : MonoBehaviour
                 increaseOneButton, increaseTenButton, increaseMaxButton,
                 decreaseOneButton, decreaseTenButton, decreaseMaxButton
             };
+
+            // Hàm cập nhật trạng thái hiển thị của Default và Selected
+            void UpdatePreviewButtonState(bool isSelected)
+            {
+                if (previewDefaultObj != null) previewDefaultObj.gameObject.SetActive(!isSelected);
+                if (previewSelectedObj != null) previewSelectedObj.gameObject.SetActive(isSelected);
+            }
 
             void UpdateSliderButtonsUI(bool isSelected)
             {
@@ -723,8 +733,8 @@ public class ArchiveController : MonoBehaviour
 
                 // YÊU CẦU 2: Tính toán bằng PreviewUpgrade (Tăng đúng 'requested' level không bị khống chế)
                 RecipePreviewResultDTO preview = RecipeCalculator.PreviewUpgrade(
-                    popupRecipeData, 
-                    popupCurrentLevel, 
+                    popupRecipeData,
+                    popupCurrentLevel,
                     numberOfLevel: requested
                 );
 
@@ -764,8 +774,8 @@ public class ArchiveController : MonoBehaviour
 
                 for (int i = 0; i < neededChildCount; i++)
                 {
-                    GameObject itemGO = (i < existingChildCount) 
-                        ? rightTransform.GetChild(i).gameObject 
+                    GameObject itemGO = (i < existingChildCount)
+                        ? rightTransform.GetChild(i).gameObject
                         : Instantiate(ArchiveItemPopupPrefab, rightTransform);
 
                     SetupArchiveItemUI2(itemGO, materials[i]);
@@ -786,29 +796,23 @@ public class ArchiveController : MonoBehaviour
 
             if (levelInputField != null)
             {
-                levelInputField.onEndEdit.AddListener((inputValue) =>
+                levelInputField.onEndEdit.AddListener(inputValue =>
                 {
-                    if (double.TryParse(inputValue, out double parsedLevel))
-                    {
-                        double clampedLevel = Math.Max(0.0, Math.Min(parsedLevel, maxSliderValue));
-                        levelInputField.text = clampedLevel.ToString();
-                        quantitySlider.SetValueWithoutNotify((float)clampedLevel);
-                    }
-                    else
-                    {
-                        levelInputField.text = "0";
-                        quantitySlider.SetValueWithoutNotify(0);
-                    }
-
-                    UpdatePreview();
+                    ValidateAndApplyInputValue(inputValue, maxSliderValue, levelInputField, quantitySlider, UpdatePreview);
                 });
             }
+
+            // Gán trạng thái ban đầu: Mặc định bật Default, tắt Selected
+            UpdatePreviewButtonState(false);
 
             // Click Preview Toggle -> Reset Slider về 0
             previewButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 isPreviewSelected = !isPreviewSelected;
+
+                // Cập nhật hiển thị Active qua lại giữa Default và Selected
+                UpdatePreviewButtonState(isPreviewSelected);
 
                 UpdateSliderButtonsUI(isPreviewSelected);
 
@@ -828,7 +832,7 @@ public class ArchiveController : MonoBehaviour
                 quantitySlider.value = Mathf.Min(quantitySlider.maxValue, quantitySlider.value + 10);
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             });
-            
+
             // YÊU CẦU 2: Bấm Max Button
             increaseMaxButton.onClick.AddListener(() =>
             {
@@ -907,9 +911,9 @@ public class ArchiveController : MonoBehaviour
                 userArchive = EnhanceHelper.EnhanceArchives(userArchive, calcResult.GainedLevels, archive.BaseMultiplier);
 
                 var insertOrUpdateResult = await UserArchivesService.Create().InsertOrUpdateUserArchivesAsync(
-                    User.CurrentUserId, 
-                    userArchive, 
-                    featureId, 
+                    User.CurrentUserId,
+                    userArchive,
+                    featureId,
                     calcResult.TotalDeductions
                 );
 
@@ -955,7 +959,7 @@ public class ArchiveController : MonoBehaviour
         double ownedQty = 0;
         if (userInventory != null)
         {
-            if (userInventory.TryGetValue(detail.ObjectId, out var qty) || 
+            if (userInventory.TryGetValue(detail.ObjectId, out var qty) ||
                 userInventory.TryGetValue($"{detail.ObjectType}_{detail.ObjectId}", out qty))
             {
                 ownedQty = qty;
@@ -1034,5 +1038,22 @@ public class ArchiveController : MonoBehaviour
             scrollbar.targetGraphic.color = color;
         }
     }
+    private void ValidateAndApplyInputValue(string inputValue, double maxSliderValue, TMP_InputField levelInputField, Slider quantitySlider, Action onValidValueApplied)
+    {
+        double clampedLevel = double.TryParse(inputValue, NumberStyles.Any, CultureInfo.InvariantCulture, out double val)
+            ? Math.Max(0.0, Math.Min(val, maxSliderValue))
+            : 0.0;
 
+        if (levelInputField != null)
+        {
+            levelInputField.text = clampedLevel.ToString("0", CultureInfo.InvariantCulture);
+        }
+
+        if (quantitySlider != null)
+        {
+            quantitySlider.SetValueWithoutNotify((float)clampedLevel);
+        }
+
+        onValidValueApplied?.Invoke();
+    }
 }

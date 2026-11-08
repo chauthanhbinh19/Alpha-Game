@@ -201,10 +201,15 @@ public class UserMechaBeastsService : IUserMechaBeastsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserMechaBeastLevelAsync(string userId, MechaBeasts mechaBeast)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserMechaBeastLevelAsync(string userId, MechaBeasts mechaBeast, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkMechaBeastResult = await _mechaBeastsService.IsMechaBeastDeletedOrInactiveAsync(mechaBeast.Id);
-        if (checkMechaBeastResult)
+        if (mechaBeast == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("MechaBeast is required.");
+        }
+
+        var checkResult = await _mechaBeastsService.IsMechaBeastDeletedOrInactiveAsync(mechaBeast.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserMechaBeastsService : IUserMechaBeastsService
 
         MechaBeasts oldUserMechaBeast = await _userMechaBeastsRepository.SumPowerUserMechaBeastsAsync(userId);
 
-        var updateResult = await _userMechaBeastsRepository.UpdateUserMechaBeastLevelAsync(userId, mechaBeast);
+        var updateResult = await _userMechaBeastsRepository.UpdateUserMechaBeastLevelAsync(
+            userId,
+            mechaBeast,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

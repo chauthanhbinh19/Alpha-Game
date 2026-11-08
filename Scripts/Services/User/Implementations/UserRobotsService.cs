@@ -201,10 +201,15 @@ public class UserRobotsService : IUserRobotsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserRobotLevelAsync(string userId, Robots robot)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserRobotLevelAsync(string userId, Robots robot, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkRobotResult = await _robotsService.IsRobotDeletedOrInactiveAsync(robot.Id);
-        if (checkRobotResult)
+        if (robot == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Robot is required.");
+        }
+
+        var checkResult = await _robotsService.IsRobotDeletedOrInactiveAsync(robot.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserRobotsService : IUserRobotsService
 
         Robots oldUserRobot = await _userRobotsRepository.SumPowerUserRobotsAsync(userId);
 
-        var updateResult = await _userRobotsRepository.UpdateUserRobotLevelAsync(userId, robot);
+        var updateResult = await _userRobotsRepository.UpdateUserRobotLevelAsync(
+            userId,
+            robot,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

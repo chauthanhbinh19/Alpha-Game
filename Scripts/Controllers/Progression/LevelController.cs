@@ -98,6 +98,8 @@ public class LevelController : MonoBehaviour
     }
 
     // Popup Nâng Cấp Số Lượng
+    // Popup Nâng Cấp Số Lượng
+    // Popup Nâng Cấp Số Lượng
     public async Task CreateLevelPanelAsync<T>(T stat) where T : IStats
     {
         GameObject gameObject = Instantiate(LevelPanelPrefab, MainPanel);
@@ -122,7 +124,10 @@ public class LevelController : MonoBehaviour
         Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
         Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
         Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+        
         Button previewButton = panelTransform.Find("PreviewButton").GetComponent<Button>();
+        Transform previewDefaultObj = previewButton.transform.Find("Default");
+        Transform previewSelectedObj = previewButton.transform.Find("Selected");
 
         Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
         Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
@@ -185,6 +190,12 @@ public class LevelController : MonoBehaviour
             increaseOneButton, increaseTenButton, increaseMaxButton,
             decreaseOneButton, decreaseTenButton, decreaseMaxButton
         };
+
+        void UpdatePreviewButtonState(bool isSelected)
+        {
+            if (previewDefaultObj != null) previewDefaultObj.gameObject.SetActive(!isSelected);
+            if (previewSelectedObj != null) previewSelectedObj.gameObject.SetActive(isSelected);
+        }
 
         void UpdateSliderButtonsUI(bool isSelected)
         {
@@ -294,15 +305,35 @@ public class LevelController : MonoBehaviour
                 return;
             }
 
-            RecipeCalculateDTO preview = await RecipeCalculator.CalculateUpgradeByLevelsValueBasedAsync(
-                popupRecipeData,
-                popupCurrentLevel,
-                requested,
-                maxLevel,
-                levelDto
-            );
+            // --- ĐOẠN ĐƯỢC CHỈ ĐỊNH NẰM TẠI ĐÂY ---
+            RecipeCalculateDTO preview;
 
-            nextLevelText.text = preview.TargetLevel.ToString();
+            if (isPreviewSelected)
+            {
+                // Ở chế độ Preview: Gọi hàm tính toán lý thuyết không kẹt kho đồ (nguyên liệu tăng theo số level muốn xem)
+                preview = await RecipeCalculator.CalculateUpgradePreviewByLevelsAsync(
+                    popupRecipeData,
+                    popupCurrentLevel,
+                    requested,
+                    (int)maxLevel,
+                    levelDto
+                );
+            }
+            else
+            {
+                // Ở chế độ Default: Gọi hàm tính toán thực tế có kiểm tra kho đồ
+                preview = await RecipeCalculator.CalculateUpgradeByLevelsValueBasedAsync(
+                    popupRecipeData,
+                    popupCurrentLevel,
+                    requested,
+                    (int)maxLevel,
+                    levelDto
+                );
+            }
+            // ------------------------------------
+
+            int targetLevelDisplay = Math.Min(popupCurrentLevel + requested, (int)maxLevel);
+            nextLevelText.text = isPreviewSelected ? targetLevelDisplay.ToString() : preview.TargetLevel.ToString();
 
             if (isPreviewSelected)
             {
@@ -313,7 +344,7 @@ public class LevelController : MonoBehaviour
                 confirmButton.interactable = preview.GainedLevels > 0;
             }
 
-            int displayGained = preview.GainedLevels > 0 ? preview.GainedLevels : requested;
+            int displayGained = isPreviewSelected ? requested : (preview.GainedLevels > 0 ? preview.GainedLevels : requested);
 
             if (displayGained > 0 && stat != null)
             {
@@ -339,47 +370,77 @@ public class LevelController : MonoBehaviour
                     ? rightTransform.GetChild(i).gameObject
                     : Instantiate(LevelItemPopupPrefab, rightTransform);
 
-                SetupUniverseItemUI2(itemGO, new RecipePreviewDetailDTO
+                double ownedQty = materials[i].UserQuantity;
+                if (ownedQty <= 0 && popupRecipeData != null && popupRecipeData.UserInventory != null)
+                {
+                    string objectId = materials[i].ObjectId;
+                    string prefixedKey = $"{materials[i].ObjectType}_{objectId}";
+
+                    if (popupRecipeData.UserInventory.TryGetValue(objectId, out var q1))
+                        ownedQty = q1;
+                    else if (popupRecipeData.UserInventory.TryGetValue(prefixedKey, out var q2))
+                        ownedQty = q2;
+                }
+
+                SetupLevelItemUI2(itemGO, new RecipePreviewDetailDTO
                 {
                     ObjectId = materials[i].ObjectId,
                     ObjectType = materials[i].ObjectType,
                     ObjectImage = materials[i].ObjectImage,
                     TotalRequiredQuantity = materials[i].RequiredQuantity,
-                    CurrentUserQuantity = materials[i].UserQuantity,
-                    IsEnough = true
+                    CurrentUserQuantity = ownedQty,
+                    IsEnough = ownedQty >= materials[i].RequiredQuantity
                 });
             }
 
             UpdateLevelDisplay(displayGained);
-            SetPreviewNotification(MessageConstants.READY_TO_UPGRADE, true);
+
+            if (isPreviewSelected)
+            {
+                SetPreviewNotification(MessageConstants.READY_TO_UPGRADE, true);
+            }
+            else
+            {
+                if (preview.GainedLevels >= requested)
+                {
+                    SetPreviewNotification(MessageConstants.READY_TO_UPGRADE, true);
+                }
+                else
+                {
+                    SetPreviewNotification(MessageConstants.NOT_ENOUGH_MATERIALS, false);
+                    confirmButton.interactable = false;
+                }
+            }
         }
 
         if (levelInputField != null)
         {
-            levelInputField.onEndEdit.AddListener((inputValue) =>
+            levelInputField.onEndEdit.AddListener(inputValue =>
             {
-                if (int.TryParse(inputValue, out int parsedLevel))
-                {
-                    double clampedLevel = Math.Max(0, Math.Min(parsedLevel, maxSliderValue));
-                    levelInputField.text = clampedLevel.ToString();
-                    quantitySlider.SetValueWithoutNotify((float)clampedLevel);
-                }
-                else
-                {
-                    levelInputField.text = "0";
-                    quantitySlider.SetValueWithoutNotify(0);
-                }
-
-                UpdatePreview();
+                ValidateAndApplyInputValue(inputValue, maxSliderValue, levelInputField, quantitySlider, UpdatePreview);
             });
         }
+
+        UpdatePreviewButtonState(false);
 
         previewButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             isPreviewSelected = !isPreviewSelected;
 
+            UpdatePreviewButtonState(isPreviewSelected);
             UpdateSliderButtonsUI(isPreviewSelected);
+
+            if (isPreviewSelected)
+            {
+                quantitySlider.maxValue = (float)Math.Max(0.0, maxLevel - popupCurrentLevel);
+            }
+            else
+            {
+                quantitySlider.maxValue = (float)Math.Max(0.0, recipeMaxLevel - popupCurrentLevel);
+                if (quantitySlider.value > quantitySlider.maxValue)
+                    quantitySlider.value = quantitySlider.maxValue;
+            }
 
             quantitySlider.SetValueWithoutNotify(0);
             UpdatePreview();
@@ -410,7 +471,7 @@ public class LevelController : MonoBehaviour
                 RecipeCalculateDTO maxAffordable = await RecipeCalculator.CalculateMaxUpgradeValueBasedAsync(
                     popupRecipeData,
                     popupCurrentLevel,
-                    maxLevel,
+                    (int)maxLevel,
                     levelDto
                 );
                 quantitySlider.value = Mathf.Clamp(maxAffordable.GainedLevels, 0, quantitySlider.maxValue);
@@ -436,7 +497,6 @@ public class LevelController : MonoBehaviour
         UpdateSliderButtonsUI(false);
         UpdatePreview();
 
-        // Click Confirm
         confirmButton.onClick.AddListener(async () =>
         {
             if (isPreviewSelected)
@@ -468,7 +528,7 @@ public class LevelController : MonoBehaviour
                 popupRecipeData,
                 popupCurrentLevel,
                 requested,
-                maxLevel,
+                (int)maxLevel,
                 levelDto
             );
 
@@ -482,8 +542,7 @@ public class LevelController : MonoBehaviour
 
             stat.Level = calcResult.TargetLevel;
 
-            // Gọi hàm thực thi service tương ứng cho stat
-            await ExecuteServiceInsertAsync(stat);
+            await ExecuteServiceInsertAsync(stat, calcResult.TotalDeductions);
 
             Destroy(gameObject);
             await RefreshPanelAsync(stat);
@@ -496,14 +555,12 @@ public class LevelController : MonoBehaviour
         });
     }
 
-    // Đã bổ sung hàm RefreshPanelAsync để giải quyết lỗi biên dịch
     private async Task RefreshPanelAsync<T>(T stat) where T : IStats
     {
-        // Thực hiện các thao tác làm mới giao diện chính của Panel cấp độ tại đây (nếu cần tải lại dữ liệu từ server)
         await Task.CompletedTask;
     }
 
-    private void SetupUniverseItemUI2(GameObject itemGO, RecipePreviewDetailDTO data)
+    private void SetupLevelItemUI2(GameObject itemGO, RecipePreviewDetailDTO data)
     {
         TextMeshProUGUI requiredText = itemGO.transform.Find("RequiredText")?.GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI ownedText = itemGO.transform.Find("AvailableText")?.GetComponent<TextMeshProUGUI>();
@@ -553,252 +610,253 @@ public class LevelController : MonoBehaviour
         }
     }
 
-    public async Task ExecuteServiceInsertAsync(IStats stat)
+    public async Task ExecuteServiceInsertAsync<T>(T stat, List<RecipeItemDetailDTO> totalDeductions) where T : IStats
     {
         try
         {
             if (stat is Achievements achievement)
             {
-                // ...
+                // await UserAchievementsService.Create().UpdateUserAchievementLevelAsync(User.CurrentUserId, achievement, totalDeductions);
+                // UserAchievementsController.Instance.RefreshCurrentDetailsUI(achievement);
             }
             else if (stat is Alchemies alchemy)
             {
-                await UserAlchemiesService.Create().UpdateUserAlchemyLevelAsync(User.CurrentUserId, alchemy);
+                await UserAlchemiesService.Create().UpdateUserAlchemyLevelAsync(User.CurrentUserId, alchemy, totalDeductions);
                 UserAlchemiesController.Instance.RefreshCurrentDetailsUI(alchemy);
             }
             else if (stat is Architectures architecture)
             {
-                await UserArchitecturesService.Create().UpdateUserArchitectureLevelAsync(User.CurrentUserId, architecture);
+                await UserArchitecturesService.Create().UpdateUserArchitectureLevelAsync(User.CurrentUserId, architecture, totalDeductions);
                 UserArchitecturesController.Instance.RefreshCurrentDetailsUI(architecture);
             }
             else if (stat is Artifacts artifact)
             {
-                await UserArtifactsService.Create().UpdateUserArtifactLevelAsync(User.CurrentUserId, artifact);
+                await UserArtifactsService.Create().UpdateUserArtifactLevelAsync(User.CurrentUserId, artifact, totalDeductions);
                 UserArtifactsController.Instance.RefreshCurrentDetailsUI(artifact);
             }
             else if (stat is Artworks artwork)
             {
-                await UserArtworksService.Create().UpdateUserArtworkLevelAsync(User.CurrentUserId, artwork);
+                await UserArtworksService.Create().UpdateUserArtworkLevelAsync(User.CurrentUserId, artwork, totalDeductions);
                 UserArtworksController.Instance.RefreshCurrentDetailsUI(artwork);
             }
             else if (stat is Avatars avatar)
             {
-                await UserAvatarsService.Create().UpdateUserAvatarLevelAsync(User.CurrentUserId, avatar);
+                await UserAvatarsService.Create().UpdateUserAvatarLevelAsync(User.CurrentUserId, avatar, totalDeductions);
                 UserAvatarsController.Instance.RefreshCurrentDetailsUI(avatar);
             }
             else if (stat is Badges badge)
             {
-                await UserBadgesService.Create().UpdateUserBadgeLevelAsync(User.CurrentUserId, badge);
+                await UserBadgesService.Create().UpdateUserBadgeLevelAsync(User.CurrentUserId, badge, totalDeductions);
                 UserBadgesController.Instance.RefreshCurrentDetailsUI(badge);
             }
             else if (stat is Beverages beverage)
             {
-                await UserBeveragesService.Create().UpdateUserBeverageLevelAsync(User.CurrentUserId, beverage);
+                await UserBeveragesService.Create().UpdateUserBeverageLevelAsync(User.CurrentUserId, beverage, totalDeductions);
                 UserBeveragesController.Instance.RefreshCurrentDetailsUI(beverage);
             }
             else if (stat is Books book)
             {
-                await UserBooksService.Create().UpdateUserBookLevelAsync(User.CurrentUserId, book);
+                await UserBooksService.Create().UpdateUserBookLevelAsync(User.CurrentUserId, book, totalDeductions);
                 UserBooksController.Instance.RefreshCurrentDetailsUI(book);
             }
             else if (stat is Borders border)
             {
-                await UserBordersService.Create().UpdateUserBorderLevelAsync(User.CurrentUserId, border);
+                await UserBordersService.Create().UpdateUserBorderLevelAsync(User.CurrentUserId, border, totalDeductions);
                 UserBordersController.Instance.RefreshCurrentDetailsUI(border);
             }
             else if (stat is Buildings building)
             {
-                await UserBuildingsService.Create().UpdateUserBuildingLevelAsync(User.CurrentUserId, building);
+                await UserBuildingsService.Create().UpdateUserBuildingLevelAsync(User.CurrentUserId, building, totalDeductions);
                 UserBuildingsController.Instance.RefreshCurrentDetailsUI(building);
             }
             else if (stat is CardAdmirals admiral)
             {
-                await UserCardAdmiralsService.Create().UpdateUserCardAdmiralLevelAsync(User.CurrentUserId, admiral);
+                await UserCardAdmiralsService.Create().UpdateUserCardAdmiralLevelAsync(User.CurrentUserId, admiral, totalDeductions);
                 UserCardAdmiralsController.Instance.RefreshCurrentDetailsUI(admiral);
             }
             else if (stat is CardCaptains captain)
             {
-                await UserCardCaptainsService.Create().UpdateUserCardCaptainLevelAsync(User.CurrentUserId, captain);
+                await UserCardCaptainsService.Create().UpdateUserCardCaptainLevelAsync(User.CurrentUserId, captain, totalDeductions);
                 UserCardCaptainsController.Instance.RefreshCurrentDetailsUI(captain);
             }
             else if (stat is CardColonels colonel)
             {
-                await UserCardColonelsService.Create().UpdateUserCardColonelLevelAsync(User.CurrentUserId, colonel);
+                await UserCardColonelsService.Create().UpdateUserCardColonelLevelAsync(User.CurrentUserId, colonel, totalDeductions);
                 UserCardColonelsController.Instance.RefreshCurrentDetailsUI(colonel);
             }
             else if (stat is CardGenerals general)
             {
-                await UserCardGeneralsService.Create().UpdateUserCardGeneralLevelAsync(User.CurrentUserId, general);
+                await UserCardGeneralsService.Create().UpdateUserCardGeneralLevelAsync(User.CurrentUserId, general, totalDeductions);
                 UserCardGeneralsController.Instance.RefreshCurrentDetailsUI(general);
             }
             else if (stat is CardHeroes hero)
             {
-                await UserCardHeroesService.Create().UpdateUserCardHeroLevelAsync(User.CurrentUserId, hero);
+                await UserCardHeroesService.Create().UpdateUserCardHeroLevelAsync(User.CurrentUserId, hero, totalDeductions);
                 UserCardHeroesController.Instance.RefreshCurrentDetailsUI(hero);
             }
             else if (stat is CardLives cardLife)
             {
-                await UserCardLivesService.Create().UpdateUserCardLifeLevelAsync(User.CurrentUserId, cardLife);
+                await UserCardLivesService.Create().UpdateUserCardLifeLevelAsync(User.CurrentUserId, cardLife, totalDeductions);
                 UserCardLivesController.Instance.RefreshCurrentDetailsUI(cardLife);
             }
             else if (stat is CardMilitaries military)
             {
-                await UserCardMilitariesService.Create().UpdateUserCardMilitaryLevelAsync(User.CurrentUserId, military);
+                await UserCardMilitariesService.Create().UpdateUserCardMilitaryLevelAsync(User.CurrentUserId, military, totalDeductions);
                 UserCardMilitariesController.Instance.RefreshCurrentDetailsUI(military);
             }
             else if (stat is CardMonsters monster)
             {
-                await UserCardMonstersService.Create().UpdateUserCardMonsterLevelAsync(User.CurrentUserId, monster);
+                await UserCardMonstersService.Create().UpdateUserCardMonsterLevelAsync(User.CurrentUserId, monster, totalDeductions);
                 UserCardMonstersController.Instance.RefreshCurrentDetailsUI(monster);
             }
             else if (stat is CardSoldiers soldier)
             {
-                await UserCardSoldiersService.Create().UpdateUserCardSoldierLevelAsync(User.CurrentUserId, soldier);
+                await UserCardSoldiersService.Create().UpdateUserCardSoldierLevelAsync(User.CurrentUserId, soldier, totalDeductions);
                 UserCardSoldiersController.Instance.RefreshCurrentDetailsUI(soldier);
             }
             else if (stat is CardSpells spell)
             {
-                await UserCardSpellsService.Create().UpdateUserCardSpellLevelAsync(User.CurrentUserId, spell);
+                await UserCardSpellsService.Create().UpdateUserCardSpellLevelAsync(User.CurrentUserId, spell, totalDeductions);
                 UserCardSpellsController.Instance.RefreshCurrentDetailsUI(spell);
             }
             else if (stat is CollaborationEquipments collabEquip)
             {
-                await UserCollaborationEquipmentsService.Create().UpdateUserCollaborationEquipmentLevelAsync(User.CurrentUserId, collabEquip);
+                await UserCollaborationEquipmentsService.Create().UpdateUserCollaborationEquipmentLevelAsync(User.CurrentUserId, collabEquip, totalDeductions);
                 UserCollaborationEquipmentsController.Instance.RefreshCurrentDetailsUI(collabEquip);
             }
             else if (stat is Collaborations collab)
             {
-                await UserCollaborationsService.Create().UpdateUserCollaborationLevelAsync(User.CurrentUserId, collab);
+                await UserCollaborationsService.Create().UpdateUserCollaborationLevelAsync(User.CurrentUserId, collab, totalDeductions);
                 UserCollaborationsController.Instance.RefreshCurrentDetailsUI(collab);
             }
             else if (stat is Cores core)
             {
-                await UserCoresService.Create().UpdateUserCoreLevelAsync(User.CurrentUserId, core);
+                await UserCoresService.Create().UpdateUserCoreLevelAsync(User.CurrentUserId, core, totalDeductions);
                 UserCoresController.Instance.RefreshCurrentDetailsUI(core);
             }
             else if (stat is Emojis emoji)
             {
-                await UserEmojisService.Create().UpdateUserEmojiLevelAsync(User.CurrentUserId, emoji);
+                await UserEmojisService.Create().UpdateUserEmojiLevelAsync(User.CurrentUserId, emoji, totalDeductions);
                 UserEmojisController.Instance.RefreshCurrentDetailsUI(emoji);
             }
             else if (stat is Equipments equipment)
             {
-                await UserEquipmentsService.Create().UpdateUserEquipmentLevelAsync(User.CurrentUserId, equipment);
+                await UserEquipmentsService.Create().UpdateUserEquipmentLevelAsync(User.CurrentUserId, equipment, totalDeductions);
                 UserEquipmentsController.Instance.RefreshCurrentDetailsUI(equipment);
             }
             else if (stat is Fashions fashion)
             {
-                await UserFashionsService.Create().UpdateUserFashionLevelAsync(User.CurrentUserId, fashion);
+                await UserFashionsService.Create().UpdateUserFashionLevelAsync(User.CurrentUserId, fashion, totalDeductions);
                 UserFashionsController.Instance.RefreshCurrentDetailsUI(fashion);
             }
             else if (stat is Foods food)
             {
-                await UserFoodsService.Create().UpdateUserFoodLevelAsync(User.CurrentUserId, food);
+                await UserFoodsService.Create().UpdateUserFoodLevelAsync(User.CurrentUserId, food, totalDeductions);
                 UserFoodsController.Instance.RefreshCurrentDetailsUI(food);
             }
             else if (stat is Forges forge)
             {
-                await UserForgesService.Create().UpdateUserForgeLevelAsync(User.CurrentUserId, forge);
+                await UserForgesService.Create().UpdateUserForgeLevelAsync(User.CurrentUserId, forge, totalDeductions);
                 UserForgesController.Instance.RefreshCurrentDetailsUI(forge);
             }
             else if (stat is Furnitures furniture)
             {
-                await UserFurnituresService.Create().UpdateUserFurnitureLevelAsync(User.CurrentUserId, furniture);
+                await UserFurnituresService.Create().UpdateUserFurnitureLevelAsync(User.CurrentUserId, furniture, totalDeductions);
                 UserFurnituresController.Instance.RefreshCurrentDetailsUI(furniture);
             }
             else if (stat is MagicFormationCircles circle)
             {
-                await UserMagicFormationCirclesService.Create().UpdateUserMagicFormationCircleLevelAsync(User.CurrentUserId, circle);
+                await UserMagicFormationCirclesService.Create().UpdateUserMagicFormationCircleLevelAsync(User.CurrentUserId, circle, totalDeductions);
                 UserMagicFormationCirclesController.Instance.RefreshCurrentDetailsUI(circle);
             }
             else if (stat is MechaBeasts mechaBeast)
             {
-                await UserMechaBeastsService.Create().UpdateUserMechaBeastLevelAsync(User.CurrentUserId, mechaBeast);
+                await UserMechaBeastsService.Create().UpdateUserMechaBeastLevelAsync(User.CurrentUserId, mechaBeast, totalDeductions);
                 UserMechaBeastsController.Instance.RefreshCurrentDetailsUI(mechaBeast);
             }
             else if (stat is Medals medal)
             {
-                await UserMedalsService.Create().UpdateUserMedalLevelAsync(User.CurrentUserId, medal);
+                await UserMedalsService.Create().UpdateUserMedalLevelAsync(User.CurrentUserId, medal, totalDeductions);
                 UserMedalsController.Instance.RefreshCurrentDetailsUI(medal);
             }
             else if (stat is Pets pet)
             {
-                await UserPetsService.Create().UpdateUserPetLevelAsync(User.CurrentUserId, pet);
+                await UserPetsService.Create().UpdateUserPetLevelAsync(User.CurrentUserId, pet, totalDeductions);
                 UserPetsController.Instance.RefreshCurrentDetailsUI(pet);
             }
             else if (stat is Plants plant)
             {
-                await UserPlantsService.Create().UpdateUserPlantLevelAsync(User.CurrentUserId, plant);
+                await UserPlantsService.Create().UpdateUserPlantLevelAsync(User.CurrentUserId, plant, totalDeductions);
                 UserPlantsController.Instance.RefreshCurrentDetailsUI(plant);
             }
             else if (stat is Puppets puppet)
             {
-                await UserPuppetsService.Create().UpdateUserPuppetLevelAsync(User.CurrentUserId, puppet);
+                await UserPuppetsService.Create().UpdateUserPuppetLevelAsync(User.CurrentUserId, puppet, totalDeductions);
                 UserPuppetsController.Instance.RefreshCurrentDetailsUI(puppet);
             }
             else if (stat is Relics relic)
             {
-                await UserRelicsService.Create().UpdateUserRelicLevelAsync(User.CurrentUserId, relic);
+                await UserRelicsService.Create().UpdateUserRelicLevelAsync(User.CurrentUserId, relic, totalDeductions);
                 UserRelicsController.Instance.RefreshCurrentDetailsUI(relic);
             }
             else if (stat is Robots robot)
             {
-                await UserRobotsService.Create().UpdateUserRobotLevelAsync(User.CurrentUserId, robot);
+                await UserRobotsService.Create().UpdateUserRobotLevelAsync(User.CurrentUserId, robot, totalDeductions);
                 UserRobotsController.Instance.RefreshCurrentDetailsUI(robot);
             }
             else if (stat is Runes rune)
             {
-                await UserRunesService.Create().UpdateUserRuneLevelAsync(User.CurrentUserId, rune);
+                await UserRunesService.Create().UpdateUserRuneLevelAsync(User.CurrentUserId, rune, totalDeductions);
                 UserRunesController.Instance.RefreshCurrentDetailsUI(rune);
             }
             else if (stat is Skills skill)
             {
-                await UserSkillsService.Create().UpdateUserSkillLevelAsync(User.CurrentUserId, skill);
+                await UserSkillsService.Create().UpdateUserSkillLevelAsync(User.CurrentUserId, skill, totalDeductions);
                 UserSkillsController.Instance.RefreshCurrentDetailsUI(skill);
             }
             else if (stat is SpiritBeasts spiritBeast)
             {
-                await UserSpiritBeastsService.Create().UpdateUserSpiritBeastLevelAsync(User.CurrentUserId, spiritBeast);
+                await UserSpiritBeastsService.Create().UpdateUserSpiritBeastLevelAsync(User.CurrentUserId, spiritBeast, totalDeductions);
                 UserSpiritBeastsController.Instance.RefreshCurrentDetailsUI(spiritBeast);
             }
             else if (stat is SpiritCards spiritCard)
             {
-                await UserSpiritCardsService.Create().UpdateUserSpiritCardLevelAsync(User.CurrentUserId, spiritCard);
+                await UserSpiritCardsService.Create().UpdateUserSpiritCardLevelAsync(User.CurrentUserId, spiritCard, totalDeductions);
                 UserSpiritCardsController.Instance.RefreshCurrentDetailsUI(spiritCard);
             }
             else if (stat is Symbols symbol)
             {
-                await UserSymbolsService.Create().UpdateUserSymbolLevelAsync(User.CurrentUserId, symbol);
+                await UserSymbolsService.Create().UpdateUserSymbolLevelAsync(User.CurrentUserId, symbol, totalDeductions);
                 UserSymbolsController.Instance.RefreshCurrentDetailsUI(symbol);
             }
             else if (stat is Talismans talisman)
             {
-                await UserTalismansService.Create().UpdateUserTalismanLevelAsync(User.CurrentUserId, talisman);
+                await UserTalismansService.Create().UpdateUserTalismanLevelAsync(User.CurrentUserId, talisman, totalDeductions);
                 UserTalismansController.Instance.RefreshCurrentDetailsUI(talisman);
             }
             else if (stat is Technologies technology)
             {
-                await UserTechnologiesService.Create().UpdateUserTechnologyLevelAsync(User.CurrentUserId, technology);
+                await UserTechnologiesService.Create().UpdateUserTechnologyLevelAsync(User.CurrentUserId, technology, totalDeductions);
                 UserTechnologiesController.Instance.RefreshCurrentDetailsUI(technology);
             }
             else if (stat is Titles title)
             {
-                await UserTitlesService.Create().UpdateUserTitleLevelAsync(User.CurrentUserId, title);
+                await UserTitlesService.Create().UpdateUserTitleLevelAsync(User.CurrentUserId, title, totalDeductions);
                 UserTitlesController.Instance.RefreshCurrentDetailsUI(title);
             }
             else if (stat is Vehicles vehicle)
             {
-                await UserVehiclesService.Create().UpdateUserVehicleLevelAsync(User.CurrentUserId, vehicle);
+                await UserVehiclesService.Create().UpdateUserVehicleLevelAsync(User.CurrentUserId, vehicle, totalDeductions);
                 UserVehiclesController.Instance.RefreshCurrentDetailsUI(vehicle);
             }
             else if (stat is Weapons weapon)
             {
-                await UserWeaponsService.Create().UpdateUserWeaponLevelAsync(User.CurrentUserId, weapon);
+                await UserWeaponsService.Create().UpdateUserWeaponLevelAsync(User.CurrentUserId, weapon, totalDeductions);
                 UserWeaponsController.Instance.RefreshCurrentDetailsUI(weapon);
             }
             else if (stat is Outfits outfit)
             {
-                await UserOutfitsService.Create().UpdateUserOutfitLevelAsync(User.CurrentUserId, outfit);
+                await UserOutfitsService.Create().UpdateUserOutfitLevelAsync(User.CurrentUserId, outfit, totalDeductions);
                 UserOutfitsController.Instance.RefreshCurrentDetailsUI(outfit);
             }
         }
@@ -807,5 +865,26 @@ public class LevelController : MonoBehaviour
             Debug.LogError($"Error executing service insert for stat type {stat.GetType().Name}: {ex.Message}");
             throw;
         }
+    }
+    /// <summary>
+    /// Hàm xử lý và chuẩn hóa giá trị nhập tay từ InputField, lọc bỏ chữ, ký tự đặc biệt, số âm và kẹp trong khoảng [0, maxSliderValue].
+    /// </summary>
+    private void ValidateAndApplyInputValue(string inputValue, double maxSliderValue, TMP_InputField levelInputField, Slider quantitySlider, Action onValidValueApplied)
+    {
+        double clampedLevel = double.TryParse(inputValue, NumberStyles.Any, CultureInfo.InvariantCulture, out double val)
+            ? Math.Max(0.0, Math.Min(val, maxSliderValue))
+            : 0.0;
+
+        if (levelInputField != null)
+        {
+            levelInputField.text = clampedLevel.ToString("0", CultureInfo.InvariantCulture);
+        }
+
+        if (quantitySlider != null)
+        {
+            quantitySlider.SetValueWithoutNotify((float)clampedLevel);
+        }
+
+        onValidValueApplied?.Invoke();
     }
 }

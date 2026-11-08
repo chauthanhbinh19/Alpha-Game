@@ -201,10 +201,15 @@ public class UserBuildingsService : IUserBuildingsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserBuildingLevelAsync(string userId, Buildings building)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserBuildingLevelAsync(string userId, Buildings building, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkBuildingResult = await _buildingsService.IsBuildingDeletedOrInactiveAsync(building.Id);
-        if (checkBuildingResult)
+        if (building == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Building is required.");
+        }
+
+        var checkResult = await _buildingsService.IsBuildingDeletedOrInactiveAsync(building.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserBuildingsService : IUserBuildingsService
 
         Buildings oldUserBuilding = await _userBuildingsRepository.SumPowerUserBuildingsAsync(userId);
 
-        var updateResult = await _userBuildingsRepository.UpdateUserBuildingLevelAsync(userId, building);
+        var updateResult = await _userBuildingsRepository.UpdateUserBuildingLevelAsync(
+            userId,
+            building,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

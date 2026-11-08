@@ -201,10 +201,15 @@ public class UserVehiclesService : IUserVehiclesService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserVehicleLevelAsync(string userId, Vehicles vehicle)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserVehicleLevelAsync(string userId, Vehicles vehicle, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkVehicleResult = await _vehiclesService.IsVehicleDeletedOrInactiveAsync(vehicle.Id);
-        if (checkVehicleResult)
+        if (vehicle == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Vehicle is required.");
+        }
+
+        var checkResult = await _vehiclesService.IsVehicleDeletedOrInactiveAsync(vehicle.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserVehiclesService : IUserVehiclesService
 
         Vehicles oldUserVehicle = await _userVehiclesRepository.SumPowerUserVehiclesAsync(userId);
 
-        var updateResult = await _userVehiclesRepository.UpdateUserVehicleLevelAsync(userId, vehicle);
+        var updateResult = await _userVehiclesRepository.UpdateUserVehicleLevelAsync(
+            userId,
+            vehicle,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

@@ -201,10 +201,15 @@ public class UserCardLivesService : IUserCardLivesService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkCardLifeResult = await _cardLivesService.IsCardLifeDeletedOrInactiveAsync(cardLife.Id);
-        if (checkCardLifeResult)
+        if (cardLife == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("CardLive is required.");
+        }
+
+        var checkResult = await _cardLivesService.IsCardLifeDeletedOrInactiveAsync(cardLife.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -215,9 +220,12 @@ public class UserCardLivesService : IUserCardLivesService
             };
         }
 
-        CardLives oldUserCardLife = await _userCardLivesRepository.SumPowerUserCardLivesAsync(userId);
+        CardLives oldUserCardLive = await _userCardLivesRepository.SumPowerUserCardLivesAsync(userId);
 
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(
+            userId,
+            cardLife,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -230,8 +238,8 @@ public class UserCardLivesService : IUserCardLivesService
             };
         }
 
-        CardLives newUserCardLife = await _userCardLivesRepository.SumPowerUserCardLivesAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserCardLife - (PowerManager)oldUserCardLife;
+        CardLives newUserCardLive = await _userCardLivesRepository.SumPowerUserCardLivesAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserCardLive - (PowerManager)oldUserCardLive;
 
         if (deltaUserPower.HasAnyPositiveStat())
         {

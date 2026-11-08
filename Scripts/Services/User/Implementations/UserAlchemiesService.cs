@@ -202,10 +202,15 @@ public class UserAlchemiesService : IUserAlchemiesService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserAlchemyLevelAsync(string userId, Alchemies alchemy)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserAlchemyLevelAsync(string userId, Alchemies alchemy, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkAlchemyResult = await _alchemiesService.IsAlchemyDeletedOrInactiveAsync(alchemy.Id);
-        if (checkAlchemyResult)
+        if (alchemy == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Alchemy is required.");
+        }
+
+        var checkResult = await _alchemiesService.IsAlchemyDeletedOrInactiveAsync(alchemy.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -218,7 +223,10 @@ public class UserAlchemiesService : IUserAlchemiesService
 
         Alchemies oldUserAlchemy = await _userAlchemiesRepository.SumPowerUserAlchemiesAsync(userId);
 
-        var updateResult = await _userAlchemiesRepository.UpdateUserAlchemyLevelAsync(userId, alchemy);
+        var updateResult = await _userAlchemiesRepository.UpdateUserAlchemyLevelAsync(
+            userId,
+            alchemy,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

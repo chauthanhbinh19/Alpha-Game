@@ -201,10 +201,15 @@ public class UserArchitecturesService : IUserArchitecturesService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserArchitectureLevelAsync(string userId, Architectures architecture)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserArchitectureLevelAsync(string userId, Architectures architecture, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkArchitectureResult = await _architecturesService.IsArchitectureDeletedOrInactiveAsync(architecture.Id);
-        if (checkArchitectureResult)
+        if (architecture == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Architecture is required.");
+        }
+
+        var checkResult = await _architecturesService.IsArchitectureDeletedOrInactiveAsync(architecture.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserArchitecturesService : IUserArchitecturesService
 
         Architectures oldUserArchitecture = await _userArchitecturesRepository.SumPowerUserArchitecturesAsync(userId);
 
-        var updateResult = await _userArchitecturesRepository.UpdateUserArchitectureLevelAsync(userId, architecture);
+        var updateResult = await _userArchitecturesRepository.UpdateUserArchitectureLevelAsync(
+            userId,
+            architecture,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

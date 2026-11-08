@@ -201,10 +201,15 @@ public class UserEmojisService : IUserEmojisService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserEmojiLevelAsync(string userId, Emojis emoji)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserEmojiLevelAsync(string userId, Emojis emoji, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkEmojiResult = await _emojisService.IsEmojiDeletedOrInactiveAsync(emoji.Id);
-        if (checkEmojiResult)
+        if (emoji == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Emoji is required.");
+        }
+
+        var checkResult = await _emojisService.IsEmojiDeletedOrInactiveAsync(emoji.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserEmojisService : IUserEmojisService
 
         Emojis oldUserEmoji = await _userEmojisRepository.SumPowerUserEmojisAsync(userId);
 
-        var updateResult = await _userEmojisRepository.UpdateUserEmojiLevelAsync(userId, emoji);
+        var updateResult = await _userEmojisRepository.UpdateUserEmojiLevelAsync(
+            userId,
+            emoji,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

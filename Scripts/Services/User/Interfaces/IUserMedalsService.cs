@@ -7,7 +7,7 @@ public interface IUserMedalsService
     Task<int> GetUserMedalsCountAsync(string userId, string search, string rare);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMedalAsync(string userId, Medals medal);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMedalsBatchAsync(string userId, List<Medals> medals);
-    Task<InsertOrUpdateResult<bool>> UpdateUserMedalLevelAsync(string userId, Medals medal);
+    Task<InsertOrUpdateResult<bool>> UpdateUserMedalLevelAsync(string userId, Medals medal, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserMedalStarAsync(string userId, Medals medal);
     Task<Medals> GetUserMedalByIdAsync(string userId, string Id);
     Task<Medals> SumPowerUserMedalsAsync(string userId);

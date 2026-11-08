@@ -231,7 +231,7 @@ public class UserEquipmentsService : IUserEquipmentsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserEquipmentLevelAsync(string userId, Equipments equipment)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserEquipmentLevelAsync(string userId, Equipments equipment, List<RecipeItemDetailDTO> totalDeductions)
     {
         var checkEquipmentResult = await _equipmentsService.IsEquipmentDeletedOrInactiveAsync(equipment.Id);
         if (checkEquipmentResult)
@@ -245,7 +245,7 @@ public class UserEquipmentsService : IUserEquipmentsService
             };
         }
 
-        var updateResult = await _userEquipmentsRepository.UpdateUserEquipmentLevelAsync(userId, equipment);
+        var updateResult = await _userEquipmentsRepository.UpdateUserEquipmentLevelAsync(userId, equipment, totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

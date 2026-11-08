@@ -7,7 +7,7 @@ public interface IUserPuppetsService
     Task<int> GetUserPuppetsCountAsync(string userId, string search, string type, string rare);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPuppetAsync(string userId, Puppets puppet);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPuppetsBatchAsync(string userId, List<Puppets> puppets);
-    Task<InsertOrUpdateResult<bool>> UpdateUserPuppetLevelAsync(string userId, Puppets puppet);
+    Task<InsertOrUpdateResult<bool>> UpdateUserPuppetLevelAsync(string userId, Puppets puppet, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserPuppetStarAsync(string userId, Puppets puppet);
     Task<Puppets> GetUserPuppetByIdAsync(string userId, string Id);
     Task<Puppets> SumPowerUserPuppetsAsync(string userId);

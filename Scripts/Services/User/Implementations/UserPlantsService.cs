@@ -201,10 +201,15 @@ public class UserPlantsService : IUserPlantsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserPlantLevelAsync(string userId, Plants plant)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserPlantLevelAsync(string userId, Plants plant, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkPlantResult = await _plantsService.IsPlantDeletedOrInactiveAsync(plant.Id);
-        if (checkPlantResult)
+        if (plant == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Plant is required.");
+        }
+
+        var checkResult = await _plantsService.IsPlantDeletedOrInactiveAsync(plant.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserPlantsService : IUserPlantsService
 
         Plants oldUserPlant = await _userPlantsRepository.SumPowerUserPlantsAsync(userId);
 
-        var updateResult = await _userPlantsRepository.UpdateUserPlantLevelAsync(userId, plant);
+        var updateResult = await _userPlantsRepository.UpdateUserPlantLevelAsync(
+            userId,
+            plant,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

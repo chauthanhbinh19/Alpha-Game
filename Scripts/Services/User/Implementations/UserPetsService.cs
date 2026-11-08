@@ -590,10 +590,15 @@ public class UserPetsService : IUserPetsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserPetLevelAsync(string userId, Pets pet)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserPetLevelAsync(string userId, Pets pet, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkPetResult = await _petsService.IsPetDeletedOrInactiveAsync(pet.Id);
-        if (checkPetResult)
+        if (pet == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Pet is required.");
+        }
+
+        var checkResult = await _petsService.IsPetDeletedOrInactiveAsync(pet.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -606,7 +611,10 @@ public class UserPetsService : IUserPetsService
 
         Pets oldUserPet = await _userPetsRepository.SumPowerUserPetsAsync(userId);
 
-        var updateResult = await _userPetsRepository.UpdateUserPetLevelAsync(userId, pet);
+        var updateResult = await _userPetsRepository.UpdateUserPetLevelAsync(
+            userId,
+            pet,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

@@ -780,7 +780,7 @@ public class UserCardSoldiersService : IUserCardSoldiersService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardSoldierLevelAsync(string userId, CardSoldiers cardSoldier)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardSoldierLevelAsync(string userId, CardSoldiers cardSoldier, List<RecipeItemDetailDTO> totalDeductions)
     {
         var checkCardSoldierResult = await _cardSoldiersService.IsCardSoldierDeletedOrInactiveAsync(cardSoldier.Id);
         if (checkCardSoldierResult)
@@ -794,7 +794,7 @@ public class UserCardSoldiersService : IUserCardSoldiersService
             };
         }
 
-        var updateResult = await _userCardSoldiersRepository.UpdateUserCardSoldierLevelAsync(userId, cardSoldier);
+        var updateResult = await _userCardSoldiersRepository.UpdateUserCardSoldierLevelAsync(userId, cardSoldier, totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

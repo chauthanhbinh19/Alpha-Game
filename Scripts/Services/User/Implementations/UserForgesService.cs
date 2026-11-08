@@ -201,10 +201,15 @@ public class UserForgesService : IUserForgesService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserForgeLevelAsync(string userId, Forges forge)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserForgeLevelAsync(string userId, Forges forge, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkForgeResult = await _forgesService.IsForgeDeletedOrInactiveAsync(forge.Id);
-        if (checkForgeResult)
+        if (forge == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Forge is required.");
+        }
+
+        var checkResult = await _forgesService.IsForgeDeletedOrInactiveAsync(forge.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserForgesService : IUserForgesService
 
         Forges oldUserForge = await _userForgesRepository.SumPowerUserForgesAsync(userId);
 
-        var updateResult = await _userForgesRepository.UpdateUserForgeLevelAsync(userId, forge);
+        var updateResult = await _userForgesRepository.UpdateUserForgeLevelAsync(
+            userId,
+            forge,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

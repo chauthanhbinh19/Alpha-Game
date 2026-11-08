@@ -201,10 +201,15 @@ public class UserWeaponsService : IUserWeaponsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserWeaponLevelAsync(string userId, Weapons weapon)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserWeaponLevelAsync(string userId, Weapons weapon, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkWeaponResult = await _weaponsService.IsWeaponDeletedOrInactiveAsync(weapon.Id);
-        if (checkWeaponResult)
+        if (weapon == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Weapon is required.");
+        }
+
+        var checkResult = await _weaponsService.IsWeaponDeletedOrInactiveAsync(weapon.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserWeaponsService : IUserWeaponsService
 
         Weapons oldUserWeapon = await _userWeaponsRepository.SumPowerUserWeaponsAsync(userId);
 
-        var updateResult = await _userWeaponsRepository.UpdateUserWeaponLevelAsync(userId, weapon);
+        var updateResult = await _userWeaponsRepository.UpdateUserWeaponLevelAsync(
+            userId,
+            weapon,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

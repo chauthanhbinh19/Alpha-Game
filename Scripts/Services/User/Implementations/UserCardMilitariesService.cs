@@ -693,7 +693,7 @@ public class UserCardMilitariesService : IUserCardMilitariesService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardMilitaryLevelAsync(string userId, CardMilitaries cardMilitary)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardMilitaryLevelAsync(string userId, CardMilitaries cardMilitary, List<RecipeItemDetailDTO> totalDeductions)
     {
         var checkCardMilitaryResult = await _cardMilitariesService.IsCardMilitaryDeletedOrInactiveAsync(cardMilitary.Id);
         if (checkCardMilitaryResult)
@@ -707,7 +707,7 @@ public class UserCardMilitariesService : IUserCardMilitariesService
             };
         }
 
-        var updateResult = await _userCardMilitariesRepository.UpdateUserCardMilitaryLevelAsync(userId, cardMilitary);
+        var updateResult = await _userCardMilitariesRepository.UpdateUserCardMilitaryLevelAsync(userId, cardMilitary, totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

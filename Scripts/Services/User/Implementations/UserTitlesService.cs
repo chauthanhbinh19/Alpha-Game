@@ -201,10 +201,15 @@ public class UserTitlesService : IUserTitlesService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserTitleLevelAsync(string userId, Titles title)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserTitleLevelAsync(string userId, Titles title, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkTitleResult = await _titlesService.IsTitleDeletedOrInactiveAsync(title.Id);
-        if (checkTitleResult)
+        if (title == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Title is required.");
+        }
+
+        var checkResult = await _titlesService.IsTitleDeletedOrInactiveAsync(title.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserTitlesService : IUserTitlesService
 
         Titles oldUserTitle = await _userTitlesRepository.SumPowerUserTitlesAsync(userId);
 
-        var updateResult = await _userTitlesRepository.UpdateUserTitleLevelAsync(userId, title);
+        var updateResult = await _userTitlesRepository.UpdateUserTitleLevelAsync(
+            userId,
+            title,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

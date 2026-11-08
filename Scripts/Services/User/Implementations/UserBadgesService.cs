@@ -201,10 +201,15 @@ public class UserBadgesService : IUserBadgesService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserBadgeLevelAsync(string userId, Badges badge)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserBadgeLevelAsync(string userId, Badges badge, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkBadgeResult = await _badgesService.IsBadgeDeletedOrInactiveAsync(badge.Id);
-        if (checkBadgeResult)
+        if (badge == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Badge is required.");
+        }
+
+        var checkResult = await _badgesService.IsBadgeDeletedOrInactiveAsync(badge.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserBadgesService : IUserBadgesService
 
         Badges oldUserBadge = await _userBadgesRepository.SumPowerUserBadgesAsync(userId);
 
-        var updateResult = await _userBadgesRepository.UpdateUserBadgeLevelAsync(userId, badge);
+        var updateResult = await _userBadgesRepository.UpdateUserBadgeLevelAsync(
+            userId,
+            badge,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

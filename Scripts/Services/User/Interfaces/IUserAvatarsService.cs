@@ -8,7 +8,7 @@ public interface IUserAvatarsService
     Task<InsertOrUpdateResult<bool>> InsertUserAvatarByIdAsync(string avatarId, string userId);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAvatarAsync(string userId, Avatars avatar);
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAvatarsBatchAsync(string userId, List<Avatars> avatars);
-    Task<InsertOrUpdateResult<bool>> UpdateUserAvatarLevelAsync(string userId, Avatars avatar);
+    Task<InsertOrUpdateResult<bool>> UpdateUserAvatarLevelAsync(string userId, Avatars avatar, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserAvatarStarAsync(string userId, Avatars avatar);
     Task<Avatars> GetUserAvatarByUsedAsync(string userId);
     Task<Avatars> GetUserAvatarByIdAsync(string userId, string Id);

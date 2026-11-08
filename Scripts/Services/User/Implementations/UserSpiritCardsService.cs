@@ -201,10 +201,15 @@ public class UserSpiritCardsService : IUserSpiritCardsService
         };
     }
 
-    public async Task<InsertOrUpdateResult<bool>> UpdateUserSpiritCardLevelAsync(string userId, SpiritCards spiritCard)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserSpiritCardLevelAsync(string userId, SpiritCards spiritCard, List<RecipeItemDetailDTO> totalDeductions)
     {
-        var checkSpiritCardResult = await _spiritCardsService.IsSpiritCardDeletedOrInactiveAsync(spiritCard.Id);
-        if (checkSpiritCardResult)
+        if (spiritCard == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("SpiritCard is required.");
+        }
+
+        var checkResult = await _spiritCardsService.IsSpiritCardDeletedOrInactiveAsync(spiritCard.Id);
+        if (checkResult)
         {
             return new InsertOrUpdateResult<bool>
             {
@@ -217,7 +222,10 @@ public class UserSpiritCardsService : IUserSpiritCardsService
 
         SpiritCards oldUserSpiritCard = await _userSpiritCardsRepository.SumPowerUserSpiritCardsAsync(userId);
 
-        var updateResult = await _userSpiritCardsRepository.UpdateUserSpiritCardLevelAsync(userId, spiritCard);
+        var updateResult = await _userSpiritCardsRepository.UpdateUserSpiritCardLevelAsync(
+            userId,
+            spiritCard,
+            totalDeductions);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {

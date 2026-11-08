@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -136,11 +137,11 @@ public class HICBController : MonoBehaviour
             Destroy(currentObject);
         });
         Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
-        homeButton.onClick.AddListener( () =>
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            
+
         });
         Dictionary<string, FeatureHICBDTO> uniqueTypes = new Dictionary<string, FeatureHICBDTO>();
         uniqueTypes = await FeaturesService.Create().GetHICBFeaturesByTypeAsync(Type);
@@ -156,7 +157,7 @@ public class HICBController : MonoBehaviour
         SetupPagination(currentObject);
         RenderPage();
     }
-    
+
     private void RenderPage()
     {
         // 1. Dọn dẹp các Prefab UI cũ ở trang trước
@@ -316,7 +317,7 @@ public class HICBController : MonoBehaviour
 
         HICBs hicb = await HICBsService.Create().GetHICBByIdAsync(featureId);
         UserHICBs userHICB = await UserHICBsService.Create().GetUserHICBsAsync(User.CurrentUserId, featureId);
-        
+
         int currentLevel = userHICB?.Level ?? 0;
         RecipeResponseDTO recipeData = await RecipeService.Create().GetRecipeItemsAsync(featureName, currentLevel + 1, User.CurrentUserId);
 
@@ -366,10 +367,10 @@ public class HICBController : MonoBehaviour
             TextMeshProUGUI nextLevelText = panelTransform.Find("NextLevel").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI maxLevelText = panelTransform.Find("MaxLevel").GetComponent<TextMeshProUGUI>();
             Slider quantitySlider = panelTransform.Find("QuantitySlider").GetComponent<Slider>();
-            
+
             TMP_InputField levelInputField = panelTransform.Find("ItemUsedQuantityText")?.GetComponent<TMP_InputField>();
             TextMeshProUGUI itemUsedQuantityText = panelTransform.Find("ItemUsedQuantityText")?.GetComponent<TextMeshProUGUI>();
-            
+
             TextMeshProUGUI notificationText = panelTransform.Find("Notification/ContentText").GetComponent<TextMeshProUGUI>();
             RawImage notificationIconImage = panelTransform.Find("Notification/IconImage")?.GetComponent<RawImage>();
 
@@ -399,8 +400,8 @@ public class HICBController : MonoBehaviour
             RecipeResponseDTO popupRecipeData = await RecipeService.Create().GetRecipeItemsAsync(featureName, popupCurrentLevel + 1, User.CurrentUserId);
 
             // Max level của Recipe dùng làm maxValue cho Slider
-            double recipeMaxLevel = popupRecipeData?.Recipes != null && popupRecipeData.Recipes.Count > 0 
-                ? popupRecipeData.Recipes.Max(r => r.MaxLevel) 
+            double recipeMaxLevel = popupRecipeData?.Recipes != null && popupRecipeData.Recipes.Count > 0
+                ? popupRecipeData.Recipes.Max(r => r.MaxLevel)
                 : popupCurrentLevel;
 
             // Max level của HICB hiển thị lên UI
@@ -542,8 +543,8 @@ public class HICBController : MonoBehaviour
 
                 // YÊU CẦU 2: Tính toán bằng PreviewUpgrade (Tăng đúng 'requested' level không bị khống chế)
                 RecipePreviewResultDTO preview = RecipeCalculator.PreviewUpgrade(
-                    popupRecipeData, 
-                    popupCurrentLevel, 
+                    popupRecipeData,
+                    popupCurrentLevel,
                     numberOfLevel: requested
                 );
 
@@ -583,8 +584,8 @@ public class HICBController : MonoBehaviour
 
                 for (int i = 0; i < neededChildCount; i++)
                 {
-                    GameObject itemGO = (i < existingChildCount) 
-                        ? rightTransform.GetChild(i).gameObject 
+                    GameObject itemGO = (i < existingChildCount)
+                        ? rightTransform.GetChild(i).gameObject
                         : Instantiate(HICBItemPopupPrefab, rightTransform);
 
                     SetupHICBItemUI2(itemGO, materials[i]);
@@ -605,21 +606,9 @@ public class HICBController : MonoBehaviour
 
             if (levelInputField != null)
             {
-                levelInputField.onEndEdit.AddListener((inputValue) =>
+                levelInputField.onEndEdit.AddListener(inputValue =>
                 {
-                    if (double.TryParse(inputValue, out double parsedLevel))
-                    {
-                        double clampedLevel = Math.Max(0.0, Math.Min(parsedLevel, maxSliderValue));
-                        levelInputField.text = clampedLevel.ToString();
-                        quantitySlider.SetValueWithoutNotify((float)clampedLevel);
-                    }
-                    else
-                    {
-                        levelInputField.text = "0";
-                        quantitySlider.SetValueWithoutNotify(0);
-                    }
-
-                    UpdatePreview();
+                    ValidateAndApplyInputValue(inputValue, maxSliderValue, levelInputField, quantitySlider, UpdatePreview);
                 });
             }
 
@@ -647,7 +636,7 @@ public class HICBController : MonoBehaviour
                 quantitySlider.value = Mathf.Min(quantitySlider.maxValue, quantitySlider.value + 10);
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             });
-            
+
             // YÊU CẦU 2: Bấm Max Button
             increaseMaxButton.onClick.AddListener(() =>
             {
@@ -726,9 +715,9 @@ public class HICBController : MonoBehaviour
                 userHICB = EnhanceHelper.EnhanceHICBs(userHICB, calcResult.GainedLevels, hicb.BaseMultiplier);
 
                 var insertOrUpdateResult = await UserHICBsService.Create().InsertOrUpdateUserHICBsAsync(
-                    User.CurrentUserId, 
-                    userHICB, 
-                    featureId, 
+                    User.CurrentUserId,
+                    userHICB,
+                    featureId,
                     calcResult.TotalDeductions
                 );
 
@@ -774,7 +763,7 @@ public class HICBController : MonoBehaviour
         double ownedQty = 0;
         if (userInventory != null)
         {
-            if (userInventory.TryGetValue(detail.ObjectId, out var qty) || 
+            if (userInventory.TryGetValue(detail.ObjectId, out var qty) ||
                 userInventory.TryGetValue($"{detail.ObjectType}_{detail.ObjectId}", out qty))
             {
                 ownedQty = qty;
@@ -853,5 +842,22 @@ public class HICBController : MonoBehaviour
             scrollbar.targetGraphic.color = color;
         }
     }
+    private void ValidateAndApplyInputValue(string inputValue, double maxSliderValue, TMP_InputField levelInputField, Slider quantitySlider, Action onValidValueApplied)
+    {
+        double clampedLevel = double.TryParse(inputValue, NumberStyles.Any, CultureInfo.InvariantCulture, out double val)
+            ? Math.Max(0.0, Math.Min(val, maxSliderValue))
+            : 0.0;
 
+        if (levelInputField != null)
+        {
+            levelInputField.text = clampedLevel.ToString("0", CultureInfo.InvariantCulture);
+        }
+
+        if (quantitySlider != null)
+        {
+            quantitySlider.SetValueWithoutNotify((float)clampedLevel);
+        }
+
+        onValidValueApplied?.Invoke();
+    }
 }
