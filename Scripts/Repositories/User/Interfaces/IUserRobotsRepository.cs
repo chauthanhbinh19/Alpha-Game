@@ -9,6 +9,7 @@ public interface IUserRobotsRepository
     Task<InsertOrUpdateResult<BatchOperationResultDTO<Robots>>> InsertOrUpdateUserRobotsBatchAsync(string userId, List<Robots> robots);
     Task<InsertOrUpdateResult<bool>> UpdateUserRobotLevelAsync(string userId, Robots robot, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserRobotStarAsync(string userId, Robots robot);
+    Task<InsertOrUpdateResult<bool>> UpdateUserRobotQuantityAsync(string userId, Robots robot, List<RecipeItemDetailDTO> totalDeductions);
     Task<Robots> GetUserRobotByIdAsync(string userId, string Id);
     Task<Robots> SumPowerUserRobotsAsync(string userId);
 }

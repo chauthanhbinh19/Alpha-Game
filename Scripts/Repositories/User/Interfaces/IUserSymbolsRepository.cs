@@ -9,6 +9,7 @@ public interface IUserSymbolsRepository
     Task<InsertOrUpdateResult<BatchOperationResultDTO<Symbols>>> InsertOrUpdateUserSymbolsBatchAsync(string userId, List<Symbols> symbols);
     Task<InsertOrUpdateResult<bool>> UpdateUserSymbolLevelAsync(string userId, Symbols symbol, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserSymbolStarAsync(string userId, Symbols symbol);
+    Task<InsertOrUpdateResult<bool>> UpdateUserSymbolQuantityAsync(string userId, Symbols symbol, List<RecipeItemDetailDTO> totalDeductions);
     Task<Symbols> GetUserSymbolByIdAsync(string userId, string Id);
     Task<Symbols> SumPowerUserSymbolsAsync(string userId);
 }

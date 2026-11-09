@@ -20,6 +20,7 @@ public interface IUserCardSpellsService
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardSpellsBatchAsync(string userId, List<CardSpells> cardSpells);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardSpellLevelAsync(string userId, CardSpells cardSpell, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardSpellStarAsync(string userId, CardSpells cardSpell);
+    Task<InsertOrUpdateResult<bool>> UpdateUserCardSpellQuantityAsync(string userId, CardSpells cardSpell, List<RecipeItemDetailDTO> totalDeductions);
     Task<CardSpells> GetUserCardSpellByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null);
     Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null);
 }

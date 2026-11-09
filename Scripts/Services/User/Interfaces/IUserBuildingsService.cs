@@ -9,6 +9,7 @@ public interface IUserBuildingsService
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBuildingsBatchAsync(string userId, List<Buildings> buildings);
     Task<InsertOrUpdateResult<bool>> UpdateUserBuildingLevelAsync(string userId, Buildings building, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserBuildingStarAsync(string userId, Buildings building);
+    Task<InsertOrUpdateResult<bool>> UpdateUserBuildingQuantityAsync(string userId, Buildings building, List<RecipeItemDetailDTO> totalDeductions);
     Task<Buildings> GetUserBuildingByIdAsync(string userId, string Id);
     Task<Buildings> SumPowerUserBuildingsAsync(string userId);
 }

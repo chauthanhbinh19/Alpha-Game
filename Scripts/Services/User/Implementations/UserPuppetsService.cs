@@ -323,6 +323,13 @@ public class UserPuppetsService : IUserPuppetsService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserPuppetQuantityAsync(string userId, Puppets puppet, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userPuppetsRepository.UpdateUserPuppetQuantityAsync(userId, puppet, totalDeductions);
+
+        return result;
+    }
+
     public async Task<Puppets> GetUserPuppetByIdAsync(string userId, string Id)
     {
         var result = await _userPuppetsRepository.GetUserPuppetByIdAsync(userId, Id);

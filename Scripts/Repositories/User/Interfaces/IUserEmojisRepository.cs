@@ -9,6 +9,7 @@ public interface IUserEmojisRepository
     Task<InsertOrUpdateResult<BatchOperationResultDTO<Emojis>>> InsertOrUpdateUserEmojisBatchAsync(string userId, List<Emojis> emojis);
     Task<InsertOrUpdateResult<bool>> UpdateUserEmojiLevelAsync(string userId, Emojis emoji, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserEmojiStarAsync(string userId, Emojis emoji);
+    Task<InsertOrUpdateResult<bool>> UpdateUserEmojiQuantityAsync(string userId, Emojis emoji, List<RecipeItemDetailDTO> totalDeductions);
     Task<Emojis> GetUserEmojiByIdAsync(string userId, string Id);
     Task<Emojis> SumPowerUserEmojisAsync(string userId);
 }

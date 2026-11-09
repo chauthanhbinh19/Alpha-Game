@@ -411,6 +411,13 @@ public class UserBordersService : IUserBordersService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserBorderQuantityAsync(string userId, Borders border, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userBordersRepository.UpdateUserBorderQuantityAsync(userId, border, totalDeductions);
+
+        return result;
+    }
+
     public async Task<Borders> GetUserBorderByUsedAsync(string userId)
     {
         var result = await _userBordersRepository.GetUserBorderByUsedAsync(userId);

@@ -9,6 +9,7 @@ public interface IUserPuppetsService
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPuppetsBatchAsync(string userId, List<Puppets> puppets);
     Task<InsertOrUpdateResult<bool>> UpdateUserPuppetLevelAsync(string userId, Puppets puppet, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserPuppetStarAsync(string userId, Puppets puppet);
+    Task<InsertOrUpdateResult<bool>> UpdateUserPuppetQuantityAsync(string userId, Puppets puppet, List<RecipeItemDetailDTO> totalDeductions);
     Task<Puppets> GetUserPuppetByIdAsync(string userId, string Id);
     Task<Puppets> SumPowerUserPuppetsAsync(string userId);
 }

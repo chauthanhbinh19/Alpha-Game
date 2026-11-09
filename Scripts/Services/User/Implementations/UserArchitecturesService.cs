@@ -323,6 +323,13 @@ public class UserArchitecturesService : IUserArchitecturesService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserArchitectureQuantityAsync(string userId, Architectures architecture, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userArchitecturesRepository.UpdateUserArchitectureQuantityAsync(userId, architecture, totalDeductions);
+
+        return result;
+    }
+
     public async Task<Architectures> GetUserArchitectureByIdAsync(string userId, string Id)
     {
         var result = await _userArchitecturesRepository.GetUserArchitectureByIdAsync(userId, Id);

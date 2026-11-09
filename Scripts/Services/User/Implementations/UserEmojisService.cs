@@ -323,6 +323,13 @@ public class UserEmojisService : IUserEmojisService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserEmojiQuantityAsync(string userId, Emojis emoji, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userEmojisRepository.UpdateUserEmojiQuantityAsync(userId, emoji, totalDeductions);
+
+        return result;
+    }
+
     public async Task<Emojis> GetUserEmojiByIdAsync(string userId, string Id)
     {
         var result = await _userEmojisRepository.GetUserEmojiByIdAsync(userId, Id);

@@ -9,6 +9,7 @@ public interface IUserWeaponsRepository
     Task<InsertOrUpdateResult<BatchOperationResultDTO<Weapons>>> InsertOrUpdateUserWeaponsBatchAsync(string userId, List<Weapons> weapons);
     Task<InsertOrUpdateResult<bool>> UpdateUserWeaponLevelAsync(string userId, Weapons weapon, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserWeaponStarAsync(string userId, Weapons weapon);
+    Task<InsertOrUpdateResult<bool>> UpdateUserWeaponQuantityAsync(string userId, Weapons weapon, List<RecipeItemDetailDTO> totalDeductions);
     Task<Weapons> GetUserWeaponByIdAsync(string userId, string Id);
     Task<Weapons> SumPowerUserWeaponsAsync(string userId);
 }

@@ -323,6 +323,13 @@ public class UserCollaborationsService : IUserCollaborationsService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationQuantityAsync(string userId, Collaborations collaboration, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userCollaborationsRepository.UpdateUserCollaborationQuantityAsync(userId, collaboration, totalDeductions);
+
+        return result;
+    }
+
     public async Task<Collaborations> GetUserCollaborationByIdAsync(string userId, string Id)
     {
         var result = await _userCollaborationsRepository.GetUserCollaborationByIdAsync(userId, Id);

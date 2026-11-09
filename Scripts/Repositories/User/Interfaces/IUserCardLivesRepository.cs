@@ -9,6 +9,7 @@ public interface IUserCardLivesRepository
     Task<InsertOrUpdateResult<BatchOperationResultDTO<CardLives>>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLives);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife);
+    Task<InsertOrUpdateResult<bool>> UpdateUserCardLifeQuantityAsync(string userId, CardLives cardLife, List<RecipeItemDetailDTO> totalDeductions);
     Task<CardLives> GetUserCardLifeByIdAsync(string userId, string Id);
     Task<CardLives> SumPowerUserCardLivesAsync(string userId);
 }

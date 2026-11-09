@@ -771,6 +771,13 @@ public class UserCardHeroesService : IUserCardHeroesService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardHeroQuantityAsync(string userId, CardHeroes cardHero, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userCardHeroesRepository.UpdateUserCardHeroQuantityAsync(userId, cardHero, totalDeductions);
+
+        return result;
+    }
+
     public async Task<InsertOrUpdateResult<bool>> UpdateTeamUserCardHeroAsync(string userId, string teamId, string position, string cardId)
     {
         await _userCardHeroesRepository.UpdateTeamUserCardHeroAsync(userId, teamId, position, cardId);

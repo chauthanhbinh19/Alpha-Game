@@ -98,8 +98,6 @@ public class LevelController : MonoBehaviour
     }
 
     // Popup Nâng Cấp Số Lượng
-    // Popup Nâng Cấp Số Lượng
-    // Popup Nâng Cấp Số Lượng
     public async Task CreateLevelPanelAsync<T>(T stat) where T : IStats
     {
         GameObject gameObject = Instantiate(LevelPanelPrefab, MainPanel);
@@ -109,6 +107,9 @@ public class LevelController : MonoBehaviour
         TextMeshProUGUI nextLevelText = panelTransform.Find("NextLevel").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI maxLevelText = panelTransform.Find("MaxLevel").GetComponent<TextMeshProUGUI>();
         Slider quantitySlider = panelTransform.Find("QuantitySlider").GetComponent<Slider>();
+
+        // Tìm kiếm TextMeshPro hiển thị kinh nghiệm (Current / Required)
+        TextMeshProUGUI experienceText = panelTransform.Find("ExperienceText")?.GetComponent<TextMeshProUGUI>();
 
         TMP_InputField levelInputField = panelTransform.Find("ItemUsedQuantityText")?.GetComponent<TMP_InputField>();
         TextMeshProUGUI itemUsedQuantityText = panelTransform.Find("ItemUsedQuantityText")?.GetComponent<TextMeshProUGUI>();
@@ -124,7 +125,6 @@ public class LevelController : MonoBehaviour
         Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
         Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
         Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
-        
         Button previewButton = panelTransform.Find("PreviewButton").GetComponent<Button>();
         Transform previewDefaultObj = previewButton.transform.Find("Default");
         Transform previewSelectedObj = previewButton.transform.Find("Selected");
@@ -140,6 +140,7 @@ public class LevelController : MonoBehaviour
         Image rightScrollViewBg = rightScrollViewTransform.GetComponent<Image>() ?? rightScrollViewTransform.Find("Viewport")?.GetComponent<Image>();
 
         int popupCurrentLevel = stat.Level;
+        double currentStatExp = stat.Experience; // Lấy kinh nghiệm hiện tại của stat
 
         string objectType = null;
         string featureCodeName = null;
@@ -285,6 +286,8 @@ public class LevelController : MonoBehaviour
                 confirmButton.interactable = false;
                 UpdateLevelDisplay(0);
 
+                if (experienceText != null) experienceText.text = "MAX / MAX";
+
                 if (stat != null)
                     StatsManager.Instance.CreateStatsManager(stat, nextStatsContent);
 
@@ -297,6 +300,8 @@ public class LevelController : MonoBehaviour
                 confirmButton.interactable = false;
                 UpdateLevelDisplay(0);
 
+                if (experienceText != null) experienceText.text = $"{currentStatExp} / ...";
+
                 if (stat != null)
                     StatsManager.Instance.CreateStatsManager(stat, nextStatsContent);
 
@@ -305,35 +310,39 @@ public class LevelController : MonoBehaviour
                 return;
             }
 
-            // --- ĐOẠN ĐƯỢC CHỈ ĐỊNH NẰM TẠI ĐÂY ---
             RecipeCalculateDTO preview;
 
             if (isPreviewSelected)
             {
-                // Ở chế độ Preview: Gọi hàm tính toán lý thuyết không kẹt kho đồ (nguyên liệu tăng theo số level muốn xem)
                 preview = await RecipeCalculator.CalculateUpgradePreviewByLevelsAsync(
                     popupRecipeData,
                     popupCurrentLevel,
                     requested,
                     (int)maxLevel,
-                    levelDto
+                    levelDto,
+                    currentStatExp
                 );
             }
             else
             {
-                // Ở chế độ Default: Gọi hàm tính toán thực tế có kiểm tra kho đồ
                 preview = await RecipeCalculator.CalculateUpgradeByLevelsValueBasedAsync(
                     popupRecipeData,
                     popupCurrentLevel,
                     requested,
                     (int)maxLevel,
-                    levelDto
+                    levelDto,
+                    currentStatExp
                 );
             }
-            // ------------------------------------
 
             int targetLevelDisplay = Math.Min(popupCurrentLevel + requested, (int)maxLevel);
             nextLevelText.text = isPreviewSelected ? targetLevelDisplay.ToString() : preview.TargetLevel.ToString();
+
+            // Hiển thị CurrentExperience / RequiredExperience lên TextMeshPro
+            if (experienceText != null)
+            {
+                experienceText.text = $"{preview.CurrentExperience} / {preview.RequiredExperience}";
+            }
 
             if (isPreviewSelected)
             {
@@ -472,7 +481,8 @@ public class LevelController : MonoBehaviour
                     popupRecipeData,
                     popupCurrentLevel,
                     (int)maxLevel,
-                    levelDto
+                    levelDto,
+                    currentStatExp
                 );
                 quantitySlider.value = Mathf.Clamp(maxAffordable.GainedLevels, 0, quantitySlider.maxValue);
             }
@@ -529,7 +539,8 @@ public class LevelController : MonoBehaviour
                 popupCurrentLevel,
                 requested,
                 (int)maxLevel,
-                levelDto
+                levelDto,
+                currentStatExp
             );
 
             if (calcResult.GainedLevels <= 0)
@@ -616,8 +627,8 @@ public class LevelController : MonoBehaviour
         {
             if (stat is Achievements achievement)
             {
-                // await UserAchievementsService.Create().UpdateUserAchievementLevelAsync(User.CurrentUserId, achievement, totalDeductions);
-                // UserAchievementsController.Instance.RefreshCurrentDetailsUI(achievement);
+                await UserAchievementsService.Create().UpdateUserAchievementLevelAsync(User.CurrentUserId, achievement, totalDeductions);
+                UserAchievementsController.Instance.RefreshCurrentDetailsUI(achievement);
             }
             else if (stat is Alchemies alchemy)
             {
@@ -866,9 +877,7 @@ public class LevelController : MonoBehaviour
             throw;
         }
     }
-    /// <summary>
-    /// Hàm xử lý và chuẩn hóa giá trị nhập tay từ InputField, lọc bỏ chữ, ký tự đặc biệt, số âm và kẹp trong khoảng [0, maxSliderValue].
-    /// </summary>
+
     private void ValidateAndApplyInputValue(string inputValue, double maxSliderValue, TMP_InputField levelInputField, Slider quantitySlider, Action onValidValueApplied)
     {
         double clampedLevel = double.TryParse(inputValue, NumberStyles.Any, CultureInfo.InvariantCulture, out double val)

@@ -305,6 +305,13 @@ public class UserEquipmentsService : IUserEquipmentsService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserEquipmentQuantityAsync(string userId, Equipments equipment, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userEquipmentsRepository.UpdateUserEquipmentQuantityAsync(userId, equipment, totalDeductions);
+
+        return result;
+    }
+
     public async Task UpdateUserCurrencyAsync(string userId, string Id, double quantity)
     {
         await _userEquipmentsRepository.UpdateUserCurrencyAsync(userId, Id, quantity);

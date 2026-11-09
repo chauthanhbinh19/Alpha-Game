@@ -324,6 +324,13 @@ public class UserArtworksService : IUserArtworksService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserArtworkQuantityAsync(string userId, Artworks artwork, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userArtworksRepository.UpdateUserArtworkQuantityAsync(userId, artwork, totalDeductions);
+
+        return result;
+    }
+    
     public async Task<Artworks> GetUserArtworkByIdAsync(string userId, string Id)
     {
         var result = await _userArtworksRepository.GetUserArtworkByIdAsync(userId, Id);

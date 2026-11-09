@@ -11,6 +11,7 @@ public interface IUserPetsRepository
     Task<InsertOrUpdateResult<BatchOperationResultDTO<Pets>>> InsertOrUpdateUserPetsBatchAsync(string userId, List<Pets> pets);
     Task<InsertOrUpdateResult<bool>> UpdateUserPetLevelAsync(string userId, Pets pet, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserPetStarAsync(string userId, Pets pet);
+    Task<InsertOrUpdateResult<bool>> UpdateUserPetQuantityAsync(string userId, Pets pet, List<RecipeItemDetailDTO> totalDeductions);
     Task<bool> UpdateTeamUserPetAsync(string userId, string team_id, string cardId);
     Task<Pets> GetUserPetByIdAsync(string userId, string Id);
     Task<List<string>> GetTeamIdsAsync(string userId);

@@ -323,6 +323,13 @@ public class UserRelicsService : IUserRelicsService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserRelicQuantityAsync(string userId, Relics relic, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userRelicsRepository.UpdateUserRelicQuantityAsync(userId, relic, totalDeductions);
+
+        return result;
+    }
+
     public async Task<Relics> GetUserRelicByIdAsync(string userId, string Id)
     {
         var result = await _userRelicsRepository.GetUserRelicByIdAsync(userId, Id);

@@ -9,6 +9,7 @@ public interface IUserForgesRepository
     Task<InsertOrUpdateResult<BatchOperationResultDTO<Forges>>> InsertOrUpdateUserForgesBatchAsync(string userId, List<Forges> forges);
     Task<InsertOrUpdateResult<bool>> UpdateUserForgeLevelAsync(string userId, Forges forge, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserForgeStarAsync(string userId, Forges forge);
+    Task<InsertOrUpdateResult<bool>> UpdateUserForgeQuantityAsync(string userId, Forges forge, List<RecipeItemDetailDTO> totalDeductions);
     Task<Forges> GetUserForgeByIdAsync(string userId, string Id);
     Task<Forges> SumPowerUserForgesAsync(string userId);
 }

@@ -323,6 +323,13 @@ public class UserWeaponsService : IUserWeaponsService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserWeaponQuantityAsync(string userId, Weapons weapon, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userWeaponsRepository.UpdateUserWeaponQuantityAsync(userId, weapon, totalDeductions);
+
+        return result;
+    }
+
     public async Task<Weapons> GetUserWeaponByIdAsync(string userId, string Id)
     {
         var result = await _userWeaponsRepository.GetUserWeaponByIdAsync(userId, Id);

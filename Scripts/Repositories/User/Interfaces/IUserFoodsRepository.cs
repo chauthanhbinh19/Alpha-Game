@@ -9,6 +9,7 @@ public interface IUserFoodsRepository
     Task<InsertOrUpdateResult<BatchOperationResultDTO<Foods>>> InsertOrUpdateUserFoodsBatchAsync(string userId, List<Foods> foods);
     Task<InsertOrUpdateResult<bool>> UpdateUserFoodLevelAsync(string userId, Foods food, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserFoodStarAsync(string userId, Foods food);
+    Task<InsertOrUpdateResult<bool>> UpdateUserFoodQuantityAsync(string userId, Foods food, List<RecipeItemDetailDTO> totalDeductions);
     Task<Foods> GetUserFoodByIdAsync(string userId, string Id);
     Task<Foods> SumPowerUserFoodsAsync(string userId);
 }

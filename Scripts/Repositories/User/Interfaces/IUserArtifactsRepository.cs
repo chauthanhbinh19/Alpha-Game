@@ -9,6 +9,7 @@ public interface IUserArtifactsRepository
     Task<InsertOrUpdateResult<BatchOperationResultDTO<Artifacts>>> InsertOrUpdateUserArtifactsBatchAsync(string userId, List<Artifacts> artifacts);
     Task<InsertOrUpdateResult<bool>> UpdateUserArtifactLevelAsync(string userId, Artifacts artifact, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserArtifactStarAsync(string userId, Artifacts artifact);
+    Task<InsertOrUpdateResult<bool>> UpdateUserArtifactQuantityAsync(string userId, Artifacts artifact, List<RecipeItemDetailDTO> totalDeductions);
     Task<Artifacts> GetUserArtifactByIdAsync(string userId, string Id);
     Task<Artifacts> SumPowerUserArtifactsAsync(string userId);
 }

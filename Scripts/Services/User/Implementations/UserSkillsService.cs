@@ -331,6 +331,13 @@ public class UserSkillsService : IUserSkillsService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserSkillQuantityAsync(string userId, Skills skill, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userSkillsRepository.UpdateUserSkillQuantityAsync(userId, skill, totalDeductions);
+
+        return result;
+    }
+
     public async Task<Skills> GetUserSkillsByIdAsync(string userId, string Id)
     {
         var result = await _userSkillsRepository.GetUserSkillsByIdAsync(userId, Id);

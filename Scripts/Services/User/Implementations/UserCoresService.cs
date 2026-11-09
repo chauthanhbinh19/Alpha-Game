@@ -323,6 +323,13 @@ public class UserCoresService : IUserCoresService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCoreQuantityAsync(string userId, Cores core, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userCoresRepository.UpdateUserCoreQuantityAsync(userId, core, totalDeductions);
+
+        return result;
+    }
+
     public async Task<Cores> GetUserCoreByIdAsync(string userId, string Id)
     {
         var result = await _userCoresRepository.GetUserCoreByIdAsync(userId, Id);

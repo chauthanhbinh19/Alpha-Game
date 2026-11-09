@@ -323,6 +323,13 @@ public class UserForgesService : IUserForgesService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserForgeQuantityAsync(string userId, Forges forge, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userForgesRepository.UpdateUserForgeQuantityAsync(userId, forge, totalDeductions);
+
+        return result;
+    }
+
     public async Task<Forges> GetUserForgeByIdAsync(string userId, string Id)
     {
         var result = await _userForgesRepository.GetUserForgeByIdAsync(userId, Id);

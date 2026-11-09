@@ -323,6 +323,13 @@ public class UserTechnologiesService : IUserTechnologiesService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserTechnologyQuantityAsync(string userId, Technologies technology, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userTechnologiesRepository.UpdateUserTechnologyQuantityAsync(userId, technology, totalDeductions);
+
+        return result;
+    }
+
     public async Task<Technologies> GetUserTechnologyByIdAsync(string userId, string Id)
     {
         var result = await _userTechnologiesRepository.GetUserTechnologyByIdAsync(userId, Id);

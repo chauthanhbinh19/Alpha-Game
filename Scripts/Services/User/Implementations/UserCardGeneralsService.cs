@@ -767,6 +767,13 @@ public class UserCardGeneralsService : IUserCardGeneralsService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardGeneralQuantityAsync(string userId, CardGenerals cardGeneral, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userCardGeneralsRepository.UpdateUserCardGeneralQuantityAsync(userId, cardGeneral, totalDeductions);
+
+        return result;
+    }
+
     public async Task<CardGenerals> GetUserCardGeneralByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null)
     {
         CardGenerals cardGeneral = await _userCardGeneralsRepository.GetUserCardGeneralByIdAsync(userId, Id);

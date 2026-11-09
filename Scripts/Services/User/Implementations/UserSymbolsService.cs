@@ -323,6 +323,13 @@ public class UserSymbolsService : IUserSymbolsService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserSymbolQuantityAsync(string userId, Symbols symbol, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userSymbolsRepository.UpdateUserSymbolQuantityAsync(userId, symbol, totalDeductions);
+
+        return result;
+    }
+
     public async Task<Symbols> GetUserSymbolByIdAsync(string userId, string Id)
     {
         var result = await _userSymbolsRepository.GetUserSymbolByIdAsync(userId, Id);

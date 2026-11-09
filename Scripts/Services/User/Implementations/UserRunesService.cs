@@ -323,6 +323,13 @@ public class UserRunesService : IUserRunesService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserRuneQuantityAsync(string userId, Runes rune, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userRunesRepository.UpdateUserRuneQuantityAsync(userId, rune, totalDeductions);
+
+        return result;
+    }
+
     public async Task<Runes> GetUserRuneByIdAsync(string userId, string Id)
     {
         var result = await _userRunesRepository.GetUserRuneByIdAsync(userId, Id);

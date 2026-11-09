@@ -323,6 +323,13 @@ public class UserBadgesService : IUserBadgesService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserBadgeQuantityAsync(string userId, Badges badge, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userBadgesRepository.UpdateUserBadgeQuantityAsync(userId, badge, totalDeductions);
+
+        return result;
+    }
+    
     public async Task<Badges> GetUserBadgeByIdAsync(string userId, string Id)
     {
         var result = await _userBadgesRepository.GetUserBadgeByIdAsync(userId, Id);

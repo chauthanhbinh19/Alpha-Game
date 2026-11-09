@@ -323,6 +323,13 @@ public class UserCardLivesService : IUserCardLivesService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardLifeQuantityAsync(string userId, CardLives cardLife, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userCardLivesRepository.UpdateUserCardLifeQuantityAsync(userId, cardLife, totalDeductions);
+
+        return result;
+    }
+
     public async Task<CardLives> GetUserCardLifeByIdAsync(string userId, string Id)
     {
         var result = await _userCardLivesRepository.GetUserCardLifeByIdAsync(userId, Id);

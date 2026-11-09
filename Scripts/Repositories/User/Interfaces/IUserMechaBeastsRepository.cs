@@ -9,6 +9,7 @@ public interface IUserMechaBeastsRepository
     Task<InsertOrUpdateResult<BatchOperationResultDTO<MechaBeasts>>> InsertOrUpdateUserMechaBeastsBatchAsync(string userId, List<MechaBeasts> mechaBeasts);
     Task<InsertOrUpdateResult<bool>> UpdateUserMechaBeastLevelAsync(string userId, MechaBeasts mechaBeast, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserMechaBeastStarAsync(string userId, MechaBeasts mechaBeast);
+    Task<InsertOrUpdateResult<bool>> UpdateUserMechaBeastQuantityAsync(string userId, MechaBeasts mechaBeast, List<RecipeItemDetailDTO> totalDeductions);
     Task<MechaBeasts> GetUserMechaBeastByIdAsync(string userId, string Id);
     Task<MechaBeasts> SumPowerUserMechaBeastsAsync(string userId);
 }

@@ -323,6 +323,13 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationEquipmentQuantityAsync(string userId, CollaborationEquipments collaborationEquipment, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userCollaborationEquipmentsRepository.UpdateUserCollaborationEquipmentQuantityAsync(userId, collaborationEquipment, totalDeductions);
+
+        return result;
+    }
+
     public async Task<CollaborationEquipments> GetUserCollaborationEquipmentByIdAsync(string userId, string Id)
     {
         var result = await _userCollaborationEquipmentsRepository.GetUserCollaborationEquipmentByIdAsync(userId, Id);

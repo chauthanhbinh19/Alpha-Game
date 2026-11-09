@@ -9,6 +9,7 @@ public interface IUserMagicFormationCirclesRepository
     Task<InsertOrUpdateResult<BatchOperationResultDTO<MagicFormationCircles>>> InsertOrUpdateUserMagicFormationCirclesBatchAsync(string userId, List<MagicFormationCircles> magicFormationCirlces);
     Task<InsertOrUpdateResult<bool>> UpdateUserMagicFormationCircleLevelAsync(string userId, MagicFormationCircles magicFormationCirlce, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserMagicFormationCircleStarAsync(string userId, MagicFormationCircles magicFormationCirlce);
+    Task<InsertOrUpdateResult<bool>> UpdateUserMagicFormationCircleQuantityAsync(string userId, MagicFormationCircles magicFormationCircle, List<RecipeItemDetailDTO> totalDeductions);
     Task<MagicFormationCircles> GetUserMagicFormationCircleByIdAsync(string userId, string Id);
     Task<MagicFormationCircles> SumPowerUserMagicFormationCirclesAsync(string userId);
 }

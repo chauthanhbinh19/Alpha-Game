@@ -9,6 +9,7 @@ public interface IUserMedalsRepository
     Task<InsertOrUpdateResult<BatchOperationResultDTO<Medals>>> InsertOrUpdateUserMedalsBatchAsync(string userId, List<Medals> medals);
     Task<InsertOrUpdateResult<bool>> UpdateUserMedalLevelAsync(string userId, Medals medal, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserMedalStarAsync(string userId, Medals medal);
+    Task<InsertOrUpdateResult<bool>> UpdateUserMedalQuantityAsync(string userId, Medals medal, List<RecipeItemDetailDTO> totalDeductions);
     Task<Medals> GetUserMedalByIdAsync(string userId, string Id);
     Task<Medals> SumPowerUserMedalsAsync(string userId);
 

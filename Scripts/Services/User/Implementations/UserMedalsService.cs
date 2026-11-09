@@ -323,6 +323,13 @@ public class UserMedalsService : IUserMedalsService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserMedalQuantityAsync(string userId, Medals medal, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userMedalsRepository.UpdateUserMedalQuantityAsync(userId, medal, totalDeductions);
+
+        return result;
+    }
+
     public async Task<Medals> GetUserMedalByIdAsync(string userId, string Id)
     {
         var result = await _userMedalsRepository.GetUserMedalByIdAsync(userId, Id);

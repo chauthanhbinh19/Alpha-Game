@@ -9,6 +9,7 @@ public interface IUserOutfitsRepository
     Task<InsertOrUpdateResult<BatchOperationResultDTO<Outfits>>> InsertOrUpdateUserOutfitsBatchAsync(string userId, List<Outfits> outfits);
     Task<InsertOrUpdateResult<bool>> UpdateUserOutfitLevelAsync(string userId, Outfits outfit, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserOutfitStarAsync(string userId, Outfits outfit);
+    Task<InsertOrUpdateResult<bool>> UpdateUserOutfitQuantityAsync(string userId, Outfits outfit, List<RecipeItemDetailDTO> totalDeductions);
     Task<Outfits> GetUserOutfitByIdAsync(string userId, string Id);
     Task<Outfits> SumPowerUserOutfitsAsync(string userId);
 }

@@ -326,6 +326,13 @@ public class UserAchievementsService : IUserAchievementsService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserAchievementQuantityAsync(string userId, Achievements achievement, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userAchievementsRepository.UpdateUserAchievementQuantityAsync(userId, achievement, totalDeductions);
+
+        return result;
+    }
+    
     public async Task<Achievements> GetUserAchievementByIdAsync(string userId, string Id)
     {
         var result = await _userAchievementsRepository.GetUserAchievementByIdAsync(userId, Id);

@@ -323,6 +323,13 @@ public class UserBeveragesService : IUserBeveragesService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserBeverageQuantityAsync(string userId, Beverages beverage, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userBeveragesRepository.UpdateUserBeverageQuantityAsync(userId, beverage, totalDeductions);
+
+        return result;
+    }
+    
     public async Task<Beverages> GetUserBeverageByIdAsync(string userId, string Id)
     {
         var result = await _userBeveragesRepository.GetUserBeverageByIdAsync(userId, Id);

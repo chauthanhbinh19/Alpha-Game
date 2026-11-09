@@ -10,6 +10,7 @@ public interface IUserAlchemiesRepository
     Task<InsertOrUpdateResult<BatchOperationResultDTO<Alchemies>>> InsertOrUpdateUserAlchemiesBatchAsync(string userId, List<Alchemies> alchemies);
     Task<InsertOrUpdateResult<bool>> UpdateUserAlchemyLevelAsync(string userId, Alchemies alchemy, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserAlchemyStarAsync(string userId, Alchemies alchemy);
+    Task<InsertOrUpdateResult<bool>> UpdateUserAlchemyQuantityAsync(string userId, Alchemies alchemy, List<RecipeItemDetailDTO> totalDeductions);
     Task<Alchemies> GetUserAlchemyByIdAsync(string userId, string Id);
     Task<Alchemies> SumPowerUserAlchemiesAsync(string userId);
 }

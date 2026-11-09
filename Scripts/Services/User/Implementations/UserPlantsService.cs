@@ -323,6 +323,13 @@ public class UserPlantsService : IUserPlantsService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserPlantQuantityAsync(string userId, Plants plant, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userPlantsRepository.UpdateUserPlantQuantityAsync(userId, plant, totalDeductions);
+
+        return result;
+    }
+
     public async Task<Plants> GetUserPlantByIdAsync(string userId, string Id)
     {
         var result = await _userPlantsRepository.GetUserPlantByIdAsync(userId, Id);

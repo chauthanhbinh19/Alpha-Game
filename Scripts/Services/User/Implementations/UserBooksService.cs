@@ -713,6 +713,13 @@ public class UserBooksService : IUserBooksService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserBookQuantityAsync(string userId, Books book, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userBooksRepository.UpdateUserBookQuantityAsync(userId, book, totalDeductions);
+
+        return result;
+    }
+    
     public async Task<InsertOrUpdateResult<bool>> UpdateTeamUserBookAsync(string userId, string teamId, string position, string book_id)
     {
         await _userBooksRepository.UpdateTeamUserBookAsync(userId, teamId, position, book_id);

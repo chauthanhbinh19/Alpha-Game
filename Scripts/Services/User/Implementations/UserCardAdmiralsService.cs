@@ -851,6 +851,13 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardAdmiralQuantityAsync(string userId, CardAdmirals cardAdmiral, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userCardAdmiralsRepository.UpdateUserCardAdmiralQuantityAsync(userId, cardAdmiral, totalDeductions);
+
+        return result;
+    }
+
     public async Task<CardAdmirals> GetUserCardAdmiralByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null)
     {
         CardAdmirals cardAdmiral = await _userCardAdmiralsRepository.GetUserCardAdmiralByIdAsync(userId, Id);

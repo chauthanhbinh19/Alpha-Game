@@ -323,6 +323,13 @@ public class UserFurnituresService : IUserFurnituresService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserFurnitureQuantityAsync(string userId, Furnitures furniture, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userFurnituresRepository.UpdateUserFurnitureQuantityAsync(userId, furniture, totalDeductions);
+
+        return result;
+    }
+
     public async Task<Furnitures> GetUserFurnitureByIdAsync(string userId, string Id)
     {
         var result = await _userFurnituresRepository.GetUserFurnitureByIdAsync(userId, Id);

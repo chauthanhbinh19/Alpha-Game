@@ -755,6 +755,13 @@ public class UserCardMonstersService : IUserCardMonstersService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardMonsterQuantityAsync(string userId, CardMonsters cardMonster, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userCardMonstersRepository.UpdateUserCardMonsterQuantityAsync(userId, cardMonster, totalDeductions);
+
+        return result;
+    }
+
     public async Task<InsertOrUpdateResult<bool>> UpdateTeamUserCardMonsterAsync(string userId, string teamId, string position, string cardId)
     {
         await _userCardMonstersRepository.UpdateTeamUserCardMonsterAsync(userId, teamId, position, cardId);

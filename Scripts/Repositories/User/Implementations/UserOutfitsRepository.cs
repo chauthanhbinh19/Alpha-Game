@@ -703,12 +703,14 @@ public class UserOutfitsRepository : IUserOutfitsRepository
             // BƯỚC 2: UPSERT / UPDATE BẢNG USER_ACHIEVEMENTS (Dùng cú pháp chuẩn INSERT ... ON DUPLICATE KEY UPDATE)
             // -------------------------------------------------------------------------------------
             string upsertOutfitSQL = @"
-            INSERT INTO user_outfits (user_id, outfit_id, level)
-            SELECT @user_id, a.id, @level
-            FROM outfits a
-            WHERE a.id = @outfit_id AND a.is_active = TRUE AND a.is_deleted = FALSE
-            ON DUPLICATE KEY UPDATE
-                level = VALUES(level);";
+            UPDATE user_outfits ua
+            JOIN outfits a ON ua.outfit_id = a.id
+            SET ua.level = @level, 
+                ua.experience = @experience
+            WHERE ua.user_id = @user_id 
+            AND ua.outfit_id = @outfit_id
+            AND a.is_active = TRUE 
+            AND a.is_deleted = FALSE;";
 
             int rowsAffected = 0;
             await using (var command = new MySqlCommand(upsertOutfitSQL, connection, transaction))
@@ -716,6 +718,7 @@ public class UserOutfitsRepository : IUserOutfitsRepository
                 command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddWithValue("@outfit_id", outfit.Id);
                 command.Parameters.AddWithValue("@level", outfit.Level);
+                command.Parameters.AddWithValue("@experience", outfit.Experience);
 
                 rowsAffected = await command.ExecuteNonQueryAsync();
             }
@@ -803,6 +806,168 @@ public class UserOutfitsRepository : IUserOutfitsRepository
         {
             Debug.LogError("Error UpdateUserOutfitStar: " + ex.Message);
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
+        }
+    }
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserOutfitQuantityAsync(string userId, Outfits outfit, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        // 1. Guard Clauses
+        if (outfit == null || string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(outfit.Id) || outfit.Level < 1)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Dữ liệu đầu vào hoặc cấp độ outfit không hợp lệ.");
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using var connection = new MySqlConnection(connectionString);
+        await connection.OpenAsync();
+
+        await using var transaction = await connection.BeginTransactionAsync();
+
+        try
+        {
+            // -------------------------------------------------------------------------------------
+            // BƯỚC 1: NHÓM NGUYÊN LIỆU THEO OBJECT_TYPE VÀ KHẤU TRỪ TỐI ƯU (IN + CASE WHEN)
+            // (Được bốc nguyên cấu trúc tối ưu từ InsertOrUpdateUserOutfitsAsync)
+            // -------------------------------------------------------------------------------------
+            if (totalDeductions != null && totalDeductions.Count > 0)
+            {
+                var validDeductions = totalDeductions.Where(d => d.RequiredQuantity > 0).ToList();
+                var groupedDeductions = validDeductions.GroupBy(d => d.ObjectType.ToUpper());
+
+                foreach (var group in groupedDeductions)
+                {
+                    string objectType = group.Key;
+                    var itemList = group.ToList();
+
+                    string tableName = DatabaseHelper.GetUserTableNameByObjectType(objectType);
+                    string idColumnName = DatabaseHelper.GetIdColumnNameByObjectType(objectType);
+
+                    if (string.IsNullOrEmpty(tableName)) continue;
+
+                    // 1.1 Tạo IN Clause để SELECT FOR UPDATE 1 lần cho ObjectType này
+                    var objectIds = itemList.Select(i => i.ObjectId).Distinct().ToList();
+                    string inClause = string.Join(",", objectIds.Select((_, idx) => $"@id{idx}"));
+
+                    string checkStockSQL = $@"
+                    SELECT {idColumnName} AS object_id, quantity 
+                    FROM {tableName} 
+                    WHERE user_id = @userId AND {idColumnName} IN ({inClause})
+                    FOR UPDATE;";
+
+                    var currentStockMap = new Dictionary<string, double>();
+
+                    await using (var checkCommand = new MySqlCommand(checkStockSQL, connection, transaction))
+                    {
+                        checkCommand.Parameters.AddWithValue("@userId", userId);
+                        for (int i = 0; i < objectIds.Count; i++)
+                        {
+                            checkCommand.Parameters.AddWithValue($"@id{i}", objectIds[i]);
+                        }
+
+                        await using var reader = await checkCommand.ExecuteReaderAsync();
+                        while (await reader.ReadAsync())
+                        {
+                            string objId = reader.GetStringSafe("object_id");
+                            double qty = reader.GetDoubleSafe("quantity");
+                            currentStockMap[objId] = qty;
+                        }
+                    }
+
+                    // 1.2 Kiểm tra xem người dùng có đủ số lượng cho tất cả vật phẩm thuộc ObjectType này không
+                    foreach (var item in itemList)
+                    {
+                        if (!currentStockMap.TryGetValue(item.ObjectId, out double ownedQty) || ownedQty < item.RequiredQuantity)
+                        {
+                            await transaction.RollbackAsync();
+                            return InsertOrUpdateResult<bool>.Failure(
+                                $"Thất bại: Không đủ nguyên liệu '{item.ObjectId}' ({objectType}). " +
+                                $"Cần: {item.RequiredQuantity}, Hiện có: {(currentStockMap.ContainsKey(item.ObjectId) ? currentStockMap[item.ObjectId] : 0)}.");
+                        }
+                    }
+
+                    // 1.3 Dùng CASE WHEN để UPDATE Bulk 1 lần duy nhất cho toàn bộ ObjectType này
+                    var caseStatements = new List<string>();
+                    for (int i = 0; i < itemList.Count; i++)
+                    {
+                        caseStatements.Add($"WHEN {idColumnName} = @updId{i} THEN quantity - @updQty{i}");
+                    }
+
+                    string bulkUpdateSQL = $@"
+                    UPDATE {tableName}
+                    SET quantity = CASE 
+                        {string.Join(" ", caseStatements)}
+                        ELSE quantity 
+                    END
+                    WHERE user_id = @userId AND {idColumnName} IN ({inClause});";
+
+                    await using (var updateCommand = new MySqlCommand(bulkUpdateSQL, connection, transaction))
+                    {
+                        updateCommand.Parameters.AddWithValue("@userId", userId);
+                        for (int i = 0; i < itemList.Count; i++)
+                        {
+                            updateCommand.Parameters.AddWithValue($"@updId{i}", itemList[i].ObjectId);
+                            updateCommand.Parameters.AddWithValue($"@updQty{i}", itemList[i].RequiredQuantity);
+                        }
+
+                        for (int i = 0; i < objectIds.Count; i++)
+                        {
+                            updateCommand.Parameters.AddWithValue($"@id{i}", objectIds[i]);
+                        }
+
+                        int affectedRows = await updateCommand.ExecuteNonQueryAsync();
+                        if (affectedRows == 0)
+                        {
+                            await transaction.RollbackAsync();
+                            return InsertOrUpdateResult<bool>.Failure($"Thất bại khi cập nhật số lượng nguyên liệu cho loại {objectType}.");
+                        }
+                    }
+                }
+            }
+
+            // -------------------------------------------------------------------------------------
+            // BƯỚC 2: UPSERT / UPDATE BẢNG USER_ACHIEVEMENTS (Dùng cú pháp chuẩn INSERT ... ON DUPLICATE KEY UPDATE)
+            // -------------------------------------------------------------------------------------
+            string upsertOutfitSQL = @"
+            UPDATE user_outfits ua
+            JOIN outfits a ON ua.outfit_id = a.id
+            SET ua.quantity = @quantity
+            WHERE ua.user_id = @user_id 
+            AND ua.outfit_id = @outfit_id
+            AND a.is_active = TRUE 
+            AND a.is_deleted = FALSE;";
+
+            int rowsAffected = 0;
+            await using (var command = new MySqlCommand(upsertOutfitSQL, connection, transaction))
+            {
+                command.Parameters.AddWithValue("@user_id", userId);
+                command.Parameters.AddWithValue("@outfit_id", outfit.Id);
+                command.Parameters.AddWithValue("@quantity", outfit.Quantity);
+
+                rowsAffected = await command.ExecuteNonQueryAsync();
+            }
+
+            if (rowsAffected == 0)
+            {
+                await transaction.RollbackAsync();
+                return InsertOrUpdateResult<bool>.Failure("Thất bại: Outfit không tồn tại hoặc đã bị khóa/xóa.");
+            }
+
+            await transaction.CommitAsync();
+
+            // Trả về kết quả Thành công (nếu rowsAffected == 1 là insert mới, > 1 là update)
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+        catch (MySqlException ex)
+        {
+            await transaction.RollbackAsync();
+            Debug.LogError($"[UpdateUserOutfitLevelAsync MySqlException]: {ex.Message}");
+            return InsertOrUpdateResult<bool>.Failure($"Lỗi Database: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            await transaction.RollbackAsync();
+            Debug.LogError($"[UpdateUserOutfitLevelAsync Exception]: {ex.Message}");
+            return InsertOrUpdateResult<bool>.Failure($"Lỗi hệ thống: {ex.Message}");
         }
     }
     public async Task<Outfits> GetUserOutfitByIdAsync(string userId, string Id)

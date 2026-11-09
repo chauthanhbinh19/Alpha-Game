@@ -323,6 +323,13 @@ public class UserFoodsService : IUserFoodsService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserFoodQuantityAsync(string userId, Foods food, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userFoodsRepository.UpdateUserFoodQuantityAsync(userId, food, totalDeductions);
+
+        return result;
+    }
+
     public async Task<Foods> GetUserFoodByIdAsync(string userId, string Id)
     {
         var result = await _userFoodsRepository.GetUserFoodByIdAsync(userId, Id);

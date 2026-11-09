@@ -755,6 +755,13 @@ public class UserCardColonelsService : IUserCardColonelsService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardColonelQuantityAsync(string userId, CardColonels cardColonel, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userCardColonelsRepository.UpdateUserCardColonelQuantityAsync(userId, cardColonel, totalDeductions);
+
+        return result;
+    }
+
     public async Task<InsertOrUpdateResult<bool>> UpdateTeamUserCardColonelAsync(string userId, string teamId, string position, string cardId)
     {
         await _userCardColonelsRepository.UpdateTeamUserCardColonelAsync(userId, teamId, position, cardId);

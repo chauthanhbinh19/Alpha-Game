@@ -324,6 +324,13 @@ public class UserAlchemiesService : IUserAlchemiesService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserAlchemyQuantityAsync(string userId, Alchemies alchemy, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userAlchemiesRepository.UpdateUserAlchemyQuantityAsync(userId, alchemy, totalDeductions);
+
+        return result;
+    }
+    
     public async Task<Alchemies> GetUserAlchemyByIdAsync(string userId, string Id)
     {
         var result = await _userAlchemiesRepository.GetUserAlchemyByIdAsync(userId, Id);

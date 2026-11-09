@@ -9,6 +9,7 @@ public interface IUserRelicsRepository
     Task<InsertOrUpdateResult<BatchOperationResultDTO<Relics>>> InsertOrUpdateUserRelicsBatchAsync(string userId, List<Relics> relics);
     Task<InsertOrUpdateResult<bool>> UpdateUserRelicLevelAsync(string userId, Relics relic, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserRelicStarAsync(string userId, Relics relic);
+    Task<InsertOrUpdateResult<bool>> UpdateUserRelicQuantityAsync(string userId, Relics relic, List<RecipeItemDetailDTO> totalDeductions);
     Task<Relics> GetUserRelicByIdAsync(string userId, string Id);
     Task<Relics> SumPowerUserRelicsAsync(string userId);
 }

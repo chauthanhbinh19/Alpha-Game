@@ -323,6 +323,13 @@ public class UserMechaBeastsService : IUserMechaBeastsService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserMechaBeastQuantityAsync(string userId, MechaBeasts mechaBeast, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userMechaBeastsRepository.UpdateUserMechaBeastQuantityAsync(userId, mechaBeast, totalDeductions);
+
+        return result;
+    }
+
     public async Task<MechaBeasts> GetUserMechaBeastByIdAsync(string userId, string Id)
     {
         var result = await _userMechaBeastsRepository.GetUserMechaBeastByIdAsync(userId, Id);

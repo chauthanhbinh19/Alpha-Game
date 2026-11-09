@@ -323,6 +323,13 @@ public class UserSpiritCardsService : IUserSpiritCardsService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserSpiritCardQuantityAsync(string userId, SpiritCards spiritCard, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userSpiritCardsRepository.UpdateUserSpiritCardQuantityAsync(userId, spiritCard, totalDeductions);
+
+        return result;
+    }
+
     public async Task<SpiritCards> GetUserSpiritCardByIdAsync(string userId, string Id)
     {
         var result = await _userSpiritCardsRepository.GetUserSpiritCardByIdAsync(userId, Id);

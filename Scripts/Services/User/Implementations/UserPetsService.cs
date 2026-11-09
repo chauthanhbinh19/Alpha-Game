@@ -692,6 +692,13 @@ public class UserPetsService : IUserPetsService
             };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserPetQuantityAsync(string userId, Pets pet, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userPetsRepository.UpdateUserPetQuantityAsync(userId, pet, totalDeductions);
+
+        return result;
+    }
+
     public async Task<InsertOrUpdateResult<bool>> UpdateTeamUserPetAsync(string userId, string teamId, string cardId)
     {
         await _userPetsRepository.UpdateTeamUserPetAsync(userId, teamId, cardId);

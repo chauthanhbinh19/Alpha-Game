@@ -9,6 +9,7 @@ public interface IUserSpiritCardsRepository
     Task<InsertOrUpdateResult<BatchOperationResultDTO<SpiritCards>>> InsertOrUpdateUserSpiritCardsBatchAsync(string userId, List<SpiritCards> spiritCards);
     Task<InsertOrUpdateResult<bool>> UpdateUserSpiritCardLevelAsync(string userId, SpiritCards spiritCard, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserSpiritCardStarAsync(string userId, SpiritCards spiritCard);
+    Task<InsertOrUpdateResult<bool>> UpdateUserSpiritCardQuantityAsync(string userId, SpiritCards spiritCard, List<RecipeItemDetailDTO> totalDeductions);
     Task<SpiritCards> GetUserSpiritCardByIdAsync(string userId, string Id);
     Task<SpiritCards> SumPowerUserSpiritCardsAsync(string userId);
 }

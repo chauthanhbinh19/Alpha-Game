@@ -323,6 +323,13 @@ public class UserTitlesService : IUserTitlesService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserTitleQuantityAsync(string userId, Titles title, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userTitlesRepository.UpdateUserTitleQuantityAsync(userId, title, totalDeductions);
+
+        return result;
+    }
+
     public async Task<Titles> GetUserTitleByIdAsync(string userId, string Id)
     {
         var result = await _userTitlesRepository.GetUserTitleByIdAsync(userId, Id);

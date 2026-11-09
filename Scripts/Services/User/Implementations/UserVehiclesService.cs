@@ -323,6 +323,13 @@ public class UserVehiclesService : IUserVehiclesService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserVehicleQuantityAsync(string userId, Vehicles vehicle, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userVehiclesRepository.UpdateUserVehicleQuantityAsync(userId, vehicle, totalDeductions);
+
+        return result;
+    }
+
     public async Task<Vehicles> GetUserVehicleByIdAsync(string userId, string Id)
     {
         var result = await _userVehiclesRepository.GetUserVehicleByIdAsync(userId, Id);

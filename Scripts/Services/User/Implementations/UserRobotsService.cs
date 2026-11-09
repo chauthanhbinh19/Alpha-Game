@@ -322,6 +322,13 @@ public class UserRobotsService : IUserRobotsService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserRobotQuantityAsync(string userId, Robots robot, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userRobotsRepository.UpdateUserRobotQuantityAsync(userId, robot, totalDeductions);
+
+        return result;
+    }
+
     public async Task<Robots> GetUserRobotByIdAsync(string userId, string Id)
     {
         var result = await _userRobotsRepository.GetUserRobotByIdAsync(userId, Id);

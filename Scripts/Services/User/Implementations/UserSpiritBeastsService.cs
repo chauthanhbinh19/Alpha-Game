@@ -323,6 +323,13 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserSpiritBeastQuantityAsync(string userId, SpiritBeasts spiritBeast, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userSpiritBeastsRepository.UpdateUserSpiritBeastQuantityAsync(userId, spiritBeast, totalDeductions);
+
+        return result;
+    }
+
     public async Task<SpiritBeasts> GetUserSpiritBeastByIdAsync(string userId, string Id)
     {
         var result = await _userSpiritBeastsRepository.GetUserSpiritBeastByIdAsync(userId, Id);

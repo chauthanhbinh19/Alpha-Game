@@ -767,6 +767,13 @@ public class UserCardMilitariesService : IUserCardMilitariesService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardMilitaryQuantityAsync(string userId, CardMilitaries cardMilitary, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userCardMilitariesRepository.UpdateUserCardMilitaryQuantityAsync(userId, cardMilitary, totalDeductions);
+
+        return result;
+    }
+    
     public async Task<CardMilitaries> GetUserCardMilitaryByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null)
     {
         CardMilitaries cardMilitary = await _userCardMilitariesRepository.GetUserCardMilitaryByIdAsync(userId, Id);

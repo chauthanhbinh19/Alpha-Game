@@ -767,6 +767,13 @@ public class UserCardSpellsService : IUserCardSpellsService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardSpellQuantityAsync(string userId, CardSpells cardSpell, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userCardSpellsRepository.UpdateUserCardSpellQuantityAsync(userId, cardSpell, totalDeductions);
+
+        return result;
+    }
+
     public async Task<CardSpells> GetUserCardSpellByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null)
     {
         CardSpells cardSpell = await _userCardSpellsRepository.GetUserCardSpellByIdAsync(userId, Id);

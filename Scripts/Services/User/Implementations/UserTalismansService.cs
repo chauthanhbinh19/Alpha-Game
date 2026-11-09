@@ -323,6 +323,13 @@ public class UserTalismansService : IUserTalismansService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserTalismanQuantityAsync(string userId, Talismans talisman, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userTalismansRepository.UpdateUserTalismanQuantityAsync(userId, talisman, totalDeductions);
+
+        return result;
+    }
+
     public async Task<Talismans> GetUserTalismanByIdAsync(string userId, string Id)
     {
         var result = await _userTalismansRepository.GetUserTalismanByIdAsync(userId, Id);

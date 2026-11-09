@@ -323,6 +323,13 @@ public class UserBuildingsService : IUserBuildingsService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserBuildingQuantityAsync(string userId, Buildings building, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userBuildingsRepository.UpdateUserBuildingQuantityAsync(userId, building, totalDeductions);
+
+        return result;
+    }
+
     public async Task<Buildings> GetUserBuildingByIdAsync(string userId, string Id)
     {
         var result = await _userBuildingsRepository.GetUserBuildingByIdAsync(userId, Id);

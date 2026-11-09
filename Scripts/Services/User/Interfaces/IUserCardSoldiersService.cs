@@ -20,6 +20,7 @@ public interface IUserCardSoldiersService
     Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardSoldiersBatchAsync(string userId, List<CardSoldiers> cardSolders);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardSoldierLevelAsync(string userId, CardSoldiers cardSoldier, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardSoldierStarAsync(string userId, CardSoldiers cardSoldier);
+    Task<InsertOrUpdateResult<bool>> UpdateUserCardSoldierQuantityAsync(string userId, CardSoldiers cardSoldier, List<RecipeItemDetailDTO> totalDeductions);
     Task<CardSoldiers> GetUserCardSoldierByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null);
     Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null);
 }

@@ -323,6 +323,13 @@ public class UserMagicFormationCirclesService : IUserMagicFormationCirclesServic
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserMagicFormationCircleQuantityAsync(string userId, MagicFormationCircles magicFormationCircle, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userMagicFormationCirclesRepository.UpdateUserMagicFormationCircleQuantityAsync(userId, magicFormationCircle, totalDeductions);
+
+        return result;
+    }
+
     public async Task<MagicFormationCircles> GetUserMagicFormationCircleByIdAsync(string userId, string Id)
     {
         var result = await _userMagicFormationCirclesRepository.GetUserMagicFormationCircleByIdAsync(userId, Id);

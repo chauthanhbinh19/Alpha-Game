@@ -323,6 +323,13 @@ public class UserArtifactsService : IUserArtifactsService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserArtifactQuantityAsync(string userId, Artifacts artifact, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userArtifactsRepository.UpdateUserArtifactQuantityAsync(userId, artifact, totalDeductions);
+
+        return result;
+    }
+    
     public async Task<Artifacts> GetUserArtifactByIdAsync(string userId, string Id)
     {
         var result = await _userArtifactsRepository.GetUserArtifactByIdAsync(userId, Id);

@@ -323,6 +323,13 @@ public class UserFashionsService : IUserFashionsService
         };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserFashionQuantityAsync(string userId, Fashions fashion, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userFashionsRepository.UpdateUserFashionQuantityAsync(userId, fashion, totalDeductions);
+
+        return result;
+    }
+
     public async Task<Fashions> GetUserFashionByIdAsync(string userId, string Id)
     {
         var result = await _userFashionsRepository.GetUserFashionByIdAsync(userId, Id);

@@ -408,6 +408,13 @@ public class UserAvatarsService : IUserAvatarsService
             };
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserAvatarQuantityAsync(string userId, Avatars avatar, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var result = await _userAvatarsRepository.UpdateUserAvatarQuantityAsync(userId, avatar, totalDeductions);
+
+        return result;
+    }
+    
     public async Task<Avatars> GetUserAvatarByUsedAsync(string userId)
     {
         var result = await _userAvatarsRepository.GetUserAvatarByUsedAsync(userId);
