@@ -890,7 +890,7 @@ public class StatsManager : MonoBehaviour
     public void CreateStatsManager(UserModules userModule, Transform contentTransform)
     {
         // Truyền contentTransform thay vì root transform
-        SetupStat(contentTransform, "Multiplier", AppConstants.StatFields.POWER, AppDisplayConstants.StatFieldsShort.POWER, userModule.CurrentMultiplier);
+        SetupStat(contentTransform, "Multiplier", AppConstants.StatFields.MULTIPLIER, AppDisplayConstants.StatFieldsShort.MULTIPLIER, userModule.CurrentMultiplier);
     }
     public void CreateStatsManager(UserRanks userRank, Transform contentTransform)
     {
@@ -1219,7 +1219,7 @@ public class StatsManager : MonoBehaviour
     public void CreateStatsManager(UserUpgrades userUpgrade, Transform contentTransform)
     {
         // Truyền contentTransform thay vì root transform
-        SetupStat(contentTransform, "Multiplier", AppConstants.StatFields.POWER, AppDisplayConstants.StatFieldsShort.POWER, userUpgrade.CurrentMultiplier);
+        SetupStat(contentTransform, "Multiplier", AppConstants.StatFields.MULTIPLIER, AppDisplayConstants.StatFieldsShort.MULTIPLIER, userUpgrade.CurrentMultiplier);
     }
     public void CreateStatsManager(UserCosmicImprints userCosmicImprint, Transform contentTransform)
     {

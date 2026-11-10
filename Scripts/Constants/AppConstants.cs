@@ -36,6 +36,7 @@ public static class AppConstants
         public const string BLOCK = "Block";
         public const string STATUS = "Status";
         public const string EXPERIMENT = "Experiment";
+        public const string MULTIPLIER = "Multiplier";
         public const string POWER = "Power";
         public const string HEALTH = "Health";
         public const string PHYSICAL_ATTACK = "PhysicalAttack";

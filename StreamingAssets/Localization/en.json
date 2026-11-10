@@ -520,6 +520,7 @@
   { "key": "StatFields.SkillResistanceRate", "value": "Skill Resistance Rate" },
   { "key": "StatFields.Description", "value": "Description" },
 
+  { "key": "StatFieldsShort.Multiplier", "value": "Mul" },
   { "key": "StatFieldsShort.Power", "value": "POWER" },
   { "key": "StatFieldsShort.Health", "value": "HP" },
   { "key": "StatFieldsShort.PhysicalAttack", "value": "PATK" },

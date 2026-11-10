@@ -101,6 +101,7 @@ public static class AppDisplayConstants
     }
     public static class StatFieldsShort
     {
+        public const string MULTIPLIER = "StatFieldsShort.Multiplier";
         public const string POWER = "StatFieldsShort.Power";
         public const string HEALTH = "StatFieldsShort.Health";
         public const string PHYSICAL_ATTACK = "StatFieldsShort.PhysicalAttack";
