@@ -159,7 +159,7 @@ public class UserCardSoldiersController : MonoBehaviour
         Transform setButtonGroupPanel = transform.Find("DictionaryCards/SetButtonGroup/Viewport/Content");
         RawImage cardBackground = transform.Find("DictionaryCards/Background").GetComponent<RawImage>();
         RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
-        backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
+        // backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.CARD_SOLDIER);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_SOLDIER_BACKGROUND_URL);

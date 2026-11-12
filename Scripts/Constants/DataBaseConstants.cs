@@ -52,6 +52,7 @@ public static class DataBaseConstants
         public const string WEAPONS = "weapons";
         public const string OUTFITS = "outfits";
         public const string ITEMS = "items";
+        public const string CURRENCIES = "currencies";
         
         public const string USER_ACHIEVEMENTS = "user_achievements";
         public const string USER_ALCHEMIES = "user_alchemies";

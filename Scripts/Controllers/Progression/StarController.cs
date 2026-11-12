@@ -98,18 +98,21 @@ public class StarController : MonoBehaviour
         TradingPanelPrefab = UIManager.Instance.Get(PrefabConstants.Progression.TRADING_PANEL_PREFAB);
     }
 
-    // Popup Nâng Cấp Sao (Star) theo cơ chế Value-based
+    // ==========================================
+    // 1. POPUP CHÍNH: STAR (Dựa theo quantity/star, tính toán theo công thức cấu hình)
+    // ==========================================
     public async Task CreateStarPanelAsync<T>(T stat) where T : IStats
     {
         GameObject gameObject = Instantiate(StarPanelPrefab, MainPanel);
         Transform panelTransform = gameObject.transform;
 
-        TextMeshProUGUI currentStarText = panelTransform.Find("CurrentLevel").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI nextStarText = panelTransform.Find("NextLevel").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI maxStarText = panelTransform.Find("MaxLevel").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI currentLevelText = panelTransform.Find("CurrentLevel").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI nextLevelText = panelTransform.Find("NextLevel").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI maxLevelText = panelTransform.Find("MaxLevel").GetComponent<TextMeshProUGUI>();
         Slider quantitySlider = panelTransform.Find("QuantitySlider").GetComponent<Slider>();
+        TextMeshProUGUI experienceText = panelTransform.Find("ExperienceText")?.GetComponent<TextMeshProUGUI>();
 
-        TMP_InputField starInputField = panelTransform.Find("ItemUsedQuantityText")?.GetComponent<TMP_InputField>();
+        TMP_InputField levelInputField = panelTransform.Find("ItemUsedQuantityText")?.GetComponent<TMP_InputField>();
         TextMeshProUGUI itemUsedQuantityText = panelTransform.Find("ItemUsedQuantityText")?.GetComponent<TextMeshProUGUI>();
 
         TextMeshProUGUI notificationText = panelTransform.Find("Notification/ContentText").GetComponent<TextMeshProUGUI>();
@@ -123,19 +126,18 @@ public class StarController : MonoBehaviour
         Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
         Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
         Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+        
+        Button openTradingButton = panelTransform.Find("OpenTradingButton")?.GetComponent<Button>();
+
         Button previewButton = panelTransform.Find("PreviewButton").GetComponent<Button>();
+        Transform previewDefaultObj = previewButton.transform.Find("Default");
+        Transform previewSelectedObj = previewButton.transform.Find("Selected");
 
         Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
         Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
         Transform rightTransform = panelTransform.Find("Right Scroll View/Viewport/Content");
 
-        Transform leftScrollViewTransform = panelTransform.Find("Scroll View");
-        Transform rightScrollViewTransform = panelTransform.Find("Right Scroll View");
-
-        Image leftScrollViewBg = leftScrollViewTransform.GetComponent<Image>() ?? leftScrollViewTransform.Find("Viewport")?.GetComponent<Image>();
-        Image rightScrollViewBg = rightScrollViewTransform.GetComponent<Image>() ?? rightScrollViewTransform.Find("Viewport")?.GetComponent<Image>();
-
-        int popupCurrentStar = stat.Star;
+        int popupCurrentStar = stat.Star; // Hoặc stat.Quantity tùy thuộc vào thuộc tính của stat
 
         string objectType = null;
         string featureCodeName = null;
@@ -155,428 +157,283 @@ public class StarController : MonoBehaviour
             ? popupRecipeData.Recipes.Max(r => r.MaxLevel)
             : popupCurrentStar;
 
-        int maxStar = int.Parse(gameConfig.MaxValue);
-        float maxSliderValue = Mathf.Max(0, (float)(recipeMaxStar - popupCurrentStar));
+        double maxStarConfig = double.Parse(gameConfig.MaxValue);
+        double maxSliderValue = Math.Max(0.0, recipeMaxStar - popupCurrentStar);
 
-        LevelDTO levelDto = new LevelDTO
+        LevelDTO starDto = new LevelDTO
         {
             Level = popupCurrentStar,
             Configs = growthConfig,
         };
 
-        currentStarText.text = popupCurrentStar.ToString();
-        nextStarText.text = popupCurrentStar.ToString();
-        if (maxStarText != null) maxStarText.text = maxStar.ToString();
-
-        if (stat != null)
-        {
-            StatsManager.Instance.CreateStatsManager(stat, currentStatsContent);
-            StatsManager.Instance.CreateStatsManager(stat, nextStatsContent);
-        }
+        currentLevelText.text = popupCurrentStar.ToString();
+        nextLevelText.text = popupCurrentStar.ToString();
+        if (maxLevelText != null) maxLevelText.text = maxStarConfig.ToString();
 
         quantitySlider.minValue = 0;
-        quantitySlider.maxValue = maxSliderValue;
+        quantitySlider.maxValue = (float)maxSliderValue;
         quantitySlider.wholeNumbers = true;
         quantitySlider.value = 0;
 
         bool isPreviewSelected = false;
 
-        Button[] adjustmentButtons = new Button[]
+        void UpdatePreviewButtonState(bool isSelected)
         {
-            increaseOneButton, increaseTenButton, increaseMaxButton,
-            decreaseOneButton, decreaseTenButton, decreaseMaxButton
-        };
-
-        void UpdateSliderButtonsUI(bool isSelected)
-        {
-            Color targetBgColor = ColorHelper.HexToColor(isSelected ? ColorConstants.YELLOW_COLOR : ColorConstants.RED_COLOR);
-            Color targetTextColor = ColorHelper.HexToColor(isSelected ? ColorConstants.BLACK_COLOR : ColorConstants.WHITE_COLOR);
-
-            Image previewBtnImg = previewButton.GetComponent<Image>();
-            if (previewBtnImg != null) previewBtnImg.color = targetBgColor;
-
-            Color sidebarColor = new Color(targetBgColor.r, targetBgColor.g, targetBgColor.b, 0.35f);
-            if (leftScrollViewBg != null) leftScrollViewBg.color = sidebarColor;
-            if (rightScrollViewBg != null) rightScrollViewBg.color = sidebarColor;
-
-            UpdateScrollbarHandleColor(leftScrollViewTransform, targetBgColor);
-            UpdateScrollbarHandleColor(rightScrollViewTransform, targetBgColor);
-
-            if (quantitySlider.fillRect != null)
-            {
-                Image fillImage = quantitySlider.fillRect.GetComponent<Image>();
-                if (fillImage != null) fillImage.color = targetBgColor;
-            }
-            if (quantitySlider.handleRect != null)
-            {
-                Image handleImage = quantitySlider.handleRect.GetComponent<Image>();
-                if (handleImage != null) handleImage.color = targetBgColor;
-            }
-
-            foreach (var btn in adjustmentButtons)
-            {
-                if (btn == null) continue;
-
-                Image btnImage = btn.GetComponent<Image>();
-                if (btnImage != null) btnImage.color = targetBgColor;
-
-                TextMeshProUGUI btnText = btn.GetComponentInChildren<TextMeshProUGUI>();
-                if (btnText != null) btnText.color = targetTextColor;
-            }
+            if (previewDefaultObj != null) previewDefaultObj.gameObject.SetActive(!isSelected);
+            if (previewSelectedObj != null) previewSelectedObj.gameObject.SetActive(isSelected);
         }
 
         void SetPreviewNotification(string value, bool isSuccess)
         {
             notificationText.text = LocalizationManager.Get(value);
-
             string colorHex = isSuccess ? ColorConstants.GREEN_COLOR : ColorConstants.RED_COLOR;
-            string iconPath = isSuccess ? ImageConstants.status.CONFIRM_URL : ImageConstants.status.CANCEL_URL;
-
             Color statusColor = ColorHelper.HexToColor(colorHex);
             notificationText.color = statusColor;
-
-            if (notificationIconImage != null)
-            {
-                Texture iconTex = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(iconPath));
-                if (iconTex != null)
-                {
-                    notificationIconImage.texture = iconTex;
-                    notificationIconImage.color = statusColor;
-                    notificationIconImage.gameObject.SetActive(true);
-                }
-            }
-        }
-
-        void UpdateStarDisplay(int starValue)
-        {
-            string formattedText = $"+{starValue}";
-            if (starInputField != null)
-            {
-                starInputField.text = starValue.ToString();
-            }
-            else if (itemUsedQuantityText != null)
-            {
-                itemUsedQuantityText.text = formattedText;
-            }
         }
 
         async void UpdatePreview()
         {
             int requested = (int)quantitySlider.value;
 
-            if (popupCurrentStar >= maxStar)
+            if (popupCurrentStar >= maxStarConfig)
             {
-                var backgroundImage = confirmButton.transform.Find("Background2")?.GetComponent<RawImage>();
-                if (backgroundImage != null)
-                    backgroundImage.color = ColorHelper.HexToColor(ColorConstants.GRAY_COLOR);
-
                 SetPreviewNotification(MessageConstants.UPGRADE_ALREADY_MAX, false);
-                nextStarText.text = "MAX";
+                nextLevelText.text = "MAX";
                 confirmButton.interactable = false;
-                UpdateStarDisplay(0);
-
-                if (stat != null)
-                    StatsManager.Instance.CreateStatsManager(stat, nextStatsContent);
-
+                if (experienceText != null) experienceText.text = "MAX";
                 return;
             }
 
             if (requested <= 0)
             {
-                nextStarText.text = popupCurrentStar.ToString();
+                nextLevelText.text = popupCurrentStar.ToString();
                 confirmButton.interactable = false;
-                UpdateStarDisplay(0);
-
-                if (stat != null)
-                    StatsManager.Instance.CreateStatsManager(stat, nextStatsContent);
-
+                if (experienceText != null) experienceText.text = "0";
                 foreach (Transform child in rightTransform) Destroy(child.gameObject);
                 SetPreviewNotification(MessageConstants.READY_TO_UPGRADE, true);
                 return;
             }
 
-            RecipeCalculateDTO preview = await RecipeCalculator.CalculateUpgradeByLevelsValueBasedAsync(
-                popupRecipeData,
-                popupCurrentStar,
-                requested,
-                maxStar,
-                levelDto
-            );
-
-            nextStarText.text = preview.TargetLevel.ToString();
-
+            // Gọi hàm tính toán thông thường không cần truyền tham số kinh nghiệm
+            RecipeCalculateDTO preview;
             if (isPreviewSelected)
             {
-                confirmButton.interactable = false;
+                preview = await RecipeCalculator.CalculateUpgradePreviewByLevelsAsync(
+                    popupRecipeData, popupCurrentStar, requested, (int)maxStarConfig, starDto, 0
+                );
             }
             else
             {
-                confirmButton.interactable = preview.GainedLevels > 0;
+                preview = await RecipeCalculator.CalculateUpgradeByLevelsValueBasedAsync(
+                    popupRecipeData, popupCurrentStar, requested, (int)maxStarConfig, starDto, 0
+                );
             }
 
-            int displayGained = preview.GainedLevels > 0 ? preview.GainedLevels : requested;
+            int targetStarDisplay = Math.Min(popupCurrentStar + requested, (int)maxStarConfig);
+            nextLevelText.text = isPreviewSelected ? targetStarDisplay.ToString() : preview.TargetLevel.ToString();
 
-            if (displayGained > 0 && stat != null)
+            // Nếu không dùng exp, có thể ẩn hoặc hiển thị số star tăng thêm tuỳ ý
+            if (experienceText != null)
             {
-                StatsManager.Instance.CreateStatsManager(stat, nextStatsContent);
+                experienceText.text = $"+{preview.GainedLevels} Star";
             }
-            else if (stat != null)
-            {
-                StatsManager.Instance.CreateStatsManager(stat, nextStatsContent);
-            }
+
+            confirmButton.interactable = !isPreviewSelected && (preview.GainedLevels > 0);
 
             var materials = preview.TotalDeductions ?? new List<RecipeItemDetailDTO>();
             int existingChildCount = rightTransform.childCount;
-            int neededChildCount = materials.Count;
-
-            for (int i = existingChildCount - 1; i >= neededChildCount; i--)
+            for (int i = existingChildCount - 1; i >= materials.Count; i--)
             {
                 Destroy(rightTransform.GetChild(i).gameObject);
             }
 
-            for (int i = 0; i < neededChildCount; i++)
+            for (int i = 0; i < materials.Count; i++)
             {
-                GameObject itemGO = (i < existingChildCount)
-                    ? rightTransform.GetChild(i).gameObject
-                    : Instantiate(StarItemPopupPrefab, rightTransform);
-
-                SetupStarItemUI2(itemGO, new RecipePreviewDetailDTO
-                {
-                    ObjectId = materials[i].ObjectId,
-                    ObjectType = materials[i].ObjectType,
-                    ObjectImage = materials[i].ObjectImage,
-                    TotalRequiredQuantity = materials[i].RequiredQuantity,
-                    CurrentUserQuantity = materials[i].UserQuantity,
-                    IsEnough = true
-                });
+                GameObject itemGO = (i < existingChildCount) ? rightTransform.GetChild(i).gameObject : Instantiate(StarItemPopupPrefab, rightTransform);
+                double ownedQty = materials[i].UserQuantity;
+                SetupItemUI(itemGO, materials[i].ObjectId, materials[i].ObjectType, materials[i].ObjectImage, materials[i].RequiredQuantity, ownedQty);
             }
 
-            UpdateStarDisplay(displayGained);
-            SetPreviewNotification(MessageConstants.READY_TO_UPGRADE, true);
-        }
-
-        if (starInputField != null)
-        {
-            starInputField.onEndEdit.AddListener((inputValue) =>
-            {
-                if (int.TryParse(inputValue, out int parsedStar))
-                {
-                    float clampedStar = Mathf.Clamp(parsedStar, 0, maxSliderValue);
-                    starInputField.text = clampedStar.ToString();
-                    quantitySlider.SetValueWithoutNotify(clampedStar);
-                }
-                else
-                {
-                    starInputField.text = "0";
-                    quantitySlider.SetValueWithoutNotify(0);
-                }
-
-                UpdatePreview();
-            });
+            if (levelInputField != null) levelInputField.text = requested.ToString();
+            else if (itemUsedQuantityText != null) itemUsedQuantityText.text = $"+{requested}";
         }
 
         previewButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             isPreviewSelected = !isPreviewSelected;
+            UpdatePreviewButtonState(isPreviewSelected);
 
-            UpdateSliderButtonsUI(isPreviewSelected);
-
+            quantitySlider.maxValue = isPreviewSelected ? (float)Math.Max(0.0, maxStarConfig - popupCurrentStar) : (float)Math.Max(0.0, recipeMaxStar - popupCurrentStar);
             quantitySlider.SetValueWithoutNotify(0);
             UpdatePreview();
         });
 
         quantitySlider.onValueChanged.AddListener(_ => UpdatePreview());
 
-        increaseOneButton.onClick.AddListener(() =>
-        {
-            quantitySlider.value = Mathf.Min(quantitySlider.maxValue, quantitySlider.value + 1);
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-        });
-        increaseTenButton.onClick.AddListener(() =>
-        {
-            quantitySlider.value = Mathf.Min(quantitySlider.maxValue, quantitySlider.value + 10);
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-        });
-        increaseMaxButton.onClick.AddListener(async () =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        increaseOneButton.onClick.AddListener(() => quantitySlider.value = Mathf.Min(quantitySlider.maxValue, quantitySlider.value + 1));
+        increaseTenButton.onClick.AddListener(() => quantitySlider.value = Mathf.Min(quantitySlider.maxValue, quantitySlider.value + 10));
+        increaseMaxButton.onClick.AddListener(() => quantitySlider.value = quantitySlider.maxValue);
 
-            if (isPreviewSelected)
+        decreaseOneButton.onClick.AddListener(() => quantitySlider.value = Mathf.Max(0, quantitySlider.value - 1));
+        decreaseTenButton.onClick.AddListener(() => quantitySlider.value = Mathf.Max(0, quantitySlider.value - 10));
+        decreaseMaxButton.onClick.AddListener(() => quantitySlider.value = 0);
+
+        if (openTradingButton != null)
+        {
+            openTradingButton.onClick.AddListener(async () =>
             {
-                quantitySlider.value = quantitySlider.maxValue;
-            }
-            else
-            {
-                RecipeCalculateDTO maxAffordable = await RecipeCalculator.CalculateMaxUpgradeValueBasedAsync(
-                    popupRecipeData,
-                    popupCurrentStar,
-                    maxStar,
-                    levelDto
-                );
-                quantitySlider.value = Mathf.Clamp(maxAffordable.GainedLevels, 0, quantitySlider.maxValue);
-            }
-        });
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                Destroy(gameObject);
+                await CreateTradingPopupPanelAsync(stat);
+            });
+        }
 
-        decreaseOneButton.onClick.AddListener(() =>
-        {
-            quantitySlider.value = Mathf.Max(0, quantitySlider.value - 1);
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-        });
-        decreaseTenButton.onClick.AddListener(() =>
-        {
-            quantitySlider.value = Mathf.Max(0, quantitySlider.value - 10);
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-        });
-        decreaseMaxButton.onClick.AddListener(() =>
-        {
-            quantitySlider.value = 0;
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-        });
-
-        UpdateSliderButtonsUI(false);
-        UpdatePreview();
-
-        // Click Confirm: Thực hiện tăng Star và gọi hàm service tương ứng
         confirmButton.onClick.AddListener(async () =>
         {
-            if (isPreviewSelected)
-            {
-                SetPreviewNotification(MessageConstants.CANNOT_CONFIRM_IN_PREVIEW_MODE, false);
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
-                return;
-            }
-
-            if (popupCurrentStar >= maxStar)
-            {
-                SetPreviewNotification(MessageConstants.UPGRADE_ALREADY_MAX, false);
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
-                return;
-            }
+            if (isPreviewSelected) return;
 
             int requested = (int)quantitySlider.value;
-            if (requested <= 0)
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
-                return;
-            }
+            if (requested <= 0) return;
 
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.LEVEL_UP_SOUND);
             confirmButton.interactable = false;
             closeButton.interactable = false;
 
             RecipeCalculateDTO calcResult = await RecipeCalculator.CalculateUpgradeByLevelsValueBasedAsync(
-                popupRecipeData,
-                popupCurrentStar,
-                requested,
-                maxStar,
-                levelDto
+                popupRecipeData, popupCurrentStar, requested, (int)maxStarConfig, starDto, 0
             );
 
             if (calcResult.GainedLevels <= 0)
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ALERT_SOUND);
                 confirmButton.interactable = true;
                 closeButton.interactable = true;
                 return;
             }
 
-            // Gán giá trị Star mới cho stat
-            stat.Star = calcResult.TargetLevel;
+            stat.Star = calcResult.TargetLevel; // Cập nhật lại số Star cho stat
 
-            // Gọi hàm thực thi service update Star tương ứng
-            await ExecuteServiceStarInsertAsync(stat);
+            // Gọi Service thực thi trừ nguyên liệu tương ứng
+            // await ExecuteServiceInsertAsync(stat, calcResult.TotalDeductions);
 
             Destroy(gameObject);
-            await RefreshPanelAsync(stat);
         });
 
-        closeButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(gameObject);
-        });
+        closeButton.onClick.AddListener(() => Destroy(gameObject));
+        UpdatePreview();
     }
 
-    private async Task RefreshPanelAsync<T>(T stat) where T : IStats
+
+    // ==========================================
+    // 2. POPUP PHỤ: TRADING (Dựa theo objectValue của items đổi sang quantity, KHÔNG dùng CalculateRequiredExp)
+    // ==========================================
+    public async Task CreateTradingPopupPanelAsync<T>(T stat) where T : IStats
     {
-        await Task.CompletedTask;
+        GameObject gameObject = Instantiate(TradingPanelPrefab, MainPanel);
+        Transform panelTransform = gameObject.transform;
+
+        Slider quantitySlider = panelTransform.Find("QuantitySlider").GetComponent<Slider>();
+        Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
+        Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+        Transform rightTransform = panelTransform.Find("Right Scroll View/Viewport/Content");
+
+        string featureCodeName = "TRADING_FEATURE_CODE"; 
+        RecipeResponseDTO tradingRecipeData = await RecipeService.Create().GetRecipeItemsByFeatureCodeNameAsync(featureCodeName, 1, User.CurrentUserId);
+
+        quantitySlider.minValue = 0;
+        quantitySlider.maxValue = 100;
+        quantitySlider.wholeNumbers = true;
+        quantitySlider.value = 0;
+
+        void UpdateTradingPreview()
+        {
+            int requestedQuantity = (int)quantitySlider.value;
+
+            if (requestedQuantity <= 0)
+            {
+                confirmButton.interactable = false;
+                foreach (Transform child in rightTransform) Destroy(child.gameObject);
+                return;
+            }
+
+            // Quy đổi trực tiếp dựa theo objectValue của items để ra quantity tiêu thụ
+            var deductions = new List<RecipeItemDetailDTO>();
+            if (tradingRecipeData?.Recipes != null)
+            {
+                foreach (var recipe in tradingRecipeData.Recipes)
+                {
+                    foreach (var detail in recipe.RecipeItemDetails)
+                    {
+                        double unitValue = detail.ObjectValue > 0 ? detail.ObjectValue : 1;
+                        double totalRequired = requestedQuantity * unitValue; 
+
+                        double ownedQty = 0;
+                        if (tradingRecipeData.UserInventory != null && tradingRecipeData.UserInventory.TryGetValue(detail.ObjectId, out var q))
+                            ownedQty = q;
+
+                        deductions.Add(new RecipeItemDetailDTO
+                        {
+                            ObjectId = detail.ObjectId,
+                            ObjectType = detail.ObjectType,
+                            ObjectImage = detail.ObjectImage,
+                            ObjectValue = detail.ObjectValue,
+                            RequiredQuantity = totalRequired,
+                            UserQuantity = ownedQty
+                        });
+                    }
+                }
+            }
+
+            int existingChildCount = rightTransform.childCount;
+            for (int i = existingChildCount - 1; i >= deductions.Count; i--)
+            {
+                Destroy(rightTransform.GetChild(i).gameObject);
+            }
+
+            bool canAffordAll = true;
+            for (int i = 0; i < deductions.Count; i++)
+            {
+                GameObject itemGO = (i < existingChildCount) ? rightTransform.GetChild(i).gameObject : Instantiate(StarItemPopupPrefab, rightTransform);
+                SetupItemUI(itemGO, deductions[i].ObjectId, deductions[i].ObjectType, deductions[i].ObjectImage, deductions[i].RequiredQuantity, deductions[i].UserQuantity);
+
+                if (deductions[i].UserQuantity < deductions[i].RequiredQuantity)
+                {
+                    canAffordAll = false;
+                }
+            }
+
+            confirmButton.interactable = canAffordAll;
+        }
+
+        quantitySlider.onValueChanged.AddListener(_ => UpdateTradingPreview());
+
+        confirmButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.LEVEL_UP_SOUND);
+            // Thực hiện gọi API Trading tương ứng tại đây
+            Destroy(gameObject);
+        });
+
+        closeButton.onClick.AddListener(() => Destroy(gameObject));
+        UpdateTradingPreview();
     }
 
-    private void SetupStarItemUI2(GameObject itemGO, RecipePreviewDetailDTO data)
+    private void SetupItemUI(GameObject itemGO, string objectId, string objectType, string objectImage, double requiredQty, double ownedQty)
     {
         TextMeshProUGUI requiredText = itemGO.transform.Find("RequiredText")?.GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI ownedText = itemGO.transform.Find("AvailableText")?.GetComponent<TextMeshProUGUI>();
         RawImage image = itemGO.transform.Find("Image")?.GetComponent<RawImage>();
 
-        bool isEnough = data.CurrentUserQuantity >= data.TotalRequiredQuantity;
+        bool isEnough = ownedQty >= requiredQty;
         Color statusColor = ColorHelper.HexToColor(isEnough ? ColorConstants.GREEN_COLOR : ColorConstants.RED_COLOR);
 
-        if (requiredText != null)
-        {
-            requiredText.text = data.TotalRequiredQuantity.ToString();
-            requiredText.color = statusColor;
-        }
+        if (requiredText != null) { requiredText.text = requiredQty.ToString(); requiredText.color = statusColor; }
+        if (ownedText != null) { ownedText.text = ownedQty.ToString(); ownedText.color = statusColor; }
 
-        if (ownedText != null)
+        if (image != null && !string.IsNullOrEmpty(objectImage))
         {
-            ownedText.text = data.CurrentUserQuantity.ToString();
-            ownedText.color = statusColor;
+            Texture texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(objectImage));
+            if (texture != null) image.texture = texture;
         }
-
-        if (image != null && !string.IsNullOrEmpty(data.ObjectImage))
-        {
-            Texture texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(data.ObjectImage));
-            if (texture != null)
-                image.texture = texture;
-        }
-    }
-
-    private void UpdateScrollbarHandleColor(Transform scrollViewTransform, Color color)
-    {
-        if (scrollViewTransform == null) return;
-
-        Scrollbar scrollbar = scrollViewTransform.GetComponentInChildren<Scrollbar>();
-        if (scrollbar == null) return;
-
-        if (scrollbar.handleRect != null)
-        {
-            Image handleImage = scrollbar.handleRect.GetComponent<Image>();
-            if (handleImage != null)
-            {
-                handleImage.color = color;
-            }
-        }
-        else if (scrollbar.targetGraphic != null)
-        {
-            scrollbar.targetGraphic.color = color;
-        }
-    }
-
-    public async Task ExecuteServiceStarInsertAsync(IStats stat)
-    {
-        try
-        {
-            if (stat is Achievements achievement)
-            {
-                // Gọi service update Star của Achievement nếu có
-            }
-            else if (stat is CardHeroes hero)
-            {
-                await UserCardHeroesService.Create().UpdateUserCardHeroStarAsync(User.CurrentUserId, hero);
-                UserCardHeroesController.Instance.RefreshCurrentDetailsUI(hero);
-            }
-            // Thêm các nhánh điều kiện cho các stat khác tương tự như LevelController nhưng gọi hàm Update Star tương ứng
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError($"Error updating star for {stat.GetType().Name}: {ex.Message}");
-            throw;
-        }
-    }
-
-    internal void CreateStarPanel(Titles title, int mAX_LEVEL, Func<object, object> value)
-    {
-        throw new NotImplementedException();
     }
 }

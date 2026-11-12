@@ -1,5 +1,65 @@
 public static class DatabaseHelper
 {
+    public static string GetTableNameByObjectType(string objectType)
+    {
+        return objectType.ToUpper() switch
+        {
+            AppConstants.ObjectType.ACHIEVEMENTS => DataBaseConstants.Table.ACHIEVEMENTS,
+            AppConstants.ObjectType.ALCHEMIES => DataBaseConstants.Table.ALCHEMIES,
+            AppConstants.ObjectType.ARCHITECTURES => DataBaseConstants.Table.ARCHITECTURES,
+            AppConstants.ObjectType.ARTIFACTS => DataBaseConstants.Table.ARTIFACTS,
+            AppConstants.ObjectType.ARTWORKS => DataBaseConstants.Table.ARTWORKS,
+            AppConstants.ObjectType.AVATARS => DataBaseConstants.Table.AVATARS,
+            AppConstants.ObjectType.BADGES => DataBaseConstants.Table.BADGES,
+            AppConstants.ObjectType.BEVERAGES => DataBaseConstants.Table.BEVERAGES,
+            AppConstants.ObjectType.BOOKS => DataBaseConstants.Table.BOOKS,
+            AppConstants.ObjectType.BORDERS => DataBaseConstants.Table.BORDERS,
+            AppConstants.ObjectType.BUILDINGS => DataBaseConstants.Table.BUILDINGS,
+            AppConstants.ObjectType.CARD_ADMIRALS => DataBaseConstants.Table.CARD_ADMIRALS,
+            AppConstants.ObjectType.CARD_CAPTAINS => DataBaseConstants.Table.CARD_CAPTAINS,
+            AppConstants.ObjectType.CARD_COLONELS => DataBaseConstants.Table.CARD_COLONELS,
+            AppConstants.ObjectType.CARD_GENERALS => DataBaseConstants.Table.CARD_GENERALS,
+            AppConstants.ObjectType.CARD_HEROES => DataBaseConstants.Table.CARD_HEROES,
+            AppConstants.ObjectType.CARD_LIVES => DataBaseConstants.Table.CARD_LIVES,
+            AppConstants.ObjectType.CARD_MILITARIES => DataBaseConstants.Table.CARD_MILITARIES,
+            AppConstants.ObjectType.CARD_MONSTERS => DataBaseConstants.Table.CARD_MONSTERS,
+            AppConstants.ObjectType.CARD_SOLDIERS => DataBaseConstants.Table.CARD_SOLDIERS,
+            AppConstants.ObjectType.CARD_SPELLS => DataBaseConstants.Table.CARD_SPELLS,
+            AppConstants.ObjectType.COLLABORATION_EQUIPMENTS => DataBaseConstants.Table.COLLABORATION_EQUIPMENTS,
+            AppConstants.ObjectType.COLLABORATIONS => DataBaseConstants.Table.COLLABORATIONS,
+            AppConstants.ObjectType.CORES => DataBaseConstants.Table.CORES,
+            AppConstants.ObjectType.EMOJIS => DataBaseConstants.Table.EMOJIS,
+            AppConstants.ObjectType.EQUIPMENTS => DataBaseConstants.Table.EQUIPMENTS,
+            AppConstants.ObjectType.FASHIONS => DataBaseConstants.Table.FASHIONS,
+            AppConstants.ObjectType.FOODS => DataBaseConstants.Table.FOODS,
+            AppConstants.ObjectType.FORGES => DataBaseConstants.Table.FORGES,
+            AppConstants.ObjectType.FURNITURES => DataBaseConstants.Table.FURNITURES,
+            AppConstants.ObjectType.ITEMS => DataBaseConstants.Table.ITEMS,
+            AppConstants.ObjectType.MAGIC_FORMATION_CIRCLES => DataBaseConstants.Table.MAGIC_FORMATION_CIRCLES,
+            AppConstants.ObjectType.MECHA_BEASTS => DataBaseConstants.Table.MECHA_BEASTS,
+            AppConstants.ObjectType.MEDALS => DataBaseConstants.Table.MEDALS,
+            AppConstants.ObjectType.OUTFITS => DataBaseConstants.Table.OUTFITS,
+            AppConstants.ObjectType.PETS => DataBaseConstants.Table.PETS,
+            AppConstants.ObjectType.PLANTS => DataBaseConstants.Table.PLANTS,
+            AppConstants.ObjectType.PUPPETS => DataBaseConstants.Table.PUPPETS,
+            AppConstants.ObjectType.RELICS => DataBaseConstants.Table.RELICS,
+            AppConstants.ObjectType.ROBOTS => DataBaseConstants.Table.ROBOTS,
+            AppConstants.ObjectType.RUNES => DataBaseConstants.Table.RUNES,
+            AppConstants.ObjectType.SKILLS => DataBaseConstants.Table.SKILLS,
+            AppConstants.ObjectType.SPIRIT_BEASTS => DataBaseConstants.Table.SPIRIT_BEASTS,
+            AppConstants.ObjectType.SPIRIT_CARDS => DataBaseConstants.Table.SPIRIT_CARDS,
+            AppConstants.ObjectType.SYMBOLS => DataBaseConstants.Table.SYMBOLS,
+            AppConstants.ObjectType.TALISMANS => DataBaseConstants.Table.TALISMANS,
+            AppConstants.ObjectType.TECHNOLOGIES => DataBaseConstants.Table.TECHNOLOGIES,
+            AppConstants.ObjectType.TITLES => DataBaseConstants.Table.TITLES,
+            AppConstants.ObjectType.VEHICLES => DataBaseConstants.Table.VEHICLES,
+            AppConstants.ObjectType.WEAPONS => DataBaseConstants.Table.WEAPONS,
+            AppConstants.ObjectType.CURRENCIES => DataBaseConstants.Table.CURRENCIES,
+
+            _ => DataBaseConstants.Table.ITEMS
+        };
+    }
+
     /// <summary>
     /// Ánh xạ ObjectType sang Tên Bảng kho người dùng tương ứng (Sắp xếp A-Z)
     /// </summary>
