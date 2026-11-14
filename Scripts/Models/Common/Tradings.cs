@@ -16,8 +16,8 @@ public class Tradings
     public DateTime UpdatedAt { get; set; }
 
     // Danh sách vật liệu yêu cầu (Đầu vào)
-    public List<TradingMaterialRequired> RequiredMaterials { get; set; } = new List<TradingMaterialRequiredModel>();
+    public List<TradingMaterialsRequired> RequiredMaterials { get; set; } = new List<TradingMaterialsRequired>();
 
     // Danh sách vật liệu thành phẩm (Đầu ra)
-    public List<TradingMaterialProduced> ProducedMaterials { get; set; } = new List<TradingMaterialProducedModel>();
+    public List<TradingMaterialsProduced> ProducedMaterials { get; set; } = new List<TradingMaterialsProduced>();
 }

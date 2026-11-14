@@ -79,6 +79,6 @@ public static class PowerHelper
         adjusted_damage_to_same_faction + adjusted_resistance_to_same_faction +
         adjustedMana + adjustedManaRegeneration + 
         adjusted_normal_damage_rate + adjusted_normal_resistance_rate +
-        adjusted_skill_damage_rate + adjusted_skill_resistance_rate)/10;
+        adjusted_skill_damage_rate + adjusted_skill_resistance_rate)/1000;
     }
 }

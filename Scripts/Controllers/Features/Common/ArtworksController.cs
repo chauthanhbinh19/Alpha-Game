@@ -488,7 +488,8 @@ public class ArtworksController : MonoBehaviour
         Button closeButton = quantityObject.transform.Find("CloseButton")?.GetComponent<Button>();
         Button confirmButton = quantityObject.transform.Find("Buy")?.GetComponent<Button>();
 
-        TextMeshProUGUI quantityText = quantityObject.transform.Find("QuantityText")?.GetComponent<TextMeshProUGUI>();
+        // THAY ĐỔI: Đổi từ TextMeshProUGUI sang TMP_InputField
+        TMP_InputField quantityInput = quantityObject.transform.Find("QuantityText")?.GetComponent<TMP_InputField>();
         RawImage currencyImage = quantityObject.transform.Find("Price/CurrencyImage")?.GetComponent<RawImage>();
         TextMeshProUGUI priceText = quantityObject.transform.Find("Price/PriceText")?.GetComponent<TextMeshProUGUI>();
         RawImage equipmentImage = quantityObject.transform.Find("Image")?.GetComponent<RawImage>();
@@ -537,13 +538,13 @@ public class ArtworksController : MonoBehaviour
         }
 
         // 5. Hàm cập nhật UI local khi thay đổi số lượng
-        void UpdatePopupUI()
+        void UpdatePopupUI(bool updateInputText = true)
         {
             currentQuantity = Mathf.Clamp(currentQuantity, minQuantity, maxQuantity);
 
-            if (quantityText != null)
+            if (quantityInput != null && updateInputText)
             {
-                quantityText.text = currentQuantity.ToString();
+                quantityInput.text = currentQuantity.ToString();
             }
 
             if (priceText != null)
@@ -555,6 +556,59 @@ public class ArtworksController : MonoBehaviour
 
         // Gọi lần đầu để hiển thị mặc định
         UpdatePopupUI();
+
+        // 5.1. Lắng nghe sự kiện khi người dùng gõ vào InputField
+        if (quantityInput != null)
+        {
+            // Cấu hình InputField chỉ cho phép nhập số nguyên (nếu cần thiết có thể chỉnh trực tiếp trên Inspector của Prefab)
+            quantityInput.contentType = TMP_InputField.ContentType.IntegerNumber;
+
+            quantityInput.onValueChanged.AddListener((string valueStr) =>
+            {
+                // Nếu người dùng xóa trống ô nhập
+                if (string.IsNullOrEmpty(valueStr))
+                {
+                    currentQuantity = minQuantity;
+                    return;
+                }
+
+                // Lọc ký tự: Nếu parse ra số thất bại (chứa chữ, ký tự đặc biệt, dấu trừ, v.v.), ép về 0
+                if (!int.TryParse(valueStr, out int parsedValue))
+                {
+                    currentQuantity = 0;
+                }
+                else
+                {
+                    // Chặn giá trị âm (phòng hờ nhập dấu trừ) và giới hạn không vượt quá maxQuantity
+                    if (parsedValue < 0)
+                    {
+                        currentQuantity = 0;
+                    }
+                    else if (parsedValue > maxQuantity)
+                    {
+                        // Vượt quá số lượng cho phép -> tự động gán thành mức tối đa người dùng có thể mua
+                        currentQuantity = maxQuantity;
+                    }
+                    else
+                    {
+                        currentQuantity = parsedValue;
+                    }
+                }
+
+                // Cập nhật lại giá tiền ngay lập tức theo số lượng đang gõ (không ghi đè text input để tránh giật con trỏ khi đang gõ)
+                UpdatePopupUI(false);
+            });
+
+            // Khi người dùng bấm Enter hoặc click ra ngoài (End Edit), chuẩn hóa lại hiển thị text trong InputField cho chuẩn xác
+            quantityInput.onEndEdit.AddListener((string valueStr) =>
+            {
+                if (string.IsNullOrEmpty(valueStr) || !int.TryParse(valueStr, out int parsedValue) || parsedValue < minQuantity)
+                {
+                    currentQuantity = minQuantity;
+                }
+                UpdatePopupUI(true);
+            });
+        }
 
         // 6. Đăng ký sự kiện Nút Tăng/Giảm/Min/Max
         increaseButton?.onClick.AddListener(() =>
@@ -611,6 +665,16 @@ public class ArtworksController : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
+            // Đảm bảo trước khi bấm mua, giá trị currentQuantity đã được chuẩn hóa lần cuối từ ô Input
+            if (quantityInput != null && int.TryParse(quantityInput.text, out int finalParsed))
+            {
+                currentQuantity = Mathf.Clamp(finalParsed, minQuantity, maxQuantity);
+            }
+            else
+            {
+                currentQuantity = minQuantity;
+            }
+
             // Khóa nút mua tránh spam bấm nhiều lần
             confirmButton.interactable = false;
 
@@ -637,8 +701,8 @@ public class ArtworksController : MonoBehaviour
                         );
                     }
                 }
-                // Xử lý logic cập nhật UI Tiền tệ / Túi đồ của User tại đây (nếu có)
-                // *** GỌI CALLBACK ĐỂ CẬP NHẬT UI TRÊN SHOP CỤ THỂ ***
+
+                // GỌI CALLBACK ĐỂ CẬP NHẬT UI TRÊN SHOP CỤ THỂ
                 onPurchaseSuccess?.Invoke(currentQuantity);
 
                 Destroy(quantityObject);
