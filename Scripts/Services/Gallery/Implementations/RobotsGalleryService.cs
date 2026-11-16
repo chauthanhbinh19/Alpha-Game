@@ -6,16 +6,13 @@ public class RobotsGalleryService : IRobotsGalleryService
 {
     private readonly IRobotsGalleryRepository _robotsGalleryRepository;
     private readonly IRobotsService _robotsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public RobotsGalleryService(
         IRobotsGalleryRepository robotsGalleryRepository,
-        IRobotsService robotsService,
-        IPowerManagerService powerManagerService)
+        IRobotsService robotsService)
     {
         _robotsGalleryRepository = robotsGalleryRepository;
         _robotsService = robotsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IRobotsGalleryService Create() => ServiceContainer.GetService<IRobotsGalleryService>();
@@ -94,12 +91,6 @@ public class RobotsGalleryService : IRobotsGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Robots robotGallery = await GetRobotCollectionByIdAsync(userId, robotId) ?? new Robots();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)robotGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class RobotsGalleryService : IRobotsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusRobotsGalleryAsync(string userId)
     {
-        Robots oldRobot = await SumPowerRobotsGalleryAsync(userId);
-
         var updateResult = await _robotsGalleryRepository.UpdateBatchStatusRobotsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -126,25 +115,6 @@ public class RobotsGalleryService : IRobotsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Robots newRobot = await SumPowerRobotsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newRobot - (PowerManager)oldRobot;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class RobotsGalleryService : IRobotsGalleryService
             };
         }
 
-        Robots oldRobot = await GetRobotCollectionByIdAsync(userId, robotId) ?? new Robots();
-
         var updateResult = await _robotsGalleryRepository.UpdateCurrentStarRobotGalleryAsync(userId, robotId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -223,25 +191,6 @@ public class RobotsGalleryService : IRobotsGalleryService
             };
         }
 
-        Robots newRobot = await GetRobotCollectionByIdAsync(userId, robotId) ?? new Robots();
-        PowerManager deltaPower = (PowerManager)newRobot - (PowerManager)oldRobot;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -252,8 +201,6 @@ public class RobotsGalleryService : IRobotsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarRobotsGalleryAsync(string userId)
     {
-        Robots oldRobot = await SumPowerRobotsGalleryAsync(userId);
-
         var updateResult = await _robotsGalleryRepository.UpdateBatchCurrentStarRobotsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -269,25 +216,6 @@ public class RobotsGalleryService : IRobotsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Robots newRobot = await SumPowerRobotsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newRobot - (PowerManager)oldRobot;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

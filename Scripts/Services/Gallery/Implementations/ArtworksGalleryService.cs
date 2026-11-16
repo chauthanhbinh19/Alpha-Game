@@ -6,16 +6,13 @@ public class ArtworksGalleryService : IArtworksGalleryService
 {
     private readonly IArtworksGalleryRepository _artworksGalleryRepository;
     private readonly IArtworksService _artworksService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public ArtworksGalleryService(
         IArtworksGalleryRepository artworksGalleryRepository,
-        IArtworksService artworksService,
-        IPowerManagerService powerManagerService)
+        IArtworksService artworksService)
     {
         _artworksGalleryRepository = artworksGalleryRepository;
         _artworksService = artworksService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IArtworksGalleryService Create() => ServiceContainer.GetService<IArtworksGalleryService>();
@@ -94,12 +91,6 @@ public class ArtworksGalleryService : IArtworksGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Artworks artworkGallery = await GetArtworkCollectionByIdAsync(userId, artworkId) ?? new Artworks();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)artworkGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class ArtworksGalleryService : IArtworksGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusArtworksGalleryAsync(string userId)
     {
-        Artworks oldArtwork = await SumPowerArtworksGalleryAsync(userId);
-
         var updateResult = await _artworksGalleryRepository.UpdateBatchStatusArtworksGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -126,25 +115,6 @@ public class ArtworksGalleryService : IArtworksGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Artworks newArtwork = await SumPowerArtworksGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newArtwork - (PowerManager)oldArtwork;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class ArtworksGalleryService : IArtworksGalleryService
             };
         }
 
-        Artworks oldArtwork = await GetArtworkCollectionByIdAsync(userId, artworkId) ?? new Artworks();
-
         var updateResult = await _artworksGalleryRepository.UpdateCurrentStarArtworkGalleryAsync(userId, artworkId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -223,25 +191,6 @@ public class ArtworksGalleryService : IArtworksGalleryService
             };
         }
 
-        Artworks newArtwork = await GetArtworkCollectionByIdAsync(userId, artworkId) ?? new Artworks();
-        PowerManager deltaPower = (PowerManager)newArtwork - (PowerManager)oldArtwork;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -252,8 +201,6 @@ public class ArtworksGalleryService : IArtworksGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarArtworksGalleryAsync(string userId)
     {
-        Artworks oldArtwork = await SumPowerArtworksGalleryAsync(userId);
-
         var updateResult = await _artworksGalleryRepository.UpdateBatchCurrentStarArtworksGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -269,25 +216,6 @@ public class ArtworksGalleryService : IArtworksGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Artworks newArtwork = await SumPowerArtworksGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newArtwork - (PowerManager)oldArtwork;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

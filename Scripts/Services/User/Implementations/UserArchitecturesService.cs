@@ -6,18 +6,15 @@ public class UserArchitecturesService : IUserArchitecturesService
     private readonly IUserArchitecturesRepository _userArchitecturesRepository;
     private readonly IArchitecturesGalleryService _architecturesGalleryService;
     private readonly IArchitecturesService _architecturesService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserArchitecturesService(
         IUserArchitecturesRepository userArchitecturesRepository,
         IArchitecturesGalleryService architecturesGalleryService,
-        IArchitecturesService architecturesService,
-        IPowerManagerService powerManagerService)
+        IArchitecturesService architecturesService)
     {
         _userArchitecturesRepository = userArchitecturesRepository;
         _architecturesGalleryService = architecturesGalleryService;
         _architecturesService = architecturesService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserArchitecturesService Create() => ServiceContainer.GetService<IUserArchitecturesService>();
@@ -59,14 +56,6 @@ public class UserArchitecturesService : IUserArchitecturesService
             };
         }
 
-        var oldArchitectureTask = _architecturesService.SumPowerArchitecturesPercentAsync(userId);
-        var oldUserArchitectureTask = _userArchitecturesRepository.SumPowerUserArchitecturesAsync(userId);
-
-        await Task.WhenAll(oldArchitectureTask, oldUserArchitectureTask);
-
-        Architectures oldArchitecture = oldArchitectureTask.Result;
-        Architectures oldUserArchitecture = oldUserArchitectureTask.Result;
-
         var insertOrUpdateResult = await _userArchitecturesRepository.InsertOrUpdateUserArchitectureAsync(userId, architecture);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -93,32 +82,6 @@ public class UserArchitecturesService : IUserArchitecturesService
 
         await _architecturesGalleryService.InsertArchitectureGalleryAsync(userId, architecture.Id);
 
-        var newArchitectureTask = _architecturesService.SumPowerArchitecturesPercentAsync(userId);
-        var newUserArchitectureTask = _userArchitecturesRepository.SumPowerUserArchitecturesAsync(userId);
-
-        await Task.WhenAll(newArchitectureTask, newUserArchitectureTask);
-
-        PowerManager deltaPower = (PowerManager)newArchitectureTask.Result - (PowerManager)oldArchitecture;
-        PowerManager deltaUserPower = (PowerManager)newUserArchitectureTask.Result - (PowerManager)oldUserArchitecture;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -130,14 +93,6 @@ public class UserArchitecturesService : IUserArchitecturesService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArchitecturesBatchAsync(string userId, List<Architectures> architectures)
     {
-        var oldArchitectureTask = _architecturesService.SumPowerArchitecturesPercentAsync(userId);
-        var oldUserArchitectureTask = _userArchitecturesRepository.SumPowerUserArchitecturesAsync(userId);
-
-        await Task.WhenAll(oldArchitectureTask, oldUserArchitectureTask);
-
-        Architectures oldArchitecture = oldArchitectureTask.Result;
-        Architectures oldUserArchitecture = oldUserArchitectureTask.Result;
-
         var insertOrUpdateResult = await _userArchitecturesRepository.InsertOrUpdateUserArchitecturesBatchAsync(userId, architectures);
 
         if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
@@ -157,33 +112,6 @@ public class UserArchitecturesService : IUserArchitecturesService
         if (hasNewInserts)
         {
             await _architecturesGalleryService.InsertBatchArchitecturesGalleryAsync(userId, newlyInsertedCards);
-
-            var newArchitectureTask = _architecturesService.SumPowerArchitecturesPercentAsync(userId);
-            var newUserArchitectureTask = _userArchitecturesRepository.SumPowerUserArchitecturesAsync(userId);
-
-            await Task.WhenAll(newArchitectureTask, newUserArchitectureTask);
-
-            PowerManager deltaPower = (PowerManager)newArchitectureTask.Result - (PowerManager)oldArchitecture;
-            PowerManager deltaUserPower = (PowerManager)newUserArchitectureTask.Result - (PowerManager)oldUserArchitecture;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         return insertOrUpdateResult.OperationType switch
@@ -220,8 +148,6 @@ public class UserArchitecturesService : IUserArchitecturesService
             };
         }
 
-        Architectures oldUserArchitecture = await _userArchitecturesRepository.SumPowerUserArchitecturesAsync(userId);
-
         var updateResult = await _userArchitecturesRepository.UpdateUserArchitectureLevelAsync(
             userId,
             architecture,
@@ -235,24 +161,6 @@ public class UserArchitecturesService : IUserArchitecturesService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        Architectures newUserArchitecture = await _userArchitecturesRepository.SumPowerUserArchitecturesAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserArchitecture - (PowerManager)oldUserArchitecture;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -279,8 +187,6 @@ public class UserArchitecturesService : IUserArchitecturesService
             };
         }
 
-        Architectures oldUserArchitecture = await _userArchitecturesRepository.SumPowerUserArchitecturesAsync(userId);
-
         var updateResult = await _userArchitecturesRepository.UpdateUserArchitectureStarAsync(userId, architecture);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -295,24 +201,6 @@ public class UserArchitecturesService : IUserArchitecturesService
         }
 
         await _architecturesGalleryService.UpdateTempStarArchitectureGalleryAsync(userId, architecture.Id, architecture.Star);
-
-        Architectures newUserArchitecture = await _userArchitecturesRepository.SumPowerUserArchitecturesAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserArchitecture - (PowerManager)oldUserArchitecture;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {

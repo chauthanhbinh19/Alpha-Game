@@ -16,17 +16,16 @@ public class LoadTeams
 {
     public async Task<TeamDeploymentResult> LoadAndSortTeamAsync(string userId, string teamId)
     {
-        UserStatsContextDTO sharedContext = await UserStatsService.Create().GetUserStatsContextAsync(userId);
         // Gọi các hàm Async chạy song song từ Service của bạn
-        var heroTask = UserCardHeroesService.Create().GetUserCardHeroesTeamWithoutPositionAsync(userId, teamId, sharedContext);
-        var captainTask = UserCardCaptainsService.Create().GetUserCardCaptainsTeamWithoutPositionAsync(userId, teamId, sharedContext);
-        var colonelTask = UserCardColonelsService.Create().GetUserCardColonelsTeamWithoutPositionAsync(userId, teamId, sharedContext);
-        var generalTask = UserCardGeneralsService.Create().GetUserCardGeneralsTeamWithoutPositionAsync(userId, teamId, sharedContext);
-        var admiralTask = UserCardAdmiralsService.Create().GetUserCardAdmiralsTeamWithoutPositionAsync(userId, teamId, sharedContext);
-        var monsterTask = UserCardMonstersService.Create().GetUserCardMonstersTeamWithoutPositionAsync(userId, teamId, sharedContext);
-        var militaryTask = UserCardMilitariesService.Create().GetUserCardMilitariesTeamWithoutPositionAsync(userId, teamId, sharedContext);
-        var soldierTask = UserCardSoldiersService.Create().GetUserCardSoldiersTeamWithoutPositionAsync(userId, teamId, sharedContext);
-        var spellTask = UserCardSpellsService.Create().GetUserCardSpellsTeamWithoutPositionAsync(userId, teamId, sharedContext);
+        var heroTask = UserCardHeroesService.Create().GetUserCardHeroesTeamWithoutPositionAsync(userId, teamId);
+        var captainTask = UserCardCaptainsService.Create().GetUserCardCaptainsTeamWithoutPositionAsync(userId, teamId);
+        var colonelTask = UserCardColonelsService.Create().GetUserCardColonelsTeamWithoutPositionAsync(userId, teamId);
+        var generalTask = UserCardGeneralsService.Create().GetUserCardGeneralsTeamWithoutPositionAsync(userId, teamId);
+        var admiralTask = UserCardAdmiralsService.Create().GetUserCardAdmiralsTeamWithoutPositionAsync(userId, teamId);
+        var monsterTask = UserCardMonstersService.Create().GetUserCardMonstersTeamWithoutPositionAsync(userId, teamId);
+        var militaryTask = UserCardMilitariesService.Create().GetUserCardMilitariesTeamWithoutPositionAsync(userId, teamId);
+        var soldierTask = UserCardSoldiersService.Create().GetUserCardSoldiersTeamWithoutPositionAsync(userId, teamId);
+        var spellTask = UserCardSpellsService.Create().GetUserCardSpellsTeamWithoutPositionAsync(userId, teamId);
 
         // 2. CHIA THEO NHÓM (BATCHING) - Mỗi lần chỉ cho 3 kết nối chạy đồng thời
         // Nhóm 1: Các tướng chính

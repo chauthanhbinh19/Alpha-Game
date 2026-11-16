@@ -6,18 +6,15 @@ public class UserAvatarsService : IUserAvatarsService
     private readonly IUserAvatarsRepository _userAvatarsRepository;
     private readonly IAvatarsGalleryService _avatarsGalleryService;
     private readonly IAvatarsService _avatarsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserAvatarsService(
         IUserAvatarsRepository userAvatarsRepository,
         IAvatarsGalleryService avatarsGalleryService,
-        IAvatarsService avatarsService,
-        IPowerManagerService powerManagerService)
+        IAvatarsService avatarsService)
     {
         _userAvatarsRepository = userAvatarsRepository;
         _avatarsGalleryService = avatarsGalleryService;
         _avatarsService = avatarsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserAvatarsService Create() => ServiceContainer.GetService<IUserAvatarsService>();
@@ -61,14 +58,6 @@ public class UserAvatarsService : IUserAvatarsService
 
         var avatar = await _avatarsService.GetAvatarByIdAsync(avatarId);
 
-        var oldAvatarTask = _avatarsService.SumPowerAvatarsPercentAsync(userId);
-        var oldUserAvatarTask = _userAvatarsRepository.SumPowerUserAvatarsAsync(userId);
-
-        await Task.WhenAll(oldAvatarTask, oldUserAvatarTask);
-
-        Avatars oldAvatar = oldAvatarTask.Result;
-        Avatars oldUserAvatar = oldUserAvatarTask.Result;
-
         var insertOrUpdateResult = await _userAvatarsRepository.InsertOrUpdateUserAvatarAsync(userId, avatar);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -94,32 +83,6 @@ public class UserAvatarsService : IUserAvatarsService
         }
 
         await _avatarsGalleryService.InsertAvatarGalleryAsync(userId, avatar.Id);
-
-        var newAvatarTask = _avatarsService.SumPowerAvatarsPercentAsync(userId);
-        var newUserAvatarTask = _userAvatarsRepository.SumPowerUserAvatarsAsync(userId);
-
-        await Task.WhenAll(newAvatarTask, newUserAvatarTask);
-
-        PowerManager deltaPower = (PowerManager)newAvatarTask.Result - (PowerManager)oldAvatar;
-        PowerManager deltaUserPower = (PowerManager)newUserAvatarTask.Result - (PowerManager)oldUserAvatar;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {
@@ -144,14 +107,6 @@ public class UserAvatarsService : IUserAvatarsService
             };
         }
 
-        var oldAvatarTask = _avatarsService.SumPowerAvatarsPercentAsync(userId);
-        var oldUserAvatarTask = _userAvatarsRepository.SumPowerUserAvatarsAsync(userId);
-
-        await Task.WhenAll(oldAvatarTask, oldUserAvatarTask);
-
-        Avatars oldAvatar = oldAvatarTask.Result;
-        Avatars oldUserAvatar = oldUserAvatarTask.Result;
-
         var insertOrUpdateResult = await _userAvatarsRepository.InsertOrUpdateUserAvatarAsync(userId, avatar);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -178,32 +133,6 @@ public class UserAvatarsService : IUserAvatarsService
 
         await _avatarsGalleryService.InsertAvatarGalleryAsync(userId, avatar.Id);
 
-        var newAvatarTask = _avatarsService.SumPowerAvatarsPercentAsync(userId);
-        var newUserAvatarTask = _userAvatarsRepository.SumPowerUserAvatarsAsync(userId);
-
-        await Task.WhenAll(newAvatarTask, newUserAvatarTask);
-
-        PowerManager deltaPower = (PowerManager)newAvatarTask.Result - (PowerManager)oldAvatar;
-        PowerManager deltaUserPower = (PowerManager)newUserAvatarTask.Result - (PowerManager)oldUserAvatar;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -215,14 +144,6 @@ public class UserAvatarsService : IUserAvatarsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAvatarsBatchAsync(string userId, List<Avatars> avatars)
     {
-        var oldAvatarTask = _avatarsService.SumPowerAvatarsPercentAsync(userId);
-        var oldUserAvatarTask = _userAvatarsRepository.SumPowerUserAvatarsAsync(userId);
-
-        await Task.WhenAll(oldAvatarTask, oldUserAvatarTask);
-
-        Avatars oldAvatar = oldAvatarTask.Result;
-        Avatars oldUserAvatar = oldUserAvatarTask.Result;
-
         var insertOrUpdateResult = await _userAvatarsRepository.InsertOrUpdateUserAvatarsBatchAsync(userId, avatars);
 
         if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
@@ -242,33 +163,6 @@ public class UserAvatarsService : IUserAvatarsService
         if (hasNewInserts)
         {
             await _avatarsGalleryService.InsertBatchAvatarsGalleryAsync(userId, newlyInsertedCards);
-
-            var newAvatarTask = _avatarsService.SumPowerAvatarsPercentAsync(userId);
-            var newUserAvatarTask = _userAvatarsRepository.SumPowerUserAvatarsAsync(userId);
-
-            await Task.WhenAll(newAvatarTask, newUserAvatarTask);
-
-            PowerManager deltaPower = (PowerManager)newAvatarTask.Result - (PowerManager)oldAvatar;
-            PowerManager deltaUserPower = (PowerManager)newUserAvatarTask.Result - (PowerManager)oldUserAvatar;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-            }
         }
 
         return insertOrUpdateResult.OperationType switch
@@ -305,8 +199,6 @@ public class UserAvatarsService : IUserAvatarsService
             };
         }
 
-        Avatars oldUserAvatar = await _userAvatarsRepository.SumPowerUserAvatarsAsync(userId);
-
         var updateResult = await _userAvatarsRepository.UpdateUserAvatarLevelAsync(
             userId,
             avatar,
@@ -320,24 +212,6 @@ public class UserAvatarsService : IUserAvatarsService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        Avatars newUserAvatar = await _userAvatarsRepository.SumPowerUserAvatarsAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserAvatar - (PowerManager)oldUserAvatar;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -364,8 +238,6 @@ public class UserAvatarsService : IUserAvatarsService
             };
         }
 
-        Avatars oldUserAvatar = await _userAvatarsRepository.SumPowerUserAvatarsAsync(userId);
-
         var updateResult = await _userAvatarsRepository.UpdateUserAvatarStarAsync(userId, avatar);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -380,24 +252,6 @@ public class UserAvatarsService : IUserAvatarsService
         }
 
         await _avatarsGalleryService.UpdateTempStarAvatarGalleryAsync(userId, avatar.Id, avatar.Star);
-
-        Avatars newUserAvatar = await _userAvatarsRepository.SumPowerUserAvatarsAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserAvatar - (PowerManager)oldUserAvatar;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
             {

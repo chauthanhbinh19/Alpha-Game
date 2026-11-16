@@ -11,7 +11,6 @@ public static class AppConstants
         public const int PASSWORD_MIN_LENGTH = 8;
         public const int PASSWORD_MAX_LENGTH = 32;
     }
-
     public static class Setting
     {
         public const string RESOLUTION = "Graphic.Resolution";
@@ -1497,6 +1496,169 @@ public static class AppConstants
 
         public const string ITEMS = "ITEMS";
         public const string CURRENCIES = "CURRENCIES";
+    }
+    public static class Power
+    {
+        // ==========================================
+        // 1. Nhóm Percent
+        // ==========================================
+        public const string PERCENT_ACHIEVEMENTS = "Percent_Achievements";
+        public const string PERCENT_ALCHEMIES = "Percent_Alchemies";
+        public const string PERCENT_ARCHITECTURES = "Percent_Architectures";
+        public const string PERCENT_ARTIFACTS = "Percent_Artifacts";
+        public const string PERCENT_ARTWORKS = "Percent_Artworks";
+        public const string PERCENT_AVATARS = "Percent_Avatars";
+        public const string PERCENT_BADGES = "Percent_Badges";
+        public const string PERCENT_BEVERAGES = "Percent_Beverages";
+        public const string PERCENT_BOOKS = "Percent_Books";
+        public const string PERCENT_BORDERS = "Percent_Borders";
+        public const string PERCENT_BUILDINGS = "Percent_Buildings";
+        public const string PERCENT_COLLABORATION_EQUIPMENTS = "Percent_Collaboration_Equipments";
+        public const string PERCENT_COLLABORATIONS = "Percent_Collaborations";
+        public const string PERCENT_CORES = "Percent_Cores";
+        public const string PERCENT_EMOJIS = "Percent_Emojis";
+        public const string PERCENT_FASHIONS = "Percent_Fashions";
+        public const string PERCENT_FOODS = "Percent_Foods";
+        public const string PERCENT_FORGES = "Percent_Forges";
+        public const string PERCENT_FURNITURES = "Percent_Furnitures";
+        public const string PERCENT_MAGIC_FORMATION_CIRCLES = "Percent_Magic_Formation_Circles";
+        public const string PERCENT_MECHA_BEASTS = "Percent_Mecha_Beasts";
+        public const string PERCENT_MEDALS = "Percent_Medals";
+        public const string PERCENT_OUTFITS = "Percent_Outfits";
+        public const string PERCENT_PETS = "Percent_Pets";
+        public const string PERCENT_PLANTS = "Percent_Plants";
+        public const string PERCENT_PUPPETS = "Percent_Puppets";
+        public const string PERCENT_RELICS = "Percent_Relics";
+        public const string PERCENT_ROBOTS = "Percent_Robots";
+        public const string PERCENT_RUNES = "Percent_Runes";
+        public const string PERCENT_SKILLS = "Percent_Skills";
+        public const string PERCENT_SPIRIT_BEASTS = "Percent_Spirit_Beasts";
+        public const string PERCENT_SPIRIT_CARDS = "Percent_Spirit_Cards";
+        public const string PERCENT_SYMBOLS = "Percent_Symbols";
+        public const string PERCENT_TALISMANS = "Percent_Talismans";
+        public const string PERCENT_TECHNOLOGIES = "Percent_Technologies";
+        public const string PERCENT_TITLES = "Percent_Titles";
+        public const string PERCENT_VEHICLES = "Percent_Vehicles";
+        public const string PERCENT_WEAPONS = "Percent_Weapons";
+
+        // ==========================================
+        // 2. Nhóm Gallery
+        // ==========================================
+        public const string GALLERY_ACHIEVEMENTS = "Gallery_Achievements";
+        public const string GALLERY_ALCHEMIES = "Gallery_Alchemies";
+        public const string GALLERY_ARCHITECTURES = "Gallery_Architectures";
+        public const string GALLERY_ARTIFACTS = "Gallery_Artifacts";
+        public const string GALLERY_ARTWORKS = "Gallery_Artworks";
+        public const string GALLERY_AVATARS = "Gallery_Avatars";
+        public const string GALLERY_BADGES = "Gallery_Badges";
+        public const string GALLERY_BEVERAGES = "Gallery_Beverages";
+        public const string GALLERY_BOOKS = "Gallery_Books";
+        public const string GALLERY_BORDERS = "Gallery_Borders";
+        public const string GALLERY_BUILDINGS = "Gallery_Buildings";
+        public const string GALLERY_CARD_ADMIRALS = "Gallery_Card_Admirals";
+        public const string GALLERY_CARD_CAPTAINS = "Gallery_Card_Captains";
+        public const string GALLERY_CARD_COLONELS = "Gallery_Card_Colonels";
+        public const string GALLERY_CARD_GENERALS = "Gallery_Card_Generals";
+        public const string GALLERY_CARD_HEROES = "Gallery_Card_Heroes";
+        public const string GALLERY_CARD_LIVES = "Gallery_Card_Lives";
+        public const string GALLERY_CARD_MONSTERS = "Gallery_Card_Monsters";
+        public const string GALLERY_CARD_MILITARIES = "Gallery_Card_Militaries";
+        public const string GALLERY_CARD_SOLDIERS = "Gallery_Card_Soldiers";
+        public const string GALLERY_CARD_SPELLS = "Gallery_Card_Spells";
+        public const string GALLERY_COLLABORATION_EQUIPMENTS = "Gallery_Collaboration_Equipments";
+        public const string GALLERY_COLLABORATIONS = "Gallery_Collaborations";
+        public const string GALLERY_CORES = "Gallery_Cores";
+        public const string GALLERY_EMOJIS = "Gallery_Emojis";
+        public const string GALLERY_EQUIPMENTS = "Gallery_Equipments";
+        public const string GALLERY_FASHIONS = "Gallery_Fashions";
+        public const string GALLERY_FOODS = "Gallery_Foods";
+        public const string GALLERY_FORGES = "Gallery_Forges";
+        public const string GALLERY_FURNITURES = "Gallery_Furnitures";
+        public const string GALLERY_MAGIC_FORMATION_CIRCLES = "Gallery_Magic_Formation_Circles";
+        public const string GALLERY_MECHA_BEASTS = "Gallery_Mecha_Beasts";
+        public const string GALLERY_MEDALS = "Gallery_Medals";
+        public const string GALLERY_OUTFITS = "Gallery_Outfits";
+        public const string GALLERY_PETS = "Gallery_Pets";
+        public const string GALLERY_PLANTS = "Gallery_Plants";
+        public const string GALLERY_PUPPETS = "Gallery_Puppets";
+        public const string GALLERY_RELICS = "Gallery_Relics";
+        public const string GALLERY_ROBOTS = "Gallery_Robots";
+        public const string GALLERY_RUNES = "Gallery_Runes";
+        public const string GALLERY_SKILLS = "Gallery_Skills";
+        public const string GALLERY_SPIRIT_BEASTS = "Gallery_Spirit_Beasts";
+        public const string GALLERY_SPIRIT_CARDS = "Gallery_Spirit_Cards";
+        public const string GALLERY_SYMBOLS = "Gallery_Symbols";
+        public const string GALLERY_TALISMANS = "Gallery_Talismans";
+        public const string GALLERY_TECHNOLOGIES = "Gallery_Technologies";
+        public const string GALLERY_TITLES = "Gallery_Titles";
+        public const string GALLERY_VEHICLES = "Gallery_Vehicles";
+        public const string GALLERY_WEAPONS = "Gallery_Weapons";
+
+        // ==========================================
+        // 3. Nhóm User Object
+        // ==========================================
+        public const string USER_ACHIEVEMENTS = "User_Achievements";
+        public const string USER_ALCHEMIES = "User_Alchemies";
+        public const string USER_ARCHITECTURES = "User_Architectures";
+        public const string USER_ARTIFACTS = "User_Artifacts";
+        public const string USER_ARTWORKS = "User_Artworks";
+        public const string USER_AVATARS = "User_Avatars";
+        public const string USER_BADGES = "User_Badges";
+        public const string USER_BEVERAGES = "User_Beverages";
+        public const string USER_BOOKS = "User_Books";
+        public const string USER_BORDERS = "User_Borders";
+        public const string USER_BUILDINGS = "User_Buildings";
+        public const string USER_CARD_LIVES = "User_Card_Lives";
+        public const string USER_COLLABORATION_EQUIPMENTS = "User_Collaboration_Equipments";
+        public const string USER_COLLABORATIONS = "User_Collaborations";
+        public const string USER_CORES = "User_Cores";
+        public const string USER_EMOJIS = "User_Emojis";
+        public const string USER_FASHIONS = "User_Fashions";
+        public const string USER_FOODS = "User_Foods";
+        public const string USER_FORGES = "User_Forges";
+        public const string USER_FURNITURES = "User_Furnitures";
+        public const string USER_MAGIC_FORMATION_CIRCLES = "User_Magic_Formation_Circles";
+        public const string USER_MECHA_BEASTS = "User_Mecha_Beasts";
+        public const string USER_MEDALS = "User_Medals";
+        public const string USER_OUTFITS = "User_Outfits";
+        public const string USER_PETS = "User_Pets";
+        public const string USER_PLANTS = "User_Plants";
+        public const string USER_PUPPETS = "User_Puppets";
+        public const string USER_RELICS = "User_Relics";
+        public const string USER_ROBOTS = "User_Robots";
+        public const string USER_RUNES = "User_Runes";
+        public const string USER_SKILLS = "User_Skills";
+        public const string USER_SPIRIT_BEASTS = "User_Spirit_Beasts";
+        public const string USER_SPIRIT_CARDS = "User_Spirit_Cards";
+        public const string USER_SYMBOLS = "User_Symbols";
+        public const string USER_TALISMANS = "User_Talismans";
+        public const string USER_TECHNOLOGIES = "User_Technologies";
+        public const string USER_TITLES = "User_Titles";
+        public const string USER_VEHICLES = "User_Vehicles";
+        public const string USER_WEAPONS = "User_Weapons";
+
+        // ==========================================
+        // 4. Nhóm User Extra
+        // ==========================================
+        public const string USER_EXTRA = "User_Extra";
+        public const string ANIME = "Anime";
+        public const string ARCHIVE = "Archive";
+        public const string HICA = "HICA";
+        public const string HICB = "HICB";
+        public const string HIDC = "HIDC";
+        public const string HIEN = "HIEN";
+        public const string HIHN = "HIHN";
+        public const string HIIN = "HIIN";
+        public const string HIRN = "HIRN";
+        public const string HISN = "HISN";
+        public const string HITN = "HITN";
+        public const string SSWN = "SSWN";
+        public const string RESEARCH = "Research";
+        public const string SCIENCE_FICTION = "Science_Fiction";
+        public const string UNIVERSE = "Universe";
+        public const string COSMIC_IMPRINT = "Cosmic_Imprint";
+        public const string PRIMORDIAL_IMPRINT = "Primordial_Imprint";
+        public const string PATH_OF_LORD_IMPRINT = "Path_Of_Lord_Imprint";
     }
     public static class Shop
     {

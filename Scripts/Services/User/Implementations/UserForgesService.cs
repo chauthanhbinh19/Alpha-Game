@@ -6,18 +6,15 @@ public class UserForgesService : IUserForgesService
     private readonly IUserForgesRepository _userForgesRepository;
     private readonly IForgesGalleryService _forgesGalleryService;
     private readonly IForgesService _forgesService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserForgesService(
         IUserForgesRepository userForgesRepository,
         IForgesGalleryService forgesGalleryService,
-        IForgesService forgesService,
-        IPowerManagerService powerManagerService)
+        IForgesService forgesService)
     {
         _userForgesRepository = userForgesRepository;
         _forgesGalleryService = forgesGalleryService;
         _forgesService = forgesService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserForgesService Create() => ServiceContainer.GetService<IUserForgesService>();
@@ -59,14 +56,6 @@ public class UserForgesService : IUserForgesService
             };
         }
 
-        var oldForgeTask = _forgesService.SumPowerForgesPercentAsync(userId);
-        var oldUserForgeTask = _userForgesRepository.SumPowerUserForgesAsync(userId);
-
-        await Task.WhenAll(oldForgeTask, oldUserForgeTask);
-
-        Forges oldForge = oldForgeTask.Result;
-        Forges oldUserForge = oldUserForgeTask.Result;
-
         var insertOrUpdateResult = await _userForgesRepository.InsertOrUpdateUserForgeAsync(userId, forge);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -93,32 +82,6 @@ public class UserForgesService : IUserForgesService
 
         await _forgesGalleryService.InsertForgeGalleryAsync(userId, forge.Id);
 
-        var newForgeTask = _forgesService.SumPowerForgesPercentAsync(userId);
-        var newUserForgeTask = _userForgesRepository.SumPowerUserForgesAsync(userId);
-
-        await Task.WhenAll(newForgeTask, newUserForgeTask);
-
-        PowerManager deltaPower = (PowerManager)newForgeTask.Result - (PowerManager)oldForge;
-        PowerManager deltaUserPower = (PowerManager)newUserForgeTask.Result - (PowerManager)oldUserForge;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -130,14 +93,6 @@ public class UserForgesService : IUserForgesService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserForgesBatchAsync(string userId, List<Forges> forges)
     {
-        var oldForgeTask = _forgesService.SumPowerForgesPercentAsync(userId);
-        var oldUserForgeTask = _userForgesRepository.SumPowerUserForgesAsync(userId);
-
-        await Task.WhenAll(oldForgeTask, oldUserForgeTask);
-
-        Forges oldForge = oldForgeTask.Result;
-        Forges oldUserForge = oldUserForgeTask.Result;
-
         var insertOrUpdateResult = await _userForgesRepository.InsertOrUpdateUserForgesBatchAsync(userId, forges);
 
         if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
@@ -157,33 +112,6 @@ public class UserForgesService : IUserForgesService
         if (hasNewInserts)
         {
             await _forgesGalleryService.InsertBatchForgesGalleryAsync(userId, newlyInsertedCards);
-
-            var newForgeTask = _forgesService.SumPowerForgesPercentAsync(userId);
-            var newUserForgeTask = _userForgesRepository.SumPowerUserForgesAsync(userId);
-
-            await Task.WhenAll(newForgeTask, newUserForgeTask);
-
-            PowerManager deltaPower = (PowerManager)newForgeTask.Result - (PowerManager)oldForge;
-            PowerManager deltaUserPower = (PowerManager)newUserForgeTask.Result - (PowerManager)oldUserForge;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         return insertOrUpdateResult.OperationType switch
@@ -220,8 +148,6 @@ public class UserForgesService : IUserForgesService
             };
         }
 
-        Forges oldUserForge = await _userForgesRepository.SumPowerUserForgesAsync(userId);
-
         var updateResult = await _userForgesRepository.UpdateUserForgeLevelAsync(
             userId,
             forge,
@@ -235,24 +161,6 @@ public class UserForgesService : IUserForgesService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        Forges newUserForge = await _userForgesRepository.SumPowerUserForgesAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserForge - (PowerManager)oldUserForge;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -279,8 +187,6 @@ public class UserForgesService : IUserForgesService
             };
         }
 
-        Forges oldUserForge = await _userForgesRepository.SumPowerUserForgesAsync(userId);
-
         var updateResult = await _userForgesRepository.UpdateUserForgeStarAsync(userId, forge);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -295,24 +201,6 @@ public class UserForgesService : IUserForgesService
         }
 
         await _forgesGalleryService.UpdateTempStarForgeGalleryAsync(userId, forge.Id, forge.Star);
-
-        Forges newUserForge = await _userForgesRepository.SumPowerUserForgesAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserForge - (PowerManager)oldUserForge;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {

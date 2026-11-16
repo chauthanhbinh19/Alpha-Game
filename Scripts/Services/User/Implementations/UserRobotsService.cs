@@ -6,18 +6,15 @@ public class UserRobotsService : IUserRobotsService
     private readonly IUserRobotsRepository _userRobotsRepository;
     private readonly IRobotsGalleryService _robotsGalleryService;
     private readonly IRobotsService _robotsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserRobotsService(
         IUserRobotsRepository userRobotsRepository,
         IRobotsGalleryService robotsGalleryService,
-        IRobotsService robotsService,
-        IPowerManagerService powerManagerService)
+        IRobotsService robotsService)
     {
         _userRobotsRepository = userRobotsRepository;
         _robotsGalleryService = robotsGalleryService;
         _robotsService = robotsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserRobotsService Create() => ServiceContainer.GetService<IUserRobotsService>();
@@ -59,14 +56,6 @@ public class UserRobotsService : IUserRobotsService
             };
         }
 
-        var oldRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        var oldUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-        await Task.WhenAll(oldRobotTask, oldUserRobotTask);
-
-        Robots oldRobot = oldRobotTask.Result;
-        Robots oldUserRobot = oldUserRobotTask.Result;
-
         var insertOrUpdateResult = await _userRobotsRepository.InsertOrUpdateUserRobotAsync(userId, robot);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -93,32 +82,6 @@ public class UserRobotsService : IUserRobotsService
 
         await _robotsGalleryService.InsertRobotGalleryAsync(userId, robot.Id);
 
-        var newRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        var newUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-        await Task.WhenAll(newRobotTask, newUserRobotTask);
-
-        PowerManager deltaPower = (PowerManager)newRobotTask.Result - (PowerManager)oldRobot;
-        PowerManager deltaUserPower = (PowerManager)newUserRobotTask.Result - (PowerManager)oldUserRobot;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -130,14 +93,6 @@ public class UserRobotsService : IUserRobotsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserRobotsBatchAsync(string userId, List<Robots> robots)
     {
-        var oldRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        var oldUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-        await Task.WhenAll(oldRobotTask, oldUserRobotTask);
-
-        Robots oldRobot = oldRobotTask.Result;
-        Robots oldUserRobot = oldUserRobotTask.Result;
-
         var insertOrUpdateResult = await _userRobotsRepository.InsertOrUpdateUserRobotsBatchAsync(userId, robots);
 
         if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
@@ -157,33 +112,6 @@ public class UserRobotsService : IUserRobotsService
         if (hasNewInserts)
         {
             await _robotsGalleryService.InsertBatchRobotsGalleryAsync(userId, newlyInsertedCards);
-
-            var newRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-            var newUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-            await Task.WhenAll(newRobotTask, newUserRobotTask);
-
-            PowerManager deltaPower = (PowerManager)newRobotTask.Result - (PowerManager)oldRobot;
-            PowerManager deltaUserPower = (PowerManager)newUserRobotTask.Result - (PowerManager)oldUserRobot;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         return insertOrUpdateResult.OperationType switch
@@ -220,8 +148,6 @@ public class UserRobotsService : IUserRobotsService
             };
         }
 
-        Robots oldUserRobot = await _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
         var updateResult = await _userRobotsRepository.UpdateUserRobotLevelAsync(
             userId,
             robot,
@@ -235,24 +161,6 @@ public class UserRobotsService : IUserRobotsService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        Robots newUserRobot = await _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserRobot - (PowerManager)oldUserRobot;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -279,8 +187,6 @@ public class UserRobotsService : IUserRobotsService
             };
         }
 
-        Robots oldUserRobot = await _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
         var updateResult = await _userRobotsRepository.UpdateUserRobotStarAsync(userId, robot);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -291,26 +197,6 @@ public class UserRobotsService : IUserRobotsService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        await _robotsGalleryService.UpdateTempStarRobotGalleryAsync(userId, robot.Id, robot.Star);
-
-        Robots newUserRobot = await _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserRobot - (PowerManager)oldUserRobot;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 

@@ -6,16 +6,13 @@ public class FurnituresGalleryService : IFurnituresGalleryService
 {
     private readonly IFurnituresGalleryRepository _furnituresGalleryRepository;
     private readonly IFurnituresService _furnituresService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public FurnituresGalleryService(
         IFurnituresGalleryRepository furnituresGalleryRepository,
-        IFurnituresService furnituresService,
-        IPowerManagerService powerManagerService)
+        IFurnituresService furnituresService)
     {
         _furnituresGalleryRepository = furnituresGalleryRepository;
         _furnituresService = furnituresService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IFurnituresGalleryService Create() => ServiceContainer.GetService<IFurnituresGalleryService>();
@@ -94,12 +91,6 @@ public class FurnituresGalleryService : IFurnituresGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Furnitures furnitureGallery = await GetFurnitureCollectionByIdAsync(userId, furnitureId) ?? new Furnitures();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)furnitureGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class FurnituresGalleryService : IFurnituresGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusFurnituresGalleryAsync(string userId)
     {
-        Furnitures oldFurniture = await SumPowerFurnituresGalleryAsync(userId);
-
         var updateResult = await _furnituresGalleryRepository.UpdateBatchStatusFurnituresGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -126,25 +115,6 @@ public class FurnituresGalleryService : IFurnituresGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Furnitures newFurniture = await SumPowerFurnituresGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newFurniture - (PowerManager)oldFurniture;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class FurnituresGalleryService : IFurnituresGalleryService
             };
         }
 
-        Furnitures oldFurniture = await GetFurnitureCollectionByIdAsync(userId, furnitureId) ?? new Furnitures();
-
         var updateResult = await _furnituresGalleryRepository.UpdateCurrentStarFurnitureGalleryAsync(userId, furnitureId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -223,25 +191,6 @@ public class FurnituresGalleryService : IFurnituresGalleryService
             };
         }
 
-        Furnitures newFurniture = await GetFurnitureCollectionByIdAsync(userId, furnitureId) ?? new Furnitures();
-        PowerManager deltaPower = (PowerManager)newFurniture - (PowerManager)oldFurniture;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -252,8 +201,6 @@ public class FurnituresGalleryService : IFurnituresGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarFurnituresGalleryAsync(string userId)
     {
-        Furnitures oldFurniture = await SumPowerFurnituresGalleryAsync(userId);
-
         var updateResult = await _furnituresGalleryRepository.UpdateBatchCurrentStarFurnituresGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -269,25 +216,6 @@ public class FurnituresGalleryService : IFurnituresGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Furnitures newFurniture = await SumPowerFurnituresGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newFurniture - (PowerManager)oldFurniture;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

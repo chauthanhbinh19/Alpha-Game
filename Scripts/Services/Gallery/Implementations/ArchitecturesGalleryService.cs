@@ -6,16 +6,13 @@ public class ArchitecturesGalleryService : IArchitecturesGalleryService
 {
     private readonly IArchitecturesGalleryRepository _architecturesGalleryRepository;
     private readonly IArchitecturesService _architecturesService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public ArchitecturesGalleryService(
         IArchitecturesGalleryRepository architecturesGalleryRepository,
-        IArchitecturesService architecturesService,
-        IPowerManagerService powerManagerService)
+        IArchitecturesService architecturesService)
     {
         _architecturesGalleryRepository = architecturesGalleryRepository;
         _architecturesService = architecturesService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IArchitecturesGalleryService Create() => ServiceContainer.GetService<IArchitecturesGalleryService>();
@@ -94,12 +91,6 @@ public class ArchitecturesGalleryService : IArchitecturesGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Architectures architectureGallery = await GetArchitectureCollectionByIdAsync(userId, architectureId) ?? new Architectures();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)architectureGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class ArchitecturesGalleryService : IArchitecturesGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusArchitecturesGalleryAsync(string userId)
     {
-        Architectures oldArchitecture = await SumPowerArchitecturesGalleryAsync(userId);
-
         var updateResult = await _architecturesGalleryRepository.UpdateBatchStatusArchitecturesGalleryAsync(userId);
 
         if (updateResult == null || 
@@ -126,25 +115,6 @@ public class ArchitecturesGalleryService : IArchitecturesGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Architectures newArchitecture = await SumPowerArchitecturesGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newArchitecture - (PowerManager)oldArchitecture;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class ArchitecturesGalleryService : IArchitecturesGalleryService
             };
         }
 
-        Architectures oldArchitecture = await GetArchitectureCollectionByIdAsync(userId, architectureId) ?? new Architectures();
-
         var updateResult = await _architecturesGalleryRepository.UpdateCurrentStarArchitectureGalleryAsync(userId, architectureId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -223,25 +191,6 @@ public class ArchitecturesGalleryService : IArchitecturesGalleryService
             };
         }
 
-        Architectures newArchitecture = await GetArchitectureCollectionByIdAsync(userId, architectureId) ?? new Architectures();
-        PowerManager deltaPower = (PowerManager)newArchitecture - (PowerManager)oldArchitecture;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -252,8 +201,6 @@ public class ArchitecturesGalleryService : IArchitecturesGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarArchitecturesGalleryAsync(string userId)
     {
-        Architectures oldArchitecture = await SumPowerArchitecturesGalleryAsync(userId);
-
         var updateResult = await _architecturesGalleryRepository.UpdateBatchCurrentStarArchitecturesGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -269,25 +216,6 @@ public class ArchitecturesGalleryService : IArchitecturesGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Architectures newArchitecture = await SumPowerArchitecturesGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newArchitecture - (PowerManager)oldArchitecture;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

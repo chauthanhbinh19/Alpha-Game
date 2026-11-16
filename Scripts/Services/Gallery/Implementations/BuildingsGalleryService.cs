@@ -6,16 +6,13 @@ public class BuildingsGalleryService : IBuildingsGalleryService
 {
     private readonly IBuildingsGalleryRepository _buildingsGalleryRepository;
     private readonly IBuildingsService _buildingsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public BuildingsGalleryService(
         IBuildingsGalleryRepository buildingsGalleryRepository,
-        IBuildingsService buildingsService,
-        IPowerManagerService powerManagerService)
+        IBuildingsService buildingsService)
     {
         _buildingsGalleryRepository = buildingsGalleryRepository;
         _buildingsService = buildingsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IBuildingsGalleryService Create() => ServiceContainer.GetService<IBuildingsGalleryService>();
@@ -94,12 +91,6 @@ public class BuildingsGalleryService : IBuildingsGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Buildings buildingGallery = await GetBuildingCollectionByIdAsync(userId, buildingId) ?? new Buildings();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)buildingGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class BuildingsGalleryService : IBuildingsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusBuildingsGalleryAsync(string userId)
     {
-        Buildings oldBuilding = await SumPowerBuildingsGalleryAsync(userId);
-
         var updateResult = await _buildingsGalleryRepository.UpdateBatchStatusBuildingsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -126,25 +115,6 @@ public class BuildingsGalleryService : IBuildingsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Buildings newBuilding = await SumPowerBuildingsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newBuilding - (PowerManager)oldBuilding;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class BuildingsGalleryService : IBuildingsGalleryService
             };
         }
 
-        Buildings oldBuilding = await GetBuildingCollectionByIdAsync(userId, buildingId) ?? new Buildings();
-
         var updateResult = await _buildingsGalleryRepository.UpdateCurrentStarBuildingGalleryAsync(userId, buildingId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -223,25 +191,6 @@ public class BuildingsGalleryService : IBuildingsGalleryService
             };
         }
 
-        Buildings newBuilding = await GetBuildingCollectionByIdAsync(userId, buildingId) ?? new Buildings();
-        PowerManager deltaPower = (PowerManager)newBuilding - (PowerManager)oldBuilding;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -252,8 +201,6 @@ public class BuildingsGalleryService : IBuildingsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarBuildingsGalleryAsync(string userId)
     {
-        Buildings oldBuilding = await SumPowerBuildingsGalleryAsync(userId);
-
         var updateResult = await _buildingsGalleryRepository.UpdateBatchCurrentStarBuildingsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -269,25 +216,6 @@ public class BuildingsGalleryService : IBuildingsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Buildings newBuilding = await SumPowerBuildingsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newBuilding - (PowerManager)oldBuilding;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

@@ -6,16 +6,13 @@ public class EquipmentsGalleryService : IEquipmentsGalleryService
 {
     private readonly IEquipmentsGalleryRepository _equipmentsGalleryRepository;
     private readonly IEquipmentsService _equipmentsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public EquipmentsGalleryService(
         IEquipmentsGalleryRepository equipmentsGalleryRepository,
-        IEquipmentsService equipmentsService,
-        IPowerManagerService powerManagerService)
+        IEquipmentsService equipmentsService)
     {
         _equipmentsGalleryRepository = equipmentsGalleryRepository;
         _equipmentsService = equipmentsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IEquipmentsGalleryService Create() => ServiceContainer.GetService<IEquipmentsGalleryService>();
@@ -94,12 +91,6 @@ public class EquipmentsGalleryService : IEquipmentsGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Equipments equipmentGallery = await GetEquipmentCollectionByIdAsync(userId, equipmentId) ?? new Equipments();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)equipmentGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class EquipmentsGalleryService : IEquipmentsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusEquipmentsGalleryAsync(string userId)
     {
-        Equipments oldEquipment = await SumPowerEquipmentsGalleryAsync(userId);
-
         var updateResult = await _equipmentsGalleryRepository.UpdateBatchStatusEquipmentsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -126,25 +115,6 @@ public class EquipmentsGalleryService : IEquipmentsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Equipments newEquipment = await SumPowerEquipmentsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newEquipment - (PowerManager)oldEquipment;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class EquipmentsGalleryService : IEquipmentsGalleryService
             };
         }
 
-        Equipments oldEquipment = await GetEquipmentCollectionByIdAsync(userId, equipmentId) ?? new Equipments();
-
         var updateResult = await _equipmentsGalleryRepository.UpdateCurrentStarEquipmentGalleryAsync(userId, equipmentId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -223,25 +191,6 @@ public class EquipmentsGalleryService : IEquipmentsGalleryService
             };
         }
 
-        Equipments newEquipment = await GetEquipmentCollectionByIdAsync(userId, equipmentId) ?? new Equipments();
-        PowerManager deltaPower = (PowerManager)newEquipment - (PowerManager)oldEquipment;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -252,8 +201,6 @@ public class EquipmentsGalleryService : IEquipmentsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarEquipmentsGalleryAsync(string userId)
     {
-        Equipments oldEquipment = await SumPowerEquipmentsGalleryAsync(userId);
-
         var updateResult = await _equipmentsGalleryRepository.UpdateBatchCurrentStarEquipmentsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -269,25 +216,6 @@ public class EquipmentsGalleryService : IEquipmentsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Equipments newEquipment = await SumPowerEquipmentsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newEquipment - (PowerManager)oldEquipment;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

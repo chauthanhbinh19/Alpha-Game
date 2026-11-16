@@ -6,18 +6,15 @@ public class UserRunesService : IUserRunesService
     private readonly IUserRunesRepository _userRunesRepository;
     private readonly IRunesGalleryService _runesGalleryService;
     private readonly IRunesService _runesService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserRunesService(
         IUserRunesRepository userRunesRepository,
         IRunesGalleryService runesGalleryService,
-        IRunesService runesService,
-        IPowerManagerService powerManagerService)
+        IRunesService runesService)
     {
         _userRunesRepository = userRunesRepository;
         _runesGalleryService = runesGalleryService;
         _runesService = runesService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserRunesService Create() => ServiceContainer.GetService<IUserRunesService>();
@@ -59,14 +56,6 @@ public class UserRunesService : IUserRunesService
             };
         }
 
-        var oldRuneTask = _runesService.SumPowerRunesPercentAsync(userId);
-        var oldUserRuneTask = _userRunesRepository.SumPowerUserRunesAsync(userId);
-
-        await Task.WhenAll(oldRuneTask, oldUserRuneTask);
-
-        Runes oldRune = oldRuneTask.Result;
-        Runes oldUserRune = oldUserRuneTask.Result;
-
         var insertOrUpdateResult = await _userRunesRepository.InsertOrUpdateUserRuneAsync(userId, rune);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -93,32 +82,6 @@ public class UserRunesService : IUserRunesService
 
         await _runesGalleryService.InsertRuneGalleryAsync(userId, rune.Id);
 
-        var newRuneTask = _runesService.SumPowerRunesPercentAsync(userId);
-        var newUserRuneTask = _userRunesRepository.SumPowerUserRunesAsync(userId);
-
-        await Task.WhenAll(newRuneTask, newUserRuneTask);
-
-        PowerManager deltaPower = (PowerManager)newRuneTask.Result - (PowerManager)oldRune;
-        PowerManager deltaUserPower = (PowerManager)newUserRuneTask.Result - (PowerManager)oldUserRune;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -130,14 +93,6 @@ public class UserRunesService : IUserRunesService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserRunesBatchAsync(string userId, List<Runes> runes)
     {
-        var oldRuneTask = _runesService.SumPowerRunesPercentAsync(userId);
-        var oldUserRuneTask = _userRunesRepository.SumPowerUserRunesAsync(userId);
-
-        await Task.WhenAll(oldRuneTask, oldUserRuneTask);
-
-        Runes oldRune = oldRuneTask.Result;
-        Runes oldUserRune = oldUserRuneTask.Result;
-
         var insertOrUpdateResult = await _userRunesRepository.InsertOrUpdateUserRunesBatchAsync(userId, runes);
 
         if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
@@ -157,33 +112,6 @@ public class UserRunesService : IUserRunesService
         if (hasNewInserts)
         {
             await _runesGalleryService.InsertBatchRunesGalleryAsync(userId, newlyInsertedCards);
-
-            var newRuneTask = _runesService.SumPowerRunesPercentAsync(userId);
-            var newUserRuneTask = _userRunesRepository.SumPowerUserRunesAsync(userId);
-
-            await Task.WhenAll(newRuneTask, newUserRuneTask);
-
-            PowerManager deltaPower = (PowerManager)newRuneTask.Result - (PowerManager)oldRune;
-            PowerManager deltaUserPower = (PowerManager)newUserRuneTask.Result - (PowerManager)oldUserRune;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         return insertOrUpdateResult.OperationType switch
@@ -220,8 +148,6 @@ public class UserRunesService : IUserRunesService
             };
         }
 
-        Runes oldUserRune = await _userRunesRepository.SumPowerUserRunesAsync(userId);
-
         var updateResult = await _userRunesRepository.UpdateUserRuneLevelAsync(
             userId,
             rune,
@@ -235,24 +161,6 @@ public class UserRunesService : IUserRunesService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        Runes newUserRune = await _userRunesRepository.SumPowerUserRunesAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserRune - (PowerManager)oldUserRune;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -279,8 +187,6 @@ public class UserRunesService : IUserRunesService
             };
         }
 
-        Runes oldUserRune = await _userRunesRepository.SumPowerUserRunesAsync(userId);
-
         var updateResult = await _userRunesRepository.UpdateUserRuneStarAsync(userId, rune);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -295,24 +201,6 @@ public class UserRunesService : IUserRunesService
         }
 
         await _runesGalleryService.UpdateTempStarRuneGalleryAsync(userId, rune.Id, rune.Star);
-
-        Runes newUserRune = await _userRunesRepository.SumPowerUserRunesAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserRune - (PowerManager)oldUserRune;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {

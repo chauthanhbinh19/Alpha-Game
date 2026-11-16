@@ -6,20 +6,17 @@ public class UserBooksService : IUserBooksService
     private readonly IUserBooksRepository _userBooksRepository;
     private readonly IBooksGalleryService _booksGalleryService;
     private readonly IBooksService _booksService;
-    private readonly IPowerManagerService _powerManagerService;
     private readonly IUserEquipmentsService _userEquipmentsService;
 
     public UserBooksService(
         IUserBooksRepository userBooksRepository,
         IBooksGalleryService booksGalleryService,
         IBooksService booksService,
-        IPowerManagerService powerManagerService,
         IUserEquipmentsService userEquipmentsService)
     {
         _userBooksRepository = userBooksRepository;
         _booksGalleryService = booksGalleryService;
         _booksService = booksService;
-        _powerManagerService = powerManagerService;
         _userEquipmentsService = userEquipmentsService;
     }
 
@@ -448,14 +445,6 @@ public class UserBooksService : IUserBooksService
             };
         }
 
-        var oldBookTask = _booksService.SumPowerBooksPercentAsync(userId);
-        var oldUserBookTask = _userBooksRepository.SumPowerUserBooksAsync(userId);
-
-        await Task.WhenAll(oldBookTask, oldUserBookTask);
-
-        Books oldBook = oldBookTask.Result;
-        Books oldUserBook = oldUserBookTask.Result;
-
         var insertOrUpdateResult = await _userBooksRepository.InsertOrUpdateUserBookAsync(userId, book);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -482,32 +471,6 @@ public class UserBooksService : IUserBooksService
 
         await _booksGalleryService.InsertBookGalleryAsync(userId, book.Id);
 
-        var newBookTask = _booksService.SumPowerBooksPercentAsync(userId);
-        var newUserBookTask = _userBooksRepository.SumPowerUserBooksAsync(userId);
-
-        await Task.WhenAll(newBookTask, newUserBookTask);
-
-        PowerManager deltaPower = (PowerManager)newBookTask.Result - (PowerManager)oldBook;
-        PowerManager deltaUserPower = (PowerManager)newUserBookTask.Result - (PowerManager)oldUserBook;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -519,14 +482,6 @@ public class UserBooksService : IUserBooksService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBooksBatchAsync(string userId, List<Books> bookes)
     {
-        var oldBookTask = _booksService.SumPowerBooksPercentAsync(userId);
-        var oldUserBookTask = _userBooksRepository.SumPowerUserBooksAsync(userId);
-
-        await Task.WhenAll(oldBookTask, oldUserBookTask);
-
-        Books oldBook = oldBookTask.Result;
-        Books oldUserBook = oldUserBookTask.Result;
-
         var repositoryResult = await _userBooksRepository.InsertOrUpdateUserBooksBatchAsync(userId, bookes);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
@@ -546,33 +501,6 @@ public class UserBooksService : IUserBooksService
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
             await _booksGalleryService.InsertBatchBooksGalleryAsync(userId, newlyInsertedCards);
-
-            var newBookTask = _booksService.SumPowerBooksPercentAsync(userId);
-            var newUserBookTask = _userBooksRepository.SumPowerUserBooksAsync(userId);
-
-            await Task.WhenAll(newBookTask, newUserBookTask);
-
-            PowerManager deltaPower = (PowerManager)newBookTask.Result - (PowerManager)oldBook;
-            PowerManager deltaUserPower = (PowerManager)newUserBookTask.Result - (PowerManager)oldUserBook;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         // 3. Mapping kết quả OperationType trả về gọn gàng
@@ -610,8 +538,6 @@ public class UserBooksService : IUserBooksService
             };
         }
 
-        Books oldUserBook = await _userBooksRepository.SumPowerUserBooksAsync(userId);
-
         var updateResult = await _userBooksRepository.UpdateUserBookLevelAsync(
             userId,
             book,
@@ -625,24 +551,6 @@ public class UserBooksService : IUserBooksService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        Books newUserBook = await _userBooksRepository.SumPowerUserBooksAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserBook - (PowerManager)oldUserBook;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -669,8 +577,6 @@ public class UserBooksService : IUserBooksService
             };
         }
 
-        Books oldUserBook = await _userBooksRepository.SumPowerUserBooksAsync(userId);
-
         var updateResult = await _userBooksRepository.UpdateUserBookStarAsync(userId, book);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -685,24 +591,6 @@ public class UserBooksService : IUserBooksService
         }
 
         await _booksGalleryService.UpdateTempStarBookGalleryAsync(userId, book.Id, book.Star);
-
-        Books newUserBook = await _userBooksRepository.SumPowerUserBooksAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserBook - (PowerManager)oldUserBook;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {

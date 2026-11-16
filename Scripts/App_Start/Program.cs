@@ -507,7 +507,6 @@ public class Program : MonoBehaviour
         ServiceContainer.RegisterSingleton<IUserSpiritBeastsService, UserSpiritBeastsService>();
         ServiceContainer.RegisterSingleton<IUserSpiritCardsService, UserSpiritCardsService>();
         ServiceContainer.RegisterSingleton<IUserSSWNsService, UserSSWNsService>();
-        ServiceContainer.RegisterSingleton<IUserStatsService, UserStatsService>();
         ServiceContainer.RegisterSingleton<IUserSymbolsService, UserSymbolsService>();
         ServiceContainer.RegisterSingleton<IUserTalismansService, UserTalismansService>();
         ServiceContainer.RegisterSingleton<IUserTechnologiesService, UserTechnologiesService>();

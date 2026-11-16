@@ -6,7 +6,6 @@ public class UserEquipmentsService : IUserEquipmentsService
     private readonly IUserEquipmentsRepository _userEquipmentsRepository;
     private readonly IEquipmentsGalleryService _equipmentsGalleryService;
     private readonly IEquipmentsService _equipmentsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserEquipmentsService(
         IUserEquipmentsRepository userEquipmentsRepository,
@@ -17,7 +16,6 @@ public class UserEquipmentsService : IUserEquipmentsService
         _userEquipmentsRepository = userEquipmentsRepository;
         _equipmentsGalleryService = equipmentsGalleryService;
         _equipmentsService = equipmentsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserEquipmentsService Create() => ServiceContainer.GetService<IUserEquipmentsService>();

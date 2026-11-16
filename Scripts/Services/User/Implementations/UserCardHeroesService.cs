@@ -12,7 +12,6 @@ public class UserCardHeroesService : IUserCardHeroesService
     private readonly ICardHeroesService _cardHeroesService;
     private readonly IUserSkillsRepository _userSkillsRepository;
     private readonly IPatternsService _patternsService;
-    private readonly IUserStatsService _userStatsService;
     private readonly IUserEquipmentsService _userEquipmentsService;
 
     public UserCardHeroesService(
@@ -21,7 +20,6 @@ public class UserCardHeroesService : IUserCardHeroesService
         ICardHeroesService cardHeroesService,
         IUserSkillsRepository userSkillsRepository,
         IPatternsService patternsService,
-        IUserStatsService userStatsService,
         IUserEquipmentsService userEquipmentsService)
     {
         _userCardHeroesRepository = userCardHeroesRepository;
@@ -29,7 +27,6 @@ public class UserCardHeroesService : IUserCardHeroesService
         _cardHeroesService = cardHeroesService;
         _userSkillsRepository = userSkillsRepository;
         _patternsService = patternsService;
-        _userStatsService = userStatsService;
         _userEquipmentsService = userEquipmentsService;
     }
 
@@ -197,51 +194,16 @@ public class UserCardHeroesService : IUserCardHeroesService
         return CardHeroesList;
     }
 
-    public async Task<List<CardHeroes>> GetUserCardHeroesAsync(string userId, string search, string type, int pageSize, int offset, string rare, UserStatsContextDTO sharedContext = null)
+    public async Task<List<CardHeroes>> GetUserCardHeroesAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<CardHeroes> result = await _userCardHeroesRepository.GetUserCardHeroesAsync(userId, search, type, pageSize, offset, rare);
 
-        List<string> cardHeroIds = result.Select(hero => hero.Id).ToList();
+        // List<string> cardHeroIds = result.Select(hero => hero.Id).ToList();
 
-        // var skillsTask = _userSkillsRepository.GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
-
-        // var skillData = await skillsTask;
-        // foreach (var skill in skillData)
-        // {
-        //     if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
-        //     {
-        //         skill.Pattern = _patternsService.GetPatternFromCache(skill.Pattern.Id);
-        //     }
-        // }
-
-        UserStatsContextDTO context = sharedContext;
-        if (context == null)
-        {
-            context = await _userStatsService.GetUserStatsContextAsync(userId);
-        }
-
-        var equipments = await _userEquipmentsService.GetUserCardHeroesEquipmentsAsync(userId, cardHeroIds, "All");
-
-        // var skillsLookup = skillData.ToLookup(s => s.CardId);
+        // var equipments = await _userEquipmentsService.GetUserCardHeroesEquipmentsAsync(userId, cardHeroIds, "All");
 
         TotalBuffs totalBuffs = new TotalBuffs();
-        totalBuffs.AddBuff(context.UserPowersData);
-        totalBuffs.AddBuff(context.PowerManagerData);
-        // totalBuffs.AddBuff(context.ScienceFictionData);
-        // totalBuffs.AddBuff(context.ResearchData);
-        // totalBuffs.AddBuff(context.ArchiveData);
-        // totalBuffs.AddBuff(context.UniverseData);
-        // totalBuffs.AddBuff(context.HiinData);
-        // totalBuffs.AddBuff(context.SswnData);
-        // totalBuffs.AddBuff(context.HitnData);
-        // totalBuffs.AddBuff(context.HihnData);
-        // totalBuffs.AddBuff(context.HienData);
-        // totalBuffs.AddBuff(context.HicaData);
-        // totalBuffs.AddBuff(context.HirnData);
-        // totalBuffs.AddBuff(context.HidcData);
-        // totalBuffs.AddBuff(context.HicbData);
-        // totalBuffs.AddBuff(context.HisnData);
-        // totalBuffs.AddBuff(context.AnimeStatsData);
+        totalBuffs.AddBuff(User.UserPower);
 
         foreach (var item in result)
         {
@@ -253,7 +215,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         result = StarEvaluatorHelper.GetStarPower(result);
         result = ModuleEvaluatorHelper.GetModulePower(result);
         result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        result = StatsHelper.GetAllEquipmentPower(result, equipments);
+        // result = StatsHelper.GetAllEquipmentPower(result, equipments);
 
         foreach (var card in result)
         {
@@ -274,58 +236,23 @@ public class UserCardHeroesService : IUserCardHeroesService
         return result;
     }
 
-    public async Task<List<CardHeroes>> GetUserCardHeroesTeamAsync(string userId, string teamId, string position, UserStatsContextDTO sharedContext = null)
+    public async Task<List<CardHeroes>> GetUserCardHeroesTeamAsync(string userId, string teamId, string position)
     {
         List<CardHeroes> result = await _userCardHeroesRepository.GetUserCardHeroesTeamAsync(userId, teamId, position);
 
-        List<string> cardHeroIds = result.Select(hero => hero.Id).ToList();
+        // List<string> cardHeroIds = result.Select(hero => hero.Id).ToList();
 
-        // var skillsTask = _userSkillsRepository.GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
-
-        // var skillData = await skillsTask;
-        // foreach (var skill in skillData)
-        // {
-        //     if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
-        //     {
-        //         skill.Pattern = _patternsService.GetPatternFromCache(skill.Pattern.Id);
-        //     }
-        // }
-
-        UserStatsContextDTO context = sharedContext;
-        if (context == null)
-        {
-            context = await _userStatsService.GetUserStatsContextAsync(userId);
-        }
-
-        var equipments = await _userEquipmentsService.GetUserCardHeroesEquipmentsAsync(userId, cardHeroIds, "All");
-
-        // var skillsLookup = skillData.ToLookup(s => s.CardId);
+        // var equipments = await _userEquipmentsService.GetUserCardHeroesEquipmentsAsync(userId, cardHeroIds, "All");
 
         TotalBuffs totalBuffs = new TotalBuffs();
-        totalBuffs.AddBuff(context.UserPowersData);
-        totalBuffs.AddBuff(context.PowerManagerData);
-        // totalBuffs.AddBuff(context.ScienceFictionData);
-        // totalBuffs.AddBuff(context.ResearchData);
-        // totalBuffs.AddBuff(context.ArchiveData);
-        // totalBuffs.AddBuff(context.UniverseData);
-        // totalBuffs.AddBuff(context.HiinData);
-        // totalBuffs.AddBuff(context.SswnData);
-        // totalBuffs.AddBuff(context.HitnData);
-        // totalBuffs.AddBuff(context.HihnData);
-        // totalBuffs.AddBuff(context.HienData);
-        // totalBuffs.AddBuff(context.HicaData);
-        // totalBuffs.AddBuff(context.HirnData);
-        // totalBuffs.AddBuff(context.HidcData);
-        // totalBuffs.AddBuff(context.HicbData);
-        // totalBuffs.AddBuff(context.HisnData);
-        // totalBuffs.AddBuff(context.AnimeStatsData);
+        totalBuffs.AddBuff(User.UserPower);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);
         result = StarEvaluatorHelper.GetStarPower(result);
         result = ModuleEvaluatorHelper.GetModulePower(result);
         result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        result = StatsHelper.GetAllEquipmentPower(result, equipments);
+        // result = StatsHelper.GetAllEquipmentPower(result, equipments);
 
         foreach (var card in result)
         {
@@ -346,58 +273,23 @@ public class UserCardHeroesService : IUserCardHeroesService
         return result;
     }
 
-    public async Task<List<CardHeroes>> GetUserCardHeroesTeamWithoutPositionAsync(string userId, string teamId, UserStatsContextDTO sharedContext = null)
+    public async Task<List<CardHeroes>> GetUserCardHeroesTeamWithoutPositionAsync(string userId, string teamId)
     {
         List<CardHeroes> result = await _userCardHeroesRepository.GetUserCardHeroesTeamWithoutPositionAsync(userId, teamId);
 
-        List<string> cardHeroIds = result.Select(hero => hero.Id).ToList();
+        // List<string> cardHeroIds = result.Select(hero => hero.Id).ToList();
 
-        // var skillsTask = _userSkillsRepository.GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
-
-        // var skillData = await skillsTask;
-        // foreach (var skill in skillData)
-        // {
-        //     if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
-        //     {
-        //         skill.Pattern = _patternsService.GetPatternFromCache(skill.Pattern.Id);
-        //     }
-        // }
-
-        UserStatsContextDTO context = sharedContext;
-        if (context == null)
-        {
-            context = await _userStatsService.GetUserStatsContextAsync(userId);
-        }
-
-        var equipments = await _userEquipmentsService.GetUserCardHeroesEquipmentsAsync(userId, cardHeroIds, "All");
-
-        // var skillsLookup = skillData.ToLookup(s => s.CardId);
+        // var equipments = await _userEquipmentsService.GetUserCardHeroesEquipmentsAsync(userId, cardHeroIds, "All");
 
         TotalBuffs totalBuffs = new TotalBuffs();
-        totalBuffs.AddBuff(context.UserPowersData);
-        totalBuffs.AddBuff(context.PowerManagerData);
-        // totalBuffs.AddBuff(context.ScienceFictionData);
-        // totalBuffs.AddBuff(context.ResearchData);
-        // totalBuffs.AddBuff(context.ArchiveData);
-        // totalBuffs.AddBuff(context.UniverseData);
-        // totalBuffs.AddBuff(context.HiinData);
-        // totalBuffs.AddBuff(context.SswnData);
-        // totalBuffs.AddBuff(context.HitnData);
-        // totalBuffs.AddBuff(context.HihnData);
-        // totalBuffs.AddBuff(context.HienData);
-        // totalBuffs.AddBuff(context.HicaData);
-        // totalBuffs.AddBuff(context.HirnData);
-        // totalBuffs.AddBuff(context.HidcData);
-        // totalBuffs.AddBuff(context.HicbData);
-        // totalBuffs.AddBuff(context.HisnData);
-        // totalBuffs.AddBuff(context.AnimeStatsData);
+        totalBuffs.AddBuff(User.UserPower);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);
         result = StarEvaluatorHelper.GetStarPower(result);
         result = ModuleEvaluatorHelper.GetModulePower(result);
         result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        result = StatsHelper.GetAllEquipmentPower(result, equipments);
+        // result = StatsHelper.GetAllEquipmentPower(result, equipments);
 
         foreach (var card in result)
         {
@@ -418,58 +310,23 @@ public class UserCardHeroesService : IUserCardHeroesService
         return result;
     }
 
-    public async Task<List<CardHeroes>> GetUserCardHeroesInTeamAsync(string userId, UserStatsContextDTO sharedContext = null)
+    public async Task<List<CardHeroes>> GetUserCardHeroesInTeamAsync(string userId)
     {
         List<CardHeroes> result = await _userCardHeroesRepository.GetUserCardHeroesInTeamAsync(userId);
 
-        List<string> cardHeroIds = result.Select(hero => hero.Id).ToList();
+        // List<string> cardHeroIds = result.Select(hero => hero.Id).ToList();
 
-        // var skillsTask = _userSkillsRepository.GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
-
-        // var skillData = await skillsTask;
-        // foreach (var skill in skillData)
-        // {
-        //     if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
-        //     {
-        //         skill.Pattern = _patternsService.GetPatternFromCache(skill.Pattern.Id);
-        //     }
-        // }
-
-        UserStatsContextDTO context = sharedContext;
-        if (context == null)
-        {
-            context = await _userStatsService.GetUserStatsContextAsync(userId);
-        }
-
-        var equipments = await _userEquipmentsService.GetUserCardHeroesEquipmentsAsync(userId, cardHeroIds, "All");
-
-        // var skillsLookup = skillData.ToLookup(s => s.CardId);
+        // var equipments = await _userEquipmentsService.GetUserCardHeroesEquipmentsAsync(userId, cardHeroIds, "All");
 
         TotalBuffs totalBuffs = new TotalBuffs();
-        totalBuffs.AddBuff(context.UserPowersData);
-        totalBuffs.AddBuff(context.PowerManagerData);
-        // totalBuffs.AddBuff(context.ScienceFictionData);
-        // totalBuffs.AddBuff(context.ResearchData);
-        // totalBuffs.AddBuff(context.ArchiveData);
-        // totalBuffs.AddBuff(context.UniverseData);
-        // totalBuffs.AddBuff(context.HiinData);
-        // totalBuffs.AddBuff(context.SswnData);
-        // totalBuffs.AddBuff(context.HitnData);
-        // totalBuffs.AddBuff(context.HihnData);
-        // totalBuffs.AddBuff(context.HienData);
-        // totalBuffs.AddBuff(context.HicaData);
-        // totalBuffs.AddBuff(context.HirnData);
-        // totalBuffs.AddBuff(context.HidcData);
-        // totalBuffs.AddBuff(context.HicbData);
-        // totalBuffs.AddBuff(context.HisnData);
-        // totalBuffs.AddBuff(context.AnimeStatsData);
+        totalBuffs.AddBuff(User.UserPower);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);
         result = StarEvaluatorHelper.GetStarPower(result);
         result = ModuleEvaluatorHelper.GetModulePower(result);
         result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        result = StatsHelper.GetAllEquipmentPower(result, equipments);
+        // result = StatsHelper.GetAllEquipmentPower(result, equipments);
 
         foreach (var card in result)
         {
@@ -494,100 +351,6 @@ public class UserCardHeroesService : IUserCardHeroesService
     {
         return await _userCardHeroesRepository.GetUserCardHeroesInTeamSimpleAsync(userId, teamId);
     }
-
-    // public async Task<List<CardHeroes>> GetUserCardHeroesTeamWithoutPositionAsync(string userId, string teamId, UserStatsContextDTO sharedContext = null)
-    // {
-    //     // 1. Đo thời gian lấy danh sách Hero gốc từ DB
-    //     var swRepo = Stopwatch.StartNew();
-    //     List<CardHeroes> result = await _userCardHeroesRepository.GetUserCardHeroesTeamWithoutPositionAsync(userId, teamId);
-    //     swRepo.Stop();
-    //     UnityEngine.Debug.Log($"[Timer] _userCardHeroesRepository: {swRepo.ElapsedMilliseconds} ms");
-
-    //     List<string> cardHeroIds = result.Select(hero => hero.Id).ToList();
-
-    //     // Khởi tạo các Stopwatch riêng biệt cho từng Task bất đồng bộ
-    //     var swSkills = new Stopwatch();
-
-    //     // Hàm local hỗ trợ đo đạc và tự động bắn log lên Unity Console
-    //     async Task<T> MeasureTask<T>(Func<Task<T>> taskFunc, Stopwatch sw, string taskName)
-    //     {
-    //         sw.Start();
-    //         try
-    //         {
-    //             return await taskFunc();
-    //         }
-    //         finally
-    //         {
-    //             sw.Stop();
-    //             UnityEngine.Debug.Log($"[Timer] {taskName}: {sw.ElapsedMilliseconds} ms");
-    //         }
-    //     }
-
-    //     // Lấy danh sách kỹ năng dựa theo Id Hero
-    //     var skillsTask = MeasureTask(() => _userSkillsRepository.GetUserCardHeroesSkillsAsync(userId, cardHeroIds), swSkills, "SkillsFetch");
-
-    //     // Đợi tất cả hoàn thành cùng nhau
-    //     var swTotalParallel = Stopwatch.StartNew();
-    //     await Task.WhenAll(skillsTask);
-    //     swTotalParallel.Stop();
-    //     UnityEngine.Debug.LogWarning($"--- [Timer] Tổng thời gian chờ xử lý song song (WhenAll): {swTotalParallel.ElapsedMilliseconds} ms ---");
-
-    //     // Lấy kết quả trả về từ các Task
-    //     var skillData = await skillsTask;
-
-    //     // 2. Đo thời gian xử lý Cache dữ liệu Patterns
-    //     var swCache = Stopwatch.StartNew();
-    //     foreach (var skill in skillData)
-    //     {
-    //         if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
-    //         {
-    //             skill.Pattern = _patternsService.GetPatternFromCache(skill.Pattern.Id);
-    //         }
-    //     }
-
-    //     UserStatsContextDTO context = sharedContext;
-    //     if (context == null)
-    //     {
-    //         context = await _userStatsService.GetUserStatsContextAsync(userId);
-    //     }
-
-    //     swCache.Stop();
-    //     UnityEngine.Debug.Log($"[Timer] Pattern Cache Mapping: {swCache.ElapsedMilliseconds} ms");
-
-    //     // 3. Đo thời gian xử lý logic tính toán Chỉ số sức mạnh & Sắp xếp
-    //     var swCalculations = Stopwatch.StartNew();
-    //     result = QualityEvaluatorHelper.GetQualityPower(result);
-    // result = LevelEvaluatorHelper.GetLevelPower(result);
-    // result = StarEvaluatorHelper.GetStarPower(result);
-
-    //     foreach (var card in result)
-    //     {
-    //         card.ApplyPowerStats(context.PowerManagerData);
-    //         card.ApplyScienceFictionStats(context.ScienceFictionData);
-    //         card.ApplyResearchStats(context.ResearchData);
-    //         card.ApplyArchiveStats(context.ArchiveData);
-    //         card.ApplyUniverseStats(context.UniverseData);
-    //         card.ApplyHIINStats(context.HiinData);
-    //         card.ApplySSWNStats(context.SswnData);
-    //         card.ApplyHITNStats(context.HitnData);
-    //         card.ApplyHIHNStats(context.HihnData);
-    //         card.ApplyHIENStats(context.HienData);
-    //         card.ApplyHICAStats(context.HicaData);
-    //         card.ApplyHIRNStats(context.HirnData);
-    //         card.ApplyHIDCStats(context.HidcData);
-    //         card.ApplyHICBStats(context.HicbData);
-    //         card.ApplyHISNStats(context.HisnData);
-    //         card.ApplyAllUserAnimes(context.AnimeStatsData);
-    //         card.Skills = skillData.Where(s => s.CardId == card.Id).ToList();
-    //         card.RecalculatePower();
-    //     }
-    //     ListSortHelper.SortByPower(result);
-    //     swCalculations.Stop();
-
-    //     UnityEngine.Debug.Log($"[Timer] Calculate Power & Sort (CPU): {swCalculations.ElapsedMilliseconds} ms");
-
-    //     return result;
-    // }
 
     public async Task<Dictionary<string, int>> GetUniqueUserCardHeroesTypesTeamAsync(string userId, string teamId)
     {
@@ -790,7 +553,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         };
     }
 
-    public async Task<CardHeroes> GetUserCardHeroByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null)
+    public async Task<CardHeroes> GetUserCardHeroByIdAsync(string userId, string Id)
     {
         CardHeroes cardHero = await _userCardHeroesRepository.GetUserCardHeroByIdAsync(userId, Id);
         if (cardHero == null) return null;
@@ -811,34 +574,12 @@ public class UserCardHeroesService : IUserCardHeroesService
             }
         }
 
-        UserStatsContextDTO context = sharedContext;
-        if (context == null)
-        {
-            context = await _userStatsService.GetUserStatsContextAsync(userId);
-        }
-
         var equipments = await _userEquipmentsService.GetUserCardHeroesEquipmentsAsync(userId, cardHeroIds, "All");
 
         var skillsLookup = skillData.ToLookup(s => s.CardId);
 
         TotalBuffs totalBuffs = new TotalBuffs();
-        totalBuffs.AddBuff(context.UserPowersData);
-        totalBuffs.AddBuff(context.PowerManagerData);
-        // totalBuffs.AddBuff(context.ScienceFictionData);
-        // totalBuffs.AddBuff(context.ResearchData);
-        // totalBuffs.AddBuff(context.ArchiveData);
-        // totalBuffs.AddBuff(context.UniverseData);
-        // totalBuffs.AddBuff(context.HiinData);
-        // totalBuffs.AddBuff(context.SswnData);
-        // totalBuffs.AddBuff(context.HitnData);
-        // totalBuffs.AddBuff(context.HihnData);
-        // totalBuffs.AddBuff(context.HienData);
-        // totalBuffs.AddBuff(context.HicaData);
-        // totalBuffs.AddBuff(context.HirnData);
-        // totalBuffs.AddBuff(context.HidcData);
-        // totalBuffs.AddBuff(context.HicbData);
-        // totalBuffs.AddBuff(context.HisnData);
-        // totalBuffs.AddBuff(context.AnimeStatsData);
+        totalBuffs.AddBuff(User.UserPower);
 
         foreach (var item in result)
         {
@@ -871,39 +612,13 @@ public class UserCardHeroesService : IUserCardHeroesService
         return result.FirstOrDefault();
     }
 
-    public async Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null)
+    public async Task<BaseStats> GetTeamTotalStatsAsync(string userId)
     {
         var totalStats = await _userCardHeroesRepository.GetTeamTotalStatsAsync(userId);
         var baseStats = await _userCardHeroesRepository.GetTeamTotalStatsWithoutQualityAsync(userId);
-        var results = GetUserCardHeroesTeamWithoutPositionAsync(userId, "p", sharedContext);
-        var cardHeroIds = await _userCardHeroesRepository.GetTeamIdsAsync(userId);
-
-        UserStatsContextDTO context = sharedContext;
-        if (context == null)
-        {
-            context = await _userStatsService.GetUserStatsContextAsync(userId);
-        }
-
-        var equipments = await _userEquipmentsService.GetUserCardHeroesEquipmentsAsync(userId, cardHeroIds, "All");
 
         TotalBuffs totalBuffs = new TotalBuffs();
-        totalBuffs.AddBuff(context.UserPowersData);
-        totalBuffs.AddBuff(context.PowerManagerData);
-        // totalBuffs.AddBuff(context.ScienceFictionData);
-        // totalBuffs.AddBuff(context.ResearchData);
-        // totalBuffs.AddBuff(context.ArchiveData);
-        // totalBuffs.AddBuff(context.UniverseData);
-        // totalBuffs.AddBuff(context.HiinData);
-        // totalBuffs.AddBuff(context.SswnData);
-        // totalBuffs.AddBuff(context.HitnData);
-        // totalBuffs.AddBuff(context.HihnData);
-        // totalBuffs.AddBuff(context.HienData);
-        // totalBuffs.AddBuff(context.HicaData);
-        // totalBuffs.AddBuff(context.HirnData);
-        // totalBuffs.AddBuff(context.HidcData);
-        // totalBuffs.AddBuff(context.HicbData);
-        // totalBuffs.AddBuff(context.HisnData);
-        // totalBuffs.AddBuff(context.AnimeStatsData);
+        totalBuffs.AddBuff(User.UserPower);
 
         totalStats.ApplyTotalBuffs(baseStats, totalBuffs);
         totalStats.RecalculatePower();

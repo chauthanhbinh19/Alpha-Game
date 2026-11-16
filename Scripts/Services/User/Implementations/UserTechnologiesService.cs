@@ -6,18 +6,15 @@ public class UserTechnologiesService : IUserTechnologiesService
     private readonly IUserTechnologiesRepository _userTechnologiesRepository;
     private readonly ITechnologiesGalleryService _technologiesGalleryService;
     private readonly ITechnologiesService _technologiesService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserTechnologiesService(
         IUserTechnologiesRepository userTechnologiesRepository,
         ITechnologiesGalleryService technologiesGalleryService,
-        ITechnologiesService technologiesService,
-        IPowerManagerService powerManagerService)
+        ITechnologiesService technologiesService)
     {
         _userTechnologiesRepository = userTechnologiesRepository;
         _technologiesGalleryService = technologiesGalleryService;
         _technologiesService = technologiesService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserTechnologiesService Create() => ServiceContainer.GetService<IUserTechnologiesService>();
@@ -59,14 +56,6 @@ public class UserTechnologiesService : IUserTechnologiesService
             };
         }
 
-        var oldTechnologyTask = _technologiesService.SumPowerTechnologiesPercentAsync(userId);
-        var oldUserTechnologyTask = _userTechnologiesRepository.SumPowerUserTechnologiesAsync(userId);
-
-        await Task.WhenAll(oldTechnologyTask, oldUserTechnologyTask);
-
-        Technologies oldTechnology = oldTechnologyTask.Result;
-        Technologies oldUserTechnology = oldUserTechnologyTask.Result;
-
         var insertOrUpdateResult = await _userTechnologiesRepository.InsertOrUpdateUserTechnologyAsync(userId, technology);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -93,32 +82,6 @@ public class UserTechnologiesService : IUserTechnologiesService
 
         await _technologiesGalleryService.InsertTechnologyGalleryAsync(userId, technology.Id);
 
-        var newTechnologyTask = _technologiesService.SumPowerTechnologiesPercentAsync(userId);
-        var newUserTechnologyTask = _userTechnologiesRepository.SumPowerUserTechnologiesAsync(userId);
-
-        await Task.WhenAll(newTechnologyTask, newUserTechnologyTask);
-
-        PowerManager deltaPower = (PowerManager)newTechnologyTask.Result - (PowerManager)oldTechnology;
-        PowerManager deltaUserPower = (PowerManager)newUserTechnologyTask.Result - (PowerManager)oldUserTechnology;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -130,14 +93,6 @@ public class UserTechnologiesService : IUserTechnologiesService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserTechnologiesBatchAsync(string userId, List<Technologies> technologies)
     {
-        var oldTechnologyTask = _technologiesService.SumPowerTechnologiesPercentAsync(userId);
-        var oldUserTechnologyTask = _userTechnologiesRepository.SumPowerUserTechnologiesAsync(userId);
-
-        await Task.WhenAll(oldTechnologyTask, oldUserTechnologyTask);
-
-        Technologies oldTechnology = oldTechnologyTask.Result;
-        Technologies oldUserTechnology = oldUserTechnologyTask.Result;
-
         var insertOrUpdateResult = await _userTechnologiesRepository.InsertOrUpdateUserTechnologiesBatchAsync(userId, technologies);
 
         if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
@@ -157,33 +112,6 @@ public class UserTechnologiesService : IUserTechnologiesService
         if (hasNewInserts)
         {
             await _technologiesGalleryService.InsertBatchTechnologiesGalleryAsync(userId, newlyInsertedCards);
-
-            var newTechnologyTask = _technologiesService.SumPowerTechnologiesPercentAsync(userId);
-            var newUserTechnologyTask = _userTechnologiesRepository.SumPowerUserTechnologiesAsync(userId);
-
-            await Task.WhenAll(newTechnologyTask, newUserTechnologyTask);
-
-            PowerManager deltaPower = (PowerManager)newTechnologyTask.Result - (PowerManager)oldTechnology;
-            PowerManager deltaUserPower = (PowerManager)newUserTechnologyTask.Result - (PowerManager)oldUserTechnology;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         return insertOrUpdateResult.OperationType switch
@@ -220,8 +148,6 @@ public class UserTechnologiesService : IUserTechnologiesService
             };
         }
 
-        Technologies oldUserTechnology = await _userTechnologiesRepository.SumPowerUserTechnologiesAsync(userId);
-
         var updateResult = await _userTechnologiesRepository.UpdateUserTechnologyLevelAsync(
             userId,
             technology,
@@ -235,24 +161,6 @@ public class UserTechnologiesService : IUserTechnologiesService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        Technologies newUserTechnology = await _userTechnologiesRepository.SumPowerUserTechnologiesAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserTechnology - (PowerManager)oldUserTechnology;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -279,8 +187,6 @@ public class UserTechnologiesService : IUserTechnologiesService
             };
         }
 
-        Technologies oldUserTechnology = await _userTechnologiesRepository.SumPowerUserTechnologiesAsync(userId);
-
         var updateResult = await _userTechnologiesRepository.UpdateUserTechnologyStarAsync(userId, technology);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -295,24 +201,6 @@ public class UserTechnologiesService : IUserTechnologiesService
         }
 
         await _technologiesGalleryService.UpdateTempStarTechnologyGalleryAsync(userId, technology.Id, technology.Star);
-
-        Technologies newUserTechnology = await _userTechnologiesRepository.SumPowerUserTechnologiesAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserTechnology - (PowerManager)oldUserTechnology;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {

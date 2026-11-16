@@ -6,18 +6,15 @@ public class UserBadgesService : IUserBadgesService
     private readonly IUserBadgesRepository _userBadgesRepository;
     private readonly IBadgesGalleryService _badgesGalleryService;
     private readonly IBadgesService _badgesService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserBadgesService(
         IUserBadgesRepository userBadgesRepository,
         IBadgesGalleryService badgesGalleryService,
-        IBadgesService badgesService,
-        IPowerManagerService powerManagerService)
+        IBadgesService badgesService)
     {
         _userBadgesRepository = userBadgesRepository;
         _badgesGalleryService = badgesGalleryService;
         _badgesService = badgesService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserBadgesService Create() => ServiceContainer.GetService<IUserBadgesService>();
@@ -59,14 +56,6 @@ public class UserBadgesService : IUserBadgesService
             };
         }
 
-        var oldBadgeTask = _badgesService.SumPowerBadgesPercentAsync(userId);
-        var oldUserBadgeTask = _userBadgesRepository.SumPowerUserBadgesAsync(userId);
-
-        await Task.WhenAll(oldBadgeTask, oldUserBadgeTask);
-
-        Badges oldBadge = oldBadgeTask.Result;
-        Badges oldUserBadge = oldUserBadgeTask.Result;
-
         var insertOrUpdateResult = await _userBadgesRepository.InsertOrUpdateUserBadgeAsync(userId, badge);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -93,32 +82,6 @@ public class UserBadgesService : IUserBadgesService
 
         await _badgesGalleryService.InsertBadgeGalleryAsync(userId, badge.Id);
 
-        var newBadgeTask = _badgesService.SumPowerBadgesPercentAsync(userId);
-        var newUserBadgeTask = _userBadgesRepository.SumPowerUserBadgesAsync(userId);
-
-        await Task.WhenAll(newBadgeTask, newUserBadgeTask);
-
-        PowerManager deltaPower = (PowerManager)newBadgeTask.Result - (PowerManager)oldBadge;
-        PowerManager deltaUserPower = (PowerManager)newUserBadgeTask.Result - (PowerManager)oldUserBadge;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -130,14 +93,6 @@ public class UserBadgesService : IUserBadgesService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBadgesBatchAsync(string userId, List<Badges> badges)
     {
-        var oldBadgeTask = _badgesService.SumPowerBadgesPercentAsync(userId);
-        var oldUserBadgeTask = _userBadgesRepository.SumPowerUserBadgesAsync(userId);
-
-        await Task.WhenAll(oldBadgeTask, oldUserBadgeTask);
-
-        Badges oldBadge = oldBadgeTask.Result;
-        Badges oldUserBadge = oldUserBadgeTask.Result;
-
         var insertOrUpdateResult = await _userBadgesRepository.InsertOrUpdateUserBadgesBatchAsync(userId, badges);
 
         if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
@@ -157,33 +112,6 @@ public class UserBadgesService : IUserBadgesService
         if (hasNewInserts)
         {
             await _badgesGalleryService.InsertBatchBadgesGalleryAsync(userId, newlyInsertedCards);
-
-            var newBadgeTask = _badgesService.SumPowerBadgesPercentAsync(userId);
-            var newUserBadgeTask = _userBadgesRepository.SumPowerUserBadgesAsync(userId);
-
-            await Task.WhenAll(newBadgeTask, newUserBadgeTask);
-
-            PowerManager deltaPower = (PowerManager)newBadgeTask.Result - (PowerManager)oldBadge;
-            PowerManager deltaUserPower = (PowerManager)newUserBadgeTask.Result - (PowerManager)oldUserBadge;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         return insertOrUpdateResult.OperationType switch
@@ -220,8 +148,6 @@ public class UserBadgesService : IUserBadgesService
             };
         }
 
-        Badges oldUserBadge = await _userBadgesRepository.SumPowerUserBadgesAsync(userId);
-
         var updateResult = await _userBadgesRepository.UpdateUserBadgeLevelAsync(
             userId,
             badge,
@@ -235,24 +161,6 @@ public class UserBadgesService : IUserBadgesService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        Badges newUserBadge = await _userBadgesRepository.SumPowerUserBadgesAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserBadge - (PowerManager)oldUserBadge;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -279,8 +187,6 @@ public class UserBadgesService : IUserBadgesService
             };
         }
 
-        Badges oldUserBadge = await _userBadgesRepository.SumPowerUserBadgesAsync(userId);
-
         var updateResult = await _userBadgesRepository.UpdateUserBadgeStarAsync(userId, badge);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -295,24 +201,6 @@ public class UserBadgesService : IUserBadgesService
         }
 
         await _badgesGalleryService.UpdateTempStarBadgeGalleryAsync(userId, badge.Id, badge.Star);
-
-        Badges newUserBadge = await _userBadgesRepository.SumPowerUserBadgesAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserBadge - (PowerManager)oldUserBadge;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {

@@ -763,10 +763,23 @@ public class Test : MonoBehaviour
             ObjectType = AppConstants.ObjectType.CARD_HEROES
         };
         List<Currencies> currencies = await ShopsService.Create().GetCurrenciesByShopAsync(User.CurrentUserId, shopRequestDTO);
-        foreach(var a in currencies)
+        foreach (var a in currencies)
         {
-            Debug.Log(a.Name + ": " +a.Quantity.ToString());
+            Debug.Log(a.Name + ": " + a.Quantity.ToString());
         }
+    }
+    [ContextMenu("Run Power Async")]
+    public async Task TestingPowerAsync()
+    {
+        Program.InitializeServices();
+        User.CurrentUserId = userId;
+        await PowerHelper.InitializeGamePowersAsync(userId);
+
+        // 1. Gọi hàm tính toán lại lực chiến (nó sẽ cập nhật trực tiếp vào userPower.Power)
+        User.UserPower.RecalculatePower();
+
+        // 2. In ra giá trị lực chiến sau khi tính
+        Debug.Log(User.UserPower.Power);
     }
 }
 

@@ -6,18 +6,15 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
     private readonly IUserCollaborationEquipmentsRepository _userCollaborationEquipmentsRepository;
     private readonly ICollaborationEquipmentsGalleryService _collaborationEquipmentsGalleryService;
     private readonly ICollaborationEquipmentsService _collaborationEquipmentsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserCollaborationEquipmentsService(
         IUserCollaborationEquipmentsRepository userCollaborationEquipmentsRepository,
         ICollaborationEquipmentsGalleryService collaborationEquipmentsGalleryService,
-        ICollaborationEquipmentsService collaborationEquipmentsService,
-        IPowerManagerService powerManagerService)
+        ICollaborationEquipmentsService collaborationEquipmentsService)
     {
         _userCollaborationEquipmentsRepository = userCollaborationEquipmentsRepository;
         _collaborationEquipmentsGalleryService = collaborationEquipmentsGalleryService;
         _collaborationEquipmentsService = collaborationEquipmentsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserCollaborationEquipmentsService Create() => ServiceContainer.GetService<IUserCollaborationEquipmentsService>();
@@ -59,14 +56,6 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
             };
         }
 
-        var oldCollaborationEquipmentTask = _collaborationEquipmentsService.SumPowerCollaborationEquipmentsPercentAsync(userId);
-        var oldUserCollaborationEquipmentTask = _userCollaborationEquipmentsRepository.SumPowerUserCollaborationEquipmentsAsync(userId);
-
-        await Task.WhenAll(oldCollaborationEquipmentTask, oldUserCollaborationEquipmentTask);
-
-        CollaborationEquipments oldCollaborationEquipment = oldCollaborationEquipmentTask.Result;
-        CollaborationEquipments oldUserCollaborationEquipment = oldUserCollaborationEquipmentTask.Result;
-
         var insertOrUpdateResult = await _userCollaborationEquipmentsRepository.InsertOrUpdateUserCollaborationEquipmentAsync(userId, collaborationEquipment);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -93,32 +82,6 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
 
         await _collaborationEquipmentsGalleryService.InsertCollaborationEquipmentGalleryAsync(userId, collaborationEquipment.Id);
 
-        var newCollaborationEquipmentTask = _collaborationEquipmentsService.SumPowerCollaborationEquipmentsPercentAsync(userId);
-        var newUserCollaborationEquipmentTask = _userCollaborationEquipmentsRepository.SumPowerUserCollaborationEquipmentsAsync(userId);
-
-        await Task.WhenAll(newCollaborationEquipmentTask, newUserCollaborationEquipmentTask);
-
-        PowerManager deltaPower = (PowerManager)newCollaborationEquipmentTask.Result - (PowerManager)oldCollaborationEquipment;
-        PowerManager deltaUserPower = (PowerManager)newUserCollaborationEquipmentTask.Result - (PowerManager)oldUserCollaborationEquipment;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -130,14 +93,6 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCollaborationEquipmentsBatchAsync(string userId, List<CollaborationEquipments> collaborationEquipments)
     {
-        var oldCollaborationEquipmentTask = _collaborationEquipmentsService.SumPowerCollaborationEquipmentsPercentAsync(userId);
-        var oldUserCollaborationEquipmentTask = _userCollaborationEquipmentsRepository.SumPowerUserCollaborationEquipmentsAsync(userId);
-
-        await Task.WhenAll(oldCollaborationEquipmentTask, oldUserCollaborationEquipmentTask);
-
-        CollaborationEquipments oldCollaborationEquipment = oldCollaborationEquipmentTask.Result;
-        CollaborationEquipments oldUserCollaborationEquipment = oldUserCollaborationEquipmentTask.Result;
-
         var insertOrUpdateResult = await _userCollaborationEquipmentsRepository.InsertOrUpdateUserCollaborationEquipmentsBatchAsync(userId, collaborationEquipments);
 
         if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
@@ -157,33 +112,6 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
         if (hasNewInserts)
         {
             await _collaborationEquipmentsGalleryService.InsertBatchCollaborationEquipmentsGalleryAsync(userId, newlyInsertedCards);
-
-            var newCollaborationEquipmentTask = _collaborationEquipmentsService.SumPowerCollaborationEquipmentsPercentAsync(userId);
-            var newUserCollaborationEquipmentTask = _userCollaborationEquipmentsRepository.SumPowerUserCollaborationEquipmentsAsync(userId);
-
-            await Task.WhenAll(newCollaborationEquipmentTask, newUserCollaborationEquipmentTask);
-
-            PowerManager deltaPower = (PowerManager)newCollaborationEquipmentTask.Result - (PowerManager)oldCollaborationEquipment;
-            PowerManager deltaUserPower = (PowerManager)newUserCollaborationEquipmentTask.Result - (PowerManager)oldUserCollaborationEquipment;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         return insertOrUpdateResult.OperationType switch
@@ -220,8 +148,6 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
             };
         }
 
-        CollaborationEquipments oldUserCollaborationEquipment = await _userCollaborationEquipmentsRepository.SumPowerUserCollaborationEquipmentsAsync(userId);
-
         var updateResult = await _userCollaborationEquipmentsRepository.UpdateUserCollaborationEquipmentLevelAsync(
             userId,
             collaborationEquipment,
@@ -235,24 +161,6 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        CollaborationEquipments newUserCollaborationEquipment = await _userCollaborationEquipmentsRepository.SumPowerUserCollaborationEquipmentsAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserCollaborationEquipment - (PowerManager)oldUserCollaborationEquipment;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -279,8 +187,6 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
             };
         }
 
-        CollaborationEquipments oldUserCollaborationEquipment = await _userCollaborationEquipmentsRepository.SumPowerUserCollaborationEquipmentsAsync(userId);
-
         var updateResult = await _userCollaborationEquipmentsRepository.UpdateUserCollaborationEquipmentStarAsync(userId, collaborationEquipment);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -295,24 +201,6 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
         }
 
         await _collaborationEquipmentsGalleryService.UpdateTempStarCollaborationEquipmentGalleryAsync(userId, collaborationEquipment.Id, collaborationEquipment.Star);
-
-        CollaborationEquipments newUserCollaborationEquipment = await _userCollaborationEquipmentsRepository.SumPowerUserCollaborationEquipmentsAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserCollaborationEquipment - (PowerManager)oldUserCollaborationEquipment;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {

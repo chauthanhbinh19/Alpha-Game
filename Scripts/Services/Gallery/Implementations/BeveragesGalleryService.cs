@@ -6,16 +6,13 @@ public class BeveragesGalleryService : IBeveragesGalleryService
 {
     private readonly IBeveragesGalleryRepository _beveragesGalleryRepository;
     private readonly IBeveragesService _beveragesService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public BeveragesGalleryService(
         IBeveragesGalleryRepository beveragesGalleryRepository,
-        IBeveragesService beveragesService,
-        IPowerManagerService powerManagerService)
+        IBeveragesService beveragesService)
     {
         _beveragesGalleryRepository = beveragesGalleryRepository;
         _beveragesService = beveragesService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IBeveragesGalleryService Create() => ServiceContainer.GetService<IBeveragesGalleryService>();
@@ -94,12 +91,6 @@ public class BeveragesGalleryService : IBeveragesGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Beverages beverageGallery = await GetBeverageCollectionByIdAsync(userId, beverageId) ?? new Beverages();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)beverageGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class BeveragesGalleryService : IBeveragesGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusBeveragesGalleryAsync(string userId)
     {
-        Beverages oldBeverage = await SumPowerBeveragesGalleryAsync(userId);
-
         var updateResult = await _beveragesGalleryRepository.UpdateBatchStatusBeveragesGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -126,25 +115,6 @@ public class BeveragesGalleryService : IBeveragesGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Beverages newBeverage = await SumPowerBeveragesGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newBeverage - (PowerManager)oldBeverage;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class BeveragesGalleryService : IBeveragesGalleryService
             };
         }
 
-        Beverages oldBeverage = await GetBeverageCollectionByIdAsync(userId, beverageId) ?? new Beverages();
-
         var updateResult = await _beveragesGalleryRepository.UpdateCurrentStarBeverageGalleryAsync(userId, beverageId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -223,25 +191,6 @@ public class BeveragesGalleryService : IBeveragesGalleryService
             };
         }
 
-        Beverages newBeverage = await GetBeverageCollectionByIdAsync(userId, beverageId) ?? new Beverages();
-        PowerManager deltaPower = (PowerManager)newBeverage - (PowerManager)oldBeverage;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -252,8 +201,6 @@ public class BeveragesGalleryService : IBeveragesGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarBeveragesGalleryAsync(string userId)
     {
-        Beverages oldBeverage = await SumPowerBeveragesGalleryAsync(userId);
-
         var updateResult = await _beveragesGalleryRepository.UpdateBatchCurrentStarBeveragesGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -269,25 +216,6 @@ public class BeveragesGalleryService : IBeveragesGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Beverages newBeverage = await SumPowerBeveragesGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newBeverage - (PowerManager)oldBeverage;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

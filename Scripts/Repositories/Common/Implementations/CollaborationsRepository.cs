@@ -882,7 +882,9 @@ public class CollaborationsRepository : ICollaborationsRepository
                     SUM(a.percent_all_mental_defense) AS total_percent_all_mental_defense
                 FROM collaborations a
                 JOIN user_collaborations ua ON a.id = ua.collaboration_id
-                WHERE ua.user_id = @user_id;
+                WHERE ua.user_id = @user_id
+                    AND a.is_active = TRUE 
+                    AND a.is_deleted = FALSE;
             ";
 
                 await using (var selectCommand = new MySqlCommand(selectSQL, connection))

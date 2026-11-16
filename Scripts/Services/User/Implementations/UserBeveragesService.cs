@@ -6,18 +6,15 @@ public class UserBeveragesService : IUserBeveragesService
     private readonly IUserBeveragesRepository _userBeveragesRepository;
     private readonly IBeveragesGalleryService _beveragesGalleryService;
     private readonly IBeveragesService _beveragesService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserBeveragesService(
         IUserBeveragesRepository userBeveragesRepository,
         IBeveragesGalleryService beveragesGalleryService,
-        IBeveragesService beveragesService,
-        IPowerManagerService powerManagerService)
+        IBeveragesService beveragesService)
     {
         _userBeveragesRepository = userBeveragesRepository;
         _beveragesGalleryService = beveragesGalleryService;
         _beveragesService = beveragesService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserBeveragesService Create() => ServiceContainer.GetService<IUserBeveragesService>();
@@ -59,14 +56,6 @@ public class UserBeveragesService : IUserBeveragesService
             };
         }
 
-        var oldBeverageTask = _beveragesService.SumPowerBeveragesPercentAsync(userId);
-        var oldUserBeverageTask = _userBeveragesRepository.SumPowerUserBeveragesAsync(userId);
-
-        await Task.WhenAll(oldBeverageTask, oldUserBeverageTask);
-
-        Beverages oldBeverage = oldBeverageTask.Result;
-        Beverages oldUserBeverage = oldUserBeverageTask.Result;
-
         var insertOrUpdateResult = await _userBeveragesRepository.InsertOrUpdateUserBeverageAsync(userId, beverage);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -93,32 +82,6 @@ public class UserBeveragesService : IUserBeveragesService
 
         await _beveragesGalleryService.InsertBeverageGalleryAsync(userId, beverage.Id);
 
-        var newBeverageTask = _beveragesService.SumPowerBeveragesPercentAsync(userId);
-        var newUserBeverageTask = _userBeveragesRepository.SumPowerUserBeveragesAsync(userId);
-
-        await Task.WhenAll(newBeverageTask, newUserBeverageTask);
-
-        PowerManager deltaPower = (PowerManager)newBeverageTask.Result - (PowerManager)oldBeverage;
-        PowerManager deltaUserPower = (PowerManager)newUserBeverageTask.Result - (PowerManager)oldUserBeverage;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -130,14 +93,6 @@ public class UserBeveragesService : IUserBeveragesService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBeveragesBatchAsync(string userId, List<Beverages> beverages)
     {
-        var oldBeverageTask = _beveragesService.SumPowerBeveragesPercentAsync(userId);
-        var oldUserBeverageTask = _userBeveragesRepository.SumPowerUserBeveragesAsync(userId);
-
-        await Task.WhenAll(oldBeverageTask, oldUserBeverageTask);
-
-        Beverages oldBeverage = oldBeverageTask.Result;
-        Beverages oldUserBeverage = oldUserBeverageTask.Result;
-
         var insertOrUpdateResult = await _userBeveragesRepository.InsertOrUpdateUserBeveragesBatchAsync(userId, beverages);
 
         if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
@@ -157,33 +112,6 @@ public class UserBeveragesService : IUserBeveragesService
         if (hasNewInserts)
         {
             await _beveragesGalleryService.InsertBatchBeveragesGalleryAsync(userId, newlyInsertedCards);
-
-            var newBeverageTask = _beveragesService.SumPowerBeveragesPercentAsync(userId);
-            var newUserBeverageTask = _userBeveragesRepository.SumPowerUserBeveragesAsync(userId);
-
-            await Task.WhenAll(newBeverageTask, newUserBeverageTask);
-
-            PowerManager deltaPower = (PowerManager)newBeverageTask.Result - (PowerManager)oldBeverage;
-            PowerManager deltaUserPower = (PowerManager)newUserBeverageTask.Result - (PowerManager)oldUserBeverage;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         return insertOrUpdateResult.OperationType switch
@@ -220,8 +148,6 @@ public class UserBeveragesService : IUserBeveragesService
             };
         }
 
-        Beverages oldUserBeverage = await _userBeveragesRepository.SumPowerUserBeveragesAsync(userId);
-
         var updateResult = await _userBeveragesRepository.UpdateUserBeverageLevelAsync(
             userId,
             beverage,
@@ -235,24 +161,6 @@ public class UserBeveragesService : IUserBeveragesService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        Beverages newUserBeverage = await _userBeveragesRepository.SumPowerUserBeveragesAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserBeverage - (PowerManager)oldUserBeverage;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -279,8 +187,6 @@ public class UserBeveragesService : IUserBeveragesService
             };
         }
 
-        Beverages oldUserBeverage = await _userBeveragesRepository.SumPowerUserBeveragesAsync(userId);
-
         var updateResult = await _userBeveragesRepository.UpdateUserBeverageStarAsync(userId, beverage);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -295,24 +201,6 @@ public class UserBeveragesService : IUserBeveragesService
         }
 
         await _beveragesGalleryService.UpdateTempStarBeverageGalleryAsync(userId, beverage.Id, beverage.Star);
-
-        Beverages newUserBeverage = await _userBeveragesRepository.SumPowerUserBeveragesAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserBeverage - (PowerManager)oldUserBeverage;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {

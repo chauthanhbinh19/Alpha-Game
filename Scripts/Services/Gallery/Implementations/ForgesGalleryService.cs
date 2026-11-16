@@ -7,16 +7,13 @@ public class ForgesGalleryService : IForgesGalleryService
 {
     private readonly IForgesGalleryRepository _forgesGalleryRepository;
     private readonly IForgesService _forgesService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public ForgesGalleryService(
         IForgesGalleryRepository forgesGalleryRepository,
-        IForgesService forgesService,
-        IPowerManagerService powerManagerService)
+        IForgesService forgesService)
     {
         _forgesGalleryRepository = forgesGalleryRepository;
         _forgesService = forgesService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IForgesGalleryService Create() => ServiceContainer.GetService<IForgesGalleryService>();
@@ -95,12 +92,6 @@ public class ForgesGalleryService : IForgesGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Forges forgeGallery = await GetForgeCollectionByIdAsync(userId, forgeId) ?? new Forges();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)forgeGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -111,8 +102,6 @@ public class ForgesGalleryService : IForgesGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusForgesGalleryAsync(string userId)
     {
-        Forges oldForge = await SumPowerForgesGalleryAsync(userId);
-
         var updateResult = await _forgesGalleryRepository.UpdateBatchStatusForgesGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -127,25 +116,6 @@ public class ForgesGalleryService : IForgesGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Forges newForge = await SumPowerForgesGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newForge - (PowerManager)oldForge;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -209,8 +179,6 @@ public class ForgesGalleryService : IForgesGalleryService
             };
         }
 
-        Forges oldForge = await GetForgeCollectionByIdAsync(userId, forgeId) ?? new Forges();
-
         var updateResult = await _forgesGalleryRepository.UpdateCurrentStarForgeGalleryAsync(userId, forgeId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -224,25 +192,6 @@ public class ForgesGalleryService : IForgesGalleryService
             };
         }
 
-        Forges newForge = await GetForgeCollectionByIdAsync(userId, forgeId) ?? new Forges();
-        PowerManager deltaPower = (PowerManager)newForge - (PowerManager)oldForge;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -253,8 +202,6 @@ public class ForgesGalleryService : IForgesGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarForgesGalleryAsync(string userId)
     {
-        Forges oldForge = await SumPowerForgesGalleryAsync(userId);
-
         var updateResult = await _forgesGalleryRepository.UpdateBatchCurrentStarForgesGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -270,25 +217,6 @@ public class ForgesGalleryService : IForgesGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Forges newForge = await SumPowerForgesGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newForge - (PowerManager)oldForge;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

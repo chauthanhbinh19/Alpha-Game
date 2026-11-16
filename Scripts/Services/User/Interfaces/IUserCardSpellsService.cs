@@ -6,10 +6,10 @@ public interface IUserCardSpellsService
     Task<List<CardSpells>> GetAllEquipmentPowerAsync(string userId, List<CardSpells> cardSpellList);
     Task<List<CardSpells>> GetAllRankPowerAsync(string userId, List<CardSpells> cardSpellList);
     Task<List<CardSpells>> GetAllMasterPowerAsync(string userId, List<CardSpells> cardSpellList);
-    Task<List<CardSpells>> GetUserCardSpellsAsync(string userId, string search, string type, int pageSize, int offset, string rare, UserStatsContextDTO sharedContext = null);
-    Task<List<CardSpells>> GetUserCardSpellsTeamAsync(string userId, string teamId, string position, UserStatsContextDTO sharedContext = null);
-    Task<List<CardSpells>> GetUserCardSpellsTeamWithoutPositionAsync(string userId, string teamId, UserStatsContextDTO sharedContext = null);
-    Task<List<CardSpells>> GetUserCardSpellsInTeamAsync(string userId, UserStatsContextDTO sharedContext = null);
+    Task<List<CardSpells>> GetUserCardSpellsAsync(string userId, string search, string type, int pageSize, int offset, string rare);
+    Task<List<CardSpells>> GetUserCardSpellsTeamAsync(string userId, string teamId, string position);
+    Task<List<CardSpells>> GetUserCardSpellsTeamWithoutPositionAsync(string userId, string teamId);
+    Task<List<CardSpells>> GetUserCardSpellsInTeamAsync(string userId);
     Task<List<CardSpells>> GetUserCardSpellsInTeamSimpleAsync(string userId, string teamId);
     Task<Dictionary<string, int>> GetUniqueUserCardSpellsTypesTeamAsync(string userId, string teamId);
     Task<InsertOrUpdateResult<bool>> UpdateTeamUserCardSpellAsync(string userId, string teamId, string position, string cardId);
@@ -21,6 +21,6 @@ public interface IUserCardSpellsService
     Task<InsertOrUpdateResult<bool>> UpdateUserCardSpellLevelAsync(string userId, CardSpells cardSpell, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardSpellStarAsync(string userId, CardSpells cardSpell);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardSpellQuantityAsync(string userId, CardSpells cardSpell, List<RecipeItemDetailDTO> totalDeductions);
-    Task<CardSpells> GetUserCardSpellByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null);
-    Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null);
+    Task<CardSpells> GetUserCardSpellByIdAsync(string userId, string Id);
+    Task<BaseStats> GetTeamTotalStatsAsync(string userId);
 }

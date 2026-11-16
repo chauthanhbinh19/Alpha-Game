@@ -6,10 +6,10 @@ public interface IUserCardMonstersService
     Task<List<CardMonsters>> GetAllEquipmentPowerAsync(string userId, List<CardMonsters> cardMonsterList);
     Task<List<CardMonsters>> GetAllRankPowerAsync(string userId, List<CardMonsters> cardMonsterList);
     Task<List<CardMonsters>> GetAllMasterPowerAsync(string userId, List<CardMonsters> cardMonsterList);
-    Task<List<CardMonsters>> GetUserCardMonstersAsync(string userId, string search, string type, int pageSize, int offset, string rare, UserStatsContextDTO sharedContext = null);
-    Task<List<CardMonsters>> GetUserCardMonstersTeamAsync(string userId, string teamId, string position, UserStatsContextDTO sharedContext = null);
-    Task<List<CardMonsters>> GetUserCardMonstersTeamWithoutPositionAsync(string userId, string teamId, UserStatsContextDTO sharedContext = null);
-    Task<List<CardMonsters>> GetUserCardMonstersInTeamAsync(string userId, UserStatsContextDTO sharedContext = null);
+    Task<List<CardMonsters>> GetUserCardMonstersAsync(string userId, string search, string type, int pageSize, int offset, string rare);
+    Task<List<CardMonsters>> GetUserCardMonstersTeamAsync(string userId, string teamId, string position);
+    Task<List<CardMonsters>> GetUserCardMonstersTeamWithoutPositionAsync(string userId, string teamId);
+    Task<List<CardMonsters>> GetUserCardMonstersInTeamAsync(string userId);
     Task<List<CardMonsters>> GetUserCardMonstersInTeamSimpleAsync(string userId, string teamId);
     Task<Dictionary<string, int>> GetUniqueUserCardMonstersTypesTeamAsync(string userId, string teamId);
     Task<InsertOrUpdateResult<bool>> UpdateTeamUserCardMonsterAsync(string userId, string teamId, string position, string cardId);
@@ -21,6 +21,6 @@ public interface IUserCardMonstersService
     Task<InsertOrUpdateResult<bool>> UpdateUserCardMonsterLevelAsync(string userId, CardMonsters cardMonster, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardMonsterStarAsync(string userId, CardMonsters cardMonster);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardMonsterQuantityAsync(string userId, CardMonsters cardMonster, List<RecipeItemDetailDTO> totalDeductions);
-    Task<CardMonsters> GetUserCardMonsterByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null);
-    Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null);
+    Task<CardMonsters> GetUserCardMonsterByIdAsync(string userId, string Id);
+    Task<BaseStats> GetTeamTotalStatsAsync(string userId);
 }

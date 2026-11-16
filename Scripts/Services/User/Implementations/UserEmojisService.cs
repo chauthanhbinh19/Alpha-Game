@@ -6,18 +6,15 @@ public class UserEmojisService : IUserEmojisService
     private readonly IUserEmojisRepository _userEmojisRepository;
     private readonly IEmojisGalleryService _emojisGalleryService;
     private readonly IEmojisService _emojisService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserEmojisService(
         IUserEmojisRepository userEmojisRepository,
         IEmojisGalleryService emojisGalleryService,
-        IEmojisService emojisService,
-        IPowerManagerService powerManagerService)
+        IEmojisService emojisService)
     {
         _userEmojisRepository = userEmojisRepository;
         _emojisGalleryService = emojisGalleryService;
         _emojisService = emojisService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserEmojisService Create() => ServiceContainer.GetService<IUserEmojisService>();
@@ -59,14 +56,6 @@ public class UserEmojisService : IUserEmojisService
             };
         }
 
-        var oldEmojiTask = _emojisService.SumPowerEmojisPercentAsync(userId);
-        var oldUserEmojiTask = _userEmojisRepository.SumPowerUserEmojisAsync(userId);
-
-        await Task.WhenAll(oldEmojiTask, oldUserEmojiTask);
-
-        Emojis oldEmoji = oldEmojiTask.Result;
-        Emojis oldUserEmoji = oldUserEmojiTask.Result;
-
         var insertOrUpdateResult = await _userEmojisRepository.InsertOrUpdateUserEmojiAsync(userId, emoji);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -93,32 +82,6 @@ public class UserEmojisService : IUserEmojisService
 
         await _emojisGalleryService.InsertEmojiGalleryAsync(userId, emoji.Id);
 
-        var newEmojiTask = _emojisService.SumPowerEmojisPercentAsync(userId);
-        var newUserEmojiTask = _userEmojisRepository.SumPowerUserEmojisAsync(userId);
-
-        await Task.WhenAll(newEmojiTask, newUserEmojiTask);
-
-        PowerManager deltaPower = (PowerManager)newEmojiTask.Result - (PowerManager)oldEmoji;
-        PowerManager deltaUserPower = (PowerManager)newUserEmojiTask.Result - (PowerManager)oldUserEmoji;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -130,14 +93,6 @@ public class UserEmojisService : IUserEmojisService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserEmojisBatchAsync(string userId, List<Emojis> emojis)
     {
-        var oldEmojiTask = _emojisService.SumPowerEmojisPercentAsync(userId);
-        var oldUserEmojiTask = _userEmojisRepository.SumPowerUserEmojisAsync(userId);
-
-        await Task.WhenAll(oldEmojiTask, oldUserEmojiTask);
-
-        Emojis oldEmoji = oldEmojiTask.Result;
-        Emojis oldUserEmoji = oldUserEmojiTask.Result;
-
         var insertOrUpdateResult = await _userEmojisRepository.InsertOrUpdateUserEmojisBatchAsync(userId, emojis);
 
         if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
@@ -157,33 +112,6 @@ public class UserEmojisService : IUserEmojisService
         if (hasNewInserts)
         {
             await _emojisGalleryService.InsertBatchEmojisGalleryAsync(userId, newlyInsertedCards);
-
-            var newEmojiTask = _emojisService.SumPowerEmojisPercentAsync(userId);
-            var newUserEmojiTask = _userEmojisRepository.SumPowerUserEmojisAsync(userId);
-
-            await Task.WhenAll(newEmojiTask, newUserEmojiTask);
-
-            PowerManager deltaPower = (PowerManager)newEmojiTask.Result - (PowerManager)oldEmoji;
-            PowerManager deltaUserPower = (PowerManager)newUserEmojiTask.Result - (PowerManager)oldUserEmoji;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         return insertOrUpdateResult.OperationType switch
@@ -220,8 +148,6 @@ public class UserEmojisService : IUserEmojisService
             };
         }
 
-        Emojis oldUserEmoji = await _userEmojisRepository.SumPowerUserEmojisAsync(userId);
-
         var updateResult = await _userEmojisRepository.UpdateUserEmojiLevelAsync(
             userId,
             emoji,
@@ -235,24 +161,6 @@ public class UserEmojisService : IUserEmojisService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        Emojis newUserEmoji = await _userEmojisRepository.SumPowerUserEmojisAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserEmoji - (PowerManager)oldUserEmoji;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -279,8 +187,6 @@ public class UserEmojisService : IUserEmojisService
             };
         }
 
-        Emojis oldUserEmoji = await _userEmojisRepository.SumPowerUserEmojisAsync(userId);
-
         var updateResult = await _userEmojisRepository.UpdateUserEmojiStarAsync(userId, emoji);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -295,24 +201,6 @@ public class UserEmojisService : IUserEmojisService
         }
 
         await _emojisGalleryService.UpdateTempStarEmojiGalleryAsync(userId, emoji.Id, emoji.Star);
-
-        Emojis newUserEmoji = await _userEmojisRepository.SumPowerUserEmojisAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserEmoji - (PowerManager)oldUserEmoji;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {

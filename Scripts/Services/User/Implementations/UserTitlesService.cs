@@ -6,18 +6,15 @@ public class UserTitlesService : IUserTitlesService
     private readonly IUserTitlesRepository _userTitlesRepository;
     private readonly ITitlesGalleryService _titlesGalleryService;
     private readonly ITitlesService _titlesService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserTitlesService(
         IUserTitlesRepository userTitlesRepository,
         ITitlesGalleryService titlesGalleryService,
-        ITitlesService titlesService,
-        IPowerManagerService powerManagerService)
+        ITitlesService titlesService)
     {
         _userTitlesRepository = userTitlesRepository;
         _titlesGalleryService = titlesGalleryService;
         _titlesService = titlesService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserTitlesService Create() => ServiceContainer.GetService<IUserTitlesService>();
@@ -59,14 +56,6 @@ public class UserTitlesService : IUserTitlesService
             };
         }
 
-        var oldTitleTask = _titlesService.SumPowerTitlesPercentAsync(userId);
-        var oldUserTitleTask = _userTitlesRepository.SumPowerUserTitlesAsync(userId);
-
-        await Task.WhenAll(oldTitleTask, oldUserTitleTask);
-
-        Titles oldTitle = oldTitleTask.Result;
-        Titles oldUserTitle = oldUserTitleTask.Result;
-
         var insertOrUpdateResult = await _userTitlesRepository.InsertOrUpdateUserTitleAsync(userId, title);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -93,32 +82,6 @@ public class UserTitlesService : IUserTitlesService
 
         await _titlesGalleryService.InsertTitleGalleryAsync(userId, title.Id);
 
-        var newTitleTask = _titlesService.SumPowerTitlesPercentAsync(userId);
-        var newUserTitleTask = _userTitlesRepository.SumPowerUserTitlesAsync(userId);
-
-        await Task.WhenAll(newTitleTask, newUserTitleTask);
-
-        PowerManager deltaPower = (PowerManager)newTitleTask.Result - (PowerManager)oldTitle;
-        PowerManager deltaUserPower = (PowerManager)newUserTitleTask.Result - (PowerManager)oldUserTitle;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -130,14 +93,6 @@ public class UserTitlesService : IUserTitlesService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserTitlesBatchAsync(string userId, List<Titles> titles)
     {
-        var oldTitleTask = _titlesService.SumPowerTitlesPercentAsync(userId);
-        var oldUserTitleTask = _userTitlesRepository.SumPowerUserTitlesAsync(userId);
-
-        await Task.WhenAll(oldTitleTask, oldUserTitleTask);
-
-        Titles oldTitle = oldTitleTask.Result;
-        Titles oldUserTitle = oldUserTitleTask.Result;
-
         var insertOrUpdateResult = await _userTitlesRepository.InsertOrUpdateUserTitlesBatchAsync(userId, titles);
 
         if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
@@ -157,33 +112,6 @@ public class UserTitlesService : IUserTitlesService
         if (hasNewInserts)
         {
             await _titlesGalleryService.InsertBatchTitlesGalleryAsync(userId, newlyInsertedCards);
-
-            var newTitleTask = _titlesService.SumPowerTitlesPercentAsync(userId);
-            var newUserTitleTask = _userTitlesRepository.SumPowerUserTitlesAsync(userId);
-
-            await Task.WhenAll(newTitleTask, newUserTitleTask);
-
-            PowerManager deltaPower = (PowerManager)newTitleTask.Result - (PowerManager)oldTitle;
-            PowerManager deltaUserPower = (PowerManager)newUserTitleTask.Result - (PowerManager)oldUserTitle;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         return insertOrUpdateResult.OperationType switch
@@ -220,8 +148,6 @@ public class UserTitlesService : IUserTitlesService
             };
         }
 
-        Titles oldUserTitle = await _userTitlesRepository.SumPowerUserTitlesAsync(userId);
-
         var updateResult = await _userTitlesRepository.UpdateUserTitleLevelAsync(
             userId,
             title,
@@ -235,24 +161,6 @@ public class UserTitlesService : IUserTitlesService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        Titles newUserTitle = await _userTitlesRepository.SumPowerUserTitlesAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserTitle - (PowerManager)oldUserTitle;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -279,8 +187,6 @@ public class UserTitlesService : IUserTitlesService
             };
         }
 
-        Titles oldUserTitle = await _userTitlesRepository.SumPowerUserTitlesAsync(userId);
-
         var updateResult = await _userTitlesRepository.UpdateUserTitleStarAsync(userId, title);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -295,24 +201,6 @@ public class UserTitlesService : IUserTitlesService
         }
 
         await _titlesGalleryService.UpdateTempStarTitleGalleryAsync(userId, title.Id, title.Star);
-
-        Titles newUserTitle = await _userTitlesRepository.SumPowerUserTitlesAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserTitle - (PowerManager)oldUserTitle;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {

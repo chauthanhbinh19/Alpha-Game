@@ -6,18 +6,15 @@ public class UserVehiclesService : IUserVehiclesService
     private readonly IUserVehiclesRepository _userVehiclesRepository;
     private readonly IVehiclesGalleryService _vehiclesGalleryService;
     private readonly IVehiclesService _vehiclesService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserVehiclesService(
         IUserVehiclesRepository userVehiclesRepository,
         IVehiclesGalleryService vehiclesGalleryService,
-        IVehiclesService vehiclesService,
-        IPowerManagerService powerManagerService)
+        IVehiclesService vehiclesService)
     {
         _userVehiclesRepository = userVehiclesRepository;
         _vehiclesGalleryService = vehiclesGalleryService;
         _vehiclesService = vehiclesService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserVehiclesService Create() => ServiceContainer.GetService<IUserVehiclesService>();
@@ -59,14 +56,6 @@ public class UserVehiclesService : IUserVehiclesService
             };
         }
 
-        var oldVehicleTask = _vehiclesService.SumPowerVehiclesPercentAsync(userId);
-        var oldUserVehicleTask = _userVehiclesRepository.SumPowerUserVehiclesAsync(userId);
-
-        await Task.WhenAll(oldVehicleTask, oldUserVehicleTask);
-
-        Vehicles oldVehicle = oldVehicleTask.Result;
-        Vehicles oldUserVehicle = oldUserVehicleTask.Result;
-
         var insertOrUpdateResult = await _userVehiclesRepository.InsertOrUpdateUserVehicleAsync(userId, vehicle);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -93,32 +82,6 @@ public class UserVehiclesService : IUserVehiclesService
 
         await _vehiclesGalleryService.InsertVehicleGalleryAsync(userId, vehicle.Id);
 
-        var newVehicleTask = _vehiclesService.SumPowerVehiclesPercentAsync(userId);
-        var newUserVehicleTask = _userVehiclesRepository.SumPowerUserVehiclesAsync(userId);
-
-        await Task.WhenAll(newVehicleTask, newUserVehicleTask);
-
-        PowerManager deltaPower = (PowerManager)newVehicleTask.Result - (PowerManager)oldVehicle;
-        PowerManager deltaUserPower = (PowerManager)newUserVehicleTask.Result - (PowerManager)oldUserVehicle;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -130,14 +93,6 @@ public class UserVehiclesService : IUserVehiclesService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserVehiclesBatchAsync(string userId, List<Vehicles> vehicles)
     {
-        var oldVehicleTask = _vehiclesService.SumPowerVehiclesPercentAsync(userId);
-        var oldUserVehicleTask = _userVehiclesRepository.SumPowerUserVehiclesAsync(userId);
-
-        await Task.WhenAll(oldVehicleTask, oldUserVehicleTask);
-
-        Vehicles oldVehicle = oldVehicleTask.Result;
-        Vehicles oldUserVehicle = oldUserVehicleTask.Result;
-
         var insertOrUpdateResult = await _userVehiclesRepository.InsertOrUpdateUserVehiclesBatchAsync(userId, vehicles);
 
         if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
@@ -157,33 +112,6 @@ public class UserVehiclesService : IUserVehiclesService
         if (hasNewInserts)
         {
             await _vehiclesGalleryService.InsertBatchVehiclesGalleryAsync(userId, newlyInsertedCards);
-
-            var newVehicleTask = _vehiclesService.SumPowerVehiclesPercentAsync(userId);
-            var newUserVehicleTask = _userVehiclesRepository.SumPowerUserVehiclesAsync(userId);
-
-            await Task.WhenAll(newVehicleTask, newUserVehicleTask);
-
-            PowerManager deltaPower = (PowerManager)newVehicleTask.Result - (PowerManager)oldVehicle;
-            PowerManager deltaUserPower = (PowerManager)newUserVehicleTask.Result - (PowerManager)oldUserVehicle;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         return insertOrUpdateResult.OperationType switch
@@ -220,8 +148,6 @@ public class UserVehiclesService : IUserVehiclesService
             };
         }
 
-        Vehicles oldUserVehicle = await _userVehiclesRepository.SumPowerUserVehiclesAsync(userId);
-
         var updateResult = await _userVehiclesRepository.UpdateUserVehicleLevelAsync(
             userId,
             vehicle,
@@ -235,24 +161,6 @@ public class UserVehiclesService : IUserVehiclesService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        Vehicles newUserVehicle = await _userVehiclesRepository.SumPowerUserVehiclesAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserVehicle - (PowerManager)oldUserVehicle;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -279,8 +187,6 @@ public class UserVehiclesService : IUserVehiclesService
             };
         }
 
-        Vehicles oldUserVehicle = await _userVehiclesRepository.SumPowerUserVehiclesAsync(userId);
-
         var updateResult = await _userVehiclesRepository.UpdateUserVehicleStarAsync(userId, vehicle);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -295,24 +201,6 @@ public class UserVehiclesService : IUserVehiclesService
         }
 
         await _vehiclesGalleryService.UpdateTempStarVehicleGalleryAsync(userId, vehicle.Id, vehicle.Star);
-
-        Vehicles newUserVehicle = await _userVehiclesRepository.SumPowerUserVehiclesAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserVehicle - (PowerManager)oldUserVehicle;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {

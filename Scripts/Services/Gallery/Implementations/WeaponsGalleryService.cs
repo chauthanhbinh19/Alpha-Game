@@ -6,16 +6,13 @@ public class WeaponsGalleryService : IWeaponsGalleryService
 {
     private readonly IWeaponsGalleryRepository _weaponsGalleryRepository;
     private readonly IWeaponsService _weaponsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public WeaponsGalleryService(
         IWeaponsGalleryRepository weaponsGalleryRepository,
-        IWeaponsService weaponsService,
-        IPowerManagerService powerManagerService)
+        IWeaponsService weaponsService)
     {
         _weaponsGalleryRepository = weaponsGalleryRepository;
         _weaponsService = weaponsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IWeaponsGalleryService Create() => ServiceContainer.GetService<IWeaponsGalleryService>();
@@ -94,12 +91,6 @@ public class WeaponsGalleryService : IWeaponsGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Weapons weaponGallery = await GetWeaponCollectionByIdAsync(userId, weaponId) ?? new Weapons();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)weaponGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class WeaponsGalleryService : IWeaponsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusWeaponsGalleryAsync(string userId)
     {
-        Weapons oldWeapon = await SumPowerWeaponsGalleryAsync(userId);
-
         var updateResult = await _weaponsGalleryRepository.UpdateBatchStatusWeaponsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -126,25 +115,6 @@ public class WeaponsGalleryService : IWeaponsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Weapons newWeapon = await SumPowerWeaponsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newWeapon - (PowerManager)oldWeapon;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class WeaponsGalleryService : IWeaponsGalleryService
             };
         }
 
-        Weapons oldWeapon = await GetWeaponCollectionByIdAsync(userId, weaponId) ?? new Weapons();
-
         var updateResult = await _weaponsGalleryRepository.UpdateCurrentStarWeaponGalleryAsync(userId, weaponId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -223,25 +191,6 @@ public class WeaponsGalleryService : IWeaponsGalleryService
             };
         }
 
-        Weapons newWeapon = await GetWeaponCollectionByIdAsync(userId, weaponId) ?? new Weapons();
-        PowerManager deltaPower = (PowerManager)newWeapon - (PowerManager)oldWeapon;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -252,8 +201,6 @@ public class WeaponsGalleryService : IWeaponsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarWeaponsGalleryAsync(string userId)
     {
-        Weapons oldWeapon = await SumPowerWeaponsGalleryAsync(userId);
-
         var updateResult = await _weaponsGalleryRepository.UpdateBatchCurrentStarWeaponsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -269,25 +216,6 @@ public class WeaponsGalleryService : IWeaponsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Weapons newWeapon = await SumPowerWeaponsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newWeapon - (PowerManager)oldWeapon;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

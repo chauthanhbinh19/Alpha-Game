@@ -6,18 +6,15 @@ public class UserCollaborationsService : IUserCollaborationsService
     private readonly IUserCollaborationsRepository _userCollaborationsRepository;
     private readonly ICollaborationsGalleryService _collaborationsGalleryService;
     private readonly ICollaborationsService _collaborationsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserCollaborationsService(
         IUserCollaborationsRepository userCollaborationsRepository,
         ICollaborationsGalleryService collaborationsGalleryService,
-        ICollaborationsService collaborationsService,
-        IPowerManagerService powerManagerService)
+        ICollaborationsService collaborationsService)
     {
         _userCollaborationsRepository = userCollaborationsRepository;
         _collaborationsGalleryService = collaborationsGalleryService;
         _collaborationsService = collaborationsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserCollaborationsService Create() => ServiceContainer.GetService<IUserCollaborationsService>();
@@ -59,14 +56,6 @@ public class UserCollaborationsService : IUserCollaborationsService
             };
         }
 
-        var oldCollaborationTask = _collaborationsService.SumPowerCollaborationsPercentAsync(userId);
-        var oldUserCollaborationTask = _userCollaborationsRepository.SumPowerUserCollaborationsAsync(userId);
-
-        await Task.WhenAll(oldCollaborationTask, oldUserCollaborationTask);
-
-        Collaborations oldCollaboration = oldCollaborationTask.Result;
-        Collaborations oldUserCollaboration = oldUserCollaborationTask.Result;
-
         var insertOrUpdateResult = await _userCollaborationsRepository.InsertOrUpdateUserCollaborationAsync(userId, collaboration);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -93,32 +82,6 @@ public class UserCollaborationsService : IUserCollaborationsService
 
         await _collaborationsGalleryService.InsertCollaborationGalleryAsync(userId, collaboration.Id);
 
-        var newCollaborationTask = _collaborationsService.SumPowerCollaborationsPercentAsync(userId);
-        var newUserCollaborationTask = _userCollaborationsRepository.SumPowerUserCollaborationsAsync(userId);
-
-        await Task.WhenAll(newCollaborationTask, newUserCollaborationTask);
-
-        PowerManager deltaPower = (PowerManager)newCollaborationTask.Result - (PowerManager)oldCollaboration;
-        PowerManager deltaUserPower = (PowerManager)newUserCollaborationTask.Result - (PowerManager)oldUserCollaboration;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -130,14 +93,6 @@ public class UserCollaborationsService : IUserCollaborationsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCollaborationsBatchAsync(string userId, List<Collaborations> collaborations)
     {
-        var oldCollaborationTask = _collaborationsService.SumPowerCollaborationsPercentAsync(userId);
-        var oldUserCollaborationTask = _userCollaborationsRepository.SumPowerUserCollaborationsAsync(userId);
-
-        await Task.WhenAll(oldCollaborationTask, oldUserCollaborationTask);
-
-        Collaborations oldCollaboration = oldCollaborationTask.Result;
-        Collaborations oldUserCollaboration = oldUserCollaborationTask.Result;
-
         var insertOrUpdateResult = await _userCollaborationsRepository.InsertOrUpdateUserCollaborationsBatchAsync(userId, collaborations);
 
         if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
@@ -157,33 +112,6 @@ public class UserCollaborationsService : IUserCollaborationsService
         if (hasNewInserts)
         {
             await _collaborationsGalleryService.InsertBatchCollaborationsGalleryAsync(userId, newlyInsertedCards);
-
-            var newCollaborationTask = _collaborationsService.SumPowerCollaborationsPercentAsync(userId);
-            var newUserCollaborationTask = _userCollaborationsRepository.SumPowerUserCollaborationsAsync(userId);
-
-            await Task.WhenAll(newCollaborationTask, newUserCollaborationTask);
-
-            PowerManager deltaPower = (PowerManager)newCollaborationTask.Result - (PowerManager)oldCollaboration;
-            PowerManager deltaUserPower = (PowerManager)newUserCollaborationTask.Result - (PowerManager)oldUserCollaboration;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         return insertOrUpdateResult.OperationType switch
@@ -220,8 +148,6 @@ public class UserCollaborationsService : IUserCollaborationsService
             };
         }
 
-        Collaborations oldUserCollaboration = await _userCollaborationsRepository.SumPowerUserCollaborationsAsync(userId);
-
         var updateResult = await _userCollaborationsRepository.UpdateUserCollaborationLevelAsync(
             userId,
             collaboration,
@@ -235,24 +161,6 @@ public class UserCollaborationsService : IUserCollaborationsService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        Collaborations newUserCollaboration = await _userCollaborationsRepository.SumPowerUserCollaborationsAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserCollaboration - (PowerManager)oldUserCollaboration;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -279,8 +187,6 @@ public class UserCollaborationsService : IUserCollaborationsService
             };
         }
 
-        Collaborations oldUserCollaboration = await _userCollaborationsRepository.SumPowerUserCollaborationsAsync(userId);
-
         var updateResult = await _userCollaborationsRepository.UpdateUserCollaborationStarAsync(userId, collaboration);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -295,24 +201,6 @@ public class UserCollaborationsService : IUserCollaborationsService
         }
 
         await _collaborationsGalleryService.UpdateTempStarCollaborationGalleryAsync(userId, collaboration.Id, collaboration.Star);
-
-        Collaborations newUserCollaboration = await _userCollaborationsRepository.SumPowerUserCollaborationsAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserCollaboration - (PowerManager)oldUserCollaboration;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {

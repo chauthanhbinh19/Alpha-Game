@@ -6,16 +6,13 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
 {
     private readonly ITechnologiesGalleryRepository _technologiesGalleryRepository;
     private readonly ITechnologiesService _technologiesService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public TechnologiesGalleryService(
         ITechnologiesGalleryRepository technologiesGalleryRepository,
-        ITechnologiesService technologiesService,
-        IPowerManagerService powerManagerService)
+        ITechnologiesService technologiesService)
     {
         _technologiesGalleryRepository = technologiesGalleryRepository;
         _technologiesService = technologiesService;
-        _powerManagerService = powerManagerService;
     }
 
     public static ITechnologiesGalleryService Create() => ServiceContainer.GetService<ITechnologiesGalleryService>();
@@ -94,12 +91,6 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Technologies technologyGallery = await GetTechnologyCollectionByIdAsync(userId, technologyId) ?? new Technologies();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)technologyGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusTechnologiesGalleryAsync(string userId)
     {
-        Technologies oldTechnology = await SumPowerTechnologiesGalleryAsync(userId);
-
         var updateResult = await _technologiesGalleryRepository.UpdateBatchStatusTechnologiesGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -126,25 +115,6 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Technologies newTechnology = await SumPowerTechnologiesGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newTechnology - (PowerManager)oldTechnology;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
             };
         }
 
-        Technologies oldTechnology = await GetTechnologyCollectionByIdAsync(userId, technologyId) ?? new Technologies();
-
         var updateResult = await _technologiesGalleryRepository.UpdateCurrentStarTechnologyGalleryAsync(userId, technologyId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -223,25 +191,6 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
             };
         }
 
-        Technologies newTechnology = await GetTechnologyCollectionByIdAsync(userId, technologyId) ?? new Technologies();
-        PowerManager deltaPower = (PowerManager)newTechnology - (PowerManager)oldTechnology;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -252,8 +201,6 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarTechnologiesGalleryAsync(string userId)
     {
-        Technologies oldTechnology = await SumPowerTechnologiesGalleryAsync(userId);
-
         var updateResult = await _technologiesGalleryRepository.UpdateBatchCurrentStarTechnologiesGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -269,25 +216,6 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Technologies newTechnology = await SumPowerTechnologiesGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newTechnology - (PowerManager)oldTechnology;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

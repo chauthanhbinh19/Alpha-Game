@@ -6,16 +6,13 @@ public class AvatarsGalleryService : IAvatarsGalleryService
 {
     private readonly IAvatarsGalleryRepository _avatarsGalleryRepository;
     private readonly IAvatarsService _avatarsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public AvatarsGalleryService(
         IAvatarsGalleryRepository avatarsGalleryRepository,
-        IAvatarsService avatarsService,
-        IPowerManagerService powerManagerService)
+        IAvatarsService avatarsService)
     {
         _avatarsGalleryRepository = avatarsGalleryRepository;
         _avatarsService = avatarsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IAvatarsGalleryService Create() => ServiceContainer.GetService<IAvatarsGalleryService>();
@@ -92,12 +89,6 @@ public class AvatarsGalleryService : IAvatarsGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Avatars avatarGallery = await GetAvatarCollectionByIdAsync(userId, avatarId) ?? new Avatars();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)avatarGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -124,25 +115,6 @@ public class AvatarsGalleryService : IAvatarsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Avatars newAvatar = await SumPowerAvatarsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newAvatar - (PowerManager)oldAvatar;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -206,8 +178,6 @@ public class AvatarsGalleryService : IAvatarsGalleryService
             };
         }
 
-        Avatars oldAvatar = await GetAvatarCollectionByIdAsync(userId, avatarId) ?? new Avatars();
-
         var updateResult = await _avatarsGalleryRepository.UpdateCurrentStarAvatarGalleryAsync(userId, avatarId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -221,25 +191,6 @@ public class AvatarsGalleryService : IAvatarsGalleryService
             };
         }
 
-        Avatars newAvatar = await GetAvatarCollectionByIdAsync(userId, avatarId) ?? new Avatars();
-        PowerManager deltaPower = (PowerManager)newAvatar - (PowerManager)oldAvatar;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -250,8 +201,6 @@ public class AvatarsGalleryService : IAvatarsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarAvatarsGalleryAsync(string userId)
     {
-        Avatars oldAvatar = await SumPowerAvatarsGalleryAsync(userId);
-
         var updateResult = await _avatarsGalleryRepository.UpdateBatchCurrentStarAvatarsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -267,25 +216,6 @@ public class AvatarsGalleryService : IAvatarsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Avatars newAvatar = await SumPowerAvatarsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newAvatar - (PowerManager)oldAvatar;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

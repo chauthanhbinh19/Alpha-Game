@@ -6,18 +6,15 @@ public class UserBordersService : IUserBordersService
     private readonly IUserBordersRepository _userBordersRepository;
     private readonly IBordersGalleryService _bordersGalleryService;
     private readonly IBordersService _bordersService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserBordersService(
         IUserBordersRepository userBordersRepository,
         IBordersGalleryService bordersGalleryService,
-        IBordersService bordersService,
-        IPowerManagerService powerManagerService)
+        IBordersService bordersService)
     {
         _userBordersRepository = userBordersRepository;
         _bordersGalleryService = bordersGalleryService;
         _bordersService = bordersService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserBordersService Create() => ServiceContainer.GetService<IUserBordersService>();
@@ -64,14 +61,6 @@ public class UserBordersService : IUserBordersService
 
         var border = await _bordersService.GetBorderByIdAsync(borderId);
 
-        var oldBorderTask = _bordersService.SumPowerBordersPercentAsync(userId);
-        var oldUserBorderTask = _userBordersRepository.SumPowerUserBordersAsync(userId);
-
-        await Task.WhenAll(oldBorderTask, oldUserBorderTask);
-
-        Borders oldBorder = oldBorderTask.Result;
-        Borders oldUserBorder = oldUserBorderTask.Result;
-
         var insertOrUpdateResult = await _userBordersRepository.InsertOrUpdateUserBorderAsync(userId, border);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -97,32 +86,6 @@ public class UserBordersService : IUserBordersService
         }
 
         await _bordersGalleryService.InsertBorderGalleryAsync(userId, border.Id);
-
-        var newBorderTask = _bordersService.SumPowerBordersPercentAsync(userId);
-        var newUserBorderTask = _userBordersRepository.SumPowerUserBordersAsync(userId);
-
-        await Task.WhenAll(newBorderTask, newUserBorderTask);
-
-        PowerManager deltaPower = (PowerManager)newBorderTask.Result - (PowerManager)oldBorder;
-        PowerManager deltaUserPower = (PowerManager)newUserBorderTask.Result - (PowerManager)oldUserBorder;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {
@@ -147,14 +110,6 @@ public class UserBordersService : IUserBordersService
             };
         }
 
-        var oldBorderTask = _bordersService.SumPowerBordersPercentAsync(userId);
-        var oldUserBorderTask = _userBordersRepository.SumPowerUserBordersAsync(userId);
-
-        await Task.WhenAll(oldBorderTask, oldUserBorderTask);
-
-        Borders oldBorder = oldBorderTask.Result;
-        Borders oldUserBorder = oldUserBorderTask.Result;
-
         var insertOrUpdateResult = await _userBordersRepository.InsertOrUpdateUserBorderAsync(userId, border);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -181,32 +136,6 @@ public class UserBordersService : IUserBordersService
 
         await _bordersGalleryService.InsertBorderGalleryAsync(userId, border.Id);
 
-        var newBorderTask = _bordersService.SumPowerBordersPercentAsync(userId);
-        var newUserBorderTask = _userBordersRepository.SumPowerUserBordersAsync(userId);
-
-        await Task.WhenAll(newBorderTask, newUserBorderTask);
-
-        PowerManager deltaPower = (PowerManager)newBorderTask.Result - (PowerManager)oldBorder;
-        PowerManager deltaUserPower = (PowerManager)newUserBorderTask.Result - (PowerManager)oldUserBorder;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -218,14 +147,6 @@ public class UserBordersService : IUserBordersService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBordersBatchAsync(string userId, List<Borders> borders)
     {
-        var oldBorderTask = _bordersService.SumPowerBordersPercentAsync(userId);
-        var oldUserBorderTask = _userBordersRepository.SumPowerUserBordersAsync(userId);
-
-        await Task.WhenAll(oldBorderTask, oldUserBorderTask);
-
-        Borders oldBorder = oldBorderTask.Result;
-        Borders oldUserBorder = oldUserBorderTask.Result;
-
         var insertOrUpdateResult = await _userBordersRepository.InsertOrUpdateUserBordersBatchAsync(userId, borders);
 
         if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
@@ -245,33 +166,6 @@ public class UserBordersService : IUserBordersService
         if (hasNewInserts)
         {
             await _bordersGalleryService.InsertBatchBordersGalleryAsync(userId, newlyInsertedCards);
-
-            var newBorderTask = _bordersService.SumPowerBordersPercentAsync(userId);
-            var newUserBorderTask = _userBordersRepository.SumPowerUserBordersAsync(userId);
-
-            await Task.WhenAll(newBorderTask, newUserBorderTask);
-
-            PowerManager deltaPower = (PowerManager)newBorderTask.Result - (PowerManager)oldBorder;
-            PowerManager deltaUserPower = (PowerManager)newUserBorderTask.Result - (PowerManager)oldUserBorder;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         return insertOrUpdateResult.OperationType switch
@@ -308,8 +202,6 @@ public class UserBordersService : IUserBordersService
             };
         }
 
-        Borders oldUserBorder = await _userBordersRepository.SumPowerUserBordersAsync(userId);
-
         var updateResult = await _userBordersRepository.UpdateUserBorderLevelAsync(
             userId,
             border,
@@ -323,24 +215,6 @@ public class UserBordersService : IUserBordersService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        Borders newUserBorder = await _userBordersRepository.SumPowerUserBordersAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserBorder - (PowerManager)oldUserBorder;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -367,8 +241,6 @@ public class UserBordersService : IUserBordersService
             };
         }
 
-        Borders oldUserBorder = await _userBordersRepository.SumPowerUserBordersAsync(userId);
-
         var updateResult = await _userBordersRepository.UpdateUserBorderStarAsync(userId, border);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -383,24 +255,6 @@ public class UserBordersService : IUserBordersService
         }
 
         await _bordersGalleryService.UpdateTempStarBorderGalleryAsync(userId, border.Id, border.Star);
-
-        Borders newUserBorder = await _userBordersRepository.SumPowerUserBordersAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserBorder - (PowerManager)oldUserBorder;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {

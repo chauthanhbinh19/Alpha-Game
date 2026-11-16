@@ -6,18 +6,15 @@ public class UserTalismansService : IUserTalismansService
     private readonly IUserTalismansRepository _userTalismansRepository;
     private readonly ITalismansGalleryService _talismansGalleryService;
     private readonly ITalismansService _talismansService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserTalismansService(
         IUserTalismansRepository userTalismansRepository,
         ITalismansGalleryService talismansGalleryService,
-        ITalismansService talismansService,
-        IPowerManagerService powerManagerService)
+        ITalismansService talismansService)
     {
         _userTalismansRepository = userTalismansRepository;
         _talismansGalleryService = talismansGalleryService;
         _talismansService = talismansService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserTalismansService Create() => ServiceContainer.GetService<IUserTalismansService>();
@@ -59,14 +56,6 @@ public class UserTalismansService : IUserTalismansService
             };
         }
 
-        var oldTalismanTask = _talismansService.SumPowerTalismansPercentAsync(userId);
-        var oldUserTalismanTask = _userTalismansRepository.SumPowerUserTalismansAsync(userId);
-
-        await Task.WhenAll(oldTalismanTask, oldUserTalismanTask);
-
-        Talismans oldTalisman = oldTalismanTask.Result;
-        Talismans oldUserTalisman = oldUserTalismanTask.Result;
-
         var insertOrUpdateResult = await _userTalismansRepository.InsertOrUpdateUserTalismanAsync(userId, talisman);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -93,32 +82,6 @@ public class UserTalismansService : IUserTalismansService
 
         await _talismansGalleryService.InsertTalismanGalleryAsync(userId, talisman.Id);
 
-        var newTalismanTask = _talismansService.SumPowerTalismansPercentAsync(userId);
-        var newUserTalismanTask = _userTalismansRepository.SumPowerUserTalismansAsync(userId);
-
-        await Task.WhenAll(newTalismanTask, newUserTalismanTask);
-
-        PowerManager deltaPower = (PowerManager)newTalismanTask.Result - (PowerManager)oldTalisman;
-        PowerManager deltaUserPower = (PowerManager)newUserTalismanTask.Result - (PowerManager)oldUserTalisman;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -130,14 +93,6 @@ public class UserTalismansService : IUserTalismansService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserTalismansBatchAsync(string userId, List<Talismans> talismans)
     {
-        var oldTalismanTask = _talismansService.SumPowerTalismansPercentAsync(userId);
-        var oldUserTalismanTask = _userTalismansRepository.SumPowerUserTalismansAsync(userId);
-
-        await Task.WhenAll(oldTalismanTask, oldUserTalismanTask);
-
-        Talismans oldTalisman = oldTalismanTask.Result;
-        Talismans oldUserTalisman = oldUserTalismanTask.Result;
-
         var insertOrUpdateResult = await _userTalismansRepository.InsertOrUpdateUserTalismansBatchAsync(userId, talismans);
 
         if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
@@ -157,33 +112,6 @@ public class UserTalismansService : IUserTalismansService
         if (hasNewInserts)
         {
             await _talismansGalleryService.InsertBatchTalismansGalleryAsync(userId, newlyInsertedCards);
-
-            var newTalismanTask = _talismansService.SumPowerTalismansPercentAsync(userId);
-            var newUserTalismanTask = _userTalismansRepository.SumPowerUserTalismansAsync(userId);
-
-            await Task.WhenAll(newTalismanTask, newUserTalismanTask);
-
-            PowerManager deltaPower = (PowerManager)newTalismanTask.Result - (PowerManager)oldTalisman;
-            PowerManager deltaUserPower = (PowerManager)newUserTalismanTask.Result - (PowerManager)oldUserTalisman;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         return insertOrUpdateResult.OperationType switch
@@ -220,8 +148,6 @@ public class UserTalismansService : IUserTalismansService
             };
         }
 
-        Talismans oldUserTalisman = await _userTalismansRepository.SumPowerUserTalismansAsync(userId);
-
         var updateResult = await _userTalismansRepository.UpdateUserTalismanLevelAsync(
             userId,
             talisman,
@@ -235,24 +161,6 @@ public class UserTalismansService : IUserTalismansService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        Talismans newUserTalisman = await _userTalismansRepository.SumPowerUserTalismansAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserTalisman - (PowerManager)oldUserTalisman;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -279,8 +187,6 @@ public class UserTalismansService : IUserTalismansService
             };
         }
 
-        Talismans oldUserTalisman = await _userTalismansRepository.SumPowerUserTalismansAsync(userId);
-
         var updateResult = await _userTalismansRepository.UpdateUserTalismanStarAsync(userId, talisman);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -295,24 +201,6 @@ public class UserTalismansService : IUserTalismansService
         }
 
         await _talismansGalleryService.UpdateTempStarTalismanGalleryAsync(userId, talisman.Id, talisman.Star);
-
-        Talismans newUserTalisman = await _userTalismansRepository.SumPowerUserTalismansAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserTalisman - (PowerManager)oldUserTalisman;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {

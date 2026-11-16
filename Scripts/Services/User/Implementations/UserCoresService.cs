@@ -6,18 +6,15 @@ public class UserCoresService : IUserCoresService
     private readonly IUserCoresRepository _userCoresRepository;
     private readonly ICoresGalleryService _coresGalleryService;
     private readonly ICoresService _coresService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserCoresService(
         IUserCoresRepository userCoresRepository,
         ICoresGalleryService coresGalleryService,
-        ICoresService coresService,
-        IPowerManagerService powerManagerService)
+        ICoresService coresService)
     {
         _userCoresRepository = userCoresRepository;
         _coresGalleryService = coresGalleryService;
         _coresService = coresService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserCoresService Create() => ServiceContainer.GetService<IUserCoresService>();
@@ -59,14 +56,6 @@ public class UserCoresService : IUserCoresService
             };
         }
 
-        var oldCoreTask = _coresService.SumPowerCoresPercentAsync(userId);
-        var oldUserCoreTask = _userCoresRepository.SumPowerUserCoresAsync(userId);
-
-        await Task.WhenAll(oldCoreTask, oldUserCoreTask);
-
-        Cores oldCore = oldCoreTask.Result;
-        Cores oldUserCore = oldUserCoreTask.Result;
-
         var insertOrUpdateResult = await _userCoresRepository.InsertOrUpdateUserCoreAsync(userId, core);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -93,32 +82,6 @@ public class UserCoresService : IUserCoresService
 
         await _coresGalleryService.InsertCoreGalleryAsync(userId, core.Id);
 
-        var newCoreTask = _coresService.SumPowerCoresPercentAsync(userId);
-        var newUserCoreTask = _userCoresRepository.SumPowerUserCoresAsync(userId);
-
-        await Task.WhenAll(newCoreTask, newUserCoreTask);
-
-        PowerManager deltaPower = (PowerManager)newCoreTask.Result - (PowerManager)oldCore;
-        PowerManager deltaUserPower = (PowerManager)newUserCoreTask.Result - (PowerManager)oldUserCore;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -130,14 +93,6 @@ public class UserCoresService : IUserCoresService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCoresBatchAsync(string userId, List<Cores> cores)
     {
-        var oldCoreTask = _coresService.SumPowerCoresPercentAsync(userId);
-        var oldUserCoreTask = _userCoresRepository.SumPowerUserCoresAsync(userId);
-
-        await Task.WhenAll(oldCoreTask, oldUserCoreTask);
-
-        Cores oldCore = oldCoreTask.Result;
-        Cores oldUserCore = oldUserCoreTask.Result;
-
         var insertOrUpdateResult = await _userCoresRepository.InsertOrUpdateUserCoresBatchAsync(userId, cores);
 
         if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
@@ -157,33 +112,6 @@ public class UserCoresService : IUserCoresService
         if (hasNewInserts)
         {
             await _coresGalleryService.InsertBatchCoresGalleryAsync(userId, newlyInsertedCards);
-
-            var newCoreTask = _coresService.SumPowerCoresPercentAsync(userId);
-            var newUserCoreTask = _userCoresRepository.SumPowerUserCoresAsync(userId);
-
-            await Task.WhenAll(newCoreTask, newUserCoreTask);
-
-            PowerManager deltaPower = (PowerManager)newCoreTask.Result - (PowerManager)oldCore;
-            PowerManager deltaUserPower = (PowerManager)newUserCoreTask.Result - (PowerManager)oldUserCore;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         return insertOrUpdateResult.OperationType switch
@@ -220,8 +148,6 @@ public class UserCoresService : IUserCoresService
             };
         }
 
-        Cores oldUserCore = await _userCoresRepository.SumPowerUserCoresAsync(userId);
-
         var updateResult = await _userCoresRepository.UpdateUserCoreLevelAsync(
             userId,
             core,
@@ -235,24 +161,6 @@ public class UserCoresService : IUserCoresService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        Cores newUserCore = await _userCoresRepository.SumPowerUserCoresAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserCore - (PowerManager)oldUserCore;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -279,8 +187,6 @@ public class UserCoresService : IUserCoresService
             };
         }
 
-        Cores oldUserCore = await _userCoresRepository.SumPowerUserCoresAsync(userId);
-
         var updateResult = await _userCoresRepository.UpdateUserCoreStarAsync(userId, core);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -295,24 +201,6 @@ public class UserCoresService : IUserCoresService
         }
 
         await _coresGalleryService.UpdateTempStarCoreGalleryAsync(userId, core.Id, core.Star);
-
-        Cores newUserCore = await _userCoresRepository.SumPowerUserCoresAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserCore - (PowerManager)oldUserCore;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {

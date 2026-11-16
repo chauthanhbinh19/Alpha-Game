@@ -7,16 +7,13 @@ public class AchievementsGalleryService : IAchievementsGalleryService
 {
     private readonly IAchievementsGalleryRepository _achievementsGalleryRepository;
     private readonly IAchievementsService _achievementsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public AchievementsGalleryService(
         IAchievementsGalleryRepository achievementsGalleryRepository, 
-        IAchievementsService achievementsService,
-        IPowerManagerService powerManagerService)
+        IAchievementsService achievementsService)
     {
         _achievementsGalleryRepository = achievementsGalleryRepository;
         _achievementsService = achievementsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IAchievementsGalleryService Create() => ServiceContainer.GetService<IAchievementsGalleryService>();
@@ -158,12 +155,6 @@ public class AchievementsGalleryService : IAchievementsGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Achievements achievementGallery = await GetAchievementCollectionByIdAsync(userId, achievementId) ?? new Achievements();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)achievementGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -174,8 +165,6 @@ public class AchievementsGalleryService : IAchievementsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusAchievementsGalleryAsync(string userId)
     {
-        Achievements oldAchievement = await SumPowerAchievementsGalleryAsync(userId);
-
         var updateResult = await _achievementsGalleryRepository.UpdateBatchStatusAchievementsGalleryAsync(userId);
 
         if (updateResult == null || 
@@ -190,25 +179,6 @@ public class AchievementsGalleryService : IAchievementsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Achievements newAchievement = await SumPowerAchievementsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newAchievement - (PowerManager)oldAchievement;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -232,8 +202,6 @@ public class AchievementsGalleryService : IAchievementsGalleryService
             };
         }
 
-        Achievements oldAchievement = await GetAchievementCollectionByIdAsync(userId, achievementId) ?? new Achievements();
-
         var updateResult = await _achievementsGalleryRepository.UpdateCurrentStarAchievementGalleryAsync(userId, achievementId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -247,25 +215,6 @@ public class AchievementsGalleryService : IAchievementsGalleryService
             };
         }
 
-        Achievements newAchievement = await GetAchievementCollectionByIdAsync(userId, achievementId) ?? new Achievements();
-        PowerManager deltaPower = (PowerManager)newAchievement - (PowerManager)oldAchievement;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -276,8 +225,6 @@ public class AchievementsGalleryService : IAchievementsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarAchievementsGalleryAsync(string userId)
     {
-        Achievements oldAchievement = await SumPowerAchievementsGalleryAsync(userId);
-
         var updateResult = await _achievementsGalleryRepository.UpdateBatchCurrentStarAchievementsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -293,25 +240,6 @@ public class AchievementsGalleryService : IAchievementsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Achievements newAchievement = await SumPowerAchievementsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newAchievement - (PowerManager)oldAchievement;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

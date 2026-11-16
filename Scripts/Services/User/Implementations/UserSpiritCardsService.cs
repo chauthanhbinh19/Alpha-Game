@@ -6,18 +6,15 @@ public class UserSpiritCardsService : IUserSpiritCardsService
     private readonly IUserSpiritCardsRepository _userSpiritCardsRepository;
     private readonly ISpiritCardsGalleryService _spiritCardsGalleryService;
     private readonly ISpiritCardsService _spiritCardsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserSpiritCardsService(
         IUserSpiritCardsRepository userSpiritCardsRepository,
         ISpiritCardsGalleryService spiritCardsGalleryService,
-        ISpiritCardsService spiritCardsService,
-        IPowerManagerService powerManagerService)
+        ISpiritCardsService spiritCardsService)
     {
         _userSpiritCardsRepository = userSpiritCardsRepository;
         _spiritCardsGalleryService = spiritCardsGalleryService;
         _spiritCardsService = spiritCardsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserSpiritCardsService Create() => ServiceContainer.GetService<IUserSpiritCardsService>();
@@ -59,14 +56,6 @@ public class UserSpiritCardsService : IUserSpiritCardsService
             };
         }
 
-        var oldSpiritCardTask = _spiritCardsService.SumPowerSpiritCardsPercentAsync(userId);
-        var oldUserSpiritCardTask = _userSpiritCardsRepository.SumPowerUserSpiritCardsAsync(userId);
-
-        await Task.WhenAll(oldSpiritCardTask, oldUserSpiritCardTask);
-
-        SpiritCards oldSpiritCard = oldSpiritCardTask.Result;
-        SpiritCards oldUserSpiritCard = oldUserSpiritCardTask.Result;
-
         var insertOrUpdateResult = await _userSpiritCardsRepository.InsertOrUpdateUserSpiritCardAsync(userId, spiritCard);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -93,32 +82,6 @@ public class UserSpiritCardsService : IUserSpiritCardsService
 
         await _spiritCardsGalleryService.InsertSpiritCardGalleryAsync(userId, spiritCard.Id);
 
-        var newSpiritCardTask = _spiritCardsService.SumPowerSpiritCardsPercentAsync(userId);
-        var newUserSpiritCardTask = _userSpiritCardsRepository.SumPowerUserSpiritCardsAsync(userId);
-
-        await Task.WhenAll(newSpiritCardTask, newUserSpiritCardTask);
-
-        PowerManager deltaPower = (PowerManager)newSpiritCardTask.Result - (PowerManager)oldSpiritCard;
-        PowerManager deltaUserPower = (PowerManager)newUserSpiritCardTask.Result - (PowerManager)oldUserSpiritCard;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -130,14 +93,6 @@ public class UserSpiritCardsService : IUserSpiritCardsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSpiritCardsBatchAsync(string userId, List<SpiritCards> spiritCards)
     {
-        var oldSpiritCardTask = _spiritCardsService.SumPowerSpiritCardsPercentAsync(userId);
-        var oldUserSpiritCardTask = _userSpiritCardsRepository.SumPowerUserSpiritCardsAsync(userId);
-
-        await Task.WhenAll(oldSpiritCardTask, oldUserSpiritCardTask);
-
-        SpiritCards oldSpiritCard = oldSpiritCardTask.Result;
-        SpiritCards oldUserSpiritCard = oldUserSpiritCardTask.Result;
-
         var insertOrUpdateResult = await _userSpiritCardsRepository.InsertOrUpdateUserSpiritCardsBatchAsync(userId, spiritCards);
 
         if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
@@ -157,33 +112,6 @@ public class UserSpiritCardsService : IUserSpiritCardsService
         if (hasNewInserts)
         {
             await _spiritCardsGalleryService.InsertBatchSpiritCardsGalleryAsync(userId, newlyInsertedCards);
-
-            var newSpiritCardTask = _spiritCardsService.SumPowerSpiritCardsPercentAsync(userId);
-            var newUserSpiritCardTask = _userSpiritCardsRepository.SumPowerUserSpiritCardsAsync(userId);
-
-            await Task.WhenAll(newSpiritCardTask, newUserSpiritCardTask);
-
-            PowerManager deltaPower = (PowerManager)newSpiritCardTask.Result - (PowerManager)oldSpiritCard;
-            PowerManager deltaUserPower = (PowerManager)newUserSpiritCardTask.Result - (PowerManager)oldUserSpiritCard;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         return insertOrUpdateResult.OperationType switch
@@ -220,8 +148,6 @@ public class UserSpiritCardsService : IUserSpiritCardsService
             };
         }
 
-        SpiritCards oldUserSpiritCard = await _userSpiritCardsRepository.SumPowerUserSpiritCardsAsync(userId);
-
         var updateResult = await _userSpiritCardsRepository.UpdateUserSpiritCardLevelAsync(
             userId,
             spiritCard,
@@ -235,24 +161,6 @@ public class UserSpiritCardsService : IUserSpiritCardsService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        SpiritCards newUserSpiritCard = await _userSpiritCardsRepository.SumPowerUserSpiritCardsAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserSpiritCard - (PowerManager)oldUserSpiritCard;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -279,8 +187,6 @@ public class UserSpiritCardsService : IUserSpiritCardsService
             };
         }
 
-        SpiritCards oldUserSpiritCard = await _userSpiritCardsRepository.SumPowerUserSpiritCardsAsync(userId);
-
         var updateResult = await _userSpiritCardsRepository.UpdateUserSpiritCardStarAsync(userId, spiritCard);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -295,24 +201,6 @@ public class UserSpiritCardsService : IUserSpiritCardsService
         }
 
         await _spiritCardsGalleryService.UpdateTempStarSpiritCardGalleryAsync(userId, spiritCard.Id, spiritCard.Star);
-
-        SpiritCards newUserSpiritCard = await _userSpiritCardsRepository.SumPowerUserSpiritCardsAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserSpiritCard - (PowerManager)oldUserSpiritCard;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {

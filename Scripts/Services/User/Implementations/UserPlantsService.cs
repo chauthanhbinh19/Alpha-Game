@@ -6,18 +6,15 @@ public class UserPlantsService : IUserPlantsService
     private readonly IUserPlantsRepository _userPlantsRepository;
     private readonly IPlantsGalleryService _plantsGalleryService;
     private readonly IPlantsService _plantsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserPlantsService(
         IUserPlantsRepository userPlantsRepository,
         IPlantsGalleryService plantsGalleryService,
-        IPlantsService plantsService,
-        IPowerManagerService powerManagerService)
+        IPlantsService plantsService)
     {
         _userPlantsRepository = userPlantsRepository;
         _plantsGalleryService = plantsGalleryService;
         _plantsService = plantsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserPlantsService Create() => ServiceContainer.GetService<IUserPlantsService>();
@@ -59,14 +56,6 @@ public class UserPlantsService : IUserPlantsService
             };
         }
 
-        var oldPlantTask = _plantsService.SumPowerPlantsPercentAsync(userId);
-        var oldUserPlantTask = _userPlantsRepository.SumPowerUserPlantsAsync(userId);
-
-        await Task.WhenAll(oldPlantTask, oldUserPlantTask);
-
-        Plants oldPlant = oldPlantTask.Result;
-        Plants oldUserPlant = oldUserPlantTask.Result;
-
         var insertOrUpdateResult = await _userPlantsRepository.InsertOrUpdateUserPlantAsync(userId, plant);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -93,32 +82,6 @@ public class UserPlantsService : IUserPlantsService
 
         await _plantsGalleryService.InsertPlantGalleryAsync(userId, plant.Id);
 
-        var newPlantTask = _plantsService.SumPowerPlantsPercentAsync(userId);
-        var newUserPlantTask = _userPlantsRepository.SumPowerUserPlantsAsync(userId);
-
-        await Task.WhenAll(newPlantTask, newUserPlantTask);
-
-        PowerManager deltaPower = (PowerManager)newPlantTask.Result - (PowerManager)oldPlant;
-        PowerManager deltaUserPower = (PowerManager)newUserPlantTask.Result - (PowerManager)oldUserPlant;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -130,14 +93,6 @@ public class UserPlantsService : IUserPlantsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPlantsBatchAsync(string userId, List<Plants> plants)
     {
-        var oldPlantTask = _plantsService.SumPowerPlantsPercentAsync(userId);
-        var oldUserPlantTask = _userPlantsRepository.SumPowerUserPlantsAsync(userId);
-
-        await Task.WhenAll(oldPlantTask, oldUserPlantTask);
-
-        Plants oldPlant = oldPlantTask.Result;
-        Plants oldUserPlant = oldUserPlantTask.Result;
-
         var insertOrUpdateResult = await _userPlantsRepository.InsertOrUpdateUserPlantsBatchAsync(userId, plants);
 
         if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
@@ -157,33 +112,6 @@ public class UserPlantsService : IUserPlantsService
         if (hasNewInserts)
         {
             await _plantsGalleryService.InsertBatchPlantsGalleryAsync(userId, newlyInsertedCards);
-
-            var newPlantTask = _plantsService.SumPowerPlantsPercentAsync(userId);
-            var newUserPlantTask = _userPlantsRepository.SumPowerUserPlantsAsync(userId);
-
-            await Task.WhenAll(newPlantTask, newUserPlantTask);
-
-            PowerManager deltaPower = (PowerManager)newPlantTask.Result - (PowerManager)oldPlant;
-            PowerManager deltaUserPower = (PowerManager)newUserPlantTask.Result - (PowerManager)oldUserPlant;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         return insertOrUpdateResult.OperationType switch
@@ -220,8 +148,6 @@ public class UserPlantsService : IUserPlantsService
             };
         }
 
-        Plants oldUserPlant = await _userPlantsRepository.SumPowerUserPlantsAsync(userId);
-
         var updateResult = await _userPlantsRepository.UpdateUserPlantLevelAsync(
             userId,
             plant,
@@ -235,24 +161,6 @@ public class UserPlantsService : IUserPlantsService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        Plants newUserPlant = await _userPlantsRepository.SumPowerUserPlantsAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserPlant - (PowerManager)oldUserPlant;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -279,8 +187,6 @@ public class UserPlantsService : IUserPlantsService
             };
         }
 
-        Plants oldUserPlant = await _userPlantsRepository.SumPowerUserPlantsAsync(userId);
-
         var updateResult = await _userPlantsRepository.UpdateUserPlantStarAsync(userId, plant);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -295,24 +201,6 @@ public class UserPlantsService : IUserPlantsService
         }
 
         await _plantsGalleryService.UpdateTempStarPlantGalleryAsync(userId, plant.Id, plant.Star);
-
-        Plants newUserPlant = await _userPlantsRepository.SumPowerUserPlantsAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserPlant - (PowerManager)oldUserPlant;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {

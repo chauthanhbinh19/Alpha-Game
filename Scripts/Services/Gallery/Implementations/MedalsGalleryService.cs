@@ -6,16 +6,13 @@ public class MedalsGalleryService : IMedalsGalleryService
 {
     private readonly IMedalsGalleryRepository _medalsGalleryRepository;
     private readonly IMedalsService _medalsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public MedalsGalleryService(
         IMedalsGalleryRepository medalsGalleryRepository,
-        IMedalsService medalsService,
-        IPowerManagerService powerManagerService)
+        IMedalsService medalsService)
     {
         _medalsGalleryRepository = medalsGalleryRepository;
         _medalsService = medalsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IMedalsGalleryService Create() => ServiceContainer.GetService<IMedalsGalleryService>();
@@ -94,12 +91,6 @@ public class MedalsGalleryService : IMedalsGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Medals medalGallery = await GetMedalCollectionByIdAsync(userId, medalId) ?? new Medals();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)medalGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class MedalsGalleryService : IMedalsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusMedalsGalleryAsync(string userId)
     {
-        Medals oldMedal = await SumPowerMedalsGalleryAsync(userId);
-
         var updateResult = await _medalsGalleryRepository.UpdateBatchStatusMedalsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -126,25 +115,6 @@ public class MedalsGalleryService : IMedalsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Medals newMedal = await SumPowerMedalsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newMedal - (PowerManager)oldMedal;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class MedalsGalleryService : IMedalsGalleryService
             };
         }
 
-        Medals oldMedal = await GetMedalCollectionByIdAsync(userId, medalId) ?? new Medals();
-
         var updateResult = await _medalsGalleryRepository.UpdateCurrentStarMedalGalleryAsync(userId, medalId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -223,25 +191,6 @@ public class MedalsGalleryService : IMedalsGalleryService
             };
         }
 
-        Medals newMedal = await GetMedalCollectionByIdAsync(userId, medalId) ?? new Medals();
-        PowerManager deltaPower = (PowerManager)newMedal - (PowerManager)oldMedal;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -252,8 +201,6 @@ public class MedalsGalleryService : IMedalsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarMedalsGalleryAsync(string userId)
     {
-        Medals oldMedal = await SumPowerMedalsGalleryAsync(userId);
-
         var updateResult = await _medalsGalleryRepository.UpdateBatchCurrentStarMedalsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -269,25 +216,6 @@ public class MedalsGalleryService : IMedalsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Medals newMedal = await SumPowerMedalsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newMedal - (PowerManager)oldMedal;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

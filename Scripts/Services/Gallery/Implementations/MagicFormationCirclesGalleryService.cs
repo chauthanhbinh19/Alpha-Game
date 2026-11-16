@@ -6,16 +6,13 @@ public class MagicFormationCirclesGalleryService : IMagicFormationCirclesGallery
 {
     private readonly IMagicFormationCirclesGalleryRepository _magicFormationCirclesGalleryRepository;
     private readonly IMagicFormationCirclesService _magicFormationCirclesService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public MagicFormationCirclesGalleryService(
         IMagicFormationCirclesGalleryRepository magicFormationCirclesGalleryRepository,
-        IMagicFormationCirclesService magicFormationCirclesService,
-        IPowerManagerService powerManagerService)
+        IMagicFormationCirclesService magicFormationCirclesService)
     {
         _magicFormationCirclesGalleryRepository = magicFormationCirclesGalleryRepository;
         _magicFormationCirclesService = magicFormationCirclesService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IMagicFormationCirclesGalleryService Create() => ServiceContainer.GetService<IMagicFormationCirclesGalleryService>();
@@ -94,12 +91,6 @@ public class MagicFormationCirclesGalleryService : IMagicFormationCirclesGallery
             };
         }
 
-        PowerManager oldPowerManager = await PowerManagerService.Create().GetUserStatsAsync(userId);
-        MagicFormationCircles magicFormationCircleGallery = await GetMagicFormationCircleCollectionByIdAsync(userId, magicFormationCircleId) ?? new MagicFormationCircles();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)magicFormationCircleGallery;
-
-        await PowerManagerService.Create().UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class MagicFormationCirclesGalleryService : IMagicFormationCirclesGallery
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusMagicFormationCirclesGalleryAsync(string userId)
     {
-        MagicFormationCircles oldMagicFormationCircle = await SumPowerMagicFormationCirclesGalleryAsync(userId);
-
         var updateResult = await _magicFormationCirclesGalleryRepository.UpdateBatchStatusMagicFormationCirclesGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -126,25 +115,6 @@ public class MagicFormationCirclesGalleryService : IMagicFormationCirclesGallery
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        MagicFormationCircles newMagicFormationCircle = await SumPowerMagicFormationCirclesGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newMagicFormationCircle - (PowerManager)oldMagicFormationCircle;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await PowerManagerService.Create().GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await PowerManagerService.Create().UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class MagicFormationCirclesGalleryService : IMagicFormationCirclesGallery
             };
         }
 
-        MagicFormationCircles oldMagicFormationCircle = await GetMagicFormationCircleCollectionByIdAsync(userId, magicFormationCircleId) ?? new MagicFormationCircles();
-
         var updateResult = await _magicFormationCirclesGalleryRepository.UpdateCurrentStarMagicFormationCircleGalleryAsync(userId, magicFormationCircleId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -223,25 +191,6 @@ public class MagicFormationCirclesGalleryService : IMagicFormationCirclesGallery
             };
         }
 
-        MagicFormationCircles newMagicFormationCircle = await GetMagicFormationCircleCollectionByIdAsync(userId, magicFormationCircleId) ?? new MagicFormationCircles();
-        PowerManager deltaPower = (PowerManager)newMagicFormationCircle - (PowerManager)oldMagicFormationCircle;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await PowerManagerService.Create().GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await PowerManagerService.Create().UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -252,8 +201,6 @@ public class MagicFormationCirclesGalleryService : IMagicFormationCirclesGallery
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarMagicFormationCirclesGalleryAsync(string userId)
     {
-        MagicFormationCircles oldMagicFormationCircle = await SumPowerMagicFormationCirclesGalleryAsync(userId);
-
         var updateResult = await _magicFormationCirclesGalleryRepository.UpdateBatchCurrentStarMagicFormationCirclesGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -269,25 +216,6 @@ public class MagicFormationCirclesGalleryService : IMagicFormationCirclesGallery
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        MagicFormationCircles newMagicFormationCircle = await SumPowerMagicFormationCirclesGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newMagicFormationCircle - (PowerManager)oldMagicFormationCircle;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await PowerManagerService.Create().GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await PowerManagerService.Create().UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

@@ -891,7 +891,9 @@ public class SkillsRepository : ISkillsRepository
                     SUM(a.percent_all_mental_defense) AS total_percent_all_mental_defense
                 FROM Skills a
                 JOIN user_skills ua ON a.id = ua.skill_id
-                WHERE ua.user_id = @user_id;
+                WHERE ua.user_id = @user_id
+                    AND a.is_active = TRUE 
+                    AND a.is_deleted = FALSE;
             ";
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))

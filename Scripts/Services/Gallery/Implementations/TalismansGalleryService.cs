@@ -6,16 +6,13 @@ public class TalismansGalleryService : ITalismansGalleryService
 {
     private readonly ITalismansGalleryRepository _talismansGalleryRepository;
     private readonly ITalismansService _talismansService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public TalismansGalleryService(
         ITalismansGalleryRepository talismansGalleryRepository,
-        ITalismansService talismansService,
-        IPowerManagerService powerManagerService)
+        ITalismansService talismansService)
     {
         _talismansGalleryRepository = talismansGalleryRepository;
         _talismansService = talismansService;
-        _powerManagerService = powerManagerService;
     }
 
     public static ITalismansGalleryService Create() => ServiceContainer.GetService<ITalismansGalleryService>();
@@ -94,12 +91,6 @@ public class TalismansGalleryService : ITalismansGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Talismans talismanGallery = await GetTalismanCollectionByIdAsync(userId, talismanId) ?? new Talismans();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)talismanGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class TalismansGalleryService : ITalismansGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusTalismansGalleryAsync(string userId)
     {
-        Talismans oldTalisman = await SumPowerTalismansGalleryAsync(userId);
-
         var updateResult = await _talismansGalleryRepository.UpdateBatchStatusTalismansGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -126,25 +115,6 @@ public class TalismansGalleryService : ITalismansGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Talismans newTalisman = await SumPowerTalismansGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newTalisman - (PowerManager)oldTalisman;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class TalismansGalleryService : ITalismansGalleryService
             };
         }
 
-        Talismans oldTalisman = await GetTalismanCollectionByIdAsync(userId, talismanId) ?? new Talismans();
-
         var updateResult = await _talismansGalleryRepository.UpdateCurrentStarTalismanGalleryAsync(userId, talismanId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -222,25 +190,6 @@ public class TalismansGalleryService : ITalismansGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Talismans newTalisman = await GetTalismanCollectionByIdAsync(userId, talismanId) ?? new Talismans();
-        PowerManager deltaPower = (PowerManager)newTalisman - (PowerManager)oldTalisman;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -283,11 +232,6 @@ public class TalismansGalleryService : ITalismansGalleryService
                 Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
             };
         }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

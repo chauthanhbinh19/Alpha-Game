@@ -6,16 +6,13 @@ public class CollaborationsGalleryService : ICollaborationsGalleryService
 {
     private readonly ICollaborationsGalleryRepository _collaborationsGalleryRepository;
     private readonly ICollaborationsService _collaborationsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public CollaborationsGalleryService(
         ICollaborationsGalleryRepository collaborationsGalleryRepository,
-        ICollaborationsService collaborationsService,
-        IPowerManagerService powerManagerService)
+        ICollaborationsService collaborationsService)
     {
         _collaborationsGalleryRepository = collaborationsGalleryRepository;
         _collaborationsService = collaborationsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static ICollaborationsGalleryService Create() => ServiceContainer.GetService<ICollaborationsGalleryService>();
@@ -94,12 +91,6 @@ public class CollaborationsGalleryService : ICollaborationsGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Collaborations collaborationGallery = await GetCollaborationCollectionByIdAsync(userId, collaborationId) ?? new Collaborations();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)collaborationGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class CollaborationsGalleryService : ICollaborationsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusCollaborationsGalleryAsync(string userId)
     {
-        Collaborations oldCollaboration = await SumPowerCollaborationsGalleryAsync(userId);
-
         var updateResult = await _collaborationsGalleryRepository.UpdateBatchStatusCollaborationsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -126,25 +115,6 @@ public class CollaborationsGalleryService : ICollaborationsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Collaborations newCollaboration = await SumPowerCollaborationsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCollaboration - (PowerManager)oldCollaboration;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class CollaborationsGalleryService : ICollaborationsGalleryService
             };
         }
 
-        Collaborations oldCollaboration = await GetCollaborationCollectionByIdAsync(userId, collaborationId) ?? new Collaborations();
-
         var updateResult = await _collaborationsGalleryRepository.UpdateCurrentStarCollaborationGalleryAsync(userId, collaborationId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -223,25 +191,6 @@ public class CollaborationsGalleryService : ICollaborationsGalleryService
             };
         }
 
-        Collaborations newCollaboration = await GetCollaborationCollectionByIdAsync(userId, collaborationId) ?? new Collaborations();
-        PowerManager deltaPower = (PowerManager)newCollaboration - (PowerManager)oldCollaboration;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -252,8 +201,6 @@ public class CollaborationsGalleryService : ICollaborationsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarCollaborationsGalleryAsync(string userId)
     {
-        Collaborations oldCollaboration = await SumPowerCollaborationsGalleryAsync(userId);
-
         var updateResult = await _collaborationsGalleryRepository.UpdateBatchCurrentStarCollaborationsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -269,25 +216,6 @@ public class CollaborationsGalleryService : ICollaborationsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Collaborations newCollaboration = await SumPowerCollaborationsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCollaboration - (PowerManager)oldCollaboration;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

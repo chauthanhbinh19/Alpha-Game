@@ -6,16 +6,13 @@ public class CardAdmiralsGalleryService : ICardAdmiralsGalleryService
 {
     private readonly ICardAdmiralsGalleryRepository _cardAdmiralsGalleryRepository;
     private readonly ICardAdmiralsService _cardAdmiralsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public CardAdmiralsGalleryService(
         ICardAdmiralsGalleryRepository cardAdmiralsGalleryRepository,
-        ICardAdmiralsService cardAdmiralsService,
-        IPowerManagerService powerManagerService)
+        ICardAdmiralsService cardAdmiralsService)
     {
         _cardAdmiralsGalleryRepository = cardAdmiralsGalleryRepository;
         _cardAdmiralsService = cardAdmiralsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static ICardAdmiralsGalleryService Create() => ServiceContainer.GetService<ICardAdmiralsGalleryService>();
@@ -94,12 +91,6 @@ public class CardAdmiralsGalleryService : ICardAdmiralsGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        CardAdmirals cardAdmiralGallery = await GetCardAdmiralCollectionByIdAsync(userId, cardAdmiralId) ?? new CardAdmirals();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)cardAdmiralGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class CardAdmiralsGalleryService : ICardAdmiralsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusCardAdmiralsGalleryAsync(string userId)
     {
-        CardAdmirals oldCardAdmiral = await SumPowerCardAdmiralsGalleryAsync(userId);
-
         var updateResult = await _cardAdmiralsGalleryRepository.UpdateBatchStatusCardAdmiralsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -126,25 +115,6 @@ public class CardAdmiralsGalleryService : ICardAdmiralsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        CardAdmirals newCardAdmiral = await SumPowerCardAdmiralsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardAdmiral - (PowerManager)oldCardAdmiral;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class CardAdmiralsGalleryService : ICardAdmiralsGalleryService
             };
         }
 
-        CardAdmirals oldCardAdmiral = await GetCardAdmiralCollectionByIdAsync(userId, cardAdmiralId) ?? new CardAdmirals();
-
         var updateResult = await _cardAdmiralsGalleryRepository.UpdateCurrentStarCardAdmiralGalleryAsync(userId, cardAdmiralId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -223,25 +191,6 @@ public class CardAdmiralsGalleryService : ICardAdmiralsGalleryService
             };
         }
 
-        CardAdmirals newCardAdmiral = await GetCardAdmiralCollectionByIdAsync(userId, cardAdmiralId) ?? new CardAdmirals();
-        PowerManager deltaPower = (PowerManager)newCardAdmiral - (PowerManager)oldCardAdmiral;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -252,8 +201,6 @@ public class CardAdmiralsGalleryService : ICardAdmiralsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarCardAdmiralsGalleryAsync(string userId)
     {
-        CardAdmirals oldCardAdmiral = await SumPowerCardAdmiralsGalleryAsync(userId);
-
         var updateResult = await _cardAdmiralsGalleryRepository.UpdateBatchCurrentStarCardAdmiralsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -269,25 +216,6 @@ public class CardAdmiralsGalleryService : ICardAdmiralsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        CardAdmirals newCardAdmiral = await SumPowerCardAdmiralsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardAdmiral - (PowerManager)oldCardAdmiral;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

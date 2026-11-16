@@ -6,16 +6,13 @@ public class FoodsGalleryService : IFoodsGalleryService
 {
     private readonly IFoodsGalleryRepository _foodsGalleryRepository;
     private readonly IFoodsService _foodsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public FoodsGalleryService(
         IFoodsGalleryRepository foodsGalleryRepository,
-        IFoodsService foodsService,
-        IPowerManagerService powerManagerService)
+        IFoodsService foodsService)
     {
         _foodsGalleryRepository = foodsGalleryRepository;
         _foodsService = foodsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IFoodsGalleryService Create() => ServiceContainer.GetService<IFoodsGalleryService>();
@@ -94,12 +91,6 @@ public class FoodsGalleryService : IFoodsGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Foods foodGallery = await GetFoodCollectionByIdAsync(userId, foodId) ?? new Foods();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)foodGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class FoodsGalleryService : IFoodsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusFoodsGalleryAsync(string userId)
     {
-        Foods oldFood = await SumPowerFoodsGalleryAsync(userId);
-
         var updateResult = await _foodsGalleryRepository.UpdateBatchStatusFoodsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -126,25 +115,6 @@ public class FoodsGalleryService : IFoodsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Foods newFood = await SumPowerFoodsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newFood - (PowerManager)oldFood;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class FoodsGalleryService : IFoodsGalleryService
             };
         }
 
-        Foods oldFood = await GetFoodCollectionByIdAsync(userId, foodId) ?? new Foods();
-
         var updateResult = await _foodsGalleryRepository.UpdateCurrentStarFoodGalleryAsync(userId, foodId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -223,25 +191,6 @@ public class FoodsGalleryService : IFoodsGalleryService
             };
         }
 
-        Foods newFood = await GetFoodCollectionByIdAsync(userId, foodId) ?? new Foods();
-        PowerManager deltaPower = (PowerManager)newFood - (PowerManager)oldFood;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -252,8 +201,6 @@ public class FoodsGalleryService : IFoodsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarFoodsGalleryAsync(string userId)
     {
-        Foods oldFood = await SumPowerFoodsGalleryAsync(userId);
-
         var updateResult = await _foodsGalleryRepository.UpdateBatchCurrentStarFoodsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -269,25 +216,6 @@ public class FoodsGalleryService : IFoodsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Foods newFood = await SumPowerFoodsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newFood - (PowerManager)oldFood;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

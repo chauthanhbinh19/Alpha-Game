@@ -5,10 +5,10 @@ public interface IUserCardHeroesService
 {
     Task<List<CardHeroes>> GetAllRankPowerAsync(string userId, List<CardHeroes> cardHeroList);
     Task<List<CardHeroes>> GetAllMasterPowerAsync(string userId, List<CardHeroes> cardHeroList);
-    Task<List<CardHeroes>> GetUserCardHeroesAsync(string userId, string search, string type, int pageSize, int offset, string rare, UserStatsContextDTO sharedContext = null);
-    Task<List<CardHeroes>> GetUserCardHeroesTeamAsync(string userId, string teamId, string position, UserStatsContextDTO sharedContext = null);
-    Task<List<CardHeroes>> GetUserCardHeroesTeamWithoutPositionAsync(string userId, string teamId, UserStatsContextDTO sharedContext = null);
-    Task<List<CardHeroes>> GetUserCardHeroesInTeamAsync(string userId, UserStatsContextDTO sharedContext = null);
+    Task<List<CardHeroes>> GetUserCardHeroesAsync(string userId, string search, string type, int pageSize, int offset, string rare);
+    Task<List<CardHeroes>> GetUserCardHeroesTeamAsync(string userId, string teamId, string position);
+    Task<List<CardHeroes>> GetUserCardHeroesTeamWithoutPositionAsync(string userId, string teamId);
+    Task<List<CardHeroes>> GetUserCardHeroesInTeamAsync(string userId);
     Task<List<CardHeroes>> GetUserCardHeroesInTeamSimpleAsync(string userId, string teamId);
     Task<Dictionary<string, int>> GetUniqueUserCardHeroesTypesTeamAsync(string userId, string teamId);
     Task<InsertOrUpdateResult<bool>> UpdateTeamUserCardHeroAsync(string userId, string teamId, string position, string cardId);
@@ -20,6 +20,6 @@ public interface IUserCardHeroesService
     Task<InsertOrUpdateResult<bool>> UpdateUserCardHeroLevelAsync(string userId, CardHeroes cardHero, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardHeroStarAsync(string userId, CardHeroes cardHero);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardHeroQuantityAsync(string userId, CardHeroes cardHero, List<RecipeItemDetailDTO> totalDeductions);
-    Task<CardHeroes> GetUserCardHeroByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null);
-    Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null);
+    Task<CardHeroes> GetUserCardHeroByIdAsync(string userId, string Id);
+    Task<BaseStats> GetTeamTotalStatsAsync(string userId);
 }

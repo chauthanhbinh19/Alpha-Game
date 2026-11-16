@@ -6,18 +6,15 @@ public class UserSkillsService : IUserSkillsService
     private readonly IUserSkillsRepository _userSkillsRepository;
     private readonly ISkillsGalleryService _skillsGalleryService;
     private readonly ISkillsService _skillsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserSkillsService(
         IUserSkillsRepository userSkillsRepository,
         ISkillsGalleryService skillsGalleryService,
-        ISkillsService skillsService,
-        IPowerManagerService powerManagerService)
+        ISkillsService skillsService)
     {
         _userSkillsRepository = userSkillsRepository;
         _skillsGalleryService = skillsGalleryService;
         _skillsService = skillsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserSkillsService Create() => ServiceContainer.GetService<IUserSkillsService>();
@@ -66,14 +63,6 @@ public class UserSkillsService : IUserSkillsService
             };
         }
 
-        var oldSkillTask = _skillsService.SumPowerSkillsPercentAsync(userId);
-        var oldUserSkillTask = _userSkillsRepository.SumPowerUserSkillsAsync(userId);
-
-        await Task.WhenAll(oldSkillTask, oldUserSkillTask);
-
-        Skills oldSkill = oldSkillTask.Result;
-        Skills oldUserSkill = oldUserSkillTask.Result;
-
         var insertOrUpdateResult = await _userSkillsRepository.InsertOrUpdateUserSkillAsync(userId, skill);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -100,32 +89,6 @@ public class UserSkillsService : IUserSkillsService
 
         await _skillsGalleryService.InsertSkillGalleryAsync(userId, skill.Id);
 
-        var newSkillTask = _skillsService.SumPowerSkillsPercentAsync(userId);
-        var newUserSkillTask = _userSkillsRepository.SumPowerUserSkillsAsync(userId);
-
-        await Task.WhenAll(newSkillTask, newUserSkillTask);
-
-        PowerManager deltaPower = (PowerManager)newSkillTask.Result - (PowerManager)oldSkill;
-        PowerManager deltaUserPower = (PowerManager)newUserSkillTask.Result - (PowerManager)oldUserSkill;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -137,14 +100,6 @@ public class UserSkillsService : IUserSkillsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSkillsBatchAsync(string userId, List<Skills> skilles)
     {
-        var oldSkillTask = _skillsService.SumPowerSkillsPercentAsync(userId);
-        var oldUserSkillTask = _userSkillsRepository.SumPowerUserSkillsAsync(userId);
-
-        await Task.WhenAll(oldSkillTask, oldUserSkillTask);
-
-        Skills oldSkill = oldSkillTask.Result;
-        Skills oldUserSkill = oldUserSkillTask.Result;
-
         var repositoryResult = await _userSkillsRepository.InsertOrUpdateUserSkillsBatchAsync(userId, skilles);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
@@ -164,33 +119,6 @@ public class UserSkillsService : IUserSkillsService
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
             await _skillsGalleryService.InsertBatchSkillsGalleryAsync(userId, newlyInsertedCards);
-
-            var newSkillTask = _skillsService.SumPowerSkillsPercentAsync(userId);
-            var newUserSkillTask = _userSkillsRepository.SumPowerUserSkillsAsync(userId);
-
-            await Task.WhenAll(newSkillTask, newUserSkillTask);
-
-            PowerManager deltaPower = (PowerManager)newSkillTask.Result - (PowerManager)oldSkill;
-            PowerManager deltaUserPower = (PowerManager)newUserSkillTask.Result - (PowerManager)oldUserSkill;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         // 3. Mapping kết quả OperationType trả về gọn gàng
@@ -228,8 +156,6 @@ public class UserSkillsService : IUserSkillsService
             };
         }
 
-        Skills oldUserSkill = await _userSkillsRepository.SumPowerUserSkillsAsync(userId);
-
         var updateResult = await _userSkillsRepository.UpdateUserSkillLevelAsync(
             userId,
             skill,
@@ -243,24 +169,6 @@ public class UserSkillsService : IUserSkillsService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        Skills newUserSkill = await _userSkillsRepository.SumPowerUserSkillsAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserSkill - (PowerManager)oldUserSkill;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -287,8 +195,6 @@ public class UserSkillsService : IUserSkillsService
             };
         }
 
-        Skills oldUserSkill = await _userSkillsRepository.SumPowerUserSkillsAsync(userId);
-
         var updateResult = await _userSkillsRepository.UpdateUserSkillStarAsync(userId, skill);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -303,24 +209,6 @@ public class UserSkillsService : IUserSkillsService
         }
 
         await _skillsGalleryService.UpdateTempStarSkillGalleryAsync(userId, skill.Id, skill.Star);
-
-        Skills newUserSkill = await _userSkillsRepository.SumPowerUserSkillsAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserSkill - (PowerManager)oldUserSkill;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {

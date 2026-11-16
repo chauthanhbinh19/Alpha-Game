@@ -6,16 +6,13 @@ public class OutfitsGalleryService : IOutfitsGalleryService
 {
     private readonly IOutfitsGalleryRepository _outfitsGalleryRepository;
     private readonly IOutfitsService _outfitsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public OutfitsGalleryService(
         IOutfitsGalleryRepository outfitsGalleryRepository,
-        IOutfitsService outfitsService,
-        IPowerManagerService powerManagerService)
+        IOutfitsService outfitsService)
     {
         _outfitsGalleryRepository = outfitsGalleryRepository;
         _outfitsService = outfitsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IOutfitsGalleryService Create() => ServiceContainer.GetService<IOutfitsGalleryService>();
@@ -94,12 +91,6 @@ public class OutfitsGalleryService : IOutfitsGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Outfits outfitGallery = await GetOutfitCollectionByIdAsync(userId, outfitId) ?? new Outfits();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)outfitGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class OutfitsGalleryService : IOutfitsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusOutfitsGalleryAsync(string userId)
     {
-        Outfits oldOutfit = await SumPowerOutfitsGalleryAsync(userId);
-
         var updateResult = await _outfitsGalleryRepository.UpdateBatchStatusOutfitsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -126,25 +115,6 @@ public class OutfitsGalleryService : IOutfitsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Outfits newOutfit = await SumPowerOutfitsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newOutfit - (PowerManager)oldOutfit;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class OutfitsGalleryService : IOutfitsGalleryService
             };
         }
 
-        Outfits oldOutfit = await GetOutfitCollectionByIdAsync(userId, outfitId) ?? new Outfits();
-
         var updateResult = await _outfitsGalleryRepository.UpdateCurrentStarOutfitGalleryAsync(userId, outfitId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -223,25 +191,6 @@ public class OutfitsGalleryService : IOutfitsGalleryService
             };
         }
 
-        Outfits newOutfit = await GetOutfitCollectionByIdAsync(userId, outfitId) ?? new Outfits();
-        PowerManager deltaPower = (PowerManager)newOutfit - (PowerManager)oldOutfit;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -252,8 +201,6 @@ public class OutfitsGalleryService : IOutfitsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarOutfitsGalleryAsync(string userId)
     {
-        Outfits oldOutfit = await SumPowerOutfitsGalleryAsync(userId);
-
         var updateResult = await _outfitsGalleryRepository.UpdateBatchCurrentStarOutfitsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -269,25 +216,6 @@ public class OutfitsGalleryService : IOutfitsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Outfits newOutfit = await SumPowerOutfitsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newOutfit - (PowerManager)oldOutfit;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

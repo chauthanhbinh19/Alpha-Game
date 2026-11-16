@@ -6,16 +6,13 @@ public class BadgesGalleryService : IBadgesGalleryService
 {
     private readonly IBadgesGalleryRepository _badgesGalleryRepository;
     private readonly IBadgesService _badgesService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public BadgesGalleryService(
         IBadgesGalleryRepository badgesGalleryRepository,
-        IBadgesService badgesService,
-        IPowerManagerService powerManagerService)
+        IBadgesService badgesService)
     {
         _badgesGalleryRepository = badgesGalleryRepository;
         _badgesService = badgesService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IBadgesGalleryService Create() => ServiceContainer.GetService<IBadgesGalleryService>();
@@ -94,12 +91,6 @@ public class BadgesGalleryService : IBadgesGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Badges badgeGallery = await GetBadgeCollectionByIdAsync(userId, badgeId) ?? new Badges();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)badgeGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class BadgesGalleryService : IBadgesGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusBadgesGalleryAsync(string userId)
     {
-        Badges oldBadge = await SumPowerBadgesGalleryAsync(userId);
-
         var updateResult = await _badgesGalleryRepository.UpdateBatchStatusBadgesGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -126,25 +115,6 @@ public class BadgesGalleryService : IBadgesGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Badges newBadge = await SumPowerBadgesGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newBadge - (PowerManager)oldBadge;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class BadgesGalleryService : IBadgesGalleryService
             };
         }
 
-        Badges oldBadge = await GetBadgeCollectionByIdAsync(userId, badgeId) ?? new Badges();
-
         var updateResult = await _badgesGalleryRepository.UpdateCurrentStarBadgeGalleryAsync(userId, badgeId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -223,25 +191,6 @@ public class BadgesGalleryService : IBadgesGalleryService
             };
         }
 
-        Badges newBadge = await GetBadgeCollectionByIdAsync(userId, badgeId) ?? new Badges();
-        PowerManager deltaPower = (PowerManager)newBadge - (PowerManager)oldBadge;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -252,8 +201,6 @@ public class BadgesGalleryService : IBadgesGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarBadgesGalleryAsync(string userId)
     {
-        Badges oldBadge = await SumPowerBadgesGalleryAsync(userId);
-
         var updateResult = await _badgesGalleryRepository.UpdateBatchCurrentStarBadgesGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -269,25 +216,6 @@ public class BadgesGalleryService : IBadgesGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Badges newBadge = await SumPowerBadgesGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newBadge - (PowerManager)oldBadge;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

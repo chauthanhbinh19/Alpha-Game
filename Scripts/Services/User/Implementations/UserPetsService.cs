@@ -6,20 +6,17 @@ public class UserPetsService : IUserPetsService
     private readonly IUserPetsRepository _userPetsRepository;
     private readonly IPetsGalleryService _petsGalleryService;
     private readonly IPetsService _petsService;
-    private readonly IPowerManagerService _powerManagerService;
     private readonly IUserEquipmentsService _userEquipmentsService;
 
     public UserPetsService(
         IUserPetsRepository userPetsRepository,
         IPetsGalleryService petsGalleryService,
         IPetsService petsService,
-        IPowerManagerService powerManagerService,
         IUserEquipmentsService userEquipmentsService)
     {
         _userPetsRepository = userPetsRepository;
         _petsGalleryService = petsGalleryService;
         _petsService = petsService;
-        _powerManagerService = powerManagerService;
         _userEquipmentsService = userEquipmentsService;
     }
 
@@ -447,14 +444,6 @@ public class UserPetsService : IUserPetsService
             };
         }
 
-        var oldPetTask = _petsService.SumPowerPetsPercentAsync(userId);
-        var oldUserPetTask = _userPetsRepository.SumPowerUserPetsAsync(userId);
-
-        await Task.WhenAll(oldPetTask, oldUserPetTask);
-
-        Pets oldPet = oldPetTask.Result;
-        Pets oldUserPet = oldUserPetTask.Result;
-
         var insertOrUpdateResult = await _userPetsRepository.InsertOrUpdateUserPetAsync(userId, pet);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -481,32 +470,6 @@ public class UserPetsService : IUserPetsService
 
         await _petsGalleryService.InsertPetGalleryAsync(userId, pet.Id);
 
-        var newPetTask = _petsService.SumPowerPetsPercentAsync(userId);
-        var newUserPetTask = _userPetsRepository.SumPowerUserPetsAsync(userId);
-
-        await Task.WhenAll(newPetTask, newUserPetTask);
-
-        PowerManager deltaPower = (PowerManager)newPetTask.Result - (PowerManager)oldPet;
-        PowerManager deltaUserPower = (PowerManager)newUserPetTask.Result - (PowerManager)oldUserPet;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -518,14 +481,6 @@ public class UserPetsService : IUserPetsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPetsBatchAsync(string userId, List<Pets> pet)
     {
-        var oldPetTask = _petsService.SumPowerPetsPercentAsync(userId);
-        var oldUserPetTask = _userPetsRepository.SumPowerUserPetsAsync(userId);
-
-        await Task.WhenAll(oldPetTask, oldUserPetTask);
-
-        Pets oldPet = oldPetTask.Result;
-        Pets oldUserPet = oldUserPetTask.Result;
-
         var repositoryResult = await _userPetsRepository.InsertOrUpdateUserPetsBatchAsync(userId, pet);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
@@ -545,33 +500,6 @@ public class UserPetsService : IUserPetsService
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
             await _petsGalleryService.InsertBatchPetsGalleryAsync(userId, newlyInsertedCards);
-
-            var newPetTask = _petsService.SumPowerPetsPercentAsync(userId);
-            var newUserPetTask = _userPetsRepository.SumPowerUserPetsAsync(userId);
-
-            await Task.WhenAll(newPetTask, newUserPetTask);
-
-            PowerManager deltaPower = (PowerManager)newPetTask.Result - (PowerManager)oldPet;
-            PowerManager deltaUserPower = (PowerManager)newUserPetTask.Result - (PowerManager)oldUserPet;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         // 3. Mapping kết quả OperationType trả về gọn gàng
@@ -609,8 +537,6 @@ public class UserPetsService : IUserPetsService
             };
         }
 
-        Pets oldUserPet = await _userPetsRepository.SumPowerUserPetsAsync(userId);
-
         var updateResult = await _userPetsRepository.UpdateUserPetLevelAsync(
             userId,
             pet,
@@ -624,24 +550,6 @@ public class UserPetsService : IUserPetsService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        Pets newUserPet = await _userPetsRepository.SumPowerUserPetsAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserPet - (PowerManager)oldUserPet;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 

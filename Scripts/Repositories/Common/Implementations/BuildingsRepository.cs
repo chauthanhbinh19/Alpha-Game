@@ -935,7 +935,9 @@ public class BuildingsRepository : IBuildingsRepository
                     SUM(a.percent_all_mental_defense) AS total_percent_all_mental_defense
                 FROM Buildings a
                 JOIN user_buildings ua ON a.id = ua.building_id
-                WHERE ua.user_id = @user_id;
+                WHERE ua.user_id = @user_id
+                    AND a.is_active = TRUE 
+                    AND a.is_deleted = FALSE;
             ";
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))

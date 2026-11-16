@@ -6,16 +6,13 @@ public class SpiritCardsGalleryService : ISpiritCardsGalleryService
 {
     private readonly ISpiritCardsGalleryRepository _spiritCardsGalleryRepository;
     private readonly ISpiritCardsService _spiritCardsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public SpiritCardsGalleryService(
         ISpiritCardsGalleryRepository spiritCardsGalleryRepository,
-        ISpiritCardsService spiritCardsService,
-        IPowerManagerService powerManagerService)
+        ISpiritCardsService spiritCardsService)
     {
         _spiritCardsGalleryRepository = spiritCardsGalleryRepository;
         _spiritCardsService = spiritCardsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static ISpiritCardsGalleryService Create() => ServiceContainer.GetService<ISpiritCardsGalleryService>();
@@ -94,12 +91,6 @@ public class SpiritCardsGalleryService : ISpiritCardsGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        SpiritCards spiritCardGallery = await GetSpiritCardCollectionByIdAsync(userId, spiritCardId) ?? new SpiritCards();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)spiritCardGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class SpiritCardsGalleryService : ISpiritCardsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusSpiritCardsGalleryAsync(string userId)
     {
-        SpiritCards oldSpiritCard = await SumPowerSpiritCardsGalleryAsync(userId);
-
         var updateResult = await _spiritCardsGalleryRepository.UpdateBatchStatusSpiritCardsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -126,25 +115,6 @@ public class SpiritCardsGalleryService : ISpiritCardsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        SpiritCards newSpiritCard = await SumPowerSpiritCardsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newSpiritCard - (PowerManager)oldSpiritCard;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class SpiritCardsGalleryService : ISpiritCardsGalleryService
             };
         }
 
-        SpiritCards oldSpiritCard = await GetSpiritCardCollectionByIdAsync(userId, spiritCardId) ?? new SpiritCards();
-
         var updateResult = await _spiritCardsGalleryRepository.UpdateCurrentStarSpiritCardGalleryAsync(userId, spiritCardId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -223,25 +191,6 @@ public class SpiritCardsGalleryService : ISpiritCardsGalleryService
             };
         }
 
-        SpiritCards newSpiritCard = await GetSpiritCardCollectionByIdAsync(userId, spiritCardId) ?? new SpiritCards();
-        PowerManager deltaPower = (PowerManager)newSpiritCard - (PowerManager)oldSpiritCard;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -252,8 +201,6 @@ public class SpiritCardsGalleryService : ISpiritCardsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarSpiritCardsGalleryAsync(string userId)
     {
-        SpiritCards oldSpiritCard = await SumPowerSpiritCardsGalleryAsync(userId);
-
         var updateResult = await _spiritCardsGalleryRepository.UpdateBatchCurrentStarSpiritCardsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -269,25 +216,6 @@ public class SpiritCardsGalleryService : ISpiritCardsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        SpiritCards newSpiritCard = await SumPowerSpiritCardsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newSpiritCard - (PowerManager)oldSpiritCard;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

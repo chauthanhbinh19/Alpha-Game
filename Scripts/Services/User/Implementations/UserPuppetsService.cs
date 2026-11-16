@@ -6,18 +6,15 @@ public class UserPuppetsService : IUserPuppetsService
     private readonly IUserPuppetsRepository _userPuppetsRepository;
     private readonly IPuppetsGalleryService _puppetsGalleryService;
     private readonly IPuppetsService _puppetsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserPuppetsService(
         IUserPuppetsRepository userPuppetsRepository,
         IPuppetsGalleryService puppetsGalleryService,
-        IPuppetsService puppetsService,
-        IPowerManagerService powerManagerService)
+        IPuppetsService puppetsService)
     {
         _userPuppetsRepository = userPuppetsRepository;
         _puppetsGalleryService = puppetsGalleryService;
         _puppetsService = puppetsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserPuppetsService Create() => ServiceContainer.GetService<IUserPuppetsService>();
@@ -59,14 +56,6 @@ public class UserPuppetsService : IUserPuppetsService
             };
         }
 
-        var oldPuppetTask = _puppetsService.SumPowerPuppetsPercentAsync(userId);
-        var oldUserPuppetTask = _userPuppetsRepository.SumPowerUserPuppetsAsync(userId);
-
-        await Task.WhenAll(oldPuppetTask, oldUserPuppetTask);
-
-        Puppets oldPuppet = oldPuppetTask.Result;
-        Puppets oldUserPuppet = oldUserPuppetTask.Result;
-
         var insertOrUpdateResult = await _userPuppetsRepository.InsertOrUpdateUserPuppetAsync(userId, puppet);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -93,32 +82,6 @@ public class UserPuppetsService : IUserPuppetsService
 
         await _puppetsGalleryService.InsertPuppetGalleryAsync(userId, puppet.Id);
 
-        var newPuppetTask = _puppetsService.SumPowerPuppetsPercentAsync(userId);
-        var newUserPuppetTask = _userPuppetsRepository.SumPowerUserPuppetsAsync(userId);
-
-        await Task.WhenAll(newPuppetTask, newUserPuppetTask);
-
-        PowerManager deltaPower = (PowerManager)newPuppetTask.Result - (PowerManager)oldPuppet;
-        PowerManager deltaUserPower = (PowerManager)newUserPuppetTask.Result - (PowerManager)oldUserPuppet;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -130,14 +93,6 @@ public class UserPuppetsService : IUserPuppetsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPuppetsBatchAsync(string userId, List<Puppets> puppets)
     {
-        var oldPuppetTask = _puppetsService.SumPowerPuppetsPercentAsync(userId);
-        var oldUserPuppetTask = _userPuppetsRepository.SumPowerUserPuppetsAsync(userId);
-
-        await Task.WhenAll(oldPuppetTask, oldUserPuppetTask);
-
-        Puppets oldPuppet = oldPuppetTask.Result;
-        Puppets oldUserPuppet = oldUserPuppetTask.Result;
-
         var insertOrUpdateResult = await _userPuppetsRepository.InsertOrUpdateUserPuppetsBatchAsync(userId, puppets);
 
         if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
@@ -157,33 +112,6 @@ public class UserPuppetsService : IUserPuppetsService
         if (hasNewInserts)
         {
             await _puppetsGalleryService.InsertBatchPuppetsGalleryAsync(userId, newlyInsertedCards);
-
-            var newPuppetTask = _puppetsService.SumPowerPuppetsPercentAsync(userId);
-            var newUserPuppetTask = _userPuppetsRepository.SumPowerUserPuppetsAsync(userId);
-
-            await Task.WhenAll(newPuppetTask, newUserPuppetTask);
-
-            PowerManager deltaPower = (PowerManager)newPuppetTask.Result - (PowerManager)oldPuppet;
-            PowerManager deltaUserPower = (PowerManager)newUserPuppetTask.Result - (PowerManager)oldUserPuppet;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         return insertOrUpdateResult.OperationType switch
@@ -220,8 +148,6 @@ public class UserPuppetsService : IUserPuppetsService
             };
         }
 
-        Puppets oldUserPuppet = await _userPuppetsRepository.SumPowerUserPuppetsAsync(userId);
-
         var updateResult = await _userPuppetsRepository.UpdateUserPuppetLevelAsync(
             userId,
             puppet,
@@ -235,24 +161,6 @@ public class UserPuppetsService : IUserPuppetsService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        Puppets newUserPuppet = await _userPuppetsRepository.SumPowerUserPuppetsAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserPuppet - (PowerManager)oldUserPuppet;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -279,8 +187,6 @@ public class UserPuppetsService : IUserPuppetsService
             };
         }
 
-        Puppets oldUserPuppet = await _userPuppetsRepository.SumPowerUserPuppetsAsync(userId);
-
         var updateResult = await _userPuppetsRepository.UpdateUserPuppetStarAsync(userId, puppet);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -295,24 +201,6 @@ public class UserPuppetsService : IUserPuppetsService
         }
 
         await _puppetsGalleryService.UpdateTempStarPuppetGalleryAsync(userId, puppet.Id, puppet.Star);
-
-        Puppets newUserPuppet = await _userPuppetsRepository.SumPowerUserPuppetsAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserPuppet - (PowerManager)oldUserPuppet;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {

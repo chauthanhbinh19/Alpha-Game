@@ -6,18 +6,15 @@ public class UserRelicsService : IUserRelicsService
     private readonly IUserRelicsRepository _userRelicsRepository;
     private readonly IRelicsGalleryService _relicsGalleryService;
     private readonly IRelicsService _relicsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserRelicsService(
         IUserRelicsRepository userRelicsRepository,
         IRelicsGalleryService relicsGalleryService,
-        IRelicsService relicsService,
-        IPowerManagerService powerManagerService)
+        IRelicsService relicsService)
     {
         _userRelicsRepository = userRelicsRepository;
         _relicsGalleryService = relicsGalleryService;
         _relicsService = relicsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserRelicsService Create() => ServiceContainer.GetService<IUserRelicsService>();
@@ -59,14 +56,6 @@ public class UserRelicsService : IUserRelicsService
             };
         }
 
-        var oldRelicTask = _relicsService.SumPowerRelicsPercentAsync(userId);
-        var oldUserRelicTask = _userRelicsRepository.SumPowerUserRelicsAsync(userId);
-
-        await Task.WhenAll(oldRelicTask, oldUserRelicTask);
-
-        Relics oldRelic = oldRelicTask.Result;
-        Relics oldUserRelic = oldUserRelicTask.Result;
-
         var insertOrUpdateResult = await _userRelicsRepository.InsertOrUpdateUserRelicAsync(userId, relic);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -93,32 +82,6 @@ public class UserRelicsService : IUserRelicsService
 
         await _relicsGalleryService.InsertRelicGalleryAsync(userId, relic.Id);
 
-        var newRelicTask = _relicsService.SumPowerRelicsPercentAsync(userId);
-        var newUserRelicTask = _userRelicsRepository.SumPowerUserRelicsAsync(userId);
-
-        await Task.WhenAll(newRelicTask, newUserRelicTask);
-
-        PowerManager deltaPower = (PowerManager)newRelicTask.Result - (PowerManager)oldRelic;
-        PowerManager deltaUserPower = (PowerManager)newUserRelicTask.Result - (PowerManager)oldUserRelic;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -130,14 +93,6 @@ public class UserRelicsService : IUserRelicsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserRelicsBatchAsync(string userId, List<Relics> relics)
     {
-        var oldRelicTask = _relicsService.SumPowerRelicsPercentAsync(userId);
-        var oldUserRelicTask = _userRelicsRepository.SumPowerUserRelicsAsync(userId);
-
-        await Task.WhenAll(oldRelicTask, oldUserRelicTask);
-
-        Relics oldRelic = oldRelicTask.Result;
-        Relics oldUserRelic = oldUserRelicTask.Result;
-
         var insertOrUpdateResult = await _userRelicsRepository.InsertOrUpdateUserRelicsBatchAsync(userId, relics);
 
         if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
@@ -157,33 +112,6 @@ public class UserRelicsService : IUserRelicsService
         if (hasNewInserts)
         {
             await _relicsGalleryService.InsertBatchRelicsGalleryAsync(userId, newlyInsertedCards);
-
-            var newRelicTask = _relicsService.SumPowerRelicsPercentAsync(userId);
-            var newUserRelicTask = _userRelicsRepository.SumPowerUserRelicsAsync(userId);
-
-            await Task.WhenAll(newRelicTask, newUserRelicTask);
-
-            PowerManager deltaPower = (PowerManager)newRelicTask.Result - (PowerManager)oldRelic;
-            PowerManager deltaUserPower = (PowerManager)newUserRelicTask.Result - (PowerManager)oldUserRelic;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         return insertOrUpdateResult.OperationType switch
@@ -220,8 +148,6 @@ public class UserRelicsService : IUserRelicsService
             };
         }
 
-        Relics oldUserRelic = await _userRelicsRepository.SumPowerUserRelicsAsync(userId);
-
         var updateResult = await _userRelicsRepository.UpdateUserRelicLevelAsync(
             userId,
             relic,
@@ -235,24 +161,6 @@ public class UserRelicsService : IUserRelicsService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        Relics newUserRelic = await _userRelicsRepository.SumPowerUserRelicsAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserRelic - (PowerManager)oldUserRelic;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -279,8 +187,6 @@ public class UserRelicsService : IUserRelicsService
             };
         }
 
-        Relics oldUserRelic = await _userRelicsRepository.SumPowerUserRelicsAsync(userId);
-
         var updateResult = await _userRelicsRepository.UpdateUserRelicStarAsync(userId, relic);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -295,24 +201,6 @@ public class UserRelicsService : IUserRelicsService
         }
 
         await _relicsGalleryService.UpdateTempStarRelicGalleryAsync(userId, relic.Id, relic.Star);
-
-        Relics newUserRelic = await _userRelicsRepository.SumPowerUserRelicsAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserRelic - (PowerManager)oldUserRelic;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {

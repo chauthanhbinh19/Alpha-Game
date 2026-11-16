@@ -1054,7 +1054,9 @@ public class BooksRepository : IBooksRepository
                     SUM(a.percent_all_mental_defense) AS total_percent_all_mental_defense
                 FROM Books a
                 JOIN user_books ua ON a.id = ua.book_id
-                WHERE ua.user_id = @user_id;
+                WHERE ua.user_id = @user_id
+                    AND a.is_active = TRUE 
+                    AND a.is_deleted = FALSE;
             ";
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))

@@ -6,18 +6,15 @@ public class UserCardLivesService : IUserCardLivesService
     private readonly IUserCardLivesRepository _userCardLivesRepository;
     private readonly ICardLivesGalleryService _cardLivesGalleryService;
     private readonly ICardLivesService _cardLivesService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserCardLivesService(
         IUserCardLivesRepository userCardLivesRepository,
         ICardLivesGalleryService cardLivesGalleryService,
-        ICardLivesService cardLivesService,
-        IPowerManagerService powerManagerService)
+        ICardLivesService cardLivesService)
     {
         _userCardLivesRepository = userCardLivesRepository;
         _cardLivesGalleryService = cardLivesGalleryService;
         _cardLivesService = cardLivesService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserCardLivesService Create() => ServiceContainer.GetService<IUserCardLivesService>();
@@ -59,14 +56,6 @@ public class UserCardLivesService : IUserCardLivesService
             };
         }
 
-        var oldCardLifeTask = _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var oldUserCardLifeTask = _userCardLivesRepository.SumPowerUserCardLivesAsync(userId);
-
-        await Task.WhenAll(oldCardLifeTask, oldUserCardLifeTask);
-
-        CardLives oldCardLife = oldCardLifeTask.Result;
-        CardLives oldUserCardLife = oldUserCardLifeTask.Result;
-
         var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -93,32 +82,6 @@ public class UserCardLivesService : IUserCardLivesService
 
         await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
 
-        var newCardLifeTask = _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var newUserCardLifeTask = _userCardLivesRepository.SumPowerUserCardLivesAsync(userId);
-
-        await Task.WhenAll(newCardLifeTask, newUserCardLifeTask);
-
-        PowerManager deltaPower = (PowerManager)newCardLifeTask.Result - (PowerManager)oldCardLife;
-        PowerManager deltaUserPower = (PowerManager)newUserCardLifeTask.Result - (PowerManager)oldUserCardLife;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -130,14 +93,6 @@ public class UserCardLivesService : IUserCardLivesService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLives)
     {
-        var oldCardLifeTask = _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var oldUserCardLifeTask = _userCardLivesRepository.SumPowerUserCardLivesAsync(userId);
-
-        await Task.WhenAll(oldCardLifeTask, oldUserCardLifeTask);
-
-        CardLives oldCardLife = oldCardLifeTask.Result;
-        CardLives oldUserCardLife = oldUserCardLifeTask.Result;
-
         var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLives);
 
         if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
@@ -157,33 +112,6 @@ public class UserCardLivesService : IUserCardLivesService
         if (hasNewInserts)
         {
             await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
-
-            var newCardLifeTask = _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-            var newUserCardLifeTask = _userCardLivesRepository.SumPowerUserCardLivesAsync(userId);
-
-            await Task.WhenAll(newCardLifeTask, newUserCardLifeTask);
-
-            PowerManager deltaPower = (PowerManager)newCardLifeTask.Result - (PowerManager)oldCardLife;
-            PowerManager deltaUserPower = (PowerManager)newUserCardLifeTask.Result - (PowerManager)oldUserCardLife;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         return insertOrUpdateResult.OperationType switch
@@ -220,8 +148,6 @@ public class UserCardLivesService : IUserCardLivesService
             };
         }
 
-        CardLives oldUserCardLive = await _userCardLivesRepository.SumPowerUserCardLivesAsync(userId);
-
         var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(
             userId,
             cardLife,
@@ -235,24 +161,6 @@ public class UserCardLivesService : IUserCardLivesService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        CardLives newUserCardLive = await _userCardLivesRepository.SumPowerUserCardLivesAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserCardLive - (PowerManager)oldUserCardLive;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -279,8 +187,6 @@ public class UserCardLivesService : IUserCardLivesService
             };
         }
 
-        CardLives oldUserCardLife = await _userCardLivesRepository.SumPowerUserCardLivesAsync(userId);
-
         var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -295,24 +201,6 @@ public class UserCardLivesService : IUserCardLivesService
         }
 
         await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
-
-        CardLives newUserCardLife = await _userCardLivesRepository.SumPowerUserCardLivesAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserCardLife - (PowerManager)oldUserCardLife;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {

@@ -154,11 +154,9 @@ public class UserShopPurchaseService : IUserShopPurchaseService
     private readonly IUserTitlesService _userTitlesService;
     private readonly IUserVehiclesService _userVehiclesService;
     private readonly IUserWeaponsService _userWeaponsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserShopPurchaseService(
         IUserShopPurchaseRepository userShopPurchaseRepository,
-        IPowerManagerService powerManagerService,
 
         // Core Services
         IAchievementsService achievementsService,
@@ -314,7 +312,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         IUserWeaponsService userWeaponsService)
     {
         _userShopPurchaseRepository = userShopPurchaseRepository;
-        _powerManagerService = powerManagerService;
 
         // Core Services Assign
         _achievementsService = achievementsService;
@@ -764,14 +761,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAchievementAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldAchievementTask = _achievementsService.SumPowerAchievementsPercentAsync(userId);
-        var oldUserAchievementTask = _userAchievementsService.SumPowerUserAchievementsAsync(userId);
-
-        await Task.WhenAll(oldAchievementTask, oldUserAchievementTask);
-
-        Achievements oldAchievement = oldAchievementTask.Result;
-        Achievements oldUserAchievement = oldUserAchievementTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserAchievementAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -809,32 +798,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _achievementGalleryService.InsertAchievementGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newAchievementTask = _achievementsService.SumPowerAchievementsPercentAsync(userId);
-        var newUserAchievementTask = _userAchievementsService.SumPowerUserAchievementsAsync(userId);
-
-        await Task.WhenAll(newAchievementTask, newUserAchievementTask);
-
-        PowerManager deltaPower = (PowerManager)newAchievementTask.Result - (PowerManager)oldAchievement;
-        PowerManager deltaUserPower = (PowerManager)newUserAchievementTask.Result - (PowerManager)oldUserAchievement;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -846,14 +809,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBookAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        // var oldRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        // var oldUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-        // await Task.WhenAll(oldRobotTask, oldUserRobotTask);
-
-        // Robots oldRobot = oldRobotTask.Result;
-        // Robots oldUserRobot = oldUserRobotTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserBookAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -891,32 +846,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _booksGalleryService.InsertBookGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        // var newRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        // var newUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-        // await Task.WhenAll(newRobotTask, newUserRobotTask);
-
-        // PowerManager deltaPower = (PowerManager)newRobotTask.Result - (PowerManager)oldRobot;
-        // PowerManager deltaUserPower = (PowerManager)newUserRobotTask.Result - (PowerManager)oldUserRobot;
-
-        // PowerManager totalDelta = new PowerManager();
-        // if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        // if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        // if (totalDelta.HasAnyPositiveStat())
-        // {
-        //     PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        //     await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            // return new InsertOrUpdateResult<bool>
-            // {
-            //     Data = true,
-            //     OperationType = DatabaseOperationType.Inserted,
-            //     IsChangePower = true,
-            //     Message = MessageConstants.INSERTED_SUCCESSFULLY
-            // };
-        // }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -928,14 +857,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPetAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        // var oldRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        // var oldUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-        // await Task.WhenAll(oldRobotTask, oldUserRobotTask);
-
-        // Robots oldRobot = oldRobotTask.Result;
-        // Robots oldUserRobot = oldUserRobotTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserPetAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -973,32 +894,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _petsGalleryService.InsertPetGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        // var newRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        // var newUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-        // await Task.WhenAll(newRobotTask, newUserRobotTask);
-
-        // PowerManager deltaPower = (PowerManager)newRobotTask.Result - (PowerManager)oldRobot;
-        // PowerManager deltaUserPower = (PowerManager)newUserRobotTask.Result - (PowerManager)oldUserRobot;
-
-        // PowerManager totalDelta = new PowerManager();
-        // if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        // if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        // if (totalDelta.HasAnyPositiveStat())
-        // {
-        //     PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        //     await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            // return new InsertOrUpdateResult<bool>
-            // {
-            //     Data = true,
-            //     OperationType = DatabaseOperationType.Inserted,
-            //     IsChangePower = true,
-            //     Message = MessageConstants.INSERTED_SUCCESSFULLY
-            // };
-        // }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -1010,14 +905,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardCaptainAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        // var oldRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        // var oldUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-        // await Task.WhenAll(oldRobotTask, oldUserRobotTask);
-
-        // Robots oldRobot = oldRobotTask.Result;
-        // Robots oldUserRobot = oldUserRobotTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserCardCaptainAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -1055,32 +942,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _cardCaptainsGalleryService.InsertCardCaptainGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        // var newRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        // var newUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-        // await Task.WhenAll(newRobotTask, newUserRobotTask);
-
-        // PowerManager deltaPower = (PowerManager)newRobotTask.Result - (PowerManager)oldRobot;
-        // PowerManager deltaUserPower = (PowerManager)newUserRobotTask.Result - (PowerManager)oldUserRobot;
-
-        // PowerManager totalDelta = new PowerManager();
-        // if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        // if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        // if (totalDelta.HasAnyPositiveStat())
-        // {
-        //     PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        //     await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            // return new InsertOrUpdateResult<bool>
-            // {
-            //     Data = true,
-            //     OperationType = DatabaseOperationType.Inserted,
-            //     IsChangePower = true,
-            //     Message = MessageConstants.INSERTED_SUCCESSFULLY
-            // };
-        // }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -1092,14 +953,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCollaborationEquipmentAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldCollaborationEquipmentTask = _collaborationEquipmentsService.SumPowerCollaborationEquipmentsPercentAsync(userId);
-        var oldUserCollaborationEquipmentTask = _userCollaborationEquipmentsService.SumPowerUserCollaborationEquipmentsAsync(userId);
-
-        await Task.WhenAll(oldCollaborationEquipmentTask, oldUserCollaborationEquipmentTask);
-
-        CollaborationEquipments oldCollaborationEquipment = oldCollaborationEquipmentTask.Result;
-        CollaborationEquipments oldUserCollaborationEquipment = oldUserCollaborationEquipmentTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserCollaborationEquipmentAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -1137,32 +990,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _collaborationEquipmentsGalleryService.InsertCollaborationEquipmentGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newCollaborationEquipmentTask = _collaborationEquipmentsService.SumPowerCollaborationEquipmentsPercentAsync(userId);
-        var newUserCollaborationEquipmentTask = _userCollaborationEquipmentsService.SumPowerUserCollaborationEquipmentsAsync(userId);
-
-        await Task.WhenAll(newCollaborationEquipmentTask, newUserCollaborationEquipmentTask);
-
-        PowerManager deltaPower = (PowerManager)newCollaborationEquipmentTask.Result - (PowerManager)oldCollaborationEquipment;
-        PowerManager deltaUserPower = (PowerManager)newUserCollaborationEquipmentTask.Result - (PowerManager)oldUserCollaborationEquipment;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -1174,14 +1001,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardMilitaryAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        // var oldRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        // var oldUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-        // await Task.WhenAll(oldRobotTask, oldUserRobotTask);
-
-        // Robots oldRobot = oldRobotTask.Result;
-        // Robots oldUserRobot = oldUserRobotTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserCardMilitaryAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -1219,32 +1038,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _cardMilitariesGalleryService.InsertCardMilitaryGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        // var newRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        // var newUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-        // await Task.WhenAll(newRobotTask, newUserRobotTask);
-
-        // PowerManager deltaPower = (PowerManager)newRobotTask.Result - (PowerManager)oldRobot;
-        // PowerManager deltaUserPower = (PowerManager)newUserRobotTask.Result - (PowerManager)oldUserRobot;
-
-        // PowerManager totalDelta = new PowerManager();
-        // if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        // if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        // if (totalDelta.HasAnyPositiveStat())
-        // {
-        //     PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        //     await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            // return new InsertOrUpdateResult<bool>
-            // {
-            //     Data = true,
-            //     OperationType = DatabaseOperationType.Inserted,
-            //     IsChangePower = true,
-            //     Message = MessageConstants.INSERTED_SUCCESSFULLY
-            // };
-        // }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -1256,14 +1049,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardSpellAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        // var oldRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        // var oldUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-        // await Task.WhenAll(oldRobotTask, oldUserRobotTask);
-
-        // Robots oldRobot = oldRobotTask.Result;
-        // Robots oldUserRobot = oldUserRobotTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserCardSpellAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -1301,32 +1086,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _cardSpellsGalleryService.InsertCardSpellGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        // var newRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        // var newUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-        // await Task.WhenAll(newRobotTask, newUserRobotTask);
-
-        // PowerManager deltaPower = (PowerManager)newRobotTask.Result - (PowerManager)oldRobot;
-        // PowerManager deltaUserPower = (PowerManager)newUserRobotTask.Result - (PowerManager)oldUserRobot;
-
-        // PowerManager totalDelta = new PowerManager();
-        // if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        // if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        // if (totalDelta.HasAnyPositiveStat())
-        // {
-        //     PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        //     await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            // return new InsertOrUpdateResult<bool>
-            // {
-            //     Data = true,
-            //     OperationType = DatabaseOperationType.Inserted,
-            //     IsChangePower = true,
-            //     Message = MessageConstants.INSERTED_SUCCESSFULLY
-            // };
-        // }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -1338,14 +1097,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCollaborationAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldCollaborationTask = _collaborationsService.SumPowerCollaborationsPercentAsync(userId);
-        var oldUserCollaborationTask = _userCollaborationsService.SumPowerUserCollaborationsAsync(userId);
-
-        await Task.WhenAll(oldCollaborationTask, oldUserCollaborationTask);
-
-        Collaborations oldCollaboration = oldCollaborationTask.Result;
-        Collaborations oldUserCollaboration = oldUserCollaborationTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserCollaborationAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -1383,32 +1134,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _collaborationsGalleryService.InsertCollaborationGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newCollaborationTask = _collaborationsService.SumPowerCollaborationsPercentAsync(userId);
-        var newUserCollaborationTask = _userCollaborationsService.SumPowerUserCollaborationsAsync(userId);
-
-        await Task.WhenAll(newCollaborationTask, newUserCollaborationTask);
-
-        PowerManager deltaPower = (PowerManager)newCollaborationTask.Result - (PowerManager)oldCollaboration;
-        PowerManager deltaUserPower = (PowerManager)newUserCollaborationTask.Result - (PowerManager)oldUserCollaboration;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -1420,14 +1145,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardMonsterAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        // var oldRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        // var oldUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-        // await Task.WhenAll(oldRobotTask, oldUserRobotTask);
-
-        // Robots oldRobot = oldRobotTask.Result;
-        // Robots oldUserRobot = oldUserRobotTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserCardMonsterAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -1465,32 +1182,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _cardMonstersGalleryService.InsertCardMonsterGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        // var newRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        // var newUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-        // await Task.WhenAll(newRobotTask, newUserRobotTask);
-
-        // PowerManager deltaPower = (PowerManager)newRobotTask.Result - (PowerManager)oldRobot;
-        // PowerManager deltaUserPower = (PowerManager)newUserRobotTask.Result - (PowerManager)oldUserRobot;
-
-        // PowerManager totalDelta = new PowerManager();
-        // if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        // if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        // if (totalDelta.HasAnyPositiveStat())
-        // {
-        //     PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        //     await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            // return new InsertOrUpdateResult<bool>
-            // {
-            //     Data = true,
-            //     OperationType = DatabaseOperationType.Inserted,
-            //     IsChangePower = true,
-            //     Message = MessageConstants.INSERTED_SUCCESSFULLY
-            // };
-        // }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -1502,14 +1193,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserEquipmentAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        // var oldEquipmentTask = _equipmentsService.SumPowerEquipmentsPercentAsync(userId);
-        // var oldUserEquipmentTask = _userEquipmentsService.SumPowerUserEquipmentsAsync(userId);
-
-        // await Task.WhenAll(oldEquipmentTask, oldUserEquipmentTask);
-
-        // Equipments oldEquipment = oldEquipmentTask.Result;
-        // Equipments oldUserEquipment = oldUserEquipmentTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserEquipmentAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -1547,32 +1230,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _equipmentsGalleryService.InsertEquipmentGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        // var newEquipmentTask = _achievementsService.SumPowerEquipmentsPercentAsync(userId);
-        // var newUserEquipmentTask = _userEquipmentsService.SumPowerUserEquipmentsAsync(userId);
-
-        // await Task.WhenAll(newEquipmentTask, newUserEquipmentTask);
-
-        // PowerManager deltaPower = (PowerManager)newEquipmentTask.Result - (PowerManager)oldEquipment;
-        // PowerManager deltaUserPower = (PowerManager)newUserEquipmentTask.Result - (PowerManager)oldUserEquipment;
-
-        // PowerManager totalDelta = new PowerManager();
-        // if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        // if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        // if (totalDelta.HasAnyPositiveStat())
-        // {
-        //     PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        //     await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            // return new InsertOrUpdateResult<bool>
-            // {
-            //     Data = true,
-            //     OperationType = DatabaseOperationType.Inserted,
-            //     IsChangePower = true,
-            //     Message = MessageConstants.INSERTED_SUCCESSFULLY
-            // };
-        // }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -1584,14 +1241,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMedalAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldMedalTask = _medalsService.SumPowerMedalsPercentAsync(userId);
-        var oldUserMedalTask = _userMedalsService.SumPowerUserMedalsAsync(userId);
-
-        await Task.WhenAll(oldMedalTask, oldUserMedalTask);
-
-        Medals oldMedal = oldMedalTask.Result;
-        Medals oldUserMedal = oldUserMedalTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserMedalAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -1629,32 +1278,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _medalsGalleryService.InsertMedalGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newMedalTask = _medalsService.SumPowerMedalsPercentAsync(userId);
-        var newUserMedalTask = _userMedalsService.SumPowerUserMedalsAsync(userId);
-
-        await Task.WhenAll(newMedalTask, newUserMedalTask);
-
-        PowerManager deltaPower = (PowerManager)newMedalTask.Result - (PowerManager)oldMedal;
-        PowerManager deltaUserPower = (PowerManager)newUserMedalTask.Result - (PowerManager)oldUserMedal;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -1666,14 +1289,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSkillAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldSkillTask = _skillsService.SumPowerSkillsPercentAsync(userId);
-        var oldUserSkillTask = _userSkillsService.SumPowerUserSkillsAsync(userId);
-
-        await Task.WhenAll(oldSkillTask, oldUserSkillTask);
-
-        Skills oldSkill = oldSkillTask.Result;
-        Skills oldUserSkill = oldUserSkillTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserSkillAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -1711,32 +1326,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _skillsGalleryService.InsertSkillGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newSkillTask = _skillsService.SumPowerSkillsPercentAsync(userId);
-        var newUserSkillTask = _userSkillsService.SumPowerUserSkillsAsync(userId);
-
-        await Task.WhenAll(newSkillTask, newUserSkillTask);
-
-        PowerManager deltaPower = (PowerManager)newSkillTask.Result - (PowerManager)oldSkill;
-        PowerManager deltaUserPower = (PowerManager)newUserSkillTask.Result - (PowerManager)oldUserSkill;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -1748,14 +1337,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSymbolAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldSymbolTask = _symbolsService.SumPowerSymbolsPercentAsync(userId);
-        var oldUserSymbolTask = _userSymbolsService.SumPowerUserSymbolsAsync(userId);
-
-        await Task.WhenAll(oldSymbolTask, oldUserSymbolTask);
-
-        Symbols oldSymbol = oldSymbolTask.Result;
-        Symbols oldUserSymbol = oldUserSymbolTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserSymbolAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -1793,32 +1374,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _symbolsGalleryService.InsertSymbolGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newSymbolTask = _symbolsService.SumPowerSymbolsPercentAsync(userId);
-        var newUserSymbolTask = _userSymbolsService.SumPowerUserSymbolsAsync(userId);
-
-        await Task.WhenAll(newSymbolTask, newUserSymbolTask);
-
-        PowerManager deltaPower = (PowerManager)newSymbolTask.Result - (PowerManager)oldSymbol;
-        PowerManager deltaUserPower = (PowerManager)newUserSymbolTask.Result - (PowerManager)oldUserSymbol;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -1830,14 +1385,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserTitleAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldTitleTask = _titlesService.SumPowerTitlesPercentAsync(userId);
-        var oldUserTitleTask = _userTitlesService.SumPowerUserTitlesAsync(userId);
-
-        await Task.WhenAll(oldTitleTask, oldUserTitleTask);
-
-        Titles oldTitle = oldTitleTask.Result;
-        Titles oldUserTitle = oldUserTitleTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserTitleAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -1875,32 +1422,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _titlesGalleryService.InsertTitleGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newTitleTask = _titlesService.SumPowerTitlesPercentAsync(userId);
-        var newUserTitleTask = _userTitlesService.SumPowerUserTitlesAsync(userId);
-
-        await Task.WhenAll(newTitleTask, newUserTitleTask);
-
-        PowerManager deltaPower = (PowerManager)newTitleTask.Result - (PowerManager)oldTitle;
-        PowerManager deltaUserPower = (PowerManager)newUserTitleTask.Result - (PowerManager)oldUserTitle;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -1912,14 +1433,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMagicFormationCircleAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldMagicFormationCircleTask = _magicFormationCirclesService.SumPowerMagicFormationCirclesPercentAsync(userId);
-        var oldUserMagicFormationCircleTask = _userMagicFormationCirclesService.SumPowerUserMagicFormationCirclesAsync(userId);
-
-        await Task.WhenAll(oldMagicFormationCircleTask, oldUserMagicFormationCircleTask);
-
-        MagicFormationCircles oldMagicFormationCircle = oldMagicFormationCircleTask.Result;
-        MagicFormationCircles oldUserMagicFormationCircle = oldUserMagicFormationCircleTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserMagicFormationCircleAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -1957,32 +1470,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _magicFormationCirclesGalleryService.InsertMagicFormationCircleGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newMagicFormationCircleTask = _magicFormationCirclesService.SumPowerMagicFormationCirclesPercentAsync(userId);
-        var newUserMagicFormationCircleTask = _userMagicFormationCirclesService.SumPowerUserMagicFormationCirclesAsync(userId);
-
-        await Task.WhenAll(newMagicFormationCircleTask, newUserMagicFormationCircleTask);
-
-        PowerManager deltaPower = (PowerManager)newMagicFormationCircleTask.Result - (PowerManager)oldMagicFormationCircle;
-        PowerManager deltaUserPower = (PowerManager)newUserMagicFormationCircleTask.Result - (PowerManager)oldUserMagicFormationCircle;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -1994,14 +1481,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserRelicAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldRelicTask = _relicsService.SumPowerRelicsPercentAsync(userId);
-        var oldUserRelicTask = _userRelicsService.SumPowerUserRelicsAsync(userId);
-
-        await Task.WhenAll(oldRelicTask, oldUserRelicTask);
-
-        Relics oldRelic = oldRelicTask.Result;
-        Relics oldUserRelic = oldUserRelicTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserRelicAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -2039,32 +1518,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _relicsGalleryService.InsertRelicGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newRelicTask = _relicsService.SumPowerRelicsPercentAsync(userId);
-        var newUserRelicTask = _userRelicsService.SumPowerUserRelicsAsync(userId);
-
-        await Task.WhenAll(newRelicTask, newUserRelicTask);
-
-        PowerManager deltaPower = (PowerManager)newRelicTask.Result - (PowerManager)oldRelic;
-        PowerManager deltaUserPower = (PowerManager)newUserRelicTask.Result - (PowerManager)oldUserRelic;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -2076,14 +1529,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardColonelAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        // var oldRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        // var oldUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-        // await Task.WhenAll(oldRobotTask, oldUserRobotTask);
-
-        // Robots oldRobot = oldRobotTask.Result;
-        // Robots oldUserRobot = oldUserRobotTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserCardColonelAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -2121,32 +1566,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _cardColonelsGalleryService.InsertCardColonelGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        // var newRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        // var newUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-        // await Task.WhenAll(newRobotTask, newUserRobotTask);
-
-        // PowerManager deltaPower = (PowerManager)newRobotTask.Result - (PowerManager)oldRobot;
-        // PowerManager deltaUserPower = (PowerManager)newUserRobotTask.Result - (PowerManager)oldUserRobot;
-
-        // PowerManager totalDelta = new PowerManager();
-        // if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        // if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        // if (totalDelta.HasAnyPositiveStat())
-        // {
-        //     PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        //     await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            // return new InsertOrUpdateResult<bool>
-            // {
-            //     Data = true,
-            //     OperationType = DatabaseOperationType.Inserted,
-            //     IsChangePower = true,
-            //     Message = MessageConstants.INSERTED_SUCCESSFULLY
-            // };
-        // }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -2158,14 +1577,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardGeneralAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        // var oldRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        // var oldUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-        // await Task.WhenAll(oldRobotTask, oldUserRobotTask);
-
-        // Robots oldRobot = oldRobotTask.Result;
-        // Robots oldUserRobot = oldUserRobotTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserCardGeneralAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -2203,32 +1614,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _cardGeneralsGalleryService.InsertCardGeneralGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        // var newRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        // var newUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-        // await Task.WhenAll(newRobotTask, newUserRobotTask);
-
-        // PowerManager deltaPower = (PowerManager)newRobotTask.Result - (PowerManager)oldRobot;
-        // PowerManager deltaUserPower = (PowerManager)newUserRobotTask.Result - (PowerManager)oldUserRobot;
-
-        // PowerManager totalDelta = new PowerManager();
-        // if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        // if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        // if (totalDelta.HasAnyPositiveStat())
-        // {
-        //     PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        //     await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            // return new InsertOrUpdateResult<bool>
-            // {
-            //     Data = true,
-            //     OperationType = DatabaseOperationType.Inserted,
-            //     IsChangePower = true,
-            //     Message = MessageConstants.INSERTED_SUCCESSFULLY
-            // };
-        // }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -2240,14 +1625,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardAdmiralAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        // var oldRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        // var oldUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-        // await Task.WhenAll(oldRobotTask, oldUserRobotTask);
-
-        // Robots oldRobot = oldRobotTask.Result;
-        // Robots oldUserRobot = oldUserRobotTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserCardAdmiralAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -2285,32 +1662,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _cardAdmiralsGalleryService.InsertCardAdmiralGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        // var newRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        // var newUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-        // await Task.WhenAll(newRobotTask, newUserRobotTask);
-
-        // PowerManager deltaPower = (PowerManager)newRobotTask.Result - (PowerManager)oldRobot;
-        // PowerManager deltaUserPower = (PowerManager)newUserRobotTask.Result - (PowerManager)oldUserRobot;
-
-        // PowerManager totalDelta = new PowerManager();
-        // if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        // if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        // if (totalDelta.HasAnyPositiveStat())
-        // {
-        //     PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        //     await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            // return new InsertOrUpdateResult<bool>
-            // {
-            //     Data = true,
-            //     OperationType = DatabaseOperationType.Inserted,
-            //     IsChangePower = true,
-            //     Message = MessageConstants.INSERTED_SUCCESSFULLY
-            // };
-        // }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -2322,14 +1673,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardSoldierAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        // var oldRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        // var oldUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-        // await Task.WhenAll(oldRobotTask, oldUserRobotTask);
-
-        // Robots oldRobot = oldRobotTask.Result;
-        // Robots oldUserRobot = oldUserRobotTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserCardSoldierAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -2367,32 +1710,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _cardSoldiersGalleryService.InsertCardSoldierGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        // var newRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        // var newUserRobotTask = _userRobotsRepository.SumPowerUserRobotsAsync(userId);
-
-        // await Task.WhenAll(newRobotTask, newUserRobotTask);
-
-        // PowerManager deltaPower = (PowerManager)newRobotTask.Result - (PowerManager)oldRobot;
-        // PowerManager deltaUserPower = (PowerManager)newUserRobotTask.Result - (PowerManager)oldUserRobot;
-
-        // PowerManager totalDelta = new PowerManager();
-        // if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        // if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        // if (totalDelta.HasAnyPositiveStat())
-        // {
-        //     PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        //     await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            // return new InsertOrUpdateResult<bool>
-            // {
-            //     Data = true,
-            //     OperationType = DatabaseOperationType.Inserted,
-            //     IsChangePower = true,
-            //     Message = MessageConstants.INSERTED_SUCCESSFULLY
-            // };
-        // }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -2404,14 +1721,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBorderAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldBorderTask = _bordersService.SumPowerBordersPercentAsync(userId);
-        var oldUserBorderTask = _userBordersService.SumPowerUserBordersAsync(userId);
-
-        await Task.WhenAll(oldBorderTask, oldUserBorderTask);
-
-        Borders oldBorder = oldBorderTask.Result;
-        Borders oldUserBorder = oldUserBorderTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserBorderAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -2449,32 +1758,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _bordersGalleryService.InsertBorderGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newBorderTask = _bordersService.SumPowerBordersPercentAsync(userId);
-        var newUserBorderTask = _userBordersService.SumPowerUserBordersAsync(userId);
-
-        await Task.WhenAll(newBorderTask, newUserBorderTask);
-
-        PowerManager deltaPower = (PowerManager)newBorderTask.Result - (PowerManager)oldBorder;
-        PowerManager deltaUserPower = (PowerManager)newUserBorderTask.Result - (PowerManager)oldUserBorder;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -2486,14 +1769,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserTalismanAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldTalismanTask = _talismansService.SumPowerTalismansPercentAsync(userId);
-        var oldUserTalismanTask = _userTalismansService.SumPowerUserTalismansAsync(userId);
-
-        await Task.WhenAll(oldTalismanTask, oldUserTalismanTask);
-
-        Talismans oldTalisman = oldTalismanTask.Result;
-        Talismans oldUserTalisman = oldUserTalismanTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserTalismanAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -2531,32 +1806,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _talismansGalleryService.InsertTalismanGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newTalismanTask = _talismansService.SumPowerTalismansPercentAsync(userId);
-        var newUserTalismanTask = _userTalismansService.SumPowerUserTalismansAsync(userId);
-
-        await Task.WhenAll(newTalismanTask, newUserTalismanTask);
-
-        PowerManager deltaPower = (PowerManager)newTalismanTask.Result - (PowerManager)oldTalisman;
-        PowerManager deltaUserPower = (PowerManager)newUserTalismanTask.Result - (PowerManager)oldUserTalisman;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -2568,14 +1817,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPuppetAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldPuppetTask = _puppetsService.SumPowerPuppetsPercentAsync(userId);
-        var oldUserPuppetTask = _userPuppetsService.SumPowerUserPuppetsAsync(userId);
-
-        await Task.WhenAll(oldPuppetTask, oldUserPuppetTask);
-
-        Puppets oldPuppet = oldPuppetTask.Result;
-        Puppets oldUserPuppet = oldUserPuppetTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserPuppetAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -2613,32 +1854,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _puppetsGalleryService.InsertPuppetGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newPuppetTask = _puppetsService.SumPowerPuppetsPercentAsync(userId);
-        var newUserPuppetTask = _userPuppetsService.SumPowerUserPuppetsAsync(userId);
-
-        await Task.WhenAll(newPuppetTask, newUserPuppetTask);
-
-        PowerManager deltaPower = (PowerManager)newPuppetTask.Result - (PowerManager)oldPuppet;
-        PowerManager deltaUserPower = (PowerManager)newUserPuppetTask.Result - (PowerManager)oldUserPuppet;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -2650,14 +1865,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAlchemyAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldAlchemyTask = _alchemiesService.SumPowerAlchemiesPercentAsync(userId);
-        var oldUserAlchemyTask = _userAlchemiesService.SumPowerUserAlchemiesAsync(userId);
-
-        await Task.WhenAll(oldAlchemyTask, oldUserAlchemyTask);
-
-        Alchemies oldAlchemy = oldAlchemyTask.Result;
-        Alchemies oldUserAlchemy = oldUserAlchemyTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserAlchemyAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -2695,32 +1902,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _alchemiesGalleryService.InsertAlchemyGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newAlchemyTask = _alchemiesService.SumPowerAlchemiesPercentAsync(userId);
-        var newUserAlchemyTask = _userAlchemiesService.SumPowerUserAlchemiesAsync(userId);
-
-        await Task.WhenAll(newAlchemyTask, newUserAlchemyTask);
-
-        PowerManager deltaPower = (PowerManager)newAlchemyTask.Result - (PowerManager)oldAlchemy;
-        PowerManager deltaUserPower = (PowerManager)newUserAlchemyTask.Result - (PowerManager)oldUserAlchemy;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -2732,14 +1913,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserForgeAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldForgeTask = _forgesService.SumPowerForgesPercentAsync(userId);
-        var oldUserForgeTask = _userForgesService.SumPowerUserForgesAsync(userId);
-
-        await Task.WhenAll(oldForgeTask, oldUserForgeTask);
-
-        Forges oldForge = oldForgeTask.Result;
-        Forges oldUserForge = oldUserForgeTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserForgeAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -2777,32 +1950,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _forgesGalleryService.InsertForgeGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newForgeTask = _forgesService.SumPowerForgesPercentAsync(userId);
-        var newUserForgeTask = _userForgesService.SumPowerUserForgesAsync(userId);
-
-        await Task.WhenAll(newForgeTask, newUserForgeTask);
-
-        PowerManager deltaPower = (PowerManager)newForgeTask.Result - (PowerManager)oldForge;
-        PowerManager deltaUserPower = (PowerManager)newUserForgeTask.Result - (PowerManager)oldUserForge;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -2814,14 +1961,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldCardLifeTask = _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var oldUserCardLifeTask = _userCardLivesService.SumPowerUserCardLivesAsync(userId);
-
-        await Task.WhenAll(oldCardLifeTask, oldUserCardLifeTask);
-
-        CardLives oldCardLife = oldCardLifeTask.Result;
-        CardLives oldUserCardLife = oldUserCardLifeTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserCardLifeAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -2859,32 +1998,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newCardLifeTask = _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var newUserCardLifeTask = _userCardLivesService.SumPowerUserCardLivesAsync(userId);
-
-        await Task.WhenAll(newCardLifeTask, newUserCardLifeTask);
-
-        PowerManager deltaPower = (PowerManager)newCardLifeTask.Result - (PowerManager)oldCardLife;
-        PowerManager deltaUserPower = (PowerManager)newUserCardLifeTask.Result - (PowerManager)oldUserCardLife;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -2896,14 +2009,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArtworkAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldArtworkTask = _artworksService.SumPowerArtworksPercentAsync(userId);
-        var oldUserArtworkTask = _userArtworksService.SumPowerUserArtworksAsync(userId);
-
-        await Task.WhenAll(oldArtworkTask, oldUserArtworkTask);
-
-        Artworks oldArtwork = oldArtworkTask.Result;
-        Artworks oldUserArtwork = oldUserArtworkTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserArtworkAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -2941,32 +2046,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _artworksGalleryService.InsertArtworkGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newArtworkTask = _artworksService.SumPowerArtworksPercentAsync(userId);
-        var newUserArtworkTask = _userArtworksService.SumPowerUserArtworksAsync(userId);
-
-        await Task.WhenAll(newArtworkTask, newUserArtworkTask);
-
-        PowerManager deltaPower = (PowerManager)newArtworkTask.Result - (PowerManager)oldArtwork;
-        PowerManager deltaUserPower = (PowerManager)newUserArtworkTask.Result - (PowerManager)oldUserArtwork;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -2978,14 +2057,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSpiritBeastAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldSpiritBeastTask = _spiritBeastsService.SumPowerSpiritBeastsPercentAsync(userId);
-        var oldUserSpiritBeastTask = _userSpiritBeastsService.SumPowerUserSpiritBeastsAsync(userId);
-
-        await Task.WhenAll(oldSpiritBeastTask, oldUserSpiritBeastTask);
-
-        SpiritBeasts oldSpiritBeast = oldSpiritBeastTask.Result;
-        SpiritBeasts oldUserSpiritBeast = oldUserSpiritBeastTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserSpiritBeastAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -3023,32 +2094,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _spiritBeastsGalleryService.InsertSpiritBeastGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newSpiritBeastTask = _spiritBeastsService.SumPowerSpiritBeastsPercentAsync(userId);
-        var newUserSpiritBeastTask = _userSpiritBeastsService.SumPowerUserSpiritBeastsAsync(userId);
-
-        await Task.WhenAll(newSpiritBeastTask, newUserSpiritBeastTask);
-
-        PowerManager deltaPower = (PowerManager)newSpiritBeastTask.Result - (PowerManager)oldSpiritBeast;
-        PowerManager deltaUserPower = (PowerManager)newUserSpiritBeastTask.Result - (PowerManager)oldUserSpiritBeast;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -3060,14 +2105,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAvatarAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldAvatarTask = _avatarsService.SumPowerAvatarsPercentAsync(userId);
-        var oldUserAvatarTask = _userAvatarsService.SumPowerUserAvatarsAsync(userId);
-
-        await Task.WhenAll(oldAvatarTask, oldUserAvatarTask);
-
-        Avatars oldAvatar = oldAvatarTask.Result;
-        Avatars oldUserAvatar = oldUserAvatarTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserAvatarAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -3105,32 +2142,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _avatarsGalleryService.InsertAvatarGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newAvatarTask = _avatarsService.SumPowerAvatarsPercentAsync(userId);
-        var newUserAvatarTask = _userAvatarsService.SumPowerUserAvatarsAsync(userId);
-
-        await Task.WhenAll(newAvatarTask, newUserAvatarTask);
-
-        PowerManager deltaPower = (PowerManager)newAvatarTask.Result - (PowerManager)oldAvatar;
-        PowerManager deltaUserPower = (PowerManager)newUserAvatarTask.Result - (PowerManager)oldUserAvatar;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -3142,14 +2153,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSpiritCardAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldSpiritCardTask = _spiritCardsService.SumPowerSpiritCardsPercentAsync(userId);
-        var oldUserSpiritCardTask = _userSpiritCardsService.SumPowerUserSpiritCardsAsync(userId);
-
-        await Task.WhenAll(oldSpiritCardTask, oldUserSpiritCardTask);
-
-        SpiritCards oldSpiritCard = oldSpiritCardTask.Result;
-        SpiritCards oldUserSpiritCard = oldUserSpiritCardTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserSpiritCardAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -3187,32 +2190,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _spiritCardsGalleryService.InsertSpiritCardGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newSpiritCardTask = _spiritCardsService.SumPowerSpiritCardsPercentAsync(userId);
-        var newUserSpiritCardTask = _userSpiritCardsService.SumPowerUserSpiritCardsAsync(userId);
-
-        await Task.WhenAll(newSpiritCardTask, newUserSpiritCardTask);
-
-        PowerManager deltaPower = (PowerManager)newSpiritCardTask.Result - (PowerManager)oldSpiritCard;
-        PowerManager deltaUserPower = (PowerManager)newUserSpiritCardTask.Result - (PowerManager)oldUserSpiritCard;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -3224,14 +2201,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArtifactAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldArtifactTask = _artifactsService.SumPowerArtifactsPercentAsync(userId);
-        var oldUserArtifactTask = _userArtifactsService.SumPowerUserArtifactsAsync(userId);
-
-        await Task.WhenAll(oldArtifactTask, oldUserArtifactTask);
-
-        Artifacts oldArtifact = oldArtifactTask.Result;
-        Artifacts oldUserArtifact = oldUserArtifactTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserArtifactAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -3269,32 +2238,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _artifactsGalleryService.InsertArtifactGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newArtifactTask = _artifactsService.SumPowerArtifactsPercentAsync(userId);
-        var newUserArtifactTask = _userArtifactsService.SumPowerUserArtifactsAsync(userId);
-
-        await Task.WhenAll(newArtifactTask, newUserArtifactTask);
-
-        PowerManager deltaPower = (PowerManager)newArtifactTask.Result - (PowerManager)oldArtifact;
-        PowerManager deltaUserPower = (PowerManager)newUserArtifactTask.Result - (PowerManager)oldUserArtifact;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -3306,14 +2249,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArchitectureAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldArchitectureTask = _architecturesService.SumPowerArchitecturesPercentAsync(userId);
-        var oldUserArchitectureTask = _userArchitecturesService.SumPowerUserArchitecturesAsync(userId);
-
-        await Task.WhenAll(oldArchitectureTask, oldUserArchitectureTask);
-
-        Architectures oldArchitecture = oldArchitectureTask.Result;
-        Architectures oldUserArchitecture = oldUserArchitectureTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserArchitectureAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -3351,32 +2286,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _architecturesGalleryService.InsertArchitectureGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newArchitectureTask = _architecturesService.SumPowerArchitecturesPercentAsync(userId);
-        var newUserArchitectureTask = _userArchitecturesService.SumPowerUserArchitecturesAsync(userId);
-
-        await Task.WhenAll(newArchitectureTask, newUserArchitectureTask);
-
-        PowerManager deltaPower = (PowerManager)newArchitectureTask.Result - (PowerManager)oldArchitecture;
-        PowerManager deltaUserPower = (PowerManager)newUserArchitectureTask.Result - (PowerManager)oldUserArchitecture;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -3388,14 +2297,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserTechnologyAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldTechnologyTask = _technologiesService.SumPowerTechnologiesPercentAsync(userId);
-        var oldUserTechnologyTask = _userTechnologiesService.SumPowerUserTechnologiesAsync(userId);
-
-        await Task.WhenAll(oldTechnologyTask, oldUserTechnologyTask);
-
-        Technologies oldTechnology = oldTechnologyTask.Result;
-        Technologies oldUserTechnology = oldUserTechnologyTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserTechnologyAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -3433,32 +2334,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _technologiesGalleryService.InsertTechnologyGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newTechnologyTask = _technologiesService.SumPowerTechnologiesPercentAsync(userId);
-        var newUserTechnologyTask = _userTechnologiesService.SumPowerUserTechnologiesAsync(userId);
-
-        await Task.WhenAll(newTechnologyTask, newUserTechnologyTask);
-
-        PowerManager deltaPower = (PowerManager)newTechnologyTask.Result - (PowerManager)oldTechnology;
-        PowerManager deltaUserPower = (PowerManager)newUserTechnologyTask.Result - (PowerManager)oldUserTechnology;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -3470,14 +2345,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserVehicleAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldVehicleTask = _vehiclesService.SumPowerVehiclesPercentAsync(userId);
-        var oldUserVehicleTask = _userVehiclesService.SumPowerUserVehiclesAsync(userId);
-
-        await Task.WhenAll(oldVehicleTask, oldUserVehicleTask);
-
-        Vehicles oldVehicle = oldVehicleTask.Result;
-        Vehicles oldUserVehicle = oldUserVehicleTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserVehicleAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -3515,32 +2382,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _vehiclesGalleryService.InsertVehicleGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newVehicleTask = _vehiclesService.SumPowerVehiclesPercentAsync(userId);
-        var newUserVehicleTask = _userVehiclesService.SumPowerUserVehiclesAsync(userId);
-
-        await Task.WhenAll(newVehicleTask, newUserVehicleTask);
-
-        PowerManager deltaPower = (PowerManager)newVehicleTask.Result - (PowerManager)oldVehicle;
-        PowerManager deltaUserPower = (PowerManager)newUserVehicleTask.Result - (PowerManager)oldUserVehicle;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -3552,14 +2393,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCoreAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldCoreTask = _coresService.SumPowerCoresPercentAsync(userId);
-        var oldUserCoreTask = _userCoresService.SumPowerUserCoresAsync(userId);
-
-        await Task.WhenAll(oldCoreTask, oldUserCoreTask);
-
-        Cores oldCore = oldCoreTask.Result;
-        Cores oldUserCore = oldUserCoreTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserCoreAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -3597,32 +2430,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _coresGalleryService.InsertCoreGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newCoreTask = _coresService.SumPowerCoresPercentAsync(userId);
-        var newUserCoreTask = _userCoresService.SumPowerUserCoresAsync(userId);
-
-        await Task.WhenAll(newCoreTask, newUserCoreTask);
-
-        PowerManager deltaPower = (PowerManager)newCoreTask.Result - (PowerManager)oldCore;
-        PowerManager deltaUserPower = (PowerManager)newUserCoreTask.Result - (PowerManager)oldUserCore;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -3634,14 +2441,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserWeaponAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldWeaponTask = _weaponsService.SumPowerWeaponsPercentAsync(userId);
-        var oldUserWeaponTask = _userWeaponsService.SumPowerUserWeaponsAsync(userId);
-
-        await Task.WhenAll(oldWeaponTask, oldUserWeaponTask);
-
-        Weapons oldWeapon = oldWeaponTask.Result;
-        Weapons oldUserWeapon = oldUserWeaponTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserWeaponAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -3679,32 +2478,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _weaponsGalleryService.InsertWeaponGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newWeaponTask = _weaponsService.SumPowerWeaponsPercentAsync(userId);
-        var newUserWeaponTask = _userWeaponsService.SumPowerUserWeaponsAsync(userId);
-
-        await Task.WhenAll(newWeaponTask, newUserWeaponTask);
-
-        PowerManager deltaPower = (PowerManager)newWeaponTask.Result - (PowerManager)oldWeapon;
-        PowerManager deltaUserPower = (PowerManager)newUserWeaponTask.Result - (PowerManager)oldUserWeapon;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -3716,14 +2489,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserRobotAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        var oldUserRobotTask = _userRobotsService.SumPowerUserRobotsAsync(userId);
-
-        await Task.WhenAll(oldRobotTask, oldUserRobotTask);
-
-        Robots oldRobot = oldRobotTask.Result;
-        Robots oldUserRobot = oldUserRobotTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserRobotAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -3761,32 +2526,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _robotsGalleryService.InsertRobotGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newRobotTask = _robotsService.SumPowerRobotsPercentAsync(userId);
-        var newUserRobotTask = _userRobotsService.SumPowerUserRobotsAsync(userId);
-
-        await Task.WhenAll(newRobotTask, newUserRobotTask);
-
-        PowerManager deltaPower = (PowerManager)newRobotTask.Result - (PowerManager)oldRobot;
-        PowerManager deltaUserPower = (PowerManager)newUserRobotTask.Result - (PowerManager)oldUserRobot;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -3798,14 +2537,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBadgeAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldBadgeTask = _badgesService.SumPowerBadgesPercentAsync(userId);
-        var oldUserBadgeTask = _userBadgesService.SumPowerUserBadgesAsync(userId);
-
-        await Task.WhenAll(oldBadgeTask, oldUserBadgeTask);
-
-        Badges oldBadge = oldBadgeTask.Result;
-        Badges oldUserBadge = oldUserBadgeTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserBadgeAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -3843,32 +2574,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _badgesGalleryService.InsertBadgeGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newBadgeTask = _badgesService.SumPowerBadgesPercentAsync(userId);
-        var newUserBadgeTask = _userBadgesService.SumPowerUserBadgesAsync(userId);
-
-        await Task.WhenAll(newBadgeTask, newUserBadgeTask);
-
-        PowerManager deltaPower = (PowerManager)newBadgeTask.Result - (PowerManager)oldBadge;
-        PowerManager deltaUserPower = (PowerManager)newUserBadgeTask.Result - (PowerManager)oldUserBadge;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -3880,14 +2585,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMechaBeastAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldMechaBeastTask = _mechaBeastsService.SumPowerMechaBeastsPercentAsync(userId);
-        var oldUserMechaBeastTask = _userMechaBeastsService.SumPowerUserMechaBeastsAsync(userId);
-
-        await Task.WhenAll(oldMechaBeastTask, oldUserMechaBeastTask);
-
-        MechaBeasts oldMechaBeast = oldMechaBeastTask.Result;
-        MechaBeasts oldUserMechaBeast = oldUserMechaBeastTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserMechaBeastAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -3925,32 +2622,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _mechaBeastsGalleryService.InsertMechaBeastGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newMechaBeastTask = _mechaBeastsService.SumPowerMechaBeastsPercentAsync(userId);
-        var newUserMechaBeastTask = _userMechaBeastsService.SumPowerUserMechaBeastsAsync(userId);
-
-        await Task.WhenAll(newMechaBeastTask, newUserMechaBeastTask);
-
-        PowerManager deltaPower = (PowerManager)newMechaBeastTask.Result - (PowerManager)oldMechaBeast;
-        PowerManager deltaUserPower = (PowerManager)newUserMechaBeastTask.Result - (PowerManager)oldUserMechaBeast;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -3962,14 +2633,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserRuneAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldRuneTask = _runesService.SumPowerRunesPercentAsync(userId);
-        var oldUserRuneTask = _userRunesService.SumPowerUserRunesAsync(userId);
-
-        await Task.WhenAll(oldRuneTask, oldUserRuneTask);
-
-        Runes oldRune = oldRuneTask.Result;
-        Runes oldUserRune = oldUserRuneTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserRuneAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -4007,32 +2670,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _runesGalleryService.InsertRuneGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newRuneTask = _runesService.SumPowerRunesPercentAsync(userId);
-        var newUserRuneTask = _userRunesService.SumPowerUserRunesAsync(userId);
-
-        await Task.WhenAll(newRuneTask, newUserRuneTask);
-
-        PowerManager deltaPower = (PowerManager)newRuneTask.Result - (PowerManager)oldRune;
-        PowerManager deltaUserPower = (PowerManager)newUserRuneTask.Result - (PowerManager)oldUserRune;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -4044,14 +2681,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserFurnitureAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldFurnitureTask = _furnituresService.SumPowerFurnituresPercentAsync(userId);
-        var oldUserFurnitureTask = _userFurnituresService.SumPowerUserFurnituresAsync(userId);
-
-        await Task.WhenAll(oldFurnitureTask, oldUserFurnitureTask);
-
-        Furnitures oldFurniture = oldFurnitureTask.Result;
-        Furnitures oldUserFurniture = oldUserFurnitureTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserFurnitureAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -4089,32 +2718,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _furnituresGalleryService.InsertFurnitureGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newFurnitureTask = _furnituresService.SumPowerFurnituresPercentAsync(userId);
-        var newUserFurnitureTask = _userFurnituresService.SumPowerUserFurnituresAsync(userId);
-
-        await Task.WhenAll(newFurnitureTask, newUserFurnitureTask);
-
-        PowerManager deltaPower = (PowerManager)newFurnitureTask.Result - (PowerManager)oldFurniture;
-        PowerManager deltaUserPower = (PowerManager)newUserFurnitureTask.Result - (PowerManager)oldUserFurniture;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -4126,14 +2729,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserFoodAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldFoodTask = _foodsService.SumPowerFoodsPercentAsync(userId);
-        var oldUserFoodTask = _userFoodsService.SumPowerUserFoodsAsync(userId);
-
-        await Task.WhenAll(oldFoodTask, oldUserFoodTask);
-
-        Foods oldFood = oldFoodTask.Result;
-        Foods oldUserFood = oldUserFoodTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserFoodAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -4171,32 +2766,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _foodsGalleryService.InsertFoodGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newFoodTask = _foodsService.SumPowerFoodsPercentAsync(userId);
-        var newUserFoodTask = _userFoodsService.SumPowerUserFoodsAsync(userId);
-
-        await Task.WhenAll(newFoodTask, newUserFoodTask);
-
-        PowerManager deltaPower = (PowerManager)newFoodTask.Result - (PowerManager)oldFood;
-        PowerManager deltaUserPower = (PowerManager)newUserFoodTask.Result - (PowerManager)oldUserFood;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -4208,14 +2777,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBeverageAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldBeverageTask = _beveragesService.SumPowerBeveragesPercentAsync(userId);
-        var oldUserBeverageTask = _userBeveragesService.SumPowerUserBeveragesAsync(userId);
-
-        await Task.WhenAll(oldBeverageTask, oldUserBeverageTask);
-
-        Beverages oldBeverage = oldBeverageTask.Result;
-        Beverages oldUserBeverage = oldUserBeverageTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserBeverageAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -4253,32 +2814,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _beveragesGalleryService.InsertBeverageGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newBeverageTask = _beveragesService.SumPowerBeveragesPercentAsync(userId);
-        var newUserBeverageTask = _userBeveragesService.SumPowerUserBeveragesAsync(userId);
-
-        await Task.WhenAll(newBeverageTask, newUserBeverageTask);
-
-        PowerManager deltaPower = (PowerManager)newBeverageTask.Result - (PowerManager)oldBeverage;
-        PowerManager deltaUserPower = (PowerManager)newUserBeverageTask.Result - (PowerManager)oldUserBeverage;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -4290,14 +2825,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBuildingAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldBuildingTask = _buildingsService.SumPowerBuildingsPercentAsync(userId);
-        var oldUserBuildingTask = _userBuildingsService.SumPowerUserBuildingsAsync(userId);
-
-        await Task.WhenAll(oldBuildingTask, oldUserBuildingTask);
-
-        Buildings oldBuilding = oldBuildingTask.Result;
-        Buildings oldUserBuilding = oldUserBuildingTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserBuildingAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -4335,32 +2862,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _buildingsGalleryService.InsertBuildingGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newBuildingTask = _buildingsService.SumPowerBuildingsPercentAsync(userId);
-        var newUserBuildingTask = _userBuildingsService.SumPowerUserBuildingsAsync(userId);
-
-        await Task.WhenAll(newBuildingTask, newUserBuildingTask);
-
-        PowerManager deltaPower = (PowerManager)newBuildingTask.Result - (PowerManager)oldBuilding;
-        PowerManager deltaUserPower = (PowerManager)newUserBuildingTask.Result - (PowerManager)oldUserBuilding;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -4372,14 +2873,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPlantAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldPlantTask = _plantsService.SumPowerPlantsPercentAsync(userId);
-        var oldUserPlantTask = _userPlantsService.SumPowerUserPlantsAsync(userId);
-
-        await Task.WhenAll(oldPlantTask, oldUserPlantTask);
-
-        Plants oldPlant = oldPlantTask.Result;
-        Plants oldUserPlant = oldUserPlantTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserPlantAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -4417,32 +2910,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _plantsGalleryService.InsertPlantGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newPlantTask = _plantsService.SumPowerPlantsPercentAsync(userId);
-        var newUserPlantTask = _userPlantsService.SumPowerUserPlantsAsync(userId);
-
-        await Task.WhenAll(newPlantTask, newUserPlantTask);
-
-        PowerManager deltaPower = (PowerManager)newPlantTask.Result - (PowerManager)oldPlant;
-        PowerManager deltaUserPower = (PowerManager)newUserPlantTask.Result - (PowerManager)oldUserPlant;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -4454,14 +2921,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserFashionAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldFashionTask = _fashionsService.SumPowerFashionsPercentAsync(userId);
-        var oldUserFashionTask = _userFashionsService.SumPowerUserFashionsAsync(userId);
-
-        await Task.WhenAll(oldFashionTask, oldUserFashionTask);
-
-        Fashions oldFashion = oldFashionTask.Result;
-        Fashions oldUserFashion = oldUserFashionTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserFashionAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -4499,32 +2958,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _fashionsGalleryService.InsertFashionGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newFashionTask = _fashionsService.SumPowerFashionsPercentAsync(userId);
-        var newUserFashionTask = _userFashionsService.SumPowerUserFashionsAsync(userId);
-
-        await Task.WhenAll(newFashionTask, newUserFashionTask);
-
-        PowerManager deltaPower = (PowerManager)newFashionTask.Result - (PowerManager)oldFashion;
-        PowerManager deltaUserPower = (PowerManager)newUserFashionTask.Result - (PowerManager)oldUserFashion;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -4536,14 +2969,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserEmojiAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldEmojiTask = _emojisService.SumPowerEmojisPercentAsync(userId);
-        var oldUserEmojiTask = _userEmojisService.SumPowerUserEmojisAsync(userId);
-
-        await Task.WhenAll(oldEmojiTask, oldUserEmojiTask);
-
-        Emojis oldEmoji = oldEmojiTask.Result;
-        Emojis oldUserEmoji = oldUserEmojiTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserEmojiAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -4581,32 +3006,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
         await _emojisGalleryService.InsertEmojiGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
 
-        var newEmojiTask = _emojisService.SumPowerEmojisPercentAsync(userId);
-        var newUserEmojiTask = _userEmojisService.SumPowerUserEmojisAsync(userId);
-
-        await Task.WhenAll(newEmojiTask, newUserEmojiTask);
-
-        PowerManager deltaPower = (PowerManager)newEmojiTask.Result - (PowerManager)oldEmoji;
-        PowerManager deltaUserPower = (PowerManager)newUserEmojiTask.Result - (PowerManager)oldUserEmoji;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -4618,14 +3017,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserOutfitAsync(string userId, ShopDTO shopDTO, int purchaseCount)
     {
-        var oldOutfitTask = _outfitsService.SumPowerOutfitsPercentAsync(userId);
-        var oldUserOutfitTask = _userOutfitsService.SumPowerUserOutfitsAsync(userId);
-
-        await Task.WhenAll(oldOutfitTask, oldUserOutfitTask);
-
-        Outfits oldOutfit = oldOutfitTask.Result;
-        Outfits oldUserOutfit = oldUserOutfitTask.Result;
-
         var insertOrUpdateResult = await _userShopPurchaseRepository.InsertOrUpdateUserOutfitAsync(userId, shopDTO, purchaseCount);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -4662,32 +3053,6 @@ public class UserShopPurchaseService : IUserShopPurchaseService
         }
 
         await _outfitsGalleryService.InsertOutfitGalleryAsync(userId, shopDTO.ShopDetail.ObjectId);
-
-        var newOutfitTask = _outfitsService.SumPowerOutfitsPercentAsync(userId);
-        var newUserOutfitTask = _userOutfitsService.SumPowerUserOutfitsAsync(userId);
-
-        await Task.WhenAll(newOutfitTask, newUserOutfitTask);
-
-        PowerManager deltaPower = (PowerManager)newOutfitTask.Result - (PowerManager)oldOutfit;
-        PowerManager deltaUserPower = (PowerManager)newUserOutfitTask.Result - (PowerManager)oldUserOutfit;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {

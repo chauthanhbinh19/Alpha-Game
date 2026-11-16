@@ -6,18 +6,15 @@ public class UserFashionsService : IUserFashionsService
     private readonly IUserFashionsRepository _userFashionsRepository;
     private readonly IFashionsGalleryService _fashionsGalleryService;
     private readonly IFashionsService _fashionsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public UserFashionsService(
         IUserFashionsRepository userFashionsRepository,
         IFashionsGalleryService fashionsGalleryService,
-        IFashionsService fashionsService,
-        IPowerManagerService powerManagerService)
+        IFashionsService fashionsService)
     {
         _userFashionsRepository = userFashionsRepository;
         _fashionsGalleryService = fashionsGalleryService;
         _fashionsService = fashionsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IUserFashionsService Create() => ServiceContainer.GetService<IUserFashionsService>();
@@ -59,14 +56,6 @@ public class UserFashionsService : IUserFashionsService
             };
         }
 
-        var oldFashionTask = _fashionsService.SumPowerFashionsPercentAsync(userId);
-        var oldUserFashionTask = _userFashionsRepository.SumPowerUserFashionsAsync(userId);
-
-        await Task.WhenAll(oldFashionTask, oldUserFashionTask);
-
-        Fashions oldFashion = oldFashionTask.Result;
-        Fashions oldUserFashion = oldUserFashionTask.Result;
-
         var insertOrUpdateResult = await _userFashionsRepository.InsertOrUpdateUserFashionAsync(userId, fashion);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -93,32 +82,6 @@ public class UserFashionsService : IUserFashionsService
 
         await _fashionsGalleryService.InsertFashionGalleryAsync(userId, fashion.Id);
 
-        var newFashionTask = _fashionsService.SumPowerFashionsPercentAsync(userId);
-        var newUserFashionTask = _userFashionsRepository.SumPowerUserFashionsAsync(userId);
-
-        await Task.WhenAll(newFashionTask, newUserFashionTask);
-
-        PowerManager deltaPower = (PowerManager)newFashionTask.Result - (PowerManager)oldFashion;
-        PowerManager deltaUserPower = (PowerManager)newUserFashionTask.Result - (PowerManager)oldUserFashion;
-
-        PowerManager totalDelta = new PowerManager();
-        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-        if (totalDelta.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Inserted,
-                IsChangePower = true,
-                Message = MessageConstants.INSERTED_SUCCESSFULLY
-            };
-        }
-
         return new InsertOrUpdateResult<bool>
         {
             Data = true,
@@ -130,14 +93,6 @@ public class UserFashionsService : IUserFashionsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserFashionsBatchAsync(string userId, List<Fashions> fashions)
     {
-        var oldFashionTask = _fashionsService.SumPowerFashionsPercentAsync(userId);
-        var oldUserFashionTask = _userFashionsRepository.SumPowerUserFashionsAsync(userId);
-
-        await Task.WhenAll(oldFashionTask, oldUserFashionTask);
-
-        Fashions oldFashion = oldFashionTask.Result;
-        Fashions oldUserFashion = oldUserFashionTask.Result;
-
         var insertOrUpdateResult = await _userFashionsRepository.InsertOrUpdateUserFashionsBatchAsync(userId, fashions);
 
         if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
@@ -157,33 +112,6 @@ public class UserFashionsService : IUserFashionsService
         if (hasNewInserts)
         {
             await _fashionsGalleryService.InsertBatchFashionsGalleryAsync(userId, newlyInsertedCards);
-
-            var newFashionTask = _fashionsService.SumPowerFashionsPercentAsync(userId);
-            var newUserFashionTask = _userFashionsRepository.SumPowerUserFashionsAsync(userId);
-
-            await Task.WhenAll(newFashionTask, newUserFashionTask);
-
-            PowerManager deltaPower = (PowerManager)newFashionTask.Result - (PowerManager)oldFashion;
-            PowerManager deltaUserPower = (PowerManager)newUserFashionTask.Result - (PowerManager)oldUserFashion;
-
-            PowerManager totalDelta = new PowerManager();
-            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
-            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
-
-            if (totalDelta.HasAnyPositiveStat())
-            {
-                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-                PowerManager updatedPower = currentPower + totalDelta;
-                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-                return new InsertOrUpdateResult<bool>
-                {
-                    Data = true,
-                    OperationType = DatabaseOperationType.Inserted,
-                    IsChangePower = true,
-                    Message = MessageConstants.INSERTED_SUCCESSFULLY
-                };
-            }
         }
 
         return insertOrUpdateResult.OperationType switch
@@ -220,8 +148,6 @@ public class UserFashionsService : IUserFashionsService
             };
         }
 
-        Fashions oldUserFashion = await _userFashionsRepository.SumPowerUserFashionsAsync(userId);
-
         var updateResult = await _userFashionsRepository.UpdateUserFashionLevelAsync(
             userId,
             fashion,
@@ -235,24 +161,6 @@ public class UserFashionsService : IUserFashionsService
                 OperationType = DatabaseOperationType.None,
                 IsChangePower = false,
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
-            };
-        }
-
-        Fashions newUserFashion = await _userFashionsRepository.SumPowerUserFashionsAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserFashion - (PowerManager)oldUserFashion;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
             };
         }
 
@@ -279,8 +187,6 @@ public class UserFashionsService : IUserFashionsService
             };
         }
 
-        Fashions oldUserFashion = await _userFashionsRepository.SumPowerUserFashionsAsync(userId);
-
         var updateResult = await _userFashionsRepository.UpdateUserFashionStarAsync(userId, fashion);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -295,24 +201,6 @@ public class UserFashionsService : IUserFashionsService
         }
 
         await _fashionsGalleryService.UpdateTempStarFashionGalleryAsync(userId, fashion.Id, fashion.Star);
-
-        Fashions newUserFashion = await _userFashionsRepository.SumPowerUserFashionsAsync(userId);
-        PowerManager deltaUserPower = (PowerManager)newUserFashion - (PowerManager)oldUserFashion;
-
-        if (deltaUserPower.HasAnyPositiveStat())
-        {
-            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-            PowerManager updatedPower = currentPower + deltaUserPower;
-            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = true,
-                OperationType = DatabaseOperationType.Updated,
-                IsChangePower = true,
-                Message = MessageConstants.UPDATED_SUCCESSFULLY
-            };
-        }
 
         return new InsertOrUpdateResult<bool>
         {

@@ -6,16 +6,13 @@ public class CoresGalleryService : ICoresGalleryService
 {
     private readonly ICoresGalleryRepository _coresGalleryRepository;
     private readonly ICoresService _coresService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public CoresGalleryService(
         ICoresGalleryRepository coresGalleryRepository,
-        ICoresService coresService,
-        IPowerManagerService powerManagerService)
+        ICoresService coresService)
     {
         _coresGalleryRepository = coresGalleryRepository;
         _coresService = coresService;
-        _powerManagerService = powerManagerService;
     }
 
     public static ICoresGalleryService Create() => ServiceContainer.GetService<ICoresGalleryService>();
@@ -94,12 +91,6 @@ public class CoresGalleryService : ICoresGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Cores coreGallery = await GetCoreCollectionByIdAsync(userId, coreId) ?? new Cores();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)coreGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class CoresGalleryService : ICoresGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusCoresGalleryAsync(string userId)
     {
-        Cores oldCore = await SumPowerCoresGalleryAsync(userId);
-
         var updateResult = await _coresGalleryRepository.UpdateBatchStatusCoresGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -126,25 +115,6 @@ public class CoresGalleryService : ICoresGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Cores newCore = await SumPowerCoresGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCore - (PowerManager)oldCore;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class CoresGalleryService : ICoresGalleryService
             };
         }
 
-        Cores oldCore = await GetCoreCollectionByIdAsync(userId, coreId) ?? new Cores();
-
         var updateResult = await _coresGalleryRepository.UpdateCurrentStarCoreGalleryAsync(userId, coreId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -223,25 +191,6 @@ public class CoresGalleryService : ICoresGalleryService
             };
         }
 
-        Cores newCore = await GetCoreCollectionByIdAsync(userId, coreId) ?? new Cores();
-        PowerManager deltaPower = (PowerManager)newCore - (PowerManager)oldCore;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -252,8 +201,6 @@ public class CoresGalleryService : ICoresGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarCoresGalleryAsync(string userId)
     {
-        Cores oldCore = await SumPowerCoresGalleryAsync(userId);
-
         var updateResult = await _coresGalleryRepository.UpdateBatchCurrentStarCoresGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -269,25 +216,6 @@ public class CoresGalleryService : ICoresGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Cores newCore = await SumPowerCoresGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCore - (PowerManager)oldCore;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

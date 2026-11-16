@@ -6,16 +6,13 @@ public class ArtifactsGalleryService : IArtifactsGalleryService
 {
     private readonly IArtifactsGalleryRepository _artifactsGalleryRepository;
     private readonly IArtifactsService _artifactsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public ArtifactsGalleryService(
         IArtifactsGalleryRepository artifactsGalleryRepository,
-        IArtifactsService artifactsService,
-        IPowerManagerService powerManagerService)
+        IArtifactsService artifactsService)
     {
         _artifactsGalleryRepository = artifactsGalleryRepository;
         _artifactsService = artifactsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IArtifactsGalleryService Create() => ServiceContainer.GetService<IArtifactsGalleryService>();
@@ -94,12 +91,6 @@ public class ArtifactsGalleryService : IArtifactsGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Artifacts artifactGallery = await GetArtifactCollectionByIdAsync(userId, artifactId) ?? new Artifacts();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)artifactGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class ArtifactsGalleryService : IArtifactsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusArtifactsGalleryAsync(string userId)
     {
-        Artifacts oldArtifact = await SumPowerArtifactsGalleryAsync(userId);
-
         var updateResult = await _artifactsGalleryRepository.UpdateBatchStatusArtifactsGalleryAsync(userId);
 
         if (updateResult == null || 
@@ -126,25 +115,6 @@ public class ArtifactsGalleryService : IArtifactsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Artifacts newArtifact = await SumPowerArtifactsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newArtifact - (PowerManager)oldArtifact;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class ArtifactsGalleryService : IArtifactsGalleryService
             };
         }
 
-        Artifacts oldArtifact = await GetArtifactCollectionByIdAsync(userId, artifactId) ?? new Artifacts();
-
         var updateResult = await _artifactsGalleryRepository.UpdateCurrentStarArtifactGalleryAsync(userId, artifactId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -223,25 +191,6 @@ public class ArtifactsGalleryService : IArtifactsGalleryService
             };
         }
 
-        Artifacts newArtifact = await GetArtifactCollectionByIdAsync(userId, artifactId) ?? new Artifacts();
-        PowerManager deltaPower = (PowerManager)newArtifact - (PowerManager)oldArtifact;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -252,8 +201,6 @@ public class ArtifactsGalleryService : IArtifactsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarArtifactsGalleryAsync(string userId)
     {
-        Artifacts oldArtifact = await SumPowerArtifactsGalleryAsync(userId);
-
         var updateResult = await _artifactsGalleryRepository.UpdateBatchCurrentStarArtifactsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -269,25 +216,6 @@ public class ArtifactsGalleryService : IArtifactsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Artifacts newArtifact = await SumPowerArtifactsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newArtifact - (PowerManager)oldArtifact;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

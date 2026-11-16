@@ -6,16 +6,13 @@ public class BooksGalleryService : IBooksGalleryService
 {
     private readonly IBooksGalleryRepository _booksGalleryRepository;
     private readonly IBooksService _booksService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public BooksGalleryService(
         IBooksGalleryRepository booksGalleryRepository,
-        IBooksService booksService,
-        IPowerManagerService powerManagerService)
+        IBooksService booksService)
     {
         _booksGalleryRepository = booksGalleryRepository;
         _booksService = booksService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IBooksGalleryService Create() => ServiceContainer.GetService<IBooksGalleryService>();
@@ -94,12 +91,6 @@ public class BooksGalleryService : IBooksGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Books bookGallery = await GetBookCollectionByIdAsync(userId, bookId) ?? new Books();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)bookGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class BooksGalleryService : IBooksGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusBooksGalleryAsync(string userId)
     {
-        Books oldBook = await SumPowerBooksGalleryAsync(userId);
-
         var updateResult = await _booksGalleryRepository.UpdateBatchStatusBooksGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -126,25 +115,6 @@ public class BooksGalleryService : IBooksGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Books newBook = await SumPowerBooksGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newBook - (PowerManager)oldBook;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class BooksGalleryService : IBooksGalleryService
             };
         }
 
-        Books oldBook = await GetBookCollectionByIdAsync(userId, bookId) ?? new Books();
-
         var updateResult = await _booksGalleryRepository.UpdateCurrentStarBookGalleryAsync(userId, bookId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -223,25 +191,6 @@ public class BooksGalleryService : IBooksGalleryService
             };
         }
 
-        Books newBook = await GetBookCollectionByIdAsync(userId, bookId) ?? new Books();
-        PowerManager deltaPower = (PowerManager)newBook - (PowerManager)oldBook;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -252,8 +201,6 @@ public class BooksGalleryService : IBooksGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarBooksGalleryAsync(string userId)
     {
-        Books oldBook = await SumPowerBooksGalleryAsync(userId);
-
         var updateResult = await _booksGalleryRepository.UpdateBatchCurrentStarBooksGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -269,25 +216,6 @@ public class BooksGalleryService : IBooksGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Books newBook = await SumPowerBooksGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newBook - (PowerManager)oldBook;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

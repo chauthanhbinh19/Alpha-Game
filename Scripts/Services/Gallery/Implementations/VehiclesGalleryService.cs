@@ -6,16 +6,13 @@ public class VehiclesGalleryService : IVehiclesGalleryService
 {
     private readonly IVehiclesGalleryRepository _vehiclesGalleryRepository;
     private readonly IVehiclesService _vehiclesService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public VehiclesGalleryService(
         IVehiclesGalleryRepository vehiclesGalleryRepository,
-        IVehiclesService vehiclesService,
-        IPowerManagerService powerManagerService)
+        IVehiclesService vehiclesService)
     {
         _vehiclesGalleryRepository = vehiclesGalleryRepository;
         _vehiclesService = vehiclesService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IVehiclesGalleryService Create() => ServiceContainer.GetService<IVehiclesGalleryService>();
@@ -94,12 +91,6 @@ public class VehiclesGalleryService : IVehiclesGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Vehicles vehicleGallery = await GetVehicleCollectionByIdAsync(userId, vehicleId) ?? new Vehicles();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)vehicleGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class VehiclesGalleryService : IVehiclesGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusVehiclesGalleryAsync(string userId)
     {
-        Vehicles oldVehicle = await SumPowerVehiclesGalleryAsync(userId);
-
         var updateResult = await _vehiclesGalleryRepository.UpdateBatchStatusVehiclesGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -126,25 +115,6 @@ public class VehiclesGalleryService : IVehiclesGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Vehicles newVehicle = await SumPowerVehiclesGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newVehicle - (PowerManager)oldVehicle;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class VehiclesGalleryService : IVehiclesGalleryService
             };
         }
 
-        Vehicles oldVehicle = await GetVehicleCollectionByIdAsync(userId, vehicleId) ?? new Vehicles();
-
         var updateResult = await _vehiclesGalleryRepository.UpdateCurrentStarVehicleGalleryAsync(userId, vehicleId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -223,25 +191,6 @@ public class VehiclesGalleryService : IVehiclesGalleryService
             };
         }
 
-        Vehicles newVehicle = await GetVehicleCollectionByIdAsync(userId, vehicleId) ?? new Vehicles();
-        PowerManager deltaPower = (PowerManager)newVehicle - (PowerManager)oldVehicle;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -252,8 +201,6 @@ public class VehiclesGalleryService : IVehiclesGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarVehiclesGalleryAsync(string userId)
     {
-        Vehicles oldVehicle = await SumPowerVehiclesGalleryAsync(userId);
-
         var updateResult = await _vehiclesGalleryRepository.UpdateBatchCurrentStarVehiclesGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -269,25 +216,6 @@ public class VehiclesGalleryService : IVehiclesGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Vehicles newVehicle = await SumPowerVehiclesGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newVehicle - (PowerManager)oldVehicle;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

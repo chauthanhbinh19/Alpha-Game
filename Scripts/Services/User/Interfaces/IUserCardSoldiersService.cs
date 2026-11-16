@@ -6,10 +6,10 @@ public interface IUserCardSoldiersService
     Task<List<CardSoldiers>> GetAllEquipmentPowerAsync(string userId, List<CardSoldiers> cardSoldierList);
     Task<List<CardSoldiers>> GetAllRankPowerAsync(string userId, List<CardSoldiers> cardSoldierList);
     Task<List<CardSoldiers>> GetAllMasterPowerAsync(string userId, List<CardSoldiers> cardSoldierList);
-    Task<List<CardSoldiers>> GetUserCardSoldiersAsync(string userId, string search, string type, int pageSize, int offset, string rare, UserStatsContextDTO sharedContext = null);
-    Task<List<CardSoldiers>> GetUserCardSoldiersTeamAsync(string userId, string teamId, string position, UserStatsContextDTO sharedContext = null);
-    Task<List<CardSoldiers>> GetUserCardSoldiersTeamWithoutPositionAsync(string userId, string teamId, UserStatsContextDTO sharedContext = null);
-    Task<List<CardSoldiers>> GetUserCardSoldiersInTeamAsync(string userId, UserStatsContextDTO sharedContext = null);
+    Task<List<CardSoldiers>> GetUserCardSoldiersAsync(string userId, string search, string type, int pageSize, int offset, string rare);
+    Task<List<CardSoldiers>> GetUserCardSoldiersTeamAsync(string userId, string teamId, string position);
+    Task<List<CardSoldiers>> GetUserCardSoldiersTeamWithoutPositionAsync(string userId, string teamId);
+    Task<List<CardSoldiers>> GetUserCardSoldiersInTeamAsync(string userId);
     Task<List<CardSoldiers>> GetUserCardSoldiersInTeamSimpleAsync(string userId, string teamId);
     Task<Dictionary<string, int>> GetUniqueUserCardSoldiersTypesTeamAsync(string userId, string teamId);
     Task<InsertOrUpdateResult<bool>> UpdateTeamUserCardSoldierAsync(string userId, string teamId, string position, string cardId);
@@ -21,6 +21,6 @@ public interface IUserCardSoldiersService
     Task<InsertOrUpdateResult<bool>> UpdateUserCardSoldierLevelAsync(string userId, CardSoldiers cardSoldier, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardSoldierStarAsync(string userId, CardSoldiers cardSoldier);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardSoldierQuantityAsync(string userId, CardSoldiers cardSoldier, List<RecipeItemDetailDTO> totalDeductions);
-    Task<CardSoldiers> GetUserCardSoldierByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null);
-    Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null);
+    Task<CardSoldiers> GetUserCardSoldierByIdAsync(string userId, string Id);
+    Task<BaseStats> GetTeamTotalStatsAsync(string userId);
 }

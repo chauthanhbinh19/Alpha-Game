@@ -6,16 +6,13 @@ public class AlchemiesGalleryService : IAlchemiesGalleryService
 {
     private readonly IAlchemiesGalleryRepository _alchemiesGalleryRepository;
     private readonly IAlchemiesService _alchemiesService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public AlchemiesGalleryService(
         IAlchemiesGalleryRepository alchemiesGalleryRepository, 
-        IAlchemiesService alchemiesService,
-        IPowerManagerService powerManagerService)
+        IAlchemiesService alchemiesService)
     {
         _alchemiesGalleryRepository = alchemiesGalleryRepository;
         _alchemiesService = alchemiesService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IAlchemiesGalleryService Create() => ServiceContainer.GetService<IAlchemiesGalleryService>();
@@ -94,12 +91,6 @@ public class AlchemiesGalleryService : IAlchemiesGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Alchemies alchemyGallery = await GetAlchemyCollectionByIdAsync(userId, alchemyId) ?? new Alchemies();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)alchemyGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class AlchemiesGalleryService : IAlchemiesGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusAlchemiesGalleryAsync(string userId)
     {
-        Alchemies oldAlchemy = await SumPowerAlchemiesGalleryAsync(userId);
-
         var updateResult = await _alchemiesGalleryRepository.UpdateBatchStatusAlchemiesGalleryAsync(userId);
 
         if (updateResult == null || 
@@ -126,25 +115,6 @@ public class AlchemiesGalleryService : IAlchemiesGalleryService
                 Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
             };
         }
-
-        Alchemies newAlchemy = await SumPowerAlchemiesGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newAlchemy - (PowerManager)oldAlchemy;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class AlchemiesGalleryService : IAlchemiesGalleryService
             };
         }
 
-        Alchemies oldAlchemy = await GetAlchemyCollectionByIdAsync(userId, alchemyId) ?? new Alchemies();
-
         var updateResult = await _alchemiesGalleryRepository.UpdateCurrentStarAlchemyGalleryAsync(userId, alchemyId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -223,25 +191,6 @@ public class AlchemiesGalleryService : IAlchemiesGalleryService
             };
         }
 
-        Alchemies newAlchemy = await GetAlchemyCollectionByIdAsync(userId, alchemyId) ?? new Alchemies();
-        PowerManager deltaPower = (PowerManager)newAlchemy - (PowerManager)oldAlchemy;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -252,8 +201,6 @@ public class AlchemiesGalleryService : IAlchemiesGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarAlchemiesGalleryAsync(string userId)
     {
-        Alchemies oldAlchemy = await SumPowerAlchemiesGalleryAsync(userId);
-
         var updateResult = await _alchemiesGalleryRepository.UpdateBatchCurrentStarAlchemiesGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -269,25 +216,6 @@ public class AlchemiesGalleryService : IAlchemiesGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Alchemies newAlchemy = await SumPowerAlchemiesGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newAlchemy - (PowerManager)oldAlchemy;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,

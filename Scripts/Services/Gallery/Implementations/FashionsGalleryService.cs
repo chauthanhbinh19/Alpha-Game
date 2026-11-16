@@ -6,16 +6,13 @@ public class FashionsGalleryService : IFashionsGalleryService
 {
     private readonly IFashionsGalleryRepository _fashionsGalleryRepository;
     private readonly IFashionsService _fashionsService;
-    private readonly IPowerManagerService _powerManagerService;
 
     public FashionsGalleryService(
         IFashionsGalleryRepository fashionsGalleryRepository,
-        IFashionsService fashionsService,
-        IPowerManagerService powerManagerService)
+        IFashionsService fashionsService)
     {
         _fashionsGalleryRepository = fashionsGalleryRepository;
         _fashionsService = fashionsService;
-        _powerManagerService = powerManagerService;
     }
 
     public static IFashionsGalleryService Create() => ServiceContainer.GetService<IFashionsGalleryService>();
@@ -94,12 +91,6 @@ public class FashionsGalleryService : IFashionsGalleryService
             };
         }
 
-        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
-        Fashions fashionGallery = await GetFashionCollectionByIdAsync(userId, fashionId) ?? new Fashions();
-        PowerManager newPowerManager = oldPowerManager + (PowerManager)fashionGallery;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -110,8 +101,6 @@ public class FashionsGalleryService : IFashionsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchStatusFashionsGalleryAsync(string userId)
     {
-        Fashions oldFashion = await SumPowerFashionsGalleryAsync(userId);
-
         var updateResult = await _fashionsGalleryRepository.UpdateBatchStatusFashionsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -126,25 +115,6 @@ public class FashionsGalleryService : IFashionsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Fashions newFashion = await SumPowerFashionsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newFashion - (PowerManager)oldFashion;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
@@ -208,8 +178,6 @@ public class FashionsGalleryService : IFashionsGalleryService
             };
         }
 
-        Fashions oldFashion = await GetFashionCollectionByIdAsync(userId, fashionId) ?? new Fashions();
-
         var updateResult = await _fashionsGalleryRepository.UpdateCurrentStarFashionGalleryAsync(userId, fashionId);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
@@ -223,25 +191,6 @@ public class FashionsGalleryService : IFashionsGalleryService
             };
         }
 
-        Fashions newFashion = await GetFashionCollectionByIdAsync(userId, fashionId) ?? new Fashions();
-        PowerManager deltaPower = (PowerManager)newFashion - (PowerManager)oldFashion;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
         return new InsertOrUpdateResult<bool>{
             Data = true,
             OperationType = DatabaseOperationType.Updated,
@@ -252,8 +201,6 @@ public class FashionsGalleryService : IFashionsGalleryService
 
     public async Task<InsertOrUpdateResult<bool>> UpdateBatchCurrentStarFashionsGalleryAsync(string userId)
     {
-        Fashions oldFashion = await SumPowerFashionsGalleryAsync(userId);
-
         var updateResult = await _fashionsGalleryRepository.UpdateBatchCurrentStarFashionsGalleryAsync(userId);
 
         if (updateResult == null ||
@@ -269,25 +216,6 @@ public class FashionsGalleryService : IFashionsGalleryService
                 Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
-        Fashions newFashion = await SumPowerFashionsGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newFashion - (PowerManager)oldFashion;
-
-        if (deltaPower.Power == 0)
-        {
-            return new InsertOrUpdateResult<bool>
-            {
-                Data = false,
-                OperationType = DatabaseOperationType.None,
-                IsChangePower =false,
-                Message = MessageConstants.POWER_UNCHANGED_NO_UPDATE_NEEDED
-            };
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return new InsertOrUpdateResult<bool>{
             Data = true,
