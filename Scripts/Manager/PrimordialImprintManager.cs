@@ -53,16 +53,16 @@ public class PrimordialImprintManager : MonoBehaviour
         TextMeshProUGUI titleText2 = transform.Find("PrimordialImprintContent/TitleText").GetComponent<TextMeshProUGUI>();
         titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.PRIMORDIAL_IMPRINT);
 
-        CreatePrimordialImprintButtonUI(1, AppDisplayConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_I, TextureHelper.LoadTexture2DCached(ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_I_URL), contentPanel);
-        CreatePrimordialImprintButtonUI(2, AppDisplayConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_II, TextureHelper.LoadTexture2DCached(ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_II_URL), contentPanel);
-        CreatePrimordialImprintButtonUI(3, AppDisplayConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_III, TextureHelper.LoadTexture2DCached(ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_III_URL), contentPanel);
-        CreatePrimordialImprintButtonUI(4, AppDisplayConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_IV, TextureHelper.LoadTexture2DCached(ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_IV_URL), contentPanel);
-        CreatePrimordialImprintButtonUI(5, AppDisplayConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_V, TextureHelper.LoadTexture2DCached(ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_V_URL), contentPanel);
-        CreatePrimordialImprintButtonUI(6, AppDisplayConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_VI, TextureHelper.LoadTexture2DCached(ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_VI_URL), contentPanel);
-        CreatePrimordialImprintButtonUI(7, AppDisplayConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_VII, TextureHelper.LoadTexture2DCached(ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_VII_URL), contentPanel);
-        CreatePrimordialImprintButtonUI(8, AppDisplayConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_VIII_URL), contentPanel);
-        CreatePrimordialImprintButtonUI(9, AppDisplayConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_IX, TextureHelper.LoadTexture2DCached(ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_IX_URL), contentPanel);
-        CreatePrimordialImprintButtonUI(10, AppDisplayConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_X, TextureHelper.LoadTexture2DCached(ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_X_URL), contentPanel);
+        CreatePrimordialImprintButtonUI(1, AppDisplayConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_I, TextureHelper.LoadTexture2DCached(ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_ICON_I_URL), contentPanel);
+        CreatePrimordialImprintButtonUI(2, AppDisplayConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_II, TextureHelper.LoadTexture2DCached(ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_ICON_II_URL), contentPanel);
+        CreatePrimordialImprintButtonUI(3, AppDisplayConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_III, TextureHelper.LoadTexture2DCached(ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_ICON_III_URL), contentPanel);
+        CreatePrimordialImprintButtonUI(4, AppDisplayConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_IV, TextureHelper.LoadTexture2DCached(ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_ICON_IV_URL), contentPanel);
+        CreatePrimordialImprintButtonUI(5, AppDisplayConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_V, TextureHelper.LoadTexture2DCached(ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_ICON_V_URL), contentPanel);
+        CreatePrimordialImprintButtonUI(6, AppDisplayConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_VI, TextureHelper.LoadTexture2DCached(ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_ICON_VI_URL), contentPanel);
+        CreatePrimordialImprintButtonUI(7, AppDisplayConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_VII, TextureHelper.LoadTexture2DCached(ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_ICON_VII_URL), contentPanel);
+        CreatePrimordialImprintButtonUI(8, AppDisplayConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_ICON_VIII_URL), contentPanel);
+        CreatePrimordialImprintButtonUI(9, AppDisplayConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_IX, TextureHelper.LoadTexture2DCached(ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_ICON_IX_URL), contentPanel);
+        CreatePrimordialImprintButtonUI(10, AppDisplayConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_X, TextureHelper.LoadTexture2DCached(ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_ICON_X_URL), contentPanel);
 
         CreatePrimordialImprintButtonEvent(contentPanel);
     }
@@ -90,7 +90,8 @@ public class PrimordialImprintManager : MonoBehaviour
         RawImage borderImage = transform.Find("BorderCircleImage").GetComponent<RawImage>();
         if (borderImage != null)
         {
-            borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_BORDER_URL);
+            // borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.PrimordialImprint.PRIMORDIAL_IMPRINT_BORDER_URL);
+            borderImage.gameObject.SetActive(false);
         }
 
         RawImage iconImage = transform.Find("IconImage").GetComponent<RawImage>();

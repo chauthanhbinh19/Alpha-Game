@@ -53,16 +53,16 @@ public class SSWNManager : MonoBehaviour
         TextMeshProUGUI titleText2 = transform.Find("SSWNContent/TitleText").GetComponent<TextMeshProUGUI>();
         titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.SSWN);
 
-        CreateSSWNButtonUI(1, AppDisplayConstants.SSWN.SSWN_I, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_I_URL), contentPanel);
-        CreateSSWNButtonUI(2, AppDisplayConstants.SSWN.SSWN_II, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_II_URL), contentPanel);
-        CreateSSWNButtonUI(3, AppDisplayConstants.SSWN.SSWN_III, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_III_URL), contentPanel);
-        CreateSSWNButtonUI(4, AppDisplayConstants.SSWN.SSWN_IV, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_IV_URL), contentPanel);
-        CreateSSWNButtonUI(5, AppDisplayConstants.SSWN.SSWN_V, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_V_URL), contentPanel);
-        CreateSSWNButtonUI(6, AppDisplayConstants.SSWN.SSWN_VI, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_VI_URL), contentPanel);
-        CreateSSWNButtonUI(7, AppDisplayConstants.SSWN.SSWN_VII, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_VII_URL), contentPanel);
-        CreateSSWNButtonUI(8, AppDisplayConstants.SSWN.SSWN_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_VIII_URL), contentPanel);
-        CreateSSWNButtonUI(9, AppDisplayConstants.SSWN.SSWN_IX, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_IX_URL), contentPanel);
-        CreateSSWNButtonUI(10, AppDisplayConstants.SSWN.SSWN_X, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_X_URL), contentPanel);
+        CreateSSWNButtonUI(1, AppDisplayConstants.SSWN.SSWN_I, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_ICON_I_URL), contentPanel);
+        CreateSSWNButtonUI(2, AppDisplayConstants.SSWN.SSWN_II, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_ICON_II_URL), contentPanel);
+        CreateSSWNButtonUI(3, AppDisplayConstants.SSWN.SSWN_III, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_ICON_III_URL), contentPanel);
+        CreateSSWNButtonUI(4, AppDisplayConstants.SSWN.SSWN_IV, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_ICON_IV_URL), contentPanel);
+        CreateSSWNButtonUI(5, AppDisplayConstants.SSWN.SSWN_V, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_ICON_V_URL), contentPanel);
+        CreateSSWNButtonUI(6, AppDisplayConstants.SSWN.SSWN_VI, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_ICON_VI_URL), contentPanel);
+        CreateSSWNButtonUI(7, AppDisplayConstants.SSWN.SSWN_VII, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_ICON_VII_URL), contentPanel);
+        CreateSSWNButtonUI(8, AppDisplayConstants.SSWN.SSWN_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_ICON_VIII_URL), contentPanel);
+        CreateSSWNButtonUI(9, AppDisplayConstants.SSWN.SSWN_IX, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_ICON_IX_URL), contentPanel);
+        CreateSSWNButtonUI(10, AppDisplayConstants.SSWN.SSWN_X, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_ICON_X_URL), contentPanel);
 
         CreateSSWNButtonEvent(contentPanel);
     }
@@ -90,7 +90,8 @@ public class SSWNManager : MonoBehaviour
         RawImage borderImage = transform.Find("BorderCircleImage").GetComponent<RawImage>();
         if (borderImage != null)
         {
-            borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_BORDER_URL);
+            // borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_BORDER_URL);
+            borderImage.gameObject.SetActive(false);
         }
 
         RawImage iconImage = transform.Find("IconImage").GetComponent<RawImage>();

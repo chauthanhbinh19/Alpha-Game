@@ -53,16 +53,16 @@ public class HIENManager : MonoBehaviour
         TextMeshProUGUI titleText2 = transform.Find("HIENContent/TitleText").GetComponent<TextMeshProUGUI>();
         titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.HIEN);
 
-        CreateHIENButtonUI(1, AppDisplayConstants.HIEN.HIEN_I, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_I_URL), contentPanel);
-        CreateHIENButtonUI(2, AppDisplayConstants.HIEN.HIEN_II, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_II_URL), contentPanel);
-        CreateHIENButtonUI(3, AppDisplayConstants.HIEN.HIEN_III, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_III_URL), contentPanel);
-        CreateHIENButtonUI(4, AppDisplayConstants.HIEN.HIEN_IV, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_IV_URL), contentPanel);
-        CreateHIENButtonUI(5, AppDisplayConstants.HIEN.HIEN_V, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_V_URL), contentPanel);
-        CreateHIENButtonUI(6, AppDisplayConstants.HIEN.HIEN_VI, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_VI_URL), contentPanel);
-        CreateHIENButtonUI(7, AppDisplayConstants.HIEN.HIEN_VII, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_VII_URL), contentPanel);
-        CreateHIENButtonUI(8, AppDisplayConstants.HIEN.HIEN_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_VIII_URL), contentPanel);
-        CreateHIENButtonUI(9, AppDisplayConstants.HIEN.HIEN_IX, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_IX_URL), contentPanel);
-        CreateHIENButtonUI(10, AppDisplayConstants.HIEN.HIEN_X, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_X_URL), contentPanel);
+        CreateHIENButtonUI(1, AppDisplayConstants.HIEN.HIEN_I, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_ICON_I_URL), contentPanel);
+        CreateHIENButtonUI(2, AppDisplayConstants.HIEN.HIEN_II, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_ICON_II_URL), contentPanel);
+        CreateHIENButtonUI(3, AppDisplayConstants.HIEN.HIEN_III, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_ICON_III_URL), contentPanel);
+        CreateHIENButtonUI(4, AppDisplayConstants.HIEN.HIEN_IV, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_ICON_IV_URL), contentPanel);
+        CreateHIENButtonUI(5, AppDisplayConstants.HIEN.HIEN_V, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_ICON_V_URL), contentPanel);
+        CreateHIENButtonUI(6, AppDisplayConstants.HIEN.HIEN_VI, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_ICON_VI_URL), contentPanel);
+        CreateHIENButtonUI(7, AppDisplayConstants.HIEN.HIEN_VII, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_ICON_VII_URL), contentPanel);
+        CreateHIENButtonUI(8, AppDisplayConstants.HIEN.HIEN_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_ICON_VIII_URL), contentPanel);
+        CreateHIENButtonUI(9, AppDisplayConstants.HIEN.HIEN_IX, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_ICON_IX_URL), contentPanel);
+        CreateHIENButtonUI(10, AppDisplayConstants.HIEN.HIEN_X, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_ICON_X_URL), contentPanel);
 
         CreateHIENButtonEvent(contentPanel);
     }
@@ -90,7 +90,8 @@ public class HIENManager : MonoBehaviour
         RawImage borderImage = transform.Find("BorderCircleImage").GetComponent<RawImage>();
         if (borderImage != null)
         {
-            borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_BORDER_URL);
+            // borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_BORDER_URL);
+            borderImage.gameObject.SetActive(false);
         }
 
         RawImage iconImage = transform.Find("IconImage").GetComponent<RawImage>();

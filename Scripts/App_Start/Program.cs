@@ -71,7 +71,6 @@ public class Program : MonoBehaviour
         ServiceContainer.RegisterInstance<IPatternsRepository>(new PatternsRepository());
         ServiceContainer.RegisterInstance<IPetsRepository>(new PetsRepository());
         ServiceContainer.RegisterInstance<IPlantsRepository>(new PlantsRepository());
-        ServiceContainer.RegisterInstance<IPowerManagerRepository>(new PowerManagerRepository());
         ServiceContainer.RegisterInstance<IPuppetsRepository>(new PuppetsRepository());
         ServiceContainer.RegisterInstance<IRanksRepository>(new RanksRepository());
         ServiceContainer.RegisterInstance<IRecipeRepository>(new RecipeRepository());
@@ -328,7 +327,6 @@ public class Program : MonoBehaviour
         ServiceContainer.RegisterSingleton<IPatternsService, PatternsService>();
         ServiceContainer.RegisterSingleton<IPetsService, PetsService>();
         ServiceContainer.RegisterSingleton<IPlantsService, PlantsService>();
-        ServiceContainer.RegisterSingleton<IPowerManagerService, PowerManagerService>();
         ServiceContainer.RegisterSingleton<IPuppetsService, PuppetsService>();
         ServiceContainer.RegisterSingleton<IRanksService, RanksService>();
         ServiceContainer.RegisterSingleton<IRecipeService, RecipeService>();

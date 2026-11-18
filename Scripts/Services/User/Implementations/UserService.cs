@@ -18,7 +18,6 @@ public class UserService : IUserService
     private readonly IBordersGalleryService _bordersGalleryService;
     private readonly IUserCurrenciesService _userCurrenciesService;
     private readonly IUserItemsService _userItemsService;
-    private readonly IPowerManagerService _powerManagerService;
     private readonly IUserSettingsService _userSettingsService;
     private readonly IUserDailyCheckinService _userDailyCheckinService;
 
@@ -30,7 +29,6 @@ public class UserService : IUserService
     IBordersGalleryService bordersGalleryService,
     IUserCurrenciesService userCurrenciesService,
     IUserItemsService userItemsService,
-    IPowerManagerService powerManagerService,
     IUserSettingsService userSettingsService,
     IUserDailyCheckinService userDailyCheckinService
 )
@@ -42,7 +40,6 @@ public class UserService : IUserService
         _bordersGalleryService = bordersGalleryService;
         _userCurrenciesService = userCurrenciesService;
         _userItemsService = userItemsService;
-        _powerManagerService = powerManagerService;
         _userSettingsService = userSettingsService;
         _userDailyCheckinService = userDailyCheckinService;
     }
@@ -132,8 +129,7 @@ public class UserService : IUserService
             await _userAvatarsService.InsertUserAvatarByIdAsync("AT1", userId);
             await _userAvatarsService.UpdateIsUsedUserAvatarAsync("AT1", userId, true);
 
-            // Stats & Settings
-            await _powerManagerService.InsertUserStatsAsync(userId);
+            // Settings
             await _userSettingsService.CreateInitiateUserSettingsAsync(userId);
 
             // Khởi tạo vé mặc định

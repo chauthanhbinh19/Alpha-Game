@@ -53,16 +53,16 @@ public class HICBManager : MonoBehaviour
         TextMeshProUGUI titleText2 = transform.Find("HICBContent/TitleText").GetComponent<TextMeshProUGUI>();
         titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.HICB);
 
-        CreateHICBButtonUI(1, AppDisplayConstants.HICB.HICB_I, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_I_URL), contentPanel);
-        CreateHICBButtonUI(2, AppDisplayConstants.HICB.HICB_II, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_II_URL), contentPanel);
-        CreateHICBButtonUI(3, AppDisplayConstants.HICB.HICB_III, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_III_URL), contentPanel);
-        CreateHICBButtonUI(4, AppDisplayConstants.HICB.HICB_IV, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_IV_URL), contentPanel);
-        CreateHICBButtonUI(5, AppDisplayConstants.HICB.HICB_V, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_V_URL), contentPanel);
-        CreateHICBButtonUI(6, AppDisplayConstants.HICB.HICB_VI, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_VI_URL), contentPanel);
-        CreateHICBButtonUI(7, AppDisplayConstants.HICB.HICB_VII, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_VII_URL), contentPanel);
-        CreateHICBButtonUI(8, AppDisplayConstants.HICB.HICB_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_VIII_URL), contentPanel);
-        CreateHICBButtonUI(9, AppDisplayConstants.HICB.HICB_IX, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_IX_URL), contentPanel);
-        CreateHICBButtonUI(10, AppDisplayConstants.HICB.HICB_X, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_X_URL), contentPanel);
+        CreateHICBButtonUI(1, AppDisplayConstants.HICB.HICB_I, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_ICON_I_URL), contentPanel);
+        CreateHICBButtonUI(2, AppDisplayConstants.HICB.HICB_II, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_ICON_II_URL), contentPanel);
+        CreateHICBButtonUI(3, AppDisplayConstants.HICB.HICB_III, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_ICON_III_URL), contentPanel);
+        CreateHICBButtonUI(4, AppDisplayConstants.HICB.HICB_IV, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_ICON_IV_URL), contentPanel);
+        CreateHICBButtonUI(5, AppDisplayConstants.HICB.HICB_V, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_ICON_V_URL), contentPanel);
+        CreateHICBButtonUI(6, AppDisplayConstants.HICB.HICB_VI, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_ICON_VI_URL), contentPanel);
+        CreateHICBButtonUI(7, AppDisplayConstants.HICB.HICB_VII, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_ICON_VII_URL), contentPanel);
+        CreateHICBButtonUI(8, AppDisplayConstants.HICB.HICB_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_ICON_VIII_URL), contentPanel);
+        CreateHICBButtonUI(9, AppDisplayConstants.HICB.HICB_IX, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_ICON_IX_URL), contentPanel);
+        CreateHICBButtonUI(10, AppDisplayConstants.HICB.HICB_X, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_ICON_X_URL), contentPanel);
 
         CreateHICBButtonEvent(contentPanel);
     }
@@ -90,7 +90,8 @@ public class HICBManager : MonoBehaviour
         RawImage borderImage = transform.Find("BorderCircleImage").GetComponent<RawImage>();
         if (borderImage != null)
         {
-            borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_BORDER_URL);
+            // borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_BORDER_URL);
+            borderImage.gameObject.SetActive(false);
         }
 
         RawImage iconImage = transform.Find("IconImage").GetComponent<RawImage>();

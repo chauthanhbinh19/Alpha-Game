@@ -53,16 +53,16 @@ public class CosmicImprintManager : MonoBehaviour
         TextMeshProUGUI titleText2 = transform.Find("CosmicImprintContent/TitleText").GetComponent<TextMeshProUGUI>();
         titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.COSMIC_IMPRINT);
 
-        CreateCosmicImprintButtonUI(1, AppDisplayConstants.CosmicImprint.COSMIC_IMPRINT_I, TextureHelper.LoadTexture2DCached(ImageConstants.CosmicImprint.COSMIC_IMPRINT_I_URL), contentPanel);
-        CreateCosmicImprintButtonUI(2, AppDisplayConstants.CosmicImprint.COSMIC_IMPRINT_II, TextureHelper.LoadTexture2DCached(ImageConstants.CosmicImprint.COSMIC_IMPRINT_II_URL), contentPanel);
-        CreateCosmicImprintButtonUI(3, AppDisplayConstants.CosmicImprint.COSMIC_IMPRINT_III, TextureHelper.LoadTexture2DCached(ImageConstants.CosmicImprint.COSMIC_IMPRINT_III_URL), contentPanel);
-        CreateCosmicImprintButtonUI(4, AppDisplayConstants.CosmicImprint.COSMIC_IMPRINT_IV, TextureHelper.LoadTexture2DCached(ImageConstants.CosmicImprint.COSMIC_IMPRINT_IV_URL), contentPanel);
-        CreateCosmicImprintButtonUI(5, AppDisplayConstants.CosmicImprint.COSMIC_IMPRINT_V, TextureHelper.LoadTexture2DCached(ImageConstants.CosmicImprint.COSMIC_IMPRINT_V_URL), contentPanel);
-        CreateCosmicImprintButtonUI(6, AppDisplayConstants.CosmicImprint.COSMIC_IMPRINT_VI, TextureHelper.LoadTexture2DCached(ImageConstants.CosmicImprint.COSMIC_IMPRINT_VI_URL), contentPanel);
-        CreateCosmicImprintButtonUI(7, AppDisplayConstants.CosmicImprint.COSMIC_IMPRINT_VII, TextureHelper.LoadTexture2DCached(ImageConstants.CosmicImprint.COSMIC_IMPRINT_VII_URL), contentPanel);
-        CreateCosmicImprintButtonUI(8, AppDisplayConstants.CosmicImprint.COSMIC_IMPRINT_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.CosmicImprint.COSMIC_IMPRINT_VIII_URL), contentPanel);
-        CreateCosmicImprintButtonUI(9, AppDisplayConstants.CosmicImprint.COSMIC_IMPRINT_IX, TextureHelper.LoadTexture2DCached(ImageConstants.CosmicImprint.COSMIC_IMPRINT_IX_URL), contentPanel);
-        CreateCosmicImprintButtonUI(10, AppDisplayConstants.CosmicImprint.COSMIC_IMPRINT_X, TextureHelper.LoadTexture2DCached(ImageConstants.CosmicImprint.COSMIC_IMPRINT_X_URL), contentPanel);
+        CreateCosmicImprintButtonUI(1, AppDisplayConstants.CosmicImprint.COSMIC_IMPRINT_I, TextureHelper.LoadTexture2DCached(ImageConstants.CosmicImprint.COSMIC_IMPRINT_ICON_I_URL), contentPanel);
+        CreateCosmicImprintButtonUI(2, AppDisplayConstants.CosmicImprint.COSMIC_IMPRINT_II, TextureHelper.LoadTexture2DCached(ImageConstants.CosmicImprint.COSMIC_IMPRINT_ICON_II_URL), contentPanel);
+        CreateCosmicImprintButtonUI(3, AppDisplayConstants.CosmicImprint.COSMIC_IMPRINT_III, TextureHelper.LoadTexture2DCached(ImageConstants.CosmicImprint.COSMIC_IMPRINT_ICON_III_URL), contentPanel);
+        CreateCosmicImprintButtonUI(4, AppDisplayConstants.CosmicImprint.COSMIC_IMPRINT_IV, TextureHelper.LoadTexture2DCached(ImageConstants.CosmicImprint.COSMIC_IMPRINT_ICON_IV_URL), contentPanel);
+        CreateCosmicImprintButtonUI(5, AppDisplayConstants.CosmicImprint.COSMIC_IMPRINT_V, TextureHelper.LoadTexture2DCached(ImageConstants.CosmicImprint.COSMIC_IMPRINT_ICON_V_URL), contentPanel);
+        CreateCosmicImprintButtonUI(6, AppDisplayConstants.CosmicImprint.COSMIC_IMPRINT_VI, TextureHelper.LoadTexture2DCached(ImageConstants.CosmicImprint.COSMIC_IMPRINT_ICON_VI_URL), contentPanel);
+        CreateCosmicImprintButtonUI(7, AppDisplayConstants.CosmicImprint.COSMIC_IMPRINT_VII, TextureHelper.LoadTexture2DCached(ImageConstants.CosmicImprint.COSMIC_IMPRINT_ICON_VII_URL), contentPanel);
+        CreateCosmicImprintButtonUI(8, AppDisplayConstants.CosmicImprint.COSMIC_IMPRINT_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.CosmicImprint.COSMIC_IMPRINT_ICON_VIII_URL), contentPanel);
+        CreateCosmicImprintButtonUI(9, AppDisplayConstants.CosmicImprint.COSMIC_IMPRINT_IX, TextureHelper.LoadTexture2DCached(ImageConstants.CosmicImprint.COSMIC_IMPRINT_ICON_IX_URL), contentPanel);
+        CreateCosmicImprintButtonUI(10, AppDisplayConstants.CosmicImprint.COSMIC_IMPRINT_X, TextureHelper.LoadTexture2DCached(ImageConstants.CosmicImprint.COSMIC_IMPRINT_ICON_X_URL), contentPanel);
 
         CreateCosmicImprintButtonEvent(contentPanel);
     }
@@ -90,7 +90,8 @@ public class CosmicImprintManager : MonoBehaviour
         RawImage borderImage = transform.Find("BorderCircleImage").GetComponent<RawImage>();
         if (borderImage != null)
         {
-            borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.CosmicImprint.COSMIC_IMPRINT_BORDER_URL);
+            // borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.CosmicImprint.COSMIC_IMPRINT_BORDER_URL);
+            borderImage.gameObject.SetActive(false);
         }
 
         RawImage iconImage = transform.Find("IconImage").GetComponent<RawImage>();

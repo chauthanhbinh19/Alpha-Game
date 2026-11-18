@@ -53,45 +53,45 @@ public class ArchiveManager : MonoBehaviour
         TextMeshProUGUI titleText2 = transform.Find("ArchiveContent/TitleText").GetComponent<TextMeshProUGUI>();
         titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.ARCHIVE);
 
-        CreateArchiveButtonUI(1, AppDisplayConstants.Archive.ARCHIVE_I, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_I_URL), contentPanel);
-        CreateArchiveButtonUI(2, AppDisplayConstants.Archive.ARCHIVE_II, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_II_URL), contentPanel);
-        CreateArchiveButtonUI(3, AppDisplayConstants.Archive.ARCHIVE_III, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_III_URL), contentPanel);
-        CreateArchiveButtonUI(4, AppDisplayConstants.Archive.ARCHIVE_IV, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_IV_URL), contentPanel);
-        CreateArchiveButtonUI(5, AppDisplayConstants.Archive.ARCHIVE_V, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_V_URL), contentPanel);
-        CreateArchiveButtonUI(6, AppDisplayConstants.Archive.ARCHIVE_VI, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_VI_URL), contentPanel);
-        CreateArchiveButtonUI(7, AppDisplayConstants.Archive.ARCHIVE_VII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_VII_URL), contentPanel);
-        CreateArchiveButtonUI(8, AppDisplayConstants.Archive.ARCHIVE_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_VIII_URL), contentPanel);
-        CreateArchiveButtonUI(9, AppDisplayConstants.Archive.ARCHIVE_IX, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_IX_URL), contentPanel);
-        CreateArchiveButtonUI(10, AppDisplayConstants.Archive.ARCHIVE_X, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_X_URL), contentPanel);
-        CreateArchiveButtonUI(11, AppDisplayConstants.Archive.ARCHIVE_XI, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XI_URL), contentPanel);
-        CreateArchiveButtonUI(12, AppDisplayConstants.Archive.ARCHIVE_XII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XII_URL), contentPanel);
-        CreateArchiveButtonUI(13, AppDisplayConstants.Archive.ARCHIVE_XIII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XIII_URL), contentPanel);
-        CreateArchiveButtonUI(14, AppDisplayConstants.Archive.ARCHIVE_XIV, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XIV_URL), contentPanel);
-        CreateArchiveButtonUI(15, AppDisplayConstants.Archive.ARCHIVE_XV, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XV_URL), contentPanel);
-        CreateArchiveButtonUI(16, AppDisplayConstants.Archive.ARCHIVE_XVI, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XVI_URL), contentPanel);
-        CreateArchiveButtonUI(17, AppDisplayConstants.Archive.ARCHIVE_XVII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XVII_URL), contentPanel);
-        CreateArchiveButtonUI(18, AppDisplayConstants.Archive.ARCHIVE_XVIII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XVIII_URL), contentPanel);
-        CreateArchiveButtonUI(19, AppDisplayConstants.Archive.ARCHIVE_XIX, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XIX_URL), contentPanel);
-        CreateArchiveButtonUI(20, AppDisplayConstants.Archive.ARCHIVE_XX, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XX_URL), contentPanel);
-        CreateArchiveButtonUI(21, AppDisplayConstants.Archive.ARCHIVE_XXI, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXI_URL), contentPanel);
-        CreateArchiveButtonUI(22, AppDisplayConstants.Archive.ARCHIVE_XXII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXII_URL), contentPanel);
-        CreateArchiveButtonUI(23, AppDisplayConstants.Archive.ARCHIVE_XXIII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXIII_URL), contentPanel);
-        CreateArchiveButtonUI(24, AppDisplayConstants.Archive.ARCHIVE_XXIV, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXIV_URL), contentPanel);
-        CreateArchiveButtonUI(25, AppDisplayConstants.Archive.ARCHIVE_XXV, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXV_URL), contentPanel);
-        CreateArchiveButtonUI(26, AppDisplayConstants.Archive.ARCHIVE_XXVI, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXVI_URL), contentPanel);
-        CreateArchiveButtonUI(27, AppDisplayConstants.Archive.ARCHIVE_XXVII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXVII_URL), contentPanel);
-        CreateArchiveButtonUI(28, AppDisplayConstants.Archive.ARCHIVE_XXVIII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXVIII_URL), contentPanel);
-        CreateArchiveButtonUI(29, AppDisplayConstants.Archive.ARCHIVE_XXIX, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXIX_URL), contentPanel);
-        CreateArchiveButtonUI(30, AppDisplayConstants.Archive.ARCHIVE_XXX, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXX_URL), contentPanel);
-        CreateArchiveButtonUI(31, AppDisplayConstants.Archive.ARCHIVE_XXXI, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXXI_URL), contentPanel);
-        CreateArchiveButtonUI(32, AppDisplayConstants.Archive.ARCHIVE_XXXII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXXII_URL), contentPanel);
-        CreateArchiveButtonUI(33, AppDisplayConstants.Archive.ARCHIVE_XXXIII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXXIII_URL), contentPanel);
-        CreateArchiveButtonUI(34, AppDisplayConstants.Archive.ARCHIVE_XXXIV, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXXIV_URL), contentPanel);
-        CreateArchiveButtonUI(35, AppDisplayConstants.Archive.ARCHIVE_XXXV, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXXV_URL), contentPanel);
-        CreateArchiveButtonUI(36, AppDisplayConstants.Archive.ARCHIVE_XXXVI, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXXVI_URL), contentPanel);
-        CreateArchiveButtonUI(37, AppDisplayConstants.Archive.ARCHIVE_XXXVII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXXVII_URL), contentPanel);
-        CreateArchiveButtonUI(38, AppDisplayConstants.Archive.ARCHIVE_XXXVIII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXXVIII_URL), contentPanel);
-        CreateArchiveButtonUI(39, AppDisplayConstants.Archive.ARCHIVE_XXXIX, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXXIX_URL), contentPanel);
+        CreateArchiveButtonUI(1, AppDisplayConstants.Archive.ARCHIVE_I, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_I_URL), contentPanel);
+        CreateArchiveButtonUI(2, AppDisplayConstants.Archive.ARCHIVE_II, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_II_URL), contentPanel);
+        CreateArchiveButtonUI(3, AppDisplayConstants.Archive.ARCHIVE_III, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_III_URL), contentPanel);
+        CreateArchiveButtonUI(4, AppDisplayConstants.Archive.ARCHIVE_IV, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_IV_URL), contentPanel);
+        CreateArchiveButtonUI(5, AppDisplayConstants.Archive.ARCHIVE_V, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_V_URL), contentPanel);
+        CreateArchiveButtonUI(6, AppDisplayConstants.Archive.ARCHIVE_VI, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_VI_URL), contentPanel);
+        CreateArchiveButtonUI(7, AppDisplayConstants.Archive.ARCHIVE_VII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_VII_URL), contentPanel);
+        CreateArchiveButtonUI(8, AppDisplayConstants.Archive.ARCHIVE_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_VIII_URL), contentPanel);
+        CreateArchiveButtonUI(9, AppDisplayConstants.Archive.ARCHIVE_IX, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_IX_URL), contentPanel);
+        CreateArchiveButtonUI(10, AppDisplayConstants.Archive.ARCHIVE_X, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_X_URL), contentPanel);
+        CreateArchiveButtonUI(11, AppDisplayConstants.Archive.ARCHIVE_XI, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XI_URL), contentPanel);
+        CreateArchiveButtonUI(12, AppDisplayConstants.Archive.ARCHIVE_XII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XII_URL), contentPanel);
+        CreateArchiveButtonUI(13, AppDisplayConstants.Archive.ARCHIVE_XIII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XIII_URL), contentPanel);
+        CreateArchiveButtonUI(14, AppDisplayConstants.Archive.ARCHIVE_XIV, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XIV_URL), contentPanel);
+        CreateArchiveButtonUI(15, AppDisplayConstants.Archive.ARCHIVE_XV, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XV_URL), contentPanel);
+        CreateArchiveButtonUI(16, AppDisplayConstants.Archive.ARCHIVE_XVI, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XVI_URL), contentPanel);
+        CreateArchiveButtonUI(17, AppDisplayConstants.Archive.ARCHIVE_XVII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XVII_URL), contentPanel);
+        CreateArchiveButtonUI(18, AppDisplayConstants.Archive.ARCHIVE_XVIII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XVIII_URL), contentPanel);
+        CreateArchiveButtonUI(19, AppDisplayConstants.Archive.ARCHIVE_XIX, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XIX_URL), contentPanel);
+        CreateArchiveButtonUI(20, AppDisplayConstants.Archive.ARCHIVE_XX, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XX_URL), contentPanel);
+        CreateArchiveButtonUI(21, AppDisplayConstants.Archive.ARCHIVE_XXI, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XXI_URL), contentPanel);
+        CreateArchiveButtonUI(22, AppDisplayConstants.Archive.ARCHIVE_XXII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XXII_URL), contentPanel);
+        CreateArchiveButtonUI(23, AppDisplayConstants.Archive.ARCHIVE_XXIII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XXIII_URL), contentPanel);
+        CreateArchiveButtonUI(24, AppDisplayConstants.Archive.ARCHIVE_XXIV, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XXIV_URL), contentPanel);
+        CreateArchiveButtonUI(25, AppDisplayConstants.Archive.ARCHIVE_XXV, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XXV_URL), contentPanel);
+        CreateArchiveButtonUI(26, AppDisplayConstants.Archive.ARCHIVE_XXVI, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XXVI_URL), contentPanel);
+        CreateArchiveButtonUI(27, AppDisplayConstants.Archive.ARCHIVE_XXVII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XXVII_URL), contentPanel);
+        CreateArchiveButtonUI(28, AppDisplayConstants.Archive.ARCHIVE_XXVIII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XXVIII_URL), contentPanel);
+        CreateArchiveButtonUI(29, AppDisplayConstants.Archive.ARCHIVE_XXIX, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XXIX_URL), contentPanel);
+        CreateArchiveButtonUI(30, AppDisplayConstants.Archive.ARCHIVE_XXX, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XXX_URL), contentPanel);
+        CreateArchiveButtonUI(31, AppDisplayConstants.Archive.ARCHIVE_XXXI, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XXXI_URL), contentPanel);
+        CreateArchiveButtonUI(32, AppDisplayConstants.Archive.ARCHIVE_XXXII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XXXII_URL), contentPanel);
+        CreateArchiveButtonUI(33, AppDisplayConstants.Archive.ARCHIVE_XXXIII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XXXIII_URL), contentPanel);
+        CreateArchiveButtonUI(34, AppDisplayConstants.Archive.ARCHIVE_XXXIV, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XXXIV_URL), contentPanel);
+        CreateArchiveButtonUI(35, AppDisplayConstants.Archive.ARCHIVE_XXXV, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XXXV_URL), contentPanel);
+        CreateArchiveButtonUI(36, AppDisplayConstants.Archive.ARCHIVE_XXXVI, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XXXVI_URL), contentPanel);
+        CreateArchiveButtonUI(37, AppDisplayConstants.Archive.ARCHIVE_XXXVII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XXXVII_URL), contentPanel);
+        CreateArchiveButtonUI(38, AppDisplayConstants.Archive.ARCHIVE_XXXVIII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XXXVIII_URL), contentPanel);
+        CreateArchiveButtonUI(39, AppDisplayConstants.Archive.ARCHIVE_XXXIX, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_XXXIX_URL), contentPanel);
 
         CreateArchiveButtonEvent(contentPanel);
     }
@@ -116,7 +116,8 @@ public class ArchiveManager : MonoBehaviour
         RawImage borderImage = transform.Find("BorderCircleImage").GetComponent<RawImage>();
         if (borderImage != null)
         {
-            borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_BORDER_URL);
+            // borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_BORDER_URL);
+            borderImage.gameObject.SetActive(false);
         }
 
         RawImage iconImage = transform.Find("IconImage").GetComponent<RawImage>();

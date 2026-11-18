@@ -53,16 +53,16 @@ public class HITNManager : MonoBehaviour
         TextMeshProUGUI titleText2 = transform.Find("HITNContent/TitleText").GetComponent<TextMeshProUGUI>();
         titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.HITN);
 
-        CreateHITNButtonUI(1, AppDisplayConstants.HITN.HITN_I, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_I_URL), contentPanel);
-        CreateHITNButtonUI(2, AppDisplayConstants.HITN.HITN_II, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_II_URL), contentPanel);
-        CreateHITNButtonUI(3, AppDisplayConstants.HITN.HITN_III, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_III_URL), contentPanel);
-        CreateHITNButtonUI(4, AppDisplayConstants.HITN.HITN_IV, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_IV_URL), contentPanel);
-        CreateHITNButtonUI(5, AppDisplayConstants.HITN.HITN_V, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_V_URL), contentPanel);
-        CreateHITNButtonUI(6, AppDisplayConstants.HITN.HITN_VI, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_VI_URL), contentPanel);
-        CreateHITNButtonUI(7, AppDisplayConstants.HITN.HITN_VII, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_VII_URL), contentPanel);
-        CreateHITNButtonUI(8, AppDisplayConstants.HITN.HITN_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_VIII_URL), contentPanel);
-        CreateHITNButtonUI(9, AppDisplayConstants.HITN.HITN_IX, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_IX_URL), contentPanel);
-        CreateHITNButtonUI(10, AppDisplayConstants.HITN.HITN_X, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_X_URL), contentPanel);
+        CreateHITNButtonUI(1, AppDisplayConstants.HITN.HITN_I, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_ICON_I_URL), contentPanel);
+        CreateHITNButtonUI(2, AppDisplayConstants.HITN.HITN_II, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_ICON_II_URL), contentPanel);
+        CreateHITNButtonUI(3, AppDisplayConstants.HITN.HITN_III, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_ICON_III_URL), contentPanel);
+        CreateHITNButtonUI(4, AppDisplayConstants.HITN.HITN_IV, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_ICON_IV_URL), contentPanel);
+        CreateHITNButtonUI(5, AppDisplayConstants.HITN.HITN_V, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_ICON_V_URL), contentPanel);
+        CreateHITNButtonUI(6, AppDisplayConstants.HITN.HITN_VI, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_ICON_VI_URL), contentPanel);
+        CreateHITNButtonUI(7, AppDisplayConstants.HITN.HITN_VII, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_ICON_VII_URL), contentPanel);
+        CreateHITNButtonUI(8, AppDisplayConstants.HITN.HITN_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_ICON_VIII_URL), contentPanel);
+        CreateHITNButtonUI(9, AppDisplayConstants.HITN.HITN_IX, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_ICON_IX_URL), contentPanel);
+        CreateHITNButtonUI(10, AppDisplayConstants.HITN.HITN_X, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_ICON_X_URL), contentPanel);
 
         CreateHITNButtonEvent(contentPanel);
     }
@@ -90,7 +90,8 @@ public class HITNManager : MonoBehaviour
         RawImage borderImage = transform.Find("BorderCircleImage").GetComponent<RawImage>();
         if (borderImage != null)
         {
-            borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_BORDER_URL);
+            // borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_BORDER_URL);
+            borderImage.gameObject.SetActive(false);
         }
 
         RawImage iconImage = transform.Find("IconImage").GetComponent<RawImage>();

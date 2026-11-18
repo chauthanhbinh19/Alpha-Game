@@ -10,8 +10,7 @@ public class UserEquipmentsService : IUserEquipmentsService
     public UserEquipmentsService(
         IUserEquipmentsRepository userEquipmentsRepository,
         IEquipmentsGalleryService equipmentsGalleryService,
-        IEquipmentsService equipmentsService,
-        IPowerManagerService powerManagerService)
+        IEquipmentsService equipmentsService)
     {
         _userEquipmentsRepository = userEquipmentsRepository;
         _equipmentsGalleryService = equipmentsGalleryService;

@@ -211,8 +211,8 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupButtonPanel);
             });
-            this.HomeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
-            this.HomeButton.onClick.AddListener(() =>
+            HomeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
+            HomeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 ButtonEvent.Instance.Close(MainPanel);
@@ -242,8 +242,8 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupObject);
             });
-            this.HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-            this.HomeButton.onClick.AddListener(() =>
+            HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+            HomeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 ButtonEvent.Instance.Close(MainPanel);
@@ -260,8 +260,8 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupButtonPanel);
             });
-            this.HomeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
-            this.HomeButton.onClick.AddListener(() =>
+            HomeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
+            HomeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 ButtonEvent.Instance.Close(MainPanel);
@@ -293,8 +293,8 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupButtonPanel);
             });
-            this.HomeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
-            this.HomeButton.onClick.AddListener(() =>
+            HomeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
+            HomeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 ButtonEvent.Instance.Close(MainPanel);
@@ -600,8 +600,8 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupObject);
             });
-            this.HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-            this.HomeButton.onClick.AddListener(() =>
+            HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+            HomeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 ButtonEvent.Instance.Close(MainPanel);
@@ -629,8 +629,8 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupButtonPanel);
             });
-            this.HomeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
-            this.HomeButton.onClick.AddListener(() =>
+            HomeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
+            HomeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 ButtonEvent.Instance.Close(MainPanel);
@@ -659,8 +659,8 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupButtonPanel);
             });
-            this.HomeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
-            this.HomeButton.onClick.AddListener(() =>
+            HomeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
+            HomeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 ButtonEvent.Instance.Close(MainPanel);
@@ -826,7 +826,7 @@ public class MainMenuManager : MonoBehaviour
         RawImage backgroundImage = transform.Find("Decoration1/Background3").GetComponent<RawImage>();
         if (backgroundImage != null)
         {
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Universe.UNIVERSE_BORDER_URL);
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached("UI/Background4/Button/Button_Theme_Background_1");
         }
 
         RawImage iconImage = transform.Find("IconImage").GetComponent<RawImage>();
@@ -869,26 +869,6 @@ public class MainMenuManager : MonoBehaviour
 
             if (title != null) title.gameObject.SetActive(isActive);
             if (content != null) content.gameObject.SetActive(isActive);
-        }
-    }
-    public void AssignButtonEvent(Button button, string titleText, string image)
-    {
-        if (button == null) return;
-
-        Transform buttonTransform = button.transform;
-
-        // 1. Cập nhật Title
-        Transform titleTransform = buttonTransform.Find("TitleText");
-        if (titleTransform != null && titleTransform.TryGetComponent<TextMeshProUGUI>(out var title))
-        {
-            title.text = LocalizationManager.Get(titleText);
-        }
-
-        // 2. Cập nhật Icon Image
-        Transform iconTransform = buttonTransform.Find("IconImage");
-        if (iconTransform != null && iconTransform.TryGetComponent<RawImage>(out var rawImage))
-        {
-            rawImage.texture = TextureHelper.LoadTexture2DCached(image);
         }
     }
     public void CreateMainPanelUserInformation(AuthResult authResult)

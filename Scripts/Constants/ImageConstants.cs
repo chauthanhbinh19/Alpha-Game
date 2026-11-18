@@ -1024,6 +1024,46 @@ public static class ImageConstants
         public const string ARCHIVE_XXXVIII_URL = "UI/Rank_Research/Archive XXXVIII";
         public const string ARCHIVE_XXXIX_URL = "UI/Rank_Research/Archive XXXIX";
 
+        public const string ARCHIVE_ICON_I_URL = "UI/Button/Special/Archive_I";
+        public const string ARCHIVE_ICON_II_URL = "UI/Button/Special/Archive_II";
+        public const string ARCHIVE_ICON_III_URL = "UI/Button/Special/Archive_III";
+        public const string ARCHIVE_ICON_IV_URL = "UI/Button/Special/Archive_IV";
+        public const string ARCHIVE_ICON_V_URL = "UI/Button/Special/Archive_V";
+        public const string ARCHIVE_ICON_VI_URL = "UI/Button/Special/Archive_VI";
+        public const string ARCHIVE_ICON_VII_URL = "UI/Button/Special/Archive_VII";
+        public const string ARCHIVE_ICON_VIII_URL = "UI/Button/Special/Archive_VIII";
+        public const string ARCHIVE_ICON_IX_URL = "UI/Button/Special/Archive_IX";
+        public const string ARCHIVE_ICON_X_URL = "UI/Button/Special/Archive_X";
+        public const string ARCHIVE_ICON_XI_URL = "UI/Button/Special/Archive_XI";
+        public const string ARCHIVE_ICON_XII_URL = "UI/Button/Special/Archive_XII";
+        public const string ARCHIVE_ICON_XIII_URL = "UI/Button/Special/Archive_XIII";
+        public const string ARCHIVE_ICON_XIV_URL = "UI/Button/Special/Archive_XIV";
+        public const string ARCHIVE_ICON_XV_URL = "UI/Button/Special/Archive_XV";
+        public const string ARCHIVE_ICON_XVI_URL = "UI/Button/Special/Archive_XVI";
+        public const string ARCHIVE_ICON_XVII_URL = "UI/Button/Special/Archive_XVII";
+        public const string ARCHIVE_ICON_XVIII_URL = "UI/Button/Special/Archive_XVIII";
+        public const string ARCHIVE_ICON_XIX_URL = "UI/Button/Special/Archive_XIX";
+        public const string ARCHIVE_ICON_XX_URL = "UI/Button/Special/Archive_XX";
+        public const string ARCHIVE_ICON_XXI_URL = "UI/Button/Special/Archive_XXI";
+        public const string ARCHIVE_ICON_XXII_URL = "UI/Button/Special/Archive_XXII";
+        public const string ARCHIVE_ICON_XXIII_URL = "UI/Button/Special/Archive_XXIII";
+        public const string ARCHIVE_ICON_XXIV_URL = "UI/Button/Special/Archive_XXIV";
+        public const string ARCHIVE_ICON_XXV_URL = "UI/Button/Special/Archive_XXV";
+        public const string ARCHIVE_ICON_XXVI_URL = "UI/Button/Special/Archive_XXVI";
+        public const string ARCHIVE_ICON_XXVII_URL = "UI/Button/Special/Archive_XXVII";
+        public const string ARCHIVE_ICON_XXVIII_URL = "UI/Button/Special/Archive_XXVIII";
+        public const string ARCHIVE_ICON_XXIX_URL = "UI/Button/Special/Archive_XXIX";
+        public const string ARCHIVE_ICON_XXX_URL = "UI/Button/Special/Archive_XXX";
+        public const string ARCHIVE_ICON_XXXI_URL = "UI/Button/Special/Archive_XXXI";
+        public const string ARCHIVE_ICON_XXXII_URL = "UI/Button/Special/Archive_XXXII";
+        public const string ARCHIVE_ICON_XXXIII_URL = "UI/Button/Special/Archive_XXXIII";
+        public const string ARCHIVE_ICON_XXXIV_URL = "UI/Button/Special/Archive_XXXIV";
+        public const string ARCHIVE_ICON_XXXV_URL = "UI/Button/Special/Archive_XXXV";
+        public const string ARCHIVE_ICON_XXXVI_URL = "UI/Button/Special/Archive_XXXVI";
+        public const string ARCHIVE_ICON_XXXVII_URL = "UI/Button/Special/Archive_XXXVII";
+        public const string ARCHIVE_ICON_XXXVIII_URL = "UI/Button/Special/Archive_XXXVIII";
+        public const string ARCHIVE_ICON_XXXIX_URL = "UI/Button/Special/Archive_XXXIX";
+
         public const string ARCHIVE_I_MAIN_IMAGE_URL = "UI/Background2/Archive_I";
         public const string ARCHIVE_II_MAIN_IMAGE_URL = "UI/Background2/Archive_II";
         public const string ARCHIVE_III_MAIN_IMAGE_URL = "UI/Background2/Archive_III";
@@ -1119,6 +1159,17 @@ public static class ImageConstants
         public const string UNIVERSE_IX_URL = "UI/Rank_Research/Universe IX";
         public const string UNIVERSE_X_URL = "UI/Rank_Research/Universe X";
 
+        public const string UNIVERSE_ICON_I_URL = "UI/Button/Special/Universe_I";
+        public const string UNIVERSE_ICON_II_URL = "UI/Button/Special/Universe_II";
+        public const string UNIVERSE_ICON_III_URL = "UI/Button/Special/Universe_III";
+        public const string UNIVERSE_ICON_IV_URL = "UI/Button/Special/Universe_IV";
+        public const string UNIVERSE_ICON_V_URL = "UI/Button/Special/Universe_V";
+        public const string UNIVERSE_ICON_VI_URL = "UI/Button/Special/Universe_VI";
+        public const string UNIVERSE_ICON_VII_URL = "UI/Button/Special/Universe_VII";
+        public const string UNIVERSE_ICON_VIII_URL = "UI/Button/Special/Universe_VIII";
+        public const string UNIVERSE_ICON_IX_URL = "UI/Button/Special/Universe_IX";
+        public const string UNIVERSE_ICON_X_URL = "UI/Button/Special/Universe_X";
+
         public const string UNIVERSE_I_MAIN_IMAGE_URL = "UI/Background2/Universe_I";
         public const string UNIVERSE_II_MAIN_IMAGE_URL = "UI/Background2/Universe_II";
         public const string UNIVERSE_III_MAIN_IMAGE_URL = "UI/Background2/Universe_III";
@@ -1155,6 +1206,17 @@ public static class ImageConstants
         public const string HIIN_VIII_URL = "UI/Rank_Research/HIIN VIII";
         public const string HIIN_IX_URL = "UI/Rank_Research/HIIN IX";
         public const string HIIN_X_URL = "UI/Rank_Research/HIIN X";
+
+        public const string HIIN_ICON_I_URL = "UI/Button/Special/HIIN_I";
+        public const string HIIN_ICON_II_URL = "UI/Button/Special/HIIN_II";
+        public const string HIIN_ICON_III_URL = "UI/Button/Special/HIIN_III";
+        public const string HIIN_ICON_IV_URL = "UI/Button/Special/HIIN_IV";
+        public const string HIIN_ICON_V_URL = "UI/Button/Special/HIIN_V";
+        public const string HIIN_ICON_VI_URL = "UI/Button/Special/HIIN_VI";
+        public const string HIIN_ICON_VII_URL = "UI/Button/Special/HIIN_VII";
+        public const string HIIN_ICON_VIII_URL = "UI/Button/Special/HIIN_VIII";
+        public const string HIIN_ICON_IX_URL = "UI/Button/Special/HIIN_IX";
+        public const string HIIN_ICON_X_URL = "UI/Button/Special/HIIN_X";
 
         public const string HIIN_I_MAIN_IMAGE_URL = "UI/Background2/HIIN_I";
         public const string HIIN_II_MAIN_IMAGE_URL = "UI/Background2/HIIN_II";
@@ -1193,6 +1255,17 @@ public static class ImageConstants
         public const string SSWN_IX_URL = "UI/Rank_Research/SSWN IX";
         public const string SSWN_X_URL = "UI/Rank_Research/SSWN X";
 
+        public const string SSWN_ICON_I_URL = "UI/Button/Special/SSWN_I";
+        public const string SSWN_ICON_II_URL = "UI/Button/Special/SSWN_II";
+        public const string SSWN_ICON_III_URL = "UI/Button/Special/SSWN_III";
+        public const string SSWN_ICON_IV_URL = "UI/Button/Special/SSWN_IV";
+        public const string SSWN_ICON_V_URL = "UI/Button/Special/SSWN_V";
+        public const string SSWN_ICON_VI_URL = "UI/Button/Special/SSWN_VI";
+        public const string SSWN_ICON_VII_URL = "UI/Button/Special/SSWN_VII";
+        public const string SSWN_ICON_VIII_URL = "UI/Button/Special/SSWN_VIII";
+        public const string SSWN_ICON_IX_URL = "UI/Button/Special/SSWN_IX";
+        public const string SSWN_ICON_X_URL = "UI/Button/Special/SSWN_X";
+
         public const string SSWN_I_MAIN_IMAGE_URL = "UI/Background2/SSWN_I";
         public const string SSWN_II_MAIN_IMAGE_URL = "UI/Background2/SSWN_II";
         public const string SSWN_III_MAIN_IMAGE_URL = "UI/Background2/SSWN_III";
@@ -1229,6 +1302,17 @@ public static class ImageConstants
         public const string HITN_VIII_URL = "UI/Rank_Research/HITN VIII";
         public const string HITN_IX_URL = "UI/Rank_Research/HITN IX";
         public const string HITN_X_URL = "UI/Rank_Research/HITN X";
+
+        public const string HITN_ICON_I_URL = "UI/Button/Special/HITN_I";
+        public const string HITN_ICON_II_URL = "UI/Button/Special/HITN_II";
+        public const string HITN_ICON_III_URL = "UI/Button/Special/HITN_III";
+        public const string HITN_ICON_IV_URL = "UI/Button/Special/HITN_IV";
+        public const string HITN_ICON_V_URL = "UI/Button/Special/HITN_V";
+        public const string HITN_ICON_VI_URL = "UI/Button/Special/HITN_VI";
+        public const string HITN_ICON_VII_URL = "UI/Button/Special/HITN_VII";
+        public const string HITN_ICON_VIII_URL = "UI/Button/Special/HITN_VIII";
+        public const string HITN_ICON_IX_URL = "UI/Button/Special/HITN_IX";
+        public const string HITN_ICON_X_URL = "UI/Button/Special/HITN_X";
 
         public const string HITN_I_MAIN_IMAGE_URL = "UI/Background2/HITN_I";
         public const string HITN_II_MAIN_IMAGE_URL = "UI/Background2/HITN_II";
@@ -1267,6 +1351,17 @@ public static class ImageConstants
         public const string HIHN_IX_URL = "UI/Rank_Research/HIHN IX";
         public const string HIHN_X_URL = "UI/Rank_Research/HIHN X";
 
+        public const string HIHN_ICON_I_URL = "UI/Button/Special/HIHN_I";
+        public const string HIHN_ICON_II_URL = "UI/Button/Special/HIHN_II";
+        public const string HIHN_ICON_III_URL = "UI/Button/Special/HIHN_III";
+        public const string HIHN_ICON_IV_URL = "UI/Button/Special/HIHN_IV";
+        public const string HIHN_ICON_V_URL = "UI/Button/Special/HIHN_V";
+        public const string HIHN_ICON_VI_URL = "UI/Button/Special/HIHN_VI";
+        public const string HIHN_ICON_VII_URL = "UI/Button/Special/HIHN_VII";
+        public const string HIHN_ICON_VIII_URL = "UI/Button/Special/HIHN_VIII";
+        public const string HIHN_ICON_IX_URL = "UI/Button/Special/HIHN_IX";
+        public const string HIHN_ICON_X_URL = "UI/Button/Special/HIHN_X";
+
         public const string HIHN_I_MAIN_IMAGE_URL = "UI/Background2/HIHN_I";
         public const string HIHN_II_MAIN_IMAGE_URL = "UI/Background2/HIHN_II";
         public const string HIHN_III_MAIN_IMAGE_URL = "UI/Background2/HIHN_III";
@@ -1303,6 +1398,17 @@ public static class ImageConstants
         public const string HIEN_VIII_URL = "UI/Rank_Research/HIEN VIII";
         public const string HIEN_IX_URL = "UI/Rank_Research/HIEN IX";
         public const string HIEN_X_URL = "UI/Rank_Research/HIEN X";
+
+        public const string HIEN_ICON_I_URL = "UI/Button/Special/HIEN_I";
+        public const string HIEN_ICON_II_URL = "UI/Button/Special/HIEN_II";
+        public const string HIEN_ICON_III_URL = "UI/Button/Special/HIEN_III";
+        public const string HIEN_ICON_IV_URL = "UI/Button/Special/HIEN_IV";
+        public const string HIEN_ICON_V_URL = "UI/Button/Special/HIEN_V";
+        public const string HIEN_ICON_VI_URL = "UI/Button/Special/HIEN_VI";
+        public const string HIEN_ICON_VII_URL = "UI/Button/Special/HIEN_VII";
+        public const string HIEN_ICON_VIII_URL = "UI/Button/Special/HIEN_VIII";
+        public const string HIEN_ICON_IX_URL = "UI/Button/Special/HIEN_IX";
+        public const string HIEN_ICON_X_URL = "UI/Button/Special/HIEN_X";
 
         public const string HIEN_I_MAIN_IMAGE_URL = "UI/Background2/HIEN_I";
         public const string HIEN_II_MAIN_IMAGE_URL = "UI/Background2/HIEN_II";
@@ -1341,6 +1447,17 @@ public static class ImageConstants
         public const string HICA_IX_URL = "UI/Rank_Research/HICA IX";
         public const string HICA_X_URL = "UI/Rank_Research/HICA X";
 
+        public const string HICA_ICON_I_URL = "UI/Button/Special/HICA_I";
+        public const string HICA_ICON_II_URL = "UI/Button/Special/HICA_II";
+        public const string HICA_ICON_III_URL = "UI/Button/Special/HICA_III";
+        public const string HICA_ICON_IV_URL = "UI/Button/Special/HICA_IV";
+        public const string HICA_ICON_V_URL = "UI/Button/Special/HICA_V";
+        public const string HICA_ICON_VI_URL = "UI/Button/Special/HICA_VI";
+        public const string HICA_ICON_VII_URL = "UI/Button/Special/HICA_VII";
+        public const string HICA_ICON_VIII_URL = "UI/Button/Special/HICA_VIII";
+        public const string HICA_ICON_IX_URL = "UI/Button/Special/HICA_IX";
+        public const string HICA_ICON_X_URL = "UI/Button/Special/HICA_X";
+
         public const string HICA_I_MAIN_IMAGE_URL = "UI/Background2/HICA_I";
         public const string HICA_II_MAIN_IMAGE_URL = "UI/Background2/HICA_II";
         public const string HICA_III_MAIN_IMAGE_URL = "UI/Background2/HICA_III";
@@ -1377,6 +1494,17 @@ public static class ImageConstants
         public const string HIRN_VIII_URL = "UI/Rank_Research/HIRN VIII";
         public const string HIRN_IX_URL = "UI/Rank_Research/HIRN IX";
         public const string HIRN_X_URL = "UI/Rank_Research/HIRN X";
+
+        public const string HIRN_ICON_I_URL = "UI/Button/Special/HIRN_I";
+        public const string HIRN_ICON_II_URL = "UI/Button/Special/HIRN_II";
+        public const string HIRN_ICON_III_URL = "UI/Button/Special/HIRN_III";
+        public const string HIRN_ICON_IV_URL = "UI/Button/Special/HIRN_IV";
+        public const string HIRN_ICON_V_URL = "UI/Button/Special/HIRN_V";
+        public const string HIRN_ICON_VI_URL = "UI/Button/Special/HIRN_VI";
+        public const string HIRN_ICON_VII_URL = "UI/Button/Special/HIRN_VII";
+        public const string HIRN_ICON_VIII_URL = "UI/Button/Special/HIRN_VIII";
+        public const string HIRN_ICON_IX_URL = "UI/Button/Special/HIRN_IX";
+        public const string HIRN_ICON_X_URL = "UI/Button/Special/HIRN_X";
 
         public const string HIRN_I_MAIN_IMAGE_URL = "UI/Background2/HIRN_I";
         public const string HIRN_II_MAIN_IMAGE_URL = "UI/Background2/HIRN_II";
@@ -1415,6 +1543,17 @@ public static class ImageConstants
         public const string HIDC_IX_URL = "UI/Rank_Research/HIDC IX";
         public const string HIDC_X_URL = "UI/Rank_Research/HIDC X";
 
+        public const string HIDC_ICON_I_URL = "UI/Button/Special/HIDC_I";
+        public const string HIDC_ICON_II_URL = "UI/Button/Special/HIDC_II";
+        public const string HIDC_ICON_III_URL = "UI/Button/Special/HIDC_III";
+        public const string HIDC_ICON_IV_URL = "UI/Button/Special/HIDC_IV";
+        public const string HIDC_ICON_V_URL = "UI/Button/Special/HIDC_V";
+        public const string HIDC_ICON_VI_URL = "UI/Button/Special/HIDC_VI";
+        public const string HIDC_ICON_VII_URL = "UI/Button/Special/HIDC_VII";
+        public const string HIDC_ICON_VIII_URL = "UI/Button/Special/HIDC_VIII";
+        public const string HIDC_ICON_IX_URL = "UI/Button/Special/HIDC_IX";
+        public const string HIDC_ICON_X_URL = "UI/Button/Special/HIDC_X";
+
         public const string HIDC_I_MAIN_IMAGE_URL = "UI/Background2/HIDC_I";
         public const string HIDC_II_MAIN_IMAGE_URL = "UI/Background2/HIDC_II";
         public const string HIDC_III_MAIN_IMAGE_URL = "UI/Background2/HIDC_III";
@@ -1451,6 +1590,17 @@ public static class ImageConstants
         public const string HICB_VIII_URL = "UI/Rank_Research/HICB VIII";
         public const string HICB_IX_URL = "UI/Rank_Research/HICB IX";
         public const string HICB_X_URL = "UI/Rank_Research/HICB X";
+
+        public const string HICB_ICON_I_URL = "UI/Button/Special/HICB_I";
+        public const string HICB_ICON_II_URL = "UI/Button/Special/HICB_II";
+        public const string HICB_ICON_III_URL = "UI/Button/Special/HICB_III";
+        public const string HICB_ICON_IV_URL = "UI/Button/Special/HICB_IV";
+        public const string HICB_ICON_V_URL = "UI/Button/Special/HICB_V";
+        public const string HICB_ICON_VI_URL = "UI/Button/Special/HICB_VI";
+        public const string HICB_ICON_VII_URL = "UI/Button/Special/HICB_VII";
+        public const string HICB_ICON_VIII_URL = "UI/Button/Special/HICB_VIII";
+        public const string HICB_ICON_IX_URL = "UI/Button/Special/HICB_IX";
+        public const string HICB_ICON_X_URL = "UI/Button/Special/HICB_X";
 
         public const string HICB_I_MAIN_IMAGE_URL = "UI/Background2/HICB_I";
         public const string HICB_II_MAIN_IMAGE_URL = "UI/Background2/HICB_II";
@@ -1489,6 +1639,17 @@ public static class ImageConstants
         public const string HISN_IX_URL = "UI/Rank_Research/HISN IX";
         public const string HISN_X_URL = "UI/Rank_Research/HISN X";
 
+        public const string HISN_ICON_I_URL = "UI/Button/Special/HISN_I";
+        public const string HISN_ICON_II_URL = "UI/Button/Special/HISN_II";
+        public const string HISN_ICON_III_URL = "UI/Button/Special/HISN_III";
+        public const string HISN_ICON_IV_URL = "UI/Button/Special/HISN_IV";
+        public const string HISN_ICON_V_URL = "UI/Button/Special/HISN_V";
+        public const string HISN_ICON_VI_URL = "UI/Button/Special/HISN_VI";
+        public const string HISN_ICON_VII_URL = "UI/Button/Special/HISN_VII";
+        public const string HISN_ICON_VIII_URL = "UI/Button/Special/HISN_VIII";
+        public const string HISN_ICON_IX_URL = "UI/Button/Special/HISN_IX";
+        public const string HISN_ICON_X_URL = "UI/Button/Special/HISN_X";
+
         public const string HISN_I_MAIN_IMAGE_URL = "UI/Background2/HISN_I";
         public const string HISN_II_MAIN_IMAGE_URL = "UI/Background2/HISN_II";
         public const string HISN_III_MAIN_IMAGE_URL = "UI/Background2/HISN_III";
@@ -1526,6 +1687,17 @@ public static class ImageConstants
         public const string COSMIC_IMPRINT_IX_URL = "UI/Rank_Research/HISN IX";
         public const string COSMIC_IMPRINT_X_URL = "UI/Rank_Research/HISN X";
 
+        public const string COSMIC_IMPRINT_ICON_I_URL = "UI/Button/Special/Cosmic_Imprint_I";
+        public const string COSMIC_IMPRINT_ICON_II_URL = "UI/Button/Special/Cosmic_Imprint_II";
+        public const string COSMIC_IMPRINT_ICON_III_URL = "UI/Button/Special/Cosmic_Imprint_III";
+        public const string COSMIC_IMPRINT_ICON_IV_URL = "UI/Button/Special/Cosmic_Imprint_IV";
+        public const string COSMIC_IMPRINT_ICON_V_URL = "UI/Button/Special/Cosmic_Imprint_V";
+        public const string COSMIC_IMPRINT_ICON_VI_URL = "UI/Button/Special/Cosmic_Imprint_VI";
+        public const string COSMIC_IMPRINT_ICON_VII_URL = "UI/Button/Special/Cosmic_Imprint_VII";
+        public const string COSMIC_IMPRINT_ICON_VIII_URL = "UI/Button/Special/Cosmic_Imprint_VIII";
+        public const string COSMIC_IMPRINT_ICON_IX_URL = "UI/Button/Special/Cosmic_Imprint_IX";
+        public const string COSMIC_IMPRINT_ICON_X_URL = "UI/Button/Special/Cosmic_Imprint_X";
+
         public const string COSMIC_IMPRINT_I_MAIN_IMAGE_URL = "UI/Background2/Cosmic_Imprint_I";
         public const string COSMIC_IMPRINT_II_MAIN_IMAGE_URL = "UI/Background2/Cosmic_Imprint_II";
         public const string COSMIC_IMPRINT_III_MAIN_IMAGE_URL = "UI/Background2/Cosmic_Imprint_III";
@@ -1562,6 +1734,17 @@ public static class ImageConstants
         public const string PRIMORDIAL_IMPRINT_VIII_URL = "UI/Rank_Research/HISN VIII";
         public const string PRIMORDIAL_IMPRINT_IX_URL = "UI/Rank_Research/HISN IX";
         public const string PRIMORDIAL_IMPRINT_X_URL = "UI/Rank_Research/HISN X";
+
+        public const string PRIMORDIAL_IMPRINT_ICON_I_URL = "UI/Button/Special/Primordial_Imprint_I";
+        public const string PRIMORDIAL_IMPRINT_ICON_II_URL = "UI/Button/Special/Primordial_Imprint_II";
+        public const string PRIMORDIAL_IMPRINT_ICON_III_URL = "UI/Button/Special/Primordial_Imprint_III";
+        public const string PRIMORDIAL_IMPRINT_ICON_IV_URL = "UI/Button/Special/Primordial_Imprint_IV";
+        public const string PRIMORDIAL_IMPRINT_ICON_V_URL = "UI/Button/Special/Primordial_Imprint_V";
+        public const string PRIMORDIAL_IMPRINT_ICON_VI_URL = "UI/Button/Special/Primordial_Imprint_VI";
+        public const string PRIMORDIAL_IMPRINT_ICON_VII_URL = "UI/Button/Special/Primordial_Imprint_VII";
+        public const string PRIMORDIAL_IMPRINT_ICON_VIII_URL = "UI/Button/Special/Primordial_Imprint_VIII";
+        public const string PRIMORDIAL_IMPRINT_ICON_IX_URL = "UI/Button/Special/Primordial_Imprint_IX";
+        public const string PRIMORDIAL_IMPRINT_ICON_X_URL = "UI/Button/Special/Primordial_Imprint_X";
 
         public const string PRIMORDIAL_IMPRINT_I_MAIN_IMAGE_URL = "UI/Background2/Primordial_Imprint_I";
         public const string PRIMORDIAL_IMPRINT_II_MAIN_IMAGE_URL = "UI/Background2/Primordial_Imprint_II";

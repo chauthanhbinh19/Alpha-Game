@@ -53,16 +53,16 @@ public class HIRNManager : MonoBehaviour
         TextMeshProUGUI titleText2 = transform.Find("HIRNContent/TitleText").GetComponent<TextMeshProUGUI>();
         titleText2.text = LocalizationManager.Get(AppDisplayConstants.Title.HIRN);
 
-        CreateHIRNButtonUI(1, AppDisplayConstants.HIRN.HIRN_I, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_I_URL), contentPanel);
-        CreateHIRNButtonUI(2, AppDisplayConstants.HIRN.HIRN_II, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_II_URL), contentPanel);
-        CreateHIRNButtonUI(3, AppDisplayConstants.HIRN.HIRN_III, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_III_URL), contentPanel);
-        CreateHIRNButtonUI(4, AppDisplayConstants.HIRN.HIRN_IV, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_IV_URL), contentPanel);
-        CreateHIRNButtonUI(5, AppDisplayConstants.HIRN.HIRN_V, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_V_URL), contentPanel);
-        CreateHIRNButtonUI(6, AppDisplayConstants.HIRN.HIRN_VI, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_VI_URL), contentPanel);
-        CreateHIRNButtonUI(7, AppDisplayConstants.HIRN.HIRN_VII, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_VII_URL), contentPanel);
-        CreateHIRNButtonUI(8, AppDisplayConstants.HIRN.HIRN_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_VIII_URL), contentPanel);
-        CreateHIRNButtonUI(9, AppDisplayConstants.HIRN.HIRN_IX, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_IX_URL), contentPanel);
-        CreateHIRNButtonUI(10, AppDisplayConstants.HIRN.HIRN_X, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_X_URL), contentPanel);
+        CreateHIRNButtonUI(1, AppDisplayConstants.HIRN.HIRN_I, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_ICON_I_URL), contentPanel);
+        CreateHIRNButtonUI(2, AppDisplayConstants.HIRN.HIRN_II, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_ICON_II_URL), contentPanel);
+        CreateHIRNButtonUI(3, AppDisplayConstants.HIRN.HIRN_III, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_ICON_III_URL), contentPanel);
+        CreateHIRNButtonUI(4, AppDisplayConstants.HIRN.HIRN_IV, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_ICON_IV_URL), contentPanel);
+        CreateHIRNButtonUI(5, AppDisplayConstants.HIRN.HIRN_V, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_ICON_V_URL), contentPanel);
+        CreateHIRNButtonUI(6, AppDisplayConstants.HIRN.HIRN_VI, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_ICON_VI_URL), contentPanel);
+        CreateHIRNButtonUI(7, AppDisplayConstants.HIRN.HIRN_VII, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_ICON_VII_URL), contentPanel);
+        CreateHIRNButtonUI(8, AppDisplayConstants.HIRN.HIRN_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_ICON_VIII_URL), contentPanel);
+        CreateHIRNButtonUI(9, AppDisplayConstants.HIRN.HIRN_IX, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_ICON_IX_URL), contentPanel);
+        CreateHIRNButtonUI(10, AppDisplayConstants.HIRN.HIRN_X, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_ICON_X_URL), contentPanel);
 
         CreateHIRNButtonEvent(contentPanel);
     }
@@ -90,7 +90,8 @@ public class HIRNManager : MonoBehaviour
         RawImage borderImage = transform.Find("BorderCircleImage").GetComponent<RawImage>();
         if (borderImage != null)
         {
-            borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_BORDER_URL);
+            // borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_BORDER_URL);
+            borderImage.gameObject.SetActive(false);
         }
 
         RawImage iconImage = transform.Find("IconImage").GetComponent<RawImage>();
