@@ -68,18 +68,18 @@ public class TeamsService : ITeamsService
         TotalBuffs totalBuffs = new TotalBuffs();
         totalBuffs.AddBuff(User.UserPower);
 
-        User.CardHeroes = EvaluateAllCardPowers(User.CardHeroes);
-        User.CardCaptains = EvaluateAllCardPowers(User.CardCaptains);
-        User.CardColonels = EvaluateAllCardPowers(User.CardColonels);
-        User.CardGenerals = EvaluateAllCardPowers(User.CardGenerals);
-        User.CardAdmirals = EvaluateAllCardPowers(User.CardAdmirals);
-        User.CardMonsters = EvaluateAllCardPowers(User.CardMonsters);
-        User.CardMilitaries = EvaluateAllCardPowers(User.CardMilitaries);
-        User.CardSoldiers = EvaluateAllCardPowers(User.CardSoldiers);
-        User.CardSpells = EvaluateAllCardPowers(User.CardSpells);
+        User.CardHeroes = EvaluateAndApplyBuffs(User.CardHeroes, c => { c.ApplyTotalBuffs(totalBuffs); c.RecalculatePower(); });
+        User.CardCaptains = EvaluateAndApplyBuffs(User.CardCaptains, c => { c.ApplyTotalBuffs(totalBuffs); c.RecalculatePower(); });
+        User.CardColonels = EvaluateAndApplyBuffs(User.CardColonels, c => { c.ApplyTotalBuffs(totalBuffs); c.RecalculatePower(); });
+        User.CardGenerals = EvaluateAndApplyBuffs(User.CardGenerals, c => { c.ApplyTotalBuffs(totalBuffs); c.RecalculatePower(); });
+        User.CardAdmirals = EvaluateAndApplyBuffs(User.CardAdmirals, c => { c.ApplyTotalBuffs(totalBuffs); c.RecalculatePower(); });
+        User.CardMonsters = EvaluateAndApplyBuffs(User.CardMonsters, c => { c.ApplyTotalBuffs(totalBuffs); c.RecalculatePower(); });
+        User.CardMilitaries = EvaluateAndApplyBuffs(User.CardMilitaries, c => { c.ApplyTotalBuffs(totalBuffs); c.RecalculatePower(); });
+        User.CardSoldiers = EvaluateAndApplyBuffs(User.CardSoldiers, c => { c.ApplyTotalBuffs(totalBuffs); c.RecalculatePower(); });
+        User.CardSpells = EvaluateAndApplyBuffs(User.CardSpells, c => { c.ApplyTotalBuffs(totalBuffs); c.RecalculatePower(); });
     }
 
-    private List<T> EvaluateAllCardPowers<T>(List<T> cards) where T : IStats
+    private List<T> EvaluateAndApplyBuffs<T>(List<T> cards, Action<T> applyBuffAndRecalculate) where T : IStats
     {
         if (cards == null || cards.Count == 0) return cards;
 
@@ -89,6 +89,12 @@ public class TeamsService : ITeamsService
         cards = ModuleEvaluatorHelper.GetModulePower(cards);
         cards = UpgradeEvaluatorHelper.GetUpgradePower(cards);
 
+        foreach (var card in cards)
+        {
+            if (card == null) continue;
+            applyBuffAndRecalculate(card);
+        }
+
         return cards;
     }
 
@@ -96,21 +102,22 @@ public class TeamsService : ITeamsService
     {
         double totalPower = 0;
 
-        // Sử dụng Sum() của LINQ
-        totalPower += User.CardAdmirals.Sum(c => c.Power);
-        totalPower += User.CardCaptains.Sum(c => c.Power);
-        totalPower += User.CardColonels.Sum(c => c.Power);
-        totalPower += User.CardGenerals.Sum(c => c.Power);
-        totalPower += User.CardHeroes.Sum(c => c.Power);
-        totalPower += User.CardMilitaries.Sum(c => c.Power);
-        totalPower += User.CardMonsters.Sum(c => c.Power);
-        totalPower += User.CardSoldiers.Sum(c => c.Power);
-        totalPower += User.CardSpells.Sum(c => c.Power);
-        // totalPower += booksStats.Power;
-        // totalPower += petsStats.Power;
-        // totalPower += objectsStats.Sum(c => c.Power);
+        totalPower += User.CardAdmirals?.Sum(c => c.Power) ?? 0;
+        totalPower += User.CardCaptains?.Sum(c => c.Power) ?? 0;
+        totalPower += User.CardColonels?.Sum(c => c.Power) ?? 0;
+        totalPower += User.CardGenerals?.Sum(c => c.Power) ?? 0;
+        totalPower += User.CardHeroes?.Sum(c => c.Power) ?? 0;
+        totalPower += User.CardMilitaries?.Sum(c => c.Power) ?? 0;
+        totalPower += User.CardMonsters?.Sum(c => c.Power) ?? 0;
+        totalPower += User.CardSoldiers?.Sum(c => c.Power) ?? 0;
+        totalPower += User.CardSpells?.Sum(c => c.Power) ?? 0;
 
-        await UserService.Create().UpdateUserPowerAsync(userId, totalPower);
+        // Chỉ ghi DB khi tổng lực chiến thực sự thay đổi
+        if (Math.Abs(User.CurrentUserPower - totalPower) > 0.0001)
+        {
+            User.CurrentUserPower = totalPower;
+            await UserService.Create().UpdateUserPowerAsync(userId, totalPower);
+        }
 
         return totalPower;
     }

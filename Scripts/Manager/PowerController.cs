@@ -32,29 +32,38 @@ public class PowerController : MonoBehaviour
         PowerPrefab = UIManager.Instance.Get(PrefabConstants.General.POWER_PREFAB);
         PopupPanel = UIManager.Instance.GetTransform(AppConstants.Transform.POPUP_PANEL);
     }
-    public void ShowPower(double currentPower, double nextPower, int status)
+    public void ShowPower(double currentPower, double deltaPower, int status)
     {
         Canvas.ForceUpdateCanvases(); // Cập nhật Canvas ngay lập tức
-        // Destroy(powerObject);
+
         PowerObject = Instantiate(PowerPrefab, PopupPanel);
         Transform transform = PowerObject.transform;
+
         TextMeshProUGUI currentPowerText = transform.Find("CurrentPowerText").GetComponent<TextMeshProUGUI>();
         currentPowerText.text = currentPower.ToString();
 
         TextMeshProUGUI nextPowerText = transform.Find("NextPowerText").GetComponent<TextMeshProUGUI>();
-        if (status == 1)
+
+        if (status == 1) // Tăng lực chiến
         {
             nextPowerText.colorGradient = ColorConstants.INCREASE_POWER_COLOR;
-            nextPowerText.text = "+" + nextPower.ToString();
+            nextPowerText.text = "+" + deltaPower.ToString();
         }
-        else if (status == 0)
+        else if (status == -1) // Giảm lực chiến
         {
             nextPowerText.colorGradient = ColorConstants.DECREASE_POWER_COLOR;
-            nextPowerText.text = "-" + nextPower.ToString();
+            nextPowerText.text = "-" + deltaPower.ToString();
+        }
+        else // status == 0: Không đổi / Không ảnh hưởng
+        {
+            nextPowerText.text = "0"; // Hoặc ẩn đi tùy ý bạn
         }
 
-        countCoroutine = StartCoroutine(CountTo(currentPower, nextPower, currentPowerText, status));
-        StartCoroutine(HandlePowerDisplay(PowerObject, nextPowerText, 2f)); // Hiển thị trong 1 giây
+        // Nếu coroutine CountTo cần giá trị đích, bạn có thể truyền targetPower = currentPower + deltaPower (nếu tăng) hoặc trừ đi (nếu giảm)
+        double targetPower = currentPower + (status * deltaPower);
+
+        countCoroutine = StartCoroutine(CountTo(currentPower, targetPower, currentPowerText, status));
+        StartCoroutine(HandlePowerDisplay(PowerObject, nextPowerText, 2f));
     }
     private IEnumerator HandlePowerDisplay(GameObject powerObject, TextMeshProUGUI nextPowerText, float duration)
     {

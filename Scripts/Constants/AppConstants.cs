@@ -1513,6 +1513,7 @@ public static class AppConstants
         public const string PERCENT_BOOKS = "Percent_Books";
         public const string PERCENT_BORDERS = "Percent_Borders";
         public const string PERCENT_BUILDINGS = "Percent_Buildings";
+        public const string PERCENT_CARD_LIVES = "Percent_Card_Lives";
         public const string PERCENT_COLLABORATION_EQUIPMENTS = "Percent_Collaboration_Equipments";
         public const string PERCENT_COLLABORATIONS = "Percent_Collaborations";
         public const string PERCENT_CORES = "Percent_Cores";

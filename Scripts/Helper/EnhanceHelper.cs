@@ -11,88 +11,88 @@ public static class EnhanceHelper
 
             if (lvl >= 0 && lvl <= 500)
             {
-                userRank.Health += 10000000 * statMultiplier;
+                userRank.Health += 100000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                userRank.PhysicalAttack += 1500000 * statMultiplier;
-                userRank.PhysicalDefense += 1500000 * statMultiplier;
+                userRank.PhysicalAttack += 15000000 * statMultiplier;
+                userRank.PhysicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                userRank.MagicalAttack += 1500000 * statMultiplier;
-                userRank.MagicalDefense += 1500000 * statMultiplier;
+                userRank.MagicalAttack += 15000000 * statMultiplier;
+                userRank.MagicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                userRank.ChemicalAttack += 1500000 * statMultiplier;
-                userRank.ChemicalDefense += 1500000 * statMultiplier;
+                userRank.ChemicalAttack += 15000000 * statMultiplier;
+                userRank.ChemicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                userRank.AtomicAttack += 1500000 * statMultiplier;
-                userRank.AtomicDefense += 1500000 * statMultiplier;
+                userRank.AtomicAttack += 15000000 * statMultiplier;
+                userRank.AtomicDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                userRank.MentalAttack += 1500000 * statMultiplier;
-                userRank.MentalDefense += 1500000 * statMultiplier;
+                userRank.MentalAttack += 15000000 * statMultiplier;
+                userRank.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                userRank.Speed += 1500000 * statMultiplier;
-                userRank.CriticalDamageRate += 0.01 * statMultiplier;
-                userRank.CriticalRate += 0.01 * statMultiplier;
-                userRank.CriticalResistanceRate += 0.01 * statMultiplier;
-                userRank.IgnoreCriticalRate += 0.01 * statMultiplier;
-                userRank.PenetrationRate += 0.01 * statMultiplier;
-                userRank.PenetrationResistanceRate += 0.01 * statMultiplier;
+                userRank.Speed += 15000000 * statMultiplier;
+                userRank.CriticalDamageRate += 0.1 * statMultiplier;
+                userRank.CriticalRate += 0.1 * statMultiplier;
+                userRank.CriticalResistanceRate += 0.1 * statMultiplier;
+                userRank.IgnoreCriticalRate += 0.1 * statMultiplier;
+                userRank.PenetrationRate += 0.1 * statMultiplier;
+                userRank.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                userRank.EvasionRate += 0.01 * statMultiplier;
-                userRank.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userRank.IgnoreDamageAbsorptionRate += 0.01 * statMultiplier;
-                userRank.AbsorbedDamageRate += 0.01 * statMultiplier;
-                userRank.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userRank.VitalityRegenerationResistanceRate += 0.01 * statMultiplier;
-                userRank.AccuracyRate += 0.01 * statMultiplier;
+                userRank.EvasionRate += 0.1 * statMultiplier;
+                userRank.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userRank.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                userRank.AbsorbedDamageRate += 0.1 * statMultiplier;
+                userRank.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userRank.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                userRank.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                userRank.LifestealRate += 0.01 * statMultiplier;
-                userRank.Mana += 1500000 * statMultiplier;
-                userRank.ManaRegenerationRate += 0.01 * statMultiplier;
-                userRank.ShieldStrength += 1500000 * statMultiplier;
+                userRank.LifestealRate += 0.1 * statMultiplier;
+                userRank.Mana += 15000000 * statMultiplier;
+                userRank.ManaRegenerationRate += 0.1 * statMultiplier;
+                userRank.ShieldStrength += 15000000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                userRank.Tenacity += 0.05 * statMultiplier;
-                userRank.ResistanceRate += 0.01 * statMultiplier;
-                userRank.ComboRate += 0.01 * statMultiplier;
-                userRank.IgnoreComboRate += 0.01 * statMultiplier;
-                userRank.ComboDamageRate += 0.01 * statMultiplier;
-                userRank.ComboResistanceRate += 0.01 * statMultiplier;
-                userRank.StunRate += 0.01 * statMultiplier;
-                userRank.IgnoreStunRate += 0.01 * statMultiplier;
+                userRank.Tenacity += 0.5 * statMultiplier;
+                userRank.ResistanceRate += 0.1 * statMultiplier;
+                userRank.ComboRate += 0.1 * statMultiplier;
+                userRank.IgnoreComboRate += 0.1 * statMultiplier;
+                userRank.ComboDamageRate += 0.1 * statMultiplier;
+                userRank.ComboResistanceRate += 0.1 * statMultiplier;
+                userRank.StunRate += 0.1 * statMultiplier;
+                userRank.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                userRank.ReflectionRate += 0.01 * statMultiplier;
-                userRank.IgnoreReflectionRate += 0.01 * statMultiplier;
-                userRank.ReflectionDamageRate += 0.01 * statMultiplier;
-                userRank.ReflectionResistanceRate += 0.01 * statMultiplier;
-                userRank.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userRank.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userRank.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userRank.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userRank.ReflectionRate += 0.1 * statMultiplier;
+                userRank.IgnoreReflectionRate += 0.1 * statMultiplier;
+                userRank.ReflectionDamageRate += 0.1 * statMultiplier;
+                userRank.ReflectionResistanceRate += 0.1 * statMultiplier;
+                userRank.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userRank.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userRank.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userRank.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                userRank.NormalDamageRate += 0.01 * statMultiplier;
-                userRank.NormalResistanceRate += 0.01 * statMultiplier;
-                userRank.SkillDamageRate += 0.01 * statMultiplier;
-                userRank.SkillResistanceRate += 0.01 * statMultiplier;
+                userRank.NormalDamageRate += 0.1 * statMultiplier;
+                userRank.NormalResistanceRate += 0.1 * statMultiplier;
+                userRank.SkillDamageRate += 0.1 * statMultiplier;
+                userRank.SkillResistanceRate += 0.1 * statMultiplier;
                 userRank.PercentAllHealth += 5 * statMultiplier;
                 userRank.PercentAllPhysicalAttack += 5 * statMultiplier;
                 userRank.PercentAllPhysicalDefense += 5 * statMultiplier;
@@ -119,42 +119,42 @@ public static class EnhanceHelper
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                userRank.PhysicalAttack += 1500000 * statMultiplier;
-                userRank.MagicalAttack += 1500000 * statMultiplier;
-                userRank.ChemicalAttack += 1500000 * statMultiplier;
-                userRank.AtomicAttack += 1500000 * statMultiplier;
-                userRank.MentalAttack += 1500000 * statMultiplier;
+                userRank.PhysicalAttack += 15000000 * statMultiplier;
+                userRank.MagicalAttack += 15000000 * statMultiplier;
+                userRank.ChemicalAttack += 15000000 * statMultiplier;
+                userRank.AtomicAttack += 15000000 * statMultiplier;
+                userRank.MentalAttack += 15000000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                userRank.PhysicalDefense += 1500000 * statMultiplier;
-                userRank.MagicalDefense += 1500000 * statMultiplier;
-                userRank.ChemicalDefense += 1500000 * statMultiplier;
-                userRank.AtomicDefense += 1500000 * statMultiplier;
-                userRank.MentalDefense += 1500000 * statMultiplier;
+                userRank.PhysicalDefense += 15000000 * statMultiplier;
+                userRank.MagicalDefense += 15000000 * statMultiplier;
+                userRank.ChemicalDefense += 15000000 * statMultiplier;
+                userRank.AtomicDefense += 15000000 * statMultiplier;
+                userRank.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                userRank.Speed += 1500000 * statMultiplier;
-                userRank.CriticalDamageRate += 0.01 * statMultiplier;
-                userRank.CriticalRate += 0.01 * statMultiplier;
-                userRank.PenetrationRate += 0.01 * statMultiplier;
-                userRank.EvasionRate += 0.01 * statMultiplier;
-                userRank.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userRank.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userRank.AccuracyRate += 0.01 * statMultiplier;
-                userRank.LifestealRate += 0.01 * statMultiplier;
-                userRank.Mana += 1500000 * statMultiplier;
-                userRank.ManaRegenerationRate += 0.01 * statMultiplier;
-                userRank.ShieldStrength += 1500000 * statMultiplier;
-                userRank.Tenacity += 0.05 * statMultiplier;
-                userRank.ResistanceRate += 0.01 * statMultiplier;
-                userRank.ComboRate += 0.01 * statMultiplier;
-                userRank.ReflectionRate += 0.01 * statMultiplier;
-                userRank.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userRank.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userRank.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userRank.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userRank.Speed += 15000000 * statMultiplier;
+                userRank.CriticalDamageRate += 0.1 * statMultiplier;
+                userRank.CriticalRate += 0.1 * statMultiplier;
+                userRank.PenetrationRate += 0.1 * statMultiplier;
+                userRank.EvasionRate += 0.1 * statMultiplier;
+                userRank.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userRank.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userRank.AccuracyRate += 0.1 * statMultiplier;
+                userRank.LifestealRate += 0.1 * statMultiplier;
+                userRank.Mana += 15000000 * statMultiplier;
+                userRank.ManaRegenerationRate += 0.1 * statMultiplier;
+                userRank.ShieldStrength += 15000000 * statMultiplier;
+                userRank.Tenacity += 0.5 * statMultiplier;
+                userRank.ResistanceRate += 0.1 * statMultiplier;
+                userRank.ComboRate += 0.1 * statMultiplier;
+                userRank.ReflectionRate += 0.1 * statMultiplier;
+                userRank.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userRank.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userRank.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userRank.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 
@@ -172,88 +172,88 @@ public static class EnhanceHelper
 
             if (lvl >= 0 && lvl <= 500)
             {
-                userMaster.Health += 10000000 * statMultiplier;
+                userMaster.Health += 100000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                userMaster.PhysicalAttack += 1500000 * statMultiplier;
-                userMaster.PhysicalDefense += 1500000 * statMultiplier;
+                userMaster.PhysicalAttack += 15000000 * statMultiplier;
+                userMaster.PhysicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                userMaster.MagicalAttack += 1500000 * statMultiplier;
-                userMaster.MagicalDefense += 1500000 * statMultiplier;
+                userMaster.MagicalAttack += 15000000 * statMultiplier;
+                userMaster.MagicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                userMaster.ChemicalAttack += 1500000 * statMultiplier;
-                userMaster.ChemicalDefense += 1500000 * statMultiplier;
+                userMaster.ChemicalAttack += 15000000 * statMultiplier;
+                userMaster.ChemicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                userMaster.AtomicAttack += 1500000 * statMultiplier;
-                userMaster.AtomicDefense += 1500000 * statMultiplier;
+                userMaster.AtomicAttack += 15000000 * statMultiplier;
+                userMaster.AtomicDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                userMaster.MentalAttack += 1500000 * statMultiplier;
-                userMaster.MentalDefense += 1500000 * statMultiplier;
+                userMaster.MentalAttack += 15000000 * statMultiplier;
+                userMaster.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                userMaster.Speed += 1500000 * statMultiplier;
-                userMaster.CriticalDamageRate += 0.01 * statMultiplier;
-                userMaster.CriticalRate += 0.01 * statMultiplier;
-                userMaster.CriticalResistanceRate += 0.01 * statMultiplier;
-                userMaster.IgnoreCriticalRate += 0.01 * statMultiplier;
-                userMaster.PenetrationRate += 0.01 * statMultiplier;
-                userMaster.PenetrationResistanceRate += 0.01 * statMultiplier;
+                userMaster.Speed += 15000000 * statMultiplier;
+                userMaster.CriticalDamageRate += 0.1 * statMultiplier;
+                userMaster.CriticalRate += 0.1 * statMultiplier;
+                userMaster.CriticalResistanceRate += 0.1 * statMultiplier;
+                userMaster.IgnoreCriticalRate += 0.1 * statMultiplier;
+                userMaster.PenetrationRate += 0.1 * statMultiplier;
+                userMaster.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                userMaster.EvasionRate += 0.01 * statMultiplier;
-                userMaster.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userMaster.IgnoreDamageAbsorptionRate += 0.01 * statMultiplier;
-                userMaster.AbsorbedDamageRate += 0.01 * statMultiplier;
-                userMaster.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userMaster.VitalityRegenerationResistanceRate += 0.01 * statMultiplier;
-                userMaster.AccuracyRate += 0.01 * statMultiplier;
+                userMaster.EvasionRate += 0.1 * statMultiplier;
+                userMaster.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userMaster.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                userMaster.AbsorbedDamageRate += 0.1 * statMultiplier;
+                userMaster.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userMaster.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                userMaster.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                userMaster.LifestealRate += 0.01 * statMultiplier;
-                userMaster.Mana += 1500000 * statMultiplier;
-                userMaster.ManaRegenerationRate += 0.01 * statMultiplier;
-                userMaster.ShieldStrength += 1500000 * statMultiplier;
+                userMaster.LifestealRate += 0.1 * statMultiplier;
+                userMaster.Mana += 15000000 * statMultiplier;
+                userMaster.ManaRegenerationRate += 0.1 * statMultiplier;
+                userMaster.ShieldStrength += 15000000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                userMaster.Tenacity += 0.05 * statMultiplier;
-                userMaster.ResistanceRate += 0.01 * statMultiplier;
-                userMaster.ComboRate += 0.01 * statMultiplier;
-                userMaster.IgnoreComboRate += 0.01 * statMultiplier;
-                userMaster.ComboDamageRate += 0.01 * statMultiplier;
-                userMaster.ComboResistanceRate += 0.01 * statMultiplier;
-                userMaster.StunRate += 0.01 * statMultiplier;
-                userMaster.IgnoreStunRate += 0.01 * statMultiplier;
+                userMaster.Tenacity += 0.5 * statMultiplier;
+                userMaster.ResistanceRate += 0.1 * statMultiplier;
+                userMaster.ComboRate += 0.1 * statMultiplier;
+                userMaster.IgnoreComboRate += 0.1 * statMultiplier;
+                userMaster.ComboDamageRate += 0.1 * statMultiplier;
+                userMaster.ComboResistanceRate += 0.1 * statMultiplier;
+                userMaster.StunRate += 0.1 * statMultiplier;
+                userMaster.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                userMaster.ReflectionRate += 0.01 * statMultiplier;
-                userMaster.IgnoreReflectionRate += 0.01 * statMultiplier;
-                userMaster.ReflectionDamageRate += 0.01 * statMultiplier;
-                userMaster.ReflectionResistanceRate += 0.01 * statMultiplier;
-                userMaster.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userMaster.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userMaster.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userMaster.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userMaster.ReflectionRate += 0.1 * statMultiplier;
+                userMaster.IgnoreReflectionRate += 0.1 * statMultiplier;
+                userMaster.ReflectionDamageRate += 0.1 * statMultiplier;
+                userMaster.ReflectionResistanceRate += 0.1 * statMultiplier;
+                userMaster.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userMaster.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userMaster.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userMaster.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                userMaster.NormalDamageRate += 0.01 * statMultiplier;
-                userMaster.NormalResistanceRate += 0.01 * statMultiplier;
-                userMaster.SkillDamageRate += 0.01 * statMultiplier;
-                userMaster.SkillResistanceRate += 0.01 * statMultiplier;
+                userMaster.NormalDamageRate += 0.1 * statMultiplier;
+                userMaster.NormalResistanceRate += 0.1 * statMultiplier;
+                userMaster.SkillDamageRate += 0.1 * statMultiplier;
+                userMaster.SkillResistanceRate += 0.1 * statMultiplier;
                 userMaster.PercentAllHealth += 5 * statMultiplier;
                 userMaster.PercentAllPhysicalAttack += 5 * statMultiplier;
                 userMaster.PercentAllPhysicalDefense += 5 * statMultiplier;
@@ -280,42 +280,42 @@ public static class EnhanceHelper
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                userMaster.PhysicalAttack += 1500000 * statMultiplier;
-                userMaster.MagicalAttack += 1500000 * statMultiplier;
-                userMaster.ChemicalAttack += 1500000 * statMultiplier;
-                userMaster.AtomicAttack += 1500000 * statMultiplier;
-                userMaster.MentalAttack += 1500000 * statMultiplier;
+                userMaster.PhysicalAttack += 15000000 * statMultiplier;
+                userMaster.MagicalAttack += 15000000 * statMultiplier;
+                userMaster.ChemicalAttack += 15000000 * statMultiplier;
+                userMaster.AtomicAttack += 15000000 * statMultiplier;
+                userMaster.MentalAttack += 15000000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                userMaster.PhysicalDefense += 1500000 * statMultiplier;
-                userMaster.MagicalDefense += 1500000 * statMultiplier;
-                userMaster.ChemicalDefense += 1500000 * statMultiplier;
-                userMaster.AtomicDefense += 1500000 * statMultiplier;
-                userMaster.MentalDefense += 1500000 * statMultiplier;
+                userMaster.PhysicalDefense += 15000000 * statMultiplier;
+                userMaster.MagicalDefense += 15000000 * statMultiplier;
+                userMaster.ChemicalDefense += 15000000 * statMultiplier;
+                userMaster.AtomicDefense += 15000000 * statMultiplier;
+                userMaster.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                userMaster.Speed += 1500000 * statMultiplier;
-                userMaster.CriticalDamageRate += 0.01 * statMultiplier;
-                userMaster.CriticalRate += 0.01 * statMultiplier;
-                userMaster.PenetrationRate += 0.01 * statMultiplier;
-                userMaster.EvasionRate += 0.01 * statMultiplier;
-                userMaster.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userMaster.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userMaster.AccuracyRate += 0.01 * statMultiplier;
-                userMaster.LifestealRate += 0.01 * statMultiplier;
-                userMaster.Mana += 1500000 * statMultiplier;
-                userMaster.ManaRegenerationRate += 0.01 * statMultiplier;
-                userMaster.ShieldStrength += 1500000 * statMultiplier;
-                userMaster.Tenacity += 0.05 * statMultiplier;
-                userMaster.ResistanceRate += 0.01 * statMultiplier;
-                userMaster.ComboRate += 0.01 * statMultiplier;
-                userMaster.ReflectionRate += 0.01 * statMultiplier;
-                userMaster.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userMaster.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userMaster.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userMaster.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userMaster.Speed += 15000000 * statMultiplier;
+                userMaster.CriticalDamageRate += 0.1 * statMultiplier;
+                userMaster.CriticalRate += 0.1 * statMultiplier;
+                userMaster.PenetrationRate += 0.1 * statMultiplier;
+                userMaster.EvasionRate += 0.1 * statMultiplier;
+                userMaster.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userMaster.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userMaster.AccuracyRate += 0.1 * statMultiplier;
+                userMaster.LifestealRate += 0.1 * statMultiplier;
+                userMaster.Mana += 15000000 * statMultiplier;
+                userMaster.ManaRegenerationRate += 0.1 * statMultiplier;
+                userMaster.ShieldStrength += 15000000 * statMultiplier;
+                userMaster.Tenacity += 0.5 * statMultiplier;
+                userMaster.ResistanceRate += 0.1 * statMultiplier;
+                userMaster.ComboRate += 0.1 * statMultiplier;
+                userMaster.ReflectionRate += 0.1 * statMultiplier;
+                userMaster.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userMaster.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userMaster.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userMaster.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 
@@ -333,88 +333,88 @@ public static class EnhanceHelper
 
             if (lvl >= 0 && lvl <= 500)
             {
-                userAnime.Health += 10000000 * statMultiplier;
+                userAnime.Health += 100000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                userAnime.PhysicalAttack += 1500000 * statMultiplier;
-                userAnime.PhysicalDefense += 1500000 * statMultiplier;
+                userAnime.PhysicalAttack += 15000000 * statMultiplier;
+                userAnime.PhysicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                userAnime.MagicalAttack += 1500000 * statMultiplier;
-                userAnime.MagicalDefense += 1500000 * statMultiplier;
+                userAnime.MagicalAttack += 15000000 * statMultiplier;
+                userAnime.MagicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                userAnime.ChemicalAttack += 1500000 * statMultiplier;
-                userAnime.ChemicalDefense += 1500000 * statMultiplier;
+                userAnime.ChemicalAttack += 15000000 * statMultiplier;
+                userAnime.ChemicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                userAnime.AtomicAttack += 1500000 * statMultiplier;
-                userAnime.AtomicDefense += 1500000 * statMultiplier;
+                userAnime.AtomicAttack += 15000000 * statMultiplier;
+                userAnime.AtomicDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                userAnime.MentalAttack += 1500000 * statMultiplier;
-                userAnime.MentalDefense += 1500000 * statMultiplier;
+                userAnime.MentalAttack += 15000000 * statMultiplier;
+                userAnime.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                userAnime.Speed += 1500000 * statMultiplier;
-                userAnime.CriticalDamageRate += 0.01 * statMultiplier;
-                userAnime.CriticalRate += 0.01 * statMultiplier;
-                userAnime.CriticalResistanceRate += 0.01 * statMultiplier;
-                userAnime.IgnoreCriticalRate += 0.01 * statMultiplier;
-                userAnime.PenetrationRate += 0.01 * statMultiplier;
-                userAnime.PenetrationResistanceRate += 0.01 * statMultiplier;
+                userAnime.Speed += 15000000 * statMultiplier;
+                userAnime.CriticalDamageRate += 0.1 * statMultiplier;
+                userAnime.CriticalRate += 0.1 * statMultiplier;
+                userAnime.CriticalResistanceRate += 0.1 * statMultiplier;
+                userAnime.IgnoreCriticalRate += 0.1 * statMultiplier;
+                userAnime.PenetrationRate += 0.1 * statMultiplier;
+                userAnime.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                userAnime.EvasionRate += 0.01 * statMultiplier;
-                userAnime.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userAnime.IgnoreDamageAbsorptionRate += 0.01 * statMultiplier;
-                userAnime.AbsorbedDamageRate += 0.01 * statMultiplier;
-                userAnime.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userAnime.VitalityRegenerationResistanceRate += 0.01 * statMultiplier;
-                userAnime.AccuracyRate += 0.01 * statMultiplier;
+                userAnime.EvasionRate += 0.1 * statMultiplier;
+                userAnime.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userAnime.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                userAnime.AbsorbedDamageRate += 0.1 * statMultiplier;
+                userAnime.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userAnime.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                userAnime.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                userAnime.LifestealRate += 0.01 * statMultiplier;
-                userAnime.Mana += 1500000 * statMultiplier;
-                userAnime.ManaRegenerationRate += 0.01 * statMultiplier;
-                userAnime.ShieldStrength += 1500000 * statMultiplier;
+                userAnime.LifestealRate += 0.1 * statMultiplier;
+                userAnime.Mana += 15000000 * statMultiplier;
+                userAnime.ManaRegenerationRate += 0.1 * statMultiplier;
+                userAnime.ShieldStrength += 15000000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                userAnime.Tenacity += 0.05 * statMultiplier;
-                userAnime.ResistanceRate += 0.01 * statMultiplier;
-                userAnime.ComboRate += 0.01 * statMultiplier;
-                userAnime.IgnoreComboRate += 0.01 * statMultiplier;
-                userAnime.ComboDamageRate += 0.01 * statMultiplier;
-                userAnime.ComboResistanceRate += 0.01 * statMultiplier;
-                userAnime.StunRate += 0.01 * statMultiplier;
-                userAnime.IgnoreStunRate += 0.01 * statMultiplier;
+                userAnime.Tenacity += 0.5 * statMultiplier;
+                userAnime.ResistanceRate += 0.1 * statMultiplier;
+                userAnime.ComboRate += 0.1 * statMultiplier;
+                userAnime.IgnoreComboRate += 0.1 * statMultiplier;
+                userAnime.ComboDamageRate += 0.1 * statMultiplier;
+                userAnime.ComboResistanceRate += 0.1 * statMultiplier;
+                userAnime.StunRate += 0.1 * statMultiplier;
+                userAnime.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                userAnime.ReflectionRate += 0.01 * statMultiplier;
-                userAnime.IgnoreReflectionRate += 0.01 * statMultiplier;
-                userAnime.ReflectionDamageRate += 0.01 * statMultiplier;
-                userAnime.ReflectionResistanceRate += 0.01 * statMultiplier;
-                userAnime.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userAnime.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userAnime.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userAnime.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userAnime.ReflectionRate += 0.1 * statMultiplier;
+                userAnime.IgnoreReflectionRate += 0.1 * statMultiplier;
+                userAnime.ReflectionDamageRate += 0.1 * statMultiplier;
+                userAnime.ReflectionResistanceRate += 0.1 * statMultiplier;
+                userAnime.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userAnime.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userAnime.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userAnime.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                userAnime.NormalDamageRate += 0.01 * statMultiplier;
-                userAnime.NormalResistanceRate += 0.01 * statMultiplier;
-                userAnime.SkillDamageRate += 0.01 * statMultiplier;
-                userAnime.SkillResistanceRate += 0.01 * statMultiplier;
+                userAnime.NormalDamageRate += 0.1 * statMultiplier;
+                userAnime.NormalResistanceRate += 0.1 * statMultiplier;
+                userAnime.SkillDamageRate += 0.1 * statMultiplier;
+                userAnime.SkillResistanceRate += 0.1 * statMultiplier;
                 userAnime.PercentAllHealth += 5 * statMultiplier;
                 userAnime.PercentAllPhysicalAttack += 5 * statMultiplier;
                 userAnime.PercentAllPhysicalDefense += 5 * statMultiplier;
@@ -441,42 +441,42 @@ public static class EnhanceHelper
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                userAnime.PhysicalAttack += 1500000 * statMultiplier;
-                userAnime.MagicalAttack += 1500000 * statMultiplier;
-                userAnime.ChemicalAttack += 1500000 * statMultiplier;
-                userAnime.AtomicAttack += 1500000 * statMultiplier;
-                userAnime.MentalAttack += 1500000 * statMultiplier;
+                userAnime.PhysicalAttack += 15000000 * statMultiplier;
+                userAnime.MagicalAttack += 15000000 * statMultiplier;
+                userAnime.ChemicalAttack += 15000000 * statMultiplier;
+                userAnime.AtomicAttack += 15000000 * statMultiplier;
+                userAnime.MentalAttack += 15000000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                userAnime.PhysicalDefense += 1500000 * statMultiplier;
-                userAnime.MagicalDefense += 1500000 * statMultiplier;
-                userAnime.ChemicalDefense += 1500000 * statMultiplier;
-                userAnime.AtomicDefense += 1500000 * statMultiplier;
-                userAnime.MentalDefense += 1500000 * statMultiplier;
+                userAnime.PhysicalDefense += 15000000 * statMultiplier;
+                userAnime.MagicalDefense += 15000000 * statMultiplier;
+                userAnime.ChemicalDefense += 15000000 * statMultiplier;
+                userAnime.AtomicDefense += 15000000 * statMultiplier;
+                userAnime.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                userAnime.Speed += 1500000 * statMultiplier;
-                userAnime.CriticalDamageRate += 0.01 * statMultiplier;
-                userAnime.CriticalRate += 0.01 * statMultiplier;
-                userAnime.PenetrationRate += 0.01 * statMultiplier;
-                userAnime.EvasionRate += 0.01 * statMultiplier;
-                userAnime.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userAnime.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userAnime.AccuracyRate += 0.01 * statMultiplier;
-                userAnime.LifestealRate += 0.01 * statMultiplier;
-                userAnime.Mana += 1500000 * statMultiplier;
-                userAnime.ManaRegenerationRate += 0.01 * statMultiplier;
-                userAnime.ShieldStrength += 1500000 * statMultiplier;
-                userAnime.Tenacity += 0.05 * statMultiplier;
-                userAnime.ResistanceRate += 0.01 * statMultiplier;
-                userAnime.ComboRate += 0.01 * statMultiplier;
-                userAnime.ReflectionRate += 0.01 * statMultiplier;
-                userAnime.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userAnime.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userAnime.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userAnime.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userAnime.Speed += 15000000 * statMultiplier;
+                userAnime.CriticalDamageRate += 0.1 * statMultiplier;
+                userAnime.CriticalRate += 0.1 * statMultiplier;
+                userAnime.PenetrationRate += 0.1 * statMultiplier;
+                userAnime.EvasionRate += 0.1 * statMultiplier;
+                userAnime.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userAnime.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userAnime.AccuracyRate += 0.1 * statMultiplier;
+                userAnime.LifestealRate += 0.1 * statMultiplier;
+                userAnime.Mana += 15000000 * statMultiplier;
+                userAnime.ManaRegenerationRate += 0.1 * statMultiplier;
+                userAnime.ShieldStrength += 15000000 * statMultiplier;
+                userAnime.Tenacity += 0.5 * statMultiplier;
+                userAnime.ResistanceRate += 0.1 * statMultiplier;
+                userAnime.ComboRate += 0.1 * statMultiplier;
+                userAnime.ReflectionRate += 0.1 * statMultiplier;
+                userAnime.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userAnime.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userAnime.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userAnime.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 
@@ -494,88 +494,88 @@ public static class EnhanceHelper
 
             if (lvl >= 0 && lvl <= 500)
             {
-                rank.Health += 10000000 * statMultiplier;
+                rank.Health += 100000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                rank.PhysicalAttack += 1500000 * statMultiplier;
-                rank.PhysicalDefense += 1500000 * statMultiplier;
+                rank.PhysicalAttack += 15000000 * statMultiplier;
+                rank.PhysicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                rank.MagicalAttack += 1500000 * statMultiplier;
-                rank.MagicalDefense += 1500000 * statMultiplier;
+                rank.MagicalAttack += 15000000 * statMultiplier;
+                rank.MagicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                rank.ChemicalAttack += 1500000 * statMultiplier;
-                rank.ChemicalDefense += 1500000 * statMultiplier;
+                rank.ChemicalAttack += 15000000 * statMultiplier;
+                rank.ChemicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                rank.AtomicAttack += 1500000 * statMultiplier;
-                rank.AtomicDefense += 1500000 * statMultiplier;
+                rank.AtomicAttack += 15000000 * statMultiplier;
+                rank.AtomicDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                rank.MentalAttack += 1500000 * statMultiplier;
-                rank.MentalDefense += 1500000 * statMultiplier;
+                rank.MentalAttack += 15000000 * statMultiplier;
+                rank.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                rank.Speed += 1500000 * statMultiplier;
-                rank.CriticalDamageRate += 0.01 * statMultiplier;
-                rank.CriticalRate += 0.01 * statMultiplier;
-                rank.CriticalResistanceRate += 0.01 * statMultiplier;
-                rank.IgnoreCriticalRate += 0.01 * statMultiplier;
-                rank.PenetrationRate += 0.01 * statMultiplier;
-                rank.PenetrationResistanceRate += 0.01 * statMultiplier;
+                rank.Speed += 15000000 * statMultiplier;
+                rank.CriticalDamageRate += 0.1 * statMultiplier;
+                rank.CriticalRate += 0.1 * statMultiplier;
+                rank.CriticalResistanceRate += 0.1 * statMultiplier;
+                rank.IgnoreCriticalRate += 0.1 * statMultiplier;
+                rank.PenetrationRate += 0.1 * statMultiplier;
+                rank.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                rank.EvasionRate += 0.01 * statMultiplier;
-                rank.DamageAbsorptionRate += 0.01 * statMultiplier;
-                rank.IgnoreDamageAbsorptionRate += 0.01 * statMultiplier;
-                rank.AbsorbedDamageRate += 0.01 * statMultiplier;
-                rank.VitalityRegenerationRate += 0.01 * statMultiplier;
-                rank.VitalityRegenerationResistanceRate += 0.01 * statMultiplier;
-                rank.AccuracyRate += 0.01 * statMultiplier;
+                rank.EvasionRate += 0.1 * statMultiplier;
+                rank.DamageAbsorptionRate += 0.1 * statMultiplier;
+                rank.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                rank.AbsorbedDamageRate += 0.1 * statMultiplier;
+                rank.VitalityRegenerationRate += 0.1 * statMultiplier;
+                rank.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                rank.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                rank.LifestealRate += 0.01 * statMultiplier;
-                rank.Mana += 1500000 * statMultiplier;
-                rank.ManaRegenerationRate += 0.01 * statMultiplier;
-                rank.ShieldStrength += 1500000 * statMultiplier;
+                rank.LifestealRate += 0.1 * statMultiplier;
+                rank.Mana += 15000000 * statMultiplier;
+                rank.ManaRegenerationRate += 0.1 * statMultiplier;
+                rank.ShieldStrength += 15000000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                rank.Tenacity += 0.05 * statMultiplier;
-                rank.ResistanceRate += 0.01 * statMultiplier;
-                rank.ComboRate += 0.01 * statMultiplier;
-                rank.IgnoreComboRate += 0.01 * statMultiplier;
-                rank.ComboDamageRate += 0.01 * statMultiplier;
-                rank.ComboResistanceRate += 0.01 * statMultiplier;
-                rank.StunRate += 0.01 * statMultiplier;
-                rank.IgnoreStunRate += 0.01 * statMultiplier;
+                rank.Tenacity += 0.5 * statMultiplier;
+                rank.ResistanceRate += 0.1 * statMultiplier;
+                rank.ComboRate += 0.1 * statMultiplier;
+                rank.IgnoreComboRate += 0.1 * statMultiplier;
+                rank.ComboDamageRate += 0.1 * statMultiplier;
+                rank.ComboResistanceRate += 0.1 * statMultiplier;
+                rank.StunRate += 0.1 * statMultiplier;
+                rank.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                rank.ReflectionRate += 0.01 * statMultiplier;
-                rank.IgnoreReflectionRate += 0.01 * statMultiplier;
-                rank.ReflectionDamageRate += 0.01 * statMultiplier;
-                rank.ReflectionResistanceRate += 0.01 * statMultiplier;
-                rank.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                rank.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                rank.DamageToSameFactionRate += 0.01 * statMultiplier;
-                rank.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                rank.ReflectionRate += 0.1 * statMultiplier;
+                rank.IgnoreReflectionRate += 0.1 * statMultiplier;
+                rank.ReflectionDamageRate += 0.1 * statMultiplier;
+                rank.ReflectionResistanceRate += 0.1 * statMultiplier;
+                rank.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                rank.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                rank.DamageToSameFactionRate += 0.1 * statMultiplier;
+                rank.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                rank.NormalDamageRate += 0.01 * statMultiplier;
-                rank.NormalResistanceRate += 0.01 * statMultiplier;
-                rank.SkillDamageRate += 0.01 * statMultiplier;
-                rank.SkillResistanceRate += 0.01 * statMultiplier;
+                rank.NormalDamageRate += 0.1 * statMultiplier;
+                rank.NormalResistanceRate += 0.1 * statMultiplier;
+                rank.SkillDamageRate += 0.1 * statMultiplier;
+                rank.SkillResistanceRate += 0.1 * statMultiplier;
                 rank.PercentAllHealth += 5 * statMultiplier;
                 rank.PercentAllPhysicalAttack += 5 * statMultiplier;
                 rank.PercentAllPhysicalDefense += 5 * statMultiplier;
@@ -602,42 +602,42 @@ public static class EnhanceHelper
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                rank.PhysicalAttack += 1500000 * statMultiplier;
-                rank.MagicalAttack += 1500000 * statMultiplier;
-                rank.ChemicalAttack += 1500000 * statMultiplier;
-                rank.AtomicAttack += 1500000 * statMultiplier;
-                rank.MentalAttack += 1500000 * statMultiplier;
+                rank.PhysicalAttack += 15000000 * statMultiplier;
+                rank.MagicalAttack += 15000000 * statMultiplier;
+                rank.ChemicalAttack += 15000000 * statMultiplier;
+                rank.AtomicAttack += 15000000 * statMultiplier;
+                rank.MentalAttack += 15000000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                rank.PhysicalDefense += 1500000 * statMultiplier;
-                rank.MagicalDefense += 1500000 * statMultiplier;
-                rank.ChemicalDefense += 1500000 * statMultiplier;
-                rank.AtomicDefense += 1500000 * statMultiplier;
-                rank.MentalDefense += 1500000 * statMultiplier;
+                rank.PhysicalDefense += 15000000 * statMultiplier;
+                rank.MagicalDefense += 15000000 * statMultiplier;
+                rank.ChemicalDefense += 15000000 * statMultiplier;
+                rank.AtomicDefense += 15000000 * statMultiplier;
+                rank.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                rank.Speed += 1500000 * statMultiplier;
-                rank.CriticalDamageRate += 0.01 * statMultiplier;
-                rank.CriticalRate += 0.01 * statMultiplier;
-                rank.PenetrationRate += 0.01 * statMultiplier;
-                rank.EvasionRate += 0.01 * statMultiplier;
-                rank.DamageAbsorptionRate += 0.01 * statMultiplier;
-                rank.VitalityRegenerationRate += 0.01 * statMultiplier;
-                rank.AccuracyRate += 0.01 * statMultiplier;
-                rank.LifestealRate += 0.01 * statMultiplier;
-                rank.Mana += 1500000 * statMultiplier;
-                rank.ManaRegenerationRate += 0.01 * statMultiplier;
-                rank.ShieldStrength += 1500000 * statMultiplier;
-                rank.Tenacity += 0.05 * statMultiplier;
-                rank.ResistanceRate += 0.01 * statMultiplier;
-                rank.ComboRate += 0.01 * statMultiplier;
-                rank.ReflectionRate += 0.01 * statMultiplier;
-                rank.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                rank.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                rank.DamageToSameFactionRate += 0.01 * statMultiplier;
-                rank.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                rank.Speed += 15000000 * statMultiplier;
+                rank.CriticalDamageRate += 0.1 * statMultiplier;
+                rank.CriticalRate += 0.1 * statMultiplier;
+                rank.PenetrationRate += 0.1 * statMultiplier;
+                rank.EvasionRate += 0.1 * statMultiplier;
+                rank.DamageAbsorptionRate += 0.1 * statMultiplier;
+                rank.VitalityRegenerationRate += 0.1 * statMultiplier;
+                rank.AccuracyRate += 0.1 * statMultiplier;
+                rank.LifestealRate += 0.1 * statMultiplier;
+                rank.Mana += 15000000 * statMultiplier;
+                rank.ManaRegenerationRate += 0.1 * statMultiplier;
+                rank.ShieldStrength += 15000000 * statMultiplier;
+                rank.Tenacity += 0.5 * statMultiplier;
+                rank.ResistanceRate += 0.1 * statMultiplier;
+                rank.ComboRate += 0.1 * statMultiplier;
+                rank.ReflectionRate += 0.1 * statMultiplier;
+                rank.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                rank.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                rank.DamageToSameFactionRate += 0.1 * statMultiplier;
+                rank.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 
@@ -655,88 +655,88 @@ public static class EnhanceHelper
 
             if (lvl >= 0 && lvl <= 500)
             {
-                userScienceFiction.Health += 10000000 * statMultiplier;
+                userScienceFiction.Health += 100000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                userScienceFiction.PhysicalAttack += 1500000 * statMultiplier;
-                userScienceFiction.PhysicalDefense += 1500000 * statMultiplier;
+                userScienceFiction.PhysicalAttack += 15000000 * statMultiplier;
+                userScienceFiction.PhysicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                userScienceFiction.MagicalAttack += 1500000 * statMultiplier;
-                userScienceFiction.MagicalDefense += 1500000 * statMultiplier;
+                userScienceFiction.MagicalAttack += 15000000 * statMultiplier;
+                userScienceFiction.MagicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                userScienceFiction.ChemicalAttack += 1500000 * statMultiplier;
-                userScienceFiction.ChemicalDefense += 1500000 * statMultiplier;
+                userScienceFiction.ChemicalAttack += 15000000 * statMultiplier;
+                userScienceFiction.ChemicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                userScienceFiction.AtomicAttack += 1500000 * statMultiplier;
-                userScienceFiction.AtomicDefense += 1500000 * statMultiplier;
+                userScienceFiction.AtomicAttack += 15000000 * statMultiplier;
+                userScienceFiction.AtomicDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                userScienceFiction.MentalAttack += 1500000 * statMultiplier;
-                userScienceFiction.MentalDefense += 1500000 * statMultiplier;
+                userScienceFiction.MentalAttack += 15000000 * statMultiplier;
+                userScienceFiction.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                userScienceFiction.Speed += 1500000 * statMultiplier;
-                userScienceFiction.CriticalDamageRate += 0.01 * statMultiplier;
-                userScienceFiction.CriticalRate += 0.01 * statMultiplier;
-                userScienceFiction.CriticalResistanceRate += 0.01 * statMultiplier;
-                userScienceFiction.IgnoreCriticalRate += 0.01 * statMultiplier;
-                userScienceFiction.PenetrationRate += 0.01 * statMultiplier;
-                userScienceFiction.PenetrationResistanceRate += 0.01 * statMultiplier;
+                userScienceFiction.Speed += 15000000 * statMultiplier;
+                userScienceFiction.CriticalDamageRate += 0.1 * statMultiplier;
+                userScienceFiction.CriticalRate += 0.1 * statMultiplier;
+                userScienceFiction.CriticalResistanceRate += 0.1 * statMultiplier;
+                userScienceFiction.IgnoreCriticalRate += 0.1 * statMultiplier;
+                userScienceFiction.PenetrationRate += 0.1 * statMultiplier;
+                userScienceFiction.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                userScienceFiction.EvasionRate += 0.01 * statMultiplier;
-                userScienceFiction.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userScienceFiction.IgnoreDamageAbsorptionRate += 0.01 * statMultiplier;
-                userScienceFiction.AbsorbedDamageRate += 0.01 * statMultiplier;
-                userScienceFiction.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userScienceFiction.VitalityRegenerationResistanceRate += 0.01 * statMultiplier;
-                userScienceFiction.AccuracyRate += 0.01 * statMultiplier;
+                userScienceFiction.EvasionRate += 0.1 * statMultiplier;
+                userScienceFiction.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userScienceFiction.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                userScienceFiction.AbsorbedDamageRate += 0.1 * statMultiplier;
+                userScienceFiction.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userScienceFiction.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                userScienceFiction.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                userScienceFiction.LifestealRate += 0.01 * statMultiplier;
-                userScienceFiction.Mana += 1500000 * statMultiplier;
-                userScienceFiction.ManaRegenerationRate += 0.01 * statMultiplier;
-                userScienceFiction.ShieldStrength += 1500000 * statMultiplier;
+                userScienceFiction.LifestealRate += 0.1 * statMultiplier;
+                userScienceFiction.Mana += 15000000 * statMultiplier;
+                userScienceFiction.ManaRegenerationRate += 0.1 * statMultiplier;
+                userScienceFiction.ShieldStrength += 15000000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                userScienceFiction.Tenacity += 0.05 * statMultiplier;
-                userScienceFiction.ResistanceRate += 0.01 * statMultiplier;
-                userScienceFiction.ComboRate += 0.01 * statMultiplier;
-                userScienceFiction.IgnoreComboRate += 0.01 * statMultiplier;
-                userScienceFiction.ComboDamageRate += 0.01 * statMultiplier;
-                userScienceFiction.ComboResistanceRate += 0.01 * statMultiplier;
-                userScienceFiction.StunRate += 0.01 * statMultiplier;
-                userScienceFiction.IgnoreStunRate += 0.01 * statMultiplier;
+                userScienceFiction.Tenacity += 0.5 * statMultiplier;
+                userScienceFiction.ResistanceRate += 0.1 * statMultiplier;
+                userScienceFiction.ComboRate += 0.1 * statMultiplier;
+                userScienceFiction.IgnoreComboRate += 0.1 * statMultiplier;
+                userScienceFiction.ComboDamageRate += 0.1 * statMultiplier;
+                userScienceFiction.ComboResistanceRate += 0.1 * statMultiplier;
+                userScienceFiction.StunRate += 0.1 * statMultiplier;
+                userScienceFiction.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                userScienceFiction.ReflectionRate += 0.01 * statMultiplier;
-                userScienceFiction.IgnoreReflectionRate += 0.01 * statMultiplier;
-                userScienceFiction.ReflectionDamageRate += 0.01 * statMultiplier;
-                userScienceFiction.ReflectionResistanceRate += 0.01 * statMultiplier;
-                userScienceFiction.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userScienceFiction.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userScienceFiction.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userScienceFiction.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userScienceFiction.ReflectionRate += 0.1 * statMultiplier;
+                userScienceFiction.IgnoreReflectionRate += 0.1 * statMultiplier;
+                userScienceFiction.ReflectionDamageRate += 0.1 * statMultiplier;
+                userScienceFiction.ReflectionResistanceRate += 0.1 * statMultiplier;
+                userScienceFiction.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userScienceFiction.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userScienceFiction.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userScienceFiction.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                userScienceFiction.NormalDamageRate += 0.01 * statMultiplier;
-                userScienceFiction.NormalResistanceRate += 0.01 * statMultiplier;
-                userScienceFiction.SkillDamageRate += 0.01 * statMultiplier;
-                userScienceFiction.SkillResistanceRate += 0.01 * statMultiplier;
+                userScienceFiction.NormalDamageRate += 0.1 * statMultiplier;
+                userScienceFiction.NormalResistanceRate += 0.1 * statMultiplier;
+                userScienceFiction.SkillDamageRate += 0.1 * statMultiplier;
+                userScienceFiction.SkillResistanceRate += 0.1 * statMultiplier;
                 userScienceFiction.PercentAllHealth += 5 * statMultiplier;
                 userScienceFiction.PercentAllPhysicalAttack += 5 * statMultiplier;
                 userScienceFiction.PercentAllPhysicalDefense += 5 * statMultiplier;
@@ -763,42 +763,42 @@ public static class EnhanceHelper
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                userScienceFiction.PhysicalAttack += 1500000 * statMultiplier;
-                userScienceFiction.MagicalAttack += 1500000 * statMultiplier;
-                userScienceFiction.ChemicalAttack += 1500000 * statMultiplier;
-                userScienceFiction.AtomicAttack += 1500000 * statMultiplier;
-                userScienceFiction.MentalAttack += 1500000 * statMultiplier;
+                userScienceFiction.PhysicalAttack += 15000000 * statMultiplier;
+                userScienceFiction.MagicalAttack += 15000000 * statMultiplier;
+                userScienceFiction.ChemicalAttack += 15000000 * statMultiplier;
+                userScienceFiction.AtomicAttack += 15000000 * statMultiplier;
+                userScienceFiction.MentalAttack += 15000000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                userScienceFiction.PhysicalDefense += 1500000 * statMultiplier;
-                userScienceFiction.MagicalDefense += 1500000 * statMultiplier;
-                userScienceFiction.ChemicalDefense += 1500000 * statMultiplier;
-                userScienceFiction.AtomicDefense += 1500000 * statMultiplier;
-                userScienceFiction.MentalDefense += 1500000 * statMultiplier;
+                userScienceFiction.PhysicalDefense += 15000000 * statMultiplier;
+                userScienceFiction.MagicalDefense += 15000000 * statMultiplier;
+                userScienceFiction.ChemicalDefense += 15000000 * statMultiplier;
+                userScienceFiction.AtomicDefense += 15000000 * statMultiplier;
+                userScienceFiction.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                userScienceFiction.Speed += 1500000 * statMultiplier;
-                userScienceFiction.CriticalDamageRate += 0.01 * statMultiplier;
-                userScienceFiction.CriticalRate += 0.01 * statMultiplier;
-                userScienceFiction.PenetrationRate += 0.01 * statMultiplier;
-                userScienceFiction.EvasionRate += 0.01 * statMultiplier;
-                userScienceFiction.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userScienceFiction.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userScienceFiction.AccuracyRate += 0.01 * statMultiplier;
-                userScienceFiction.LifestealRate += 0.01 * statMultiplier;
-                userScienceFiction.Mana += 1500000 * statMultiplier;
-                userScienceFiction.ManaRegenerationRate += 0.01 * statMultiplier;
-                userScienceFiction.ShieldStrength += 1500000 * statMultiplier;
-                userScienceFiction.Tenacity += 0.05 * statMultiplier;
-                userScienceFiction.ResistanceRate += 0.01 * statMultiplier;
-                userScienceFiction.ComboRate += 0.01 * statMultiplier;
-                userScienceFiction.ReflectionRate += 0.01 * statMultiplier;
-                userScienceFiction.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userScienceFiction.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userScienceFiction.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userScienceFiction.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userScienceFiction.Speed += 15000000 * statMultiplier;
+                userScienceFiction.CriticalDamageRate += 0.1 * statMultiplier;
+                userScienceFiction.CriticalRate += 0.1 * statMultiplier;
+                userScienceFiction.PenetrationRate += 0.1 * statMultiplier;
+                userScienceFiction.EvasionRate += 0.1 * statMultiplier;
+                userScienceFiction.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userScienceFiction.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userScienceFiction.AccuracyRate += 0.1 * statMultiplier;
+                userScienceFiction.LifestealRate += 0.1 * statMultiplier;
+                userScienceFiction.Mana += 15000000 * statMultiplier;
+                userScienceFiction.ManaRegenerationRate += 0.1 * statMultiplier;
+                userScienceFiction.ShieldStrength += 15000000 * statMultiplier;
+                userScienceFiction.Tenacity += 0.5 * statMultiplier;
+                userScienceFiction.ResistanceRate += 0.1 * statMultiplier;
+                userScienceFiction.ComboRate += 0.1 * statMultiplier;
+                userScienceFiction.ReflectionRate += 0.1 * statMultiplier;
+                userScienceFiction.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userScienceFiction.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userScienceFiction.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userScienceFiction.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 
@@ -816,88 +816,88 @@ public static class EnhanceHelper
 
             if (lvl >= 0 && lvl <= 500)
             {
-                userArchive.Health += 10000000 * statMultiplier;
+                userArchive.Health += 100000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                userArchive.PhysicalAttack += 1500000 * statMultiplier;
-                userArchive.PhysicalDefense += 1500000 * statMultiplier;
+                userArchive.PhysicalAttack += 15000000 * statMultiplier;
+                userArchive.PhysicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                userArchive.MagicalAttack += 1500000 * statMultiplier;
-                userArchive.MagicalDefense += 1500000 * statMultiplier;
+                userArchive.MagicalAttack += 15000000 * statMultiplier;
+                userArchive.MagicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                userArchive.ChemicalAttack += 1500000 * statMultiplier;
-                userArchive.ChemicalDefense += 1500000 * statMultiplier;
+                userArchive.ChemicalAttack += 15000000 * statMultiplier;
+                userArchive.ChemicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                userArchive.AtomicAttack += 1500000 * statMultiplier;
-                userArchive.AtomicDefense += 1500000 * statMultiplier;
+                userArchive.AtomicAttack += 15000000 * statMultiplier;
+                userArchive.AtomicDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                userArchive.MentalAttack += 1500000 * statMultiplier;
-                userArchive.MentalDefense += 1500000 * statMultiplier;
+                userArchive.MentalAttack += 15000000 * statMultiplier;
+                userArchive.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                userArchive.Speed += 1500000 * statMultiplier;
-                userArchive.CriticalDamageRate += 0.01 * statMultiplier;
-                userArchive.CriticalRate += 0.01 * statMultiplier;
-                userArchive.CriticalResistanceRate += 0.01 * statMultiplier;
-                userArchive.IgnoreCriticalRate += 0.01 * statMultiplier;
-                userArchive.PenetrationRate += 0.01 * statMultiplier;
-                userArchive.PenetrationResistanceRate += 0.01 * statMultiplier;
+                userArchive.Speed += 15000000 * statMultiplier;
+                userArchive.CriticalDamageRate += 0.1 * statMultiplier;
+                userArchive.CriticalRate += 0.1 * statMultiplier;
+                userArchive.CriticalResistanceRate += 0.1 * statMultiplier;
+                userArchive.IgnoreCriticalRate += 0.1 * statMultiplier;
+                userArchive.PenetrationRate += 0.1 * statMultiplier;
+                userArchive.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                userArchive.EvasionRate += 0.01 * statMultiplier;
-                userArchive.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userArchive.IgnoreDamageAbsorptionRate += 0.01 * statMultiplier;
-                userArchive.AbsorbedDamageRate += 0.01 * statMultiplier;
-                userArchive.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userArchive.VitalityRegenerationResistanceRate += 0.01 * statMultiplier;
-                userArchive.AccuracyRate += 0.01 * statMultiplier;
+                userArchive.EvasionRate += 0.1 * statMultiplier;
+                userArchive.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userArchive.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                userArchive.AbsorbedDamageRate += 0.1 * statMultiplier;
+                userArchive.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userArchive.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                userArchive.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                userArchive.LifestealRate += 0.01 * statMultiplier;
-                userArchive.Mana += 1500000 * statMultiplier;
-                userArchive.ManaRegenerationRate += 0.01 * statMultiplier;
-                userArchive.ShieldStrength += 1500000 * statMultiplier;
+                userArchive.LifestealRate += 0.1 * statMultiplier;
+                userArchive.Mana += 15000000 * statMultiplier;
+                userArchive.ManaRegenerationRate += 0.1 * statMultiplier;
+                userArchive.ShieldStrength += 15000000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                userArchive.Tenacity += 0.05 * statMultiplier;
-                userArchive.ResistanceRate += 0.01 * statMultiplier;
-                userArchive.ComboRate += 0.01 * statMultiplier;
-                userArchive.IgnoreComboRate += 0.01 * statMultiplier;
-                userArchive.ComboDamageRate += 0.01 * statMultiplier;
-                userArchive.ComboResistanceRate += 0.01 * statMultiplier;
-                userArchive.StunRate += 0.01 * statMultiplier;
-                userArchive.IgnoreStunRate += 0.01 * statMultiplier;
+                userArchive.Tenacity += 0.5 * statMultiplier;
+                userArchive.ResistanceRate += 0.1 * statMultiplier;
+                userArchive.ComboRate += 0.1 * statMultiplier;
+                userArchive.IgnoreComboRate += 0.1 * statMultiplier;
+                userArchive.ComboDamageRate += 0.1 * statMultiplier;
+                userArchive.ComboResistanceRate += 0.1 * statMultiplier;
+                userArchive.StunRate += 0.1 * statMultiplier;
+                userArchive.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                userArchive.ReflectionRate += 0.01 * statMultiplier;
-                userArchive.IgnoreReflectionRate += 0.01 * statMultiplier;
-                userArchive.ReflectionDamageRate += 0.01 * statMultiplier;
-                userArchive.ReflectionResistanceRate += 0.01 * statMultiplier;
-                userArchive.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userArchive.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userArchive.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userArchive.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userArchive.ReflectionRate += 0.1 * statMultiplier;
+                userArchive.IgnoreReflectionRate += 0.1 * statMultiplier;
+                userArchive.ReflectionDamageRate += 0.1 * statMultiplier;
+                userArchive.ReflectionResistanceRate += 0.1 * statMultiplier;
+                userArchive.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userArchive.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userArchive.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userArchive.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                userArchive.NormalDamageRate += 0.01 * statMultiplier;
-                userArchive.NormalResistanceRate += 0.01 * statMultiplier;
-                userArchive.SkillDamageRate += 0.01 * statMultiplier;
-                userArchive.SkillResistanceRate += 0.01 * statMultiplier;
+                userArchive.NormalDamageRate += 0.1 * statMultiplier;
+                userArchive.NormalResistanceRate += 0.1 * statMultiplier;
+                userArchive.SkillDamageRate += 0.1 * statMultiplier;
+                userArchive.SkillResistanceRate += 0.1 * statMultiplier;
                 userArchive.PercentAllHealth += 5 * statMultiplier;
                 userArchive.PercentAllPhysicalAttack += 5 * statMultiplier;
                 userArchive.PercentAllPhysicalDefense += 5 * statMultiplier;
@@ -924,42 +924,42 @@ public static class EnhanceHelper
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                userArchive.PhysicalAttack += 1500000 * statMultiplier;
-                userArchive.MagicalAttack += 1500000 * statMultiplier;
-                userArchive.ChemicalAttack += 1500000 * statMultiplier;
-                userArchive.AtomicAttack += 1500000 * statMultiplier;
-                userArchive.MentalAttack += 1500000 * statMultiplier;
+                userArchive.PhysicalAttack += 15000000 * statMultiplier;
+                userArchive.MagicalAttack += 15000000 * statMultiplier;
+                userArchive.ChemicalAttack += 15000000 * statMultiplier;
+                userArchive.AtomicAttack += 15000000 * statMultiplier;
+                userArchive.MentalAttack += 15000000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                userArchive.PhysicalDefense += 1500000 * statMultiplier;
-                userArchive.MagicalDefense += 1500000 * statMultiplier;
-                userArchive.ChemicalDefense += 1500000 * statMultiplier;
-                userArchive.AtomicDefense += 1500000 * statMultiplier;
-                userArchive.MentalDefense += 1500000 * statMultiplier;
+                userArchive.PhysicalDefense += 15000000 * statMultiplier;
+                userArchive.MagicalDefense += 15000000 * statMultiplier;
+                userArchive.ChemicalDefense += 15000000 * statMultiplier;
+                userArchive.AtomicDefense += 15000000 * statMultiplier;
+                userArchive.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                userArchive.Speed += 1500000 * statMultiplier;
-                userArchive.CriticalDamageRate += 0.01 * statMultiplier;
-                userArchive.CriticalRate += 0.01 * statMultiplier;
-                userArchive.PenetrationRate += 0.01 * statMultiplier;
-                userArchive.EvasionRate += 0.01 * statMultiplier;
-                userArchive.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userArchive.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userArchive.AccuracyRate += 0.01 * statMultiplier;
-                userArchive.LifestealRate += 0.01 * statMultiplier;
-                userArchive.Mana += 1500000 * statMultiplier;
-                userArchive.ManaRegenerationRate += 0.01 * statMultiplier;
-                userArchive.ShieldStrength += 1500000 * statMultiplier;
-                userArchive.Tenacity += 0.05 * statMultiplier;
-                userArchive.ResistanceRate += 0.01 * statMultiplier;
-                userArchive.ComboRate += 0.01 * statMultiplier;
-                userArchive.ReflectionRate += 0.01 * statMultiplier;
-                userArchive.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userArchive.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userArchive.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userArchive.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userArchive.Speed += 15000000 * statMultiplier;
+                userArchive.CriticalDamageRate += 0.1 * statMultiplier;
+                userArchive.CriticalRate += 0.1 * statMultiplier;
+                userArchive.PenetrationRate += 0.1 * statMultiplier;
+                userArchive.EvasionRate += 0.1 * statMultiplier;
+                userArchive.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userArchive.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userArchive.AccuracyRate += 0.1 * statMultiplier;
+                userArchive.LifestealRate += 0.1 * statMultiplier;
+                userArchive.Mana += 15000000 * statMultiplier;
+                userArchive.ManaRegenerationRate += 0.1 * statMultiplier;
+                userArchive.ShieldStrength += 15000000 * statMultiplier;
+                userArchive.Tenacity += 0.5 * statMultiplier;
+                userArchive.ResistanceRate += 0.1 * statMultiplier;
+                userArchive.ComboRate += 0.1 * statMultiplier;
+                userArchive.ReflectionRate += 0.1 * statMultiplier;
+                userArchive.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userArchive.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userArchive.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userArchive.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 
@@ -977,88 +977,88 @@ public static class EnhanceHelper
 
             if (lvl >= 0 && lvl <= 500)
             {
-                userResearch.Health += 10000000 * statMultiplier;
+                userResearch.Health += 100000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                userResearch.PhysicalAttack += 1500000 * statMultiplier;
-                userResearch.PhysicalDefense += 1500000 * statMultiplier;
+                userResearch.PhysicalAttack += 15000000 * statMultiplier;
+                userResearch.PhysicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                userResearch.MagicalAttack += 1500000 * statMultiplier;
-                userResearch.MagicalDefense += 1500000 * statMultiplier;
+                userResearch.MagicalAttack += 15000000 * statMultiplier;
+                userResearch.MagicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                userResearch.ChemicalAttack += 1500000 * statMultiplier;
-                userResearch.ChemicalDefense += 1500000 * statMultiplier;
+                userResearch.ChemicalAttack += 15000000 * statMultiplier;
+                userResearch.ChemicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                userResearch.AtomicAttack += 1500000 * statMultiplier;
-                userResearch.AtomicDefense += 1500000 * statMultiplier;
+                userResearch.AtomicAttack += 15000000 * statMultiplier;
+                userResearch.AtomicDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                userResearch.MentalAttack += 1500000 * statMultiplier;
-                userResearch.MentalDefense += 1500000 * statMultiplier;
+                userResearch.MentalAttack += 15000000 * statMultiplier;
+                userResearch.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                userResearch.Speed += 1500000 * statMultiplier;
-                userResearch.CriticalDamageRate += 0.01 * statMultiplier;
-                userResearch.CriticalRate += 0.01 * statMultiplier;
-                userResearch.CriticalResistanceRate += 0.01 * statMultiplier;
-                userResearch.IgnoreCriticalRate += 0.01 * statMultiplier;
-                userResearch.PenetrationRate += 0.01 * statMultiplier;
-                userResearch.PenetrationResistanceRate += 0.01 * statMultiplier;
+                userResearch.Speed += 15000000 * statMultiplier;
+                userResearch.CriticalDamageRate += 0.1 * statMultiplier;
+                userResearch.CriticalRate += 0.1 * statMultiplier;
+                userResearch.CriticalResistanceRate += 0.1 * statMultiplier;
+                userResearch.IgnoreCriticalRate += 0.1 * statMultiplier;
+                userResearch.PenetrationRate += 0.1 * statMultiplier;
+                userResearch.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                userResearch.EvasionRate += 0.01 * statMultiplier;
-                userResearch.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userResearch.IgnoreDamageAbsorptionRate += 0.01 * statMultiplier;
-                userResearch.AbsorbedDamageRate += 0.01 * statMultiplier;
-                userResearch.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userResearch.VitalityRegenerationResistanceRate += 0.01 * statMultiplier;
-                userResearch.AccuracyRate += 0.01 * statMultiplier;
+                userResearch.EvasionRate += 0.1 * statMultiplier;
+                userResearch.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userResearch.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                userResearch.AbsorbedDamageRate += 0.1 * statMultiplier;
+                userResearch.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userResearch.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                userResearch.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                userResearch.LifestealRate += 0.01 * statMultiplier;
-                userResearch.Mana += 1500000 * statMultiplier;
-                userResearch.ManaRegenerationRate += 0.01 * statMultiplier;
-                userResearch.ShieldStrength += 1500000 * statMultiplier;
+                userResearch.LifestealRate += 0.1 * statMultiplier;
+                userResearch.Mana += 15000000 * statMultiplier;
+                userResearch.ManaRegenerationRate += 0.1 * statMultiplier;
+                userResearch.ShieldStrength += 15000000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                userResearch.Tenacity += 0.05 * statMultiplier;
-                userResearch.ResistanceRate += 0.01 * statMultiplier;
-                userResearch.ComboRate += 0.01 * statMultiplier;
-                userResearch.IgnoreComboRate += 0.01 * statMultiplier;
-                userResearch.ComboDamageRate += 0.01 * statMultiplier;
-                userResearch.ComboResistanceRate += 0.01 * statMultiplier;
-                userResearch.StunRate += 0.01 * statMultiplier;
-                userResearch.IgnoreStunRate += 0.01 * statMultiplier;
+                userResearch.Tenacity += 0.5 * statMultiplier;
+                userResearch.ResistanceRate += 0.1 * statMultiplier;
+                userResearch.ComboRate += 0.1 * statMultiplier;
+                userResearch.IgnoreComboRate += 0.1 * statMultiplier;
+                userResearch.ComboDamageRate += 0.1 * statMultiplier;
+                userResearch.ComboResistanceRate += 0.1 * statMultiplier;
+                userResearch.StunRate += 0.1 * statMultiplier;
+                userResearch.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                userResearch.ReflectionRate += 0.01 * statMultiplier;
-                userResearch.IgnoreReflectionRate += 0.01 * statMultiplier;
-                userResearch.ReflectionDamageRate += 0.01 * statMultiplier;
-                userResearch.ReflectionResistanceRate += 0.01 * statMultiplier;
-                userResearch.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userResearch.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userResearch.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userResearch.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userResearch.ReflectionRate += 0.1 * statMultiplier;
+                userResearch.IgnoreReflectionRate += 0.1 * statMultiplier;
+                userResearch.ReflectionDamageRate += 0.1 * statMultiplier;
+                userResearch.ReflectionResistanceRate += 0.1 * statMultiplier;
+                userResearch.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userResearch.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userResearch.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userResearch.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                userResearch.NormalDamageRate += 0.01 * statMultiplier;
-                userResearch.NormalResistanceRate += 0.01 * statMultiplier;
-                userResearch.SkillDamageRate += 0.01 * statMultiplier;
-                userResearch.SkillResistanceRate += 0.01 * statMultiplier;
+                userResearch.NormalDamageRate += 0.1 * statMultiplier;
+                userResearch.NormalResistanceRate += 0.1 * statMultiplier;
+                userResearch.SkillDamageRate += 0.1 * statMultiplier;
+                userResearch.SkillResistanceRate += 0.1 * statMultiplier;
                 userResearch.PercentAllHealth += 5 * statMultiplier;
                 userResearch.PercentAllPhysicalAttack += 5 * statMultiplier;
                 userResearch.PercentAllPhysicalDefense += 5 * statMultiplier;
@@ -1085,42 +1085,42 @@ public static class EnhanceHelper
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                userResearch.PhysicalAttack += 1500000 * statMultiplier;
-                userResearch.MagicalAttack += 1500000 * statMultiplier;
-                userResearch.ChemicalAttack += 1500000 * statMultiplier;
-                userResearch.AtomicAttack += 1500000 * statMultiplier;
-                userResearch.MentalAttack += 1500000 * statMultiplier;
+                userResearch.PhysicalAttack += 15000000 * statMultiplier;
+                userResearch.MagicalAttack += 15000000 * statMultiplier;
+                userResearch.ChemicalAttack += 15000000 * statMultiplier;
+                userResearch.AtomicAttack += 15000000 * statMultiplier;
+                userResearch.MentalAttack += 15000000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                userResearch.PhysicalDefense += 1500000 * statMultiplier;
-                userResearch.MagicalDefense += 1500000 * statMultiplier;
-                userResearch.ChemicalDefense += 1500000 * statMultiplier;
-                userResearch.AtomicDefense += 1500000 * statMultiplier;
-                userResearch.MentalDefense += 1500000 * statMultiplier;
+                userResearch.PhysicalDefense += 15000000 * statMultiplier;
+                userResearch.MagicalDefense += 15000000 * statMultiplier;
+                userResearch.ChemicalDefense += 15000000 * statMultiplier;
+                userResearch.AtomicDefense += 15000000 * statMultiplier;
+                userResearch.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                userResearch.Speed += 1500000 * statMultiplier;
-                userResearch.CriticalDamageRate += 0.01 * statMultiplier;
-                userResearch.CriticalRate += 0.01 * statMultiplier;
-                userResearch.PenetrationRate += 0.01 * statMultiplier;
-                userResearch.EvasionRate += 0.01 * statMultiplier;
-                userResearch.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userResearch.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userResearch.AccuracyRate += 0.01 * statMultiplier;
-                userResearch.LifestealRate += 0.01 * statMultiplier;
-                userResearch.Mana += 1500000 * statMultiplier;
-                userResearch.ManaRegenerationRate += 0.01 * statMultiplier;
-                userResearch.ShieldStrength += 1500000 * statMultiplier;
-                userResearch.Tenacity += 0.05 * statMultiplier;
-                userResearch.ResistanceRate += 0.01 * statMultiplier;
-                userResearch.ComboRate += 0.01 * statMultiplier;
-                userResearch.ReflectionRate += 0.01 * statMultiplier;
-                userResearch.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userResearch.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userResearch.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userResearch.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userResearch.Speed += 15000000 * statMultiplier;
+                userResearch.CriticalDamageRate += 0.1 * statMultiplier;
+                userResearch.CriticalRate += 0.1 * statMultiplier;
+                userResearch.PenetrationRate += 0.1 * statMultiplier;
+                userResearch.EvasionRate += 0.1 * statMultiplier;
+                userResearch.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userResearch.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userResearch.AccuracyRate += 0.1 * statMultiplier;
+                userResearch.LifestealRate += 0.1 * statMultiplier;
+                userResearch.Mana += 15000000 * statMultiplier;
+                userResearch.ManaRegenerationRate += 0.1 * statMultiplier;
+                userResearch.ShieldStrength += 15000000 * statMultiplier;
+                userResearch.Tenacity += 0.5 * statMultiplier;
+                userResearch.ResistanceRate += 0.1 * statMultiplier;
+                userResearch.ComboRate += 0.1 * statMultiplier;
+                userResearch.ReflectionRate += 0.1 * statMultiplier;
+                userResearch.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userResearch.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userResearch.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userResearch.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 
@@ -1138,88 +1138,88 @@ public static class EnhanceHelper
 
             if (lvl >= 0 && lvl <= 500)
             {
-                userUniverse.Health += 10000000 * statMultiplier;
+                userUniverse.Health += 100000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                userUniverse.PhysicalAttack += 1500000 * statMultiplier;
-                userUniverse.PhysicalDefense += 1500000 * statMultiplier;
+                userUniverse.PhysicalAttack += 15000000 * statMultiplier;
+                userUniverse.PhysicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                userUniverse.MagicalAttack += 1500000 * statMultiplier;
-                userUniverse.MagicalDefense += 1500000 * statMultiplier;
+                userUniverse.MagicalAttack += 15000000 * statMultiplier;
+                userUniverse.MagicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                userUniverse.ChemicalAttack += 1500000 * statMultiplier;
-                userUniverse.ChemicalDefense += 1500000 * statMultiplier;
+                userUniverse.ChemicalAttack += 15000000 * statMultiplier;
+                userUniverse.ChemicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                userUniverse.AtomicAttack += 1500000 * statMultiplier;
-                userUniverse.AtomicDefense += 1500000 * statMultiplier;
+                userUniverse.AtomicAttack += 15000000 * statMultiplier;
+                userUniverse.AtomicDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                userUniverse.MentalAttack += 1500000 * statMultiplier;
-                userUniverse.MentalDefense += 1500000 * statMultiplier;
+                userUniverse.MentalAttack += 15000000 * statMultiplier;
+                userUniverse.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                userUniverse.Speed += 1500000 * statMultiplier;
-                userUniverse.CriticalDamageRate += 0.01 * statMultiplier;
-                userUniverse.CriticalRate += 0.01 * statMultiplier;
-                userUniverse.CriticalResistanceRate += 0.01 * statMultiplier;
-                userUniverse.IgnoreCriticalRate += 0.01 * statMultiplier;
-                userUniverse.PenetrationRate += 0.01 * statMultiplier;
-                userUniverse.PenetrationResistanceRate += 0.01 * statMultiplier;
+                userUniverse.Speed += 15000000 * statMultiplier;
+                userUniverse.CriticalDamageRate += 0.1 * statMultiplier;
+                userUniverse.CriticalRate += 0.1 * statMultiplier;
+                userUniverse.CriticalResistanceRate += 0.1 * statMultiplier;
+                userUniverse.IgnoreCriticalRate += 0.1 * statMultiplier;
+                userUniverse.PenetrationRate += 0.1 * statMultiplier;
+                userUniverse.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                userUniverse.EvasionRate += 0.01 * statMultiplier;
-                userUniverse.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userUniverse.IgnoreDamageAbsorptionRate += 0.01 * statMultiplier;
-                userUniverse.AbsorbedDamageRate += 0.01 * statMultiplier;
-                userUniverse.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userUniverse.VitalityRegenerationResistanceRate += 0.01 * statMultiplier;
-                userUniverse.AccuracyRate += 0.01 * statMultiplier;
+                userUniverse.EvasionRate += 0.1 * statMultiplier;
+                userUniverse.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userUniverse.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                userUniverse.AbsorbedDamageRate += 0.1 * statMultiplier;
+                userUniverse.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userUniverse.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                userUniverse.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                userUniverse.LifestealRate += 0.01 * statMultiplier;
-                userUniverse.Mana += 1500000 * statMultiplier;
-                userUniverse.ManaRegenerationRate += 0.01 * statMultiplier;
-                userUniverse.ShieldStrength += 1500000 * statMultiplier;
+                userUniverse.LifestealRate += 0.1 * statMultiplier;
+                userUniverse.Mana += 15000000 * statMultiplier;
+                userUniverse.ManaRegenerationRate += 0.1 * statMultiplier;
+                userUniverse.ShieldStrength += 15000000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                userUniverse.Tenacity += 0.05 * statMultiplier;
-                userUniverse.ResistanceRate += 0.01 * statMultiplier;
-                userUniverse.ComboRate += 0.01 * statMultiplier;
-                userUniverse.IgnoreComboRate += 0.01 * statMultiplier;
-                userUniverse.ComboDamageRate += 0.01 * statMultiplier;
-                userUniverse.ComboResistanceRate += 0.01 * statMultiplier;
-                userUniverse.StunRate += 0.01 * statMultiplier;
-                userUniverse.IgnoreStunRate += 0.01 * statMultiplier;
+                userUniverse.Tenacity += 0.5 * statMultiplier;
+                userUniverse.ResistanceRate += 0.1 * statMultiplier;
+                userUniverse.ComboRate += 0.1 * statMultiplier;
+                userUniverse.IgnoreComboRate += 0.1 * statMultiplier;
+                userUniverse.ComboDamageRate += 0.1 * statMultiplier;
+                userUniverse.ComboResistanceRate += 0.1 * statMultiplier;
+                userUniverse.StunRate += 0.1 * statMultiplier;
+                userUniverse.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                userUniverse.ReflectionRate += 0.01 * statMultiplier;
-                userUniverse.IgnoreReflectionRate += 0.01 * statMultiplier;
-                userUniverse.ReflectionDamageRate += 0.01 * statMultiplier;
-                userUniverse.ReflectionResistanceRate += 0.01 * statMultiplier;
-                userUniverse.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userUniverse.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userUniverse.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userUniverse.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userUniverse.ReflectionRate += 0.1 * statMultiplier;
+                userUniverse.IgnoreReflectionRate += 0.1 * statMultiplier;
+                userUniverse.ReflectionDamageRate += 0.1 * statMultiplier;
+                userUniverse.ReflectionResistanceRate += 0.1 * statMultiplier;
+                userUniverse.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userUniverse.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userUniverse.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userUniverse.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                userUniverse.NormalDamageRate += 0.01 * statMultiplier;
-                userUniverse.NormalResistanceRate += 0.01 * statMultiplier;
-                userUniverse.SkillDamageRate += 0.01 * statMultiplier;
-                userUniverse.SkillResistanceRate += 0.01 * statMultiplier;
+                userUniverse.NormalDamageRate += 0.1 * statMultiplier;
+                userUniverse.NormalResistanceRate += 0.1 * statMultiplier;
+                userUniverse.SkillDamageRate += 0.1 * statMultiplier;
+                userUniverse.SkillResistanceRate += 0.1 * statMultiplier;
                 userUniverse.PercentAllHealth += 5 * statMultiplier;
                 userUniverse.PercentAllPhysicalAttack += 5 * statMultiplier;
                 userUniverse.PercentAllPhysicalDefense += 5 * statMultiplier;
@@ -1246,42 +1246,42 @@ public static class EnhanceHelper
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                userUniverse.PhysicalAttack += 1500000 * statMultiplier;
-                userUniverse.MagicalAttack += 1500000 * statMultiplier;
-                userUniverse.ChemicalAttack += 1500000 * statMultiplier;
-                userUniverse.AtomicAttack += 1500000 * statMultiplier;
-                userUniverse.MentalAttack += 1500000 * statMultiplier;
+                userUniverse.PhysicalAttack += 15000000 * statMultiplier;
+                userUniverse.MagicalAttack += 15000000 * statMultiplier;
+                userUniverse.ChemicalAttack += 15000000 * statMultiplier;
+                userUniverse.AtomicAttack += 15000000 * statMultiplier;
+                userUniverse.MentalAttack += 15000000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                userUniverse.PhysicalDefense += 1500000 * statMultiplier;
-                userUniverse.MagicalDefense += 1500000 * statMultiplier;
-                userUniverse.ChemicalDefense += 1500000 * statMultiplier;
-                userUniverse.AtomicDefense += 1500000 * statMultiplier;
-                userUniverse.MentalDefense += 1500000 * statMultiplier;
+                userUniverse.PhysicalDefense += 15000000 * statMultiplier;
+                userUniverse.MagicalDefense += 15000000 * statMultiplier;
+                userUniverse.ChemicalDefense += 15000000 * statMultiplier;
+                userUniverse.AtomicDefense += 15000000 * statMultiplier;
+                userUniverse.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                userUniverse.Speed += 1500000 * statMultiplier;
-                userUniverse.CriticalDamageRate += 0.01 * statMultiplier;
-                userUniverse.CriticalRate += 0.01 * statMultiplier;
-                userUniverse.PenetrationRate += 0.01 * statMultiplier;
-                userUniverse.EvasionRate += 0.01 * statMultiplier;
-                userUniverse.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userUniverse.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userUniverse.AccuracyRate += 0.01 * statMultiplier;
-                userUniverse.LifestealRate += 0.01 * statMultiplier;
-                userUniverse.Mana += 1500000 * statMultiplier;
-                userUniverse.ManaRegenerationRate += 0.01 * statMultiplier;
-                userUniverse.ShieldStrength += 1500000 * statMultiplier;
-                userUniverse.Tenacity += 0.05 * statMultiplier;
-                userUniverse.ResistanceRate += 0.01 * statMultiplier;
-                userUniverse.ComboRate += 0.01 * statMultiplier;
-                userUniverse.ReflectionRate += 0.01 * statMultiplier;
-                userUniverse.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userUniverse.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userUniverse.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userUniverse.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userUniverse.Speed += 15000000 * statMultiplier;
+                userUniverse.CriticalDamageRate += 0.1 * statMultiplier;
+                userUniverse.CriticalRate += 0.1 * statMultiplier;
+                userUniverse.PenetrationRate += 0.1 * statMultiplier;
+                userUniverse.EvasionRate += 0.1 * statMultiplier;
+                userUniverse.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userUniverse.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userUniverse.AccuracyRate += 0.1 * statMultiplier;
+                userUniverse.LifestealRate += 0.1 * statMultiplier;
+                userUniverse.Mana += 15000000 * statMultiplier;
+                userUniverse.ManaRegenerationRate += 0.1 * statMultiplier;
+                userUniverse.ShieldStrength += 15000000 * statMultiplier;
+                userUniverse.Tenacity += 0.5 * statMultiplier;
+                userUniverse.ResistanceRate += 0.1 * statMultiplier;
+                userUniverse.ComboRate += 0.1 * statMultiplier;
+                userUniverse.ReflectionRate += 0.1 * statMultiplier;
+                userUniverse.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userUniverse.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userUniverse.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userUniverse.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 
@@ -1299,88 +1299,88 @@ public static class EnhanceHelper
 
             if (lvl >= 0 && lvl <= 500)
             {
-                userHICA.Health += 10000000 * statMultiplier;
+                userHICA.Health += 100000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                userHICA.PhysicalAttack += 1500000 * statMultiplier;
-                userHICA.PhysicalDefense += 1500000 * statMultiplier;
+                userHICA.PhysicalAttack += 15000000 * statMultiplier;
+                userHICA.PhysicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                userHICA.MagicalAttack += 1500000 * statMultiplier;
-                userHICA.MagicalDefense += 1500000 * statMultiplier;
+                userHICA.MagicalAttack += 15000000 * statMultiplier;
+                userHICA.MagicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                userHICA.ChemicalAttack += 1500000 * statMultiplier;
-                userHICA.ChemicalDefense += 1500000 * statMultiplier;
+                userHICA.ChemicalAttack += 15000000 * statMultiplier;
+                userHICA.ChemicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                userHICA.AtomicAttack += 1500000 * statMultiplier;
-                userHICA.AtomicDefense += 1500000 * statMultiplier;
+                userHICA.AtomicAttack += 15000000 * statMultiplier;
+                userHICA.AtomicDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                userHICA.MentalAttack += 1500000 * statMultiplier;
-                userHICA.MentalDefense += 1500000 * statMultiplier;
+                userHICA.MentalAttack += 15000000 * statMultiplier;
+                userHICA.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                userHICA.Speed += 1500000 * statMultiplier;
-                userHICA.CriticalDamageRate += 0.01 * statMultiplier;
-                userHICA.CriticalRate += 0.01 * statMultiplier;
-                userHICA.CriticalResistanceRate += 0.01 * statMultiplier;
-                userHICA.IgnoreCriticalRate += 0.01 * statMultiplier;
-                userHICA.PenetrationRate += 0.01 * statMultiplier;
-                userHICA.PenetrationResistanceRate += 0.01 * statMultiplier;
+                userHICA.Speed += 15000000 * statMultiplier;
+                userHICA.CriticalDamageRate += 0.1 * statMultiplier;
+                userHICA.CriticalRate += 0.1 * statMultiplier;
+                userHICA.CriticalResistanceRate += 0.1 * statMultiplier;
+                userHICA.IgnoreCriticalRate += 0.1 * statMultiplier;
+                userHICA.PenetrationRate += 0.1 * statMultiplier;
+                userHICA.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                userHICA.EvasionRate += 0.01 * statMultiplier;
-                userHICA.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userHICA.IgnoreDamageAbsorptionRate += 0.01 * statMultiplier;
-                userHICA.AbsorbedDamageRate += 0.01 * statMultiplier;
-                userHICA.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userHICA.VitalityRegenerationResistanceRate += 0.01 * statMultiplier;
-                userHICA.AccuracyRate += 0.01 * statMultiplier;
+                userHICA.EvasionRate += 0.1 * statMultiplier;
+                userHICA.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userHICA.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                userHICA.AbsorbedDamageRate += 0.1 * statMultiplier;
+                userHICA.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userHICA.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                userHICA.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                userHICA.LifestealRate += 0.01 * statMultiplier;
-                userHICA.Mana += 1500000 * statMultiplier;
-                userHICA.ManaRegenerationRate += 0.01 * statMultiplier;
-                userHICA.ShieldStrength += 1500000 * statMultiplier;
+                userHICA.LifestealRate += 0.1 * statMultiplier;
+                userHICA.Mana += 15000000 * statMultiplier;
+                userHICA.ManaRegenerationRate += 0.1 * statMultiplier;
+                userHICA.ShieldStrength += 15000000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                userHICA.Tenacity += 0.05 * statMultiplier;
-                userHICA.ResistanceRate += 0.01 * statMultiplier;
-                userHICA.ComboRate += 0.01 * statMultiplier;
-                userHICA.IgnoreComboRate += 0.01 * statMultiplier;
-                userHICA.ComboDamageRate += 0.01 * statMultiplier;
-                userHICA.ComboResistanceRate += 0.01 * statMultiplier;
-                userHICA.StunRate += 0.01 * statMultiplier;
-                userHICA.IgnoreStunRate += 0.01 * statMultiplier;
+                userHICA.Tenacity += 0.5 * statMultiplier;
+                userHICA.ResistanceRate += 0.1 * statMultiplier;
+                userHICA.ComboRate += 0.1 * statMultiplier;
+                userHICA.IgnoreComboRate += 0.1 * statMultiplier;
+                userHICA.ComboDamageRate += 0.1 * statMultiplier;
+                userHICA.ComboResistanceRate += 0.1 * statMultiplier;
+                userHICA.StunRate += 0.1 * statMultiplier;
+                userHICA.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                userHICA.ReflectionRate += 0.01 * statMultiplier;
-                userHICA.IgnoreReflectionRate += 0.01 * statMultiplier;
-                userHICA.ReflectionDamageRate += 0.01 * statMultiplier;
-                userHICA.ReflectionResistanceRate += 0.01 * statMultiplier;
-                userHICA.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userHICA.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userHICA.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userHICA.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userHICA.ReflectionRate += 0.1 * statMultiplier;
+                userHICA.IgnoreReflectionRate += 0.1 * statMultiplier;
+                userHICA.ReflectionDamageRate += 0.1 * statMultiplier;
+                userHICA.ReflectionResistanceRate += 0.1 * statMultiplier;
+                userHICA.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userHICA.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userHICA.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userHICA.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                userHICA.NormalDamageRate += 0.01 * statMultiplier;
-                userHICA.NormalResistanceRate += 0.01 * statMultiplier;
-                userHICA.SkillDamageRate += 0.01 * statMultiplier;
-                userHICA.SkillResistanceRate += 0.01 * statMultiplier;
+                userHICA.NormalDamageRate += 0.1 * statMultiplier;
+                userHICA.NormalResistanceRate += 0.1 * statMultiplier;
+                userHICA.SkillDamageRate += 0.1 * statMultiplier;
+                userHICA.SkillResistanceRate += 0.1 * statMultiplier;
                 userHICA.PercentAllHealth += 5 * statMultiplier;
                 userHICA.PercentAllPhysicalAttack += 5 * statMultiplier;
                 userHICA.PercentAllPhysicalDefense += 5 * statMultiplier;
@@ -1407,42 +1407,42 @@ public static class EnhanceHelper
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                userHICA.PhysicalAttack += 1500000 * statMultiplier;
-                userHICA.MagicalAttack += 1500000 * statMultiplier;
-                userHICA.ChemicalAttack += 1500000 * statMultiplier;
-                userHICA.AtomicAttack += 1500000 * statMultiplier;
-                userHICA.MentalAttack += 1500000 * statMultiplier;
+                userHICA.PhysicalAttack += 15000000 * statMultiplier;
+                userHICA.MagicalAttack += 15000000 * statMultiplier;
+                userHICA.ChemicalAttack += 15000000 * statMultiplier;
+                userHICA.AtomicAttack += 15000000 * statMultiplier;
+                userHICA.MentalAttack += 15000000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                userHICA.PhysicalDefense += 1500000 * statMultiplier;
-                userHICA.MagicalDefense += 1500000 * statMultiplier;
-                userHICA.ChemicalDefense += 1500000 * statMultiplier;
-                userHICA.AtomicDefense += 1500000 * statMultiplier;
-                userHICA.MentalDefense += 1500000 * statMultiplier;
+                userHICA.PhysicalDefense += 15000000 * statMultiplier;
+                userHICA.MagicalDefense += 15000000 * statMultiplier;
+                userHICA.ChemicalDefense += 15000000 * statMultiplier;
+                userHICA.AtomicDefense += 15000000 * statMultiplier;
+                userHICA.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                userHICA.Speed += 1500000 * statMultiplier;
-                userHICA.CriticalDamageRate += 0.01 * statMultiplier;
-                userHICA.CriticalRate += 0.01 * statMultiplier;
-                userHICA.PenetrationRate += 0.01 * statMultiplier;
-                userHICA.EvasionRate += 0.01 * statMultiplier;
-                userHICA.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userHICA.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userHICA.AccuracyRate += 0.01 * statMultiplier;
-                userHICA.LifestealRate += 0.01 * statMultiplier;
-                userHICA.Mana += 1500000 * statMultiplier;
-                userHICA.ManaRegenerationRate += 0.01 * statMultiplier;
-                userHICA.ShieldStrength += 1500000 * statMultiplier;
-                userHICA.Tenacity += 0.05 * statMultiplier;
-                userHICA.ResistanceRate += 0.01 * statMultiplier;
-                userHICA.ComboRate += 0.01 * statMultiplier;
-                userHICA.ReflectionRate += 0.01 * statMultiplier;
-                userHICA.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userHICA.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userHICA.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userHICA.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userHICA.Speed += 15000000 * statMultiplier;
+                userHICA.CriticalDamageRate += 0.1 * statMultiplier;
+                userHICA.CriticalRate += 0.1 * statMultiplier;
+                userHICA.PenetrationRate += 0.1 * statMultiplier;
+                userHICA.EvasionRate += 0.1 * statMultiplier;
+                userHICA.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userHICA.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userHICA.AccuracyRate += 0.1 * statMultiplier;
+                userHICA.LifestealRate += 0.1 * statMultiplier;
+                userHICA.Mana += 15000000 * statMultiplier;
+                userHICA.ManaRegenerationRate += 0.1 * statMultiplier;
+                userHICA.ShieldStrength += 15000000 * statMultiplier;
+                userHICA.Tenacity += 0.5 * statMultiplier;
+                userHICA.ResistanceRate += 0.1 * statMultiplier;
+                userHICA.ComboRate += 0.1 * statMultiplier;
+                userHICA.ReflectionRate += 0.1 * statMultiplier;
+                userHICA.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userHICA.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userHICA.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userHICA.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 
@@ -1460,88 +1460,88 @@ public static class EnhanceHelper
 
             if (lvl >= 0 && lvl <= 500)
             {
-                userHICB.Health += 10000000 * statMultiplier;
+                userHICB.Health += 100000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                userHICB.PhysicalAttack += 1500000 * statMultiplier;
-                userHICB.PhysicalDefense += 1500000 * statMultiplier;
+                userHICB.PhysicalAttack += 15000000 * statMultiplier;
+                userHICB.PhysicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                userHICB.MagicalAttack += 1500000 * statMultiplier;
-                userHICB.MagicalDefense += 1500000 * statMultiplier;
+                userHICB.MagicalAttack += 15000000 * statMultiplier;
+                userHICB.MagicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                userHICB.ChemicalAttack += 1500000 * statMultiplier;
-                userHICB.ChemicalDefense += 1500000 * statMultiplier;
+                userHICB.ChemicalAttack += 15000000 * statMultiplier;
+                userHICB.ChemicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                userHICB.AtomicAttack += 1500000 * statMultiplier;
-                userHICB.AtomicDefense += 1500000 * statMultiplier;
+                userHICB.AtomicAttack += 15000000 * statMultiplier;
+                userHICB.AtomicDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                userHICB.MentalAttack += 1500000 * statMultiplier;
-                userHICB.MentalDefense += 1500000 * statMultiplier;
+                userHICB.MentalAttack += 15000000 * statMultiplier;
+                userHICB.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                userHICB.Speed += 1500000 * statMultiplier;
-                userHICB.CriticalDamageRate += 0.01 * statMultiplier;
-                userHICB.CriticalRate += 0.01 * statMultiplier;
-                userHICB.CriticalResistanceRate += 0.01 * statMultiplier;
-                userHICB.IgnoreCriticalRate += 0.01 * statMultiplier;
-                userHICB.PenetrationRate += 0.01 * statMultiplier;
-                userHICB.PenetrationResistanceRate += 0.01 * statMultiplier;
+                userHICB.Speed += 15000000 * statMultiplier;
+                userHICB.CriticalDamageRate += 0.1 * statMultiplier;
+                userHICB.CriticalRate += 0.1 * statMultiplier;
+                userHICB.CriticalResistanceRate += 0.1 * statMultiplier;
+                userHICB.IgnoreCriticalRate += 0.1 * statMultiplier;
+                userHICB.PenetrationRate += 0.1 * statMultiplier;
+                userHICB.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                userHICB.EvasionRate += 0.01 * statMultiplier;
-                userHICB.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userHICB.IgnoreDamageAbsorptionRate += 0.01 * statMultiplier;
-                userHICB.AbsorbedDamageRate += 0.01 * statMultiplier;
-                userHICB.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userHICB.VitalityRegenerationResistanceRate += 0.01 * statMultiplier;
-                userHICB.AccuracyRate += 0.01 * statMultiplier;
+                userHICB.EvasionRate += 0.1 * statMultiplier;
+                userHICB.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userHICB.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                userHICB.AbsorbedDamageRate += 0.1 * statMultiplier;
+                userHICB.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userHICB.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                userHICB.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                userHICB.LifestealRate += 0.01 * statMultiplier;
-                userHICB.Mana += 1500000 * statMultiplier;
-                userHICB.ManaRegenerationRate += 0.01 * statMultiplier;
-                userHICB.ShieldStrength += 1500000 * statMultiplier;
+                userHICB.LifestealRate += 0.1 * statMultiplier;
+                userHICB.Mana += 15000000 * statMultiplier;
+                userHICB.ManaRegenerationRate += 0.1 * statMultiplier;
+                userHICB.ShieldStrength += 15000000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                userHICB.Tenacity += 0.05 * statMultiplier;
-                userHICB.ResistanceRate += 0.01 * statMultiplier;
-                userHICB.ComboRate += 0.01 * statMultiplier;
-                userHICB.IgnoreComboRate += 0.01 * statMultiplier;
-                userHICB.ComboDamageRate += 0.01 * statMultiplier;
-                userHICB.ComboResistanceRate += 0.01 * statMultiplier;
-                userHICB.StunRate += 0.01 * statMultiplier;
-                userHICB.IgnoreStunRate += 0.01 * statMultiplier;
+                userHICB.Tenacity += 0.5 * statMultiplier;
+                userHICB.ResistanceRate += 0.1 * statMultiplier;
+                userHICB.ComboRate += 0.1 * statMultiplier;
+                userHICB.IgnoreComboRate += 0.1 * statMultiplier;
+                userHICB.ComboDamageRate += 0.1 * statMultiplier;
+                userHICB.ComboResistanceRate += 0.1 * statMultiplier;
+                userHICB.StunRate += 0.1 * statMultiplier;
+                userHICB.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                userHICB.ReflectionRate += 0.01 * statMultiplier;
-                userHICB.IgnoreReflectionRate += 0.01 * statMultiplier;
-                userHICB.ReflectionDamageRate += 0.01 * statMultiplier;
-                userHICB.ReflectionResistanceRate += 0.01 * statMultiplier;
-                userHICB.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userHICB.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userHICB.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userHICB.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userHICB.ReflectionRate += 0.1 * statMultiplier;
+                userHICB.IgnoreReflectionRate += 0.1 * statMultiplier;
+                userHICB.ReflectionDamageRate += 0.1 * statMultiplier;
+                userHICB.ReflectionResistanceRate += 0.1 * statMultiplier;
+                userHICB.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userHICB.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userHICB.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userHICB.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                userHICB.NormalDamageRate += 0.01 * statMultiplier;
-                userHICB.NormalResistanceRate += 0.01 * statMultiplier;
-                userHICB.SkillDamageRate += 0.01 * statMultiplier;
-                userHICB.SkillResistanceRate += 0.01 * statMultiplier;
+                userHICB.NormalDamageRate += 0.1 * statMultiplier;
+                userHICB.NormalResistanceRate += 0.1 * statMultiplier;
+                userHICB.SkillDamageRate += 0.1 * statMultiplier;
+                userHICB.SkillResistanceRate += 0.1 * statMultiplier;
                 userHICB.PercentAllHealth += 5 * statMultiplier;
                 userHICB.PercentAllPhysicalAttack += 5 * statMultiplier;
                 userHICB.PercentAllPhysicalDefense += 5 * statMultiplier;
@@ -1568,42 +1568,42 @@ public static class EnhanceHelper
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                userHICB.PhysicalAttack += 1500000 * statMultiplier;
-                userHICB.MagicalAttack += 1500000 * statMultiplier;
-                userHICB.ChemicalAttack += 1500000 * statMultiplier;
-                userHICB.AtomicAttack += 1500000 * statMultiplier;
-                userHICB.MentalAttack += 1500000 * statMultiplier;
+                userHICB.PhysicalAttack += 15000000 * statMultiplier;
+                userHICB.MagicalAttack += 15000000 * statMultiplier;
+                userHICB.ChemicalAttack += 15000000 * statMultiplier;
+                userHICB.AtomicAttack += 15000000 * statMultiplier;
+                userHICB.MentalAttack += 15000000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                userHICB.PhysicalDefense += 1500000 * statMultiplier;
-                userHICB.MagicalDefense += 1500000 * statMultiplier;
-                userHICB.ChemicalDefense += 1500000 * statMultiplier;
-                userHICB.AtomicDefense += 1500000 * statMultiplier;
-                userHICB.MentalDefense += 1500000 * statMultiplier;
+                userHICB.PhysicalDefense += 15000000 * statMultiplier;
+                userHICB.MagicalDefense += 15000000 * statMultiplier;
+                userHICB.ChemicalDefense += 15000000 * statMultiplier;
+                userHICB.AtomicDefense += 15000000 * statMultiplier;
+                userHICB.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                userHICB.Speed += 1500000 * statMultiplier;
-                userHICB.CriticalDamageRate += 0.01 * statMultiplier;
-                userHICB.CriticalRate += 0.01 * statMultiplier;
-                userHICB.PenetrationRate += 0.01 * statMultiplier;
-                userHICB.EvasionRate += 0.01 * statMultiplier;
-                userHICB.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userHICB.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userHICB.AccuracyRate += 0.01 * statMultiplier;
-                userHICB.LifestealRate += 0.01 * statMultiplier;
-                userHICB.Mana += 1500000 * statMultiplier;
-                userHICB.ManaRegenerationRate += 0.01 * statMultiplier;
-                userHICB.ShieldStrength += 1500000 * statMultiplier;
-                userHICB.Tenacity += 0.05 * statMultiplier;
-                userHICB.ResistanceRate += 0.01 * statMultiplier;
-                userHICB.ComboRate += 0.01 * statMultiplier;
-                userHICB.ReflectionRate += 0.01 * statMultiplier;
-                userHICB.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userHICB.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userHICB.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userHICB.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userHICB.Speed += 15000000 * statMultiplier;
+                userHICB.CriticalDamageRate += 0.1 * statMultiplier;
+                userHICB.CriticalRate += 0.1 * statMultiplier;
+                userHICB.PenetrationRate += 0.1 * statMultiplier;
+                userHICB.EvasionRate += 0.1 * statMultiplier;
+                userHICB.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userHICB.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userHICB.AccuracyRate += 0.1 * statMultiplier;
+                userHICB.LifestealRate += 0.1 * statMultiplier;
+                userHICB.Mana += 15000000 * statMultiplier;
+                userHICB.ManaRegenerationRate += 0.1 * statMultiplier;
+                userHICB.ShieldStrength += 15000000 * statMultiplier;
+                userHICB.Tenacity += 0.5 * statMultiplier;
+                userHICB.ResistanceRate += 0.1 * statMultiplier;
+                userHICB.ComboRate += 0.1 * statMultiplier;
+                userHICB.ReflectionRate += 0.1 * statMultiplier;
+                userHICB.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userHICB.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userHICB.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userHICB.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 
@@ -1621,88 +1621,88 @@ public static class EnhanceHelper
 
             if (lvl >= 0 && lvl <= 500)
             {
-                userHIDC.Health += 10000000 * statMultiplier;
+                userHIDC.Health += 100000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                userHIDC.PhysicalAttack += 1500000 * statMultiplier;
-                userHIDC.PhysicalDefense += 1500000 * statMultiplier;
+                userHIDC.PhysicalAttack += 15000000 * statMultiplier;
+                userHIDC.PhysicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                userHIDC.MagicalAttack += 1500000 * statMultiplier;
-                userHIDC.MagicalDefense += 1500000 * statMultiplier;
+                userHIDC.MagicalAttack += 15000000 * statMultiplier;
+                userHIDC.MagicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                userHIDC.ChemicalAttack += 1500000 * statMultiplier;
-                userHIDC.ChemicalDefense += 1500000 * statMultiplier;
+                userHIDC.ChemicalAttack += 15000000 * statMultiplier;
+                userHIDC.ChemicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                userHIDC.AtomicAttack += 1500000 * statMultiplier;
-                userHIDC.AtomicDefense += 1500000 * statMultiplier;
+                userHIDC.AtomicAttack += 15000000 * statMultiplier;
+                userHIDC.AtomicDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                userHIDC.MentalAttack += 1500000 * statMultiplier;
-                userHIDC.MentalDefense += 1500000 * statMultiplier;
+                userHIDC.MentalAttack += 15000000 * statMultiplier;
+                userHIDC.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                userHIDC.Speed += 1500000 * statMultiplier;
-                userHIDC.CriticalDamageRate += 0.01 * statMultiplier;
-                userHIDC.CriticalRate += 0.01 * statMultiplier;
-                userHIDC.CriticalResistanceRate += 0.01 * statMultiplier;
-                userHIDC.IgnoreCriticalRate += 0.01 * statMultiplier;
-                userHIDC.PenetrationRate += 0.01 * statMultiplier;
-                userHIDC.PenetrationResistanceRate += 0.01 * statMultiplier;
+                userHIDC.Speed += 15000000 * statMultiplier;
+                userHIDC.CriticalDamageRate += 0.1 * statMultiplier;
+                userHIDC.CriticalRate += 0.1 * statMultiplier;
+                userHIDC.CriticalResistanceRate += 0.1 * statMultiplier;
+                userHIDC.IgnoreCriticalRate += 0.1 * statMultiplier;
+                userHIDC.PenetrationRate += 0.1 * statMultiplier;
+                userHIDC.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                userHIDC.EvasionRate += 0.01 * statMultiplier;
-                userHIDC.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userHIDC.IgnoreDamageAbsorptionRate += 0.01 * statMultiplier;
-                userHIDC.AbsorbedDamageRate += 0.01 * statMultiplier;
-                userHIDC.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userHIDC.VitalityRegenerationResistanceRate += 0.01 * statMultiplier;
-                userHIDC.AccuracyRate += 0.01 * statMultiplier;
+                userHIDC.EvasionRate += 0.1 * statMultiplier;
+                userHIDC.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userHIDC.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                userHIDC.AbsorbedDamageRate += 0.1 * statMultiplier;
+                userHIDC.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userHIDC.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                userHIDC.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                userHIDC.LifestealRate += 0.01 * statMultiplier;
-                userHIDC.Mana += 1500000 * statMultiplier;
-                userHIDC.ManaRegenerationRate += 0.01 * statMultiplier;
-                userHIDC.ShieldStrength += 1500000 * statMultiplier;
+                userHIDC.LifestealRate += 0.1 * statMultiplier;
+                userHIDC.Mana += 15000000 * statMultiplier;
+                userHIDC.ManaRegenerationRate += 0.1 * statMultiplier;
+                userHIDC.ShieldStrength += 15000000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                userHIDC.Tenacity += 0.05 * statMultiplier;
-                userHIDC.ResistanceRate += 0.01 * statMultiplier;
-                userHIDC.ComboRate += 0.01 * statMultiplier;
-                userHIDC.IgnoreComboRate += 0.01 * statMultiplier;
-                userHIDC.ComboDamageRate += 0.01 * statMultiplier;
-                userHIDC.ComboResistanceRate += 0.01 * statMultiplier;
-                userHIDC.StunRate += 0.01 * statMultiplier;
-                userHIDC.IgnoreStunRate += 0.01 * statMultiplier;
+                userHIDC.Tenacity += 0.5 * statMultiplier;
+                userHIDC.ResistanceRate += 0.1 * statMultiplier;
+                userHIDC.ComboRate += 0.1 * statMultiplier;
+                userHIDC.IgnoreComboRate += 0.1 * statMultiplier;
+                userHIDC.ComboDamageRate += 0.1 * statMultiplier;
+                userHIDC.ComboResistanceRate += 0.1 * statMultiplier;
+                userHIDC.StunRate += 0.1 * statMultiplier;
+                userHIDC.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                userHIDC.ReflectionRate += 0.01 * statMultiplier;
-                userHIDC.IgnoreReflectionRate += 0.01 * statMultiplier;
-                userHIDC.ReflectionDamageRate += 0.01 * statMultiplier;
-                userHIDC.ReflectionResistanceRate += 0.01 * statMultiplier;
-                userHIDC.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userHIDC.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userHIDC.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userHIDC.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userHIDC.ReflectionRate += 0.1 * statMultiplier;
+                userHIDC.IgnoreReflectionRate += 0.1 * statMultiplier;
+                userHIDC.ReflectionDamageRate += 0.1 * statMultiplier;
+                userHIDC.ReflectionResistanceRate += 0.1 * statMultiplier;
+                userHIDC.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userHIDC.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userHIDC.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userHIDC.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                userHIDC.NormalDamageRate += 0.01 * statMultiplier;
-                userHIDC.NormalResistanceRate += 0.01 * statMultiplier;
-                userHIDC.SkillDamageRate += 0.01 * statMultiplier;
-                userHIDC.SkillResistanceRate += 0.01 * statMultiplier;
+                userHIDC.NormalDamageRate += 0.1 * statMultiplier;
+                userHIDC.NormalResistanceRate += 0.1 * statMultiplier;
+                userHIDC.SkillDamageRate += 0.1 * statMultiplier;
+                userHIDC.SkillResistanceRate += 0.1 * statMultiplier;
                 userHIDC.PercentAllHealth += 5 * statMultiplier;
                 userHIDC.PercentAllPhysicalAttack += 5 * statMultiplier;
                 userHIDC.PercentAllPhysicalDefense += 5 * statMultiplier;
@@ -1729,42 +1729,42 @@ public static class EnhanceHelper
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                userHIDC.PhysicalAttack += 1500000 * statMultiplier;
-                userHIDC.MagicalAttack += 1500000 * statMultiplier;
-                userHIDC.ChemicalAttack += 1500000 * statMultiplier;
-                userHIDC.AtomicAttack += 1500000 * statMultiplier;
-                userHIDC.MentalAttack += 1500000 * statMultiplier;
+                userHIDC.PhysicalAttack += 15000000 * statMultiplier;
+                userHIDC.MagicalAttack += 15000000 * statMultiplier;
+                userHIDC.ChemicalAttack += 15000000 * statMultiplier;
+                userHIDC.AtomicAttack += 15000000 * statMultiplier;
+                userHIDC.MentalAttack += 15000000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                userHIDC.PhysicalDefense += 1500000 * statMultiplier;
-                userHIDC.MagicalDefense += 1500000 * statMultiplier;
-                userHIDC.ChemicalDefense += 1500000 * statMultiplier;
-                userHIDC.AtomicDefense += 1500000 * statMultiplier;
-                userHIDC.MentalDefense += 1500000 * statMultiplier;
+                userHIDC.PhysicalDefense += 15000000 * statMultiplier;
+                userHIDC.MagicalDefense += 15000000 * statMultiplier;
+                userHIDC.ChemicalDefense += 15000000 * statMultiplier;
+                userHIDC.AtomicDefense += 15000000 * statMultiplier;
+                userHIDC.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                userHIDC.Speed += 1500000 * statMultiplier;
-                userHIDC.CriticalDamageRate += 0.01 * statMultiplier;
-                userHIDC.CriticalRate += 0.01 * statMultiplier;
-                userHIDC.PenetrationRate += 0.01 * statMultiplier;
-                userHIDC.EvasionRate += 0.01 * statMultiplier;
-                userHIDC.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userHIDC.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userHIDC.AccuracyRate += 0.01 * statMultiplier;
-                userHIDC.LifestealRate += 0.01 * statMultiplier;
-                userHIDC.Mana += 1500000 * statMultiplier;
-                userHIDC.ManaRegenerationRate += 0.01 * statMultiplier;
-                userHIDC.ShieldStrength += 1500000 * statMultiplier;
-                userHIDC.Tenacity += 0.05 * statMultiplier;
-                userHIDC.ResistanceRate += 0.01 * statMultiplier;
-                userHIDC.ComboRate += 0.01 * statMultiplier;
-                userHIDC.ReflectionRate += 0.01 * statMultiplier;
-                userHIDC.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userHIDC.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userHIDC.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userHIDC.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userHIDC.Speed += 15000000 * statMultiplier;
+                userHIDC.CriticalDamageRate += 0.1 * statMultiplier;
+                userHIDC.CriticalRate += 0.1 * statMultiplier;
+                userHIDC.PenetrationRate += 0.1 * statMultiplier;
+                userHIDC.EvasionRate += 0.1 * statMultiplier;
+                userHIDC.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userHIDC.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userHIDC.AccuracyRate += 0.1 * statMultiplier;
+                userHIDC.LifestealRate += 0.1 * statMultiplier;
+                userHIDC.Mana += 15000000 * statMultiplier;
+                userHIDC.ManaRegenerationRate += 0.1 * statMultiplier;
+                userHIDC.ShieldStrength += 15000000 * statMultiplier;
+                userHIDC.Tenacity += 0.5 * statMultiplier;
+                userHIDC.ResistanceRate += 0.1 * statMultiplier;
+                userHIDC.ComboRate += 0.1 * statMultiplier;
+                userHIDC.ReflectionRate += 0.1 * statMultiplier;
+                userHIDC.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userHIDC.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userHIDC.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userHIDC.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 
@@ -1782,88 +1782,88 @@ public static class EnhanceHelper
 
             if (lvl >= 0 && lvl <= 500)
             {
-                userHIEN.Health += 10000000 * statMultiplier;
+                userHIEN.Health += 100000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                userHIEN.PhysicalAttack += 1500000 * statMultiplier;
-                userHIEN.PhysicalDefense += 1500000 * statMultiplier;
+                userHIEN.PhysicalAttack += 15000000 * statMultiplier;
+                userHIEN.PhysicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                userHIEN.MagicalAttack += 1500000 * statMultiplier;
-                userHIEN.MagicalDefense += 1500000 * statMultiplier;
+                userHIEN.MagicalAttack += 15000000 * statMultiplier;
+                userHIEN.MagicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                userHIEN.ChemicalAttack += 1500000 * statMultiplier;
-                userHIEN.ChemicalDefense += 1500000 * statMultiplier;
+                userHIEN.ChemicalAttack += 15000000 * statMultiplier;
+                userHIEN.ChemicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                userHIEN.AtomicAttack += 1500000 * statMultiplier;
-                userHIEN.AtomicDefense += 1500000 * statMultiplier;
+                userHIEN.AtomicAttack += 15000000 * statMultiplier;
+                userHIEN.AtomicDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                userHIEN.MentalAttack += 1500000 * statMultiplier;
-                userHIEN.MentalDefense += 1500000 * statMultiplier;
+                userHIEN.MentalAttack += 15000000 * statMultiplier;
+                userHIEN.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                userHIEN.Speed += 1500000 * statMultiplier;
-                userHIEN.CriticalDamageRate += 0.01 * statMultiplier;
-                userHIEN.CriticalRate += 0.01 * statMultiplier;
-                userHIEN.CriticalResistanceRate += 0.01 * statMultiplier;
-                userHIEN.IgnoreCriticalRate += 0.01 * statMultiplier;
-                userHIEN.PenetrationRate += 0.01 * statMultiplier;
-                userHIEN.PenetrationResistanceRate += 0.01 * statMultiplier;
+                userHIEN.Speed += 15000000 * statMultiplier;
+                userHIEN.CriticalDamageRate += 0.1 * statMultiplier;
+                userHIEN.CriticalRate += 0.1 * statMultiplier;
+                userHIEN.CriticalResistanceRate += 0.1 * statMultiplier;
+                userHIEN.IgnoreCriticalRate += 0.1 * statMultiplier;
+                userHIEN.PenetrationRate += 0.1 * statMultiplier;
+                userHIEN.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                userHIEN.EvasionRate += 0.01 * statMultiplier;
-                userHIEN.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userHIEN.IgnoreDamageAbsorptionRate += 0.01 * statMultiplier;
-                userHIEN.AbsorbedDamageRate += 0.01 * statMultiplier;
-                userHIEN.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userHIEN.VitalityRegenerationResistanceRate += 0.01 * statMultiplier;
-                userHIEN.AccuracyRate += 0.01 * statMultiplier;
+                userHIEN.EvasionRate += 0.1 * statMultiplier;
+                userHIEN.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userHIEN.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                userHIEN.AbsorbedDamageRate += 0.1 * statMultiplier;
+                userHIEN.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userHIEN.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                userHIEN.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                userHIEN.LifestealRate += 0.01 * statMultiplier;
-                userHIEN.Mana += 1500000 * statMultiplier;
-                userHIEN.ManaRegenerationRate += 0.01 * statMultiplier;
-                userHIEN.ShieldStrength += 1500000 * statMultiplier;
+                userHIEN.LifestealRate += 0.1 * statMultiplier;
+                userHIEN.Mana += 15000000 * statMultiplier;
+                userHIEN.ManaRegenerationRate += 0.1 * statMultiplier;
+                userHIEN.ShieldStrength += 15000000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                userHIEN.Tenacity += 0.05 * statMultiplier;
-                userHIEN.ResistanceRate += 0.01 * statMultiplier;
-                userHIEN.ComboRate += 0.01 * statMultiplier;
-                userHIEN.IgnoreComboRate += 0.01 * statMultiplier;
-                userHIEN.ComboDamageRate += 0.01 * statMultiplier;
-                userHIEN.ComboResistanceRate += 0.01 * statMultiplier;
-                userHIEN.StunRate += 0.01 * statMultiplier;
-                userHIEN.IgnoreStunRate += 0.01 * statMultiplier;
+                userHIEN.Tenacity += 0.5 * statMultiplier;
+                userHIEN.ResistanceRate += 0.1 * statMultiplier;
+                userHIEN.ComboRate += 0.1 * statMultiplier;
+                userHIEN.IgnoreComboRate += 0.1 * statMultiplier;
+                userHIEN.ComboDamageRate += 0.1 * statMultiplier;
+                userHIEN.ComboResistanceRate += 0.1 * statMultiplier;
+                userHIEN.StunRate += 0.1 * statMultiplier;
+                userHIEN.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                userHIEN.ReflectionRate += 0.01 * statMultiplier;
-                userHIEN.IgnoreReflectionRate += 0.01 * statMultiplier;
-                userHIEN.ReflectionDamageRate += 0.01 * statMultiplier;
-                userHIEN.ReflectionResistanceRate += 0.01 * statMultiplier;
-                userHIEN.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userHIEN.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userHIEN.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userHIEN.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userHIEN.ReflectionRate += 0.1 * statMultiplier;
+                userHIEN.IgnoreReflectionRate += 0.1 * statMultiplier;
+                userHIEN.ReflectionDamageRate += 0.1 * statMultiplier;
+                userHIEN.ReflectionResistanceRate += 0.1 * statMultiplier;
+                userHIEN.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userHIEN.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userHIEN.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userHIEN.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                userHIEN.NormalDamageRate += 0.01 * statMultiplier;
-                userHIEN.NormalResistanceRate += 0.01 * statMultiplier;
-                userHIEN.SkillDamageRate += 0.01 * statMultiplier;
-                userHIEN.SkillResistanceRate += 0.01 * statMultiplier;
+                userHIEN.NormalDamageRate += 0.1 * statMultiplier;
+                userHIEN.NormalResistanceRate += 0.1 * statMultiplier;
+                userHIEN.SkillDamageRate += 0.1 * statMultiplier;
+                userHIEN.SkillResistanceRate += 0.1 * statMultiplier;
                 userHIEN.PercentAllHealth += 5 * statMultiplier;
                 userHIEN.PercentAllPhysicalAttack += 5 * statMultiplier;
                 userHIEN.PercentAllPhysicalDefense += 5 * statMultiplier;
@@ -1890,42 +1890,42 @@ public static class EnhanceHelper
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                userHIEN.PhysicalAttack += 1500000 * statMultiplier;
-                userHIEN.MagicalAttack += 1500000 * statMultiplier;
-                userHIEN.ChemicalAttack += 1500000 * statMultiplier;
-                userHIEN.AtomicAttack += 1500000 * statMultiplier;
-                userHIEN.MentalAttack += 1500000 * statMultiplier;
+                userHIEN.PhysicalAttack += 15000000 * statMultiplier;
+                userHIEN.MagicalAttack += 15000000 * statMultiplier;
+                userHIEN.ChemicalAttack += 15000000 * statMultiplier;
+                userHIEN.AtomicAttack += 15000000 * statMultiplier;
+                userHIEN.MentalAttack += 15000000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                userHIEN.PhysicalDefense += 1500000 * statMultiplier;
-                userHIEN.MagicalDefense += 1500000 * statMultiplier;
-                userHIEN.ChemicalDefense += 1500000 * statMultiplier;
-                userHIEN.AtomicDefense += 1500000 * statMultiplier;
-                userHIEN.MentalDefense += 1500000 * statMultiplier;
+                userHIEN.PhysicalDefense += 15000000 * statMultiplier;
+                userHIEN.MagicalDefense += 15000000 * statMultiplier;
+                userHIEN.ChemicalDefense += 15000000 * statMultiplier;
+                userHIEN.AtomicDefense += 15000000 * statMultiplier;
+                userHIEN.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                userHIEN.Speed += 1500000 * statMultiplier;
-                userHIEN.CriticalDamageRate += 0.01 * statMultiplier;
-                userHIEN.CriticalRate += 0.01 * statMultiplier;
-                userHIEN.PenetrationRate += 0.01 * statMultiplier;
-                userHIEN.EvasionRate += 0.01 * statMultiplier;
-                userHIEN.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userHIEN.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userHIEN.AccuracyRate += 0.01 * statMultiplier;
-                userHIEN.LifestealRate += 0.01 * statMultiplier;
-                userHIEN.Mana += 1500000 * statMultiplier;
-                userHIEN.ManaRegenerationRate += 0.01 * statMultiplier;
-                userHIEN.ShieldStrength += 1500000 * statMultiplier;
-                userHIEN.Tenacity += 0.05 * statMultiplier;
-                userHIEN.ResistanceRate += 0.01 * statMultiplier;
-                userHIEN.ComboRate += 0.01 * statMultiplier;
-                userHIEN.ReflectionRate += 0.01 * statMultiplier;
-                userHIEN.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userHIEN.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userHIEN.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userHIEN.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userHIEN.Speed += 15000000 * statMultiplier;
+                userHIEN.CriticalDamageRate += 0.1 * statMultiplier;
+                userHIEN.CriticalRate += 0.1 * statMultiplier;
+                userHIEN.PenetrationRate += 0.1 * statMultiplier;
+                userHIEN.EvasionRate += 0.1 * statMultiplier;
+                userHIEN.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userHIEN.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userHIEN.AccuracyRate += 0.1 * statMultiplier;
+                userHIEN.LifestealRate += 0.1 * statMultiplier;
+                userHIEN.Mana += 15000000 * statMultiplier;
+                userHIEN.ManaRegenerationRate += 0.1 * statMultiplier;
+                userHIEN.ShieldStrength += 15000000 * statMultiplier;
+                userHIEN.Tenacity += 0.5 * statMultiplier;
+                userHIEN.ResistanceRate += 0.1 * statMultiplier;
+                userHIEN.ComboRate += 0.1 * statMultiplier;
+                userHIEN.ReflectionRate += 0.1 * statMultiplier;
+                userHIEN.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userHIEN.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userHIEN.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userHIEN.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 
@@ -1943,88 +1943,88 @@ public static class EnhanceHelper
 
             if (lvl >= 0 && lvl <= 500)
             {
-                userHIHN.Health += 10000000 * statMultiplier;
+                userHIHN.Health += 100000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                userHIHN.PhysicalAttack += 1500000 * statMultiplier;
-                userHIHN.PhysicalDefense += 1500000 * statMultiplier;
+                userHIHN.PhysicalAttack += 15000000 * statMultiplier;
+                userHIHN.PhysicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                userHIHN.MagicalAttack += 1500000 * statMultiplier;
-                userHIHN.MagicalDefense += 1500000 * statMultiplier;
+                userHIHN.MagicalAttack += 15000000 * statMultiplier;
+                userHIHN.MagicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                userHIHN.ChemicalAttack += 1500000 * statMultiplier;
-                userHIHN.ChemicalDefense += 1500000 * statMultiplier;
+                userHIHN.ChemicalAttack += 15000000 * statMultiplier;
+                userHIHN.ChemicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                userHIHN.AtomicAttack += 1500000 * statMultiplier;
-                userHIHN.AtomicDefense += 1500000 * statMultiplier;
+                userHIHN.AtomicAttack += 15000000 * statMultiplier;
+                userHIHN.AtomicDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                userHIHN.MentalAttack += 1500000 * statMultiplier;
-                userHIHN.MentalDefense += 1500000 * statMultiplier;
+                userHIHN.MentalAttack += 15000000 * statMultiplier;
+                userHIHN.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                userHIHN.Speed += 1500000 * statMultiplier;
-                userHIHN.CriticalDamageRate += 0.01 * statMultiplier;
-                userHIHN.CriticalRate += 0.01 * statMultiplier;
-                userHIHN.CriticalResistanceRate += 0.01 * statMultiplier;
-                userHIHN.IgnoreCriticalRate += 0.01 * statMultiplier;
-                userHIHN.PenetrationRate += 0.01 * statMultiplier;
-                userHIHN.PenetrationResistanceRate += 0.01 * statMultiplier;
+                userHIHN.Speed += 15000000 * statMultiplier;
+                userHIHN.CriticalDamageRate += 0.1 * statMultiplier;
+                userHIHN.CriticalRate += 0.1 * statMultiplier;
+                userHIHN.CriticalResistanceRate += 0.1 * statMultiplier;
+                userHIHN.IgnoreCriticalRate += 0.1 * statMultiplier;
+                userHIHN.PenetrationRate += 0.1 * statMultiplier;
+                userHIHN.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                userHIHN.EvasionRate += 0.01 * statMultiplier;
-                userHIHN.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userHIHN.IgnoreDamageAbsorptionRate += 0.01 * statMultiplier;
-                userHIHN.AbsorbedDamageRate += 0.01 * statMultiplier;
-                userHIHN.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userHIHN.VitalityRegenerationResistanceRate += 0.01 * statMultiplier;
-                userHIHN.AccuracyRate += 0.01 * statMultiplier;
+                userHIHN.EvasionRate += 0.1 * statMultiplier;
+                userHIHN.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userHIHN.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                userHIHN.AbsorbedDamageRate += 0.1 * statMultiplier;
+                userHIHN.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userHIHN.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                userHIHN.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                userHIHN.LifestealRate += 0.01 * statMultiplier;
-                userHIHN.Mana += 1500000 * statMultiplier;
-                userHIHN.ManaRegenerationRate += 0.01 * statMultiplier;
-                userHIHN.ShieldStrength += 1500000 * statMultiplier;
+                userHIHN.LifestealRate += 0.1 * statMultiplier;
+                userHIHN.Mana += 15000000 * statMultiplier;
+                userHIHN.ManaRegenerationRate += 0.1 * statMultiplier;
+                userHIHN.ShieldStrength += 15000000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                userHIHN.Tenacity += 0.05 * statMultiplier;
-                userHIHN.ResistanceRate += 0.01 * statMultiplier;
-                userHIHN.ComboRate += 0.01 * statMultiplier;
-                userHIHN.IgnoreComboRate += 0.01 * statMultiplier;
-                userHIHN.ComboDamageRate += 0.01 * statMultiplier;
-                userHIHN.ComboResistanceRate += 0.01 * statMultiplier;
-                userHIHN.StunRate += 0.01 * statMultiplier;
-                userHIHN.IgnoreStunRate += 0.01 * statMultiplier;
+                userHIHN.Tenacity += 0.5 * statMultiplier;
+                userHIHN.ResistanceRate += 0.1 * statMultiplier;
+                userHIHN.ComboRate += 0.1 * statMultiplier;
+                userHIHN.IgnoreComboRate += 0.1 * statMultiplier;
+                userHIHN.ComboDamageRate += 0.1 * statMultiplier;
+                userHIHN.ComboResistanceRate += 0.1 * statMultiplier;
+                userHIHN.StunRate += 0.1 * statMultiplier;
+                userHIHN.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                userHIHN.ReflectionRate += 0.01 * statMultiplier;
-                userHIHN.IgnoreReflectionRate += 0.01 * statMultiplier;
-                userHIHN.ReflectionDamageRate += 0.01 * statMultiplier;
-                userHIHN.ReflectionResistanceRate += 0.01 * statMultiplier;
-                userHIHN.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userHIHN.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userHIHN.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userHIHN.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userHIHN.ReflectionRate += 0.1 * statMultiplier;
+                userHIHN.IgnoreReflectionRate += 0.1 * statMultiplier;
+                userHIHN.ReflectionDamageRate += 0.1 * statMultiplier;
+                userHIHN.ReflectionResistanceRate += 0.1 * statMultiplier;
+                userHIHN.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userHIHN.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userHIHN.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userHIHN.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                userHIHN.NormalDamageRate += 0.01 * statMultiplier;
-                userHIHN.NormalResistanceRate += 0.01 * statMultiplier;
-                userHIHN.SkillDamageRate += 0.01 * statMultiplier;
-                userHIHN.SkillResistanceRate += 0.01 * statMultiplier;
+                userHIHN.NormalDamageRate += 0.1 * statMultiplier;
+                userHIHN.NormalResistanceRate += 0.1 * statMultiplier;
+                userHIHN.SkillDamageRate += 0.1 * statMultiplier;
+                userHIHN.SkillResistanceRate += 0.1 * statMultiplier;
                 userHIHN.PercentAllHealth += 5 * statMultiplier;
                 userHIHN.PercentAllPhysicalAttack += 5 * statMultiplier;
                 userHIHN.PercentAllPhysicalDefense += 5 * statMultiplier;
@@ -2051,42 +2051,42 @@ public static class EnhanceHelper
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                userHIHN.PhysicalAttack += 1500000 * statMultiplier;
-                userHIHN.MagicalAttack += 1500000 * statMultiplier;
-                userHIHN.ChemicalAttack += 1500000 * statMultiplier;
-                userHIHN.AtomicAttack += 1500000 * statMultiplier;
-                userHIHN.MentalAttack += 1500000 * statMultiplier;
+                userHIHN.PhysicalAttack += 15000000 * statMultiplier;
+                userHIHN.MagicalAttack += 15000000 * statMultiplier;
+                userHIHN.ChemicalAttack += 15000000 * statMultiplier;
+                userHIHN.AtomicAttack += 15000000 * statMultiplier;
+                userHIHN.MentalAttack += 15000000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                userHIHN.PhysicalDefense += 1500000 * statMultiplier;
-                userHIHN.MagicalDefense += 1500000 * statMultiplier;
-                userHIHN.ChemicalDefense += 1500000 * statMultiplier;
-                userHIHN.AtomicDefense += 1500000 * statMultiplier;
-                userHIHN.MentalDefense += 1500000 * statMultiplier;
+                userHIHN.PhysicalDefense += 15000000 * statMultiplier;
+                userHIHN.MagicalDefense += 15000000 * statMultiplier;
+                userHIHN.ChemicalDefense += 15000000 * statMultiplier;
+                userHIHN.AtomicDefense += 15000000 * statMultiplier;
+                userHIHN.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                userHIHN.Speed += 1500000 * statMultiplier;
-                userHIHN.CriticalDamageRate += 0.01 * statMultiplier;
-                userHIHN.CriticalRate += 0.01 * statMultiplier;
-                userHIHN.PenetrationRate += 0.01 * statMultiplier;
-                userHIHN.EvasionRate += 0.01 * statMultiplier;
-                userHIHN.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userHIHN.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userHIHN.AccuracyRate += 0.01 * statMultiplier;
-                userHIHN.LifestealRate += 0.01 * statMultiplier;
-                userHIHN.Mana += 1500000 * statMultiplier;
-                userHIHN.ManaRegenerationRate += 0.01 * statMultiplier;
-                userHIHN.ShieldStrength += 1500000 * statMultiplier;
-                userHIHN.Tenacity += 0.05 * statMultiplier;
-                userHIHN.ResistanceRate += 0.01 * statMultiplier;
-                userHIHN.ComboRate += 0.01 * statMultiplier;
-                userHIHN.ReflectionRate += 0.01 * statMultiplier;
-                userHIHN.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userHIHN.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userHIHN.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userHIHN.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userHIHN.Speed += 15000000 * statMultiplier;
+                userHIHN.CriticalDamageRate += 0.1 * statMultiplier;
+                userHIHN.CriticalRate += 0.1 * statMultiplier;
+                userHIHN.PenetrationRate += 0.1 * statMultiplier;
+                userHIHN.EvasionRate += 0.1 * statMultiplier;
+                userHIHN.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userHIHN.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userHIHN.AccuracyRate += 0.1 * statMultiplier;
+                userHIHN.LifestealRate += 0.1 * statMultiplier;
+                userHIHN.Mana += 15000000 * statMultiplier;
+                userHIHN.ManaRegenerationRate += 0.1 * statMultiplier;
+                userHIHN.ShieldStrength += 15000000 * statMultiplier;
+                userHIHN.Tenacity += 0.5 * statMultiplier;
+                userHIHN.ResistanceRate += 0.1 * statMultiplier;
+                userHIHN.ComboRate += 0.1 * statMultiplier;
+                userHIHN.ReflectionRate += 0.1 * statMultiplier;
+                userHIHN.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userHIHN.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userHIHN.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userHIHN.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 
@@ -2104,88 +2104,88 @@ public static class EnhanceHelper
 
             if (lvl >= 0 && lvl <= 500)
             {
-                userHIIN.Health += 10000000 * statMultiplier;
+                userHIIN.Health += 100000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                userHIIN.PhysicalAttack += 1500000 * statMultiplier;
-                userHIIN.PhysicalDefense += 1500000 * statMultiplier;
+                userHIIN.PhysicalAttack += 15000000 * statMultiplier;
+                userHIIN.PhysicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                userHIIN.MagicalAttack += 1500000 * statMultiplier;
-                userHIIN.MagicalDefense += 1500000 * statMultiplier;
+                userHIIN.MagicalAttack += 15000000 * statMultiplier;
+                userHIIN.MagicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                userHIIN.ChemicalAttack += 1500000 * statMultiplier;
-                userHIIN.ChemicalDefense += 1500000 * statMultiplier;
+                userHIIN.ChemicalAttack += 15000000 * statMultiplier;
+                userHIIN.ChemicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                userHIIN.AtomicAttack += 1500000 * statMultiplier;
-                userHIIN.AtomicDefense += 1500000 * statMultiplier;
+                userHIIN.AtomicAttack += 15000000 * statMultiplier;
+                userHIIN.AtomicDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                userHIIN.MentalAttack += 1500000 * statMultiplier;
-                userHIIN.MentalDefense += 1500000 * statMultiplier;
+                userHIIN.MentalAttack += 15000000 * statMultiplier;
+                userHIIN.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                userHIIN.Speed += 1500000 * statMultiplier;
-                userHIIN.CriticalDamageRate += 0.01 * statMultiplier;
-                userHIIN.CriticalRate += 0.01 * statMultiplier;
-                userHIIN.CriticalResistanceRate += 0.01 * statMultiplier;
-                userHIIN.IgnoreCriticalRate += 0.01 * statMultiplier;
-                userHIIN.PenetrationRate += 0.01 * statMultiplier;
-                userHIIN.PenetrationResistanceRate += 0.01 * statMultiplier;
+                userHIIN.Speed += 15000000 * statMultiplier;
+                userHIIN.CriticalDamageRate += 0.1 * statMultiplier;
+                userHIIN.CriticalRate += 0.1 * statMultiplier;
+                userHIIN.CriticalResistanceRate += 0.1 * statMultiplier;
+                userHIIN.IgnoreCriticalRate += 0.1 * statMultiplier;
+                userHIIN.PenetrationRate += 0.1 * statMultiplier;
+                userHIIN.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                userHIIN.EvasionRate += 0.01 * statMultiplier;
-                userHIIN.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userHIIN.IgnoreDamageAbsorptionRate += 0.01 * statMultiplier;
-                userHIIN.AbsorbedDamageRate += 0.01 * statMultiplier;
-                userHIIN.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userHIIN.VitalityRegenerationResistanceRate += 0.01 * statMultiplier;
-                userHIIN.AccuracyRate += 0.01 * statMultiplier;
+                userHIIN.EvasionRate += 0.1 * statMultiplier;
+                userHIIN.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userHIIN.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                userHIIN.AbsorbedDamageRate += 0.1 * statMultiplier;
+                userHIIN.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userHIIN.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                userHIIN.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                userHIIN.LifestealRate += 0.01 * statMultiplier;
-                userHIIN.Mana += 1500000 * statMultiplier;
-                userHIIN.ManaRegenerationRate += 0.01 * statMultiplier;
-                userHIIN.ShieldStrength += 1500000 * statMultiplier;
+                userHIIN.LifestealRate += 0.1 * statMultiplier;
+                userHIIN.Mana += 15000000 * statMultiplier;
+                userHIIN.ManaRegenerationRate += 0.1 * statMultiplier;
+                userHIIN.ShieldStrength += 15000000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                userHIIN.Tenacity += 0.05 * statMultiplier;
-                userHIIN.ResistanceRate += 0.01 * statMultiplier;
-                userHIIN.ComboRate += 0.01 * statMultiplier;
-                userHIIN.IgnoreComboRate += 0.01 * statMultiplier;
-                userHIIN.ComboDamageRate += 0.01 * statMultiplier;
-                userHIIN.ComboResistanceRate += 0.01 * statMultiplier;
-                userHIIN.StunRate += 0.01 * statMultiplier;
-                userHIIN.IgnoreStunRate += 0.01 * statMultiplier;
+                userHIIN.Tenacity += 0.5 * statMultiplier;
+                userHIIN.ResistanceRate += 0.1 * statMultiplier;
+                userHIIN.ComboRate += 0.1 * statMultiplier;
+                userHIIN.IgnoreComboRate += 0.1 * statMultiplier;
+                userHIIN.ComboDamageRate += 0.1 * statMultiplier;
+                userHIIN.ComboResistanceRate += 0.1 * statMultiplier;
+                userHIIN.StunRate += 0.1 * statMultiplier;
+                userHIIN.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                userHIIN.ReflectionRate += 0.01 * statMultiplier;
-                userHIIN.IgnoreReflectionRate += 0.01 * statMultiplier;
-                userHIIN.ReflectionDamageRate += 0.01 * statMultiplier;
-                userHIIN.ReflectionResistanceRate += 0.01 * statMultiplier;
-                userHIIN.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userHIIN.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userHIIN.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userHIIN.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userHIIN.ReflectionRate += 0.1 * statMultiplier;
+                userHIIN.IgnoreReflectionRate += 0.1 * statMultiplier;
+                userHIIN.ReflectionDamageRate += 0.1 * statMultiplier;
+                userHIIN.ReflectionResistanceRate += 0.1 * statMultiplier;
+                userHIIN.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userHIIN.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userHIIN.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userHIIN.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                userHIIN.NormalDamageRate += 0.01 * statMultiplier;
-                userHIIN.NormalResistanceRate += 0.01 * statMultiplier;
-                userHIIN.SkillDamageRate += 0.01 * statMultiplier;
-                userHIIN.SkillResistanceRate += 0.01 * statMultiplier;
+                userHIIN.NormalDamageRate += 0.1 * statMultiplier;
+                userHIIN.NormalResistanceRate += 0.1 * statMultiplier;
+                userHIIN.SkillDamageRate += 0.1 * statMultiplier;
+                userHIIN.SkillResistanceRate += 0.1 * statMultiplier;
                 userHIIN.PercentAllHealth += 5 * statMultiplier;
                 userHIIN.PercentAllPhysicalAttack += 5 * statMultiplier;
                 userHIIN.PercentAllPhysicalDefense += 5 * statMultiplier;
@@ -2212,42 +2212,42 @@ public static class EnhanceHelper
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                userHIIN.PhysicalAttack += 1500000 * statMultiplier;
-                userHIIN.MagicalAttack += 1500000 * statMultiplier;
-                userHIIN.ChemicalAttack += 1500000 * statMultiplier;
-                userHIIN.AtomicAttack += 1500000 * statMultiplier;
-                userHIIN.MentalAttack += 1500000 * statMultiplier;
+                userHIIN.PhysicalAttack += 15000000 * statMultiplier;
+                userHIIN.MagicalAttack += 15000000 * statMultiplier;
+                userHIIN.ChemicalAttack += 15000000 * statMultiplier;
+                userHIIN.AtomicAttack += 15000000 * statMultiplier;
+                userHIIN.MentalAttack += 15000000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                userHIIN.PhysicalDefense += 1500000 * statMultiplier;
-                userHIIN.MagicalDefense += 1500000 * statMultiplier;
-                userHIIN.ChemicalDefense += 1500000 * statMultiplier;
-                userHIIN.AtomicDefense += 1500000 * statMultiplier;
-                userHIIN.MentalDefense += 1500000 * statMultiplier;
+                userHIIN.PhysicalDefense += 15000000 * statMultiplier;
+                userHIIN.MagicalDefense += 15000000 * statMultiplier;
+                userHIIN.ChemicalDefense += 15000000 * statMultiplier;
+                userHIIN.AtomicDefense += 15000000 * statMultiplier;
+                userHIIN.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                userHIIN.Speed += 1500000 * statMultiplier;
-                userHIIN.CriticalDamageRate += 0.01 * statMultiplier;
-                userHIIN.CriticalRate += 0.01 * statMultiplier;
-                userHIIN.PenetrationRate += 0.01 * statMultiplier;
-                userHIIN.EvasionRate += 0.01 * statMultiplier;
-                userHIIN.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userHIIN.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userHIIN.AccuracyRate += 0.01 * statMultiplier;
-                userHIIN.LifestealRate += 0.01 * statMultiplier;
-                userHIIN.Mana += 1500000 * statMultiplier;
-                userHIIN.ManaRegenerationRate += 0.01 * statMultiplier;
-                userHIIN.ShieldStrength += 1500000 * statMultiplier;
-                userHIIN.Tenacity += 0.05 * statMultiplier;
-                userHIIN.ResistanceRate += 0.01 * statMultiplier;
-                userHIIN.ComboRate += 0.01 * statMultiplier;
-                userHIIN.ReflectionRate += 0.01 * statMultiplier;
-                userHIIN.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userHIIN.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userHIIN.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userHIIN.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userHIIN.Speed += 15000000 * statMultiplier;
+                userHIIN.CriticalDamageRate += 0.1 * statMultiplier;
+                userHIIN.CriticalRate += 0.1 * statMultiplier;
+                userHIIN.PenetrationRate += 0.1 * statMultiplier;
+                userHIIN.EvasionRate += 0.1 * statMultiplier;
+                userHIIN.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userHIIN.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userHIIN.AccuracyRate += 0.1 * statMultiplier;
+                userHIIN.LifestealRate += 0.1 * statMultiplier;
+                userHIIN.Mana += 15000000 * statMultiplier;
+                userHIIN.ManaRegenerationRate += 0.1 * statMultiplier;
+                userHIIN.ShieldStrength += 15000000 * statMultiplier;
+                userHIIN.Tenacity += 0.5 * statMultiplier;
+                userHIIN.ResistanceRate += 0.1 * statMultiplier;
+                userHIIN.ComboRate += 0.1 * statMultiplier;
+                userHIIN.ReflectionRate += 0.1 * statMultiplier;
+                userHIIN.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userHIIN.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userHIIN.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userHIIN.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 
@@ -2265,88 +2265,88 @@ public static class EnhanceHelper
 
             if (lvl >= 0 && lvl <= 500)
             {
-                userHIRN.Health += 10000000 * statMultiplier;
+                userHIRN.Health += 100000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                userHIRN.PhysicalAttack += 1500000 * statMultiplier;
-                userHIRN.PhysicalDefense += 1500000 * statMultiplier;
+                userHIRN.PhysicalAttack += 15000000 * statMultiplier;
+                userHIRN.PhysicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                userHIRN.MagicalAttack += 1500000 * statMultiplier;
-                userHIRN.MagicalDefense += 1500000 * statMultiplier;
+                userHIRN.MagicalAttack += 15000000 * statMultiplier;
+                userHIRN.MagicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                userHIRN.ChemicalAttack += 1500000 * statMultiplier;
-                userHIRN.ChemicalDefense += 1500000 * statMultiplier;
+                userHIRN.ChemicalAttack += 15000000 * statMultiplier;
+                userHIRN.ChemicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                userHIRN.AtomicAttack += 1500000 * statMultiplier;
-                userHIRN.AtomicDefense += 1500000 * statMultiplier;
+                userHIRN.AtomicAttack += 15000000 * statMultiplier;
+                userHIRN.AtomicDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                userHIRN.MentalAttack += 1500000 * statMultiplier;
-                userHIRN.MentalDefense += 1500000 * statMultiplier;
+                userHIRN.MentalAttack += 15000000 * statMultiplier;
+                userHIRN.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                userHIRN.Speed += 1500000 * statMultiplier;
-                userHIRN.CriticalDamageRate += 0.01 * statMultiplier;
-                userHIRN.CriticalRate += 0.01 * statMultiplier;
-                userHIRN.CriticalResistanceRate += 0.01 * statMultiplier;
-                userHIRN.IgnoreCriticalRate += 0.01 * statMultiplier;
-                userHIRN.PenetrationRate += 0.01 * statMultiplier;
-                userHIRN.PenetrationResistanceRate += 0.01 * statMultiplier;
+                userHIRN.Speed += 15000000 * statMultiplier;
+                userHIRN.CriticalDamageRate += 0.1 * statMultiplier;
+                userHIRN.CriticalRate += 0.1 * statMultiplier;
+                userHIRN.CriticalResistanceRate += 0.1 * statMultiplier;
+                userHIRN.IgnoreCriticalRate += 0.1 * statMultiplier;
+                userHIRN.PenetrationRate += 0.1 * statMultiplier;
+                userHIRN.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                userHIRN.EvasionRate += 0.01 * statMultiplier;
-                userHIRN.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userHIRN.IgnoreDamageAbsorptionRate += 0.01 * statMultiplier;
-                userHIRN.AbsorbedDamageRate += 0.01 * statMultiplier;
-                userHIRN.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userHIRN.VitalityRegenerationResistanceRate += 0.01 * statMultiplier;
-                userHIRN.AccuracyRate += 0.01 * statMultiplier;
+                userHIRN.EvasionRate += 0.1 * statMultiplier;
+                userHIRN.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userHIRN.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                userHIRN.AbsorbedDamageRate += 0.1 * statMultiplier;
+                userHIRN.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userHIRN.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                userHIRN.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                userHIRN.LifestealRate += 0.01 * statMultiplier;
-                userHIRN.Mana += 1500000 * statMultiplier;
-                userHIRN.ManaRegenerationRate += 0.01 * statMultiplier;
-                userHIRN.ShieldStrength += 1500000 * statMultiplier;
+                userHIRN.LifestealRate += 0.1 * statMultiplier;
+                userHIRN.Mana += 15000000 * statMultiplier;
+                userHIRN.ManaRegenerationRate += 0.1 * statMultiplier;
+                userHIRN.ShieldStrength += 15000000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                userHIRN.Tenacity += 0.05 * statMultiplier;
-                userHIRN.ResistanceRate += 0.01 * statMultiplier;
-                userHIRN.ComboRate += 0.01 * statMultiplier;
-                userHIRN.IgnoreComboRate += 0.01 * statMultiplier;
-                userHIRN.ComboDamageRate += 0.01 * statMultiplier;
-                userHIRN.ComboResistanceRate += 0.01 * statMultiplier;
-                userHIRN.StunRate += 0.01 * statMultiplier;
-                userHIRN.IgnoreStunRate += 0.01 * statMultiplier;
+                userHIRN.Tenacity += 0.5 * statMultiplier;
+                userHIRN.ResistanceRate += 0.1 * statMultiplier;
+                userHIRN.ComboRate += 0.1 * statMultiplier;
+                userHIRN.IgnoreComboRate += 0.1 * statMultiplier;
+                userHIRN.ComboDamageRate += 0.1 * statMultiplier;
+                userHIRN.ComboResistanceRate += 0.1 * statMultiplier;
+                userHIRN.StunRate += 0.1 * statMultiplier;
+                userHIRN.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                userHIRN.ReflectionRate += 0.01 * statMultiplier;
-                userHIRN.IgnoreReflectionRate += 0.01 * statMultiplier;
-                userHIRN.ReflectionDamageRate += 0.01 * statMultiplier;
-                userHIRN.ReflectionResistanceRate += 0.01 * statMultiplier;
-                userHIRN.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userHIRN.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userHIRN.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userHIRN.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userHIRN.ReflectionRate += 0.1 * statMultiplier;
+                userHIRN.IgnoreReflectionRate += 0.1 * statMultiplier;
+                userHIRN.ReflectionDamageRate += 0.1 * statMultiplier;
+                userHIRN.ReflectionResistanceRate += 0.1 * statMultiplier;
+                userHIRN.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userHIRN.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userHIRN.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userHIRN.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                userHIRN.NormalDamageRate += 0.01 * statMultiplier;
-                userHIRN.NormalResistanceRate += 0.01 * statMultiplier;
-                userHIRN.SkillDamageRate += 0.01 * statMultiplier;
-                userHIRN.SkillResistanceRate += 0.01 * statMultiplier;
+                userHIRN.NormalDamageRate += 0.1 * statMultiplier;
+                userHIRN.NormalResistanceRate += 0.1 * statMultiplier;
+                userHIRN.SkillDamageRate += 0.1 * statMultiplier;
+                userHIRN.SkillResistanceRate += 0.1 * statMultiplier;
                 userHIRN.PercentAllHealth += 5 * statMultiplier;
                 userHIRN.PercentAllPhysicalAttack += 5 * statMultiplier;
                 userHIRN.PercentAllPhysicalDefense += 5 * statMultiplier;
@@ -2373,42 +2373,42 @@ public static class EnhanceHelper
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                userHIRN.PhysicalAttack += 1500000 * statMultiplier;
-                userHIRN.MagicalAttack += 1500000 * statMultiplier;
-                userHIRN.ChemicalAttack += 1500000 * statMultiplier;
-                userHIRN.AtomicAttack += 1500000 * statMultiplier;
-                userHIRN.MentalAttack += 1500000 * statMultiplier;
+                userHIRN.PhysicalAttack += 15000000 * statMultiplier;
+                userHIRN.MagicalAttack += 15000000 * statMultiplier;
+                userHIRN.ChemicalAttack += 15000000 * statMultiplier;
+                userHIRN.AtomicAttack += 15000000 * statMultiplier;
+                userHIRN.MentalAttack += 15000000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                userHIRN.PhysicalDefense += 1500000 * statMultiplier;
-                userHIRN.MagicalDefense += 1500000 * statMultiplier;
-                userHIRN.ChemicalDefense += 1500000 * statMultiplier;
-                userHIRN.AtomicDefense += 1500000 * statMultiplier;
-                userHIRN.MentalDefense += 1500000 * statMultiplier;
+                userHIRN.PhysicalDefense += 15000000 * statMultiplier;
+                userHIRN.MagicalDefense += 15000000 * statMultiplier;
+                userHIRN.ChemicalDefense += 15000000 * statMultiplier;
+                userHIRN.AtomicDefense += 15000000 * statMultiplier;
+                userHIRN.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                userHIRN.Speed += 1500000 * statMultiplier;
-                userHIRN.CriticalDamageRate += 0.01 * statMultiplier;
-                userHIRN.CriticalRate += 0.01 * statMultiplier;
-                userHIRN.PenetrationRate += 0.01 * statMultiplier;
-                userHIRN.EvasionRate += 0.01 * statMultiplier;
-                userHIRN.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userHIRN.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userHIRN.AccuracyRate += 0.01 * statMultiplier;
-                userHIRN.LifestealRate += 0.01 * statMultiplier;
-                userHIRN.Mana += 1500000 * statMultiplier;
-                userHIRN.ManaRegenerationRate += 0.01 * statMultiplier;
-                userHIRN.ShieldStrength += 1500000 * statMultiplier;
-                userHIRN.Tenacity += 0.05 * statMultiplier;
-                userHIRN.ResistanceRate += 0.01 * statMultiplier;
-                userHIRN.ComboRate += 0.01 * statMultiplier;
-                userHIRN.ReflectionRate += 0.01 * statMultiplier;
-                userHIRN.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userHIRN.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userHIRN.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userHIRN.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userHIRN.Speed += 15000000 * statMultiplier;
+                userHIRN.CriticalDamageRate += 0.1 * statMultiplier;
+                userHIRN.CriticalRate += 0.1 * statMultiplier;
+                userHIRN.PenetrationRate += 0.1 * statMultiplier;
+                userHIRN.EvasionRate += 0.1 * statMultiplier;
+                userHIRN.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userHIRN.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userHIRN.AccuracyRate += 0.1 * statMultiplier;
+                userHIRN.LifestealRate += 0.1 * statMultiplier;
+                userHIRN.Mana += 15000000 * statMultiplier;
+                userHIRN.ManaRegenerationRate += 0.1 * statMultiplier;
+                userHIRN.ShieldStrength += 15000000 * statMultiplier;
+                userHIRN.Tenacity += 0.5 * statMultiplier;
+                userHIRN.ResistanceRate += 0.1 * statMultiplier;
+                userHIRN.ComboRate += 0.1 * statMultiplier;
+                userHIRN.ReflectionRate += 0.1 * statMultiplier;
+                userHIRN.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userHIRN.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userHIRN.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userHIRN.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 
@@ -2426,88 +2426,88 @@ public static class EnhanceHelper
 
             if (lvl >= 0 && lvl <= 500)
             {
-                userHISN.Health += 10000000 * statMultiplier;
+                userHISN.Health += 100000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                userHISN.PhysicalAttack += 1500000 * statMultiplier;
-                userHISN.PhysicalDefense += 1500000 * statMultiplier;
+                userHISN.PhysicalAttack += 15000000 * statMultiplier;
+                userHISN.PhysicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                userHISN.MagicalAttack += 1500000 * statMultiplier;
-                userHISN.MagicalDefense += 1500000 * statMultiplier;
+                userHISN.MagicalAttack += 15000000 * statMultiplier;
+                userHISN.MagicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                userHISN.ChemicalAttack += 1500000 * statMultiplier;
-                userHISN.ChemicalDefense += 1500000 * statMultiplier;
+                userHISN.ChemicalAttack += 15000000 * statMultiplier;
+                userHISN.ChemicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                userHISN.AtomicAttack += 1500000 * statMultiplier;
-                userHISN.AtomicDefense += 1500000 * statMultiplier;
+                userHISN.AtomicAttack += 15000000 * statMultiplier;
+                userHISN.AtomicDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                userHISN.MentalAttack += 1500000 * statMultiplier;
-                userHISN.MentalDefense += 1500000 * statMultiplier;
+                userHISN.MentalAttack += 15000000 * statMultiplier;
+                userHISN.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                userHISN.Speed += 1500000 * statMultiplier;
-                userHISN.CriticalDamageRate += 0.01 * statMultiplier;
-                userHISN.CriticalRate += 0.01 * statMultiplier;
-                userHISN.CriticalResistanceRate += 0.01 * statMultiplier;
-                userHISN.IgnoreCriticalRate += 0.01 * statMultiplier;
-                userHISN.PenetrationRate += 0.01 * statMultiplier;
-                userHISN.PenetrationResistanceRate += 0.01 * statMultiplier;
+                userHISN.Speed += 15000000 * statMultiplier;
+                userHISN.CriticalDamageRate += 0.1 * statMultiplier;
+                userHISN.CriticalRate += 0.1 * statMultiplier;
+                userHISN.CriticalResistanceRate += 0.1 * statMultiplier;
+                userHISN.IgnoreCriticalRate += 0.1 * statMultiplier;
+                userHISN.PenetrationRate += 0.1 * statMultiplier;
+                userHISN.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                userHISN.EvasionRate += 0.01 * statMultiplier;
-                userHISN.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userHISN.IgnoreDamageAbsorptionRate += 0.01 * statMultiplier;
-                userHISN.AbsorbedDamageRate += 0.01 * statMultiplier;
-                userHISN.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userHISN.VitalityRegenerationResistanceRate += 0.01 * statMultiplier;
-                userHISN.AccuracyRate += 0.01 * statMultiplier;
+                userHISN.EvasionRate += 0.1 * statMultiplier;
+                userHISN.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userHISN.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                userHISN.AbsorbedDamageRate += 0.1 * statMultiplier;
+                userHISN.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userHISN.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                userHISN.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                userHISN.LifestealRate += 0.01 * statMultiplier;
-                userHISN.Mana += 1500000 * statMultiplier;
-                userHISN.ManaRegenerationRate += 0.01 * statMultiplier;
-                userHISN.ShieldStrength += 1500000 * statMultiplier;
+                userHISN.LifestealRate += 0.1 * statMultiplier;
+                userHISN.Mana += 15000000 * statMultiplier;
+                userHISN.ManaRegenerationRate += 0.1 * statMultiplier;
+                userHISN.ShieldStrength += 15000000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                userHISN.Tenacity += 0.05 * statMultiplier;
-                userHISN.ResistanceRate += 0.01 * statMultiplier;
-                userHISN.ComboRate += 0.01 * statMultiplier;
-                userHISN.IgnoreComboRate += 0.01 * statMultiplier;
-                userHISN.ComboDamageRate += 0.01 * statMultiplier;
-                userHISN.ComboResistanceRate += 0.01 * statMultiplier;
-                userHISN.StunRate += 0.01 * statMultiplier;
-                userHISN.IgnoreStunRate += 0.01 * statMultiplier;
+                userHISN.Tenacity += 0.5 * statMultiplier;
+                userHISN.ResistanceRate += 0.1 * statMultiplier;
+                userHISN.ComboRate += 0.1 * statMultiplier;
+                userHISN.IgnoreComboRate += 0.1 * statMultiplier;
+                userHISN.ComboDamageRate += 0.1 * statMultiplier;
+                userHISN.ComboResistanceRate += 0.1 * statMultiplier;
+                userHISN.StunRate += 0.1 * statMultiplier;
+                userHISN.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                userHISN.ReflectionRate += 0.01 * statMultiplier;
-                userHISN.IgnoreReflectionRate += 0.01 * statMultiplier;
-                userHISN.ReflectionDamageRate += 0.01 * statMultiplier;
-                userHISN.ReflectionResistanceRate += 0.01 * statMultiplier;
-                userHISN.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userHISN.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userHISN.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userHISN.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userHISN.ReflectionRate += 0.1 * statMultiplier;
+                userHISN.IgnoreReflectionRate += 0.1 * statMultiplier;
+                userHISN.ReflectionDamageRate += 0.1 * statMultiplier;
+                userHISN.ReflectionResistanceRate += 0.1 * statMultiplier;
+                userHISN.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userHISN.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userHISN.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userHISN.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                userHISN.NormalDamageRate += 0.01 * statMultiplier;
-                userHISN.NormalResistanceRate += 0.01 * statMultiplier;
-                userHISN.SkillDamageRate += 0.01 * statMultiplier;
-                userHISN.SkillResistanceRate += 0.01 * statMultiplier;
+                userHISN.NormalDamageRate += 0.1 * statMultiplier;
+                userHISN.NormalResistanceRate += 0.1 * statMultiplier;
+                userHISN.SkillDamageRate += 0.1 * statMultiplier;
+                userHISN.SkillResistanceRate += 0.1 * statMultiplier;
                 userHISN.PercentAllHealth += 5 * statMultiplier;
                 userHISN.PercentAllPhysicalAttack += 5 * statMultiplier;
                 userHISN.PercentAllPhysicalDefense += 5 * statMultiplier;
@@ -2534,42 +2534,42 @@ public static class EnhanceHelper
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                userHISN.PhysicalAttack += 1500000 * statMultiplier;
-                userHISN.MagicalAttack += 1500000 * statMultiplier;
-                userHISN.ChemicalAttack += 1500000 * statMultiplier;
-                userHISN.AtomicAttack += 1500000 * statMultiplier;
-                userHISN.MentalAttack += 1500000 * statMultiplier;
+                userHISN.PhysicalAttack += 15000000 * statMultiplier;
+                userHISN.MagicalAttack += 15000000 * statMultiplier;
+                userHISN.ChemicalAttack += 15000000 * statMultiplier;
+                userHISN.AtomicAttack += 15000000 * statMultiplier;
+                userHISN.MentalAttack += 15000000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                userHISN.PhysicalDefense += 1500000 * statMultiplier;
-                userHISN.MagicalDefense += 1500000 * statMultiplier;
-                userHISN.ChemicalDefense += 1500000 * statMultiplier;
-                userHISN.AtomicDefense += 1500000 * statMultiplier;
-                userHISN.MentalDefense += 1500000 * statMultiplier;
+                userHISN.PhysicalDefense += 15000000 * statMultiplier;
+                userHISN.MagicalDefense += 15000000 * statMultiplier;
+                userHISN.ChemicalDefense += 15000000 * statMultiplier;
+                userHISN.AtomicDefense += 15000000 * statMultiplier;
+                userHISN.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                userHISN.Speed += 1500000 * statMultiplier;
-                userHISN.CriticalDamageRate += 0.01 * statMultiplier;
-                userHISN.CriticalRate += 0.01 * statMultiplier;
-                userHISN.PenetrationRate += 0.01 * statMultiplier;
-                userHISN.EvasionRate += 0.01 * statMultiplier;
-                userHISN.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userHISN.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userHISN.AccuracyRate += 0.01 * statMultiplier;
-                userHISN.LifestealRate += 0.01 * statMultiplier;
-                userHISN.Mana += 1500000 * statMultiplier;
-                userHISN.ManaRegenerationRate += 0.01 * statMultiplier;
-                userHISN.ShieldStrength += 1500000 * statMultiplier;
-                userHISN.Tenacity += 0.05 * statMultiplier;
-                userHISN.ResistanceRate += 0.01 * statMultiplier;
-                userHISN.ComboRate += 0.01 * statMultiplier;
-                userHISN.ReflectionRate += 0.01 * statMultiplier;
-                userHISN.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userHISN.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userHISN.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userHISN.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userHISN.Speed += 15000000 * statMultiplier;
+                userHISN.CriticalDamageRate += 0.1 * statMultiplier;
+                userHISN.CriticalRate += 0.1 * statMultiplier;
+                userHISN.PenetrationRate += 0.1 * statMultiplier;
+                userHISN.EvasionRate += 0.1 * statMultiplier;
+                userHISN.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userHISN.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userHISN.AccuracyRate += 0.1 * statMultiplier;
+                userHISN.LifestealRate += 0.1 * statMultiplier;
+                userHISN.Mana += 15000000 * statMultiplier;
+                userHISN.ManaRegenerationRate += 0.1 * statMultiplier;
+                userHISN.ShieldStrength += 15000000 * statMultiplier;
+                userHISN.Tenacity += 0.5 * statMultiplier;
+                userHISN.ResistanceRate += 0.1 * statMultiplier;
+                userHISN.ComboRate += 0.1 * statMultiplier;
+                userHISN.ReflectionRate += 0.1 * statMultiplier;
+                userHISN.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userHISN.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userHISN.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userHISN.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 
@@ -2587,88 +2587,88 @@ public static class EnhanceHelper
 
             if (lvl >= 0 && lvl <= 500)
             {
-                userHITN.Health += 10000000 * statMultiplier;
+                userHITN.Health += 100000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                userHITN.PhysicalAttack += 1500000 * statMultiplier;
-                userHITN.PhysicalDefense += 1500000 * statMultiplier;
+                userHITN.PhysicalAttack += 15000000 * statMultiplier;
+                userHITN.PhysicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                userHITN.MagicalAttack += 1500000 * statMultiplier;
-                userHITN.MagicalDefense += 1500000 * statMultiplier;
+                userHITN.MagicalAttack += 15000000 * statMultiplier;
+                userHITN.MagicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                userHITN.ChemicalAttack += 1500000 * statMultiplier;
-                userHITN.ChemicalDefense += 1500000 * statMultiplier;
+                userHITN.ChemicalAttack += 15000000 * statMultiplier;
+                userHITN.ChemicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                userHITN.AtomicAttack += 1500000 * statMultiplier;
-                userHITN.AtomicDefense += 1500000 * statMultiplier;
+                userHITN.AtomicAttack += 15000000 * statMultiplier;
+                userHITN.AtomicDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                userHITN.MentalAttack += 1500000 * statMultiplier;
-                userHITN.MentalDefense += 1500000 * statMultiplier;
+                userHITN.MentalAttack += 15000000 * statMultiplier;
+                userHITN.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                userHITN.Speed += 1500000 * statMultiplier;
-                userHITN.CriticalDamageRate += 0.01 * statMultiplier;
-                userHITN.CriticalRate += 0.01 * statMultiplier;
-                userHITN.CriticalResistanceRate += 0.01 * statMultiplier;
-                userHITN.IgnoreCriticalRate += 0.01 * statMultiplier;
-                userHITN.PenetrationRate += 0.01 * statMultiplier;
-                userHITN.PenetrationResistanceRate += 0.01 * statMultiplier;
+                userHITN.Speed += 15000000 * statMultiplier;
+                userHITN.CriticalDamageRate += 0.1 * statMultiplier;
+                userHITN.CriticalRate += 0.1 * statMultiplier;
+                userHITN.CriticalResistanceRate += 0.1 * statMultiplier;
+                userHITN.IgnoreCriticalRate += 0.1 * statMultiplier;
+                userHITN.PenetrationRate += 0.1 * statMultiplier;
+                userHITN.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                userHITN.EvasionRate += 0.01 * statMultiplier;
-                userHITN.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userHITN.IgnoreDamageAbsorptionRate += 0.01 * statMultiplier;
-                userHITN.AbsorbedDamageRate += 0.01 * statMultiplier;
-                userHITN.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userHITN.VitalityRegenerationResistanceRate += 0.01 * statMultiplier;
-                userHITN.AccuracyRate += 0.01 * statMultiplier;
+                userHITN.EvasionRate += 0.1 * statMultiplier;
+                userHITN.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userHITN.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                userHITN.AbsorbedDamageRate += 0.1 * statMultiplier;
+                userHITN.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userHITN.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                userHITN.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                userHITN.LifestealRate += 0.01 * statMultiplier;
-                userHITN.Mana += 1500000 * statMultiplier;
-                userHITN.ManaRegenerationRate += 0.01 * statMultiplier;
-                userHITN.ShieldStrength += 1500000 * statMultiplier;
+                userHITN.LifestealRate += 0.1 * statMultiplier;
+                userHITN.Mana += 15000000 * statMultiplier;
+                userHITN.ManaRegenerationRate += 0.1 * statMultiplier;
+                userHITN.ShieldStrength += 15000000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                userHITN.Tenacity += 0.05 * statMultiplier;
-                userHITN.ResistanceRate += 0.01 * statMultiplier;
-                userHITN.ComboRate += 0.01 * statMultiplier;
-                userHITN.IgnoreComboRate += 0.01 * statMultiplier;
-                userHITN.ComboDamageRate += 0.01 * statMultiplier;
-                userHITN.ComboResistanceRate += 0.01 * statMultiplier;
-                userHITN.StunRate += 0.01 * statMultiplier;
-                userHITN.IgnoreStunRate += 0.01 * statMultiplier;
+                userHITN.Tenacity += 0.5 * statMultiplier;
+                userHITN.ResistanceRate += 0.1 * statMultiplier;
+                userHITN.ComboRate += 0.1 * statMultiplier;
+                userHITN.IgnoreComboRate += 0.1 * statMultiplier;
+                userHITN.ComboDamageRate += 0.1 * statMultiplier;
+                userHITN.ComboResistanceRate += 0.1 * statMultiplier;
+                userHITN.StunRate += 0.1 * statMultiplier;
+                userHITN.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                userHITN.ReflectionRate += 0.01 * statMultiplier;
-                userHITN.IgnoreReflectionRate += 0.01 * statMultiplier;
-                userHITN.ReflectionDamageRate += 0.01 * statMultiplier;
-                userHITN.ReflectionResistanceRate += 0.01 * statMultiplier;
-                userHITN.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userHITN.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userHITN.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userHITN.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userHITN.ReflectionRate += 0.1 * statMultiplier;
+                userHITN.IgnoreReflectionRate += 0.1 * statMultiplier;
+                userHITN.ReflectionDamageRate += 0.1 * statMultiplier;
+                userHITN.ReflectionResistanceRate += 0.1 * statMultiplier;
+                userHITN.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userHITN.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userHITN.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userHITN.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                userHITN.NormalDamageRate += 0.01 * statMultiplier;
-                userHITN.NormalResistanceRate += 0.01 * statMultiplier;
-                userHITN.SkillDamageRate += 0.01 * statMultiplier;
-                userHITN.SkillResistanceRate += 0.01 * statMultiplier;
+                userHITN.NormalDamageRate += 0.1 * statMultiplier;
+                userHITN.NormalResistanceRate += 0.1 * statMultiplier;
+                userHITN.SkillDamageRate += 0.1 * statMultiplier;
+                userHITN.SkillResistanceRate += 0.1 * statMultiplier;
                 userHITN.PercentAllHealth += 5 * statMultiplier;
                 userHITN.PercentAllPhysicalAttack += 5 * statMultiplier;
                 userHITN.PercentAllPhysicalDefense += 5 * statMultiplier;
@@ -2695,42 +2695,42 @@ public static class EnhanceHelper
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                userHITN.PhysicalAttack += 1500000 * statMultiplier;
-                userHITN.MagicalAttack += 1500000 * statMultiplier;
-                userHITN.ChemicalAttack += 1500000 * statMultiplier;
-                userHITN.AtomicAttack += 1500000 * statMultiplier;
-                userHITN.MentalAttack += 1500000 * statMultiplier;
+                userHITN.PhysicalAttack += 15000000 * statMultiplier;
+                userHITN.MagicalAttack += 15000000 * statMultiplier;
+                userHITN.ChemicalAttack += 15000000 * statMultiplier;
+                userHITN.AtomicAttack += 15000000 * statMultiplier;
+                userHITN.MentalAttack += 15000000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                userHITN.PhysicalDefense += 1500000 * statMultiplier;
-                userHITN.MagicalDefense += 1500000 * statMultiplier;
-                userHITN.ChemicalDefense += 1500000 * statMultiplier;
-                userHITN.AtomicDefense += 1500000 * statMultiplier;
-                userHITN.MentalDefense += 1500000 * statMultiplier;
+                userHITN.PhysicalDefense += 15000000 * statMultiplier;
+                userHITN.MagicalDefense += 15000000 * statMultiplier;
+                userHITN.ChemicalDefense += 15000000 * statMultiplier;
+                userHITN.AtomicDefense += 15000000 * statMultiplier;
+                userHITN.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                userHITN.Speed += 1500000 * statMultiplier;
-                userHITN.CriticalDamageRate += 0.01 * statMultiplier;
-                userHITN.CriticalRate += 0.01 * statMultiplier;
-                userHITN.PenetrationRate += 0.01 * statMultiplier;
-                userHITN.EvasionRate += 0.01 * statMultiplier;
-                userHITN.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userHITN.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userHITN.AccuracyRate += 0.01 * statMultiplier;
-                userHITN.LifestealRate += 0.01 * statMultiplier;
-                userHITN.Mana += 1500000 * statMultiplier;
-                userHITN.ManaRegenerationRate += 0.01 * statMultiplier;
-                userHITN.ShieldStrength += 1500000 * statMultiplier;
-                userHITN.Tenacity += 0.05 * statMultiplier;
-                userHITN.ResistanceRate += 0.01 * statMultiplier;
-                userHITN.ComboRate += 0.01 * statMultiplier;
-                userHITN.ReflectionRate += 0.01 * statMultiplier;
-                userHITN.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userHITN.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userHITN.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userHITN.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userHITN.Speed += 15000000 * statMultiplier;
+                userHITN.CriticalDamageRate += 0.1 * statMultiplier;
+                userHITN.CriticalRate += 0.1 * statMultiplier;
+                userHITN.PenetrationRate += 0.1 * statMultiplier;
+                userHITN.EvasionRate += 0.1 * statMultiplier;
+                userHITN.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userHITN.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userHITN.AccuracyRate += 0.1 * statMultiplier;
+                userHITN.LifestealRate += 0.1 * statMultiplier;
+                userHITN.Mana += 15000000 * statMultiplier;
+                userHITN.ManaRegenerationRate += 0.1 * statMultiplier;
+                userHITN.ShieldStrength += 15000000 * statMultiplier;
+                userHITN.Tenacity += 0.5 * statMultiplier;
+                userHITN.ResistanceRate += 0.1 * statMultiplier;
+                userHITN.ComboRate += 0.1 * statMultiplier;
+                userHITN.ReflectionRate += 0.1 * statMultiplier;
+                userHITN.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userHITN.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userHITN.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userHITN.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 
@@ -2748,88 +2748,88 @@ public static class EnhanceHelper
 
             if (lvl >= 0 && lvl <= 500)
             {
-                userSSWN.Health += 10000000 * statMultiplier;
+                userSSWN.Health += 100000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                userSSWN.PhysicalAttack += 1500000 * statMultiplier;
-                userSSWN.PhysicalDefense += 1500000 * statMultiplier;
+                userSSWN.PhysicalAttack += 15000000 * statMultiplier;
+                userSSWN.PhysicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                userSSWN.MagicalAttack += 1500000 * statMultiplier;
-                userSSWN.MagicalDefense += 1500000 * statMultiplier;
+                userSSWN.MagicalAttack += 15000000 * statMultiplier;
+                userSSWN.MagicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                userSSWN.ChemicalAttack += 1500000 * statMultiplier;
-                userSSWN.ChemicalDefense += 1500000 * statMultiplier;
+                userSSWN.ChemicalAttack += 15000000 * statMultiplier;
+                userSSWN.ChemicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                userSSWN.AtomicAttack += 1500000 * statMultiplier;
-                userSSWN.AtomicDefense += 1500000 * statMultiplier;
+                userSSWN.AtomicAttack += 15000000 * statMultiplier;
+                userSSWN.AtomicDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                userSSWN.MentalAttack += 1500000 * statMultiplier;
-                userSSWN.MentalDefense += 1500000 * statMultiplier;
+                userSSWN.MentalAttack += 15000000 * statMultiplier;
+                userSSWN.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                userSSWN.Speed += 1500000 * statMultiplier;
-                userSSWN.CriticalDamageRate += 0.01 * statMultiplier;
-                userSSWN.CriticalRate += 0.01 * statMultiplier;
-                userSSWN.CriticalResistanceRate += 0.01 * statMultiplier;
-                userSSWN.IgnoreCriticalRate += 0.01 * statMultiplier;
-                userSSWN.PenetrationRate += 0.01 * statMultiplier;
-                userSSWN.PenetrationResistanceRate += 0.01 * statMultiplier;
+                userSSWN.Speed += 15000000 * statMultiplier;
+                userSSWN.CriticalDamageRate += 0.1 * statMultiplier;
+                userSSWN.CriticalRate += 0.1 * statMultiplier;
+                userSSWN.CriticalResistanceRate += 0.1 * statMultiplier;
+                userSSWN.IgnoreCriticalRate += 0.1 * statMultiplier;
+                userSSWN.PenetrationRate += 0.1 * statMultiplier;
+                userSSWN.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                userSSWN.EvasionRate += 0.01 * statMultiplier;
-                userSSWN.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userSSWN.IgnoreDamageAbsorptionRate += 0.01 * statMultiplier;
-                userSSWN.AbsorbedDamageRate += 0.01 * statMultiplier;
-                userSSWN.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userSSWN.VitalityRegenerationResistanceRate += 0.01 * statMultiplier;
-                userSSWN.AccuracyRate += 0.01 * statMultiplier;
+                userSSWN.EvasionRate += 0.1 * statMultiplier;
+                userSSWN.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userSSWN.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                userSSWN.AbsorbedDamageRate += 0.1 * statMultiplier;
+                userSSWN.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userSSWN.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                userSSWN.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                userSSWN.LifestealRate += 0.01 * statMultiplier;
-                userSSWN.Mana += 1500000 * statMultiplier;
-                userSSWN.ManaRegenerationRate += 0.01 * statMultiplier;
-                userSSWN.ShieldStrength += 1500000 * statMultiplier;
+                userSSWN.LifestealRate += 0.1 * statMultiplier;
+                userSSWN.Mana += 15000000 * statMultiplier;
+                userSSWN.ManaRegenerationRate += 0.1 * statMultiplier;
+                userSSWN.ShieldStrength += 15000000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                userSSWN.Tenacity += 0.05 * statMultiplier;
-                userSSWN.ResistanceRate += 0.01 * statMultiplier;
-                userSSWN.ComboRate += 0.01 * statMultiplier;
-                userSSWN.IgnoreComboRate += 0.01 * statMultiplier;
-                userSSWN.ComboDamageRate += 0.01 * statMultiplier;
-                userSSWN.ComboResistanceRate += 0.01 * statMultiplier;
-                userSSWN.StunRate += 0.01 * statMultiplier;
-                userSSWN.IgnoreStunRate += 0.01 * statMultiplier;
+                userSSWN.Tenacity += 0.5 * statMultiplier;
+                userSSWN.ResistanceRate += 0.1 * statMultiplier;
+                userSSWN.ComboRate += 0.1 * statMultiplier;
+                userSSWN.IgnoreComboRate += 0.1 * statMultiplier;
+                userSSWN.ComboDamageRate += 0.1 * statMultiplier;
+                userSSWN.ComboResistanceRate += 0.1 * statMultiplier;
+                userSSWN.StunRate += 0.1 * statMultiplier;
+                userSSWN.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                userSSWN.ReflectionRate += 0.01 * statMultiplier;
-                userSSWN.IgnoreReflectionRate += 0.01 * statMultiplier;
-                userSSWN.ReflectionDamageRate += 0.01 * statMultiplier;
-                userSSWN.ReflectionResistanceRate += 0.01 * statMultiplier;
-                userSSWN.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userSSWN.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userSSWN.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userSSWN.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userSSWN.ReflectionRate += 0.1 * statMultiplier;
+                userSSWN.IgnoreReflectionRate += 0.1 * statMultiplier;
+                userSSWN.ReflectionDamageRate += 0.1 * statMultiplier;
+                userSSWN.ReflectionResistanceRate += 0.1 * statMultiplier;
+                userSSWN.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userSSWN.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userSSWN.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userSSWN.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                userSSWN.NormalDamageRate += 0.01 * statMultiplier;
-                userSSWN.NormalResistanceRate += 0.01 * statMultiplier;
-                userSSWN.SkillDamageRate += 0.01 * statMultiplier;
-                userSSWN.SkillResistanceRate += 0.01 * statMultiplier;
+                userSSWN.NormalDamageRate += 0.1 * statMultiplier;
+                userSSWN.NormalResistanceRate += 0.1 * statMultiplier;
+                userSSWN.SkillDamageRate += 0.1 * statMultiplier;
+                userSSWN.SkillResistanceRate += 0.1 * statMultiplier;
                 userSSWN.PercentAllHealth += 5 * statMultiplier;
                 userSSWN.PercentAllPhysicalAttack += 5 * statMultiplier;
                 userSSWN.PercentAllPhysicalDefense += 5 * statMultiplier;
@@ -2856,42 +2856,42 @@ public static class EnhanceHelper
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                userSSWN.PhysicalAttack += 1500000 * statMultiplier;
-                userSSWN.MagicalAttack += 1500000 * statMultiplier;
-                userSSWN.ChemicalAttack += 1500000 * statMultiplier;
-                userSSWN.AtomicAttack += 1500000 * statMultiplier;
-                userSSWN.MentalAttack += 1500000 * statMultiplier;
+                userSSWN.PhysicalAttack += 15000000 * statMultiplier;
+                userSSWN.MagicalAttack += 15000000 * statMultiplier;
+                userSSWN.ChemicalAttack += 15000000 * statMultiplier;
+                userSSWN.AtomicAttack += 15000000 * statMultiplier;
+                userSSWN.MentalAttack += 15000000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                userSSWN.PhysicalDefense += 1500000 * statMultiplier;
-                userSSWN.MagicalDefense += 1500000 * statMultiplier;
-                userSSWN.ChemicalDefense += 1500000 * statMultiplier;
-                userSSWN.AtomicDefense += 1500000 * statMultiplier;
-                userSSWN.MentalDefense += 1500000 * statMultiplier;
+                userSSWN.PhysicalDefense += 15000000 * statMultiplier;
+                userSSWN.MagicalDefense += 15000000 * statMultiplier;
+                userSSWN.ChemicalDefense += 15000000 * statMultiplier;
+                userSSWN.AtomicDefense += 15000000 * statMultiplier;
+                userSSWN.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                userSSWN.Speed += 1500000 * statMultiplier;
-                userSSWN.CriticalDamageRate += 0.01 * statMultiplier;
-                userSSWN.CriticalRate += 0.01 * statMultiplier;
-                userSSWN.PenetrationRate += 0.01 * statMultiplier;
-                userSSWN.EvasionRate += 0.01 * statMultiplier;
-                userSSWN.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userSSWN.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userSSWN.AccuracyRate += 0.01 * statMultiplier;
-                userSSWN.LifestealRate += 0.01 * statMultiplier;
-                userSSWN.Mana += 1500000 * statMultiplier;
-                userSSWN.ManaRegenerationRate += 0.01 * statMultiplier;
-                userSSWN.ShieldStrength += 1500000 * statMultiplier;
-                userSSWN.Tenacity += 0.05 * statMultiplier;
-                userSSWN.ResistanceRate += 0.01 * statMultiplier;
-                userSSWN.ComboRate += 0.01 * statMultiplier;
-                userSSWN.ReflectionRate += 0.01 * statMultiplier;
-                userSSWN.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userSSWN.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userSSWN.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userSSWN.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userSSWN.Speed += 15000000 * statMultiplier;
+                userSSWN.CriticalDamageRate += 0.1 * statMultiplier;
+                userSSWN.CriticalRate += 0.1 * statMultiplier;
+                userSSWN.PenetrationRate += 0.1 * statMultiplier;
+                userSSWN.EvasionRate += 0.1 * statMultiplier;
+                userSSWN.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userSSWN.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userSSWN.AccuracyRate += 0.1 * statMultiplier;
+                userSSWN.LifestealRate += 0.1 * statMultiplier;
+                userSSWN.Mana += 15000000 * statMultiplier;
+                userSSWN.ManaRegenerationRate += 0.1 * statMultiplier;
+                userSSWN.ShieldStrength += 15000000 * statMultiplier;
+                userSSWN.Tenacity += 0.5 * statMultiplier;
+                userSSWN.ResistanceRate += 0.1 * statMultiplier;
+                userSSWN.ComboRate += 0.1 * statMultiplier;
+                userSSWN.ReflectionRate += 0.1 * statMultiplier;
+                userSSWN.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userSSWN.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userSSWN.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userSSWN.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 
@@ -3017,88 +3017,88 @@ public static class EnhanceHelper
 
             if (lvl >= 0 && lvl <= 500)
             {
-                userCosmicImprint.Health += 10000000 * statMultiplier;
+                userCosmicImprint.Health += 100000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                userCosmicImprint.PhysicalAttack += 1500000 * statMultiplier;
-                userCosmicImprint.PhysicalDefense += 1500000 * statMultiplier;
+                userCosmicImprint.PhysicalAttack += 15000000 * statMultiplier;
+                userCosmicImprint.PhysicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                userCosmicImprint.MagicalAttack += 1500000 * statMultiplier;
-                userCosmicImprint.MagicalDefense += 1500000 * statMultiplier;
+                userCosmicImprint.MagicalAttack += 15000000 * statMultiplier;
+                userCosmicImprint.MagicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                userCosmicImprint.ChemicalAttack += 1500000 * statMultiplier;
-                userCosmicImprint.ChemicalDefense += 1500000 * statMultiplier;
+                userCosmicImprint.ChemicalAttack += 15000000 * statMultiplier;
+                userCosmicImprint.ChemicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                userCosmicImprint.AtomicAttack += 1500000 * statMultiplier;
-                userCosmicImprint.AtomicDefense += 1500000 * statMultiplier;
+                userCosmicImprint.AtomicAttack += 15000000 * statMultiplier;
+                userCosmicImprint.AtomicDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                userCosmicImprint.MentalAttack += 1500000 * statMultiplier;
-                userCosmicImprint.MentalDefense += 1500000 * statMultiplier;
+                userCosmicImprint.MentalAttack += 15000000 * statMultiplier;
+                userCosmicImprint.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                userCosmicImprint.Speed += 1500000 * statMultiplier;
-                userCosmicImprint.CriticalDamageRate += 0.01 * statMultiplier;
-                userCosmicImprint.CriticalRate += 0.01 * statMultiplier;
-                userCosmicImprint.CriticalResistanceRate += 0.01 * statMultiplier;
-                userCosmicImprint.IgnoreCriticalRate += 0.01 * statMultiplier;
-                userCosmicImprint.PenetrationRate += 0.01 * statMultiplier;
-                userCosmicImprint.PenetrationResistanceRate += 0.01 * statMultiplier;
+                userCosmicImprint.Speed += 15000000 * statMultiplier;
+                userCosmicImprint.CriticalDamageRate += 0.1 * statMultiplier;
+                userCosmicImprint.CriticalRate += 0.1 * statMultiplier;
+                userCosmicImprint.CriticalResistanceRate += 0.1 * statMultiplier;
+                userCosmicImprint.IgnoreCriticalRate += 0.1 * statMultiplier;
+                userCosmicImprint.PenetrationRate += 0.1 * statMultiplier;
+                userCosmicImprint.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                userCosmicImprint.EvasionRate += 0.01 * statMultiplier;
-                userCosmicImprint.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userCosmicImprint.IgnoreDamageAbsorptionRate += 0.01 * statMultiplier;
-                userCosmicImprint.AbsorbedDamageRate += 0.01 * statMultiplier;
-                userCosmicImprint.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userCosmicImprint.VitalityRegenerationResistanceRate += 0.01 * statMultiplier;
-                userCosmicImprint.AccuracyRate += 0.01 * statMultiplier;
+                userCosmicImprint.EvasionRate += 0.1 * statMultiplier;
+                userCosmicImprint.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userCosmicImprint.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                userCosmicImprint.AbsorbedDamageRate += 0.1 * statMultiplier;
+                userCosmicImprint.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userCosmicImprint.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                userCosmicImprint.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                userCosmicImprint.LifestealRate += 0.01 * statMultiplier;
-                userCosmicImprint.Mana += 1500000 * statMultiplier;
-                userCosmicImprint.ManaRegenerationRate += 0.01 * statMultiplier;
-                userCosmicImprint.ShieldStrength += 1500000 * statMultiplier;
+                userCosmicImprint.LifestealRate += 0.1 * statMultiplier;
+                userCosmicImprint.Mana += 15000000 * statMultiplier;
+                userCosmicImprint.ManaRegenerationRate += 0.1 * statMultiplier;
+                userCosmicImprint.ShieldStrength += 15000000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                userCosmicImprint.Tenacity += 0.05 * statMultiplier;
-                userCosmicImprint.ResistanceRate += 0.01 * statMultiplier;
-                userCosmicImprint.ComboRate += 0.01 * statMultiplier;
-                userCosmicImprint.IgnoreComboRate += 0.01 * statMultiplier;
-                userCosmicImprint.ComboDamageRate += 0.01 * statMultiplier;
-                userCosmicImprint.ComboResistanceRate += 0.01 * statMultiplier;
-                userCosmicImprint.StunRate += 0.01 * statMultiplier;
-                userCosmicImprint.IgnoreStunRate += 0.01 * statMultiplier;
+                userCosmicImprint.Tenacity += 0.5 * statMultiplier;
+                userCosmicImprint.ResistanceRate += 0.1 * statMultiplier;
+                userCosmicImprint.ComboRate += 0.1 * statMultiplier;
+                userCosmicImprint.IgnoreComboRate += 0.1 * statMultiplier;
+                userCosmicImprint.ComboDamageRate += 0.1 * statMultiplier;
+                userCosmicImprint.ComboResistanceRate += 0.1 * statMultiplier;
+                userCosmicImprint.StunRate += 0.1 * statMultiplier;
+                userCosmicImprint.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                userCosmicImprint.ReflectionRate += 0.01 * statMultiplier;
-                userCosmicImprint.IgnoreReflectionRate += 0.01 * statMultiplier;
-                userCosmicImprint.ReflectionDamageRate += 0.01 * statMultiplier;
-                userCosmicImprint.ReflectionResistanceRate += 0.01 * statMultiplier;
-                userCosmicImprint.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userCosmicImprint.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userCosmicImprint.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userCosmicImprint.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userCosmicImprint.ReflectionRate += 0.1 * statMultiplier;
+                userCosmicImprint.IgnoreReflectionRate += 0.1 * statMultiplier;
+                userCosmicImprint.ReflectionDamageRate += 0.1 * statMultiplier;
+                userCosmicImprint.ReflectionResistanceRate += 0.1 * statMultiplier;
+                userCosmicImprint.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userCosmicImprint.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userCosmicImprint.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userCosmicImprint.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                userCosmicImprint.NormalDamageRate += 0.01 * statMultiplier;
-                userCosmicImprint.NormalResistanceRate += 0.01 * statMultiplier;
-                userCosmicImprint.SkillDamageRate += 0.01 * statMultiplier;
-                userCosmicImprint.SkillResistanceRate += 0.01 * statMultiplier;
+                userCosmicImprint.NormalDamageRate += 0.1 * statMultiplier;
+                userCosmicImprint.NormalResistanceRate += 0.1 * statMultiplier;
+                userCosmicImprint.SkillDamageRate += 0.1 * statMultiplier;
+                userCosmicImprint.SkillResistanceRate += 0.1 * statMultiplier;
                 userCosmicImprint.PercentAllHealth += 5 * statMultiplier;
                 userCosmicImprint.PercentAllPhysicalAttack += 5 * statMultiplier;
                 userCosmicImprint.PercentAllPhysicalDefense += 5 * statMultiplier;
@@ -3125,42 +3125,42 @@ public static class EnhanceHelper
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                userCosmicImprint.PhysicalAttack += 1500000 * statMultiplier;
-                userCosmicImprint.MagicalAttack += 1500000 * statMultiplier;
-                userCosmicImprint.ChemicalAttack += 1500000 * statMultiplier;
-                userCosmicImprint.AtomicAttack += 1500000 * statMultiplier;
-                userCosmicImprint.MentalAttack += 1500000 * statMultiplier;
+                userCosmicImprint.PhysicalAttack += 15000000 * statMultiplier;
+                userCosmicImprint.MagicalAttack += 15000000 * statMultiplier;
+                userCosmicImprint.ChemicalAttack += 15000000 * statMultiplier;
+                userCosmicImprint.AtomicAttack += 15000000 * statMultiplier;
+                userCosmicImprint.MentalAttack += 15000000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                userCosmicImprint.PhysicalDefense += 1500000 * statMultiplier;
-                userCosmicImprint.MagicalDefense += 1500000 * statMultiplier;
-                userCosmicImprint.ChemicalDefense += 1500000 * statMultiplier;
-                userCosmicImprint.AtomicDefense += 1500000 * statMultiplier;
-                userCosmicImprint.MentalDefense += 1500000 * statMultiplier;
+                userCosmicImprint.PhysicalDefense += 15000000 * statMultiplier;
+                userCosmicImprint.MagicalDefense += 15000000 * statMultiplier;
+                userCosmicImprint.ChemicalDefense += 15000000 * statMultiplier;
+                userCosmicImprint.AtomicDefense += 15000000 * statMultiplier;
+                userCosmicImprint.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                userCosmicImprint.Speed += 1500000 * statMultiplier;
-                userCosmicImprint.CriticalDamageRate += 0.01 * statMultiplier;
-                userCosmicImprint.CriticalRate += 0.01 * statMultiplier;
-                userCosmicImprint.PenetrationRate += 0.01 * statMultiplier;
-                userCosmicImprint.EvasionRate += 0.01 * statMultiplier;
-                userCosmicImprint.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userCosmicImprint.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userCosmicImprint.AccuracyRate += 0.01 * statMultiplier;
-                userCosmicImprint.LifestealRate += 0.01 * statMultiplier;
-                userCosmicImprint.Mana += 1500000 * statMultiplier;
-                userCosmicImprint.ManaRegenerationRate += 0.01 * statMultiplier;
-                userCosmicImprint.ShieldStrength += 1500000 * statMultiplier;
-                userCosmicImprint.Tenacity += 0.05 * statMultiplier;
-                userCosmicImprint.ResistanceRate += 0.01 * statMultiplier;
-                userCosmicImprint.ComboRate += 0.01 * statMultiplier;
-                userCosmicImprint.ReflectionRate += 0.01 * statMultiplier;
-                userCosmicImprint.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userCosmicImprint.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userCosmicImprint.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userCosmicImprint.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userCosmicImprint.Speed += 15000000 * statMultiplier;
+                userCosmicImprint.CriticalDamageRate += 0.1 * statMultiplier;
+                userCosmicImprint.CriticalRate += 0.1 * statMultiplier;
+                userCosmicImprint.PenetrationRate += 0.1 * statMultiplier;
+                userCosmicImprint.EvasionRate += 0.1 * statMultiplier;
+                userCosmicImprint.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userCosmicImprint.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userCosmicImprint.AccuracyRate += 0.1 * statMultiplier;
+                userCosmicImprint.LifestealRate += 0.1 * statMultiplier;
+                userCosmicImprint.Mana += 15000000 * statMultiplier;
+                userCosmicImprint.ManaRegenerationRate += 0.1 * statMultiplier;
+                userCosmicImprint.ShieldStrength += 15000000 * statMultiplier;
+                userCosmicImprint.Tenacity += 0.5 * statMultiplier;
+                userCosmicImprint.ResistanceRate += 0.1 * statMultiplier;
+                userCosmicImprint.ComboRate += 0.1 * statMultiplier;
+                userCosmicImprint.ReflectionRate += 0.1 * statMultiplier;
+                userCosmicImprint.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userCosmicImprint.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userCosmicImprint.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userCosmicImprint.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 
@@ -3178,88 +3178,88 @@ public static class EnhanceHelper
 
             if (lvl >= 0 && lvl <= 500)
             {
-                userPrimordialImprint.Health += 10000000 * statMultiplier;
+                userPrimordialImprint.Health += 100000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                userPrimordialImprint.PhysicalAttack += 1500000 * statMultiplier;
-                userPrimordialImprint.PhysicalDefense += 1500000 * statMultiplier;
+                userPrimordialImprint.PhysicalAttack += 15000000 * statMultiplier;
+                userPrimordialImprint.PhysicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                userPrimordialImprint.MagicalAttack += 1500000 * statMultiplier;
-                userPrimordialImprint.MagicalDefense += 1500000 * statMultiplier;
+                userPrimordialImprint.MagicalAttack += 15000000 * statMultiplier;
+                userPrimordialImprint.MagicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                userPrimordialImprint.ChemicalAttack += 1500000 * statMultiplier;
-                userPrimordialImprint.ChemicalDefense += 1500000 * statMultiplier;
+                userPrimordialImprint.ChemicalAttack += 15000000 * statMultiplier;
+                userPrimordialImprint.ChemicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                userPrimordialImprint.AtomicAttack += 1500000 * statMultiplier;
-                userPrimordialImprint.AtomicDefense += 1500000 * statMultiplier;
+                userPrimordialImprint.AtomicAttack += 15000000 * statMultiplier;
+                userPrimordialImprint.AtomicDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                userPrimordialImprint.MentalAttack += 1500000 * statMultiplier;
-                userPrimordialImprint.MentalDefense += 1500000 * statMultiplier;
+                userPrimordialImprint.MentalAttack += 15000000 * statMultiplier;
+                userPrimordialImprint.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                userPrimordialImprint.Speed += 1500000 * statMultiplier;
-                userPrimordialImprint.CriticalDamageRate += 0.01 * statMultiplier;
-                userPrimordialImprint.CriticalRate += 0.01 * statMultiplier;
-                userPrimordialImprint.CriticalResistanceRate += 0.01 * statMultiplier;
-                userPrimordialImprint.IgnoreCriticalRate += 0.01 * statMultiplier;
-                userPrimordialImprint.PenetrationRate += 0.01 * statMultiplier;
-                userPrimordialImprint.PenetrationResistanceRate += 0.01 * statMultiplier;
+                userPrimordialImprint.Speed += 15000000 * statMultiplier;
+                userPrimordialImprint.CriticalDamageRate += 0.1 * statMultiplier;
+                userPrimordialImprint.CriticalRate += 0.1 * statMultiplier;
+                userPrimordialImprint.CriticalResistanceRate += 0.1 * statMultiplier;
+                userPrimordialImprint.IgnoreCriticalRate += 0.1 * statMultiplier;
+                userPrimordialImprint.PenetrationRate += 0.1 * statMultiplier;
+                userPrimordialImprint.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                userPrimordialImprint.EvasionRate += 0.01 * statMultiplier;
-                userPrimordialImprint.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userPrimordialImprint.IgnoreDamageAbsorptionRate += 0.01 * statMultiplier;
-                userPrimordialImprint.AbsorbedDamageRate += 0.01 * statMultiplier;
-                userPrimordialImprint.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userPrimordialImprint.VitalityRegenerationResistanceRate += 0.01 * statMultiplier;
-                userPrimordialImprint.AccuracyRate += 0.01 * statMultiplier;
+                userPrimordialImprint.EvasionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.AbsorbedDamageRate += 0.1 * statMultiplier;
+                userPrimordialImprint.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userPrimordialImprint.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                userPrimordialImprint.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                userPrimordialImprint.LifestealRate += 0.01 * statMultiplier;
-                userPrimordialImprint.Mana += 1500000 * statMultiplier;
-                userPrimordialImprint.ManaRegenerationRate += 0.01 * statMultiplier;
-                userPrimordialImprint.ShieldStrength += 1500000 * statMultiplier;
+                userPrimordialImprint.LifestealRate += 0.1 * statMultiplier;
+                userPrimordialImprint.Mana += 15000000 * statMultiplier;
+                userPrimordialImprint.ManaRegenerationRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ShieldStrength += 15000000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                userPrimordialImprint.Tenacity += 0.05 * statMultiplier;
-                userPrimordialImprint.ResistanceRate += 0.01 * statMultiplier;
-                userPrimordialImprint.ComboRate += 0.01 * statMultiplier;
-                userPrimordialImprint.IgnoreComboRate += 0.01 * statMultiplier;
-                userPrimordialImprint.ComboDamageRate += 0.01 * statMultiplier;
-                userPrimordialImprint.ComboResistanceRate += 0.01 * statMultiplier;
-                userPrimordialImprint.StunRate += 0.01 * statMultiplier;
-                userPrimordialImprint.IgnoreStunRate += 0.01 * statMultiplier;
+                userPrimordialImprint.Tenacity += 0.5 * statMultiplier;
+                userPrimordialImprint.ResistanceRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ComboRate += 0.1 * statMultiplier;
+                userPrimordialImprint.IgnoreComboRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ComboDamageRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ComboResistanceRate += 0.1 * statMultiplier;
+                userPrimordialImprint.StunRate += 0.1 * statMultiplier;
+                userPrimordialImprint.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                userPrimordialImprint.ReflectionRate += 0.01 * statMultiplier;
-                userPrimordialImprint.IgnoreReflectionRate += 0.01 * statMultiplier;
-                userPrimordialImprint.ReflectionDamageRate += 0.01 * statMultiplier;
-                userPrimordialImprint.ReflectionResistanceRate += 0.01 * statMultiplier;
-                userPrimordialImprint.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userPrimordialImprint.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userPrimordialImprint.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userPrimordialImprint.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userPrimordialImprint.ReflectionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.IgnoreReflectionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ReflectionDamageRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ReflectionResistanceRate += 0.1 * statMultiplier;
+                userPrimordialImprint.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                userPrimordialImprint.NormalDamageRate += 0.01 * statMultiplier;
-                userPrimordialImprint.NormalResistanceRate += 0.01 * statMultiplier;
-                userPrimordialImprint.SkillDamageRate += 0.01 * statMultiplier;
-                userPrimordialImprint.SkillResistanceRate += 0.01 * statMultiplier;
+                userPrimordialImprint.NormalDamageRate += 0.1 * statMultiplier;
+                userPrimordialImprint.NormalResistanceRate += 0.1 * statMultiplier;
+                userPrimordialImprint.SkillDamageRate += 0.1 * statMultiplier;
+                userPrimordialImprint.SkillResistanceRate += 0.1 * statMultiplier;
                 userPrimordialImprint.PercentAllHealth += 5 * statMultiplier;
                 userPrimordialImprint.PercentAllPhysicalAttack += 5 * statMultiplier;
                 userPrimordialImprint.PercentAllPhysicalDefense += 5 * statMultiplier;
@@ -3286,42 +3286,42 @@ public static class EnhanceHelper
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                userPrimordialImprint.PhysicalAttack += 1500000 * statMultiplier;
-                userPrimordialImprint.MagicalAttack += 1500000 * statMultiplier;
-                userPrimordialImprint.ChemicalAttack += 1500000 * statMultiplier;
-                userPrimordialImprint.AtomicAttack += 1500000 * statMultiplier;
-                userPrimordialImprint.MentalAttack += 1500000 * statMultiplier;
+                userPrimordialImprint.PhysicalAttack += 15000000 * statMultiplier;
+                userPrimordialImprint.MagicalAttack += 15000000 * statMultiplier;
+                userPrimordialImprint.ChemicalAttack += 15000000 * statMultiplier;
+                userPrimordialImprint.AtomicAttack += 15000000 * statMultiplier;
+                userPrimordialImprint.MentalAttack += 15000000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                userPrimordialImprint.PhysicalDefense += 1500000 * statMultiplier;
-                userPrimordialImprint.MagicalDefense += 1500000 * statMultiplier;
-                userPrimordialImprint.ChemicalDefense += 1500000 * statMultiplier;
-                userPrimordialImprint.AtomicDefense += 1500000 * statMultiplier;
-                userPrimordialImprint.MentalDefense += 1500000 * statMultiplier;
+                userPrimordialImprint.PhysicalDefense += 15000000 * statMultiplier;
+                userPrimordialImprint.MagicalDefense += 15000000 * statMultiplier;
+                userPrimordialImprint.ChemicalDefense += 15000000 * statMultiplier;
+                userPrimordialImprint.AtomicDefense += 15000000 * statMultiplier;
+                userPrimordialImprint.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                userPrimordialImprint.Speed += 1500000 * statMultiplier;
-                userPrimordialImprint.CriticalDamageRate += 0.01 * statMultiplier;
-                userPrimordialImprint.CriticalRate += 0.01 * statMultiplier;
-                userPrimordialImprint.PenetrationRate += 0.01 * statMultiplier;
-                userPrimordialImprint.EvasionRate += 0.01 * statMultiplier;
-                userPrimordialImprint.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userPrimordialImprint.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userPrimordialImprint.AccuracyRate += 0.01 * statMultiplier;
-                userPrimordialImprint.LifestealRate += 0.01 * statMultiplier;
-                userPrimordialImprint.Mana += 1500000 * statMultiplier;
-                userPrimordialImprint.ManaRegenerationRate += 0.01 * statMultiplier;
-                userPrimordialImprint.ShieldStrength += 1500000 * statMultiplier;
-                userPrimordialImprint.Tenacity += 0.05 * statMultiplier;
-                userPrimordialImprint.ResistanceRate += 0.01 * statMultiplier;
-                userPrimordialImprint.ComboRate += 0.01 * statMultiplier;
-                userPrimordialImprint.ReflectionRate += 0.01 * statMultiplier;
-                userPrimordialImprint.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userPrimordialImprint.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userPrimordialImprint.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userPrimordialImprint.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userPrimordialImprint.Speed += 15000000 * statMultiplier;
+                userPrimordialImprint.CriticalDamageRate += 0.1 * statMultiplier;
+                userPrimordialImprint.CriticalRate += 0.1 * statMultiplier;
+                userPrimordialImprint.PenetrationRate += 0.1 * statMultiplier;
+                userPrimordialImprint.EvasionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userPrimordialImprint.AccuracyRate += 0.1 * statMultiplier;
+                userPrimordialImprint.LifestealRate += 0.1 * statMultiplier;
+                userPrimordialImprint.Mana += 15000000 * statMultiplier;
+                userPrimordialImprint.ManaRegenerationRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ShieldStrength += 15000000 * statMultiplier;
+                userPrimordialImprint.Tenacity += 0.5 * statMultiplier;
+                userPrimordialImprint.ResistanceRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ComboRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ReflectionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userPrimordialImprint.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 
@@ -3339,88 +3339,88 @@ public static class EnhanceHelper
 
             if (lvl >= 0 && lvl <= 500)
             {
-                userPathOfLordImprint.Health += 10000000 * statMultiplier;
+                userPathOfLordImprint.Health += 100000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                userPathOfLordImprint.PhysicalAttack += 1500000 * statMultiplier;
-                userPathOfLordImprint.PhysicalDefense += 1500000 * statMultiplier;
+                userPathOfLordImprint.PhysicalAttack += 15000000 * statMultiplier;
+                userPathOfLordImprint.PhysicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                userPathOfLordImprint.MagicalAttack += 1500000 * statMultiplier;
-                userPathOfLordImprint.MagicalDefense += 1500000 * statMultiplier;
+                userPathOfLordImprint.MagicalAttack += 15000000 * statMultiplier;
+                userPathOfLordImprint.MagicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                userPathOfLordImprint.ChemicalAttack += 1500000 * statMultiplier;
-                userPathOfLordImprint.ChemicalDefense += 1500000 * statMultiplier;
+                userPathOfLordImprint.ChemicalAttack += 15000000 * statMultiplier;
+                userPathOfLordImprint.ChemicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                userPathOfLordImprint.AtomicAttack += 1500000 * statMultiplier;
-                userPathOfLordImprint.AtomicDefense += 1500000 * statMultiplier;
+                userPathOfLordImprint.AtomicAttack += 15000000 * statMultiplier;
+                userPathOfLordImprint.AtomicDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                userPathOfLordImprint.MentalAttack += 1500000 * statMultiplier;
-                userPathOfLordImprint.MentalDefense += 1500000 * statMultiplier;
+                userPathOfLordImprint.MentalAttack += 15000000 * statMultiplier;
+                userPathOfLordImprint.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                userPathOfLordImprint.Speed += 1500000 * statMultiplier;
-                userPathOfLordImprint.CriticalDamageRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.CriticalRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.CriticalResistanceRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.IgnoreCriticalRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.PenetrationRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.PenetrationResistanceRate += 0.01 * statMultiplier;
+                userPathOfLordImprint.Speed += 15000000 * statMultiplier;
+                userPathOfLordImprint.CriticalDamageRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.CriticalRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.CriticalResistanceRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.IgnoreCriticalRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.PenetrationRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                userPathOfLordImprint.EvasionRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.IgnoreDamageAbsorptionRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.AbsorbedDamageRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.VitalityRegenerationResistanceRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.AccuracyRate += 0.01 * statMultiplier;
+                userPathOfLordImprint.EvasionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.AbsorbedDamageRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                userPathOfLordImprint.LifestealRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.Mana += 1500000 * statMultiplier;
-                userPathOfLordImprint.ManaRegenerationRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.ShieldStrength += 1500000 * statMultiplier;
+                userPathOfLordImprint.LifestealRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.Mana += 15000000 * statMultiplier;
+                userPathOfLordImprint.ManaRegenerationRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ShieldStrength += 15000000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                userPathOfLordImprint.Tenacity += 0.05 * statMultiplier;
-                userPathOfLordImprint.ResistanceRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.ComboRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.IgnoreComboRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.ComboDamageRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.ComboResistanceRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.StunRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.IgnoreStunRate += 0.01 * statMultiplier;
+                userPathOfLordImprint.Tenacity += 0.5 * statMultiplier;
+                userPathOfLordImprint.ResistanceRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ComboRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.IgnoreComboRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ComboDamageRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ComboResistanceRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.StunRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                userPathOfLordImprint.ReflectionRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.IgnoreReflectionRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.ReflectionDamageRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.ReflectionResistanceRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userPathOfLordImprint.ReflectionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.IgnoreReflectionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ReflectionDamageRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ReflectionResistanceRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                userPathOfLordImprint.NormalDamageRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.NormalResistanceRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.SkillDamageRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.SkillResistanceRate += 0.01 * statMultiplier;
+                userPathOfLordImprint.NormalDamageRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.NormalResistanceRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.SkillDamageRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.SkillResistanceRate += 0.1 * statMultiplier;
                 userPathOfLordImprint.PercentAllHealth += 5 * statMultiplier;
                 userPathOfLordImprint.PercentAllPhysicalAttack += 5 * statMultiplier;
                 userPathOfLordImprint.PercentAllPhysicalDefense += 5 * statMultiplier;
@@ -3447,42 +3447,42 @@ public static class EnhanceHelper
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                userPathOfLordImprint.PhysicalAttack += 1500000 * statMultiplier;
-                userPathOfLordImprint.MagicalAttack += 1500000 * statMultiplier;
-                userPathOfLordImprint.ChemicalAttack += 1500000 * statMultiplier;
-                userPathOfLordImprint.AtomicAttack += 1500000 * statMultiplier;
-                userPathOfLordImprint.MentalAttack += 1500000 * statMultiplier;
+                userPathOfLordImprint.PhysicalAttack += 15000000 * statMultiplier;
+                userPathOfLordImprint.MagicalAttack += 15000000 * statMultiplier;
+                userPathOfLordImprint.ChemicalAttack += 15000000 * statMultiplier;
+                userPathOfLordImprint.AtomicAttack += 15000000 * statMultiplier;
+                userPathOfLordImprint.MentalAttack += 15000000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                userPathOfLordImprint.PhysicalDefense += 1500000 * statMultiplier;
-                userPathOfLordImprint.MagicalDefense += 1500000 * statMultiplier;
-                userPathOfLordImprint.ChemicalDefense += 1500000 * statMultiplier;
-                userPathOfLordImprint.AtomicDefense += 1500000 * statMultiplier;
-                userPathOfLordImprint.MentalDefense += 1500000 * statMultiplier;
+                userPathOfLordImprint.PhysicalDefense += 15000000 * statMultiplier;
+                userPathOfLordImprint.MagicalDefense += 15000000 * statMultiplier;
+                userPathOfLordImprint.ChemicalDefense += 15000000 * statMultiplier;
+                userPathOfLordImprint.AtomicDefense += 15000000 * statMultiplier;
+                userPathOfLordImprint.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                userPathOfLordImprint.Speed += 1500000 * statMultiplier;
-                userPathOfLordImprint.CriticalDamageRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.CriticalRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.PenetrationRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.EvasionRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.DamageAbsorptionRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.VitalityRegenerationRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.AccuracyRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.LifestealRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.Mana += 1500000 * statMultiplier;
-                userPathOfLordImprint.ManaRegenerationRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.ShieldStrength += 1500000 * statMultiplier;
-                userPathOfLordImprint.Tenacity += 0.05 * statMultiplier;
-                userPathOfLordImprint.ResistanceRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.ComboRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.ReflectionRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.DamageToDifferentFactionRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.ResistanceToDifferentFactionRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.DamageToSameFactionRate += 0.01 * statMultiplier;
-                userPathOfLordImprint.ResistanceToSameFactionRate += 0.01 * statMultiplier;
+                userPathOfLordImprint.Speed += 15000000 * statMultiplier;
+                userPathOfLordImprint.CriticalDamageRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.CriticalRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.PenetrationRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.EvasionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.DamageAbsorptionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.VitalityRegenerationRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.AccuracyRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.LifestealRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.Mana += 15000000 * statMultiplier;
+                userPathOfLordImprint.ManaRegenerationRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ShieldStrength += 15000000 * statMultiplier;
+                userPathOfLordImprint.Tenacity += 0.5 * statMultiplier;
+                userPathOfLordImprint.ResistanceRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ComboRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ReflectionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.DamageToSameFactionRate += 0.1 * statMultiplier;
+                userPathOfLordImprint.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 

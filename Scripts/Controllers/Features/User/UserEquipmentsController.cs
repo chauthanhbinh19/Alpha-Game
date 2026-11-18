@@ -38,25 +38,26 @@ public class UserEquipmentsController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
         MainMenuDetailPanel2Prefab = UIManager.Instance.Get(PrefabConstants.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
-    public void ShowEquipmentDetails(Equipments equipment, int buttonType = 1)
+    public void ShowEquipmentDetails(Equipments equipment)
     {
         GameObject currentObject = Instantiate(MainMenuDetailPanel2Prefab, MainPanel);
         Transform transform = currentObject.transform;
         TextMeshProUGUI titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         Transform setButtonGroupPanel = transform.Find("DictionaryCards/SetButtonGroup/Viewport/Content");
-        RawImage cardBackground = transform.Find("DictionaryCards/Background").GetComponent<RawImage>();
-        RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
-        // backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.EQUIPMENT);
-        Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.EQUIPMENT_BACKGROUND_URL);
-        cardBackground.texture = texture;
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
             await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.EQUIPMENT);
+        });
+        Button homeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(equipment, currentObject);

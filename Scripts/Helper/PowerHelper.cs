@@ -165,43 +165,112 @@ public static class PowerHelper
     }
 
     /// <summary>
-    /// Chỉ xử lý logic ngầm: Refresh nguồn -> Recalculate Team -> Cập nhật DB -> Trả về kết quả thay đổi lực chiến
+    /// Overload cũ cho 1 nguồn (Giữ nguyên tương thích ngược)
     /// </summary>
-    public static async Task<PowerResultDTO> RefreshAndSyncTotalPowerAsync(
-        string cacheKey, 
+    public static Task<PowerResultDTO> RefreshAndSyncTotalPowerAsync(
+        string cacheKey,
         Func<string, Task<UserPowers>> fetchFunc)
     {
-        string userId = User.CurrentUserId;
+        return RefreshAndSyncTotalPowerAsync((cacheKey, fetchFunc));
+    }
 
-        // 1. Cập nhật cache & User.UserPower qua Delta
-        bool statsChanged = await RefreshPowerSourceAsync(cacheKey, fetchFunc, userId);
-
-        // 2. Nếu chỉ số nền thay đổi -> Tính lại các thẻ trên RAM
-        if (statsChanged)
+    /// <summary>
+    /// Hàm mới: Refresh đồng thời nhiều nguồn chỉ số, gom lại tính RAM 1 lần và lưu DB 1 lần
+    /// </summary>
+    public static async Task<PowerResultDTO> RefreshAndSyncTotalPowerAsync(
+        params (string cacheKey, Func<string, Task<UserPowers>> fetchFunc)[] sources)
+    {
+        if (sources == null || sources.Length == 0)
         {
-            TeamsService.Create().RecalculateTeamStats();
+            return new PowerResultDTO
+            {
+                HasChanged = false,
+                CurrentPower = User.CurrentUserPower,
+                NewPower = User.CurrentUserPower
+            };
         }
 
-        // 3. Sum tổng lực chiến Team, lưu DB và cập nhật User.CurrentUserPower
-        PowerResultDTO result = await UserService.Create().UpdateUserPowerAsync();
+        string userId = User.CurrentUserId;
+        double oldPower = User.CurrentUserPower;
 
-        // (Đã bỏ hoàn toàn phần gọi UI ở đây)
-        return result;
+        // 1. Nếu chưa khởi tạo cache lần nào thì khởi tạo toàn bộ (đã bao gồm tất cả nguồn)
+        if (!_isInitialized)
+        {
+            await InitializeGamePowersAsync(userId);
+        }
+        else
+        {
+            // Chạy song song tất cả các query lấy chỉ số mới của các nguồn bị ảnh hưởng
+            var fetchTasks = new Task<UserPowers>[sources.Length];
+            for (int i = 0; i < sources.Length; i++)
+            {
+                fetchTasks[i] = sources[i].fetchFunc(userId);
+            }
+
+            UserPowers[] results = await Task.WhenAll(fetchTasks);
+
+            // Cập nhật Delta cho từng nguồn vào User.UserPower
+            bool anySourceChanged = false;
+            for (int i = 0; i < sources.Length; i++)
+            {
+                string key = sources[i].cacheKey;
+                UserPowers updatedPower = results[i];
+                if (updatedPower == null) continue;
+
+                bool hasChanged = true;
+                if (_powerCache.TryGetValue(key, out UserPowers oldSourcePower))
+                {
+                    UserPowers delta = CalculateDelta(oldSourcePower, updatedPower);
+                    hasChanged = !IsDeltaZero(delta);
+                }
+
+                if (hasChanged)
+                {
+                    UpdateAndApplyDelta(key, updatedPower);
+                    anySourceChanged = true;
+                }
+            }
+
+            // Nếu không có nguồn nào thay đổi chỉ số -> Thoát sớm, không tính lại thẻ hay ghi DB
+            if (!anySourceChanged)
+            {
+                return new PowerResultDTO
+                {
+                    HasChanged = false,
+                    CurrentPower = oldPower,
+                    NewPower = oldPower
+                };
+            }
+        }
+
+        // 2. Tính lại chỉ số & lực chiến đội hình trên RAM đúng 1 lần duy nhất
+        var teamsService = TeamsService.Create();
+        teamsService.RecalculateTeamStats();
+
+        // 3. Sum tổng lực chiến Team & lưu DB đúng 1 lần duy nhất
+        double newPower = await teamsService.GetTeamsPowerAsync(userId);
+
+        return new PowerResultDTO
+        {
+            HasChanged = Math.Abs(newPower - oldPower) > 0.0001,
+            CurrentPower = oldPower,
+            NewPower = newPower
+        };
     }
 
     private static async Task<bool> RefreshPowerSourceAsync(
-        string cacheKey, 
-        Func<string, Task<UserPowers>> fetchFunc, 
+        string cacheKey,
+        Func<string, Task<UserPowers>> fetchFunc,
         string userId)
     {
         if (!_isInitialized)
         {
             await InitializeGamePowersAsync(userId);
-            return true; 
+            return true;
         }
 
         UserPowers updatedPower = await fetchFunc(userId);
-        
+
         bool hasChanged = true;
         if (_powerCache.TryGetValue(cacheKey, out UserPowers oldPower))
         {
@@ -362,6 +431,7 @@ public static class PowerHelper
             { AppConstants.Power.PERCENT_BOOKS, GetPercentBooksPowerAsync(userId) },
             { AppConstants.Power.PERCENT_BORDERS, GetPercentBordersPowerAsync(userId) },
             { AppConstants.Power.PERCENT_BUILDINGS, GetPercentBuildingsPowerAsync(userId) },
+            { AppConstants.Power.PERCENT_CARD_LIVES, GetPercentCardLivesPowerAsync(userId) },
             { AppConstants.Power.PERCENT_COLLABORATION_EQUIPMENTS, GetPercentCollaborationEquipmentsPowerAsync(userId) },
             { AppConstants.Power.PERCENT_COLLABORATIONS, GetPercentCollaborationsPowerAsync(userId) },
             { AppConstants.Power.PERCENT_CORES, GetPercentCoresPowerAsync(userId) },
@@ -379,7 +449,7 @@ public static class PowerHelper
             { AppConstants.Power.PERCENT_PUPPETS, GetPercentPuppetsPowerAsync(userId) },
             { AppConstants.Power.PERCENT_RELICS, GetPercentRelicsPowerAsync(userId) },
             { AppConstants.Power.PERCENT_ROBOTS, GetPercentRobotsPowerAsync(userId) },
-            { AppConstants.Power.PERCENT_RUNES, GetPercenRunesPowerAsync(userId) },
+            { AppConstants.Power.PERCENT_RUNES, GetPercentRunesPowerAsync(userId) },
             { AppConstants.Power.PERCENT_SKILLS, GetPercentSkillsPowerAsync(userId) },
             { AppConstants.Power.PERCENT_SPIRIT_BEASTS, GetPercentSpiritBeastsPowerAsync(userId) },
             { AppConstants.Power.PERCENT_SPIRIT_CARDS, GetPercentSpiritCardsPowerAsync(userId) },
@@ -5267,7 +5337,7 @@ public static class PowerHelper
 
         return tempUserPower;
     }
-    public static async Task<UserPowers> GetPercenRunesPowerAsync(string userId)
+    public static async Task<UserPowers> GetPercentRunesPowerAsync(string userId)
     {
         UserPowers tempUserPower = new UserPowers();
         Runes result = await RunesService.Create().SumPowerRunesPercentAsync(userId);

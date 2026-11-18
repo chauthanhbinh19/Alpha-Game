@@ -739,15 +739,20 @@ public class HIRNController : MonoBehaviour
                 if (insertOrUpdateResult.Data && insertOrUpdateResult.IsChangePower
                     && (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated || insertOrUpdateResult.OperationType == DatabaseOperationType.Inserted))
                 {
-                    PowerResultDTO powerResult = await UserService.Create().UpdateUserPowerAsync();
+                    // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
+                    PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
+                        AppConstants.Power.HIRN,
+                        PowerHelper.GetSumUserHIRNPowersAsync
+                    );
 
-                    if (powerResult.HasChanged)
+                    // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được
+                    if (result.HasChanged)
                     {
-                        PowerController.Instance.ShowPower(
-                            powerResult.CurrentPower,
-                            powerResult.Difference,
-                            1
-                        );
+                        double diff = result.Difference;
+                        int status = diff > 0 ? 1 : (diff < 0 ? -1 : 0);
+                        double deltaPower = Math.Abs(diff);
+
+                        PowerController.Instance.ShowPower(result.CurrentPower, deltaPower, status);
                     }
                 }
 

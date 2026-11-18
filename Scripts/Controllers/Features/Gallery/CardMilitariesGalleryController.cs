@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -113,8 +114,11 @@ public class CardMilitariesGalleryController : MonoBehaviour
                 // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được
                 if (result.HasChanged)
                 {
-                    double diff = result.NewPower - result.CurrentPower;
-                    PowerController.Instance.ShowPower(result.CurrentPower, diff, 1);
+                    double diff = result.Difference;
+                    int status = diff > 0 ? 1 : (diff < 0 ? -1 : 0);
+                    double deltaPower = Math.Abs(diff);
+
+                    PowerController.Instance.ShowPower(result.CurrentPower, deltaPower, status);
                 }
             });
 

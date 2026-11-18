@@ -1499,16 +1499,16 @@ public class RankController : MonoBehaviour
                 if (insertOrUpdateResult.Data && insertOrUpdateResult.IsChangePower
                     && (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated || insertOrUpdateResult.OperationType == DatabaseOperationType.Inserted))
                 {
-                    PowerResultDTO powerResult = await UserService.Create().UpdateUserPowerAsync();
+                    // PowerResultDTO powerResult = await UserService.Create().UpdateUserPowerAsync();
 
-                    if (powerResult.HasChanged)
-                    {
-                        PowerController.Instance.ShowPower(
-                            powerResult.CurrentPower,
-                            powerResult.Difference,
-                            1
-                        );
-                    }
+                    // if (powerResult.HasChanged)
+                    // {
+                    //     PowerController.Instance.ShowPower(
+                    //         powerResult.CurrentPower,
+                    //         powerResult.Difference,
+                    //         1
+                    //     );
+                    // }
                 }
 
                 Destroy(gameObject);

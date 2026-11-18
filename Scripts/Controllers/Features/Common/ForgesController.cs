@@ -681,24 +681,29 @@ public class ForgesController : MonoBehaviour
             string currentUserId = User.CurrentUserId; // Lấy ID người dùng hiện tại
 
             // Gọi API mua thẻ Hero
-            var result = await UserShopPurchaseService.Create().PurchaseObjectFromShop(currentUserId, shopDTO, currentQuantity);
+            var resultData = await UserShopPurchaseService.Create().PurchaseObjectFromShop(currentUserId, shopDTO, currentQuantity);
 
-            if (result != null && result.IsSuccess)
+            if (resultData != null && resultData.IsSuccess)
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.PURCHASE_SOUND);
                 // Mua thành công: Hiện thông báo, cập nhật lại Tiền tệ/Tài sản User trên UI và đóng Popup
                 NotificationManager.Instance.ShowNotification(LocalizationManager.Get(MessageConstants.FORGES_PURCHASED_SUCCESSFULLY));
-                if (result.Data && result.IsChangePower)
+                if (resultData.Data && resultData.IsChangePower)
                 {
-                    PowerResultDTO powerResult = await UserService.Create().UpdateUserPowerAsync();
+                    // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
+                    PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
+                        AppConstants.Power.PERCENT_FORGES,
+                        PowerHelper.GetPercentForgesPowerAsync
+                    );
 
-                    if (powerResult.HasChanged)
+                    // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được
+                    if (result.HasChanged)
                     {
-                        PowerController.Instance.ShowPower(
-                            powerResult.CurrentPower,
-                            powerResult.Difference,
-                            1
-                        );
+                        double diff = result.Difference;
+                        int status = diff > 0 ? 1 : (diff < 0 ? -1 : 0);
+                        double deltaPower = Math.Abs(diff);
+
+                        PowerController.Instance.ShowPower(result.CurrentPower, deltaPower, status);
                     }
                 }
 
@@ -710,7 +715,7 @@ public class ForgesController : MonoBehaviour
             else
             {
                 // Mua thất bại: Hiện thông báo lỗi và mở lại tương tác cho nút mua
-                string errorMsg = result != null ? result.Message : MessageConstants.PURCHASE_FAILED;
+                string errorMsg = resultData != null ? resultData.Message : MessageConstants.PURCHASE_FAILED;
                 NotificationManager.Instance.ShowNotification(LocalizationManager.Get(errorMsg));
 
                 confirmButton.interactable = true;

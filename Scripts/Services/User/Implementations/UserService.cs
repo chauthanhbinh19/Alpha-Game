@@ -46,26 +46,6 @@ public class UserService : IUserService
 
     public static IUserService Create() => ServiceContainer.GetService<IUserService>();
 
-    public async Task<PowerResultDTO> UpdateUserPowerAsync()
-    {
-        double currentPower = User.CurrentUserPower;
-        double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-
-        bool hasChanged = Math.Abs(newPower - currentPower) > double.Epsilon;
-
-        if (hasChanged)
-        {
-            User.CurrentUserPower = newPower;
-        }
-
-        return new PowerResultDTO
-        {
-            HasChanged = hasChanged,
-            CurrentPower = currentPower,
-            NewPower = newPower
-        };
-    }
-
     private async Task GiveDefaultTicketsAsync(string userId)
     {
         // Danh sách các loại vé cấp cho tài khoản mới

@@ -102,25 +102,26 @@ public class UserTechnologiesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowTechnologyDetails(Technologies technology, int buttonType = 1)
+    public void ShowTechnologyDetails(Technologies technology)
     {
         GameObject currentObject = Instantiate(MainMenuDetailPanel2Prefab, MainPanel);
         Transform transform = currentObject.transform;
         TextMeshProUGUI titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         Transform setButtonGroupPanel = transform.Find("DictionaryCards/SetButtonGroup/Viewport/Content");
-        RawImage cardBackground = transform.Find("DictionaryCards/Background").GetComponent<RawImage>();
-        RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
-        // backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.Title.TECHNOLOGY);
-        Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.TECHNOLOGY_BACKGROUND_URL);
-        cardBackground.texture = texture;
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
             await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.TECHNOLOGY);
+        });
+        Button homeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(technology, currentObject);
