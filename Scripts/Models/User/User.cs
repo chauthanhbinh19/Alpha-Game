@@ -26,6 +26,15 @@ public class User
     public static string SavedPassword;
     public List<Currencies> Currencies { get; set; }
     public static UserPowers UserPower { get; set; } = new UserPowers();
+    public static List<CardAdmirals> BaseCardAdmirals { get; set; } = new List<CardAdmirals>();
+    public static List<CardCaptains> BaseCardCaptains { get; set; } = new List<CardCaptains>();
+    public static List<CardColonels> BaseCardColonels { get; set; } = new List<CardColonels>();
+    public static List<CardGenerals> BaseCardGenerals { get; set; } = new List<CardGenerals>();
+    public static List<CardHeroes> BaseCardHeroes { get; set; } = new List<CardHeroes>();
+    public static List<CardMonsters> BaseCardMonsters { get; set; } = new List<CardMonsters>();
+    public static List<CardMilitaries> BaseCardMilitaries { get; set; } = new List<CardMilitaries>();
+    public static List<CardSoldiers> BaseCardSoldiers { get; set; } = new List<CardSoldiers>();
+    public static List<CardSpells> BaseCardSpells { get; set; } = new List<CardSpells>();
     public static List<CardAdmirals> CardAdmirals { get; set; } = new List<CardAdmirals>();
     public static List<CardCaptains> CardCaptains { get; set; } = new List<CardCaptains>();
     public static List<CardColonels> CardColonels { get; set; } = new List<CardColonels>();

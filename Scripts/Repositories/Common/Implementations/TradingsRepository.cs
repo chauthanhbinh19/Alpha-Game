@@ -14,77 +14,88 @@ public class TradingsRepository : ITradingsRepository
     {
         Tradings trading = null;
 
-        await using (var connection = new MySqlConnection(_connectionString))
+        string sql = @"
+        -- 1. Thông tin Trading chính
+        SELECT * FROM tradings 
+        WHERE code_name = @CodeName AND trading_type = @TradingType AND is_deleted = 0 
+        LIMIT 1;
+
+        -- 2. Danh sách Required Materials kèm Image & Quantity
+        SELECT 
+            tmr.*,
+            gic.image AS object_image,
+            COALESCE(ugic.quantity, 0) AS object_quantity
+        FROM trading_materials_required tmr
+        INNER JOIN tradings t ON t.id = tmr.trading_id
+        LEFT JOIN game_item_catalog gic 
+            ON tmr.selection_type = 'SPECIFIC' 
+            AND tmr.object_id = gic.object_id 
+            AND tmr.object_type = gic.object_type
+        LEFT JOIN user_game_item_catalog ugic 
+            ON tmr.selection_type = 'SPECIFIC' 
+            AND ugic.user_id = @UserId
+            AND tmr.object_id = ugic.object_id 
+            AND tmr.object_type = ugic.object_type
+        WHERE t.code_name = @CodeName AND t.trading_type = @TradingType AND t.is_deleted = 0;
+
+        -- 3. Danh sách Produced Materials kèm Image & Quantity
+        SELECT 
+            tmp.*,
+            gic.image AS object_image,
+            COALESCE(ugic.quantity, 0) AS object_quantity
+        FROM trading_materials_produced tmp
+        INNER JOIN tradings t ON t.id = tmp.trading_id
+        LEFT JOIN game_item_catalog gic 
+            ON tmp.selection_type = 'SPECIFIC' 
+            AND tmp.object_id = gic.object_id 
+            AND tmp.object_type = gic.object_type
+        LEFT JOIN user_game_item_catalog ugic 
+            ON tmp.selection_type = 'SPECIFIC' 
+            AND ugic.user_id = @UserId
+            AND tmp.object_id = ugic.object_id 
+            AND tmp.object_type = ugic.object_type
+        WHERE t.code_name = @CodeName AND t.trading_type = @TradingType AND t.is_deleted = 0;";
+
+        await using var connection = new MySqlConnection(_connectionString);
+        try
         {
-            try
+            await connection.OpenAsync();
+            await using var cmd = new MySqlCommand(sql, connection);
+            cmd.Parameters.AddWithValue("@CodeName", codeName);
+            cmd.Parameters.AddWithValue("@TradingType", tradingType);
+            cmd.Parameters.AddWithValue("@UserId", userId);
+
+            await using var reader = await cmd.ExecuteReaderAsync();
+
+            // Đọc Result Set 1: Tradings
+            if (await reader.ReadAsync())
             {
-                await connection.OpenAsync();
-
-                // 1. Lấy thông tin Trading chính
-                string selectTradingSql = "SELECT * FROM tradings WHERE code_name = @CodeName AND trading_type = @TradingType AND is_deleted = 0 LIMIT 1;";
-                
-                await using (var cmd = new MySqlCommand(selectTradingSql, connection))
+                trading = new Tradings
                 {
-                    cmd.Parameters.AddWithValue("@CodeName", codeName);
-                    cmd.Parameters.AddWithValue("@TradingType", tradingType);
-
-                    await using (var reader = await cmd.ExecuteReaderAsync())
-                    {
-                        if (await reader.ReadAsync())
-                        {
-                            trading = new Tradings
-                            {
-                                Id = reader.GetString("id"),
-                                CodeName = reader.GetString("code_name"),
-                                Name = reader.GetString("name"),
-                                Description = reader.IsDBNull(reader.GetOrdinal("description")) ? null : reader.GetString("description"),
-                                TradingType = reader.GetString("trading_type"),
-                                MinLevel = reader.GetInt32("min_level"),
-                                MaxLevel = reader.GetInt32("max_level"),
-                                IsActive = reader.GetBoolean("is_active"),
-                                IsDeleted = reader.GetBoolean("is_deleted"),
-                                CreatedAt = reader.GetDateTime("created_at"),
-                                UpdatedAt = reader.GetDateTime("updated_at")
-                            };
-                        }
-                    }
-                }
-
-                if (trading != null)
-                {
-                    // 2. Lấy danh sách Required Materials thô
-                    trading.RequiredMaterials = await GetRequiredMaterialsRawAsync(connection, trading.Id);
-
-                    // 3. Lấy danh sách Produced Materials thô
-                    trading.ProducedMaterials = await GetProducedMaterialsRawAsync(connection, trading.Id);
-
-                    // 4. Batch Enrich: Gom nhóm và nạp Image + Quantity chỉ bằng vài câu lệnh SQL (không dùng vòng lặp query lẻ)
-                    await EnrichSpecificMaterialsBatchAsync(connection, trading.RequiredMaterials, userId);
-                    await EnrichSpecificMaterialsBatchAsync(connection, trading.ProducedMaterials, userId);
-                }
+                    Id = reader.GetString("id"),
+                    CodeName = reader.GetString("code_name"),
+                    Name = reader.GetString("name"),
+                    Description = reader.IsDBNull(reader.GetOrdinal("description")) ? null : reader.GetString("description"),
+                    TradingType = reader.GetString("trading_type"),
+                    MinLevel = reader.GetInt32("min_level"),
+                    MaxLevel = reader.GetInt32("max_level"),
+                    IsActive = reader.GetBoolean("is_active"),
+                    IsDeleted = reader.GetBoolean("is_deleted"),
+                    CreatedAt = reader.GetDateTime("created_at"),
+                    UpdatedAt = reader.GetDateTime("updated_at"),
+                    RequiredMaterials = new List<TradingMaterialsRequired>(),
+                    ProducedMaterials = new List<TradingMaterialsProduced>()
+                };
             }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error GetTradingAsync: " + ex.Message);
-            }
-        }
 
-        return trading;
-    }
+            if (trading == null) return null;
 
-    private async Task<List<TradingMaterialsRequired>> GetRequiredMaterialsRawAsync(MySqlConnection connection, string tradingId)
-    {
-        var list = new List<TradingMaterialsRequired>();
-        string sql = "SELECT * FROM trading_materials_required WHERE trading_id = @TradingId;";
-
-        await using (var cmd = new MySqlCommand(sql, connection))
-        {
-            cmd.Parameters.AddWithValue("@TradingId", tradingId);
-            await using (var reader = await cmd.ExecuteReaderAsync())
+            // Đọc Result Set 2: RequiredMaterials
+            if (await reader.NextResultAsync())
             {
                 while (await reader.ReadAsync())
                 {
-                    list.Add(new TradingMaterialsRequired
+                    trading.RequiredMaterials.Add(new TradingMaterialsRequired
                     {
                         Id = reader.GetString("id"),
                         TradingId = reader.GetString("trading_id"),
@@ -93,27 +104,19 @@ public class TradingsRepository : ITradingsRepository
                         SelectionType = reader.GetString("selection_type"),
                         ObjectValue = reader.GetDouble("object_value"),
                         RequiredQuantity = reader.GetDouble("required_quantity"),
+                        ObjectImage = reader.IsDBNull(reader.GetOrdinal("object_image")) ? null : reader.GetString("object_image"),
+                        ObjectQuantity = reader.GetDouble("object_quantity"),
                         CreatedAt = reader.GetDateTime("created_at")
                     });
                 }
             }
-        }
-        return list;
-    }
 
-    private async Task<List<TradingMaterialsProduced>> GetProducedMaterialsRawAsync(MySqlConnection connection, string tradingId)
-    {
-        var list = new List<TradingMaterialsProduced>();
-        string sql = "SELECT * FROM trading_materials_produced WHERE trading_id = @TradingId;";
-
-        await using (var cmd = new MySqlCommand(sql, connection))
-        {
-            cmd.Parameters.AddWithValue("@TradingId", tradingId);
-            await using (var reader = await cmd.ExecuteReaderAsync())
+            // Đọc Result Set 3: ProducedMaterials
+            if (await reader.NextResultAsync())
             {
                 while (await reader.ReadAsync())
                 {
-                    list.Add(new TradingMaterialsProduced
+                    trading.ProducedMaterials.Add(new TradingMaterialsProduced
                     {
                         Id = reader.GetString("id"),
                         TradingId = reader.GetString("trading_id"),
@@ -122,116 +125,19 @@ public class TradingsRepository : ITradingsRepository
                         SelectionType = reader.GetString("selection_type"),
                         ObjectValue = reader.GetDouble("object_value"),
                         ProducedQuantity = reader.GetDouble("produced_quantity"),
+                        ObjectImage = reader.IsDBNull(reader.GetOrdinal("object_image")) ? null : reader.GetString("object_image"),
+                        ObjectQuantity = reader.GetDouble("object_quantity"),
                         CreatedAt = reader.GetDateTime("created_at")
                     });
                 }
             }
         }
-        return list;
-    }
-
-    /// <summary>
-    /// Thuật toán Batch Enrich: Gom các item SPECIFIC theo ObjectType để query dạng `IN (...)` 
-    /// giúp giảm số lần truy cập Database xuống tối thiểu tuyệt đối.
-    /// </summary>
-    private async Task EnrichSpecificMaterialsBatchAsync<T>(MySqlConnection connection, List<T> materials, string userId) where T : class
-    {
-        // Chỉ lấy những item là SPECIFIC và có ObjectId hợp lệ
-        var specificItems = materials.Where(m => 
+        catch (MySqlException ex)
         {
-            var selType = m.GetType().GetProperty("SelectionType")?.GetValue(m) as string;
-            var objId = m.GetType().GetProperty("ObjectId")?.GetValue(m) as string;
-            return selType == "SPECIFIC" && !string.IsNullOrEmpty(objId);
-        }).ToList();
-
-        if (specificItems.Count == 0) return;
-
-        // Gom nhóm theo ObjectType (Ví dụ: Tất cả đồ WEAPON chung 1 nhóm, CARD_HEROES chung 1 nhóm)
-        var groupedByType = specificItems.GroupBy(m => m.GetType().GetProperty("ObjectType")?.GetValue(m) as string);
-
-        foreach (var group in groupedByType)
-        {
-            string objectType = group.Key;
-            string tableName = DatabaseHelper.GetTableNameByObjectType(objectType);
-            string userTableName = DatabaseHelper.GetUserTableNameByObjectType(objectType);
-            string idColumn = DatabaseHelper.GetIdColumnNameByObjectType(objectType);
-
-            var objectIds = group.Select(m => m.GetType().GetProperty("ObjectId")?.GetValue(m) as string).Distinct().ToList();
-            if (objectIds.Count == 0) continue;
-
-            // Tạo danh sách parameters động cho câu lệnh IN (@id0, @id1, ...)
-            var paramNames = new List<string>();
-            var imageMap = new Dictionary<string, string>();
-            var quantityMap = new Dictionary<string, double>();
-
-            // 1. Query lấy Image hàng loạt từ bảng danh mục
-            string inSqlParameters = "";
-            for (int i = 0; i < objectIds.Count; i++)
-            {
-                paramNames.Add($"@id{i}");
-            }
-            inSqlParameters = string.Join(",", paramNames);
-
-            string imageSql = $"SELECT {idColumn}, image FROM {tableName} WHERE {idColumn} IN ({inSqlParameters});";
-            await using (var cmd = new MySqlCommand(imageSql, connection))
-            {
-                for (int i = 0; i < objectIds.Count; i++)
-                {
-                    cmd.Parameters.AddWithValue(paramNames[i], objectIds[i]);
-                }
-
-                await using (var reader = await cmd.ExecuteReaderAsync())
-                {
-                    while (await reader.ReadAsync())
-                    {
-                        string idVal = reader.GetString(0);
-                        string imgVal = reader.IsDBNull(1) ? string.Empty : reader.GetString(1);
-                        imageMap[idVal] = imgVal;
-                    }
-                }
-            }
-
-            // 2. Query lấy Quantity hàng loạt từ bảng kho người dùng (USER_...)
-            string userQtySql = $"SELECT {idColumn}, quantity FROM {userTableName} WHERE user_id = @UserId AND {idColumn} IN ({inSqlParameters});";
-            await using (var cmd = new MySqlCommand(userQtySql, connection))
-            {
-                cmd.Parameters.AddWithValue("@UserId", userId);
-                for (int i = 0; i < objectIds.Count; i++)
-                {
-                    cmd.Parameters.AddWithValue(paramNames[i], objectIds[i]);
-                }
-
-                await using (var reader = await cmd.ExecuteReaderAsync())
-                {
-                    while (await reader.ReadAsync())
-                    {
-                        string idVal = reader.GetString(0);
-                        double qtyVal = reader.GetDouble(1);
-                        quantityMap[idVal] = qtyVal;
-                    }
-                }
-            }
-
-            // 3. Map ngược dữ liệu vào danh sách material object tương ứng
-            foreach (var item in group)
-            {
-                var idProp = item.GetType().GetProperty("ObjectId");
-                var imgProp = item.GetType().GetProperty("ObjectImage");
-                var qtyProp = item.GetType().GetProperty("ObjectQuantity");
-
-                string objId = idProp?.GetValue(item) as string;
-                if (!string.IsNullOrEmpty(objId))
-                {
-                    if (imageMap.ContainsKey(objId))
-                        imgProp?.SetValue(item, imageMap[objId]);
-
-                    if (quantityMap.ContainsKey(objId))
-                        qtyProp?.SetValue(item, quantityMap[objId]);
-                    else
-                        qtyProp?.SetValue(item, 0.0); // Nếu trong kho chưa có thì mặc định là 0
-                }
-            }
+            Debug.LogError("Error GetTradingAsync: " + ex.Message);
         }
+
+        return trading;
     }
 
     public async Task<List<Tradings>> GetAllAsync()

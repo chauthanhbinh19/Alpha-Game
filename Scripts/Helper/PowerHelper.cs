@@ -135,9 +135,9 @@ public static class PowerHelper
     private static async Task InternalInitializeAsync(string userId)
     {
         _powerCache.Clear();
-        
+
         // QUAN TRỌNG: Phải reset User.UserPower về object trắng trước khi Sum để tránh cộng dồn đè lên dữ liệu cũ
-        User.UserPower = new UserPowers(); 
+        User.UserPower = new UserPowers();
 
         await Task.WhenAll(
             CalculatePercentPowerAsync(userId),
@@ -165,28 +165,66 @@ public static class PowerHelper
     }
 
     /// <summary>
-    /// Hàm dùng chung để làm mới dữ liệu của bất kỳ nguồn lực chiến nào
+    /// Chỉ xử lý logic ngầm: Refresh nguồn -> Recalculate Team -> Cập nhật DB -> Trả về kết quả thay đổi lực chiến
     /// </summary>
-    public static async Task<double> RefreshPowerSourceAsync(
+    public static async Task<PowerResultDTO> RefreshAndSyncTotalPowerAsync(
+        string cacheKey, 
+        Func<string, Task<UserPowers>> fetchFunc)
+    {
+        string userId = User.CurrentUserId;
+
+        // 1. Cập nhật cache & User.UserPower qua Delta
+        bool statsChanged = await RefreshPowerSourceAsync(cacheKey, fetchFunc, userId);
+
+        // 2. Nếu chỉ số nền thay đổi -> Tính lại các thẻ trên RAM
+        if (statsChanged)
+        {
+            TeamsService.Create().RecalculateTeamStats();
+        }
+
+        // 3. Sum tổng lực chiến Team, lưu DB và cập nhật User.CurrentUserPower
+        PowerResultDTO result = await UserService.Create().UpdateUserPowerAsync();
+
+        // (Đã bỏ hoàn toàn phần gọi UI ở đây)
+        return result;
+    }
+
+    private static async Task<bool> RefreshPowerSourceAsync(
         string cacheKey, 
         Func<string, Task<UserPowers>> fetchFunc, 
         string userId)
     {
-        // TRƯỜNG HỢP CHƯA KHỞI TẠO:
         if (!_isInitialized)
         {
-            // Tự động khởi tạo toàn bộ hệ thống lực chiến ngay lúc này.
-            // Vì dữ liệu mới của nguồn này đã nằm sẵn trong DB khi Initialize đọc lên, 
-            // nên sau khi Initialize xong là cả _powerCache và User.UserPower đều đã chuẩn xác 100%.
             await InitializeGamePowersAsync(userId);
-            
-            // Trả về 0 (không hiện popup +/- lực chiến giả vì chưa có mốc cũ để so sánh)
-            return 0; 
+            return true; 
         }
 
-        // TRƯỜNG HỢP ĐÃ KHỞI TẠO BÌNH THƯỜNG:
         UserPowers updatedPower = await fetchFunc(userId);
-        return UpdateAndApplyDelta(cacheKey, updatedPower);
+        
+        bool hasChanged = true;
+        if (_powerCache.TryGetValue(cacheKey, out UserPowers oldPower))
+        {
+            UserPowers delta = CalculateDelta(oldPower, updatedPower);
+            hasChanged = !IsDeltaZero(delta);
+        }
+
+        if (hasChanged)
+        {
+            UpdateAndApplyDelta(cacheKey, updatedPower);
+        }
+
+        return hasChanged;
+    }
+
+    private static bool IsDeltaZero(UserPowers delta)
+    {
+        return Math.Abs(delta.Power) < 0.0001 &&
+               Math.Abs(delta.Health) < 0.0001 &&
+               Math.Abs(delta.PhysicalAttack) < 0.0001 &&
+               Math.Abs(delta.MagicalAttack) < 0.0001 &&
+               Math.Abs(delta.PercentAllHealth) < 0.0001 &&
+               Math.Abs(delta.PercentAllPhysicalAttack) < 0.0001;
     }
 
     /// <summary>
@@ -404,7 +442,7 @@ public static class PowerHelper
             { AppConstants.Power.GALLERY_MAGIC_FORMATION_CIRCLES, GetMagicFormationCirclesGalleryPowerAsync(userId) },
             { AppConstants.Power.GALLERY_MECHA_BEASTS, GetMechaBeastsGalleryPowerAsync(userId) },
             { AppConstants.Power.GALLERY_MEDALS, GetMedalsGalleryPowerAsync(userId) },
-            { AppConstants.Power.GALLERY_OUTFITS, GetOutfitGalleryPowerAsync(userId) },
+            { AppConstants.Power.GALLERY_OUTFITS, GetOutfitsGalleryPowerAsync(userId) },
             { AppConstants.Power.GALLERY_PETS, GetPetsGalleryPowerAsync(userId) },
             { AppConstants.Power.GALLERY_PLANTS, GetPlantsGalleryPowerAsync(userId) },
             { AppConstants.Power.GALLERY_PUPPETS, GetPuppetsGalleryPowerAsync(userId) },
@@ -4654,7 +4692,7 @@ public static class PowerHelper
 
         return tempUserPower;
     }
-    public static async Task<UserPowers> GetOutfitGalleryPowerAsync(string userId)
+    public static async Task<UserPowers> GetOutfitsGalleryPowerAsync(string userId)
     {
         UserPowers tempUserPower = new UserPowers();
         Outfits result = await OutfitsGalleryService.Create().SumPowerOutfitsGalleryAsync(userId);

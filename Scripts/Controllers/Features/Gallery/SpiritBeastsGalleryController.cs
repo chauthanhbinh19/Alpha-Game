@@ -103,14 +103,18 @@ public class SpiritBeastsGalleryController : MonoBehaviour
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
 
-                    var powerManagerService = PowerManagerService.Create();
-                    var teamsService = TeamsService.Create();
+                    // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
+                    PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
+                        AppConstants.Power.GALLERY_SPIRIT_BEASTS,
+                        PowerHelper.GetSpiritBeastsGalleryPowerAsync
+                    );
 
-                    await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
-                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+                    // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được
+                    if (result.HasChanged)
+                    {
+                        double diff = result.NewPower - result.CurrentPower;
+                        PowerController.Instance.ShowPower(result.CurrentPower, diff, 1);
+                    }
                 });
 
                 Button upgradeButton = transform.Find("UpgradeButton").GetComponent<Button>();
