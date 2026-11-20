@@ -453,6 +453,9 @@
   { "key": "Title.Build.Structure", "value": "Structure" },
   { "key": "Title.Build.Anime", "value": "Anime" },
   { "key": "Title.Build.Pattern", "value": "Pattern" },
+  { "key": "Title.Build.CosmicImprint", "value": "Cosmic Imprint" },
+  { "key": "Title.Build.PrimordialImprint", "value": "Primordial Imprint" },
+  { "key": "Title.Build.PathOfLordImprint", "value": "Path Of Lord Imprint" },
 
   { "key": "Title.Mission.Mission", "value": "Mission" },
   { "key": "Title.Social.Guild", "value": "Guild" },

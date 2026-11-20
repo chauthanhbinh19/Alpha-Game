@@ -182,11 +182,11 @@ public class UserCardCaptainsController : MonoBehaviour
     }
     public void CreateDetailsUI(CardCaptains cardCaptain, GameObject currentObject)
     {
-        RefreshDetailsUI(cardCaptain, currentObject);
+        _=RefreshDetailsUIAsync(cardCaptain, currentObject);
 
         BindButton(cardCaptain, currentObject);
     }
-    public void RefreshDetailsUI(CardCaptains cardCaptain, GameObject currentObject)
+    public async Task RefreshDetailsUIAsync(CardCaptains cardCaptain, GameObject currentObject)
     {
         Transform transform = currentObject.transform;
         RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
@@ -207,8 +207,14 @@ public class UserCardCaptainsController : MonoBehaviour
         levelText.text = cardCaptain.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group1/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardCaptain.Rarity}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"{QualityEvaluatorHelper.CheckRareImage(cardCaptain.Rarity)}");
         rareImage.texture = rareTexture;
+        GameConfig gameConfig = await GameConfigService.Create().GetGameConfigAsync(AppConstants.ObjectType.CARD_CAPTAINS, "LEVEL");
+        double maxLevel = double.Parse(gameConfig.MaxValue);
+        TextMeshProUGUI nameText2 = transform.Find("DictionaryCards/Name/NameText2").GetComponent<TextMeshProUGUI>();
+        nameText2.text = cardCaptain.Name;
+        TextMeshProUGUI levelTitleText2 = transform.Find("DictionaryCards/DetailsPanel/Group1/Level/LevelTitleText2").GetComponent<TextMeshProUGUI>();
+        levelTitleText2.text = "Lv. " + "<color=yellow>" + cardCaptain.Level.ToString() + "</color>" + "/" + maxLevel.ToString();
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group1/Star/GridLayout");
         TextureHelper.SetupStars(starGridLayout, cardCaptain.Star);
@@ -301,7 +307,7 @@ public class UserCardCaptainsController : MonoBehaviour
         if (TempCurrentObject == null)
             return;
 
-        RefreshDetailsUI(
+        _=RefreshDetailsUIAsync(
             cardCaptain,
             TempCurrentObject);
     }

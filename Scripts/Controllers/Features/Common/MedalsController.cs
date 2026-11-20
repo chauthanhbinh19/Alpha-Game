@@ -689,8 +689,8 @@ public class MedalsController : MonoBehaviour
                 {
                     // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
                     PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.PERCENT_MEDALS,
-                        PowerHelper.GetPercentMedalsPowerAsync
+                        (AppConstants.Power.PERCENT_MEDALS, PowerHelper.GetPercentMedalsPowerAsync),
+                        (AppConstants.Power.USER_MEDALS, PowerHelper.GetUserMedalsPowerAsync)
                     );
 
                     // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được

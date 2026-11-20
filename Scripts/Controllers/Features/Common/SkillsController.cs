@@ -691,8 +691,8 @@ public class SkillsController : MonoBehaviour
                 {
                     // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
                     PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.PERCENT_SKILLS,
-                        PowerHelper.GetPercentSkillsPowerAsync
+                        (AppConstants.Power.PERCENT_SKILLS, PowerHelper.GetPercentSkillsPowerAsync),
+                        (AppConstants.Power.USER_SKILLS, PowerHelper.GetUserSkillsPowerAsync)
                     );
 
                     // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được

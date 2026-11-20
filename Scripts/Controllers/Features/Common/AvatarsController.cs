@@ -688,8 +688,8 @@ public class AvatarsController : MonoBehaviour
                 {
                     // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
                     PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.PERCENT_AVATARS,
-                        PowerHelper.GetPercentAvatarsPowerAsync
+                        (AppConstants.Power.PERCENT_AVATARS, PowerHelper.GetPercentAvatarsPowerAsync),
+                        (AppConstants.Power.USER_AVATARS, PowerHelper.GetUserAvatarsPowerAsync)
                     );
 
                     // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được

@@ -176,11 +176,11 @@ public class UserCardSoldiersController : MonoBehaviour
     }
     public void CreateDetailsUI(CardSoldiers cardSoldier, GameObject currentObject)
     {
-        RefreshDetailsUI(cardSoldier, currentObject);
+        _=RefreshDetailsUIAsync(cardSoldier, currentObject);
 
         BindButton(cardSoldier, currentObject);
     }
-    public void RefreshDetailsUI(CardSoldiers cardSoldier, GameObject currentObject)
+    public async Task RefreshDetailsUIAsync(CardSoldiers cardSoldier, GameObject currentObject)
     {
         Transform transform = currentObject.transform;
         RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
@@ -201,8 +201,15 @@ public class UserCardSoldiersController : MonoBehaviour
         levelText.text = cardSoldier.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group1/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardSoldier.Rarity}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"{QualityEvaluatorHelper.CheckRareImage(cardSoldier.Rarity)}");
         rareImage.texture = rareTexture;
+
+        GameConfig gameConfig = await GameConfigService.Create().GetGameConfigAsync(AppConstants.ObjectType.CARD_SOLDIERS, "LEVEL");
+        double maxLevel = double.Parse(gameConfig.MaxValue);
+        TextMeshProUGUI nameText2 = transform.Find("DictionaryCards/Name/NameText2").GetComponent<TextMeshProUGUI>();
+        nameText2.text = cardSoldier.Name;
+        TextMeshProUGUI levelTitleText2 = transform.Find("DictionaryCards/DetailsPanel/Group1/Level/LevelTitleText2").GetComponent<TextMeshProUGUI>();
+        levelTitleText2.text = "Lv. " + "<color=yellow>" + cardSoldier.Level.ToString() + "</color>" + "/" + maxLevel.ToString();
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group1/Star/GridLayout");
         TextureHelper.SetupStars(starGridLayout, cardSoldier.Star);
@@ -295,7 +302,7 @@ public class UserCardSoldiersController : MonoBehaviour
         if (TempCurrentObject == null)
             return;
 
-        RefreshDetailsUI(
+        _=RefreshDetailsUIAsync(
             cardSoldier,
             TempCurrentObject);
     }

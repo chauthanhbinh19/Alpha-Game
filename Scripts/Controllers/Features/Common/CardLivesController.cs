@@ -694,8 +694,8 @@ public class CardLivesController : MonoBehaviour
                 {
                     // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
                     PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.PERCENT_CARD_LIVES,
-                        PowerHelper.GetPercentCardLivesPowerAsync
+                        (AppConstants.Power.PERCENT_CARD_LIVES, PowerHelper.GetPercentCardLivesPowerAsync),
+                        (AppConstants.Power.USER_CARD_LIVES, PowerHelper.GetUserCardLivesPowerAsync)
                     );
 
                     // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được

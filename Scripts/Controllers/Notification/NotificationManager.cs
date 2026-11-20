@@ -8,6 +8,8 @@ public class NotificationManager : MonoBehaviour
 {
     public static NotificationManager Instance { get; private set; }
     private GameObject NotificationPrefab; // Prefab chứa thông báo
+    private GameObject SuccessNotificationPrefab;
+    private GameObject ErrorNotificationPrefab;
     private Transform NotificationPanel; 
     private void Awake()
     {
@@ -30,6 +32,8 @@ public class NotificationManager : MonoBehaviour
     {
         NotificationPanel = UIManager.Instance.GetTransform(AppConstants.Transform.NOTIFICATION_PANEL);
         NotificationPrefab = UIManager.Instance.Get(PrefabConstants.General.NOTIFICATION_PREFAB);
+        SuccessNotificationPrefab = UIManager.Instance.Get(PrefabConstants.Notification.SUCCESS_NOTIFICATION_PREFAB);
+        ErrorNotificationPrefab = UIManager.Instance.Get(PrefabConstants.Notification.ERROR_NOTIFICATION_PREFAB);
     }
     public void ShowNotification(string message)
     {
@@ -79,5 +83,41 @@ public class NotificationManager : MonoBehaviour
 
         // Hủy thông báo sau khi hoàn tất
         Destroy(notification);
+    }
+    public void ShowSuccessNotification(string message)
+    {
+        // Tạo thông báo từ prefab
+        GameObject notification = Instantiate(SuccessNotificationPrefab, NotificationPanel);
+        
+        // Đặt thông báo ở giữa màn hình
+        // RectTransform rectTransform = notification.GetComponent<RectTransform>();
+        // rectTransform.anchoredPosition = Vector2.zero; // Vị trí giữa màn hình (0, 0)
+
+        // Đặt nội dung thông báo
+        TextMeshProUGUI descriptionText = notification.transform.Find("DescriptionText").GetComponent<TextMeshProUGUI>();
+        descriptionText.text = message;
+
+        Button closeButton = notification.transform.Find("CloseButton").GetComponent<Button>();
+
+        // Bắt đầu hiệu ứng bay lên và mờ dần
+        StartCoroutine(FadeAndDestroy(notification));
+    }
+    public void ShowErrorNotification(string message)
+    {
+        // Tạo thông báo từ prefab
+        GameObject notification = Instantiate(ErrorNotificationPrefab, NotificationPanel);
+        
+        // Đặt thông báo ở giữa màn hình
+        // RectTransform rectTransform = notification.GetComponent<RectTransform>();
+        // rectTransform.anchoredPosition = Vector2.zero; // Vị trí giữa màn hình (0, 0)
+
+        // Đặt nội dung thông báo
+        TextMeshProUGUI descriptionText = notification.transform.Find("DescriptionText").GetComponent<TextMeshProUGUI>();
+        descriptionText.text = message;
+
+        Button closeButton = notification.transform.Find("CloseButton").GetComponent<Button>();
+
+        // Bắt đầu hiệu ứng bay lên và mờ dần
+        StartCoroutine(FadeAndDestroy(notification));
     }
 }

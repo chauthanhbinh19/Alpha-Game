@@ -66,6 +66,38 @@ public static class QualityEvaluatorHelper
                 return ColorConstants.Rare.SR_COLOR;
         }
     }
+    public static string CheckRareImage(string rare)
+    {
+        switch (rare)
+        {
+            case AppConstants.Rare.SR:
+                return ImageConstants.Rare.SR_URL;
+            case AppConstants.Rare.SSR:
+                return ImageConstants.Rare.SSR_URL;
+            case AppConstants.Rare.UR:
+                return ImageConstants.Rare.UR_URL;
+            case AppConstants.Rare.UR_PLUS:
+                return ImageConstants.Rare.UR_PLUS_URL;
+            case AppConstants.Rare.LG:
+                return ImageConstants.Rare.LG_URL;
+            case AppConstants.Rare.LG_Plus:
+                return ImageConstants.Rare.LG_PLUS_URL;
+            case AppConstants.Rare.MR:
+                return ImageConstants.Rare.MR_URL;
+            case AppConstants.Rare.MR_Plus:
+                return ImageConstants.Rare.MR_PLUS_URL;
+            case AppConstants.Rare.SLG:
+                return ImageConstants.Rare.SLG_URL;
+            case AppConstants.Rare.SLG_Plus:
+                return ImageConstants.Rare.SLG_PLUS_URL;
+            case AppConstants.Rare.SP:
+                return ImageConstants.Rare.SP_URL;
+            case AppConstants.Rare.SP_Plus:
+                return ImageConstants.Rare.SP_PLUS_URL;
+            default:
+                return ImageConstants.Rare.SR_URL;
+        }
+    }
     private static readonly Dictionary<string, int> qualityMap = new Dictionary<string, int>
     {
         { AppConstants.Rare.SR, 2 },

@@ -182,11 +182,11 @@ public class UserCardMonstersController : MonoBehaviour
     }
     public void CreateDetailsUI(CardMonsters cardMonster, GameObject currentObject)
     {
-        RefreshDetailsUI(cardMonster, currentObject);
+        _=RefreshDetailsUIAsync(cardMonster, currentObject);
 
         BindButton(cardMonster, currentObject);
     }
-    public void RefreshDetailsUI(CardMonsters cardMonster, GameObject currentObject)
+    public async Task RefreshDetailsUIAsync(CardMonsters cardMonster, GameObject currentObject)
     {
         Transform transform = currentObject.transform;
         RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
@@ -207,8 +207,15 @@ public class UserCardMonstersController : MonoBehaviour
         levelText.text = cardMonster.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group1/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardMonster.Rarity}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"{QualityEvaluatorHelper.CheckRareImage(cardMonster.Rarity)}");
         rareImage.texture = rareTexture;
+
+        GameConfig gameConfig = await GameConfigService.Create().GetGameConfigAsync(AppConstants.ObjectType.CARD_MONSTERS, "LEVEL");
+        double maxLevel = double.Parse(gameConfig.MaxValue);
+        TextMeshProUGUI nameText2 = transform.Find("DictionaryCards/Name/NameText2").GetComponent<TextMeshProUGUI>();
+        nameText2.text = cardMonster.Name;
+        TextMeshProUGUI levelTitleText2 = transform.Find("DictionaryCards/DetailsPanel/Group1/Level/LevelTitleText2").GetComponent<TextMeshProUGUI>();
+        levelTitleText2.text = "Lv. " + "<color=yellow>" + cardMonster.Level.ToString() + "</color>" + "/" + maxLevel.ToString();
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group1/Star/GridLayout");
         TextureHelper.SetupStars(starGridLayout, cardMonster.Star);
@@ -301,7 +308,7 @@ public class UserCardMonstersController : MonoBehaviour
         if (TempCurrentObject == null)
             return;
 
-        RefreshDetailsUI(
+        _=RefreshDetailsUIAsync(
             cardMonster,
             TempCurrentObject);
     }

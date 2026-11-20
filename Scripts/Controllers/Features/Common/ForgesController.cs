@@ -692,8 +692,8 @@ public class ForgesController : MonoBehaviour
                 {
                     // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
                     PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.PERCENT_FORGES,
-                        PowerHelper.GetPercentForgesPowerAsync
+                        (AppConstants.Power.PERCENT_FORGES, PowerHelper.GetPercentForgesPowerAsync),
+                        (AppConstants.Power.USER_FORGES, PowerHelper.GetUserForgesPowerAsync)
                     );
 
                     // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được

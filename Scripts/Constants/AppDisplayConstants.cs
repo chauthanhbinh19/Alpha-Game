@@ -712,6 +712,9 @@ public static class AppDisplayConstants
             public const string STRUCTURE = "Title.Build.Structure";
             public const string ANIME = "Title.Build.Anime";
             public const string PATTERN = "Title.Build.Pattern";
+            public const string COSMIC_IMPRINT = "Title.Build.CosmicImprint";
+            public const string PRIMORDIAL_IMPRINT = "Title.Build.PrimordialImprint";
+            public const string PATH_OF_LORD_IMPRINT = "Title.Build.PathOfLordImprint";
         }
         public static class Mission
         {

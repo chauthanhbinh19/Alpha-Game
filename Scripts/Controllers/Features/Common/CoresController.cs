@@ -689,8 +689,8 @@ public class CoresController : MonoBehaviour
                 {
                     // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
                     PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.PERCENT_CORES,
-                        PowerHelper.GetPercentCoresPowerAsync
+                        (AppConstants.Power.PERCENT_CORES, PowerHelper.GetPercentCoresPowerAsync),
+                        (AppConstants.Power.USER_CORES, PowerHelper.GetUserCoresPowerAsync)
                     );
 
                     // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được

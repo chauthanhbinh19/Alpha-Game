@@ -227,6 +227,11 @@ public static class PrefabConstants
         public const string MAIL_PANEL_PREFAB = "MailPanelPrefab";
         public const string LEADERBOARD_PANEL_PREFAB = "LeaderboardPanelPrefab";
     }
+    public static class Notification
+    {
+        public const string SUCCESS_NOTIFICATION_PREFAB = "SuccessNotificationPrefab";
+        public const string ERROR_NOTIFICATION_PREFAB = "ErrorNotificationPrefab";
+    }
     public static class HICA
     {
         public const string HICA_PANEL_PREFAB = "HICAPanelPrefab";

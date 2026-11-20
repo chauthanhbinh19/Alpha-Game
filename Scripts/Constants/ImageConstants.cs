@@ -7,13 +7,13 @@ public static class ImageConstants
         public const string UR_URL = "UI/Rarity/Rarity_UR";
         public const string UR_PLUS_URL = "UI/Rarity/Rarity_UR_Plus";
         public const string LG_URL = "UI/Rarity/Rarity_LG";
-        public const string LG_Plus_URL = "UI/Rarity/Rarity_LG_Plus";
+        public const string LG_PLUS_URL = "UI/Rarity/Rarity_LG_Plus";
         public const string MR_URL = "UI/Rarity/Rarity_MR";
-        public const string MR_Plus_URL = "UI/Rarity/Rarity_MR_Plus";
+        public const string MR_PLUS_URL = "UI/Rarity/Rarity_MR_Plus";
         public const string SLG_URL = "UI/Rarity/Rarity_SLG";
-        public const string SLG_Plus_URL = "UI/Rarity/Rarity_SLG_Plus";
+        public const string SLG_PLUS_URL = "UI/Rarity/Rarity_SLG_Plus";
         public const string SP_URL = "UI/Rarity/Rarity_SP";
-        public const string SP_Plus_URL = "UI/Rarity/Rarity_SP_Plus";
+        public const string SP_PLUS_URL = "UI/Rarity/Rarity_SP_Plus";
     }
     public static class Phase
     {
@@ -170,6 +170,11 @@ public static class ImageConstants
         public const string ALLITERIA_LIGHT_WORLD_GOLD_MYTHIC_URL = "UI/Button/Main/Alliteria_Light_World_Gold";
         public const string ALLITERIA_LIGHT_WORLD_DIAMOND_MYTHIC_URL = "UI/Button/Main/Alliteria_Light_World_Diamond";
         public const string ALLITERIA_LIGHT_WORLD_SOLAR_MYTHIC_URL = "UI/Button/Main/Alliteria_Light_World_Solar";
+
+        public const string ALLITERIA_SHOP_RARE_URL = "UI/Button/Main/Shop_Rare";
+        public const string ALLITERIA_SHOP_SUPER_RARE_URL = "UI/Button/Main/Shop_Super_Rare";
+        public const string ALLITERIA_SHOP_ULTRA_RARE_URL = "UI/Button/Main/Shop_Ultra_Rare";
+        public const string ALLITERIA_SHOP_LEGENDARY_URL = "UI/Button/Main/Shop_Legendary";
     }
     public static class Feature
     {
@@ -378,7 +383,10 @@ public static class ImageConstants
         public const string UNIVERSE_URL = "UI/Icon/Special_Icon_Number_9";
         public const string STRUCTURE_URL = "UI/Icon/Special_Icon_Number_10";
         public const string ANIME_URL = "UI/Icon/Special_Icon_Number_11";
-        public const string PATTERN_URL = "TUI/Icon/Special_Icon_Number_12";
+        public const string PATTERN_URL = "UI/Icon/Special_Icon_Number_12";
+        public const string COSMIC_IMPRINT_URL = "UI/Icon/Special_Icon_Number_13";
+        public const string PRIMORDIAL_IMPRINT_URL = "UI/Icon/Special_Icon_Number_14";
+        public const string PATH_OF_LORD_IMPRINT_URL = "UI/Icon/Special_Icon_Number_15";
     }
     public static class Mission
     {

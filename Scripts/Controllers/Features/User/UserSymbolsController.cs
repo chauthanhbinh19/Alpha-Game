@@ -130,11 +130,11 @@ public class UserSymbolsController : MonoBehaviour
     }
     public void CreateDetailsUI(Symbols symbol, GameObject currentObject)
     {
-        RefreshDetailsUI(symbol, currentObject);
+        _=RefreshDetailsUIAsync(symbol, currentObject);
 
         BindButton(symbol, currentObject);
     }
-    public void RefreshDetailsUI(Symbols symbol, GameObject currentObject)
+    public async Task RefreshDetailsUIAsync(Symbols symbol, GameObject currentObject)
     {
         Transform transform = currentObject.transform;
         RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
@@ -157,8 +157,15 @@ public class UserSymbolsController : MonoBehaviour
         levelText.text = symbol.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group1/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{symbol.Rarity}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"{QualityEvaluatorHelper.CheckRareImage(symbol.Rarity)}");
         rareImage.texture = rareTexture;
+
+        GameConfig gameConfig = await GameConfigService.Create().GetGameConfigAsync(AppConstants.ObjectType.SYMBOLS, "LEVEL");
+        double maxLevel = double.Parse(gameConfig.MaxValue);
+        TextMeshProUGUI nameText2 = transform.Find("DictionaryCards/Name/NameText2").GetComponent<TextMeshProUGUI>();
+        nameText2.text = symbol.Name;
+        TextMeshProUGUI levelTitleText2 = transform.Find("DictionaryCards/DetailsPanel/Group1/Level/LevelTitleText2").GetComponent<TextMeshProUGUI>();
+        levelTitleText2.text = "Lv. " + "<color=yellow>" + symbol.Level.ToString() + "</color>" + "/" + maxLevel.ToString();
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group1/Star/GridLayout");
         TextureHelper.SetupStars(starGridLayout, symbol.Star);
@@ -223,13 +230,38 @@ public class UserSymbolsController : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             UpgradeManager.Instance.CreateUpgrade(symbol);
         });
+
+        Button masterButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Master").GetComponent<Button>();
+        Transform masterBlockGroup = masterButton.transform.Find("BlockGroup");
+        masterBlockGroup.gameObject.SetActive(true);
+        masterButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+            NotificationManager.Instance.ShowNotification(LocalizationManager.Get(MessageConstants.FEATURE_NOT_APPLIED_MESSAGE));
+        });
+
+        Button rankButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Rank").GetComponent<Button>();
+        Transform rankBlockGroup = rankButton.transform.Find("BlockGroup");
+        rankBlockGroup.gameObject.SetActive(true);
+        rankButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+            NotificationManager.Instance.ShowNotification(LocalizationManager.Get(MessageConstants.FEATURE_NOT_APPLIED_MESSAGE));
+        });
+
+        Button equipmentButton = transform.Find("DictionaryCards/DetailsPanel/Group5/Equipment").GetComponent<Button>();
+        equipmentButton.gameObject.SetActive(false);
+        equipmentButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+        });
     }
     public void RefreshCurrentDetailsUI(Symbols symbol)
     {
         if (TempCurrentObject == null)
             return;
 
-        RefreshDetailsUI(
+        _=RefreshDetailsUIAsync(
             symbol,
             TempCurrentObject);
     }

@@ -692,8 +692,8 @@ public class ArtworksController : MonoBehaviour
                 {
                     // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
                     PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.PERCENT_ARTWORKS,
-                        PowerHelper.GetPercentArtworksPowerAsync
+                        (AppConstants.Power.PERCENT_ARTWORKS, PowerHelper.GetPercentArtworksPowerAsync),
+                        (AppConstants.Power.USER_ARTWORKS, PowerHelper.GetUserArtworksPowerAsync)
                     );
 
                     // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được

@@ -689,8 +689,8 @@ public class TechnologiesController : MonoBehaviour
                 {
                     // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
                     PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.PERCENT_TECHNOLOGIES,
-                        PowerHelper.GetPercentTechnologiesPowerAsync
+                        (AppConstants.Power.PERCENT_TECHNOLOGIES, PowerHelper.GetPercentTechnologiesPowerAsync),
+                        (AppConstants.Power.USER_TECHNOLOGIES, PowerHelper.GetUserTechnologiesPowerAsync)
                     );
 
                     // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được

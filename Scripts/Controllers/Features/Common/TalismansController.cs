@@ -692,8 +692,8 @@ public class TalismansController : MonoBehaviour
                 {
                     // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
                     PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.PERCENT_TALISMANS,
-                        PowerHelper.GetPercentTalismansPowerAsync
+                        (AppConstants.Power.PERCENT_TALISMANS, PowerHelper.GetPercentTalismansPowerAsync),
+                        (AppConstants.Power.USER_TALISMANS, PowerHelper.GetUserTalismansPowerAsync)
                     );
 
                     // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được

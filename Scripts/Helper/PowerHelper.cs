@@ -570,7 +570,7 @@ public static class PowerHelper
             { AppConstants.Power.USER_MAGIC_FORMATION_CIRCLES, GetUserMagicFormationCirclesPowerAsync(userId) },
             { AppConstants.Power.USER_MECHA_BEASTS, GetUserMechaBeastsPowerAsync(userId) },
             { AppConstants.Power.USER_MEDALS, GetUserMedalsPowerAsync(userId) },
-            { AppConstants.Power.USER_OUTFITS, GetUserOutfitPowerAsync(userId) },
+            { AppConstants.Power.USER_OUTFITS, GetUserOutfitsPowerAsync(userId) },
             { AppConstants.Power.USER_PETS, GetUserPetsPowerAsync(userId) },
             { AppConstants.Power.USER_PLANTS, GetUserPlantsPowerAsync(userId) },
             { AppConstants.Power.USER_PUPPETS, GetUserPuppetsPowerAsync(userId) },
@@ -4802,7 +4802,7 @@ public static class PowerHelper
 
         return tempUserPower;
     }
-    public static async Task<UserPowers> GetUserOutfitPowerAsync(string userId)
+    public static async Task<UserPowers> GetUserOutfitsPowerAsync(string userId)
     {
         UserPowers tempUserPower = new UserPowers();
         Outfits result = await UserOutfitsService.Create().SumPowerUserOutfitsAsync(userId);

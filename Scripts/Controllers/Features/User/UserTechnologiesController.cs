@@ -128,11 +128,11 @@ public class UserTechnologiesController : MonoBehaviour
     }
     public void CreateDetailsUI(Technologies technology, GameObject currentObject)
     {
-        RefreshDetailsUI(technology, currentObject);
+        _=RefreshDetailsUIAsync(technology, currentObject);
 
         BindButton(technology, currentObject);
     }
-    public void RefreshDetailsUI(Technologies technology, GameObject currentObject)
+    public async Task RefreshDetailsUIAsync(Technologies technology, GameObject currentObject)
     {
         Transform transform = currentObject.transform;
         RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
@@ -155,8 +155,15 @@ public class UserTechnologiesController : MonoBehaviour
         levelText.text = technology.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group1/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{technology.Rarity}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"{QualityEvaluatorHelper.CheckRareImage(technology.Rarity)}");
         rareImage.texture = rareTexture;
+
+        GameConfig gameConfig = await GameConfigService.Create().GetGameConfigAsync(AppConstants.ObjectType.TECHNOLOGIES, "LEVEL");
+        double maxLevel = double.Parse(gameConfig.MaxValue);
+        TextMeshProUGUI nameText2 = transform.Find("DictionaryCards/Name/NameText2").GetComponent<TextMeshProUGUI>();
+        nameText2.text = technology.Name;
+        TextMeshProUGUI levelTitleText2 = transform.Find("DictionaryCards/DetailsPanel/Group1/Level/LevelTitleText2").GetComponent<TextMeshProUGUI>();
+        levelTitleText2.text = "Lv. " + "<color=yellow>" + technology.Level.ToString() + "</color>" + "/" + maxLevel.ToString();
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group1/Star/GridLayout");
         TextureHelper.SetupStars(starGridLayout, technology.Star);
@@ -221,13 +228,38 @@ public class UserTechnologiesController : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             UpgradeManager.Instance.CreateUpgrade(technology);
         });
+
+        Button masterButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Master").GetComponent<Button>();
+        Transform masterBlockGroup = masterButton.transform.Find("BlockGroup");
+        masterBlockGroup.gameObject.SetActive(true);
+        masterButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+            NotificationManager.Instance.ShowNotification(LocalizationManager.Get(MessageConstants.FEATURE_NOT_APPLIED_MESSAGE));
+        });
+
+        Button rankButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Rank").GetComponent<Button>();
+        Transform rankBlockGroup = rankButton.transform.Find("BlockGroup");
+        rankBlockGroup.gameObject.SetActive(true);
+        rankButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+            NotificationManager.Instance.ShowNotification(LocalizationManager.Get(MessageConstants.FEATURE_NOT_APPLIED_MESSAGE));
+        });
+
+        Button equipmentButton = transform.Find("DictionaryCards/DetailsPanel/Group5/Equipment").GetComponent<Button>();
+        equipmentButton.gameObject.SetActive(false);
+        equipmentButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+        });
     }
     public void RefreshCurrentDetailsUI(Technologies technology)
     {
         if (TempCurrentObject == null)
             return;
 
-        RefreshDetailsUI(
+        _=RefreshDetailsUIAsync(
             technology,
             TempCurrentObject);
     }

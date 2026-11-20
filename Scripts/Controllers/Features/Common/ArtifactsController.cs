@@ -689,8 +689,8 @@ public class ArtifactsController : MonoBehaviour
                 {
                     // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
                     PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.PERCENT_ARTIFACTS,
-                        PowerHelper.GetPercentArtifactsPowerAsync
+                        (AppConstants.Power.PERCENT_ARTIFACTS, PowerHelper.GetPercentArtifactsPowerAsync),
+                        (AppConstants.Power.USER_ARTIFACTS, PowerHelper.GetUserArtifactsPowerAsync)
                     );
 
                     // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được

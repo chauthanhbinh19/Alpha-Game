@@ -689,8 +689,8 @@ public class SpiritCardsController : MonoBehaviour
                 {
                     // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
                     PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.PERCENT_SPIRIT_CARDS,
-                        PowerHelper.GetPercentSpiritCardsPowerAsync
+                        (AppConstants.Power.PERCENT_SPIRIT_CARDS, PowerHelper.GetPercentSpiritCardsPowerAsync),
+                        (AppConstants.Power.USER_SPIRIT_CARDS, PowerHelper.GetUserSpiritCardsPowerAsync)
                     );
 
                     // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được

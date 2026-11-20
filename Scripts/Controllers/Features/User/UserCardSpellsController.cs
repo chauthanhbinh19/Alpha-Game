@@ -182,11 +182,11 @@ public class UserCardSpellsController : MonoBehaviour
     }
     public void CreateDetailsUI(CardSpells cardSpell, GameObject currentObject)
     {
-        RefreshDetailsUI(cardSpell, currentObject);
+        _=RefreshDetailsUIAsync(cardSpell, currentObject);
 
         BindButton(cardSpell, currentObject);
     }
-    public void RefreshDetailsUI(CardSpells cardSpell, GameObject currentObject)
+    public async Task RefreshDetailsUIAsync(CardSpells cardSpell, GameObject currentObject)
     {
         Transform transform = currentObject.transform;
         RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
@@ -207,8 +207,15 @@ public class UserCardSpellsController : MonoBehaviour
         levelText.text = cardSpell.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group1/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardSpell.Rarity}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"{QualityEvaluatorHelper.CheckRareImage(cardSpell.Rarity)}");
         rareImage.texture = rareTexture;
+
+        GameConfig gameConfig = await GameConfigService.Create().GetGameConfigAsync(AppConstants.ObjectType.CARD_SPELLS, "LEVEL");
+        double maxLevel = double.Parse(gameConfig.MaxValue);
+        TextMeshProUGUI nameText2 = transform.Find("DictionaryCards/Name/NameText2").GetComponent<TextMeshProUGUI>();
+        nameText2.text = cardSpell.Name;
+        TextMeshProUGUI levelTitleText2 = transform.Find("DictionaryCards/DetailsPanel/Group1/Level/LevelTitleText2").GetComponent<TextMeshProUGUI>();
+        levelTitleText2.text = "Lv. " + "<color=yellow>" + cardSpell.Level.ToString() + "</color>" + "/" + maxLevel.ToString();
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group1/Star/GridLayout");
         TextureHelper.SetupStars(starGridLayout, cardSpell.Star);
@@ -301,7 +308,7 @@ public class UserCardSpellsController : MonoBehaviour
         if (TempCurrentObject == null)
             return;
 
-        RefreshDetailsUI(
+        _=RefreshDetailsUIAsync(
             cardSpell,
             TempCurrentObject);
     }

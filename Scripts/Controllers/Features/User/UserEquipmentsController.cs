@@ -64,11 +64,11 @@ public class UserEquipmentsController : MonoBehaviour
     }
     public void CreateDetailsUI(Equipments equipment, GameObject currentObject)
     {
-        RefreshDetailsUI(equipment, currentObject);
+        _=RefreshDetailsUIAsync(equipment, currentObject);
 
         BindButton(equipment, currentObject);
     }
-    public void RefreshDetailsUI(Equipments equipment, GameObject currentObject)
+    public async Task RefreshDetailsUIAsync(Equipments equipment, GameObject currentObject)
     {
         Transform transform = currentObject.transform;
         RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
@@ -91,8 +91,15 @@ public class UserEquipmentsController : MonoBehaviour
         levelText.text = equipment.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group1/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{equipment.Rarity}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"{QualityEvaluatorHelper.CheckRareImage(equipment.Rarity)}");
         rareImage.texture = rareTexture;
+
+        GameConfig gameConfig = await GameConfigService.Create().GetGameConfigAsync(AppConstants.ObjectType.EQUIPMENTS, "LEVEL");
+        double maxLevel = double.Parse(gameConfig.MaxValue);
+        TextMeshProUGUI nameText2 = transform.Find("DictionaryCards/Name/NameText2").GetComponent<TextMeshProUGUI>();
+        nameText2.text = equipment.Name;
+        TextMeshProUGUI levelTitleText2 = transform.Find("DictionaryCards/DetailsPanel/Group1/Level/LevelTitleText2").GetComponent<TextMeshProUGUI>();
+        levelTitleText2.text = "Lv. " + "<color=yellow>" + equipment.Level.ToString() + "</color>" + "/" + maxLevel.ToString();
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group1/Star/GridLayout");
         TextureHelper.SetupStars(starGridLayout, equipment.Star);
@@ -157,13 +164,38 @@ public class UserEquipmentsController : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             UpgradeManager.Instance.CreateUpgrade(equipment);
         });
+
+        Button masterButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Master").GetComponent<Button>();
+        Transform masterBlockGroup = masterButton.transform.Find("BlockGroup");
+        masterBlockGroup.gameObject.SetActive(true);
+        masterButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+            NotificationManager.Instance.ShowNotification(LocalizationManager.Get(MessageConstants.FEATURE_NOT_APPLIED_MESSAGE));
+        });
+
+        Button rankButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Rank").GetComponent<Button>();
+        Transform rankBlockGroup = rankButton.transform.Find("BlockGroup");
+        rankBlockGroup.gameObject.SetActive(true);
+        rankButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+            NotificationManager.Instance.ShowNotification(LocalizationManager.Get(MessageConstants.FEATURE_NOT_APPLIED_MESSAGE));
+        });
+
+        Button equipmentButton = transform.Find("DictionaryCards/DetailsPanel/Group5/Equipment").GetComponent<Button>();
+        equipmentButton.gameObject.SetActive(false);
+        equipmentButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+        });
     }
     public void RefreshCurrentDetailsUI(Equipments equipment)
     {
         if (TempCurrentObject == null)
             return;
 
-        RefreshDetailsUI(
+        _=RefreshDetailsUIAsync(
             equipment,
             TempCurrentObject);
     }

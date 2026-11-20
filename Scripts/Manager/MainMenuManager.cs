@@ -575,9 +575,9 @@ public class MainMenuManager : MonoBehaviour
         CreateMainMenuButtonUI(11, AppDisplayConstants.Title.Build.STRUCTURE, TextureHelper.LoadTexture2DCached(ImageConstants.Build.STRUCTURE_URL), buildTransform);
         CreateMainMenuButtonUI(12, AppDisplayConstants.Title.Build.ANIME, TextureHelper.LoadTexture2DCached(ImageConstants.Build.ANIME_URL), buildTransform);
         CreateMainMenuButtonUI(13, AppDisplayConstants.Title.Build.PATTERN, TextureHelper.LoadTexture2DCached(ImageConstants.Build.PATTERN_URL), buildTransform);
-        CreateMainMenuButtonUI(14, AppDisplayConstants.Title.Build.PATTERN, TextureHelper.LoadTexture2DCached(ImageConstants.Build.PATTERN_URL), buildTransform);
-        CreateMainMenuButtonUI(15, AppDisplayConstants.Title.Build.PATTERN, TextureHelper.LoadTexture2DCached(ImageConstants.Build.PATTERN_URL), buildTransform);
-        CreateMainMenuButtonUI(16, AppDisplayConstants.Title.Build.PATTERN, TextureHelper.LoadTexture2DCached(ImageConstants.Build.PATTERN_URL), buildTransform);
+        CreateMainMenuButtonUI(14, AppDisplayConstants.Title.Build.COSMIC_IMPRINT, TextureHelper.LoadTexture2DCached(ImageConstants.Build.COSMIC_IMPRINT_URL), buildTransform);
+        CreateMainMenuButtonUI(15, AppDisplayConstants.Title.Build.PRIMORDIAL_IMPRINT, TextureHelper.LoadTexture2DCached(ImageConstants.Build.PRIMORDIAL_IMPRINT_URL), buildTransform);
+        CreateMainMenuButtonUI(16, AppDisplayConstants.Title.Build.PATH_OF_LORD_IMPRINT, TextureHelper.LoadTexture2DCached(ImageConstants.Build.PATH_OF_LORD_IMPRINT_URL), buildTransform);
 
         // 1. Team
         ButtonEvent.Instance.AssignButtonEvent("Button_1", buildTransform, async () =>

@@ -183,11 +183,11 @@ public class UserCardHeroesController : MonoBehaviour
     }
     public void CreateDetailsUI(CardHeroes cardHero, GameObject currentObject)
     {
-        RefreshDetailsUI(cardHero, currentObject);
+        _=RefreshDetailsUIAsync(cardHero, currentObject);
 
         BindButton(cardHero, currentObject);
     }
-    public void RefreshDetailsUI(CardHeroes cardHero, GameObject currentObject)
+    public async Task RefreshDetailsUIAsync(CardHeroes cardHero, GameObject currentObject)
     {
         Transform transform = currentObject.transform;
         RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
@@ -208,8 +208,15 @@ public class UserCardHeroesController : MonoBehaviour
         levelText.text = cardHero.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group1/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardHero.Rarity}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"{QualityEvaluatorHelper.CheckRareImage(cardHero.Rarity)}");
         rareImage.texture = rareTexture;
+
+        GameConfig gameConfig = await GameConfigService.Create().GetGameConfigAsync(AppConstants.ObjectType.CARD_HEROES, "LEVEL");
+        double maxLevel = double.Parse(gameConfig.MaxValue);
+        TextMeshProUGUI nameText2 = transform.Find("DictionaryCards/Name/NameText2").GetComponent<TextMeshProUGUI>();
+        nameText2.text = cardHero.Name;
+        TextMeshProUGUI levelTitleText2 = transform.Find("DictionaryCards/DetailsPanel/Group1/Level/LevelTitleText2").GetComponent<TextMeshProUGUI>();
+        levelTitleText2.text = "Lv. " + "<color=yellow>" + cardHero.Level.ToString() + "</color>" + "/" + maxLevel.ToString();
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group1/Star/GridLayout");
         TextureHelper.SetupStars(starGridLayout, cardHero.Star);
@@ -289,7 +296,7 @@ public class UserCardHeroesController : MonoBehaviour
             RankManager.Instance.CreateRank(cardHero);
         });
 
-        Button equipmentButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Equipment").GetComponent<Button>();
+        Button equipmentButton = transform.Find("DictionaryCards/DetailsPanel/Group5/Equipment").GetComponent<Button>();
         equipmentButton.gameObject.SetActive(true);
         equipmentButton.onClick.AddListener(async () =>
         {
@@ -302,7 +309,7 @@ public class UserCardHeroesController : MonoBehaviour
         if (TempCurrentObject == null)
             return;
 
-        RefreshDetailsUI(
+        _=RefreshDetailsUIAsync(
             cardHero,
             TempCurrentObject);
     }

@@ -387,10 +387,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_1_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_1_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_1_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_1_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_1_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_1_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_1_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_1_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath1ShopButtonEvent(tempContent);
     }
@@ -421,10 +421,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_2_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_2_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_2_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_2_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_2_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_2_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_2_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_2_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath2ShopButtonEvent(tempContent);
     }
@@ -455,10 +455,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_3_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_3_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_3_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_3_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_3_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_3_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_3_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_3_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath3ShopButtonEvent(tempContent);
     }
@@ -489,10 +489,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_4_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_4_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_4_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_4_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_4_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_4_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_4_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_4_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath4ShopButtonEvent(tempContent);
     }
@@ -523,10 +523,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_5_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_5_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_5_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_5_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_5_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_5_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_5_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_5_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath5ShopButtonEvent(tempContent);
     }
@@ -557,10 +557,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_6_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_6_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_6_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_6_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_6_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_6_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_6_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_6_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath6ShopButtonEvent(tempContent);
     }
@@ -591,10 +591,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_7_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_7_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_7_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_7_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_7_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_7_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_7_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_7_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath7ShopButtonEvent(tempContent);
     }
@@ -625,10 +625,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_8_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_8_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_8_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_8_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_8_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_8_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_8_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_8_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath8ShopButtonEvent(tempContent);
     }
@@ -659,10 +659,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_9_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_9_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_9_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_9_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_9_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_9_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_9_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_9_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath9ShopButtonEvent(tempContent);
     }
@@ -693,10 +693,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_10_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_10_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_10_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_10_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_10_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_10_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_10_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_10_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath10ShopButtonEvent(tempContent);
     }
@@ -727,10 +727,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_11_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_11_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_11_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_11_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_11_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_11_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_11_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_11_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath11ShopButtonEvent(tempContent);
     }
@@ -761,10 +761,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_12_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_12_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_12_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_12_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_12_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_12_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_12_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_12_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath12ShopButtonEvent(tempContent);
     }
@@ -795,10 +795,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_13_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_13_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_13_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_13_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_13_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_13_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_13_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_13_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath13ShopButtonEvent(tempContent);
     }
@@ -829,10 +829,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_14_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_14_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_14_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_14_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_14_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_14_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_14_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_14_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath14ShopButtonEvent(tempContent);
     }
@@ -863,10 +863,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_15_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_15_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_15_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_15_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_15_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_15_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_15_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_15_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath15ShopButtonEvent(tempContent);
     }
@@ -897,10 +897,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_16_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_16_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_16_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_16_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_16_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_16_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_16_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_16_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath16ShopButtonEvent(tempContent);
     }
@@ -931,10 +931,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_17_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_17_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_17_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_17_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_17_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_17_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_17_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_17_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath17ShopButtonEvent(tempContent);
     }
@@ -965,10 +965,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_18_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_18_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_18_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_18_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_18_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_18_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_18_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_18_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath18ShopButtonEvent(tempContent);
     }
@@ -999,10 +999,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_19_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_19_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_19_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_19_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_19_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_19_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_19_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_19_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath19ShopButtonEvent(tempContent);
     }
@@ -1033,10 +1033,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_20_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_20_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_20_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_20_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_20_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_20_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_20_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_20_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath20ShopButtonEvent(tempContent);
     }
@@ -1067,10 +1067,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_21_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_21_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_21_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_21_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_21_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_21_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_21_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_21_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath21ShopButtonEvent(tempContent);
     }
@@ -1101,10 +1101,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_22_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_22_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_22_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_22_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_22_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_22_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_22_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_22_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath22ShopButtonEvent(tempContent);
     }
@@ -1135,10 +1135,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_23_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_23_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_23_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_23_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_23_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_23_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_23_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_23_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath23ShopButtonEvent(tempContent);
     }
@@ -1169,10 +1169,10 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_24_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_BRONZE_MYTHIC_URL), tempContent);
-        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_24_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_SILVER_MYTHIC_URL), tempContent);
-        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_24_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_EMERALD_MYTHIC_URL), tempContent);
-        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_24_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_LIGHT_WORLD_AMETHYST_MYTHIC_URL), tempContent);
+        CreateButton(1, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_24_WORLD_RARE_SHOP!, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_RARE_URL), tempContent);
+        CreateButton(2, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_24_WORLD_SUPER_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_SUPER_RARE_URL), tempContent);
+        CreateButton(3, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_24_WORLD_ULTRA_RARE_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_ULTRA_RARE_URL), tempContent);
+        CreateButton(4, AppDisplayConstants.Title.Shop.ALLITERIA_PATH_NUMBER_24_WORLD_LEGENDARY_SHOP, TextureHelper.LoadTexture2DCached(ImageConstants.World.ALLITERIA_SHOP_LEGENDARY_URL), tempContent);
 
         CreateAlliteriaPath24ShopButtonEvent(tempContent);
     }

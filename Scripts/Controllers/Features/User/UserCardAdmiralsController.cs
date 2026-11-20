@@ -177,11 +177,11 @@ public class UserCardAdmiralsController : MonoBehaviour
     }
     public void CreateDetailsUI(CardAdmirals cardAdmiral, GameObject currentObject)
     {
-        RefreshDetailsUI(cardAdmiral, currentObject);
+        _=RefreshDetailsUIAsync(cardAdmiral, currentObject);
 
         BindButton(cardAdmiral, currentObject);
     }
-    public void RefreshDetailsUI(CardAdmirals cardAdmiral, GameObject currentObject)
+    public async Task RefreshDetailsUIAsync(CardAdmirals cardAdmiral, GameObject currentObject)
     {
         Transform transform = currentObject.transform;
         RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
@@ -202,8 +202,15 @@ public class UserCardAdmiralsController : MonoBehaviour
         levelText.text = cardAdmiral.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group1/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardAdmiral.Rarity}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"{QualityEvaluatorHelper.CheckRareImage(cardAdmiral.Rarity)}");
         rareImage.texture = rareTexture;
+
+        GameConfig gameConfig = await GameConfigService.Create().GetGameConfigAsync(AppConstants.ObjectType.CARD_ADMIRALS, "LEVEL");
+        double maxLevel = double.Parse(gameConfig.MaxValue);
+        TextMeshProUGUI nameText2 = transform.Find("DictionaryCards/Name/NameText2").GetComponent<TextMeshProUGUI>();
+        nameText2.text = cardAdmiral.Name;
+        TextMeshProUGUI levelTitleText2 = transform.Find("DictionaryCards/DetailsPanel/Group1/Level/LevelTitleText2").GetComponent<TextMeshProUGUI>();
+        levelTitleText2.text = "Lv. " + "<color=yellow>" + cardAdmiral.Level.ToString() + "</color>" + "/" + maxLevel.ToString();
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group1/Star/GridLayout");
         TextureHelper.SetupStars(starGridLayout, cardAdmiral.Star);
@@ -296,7 +303,7 @@ public class UserCardAdmiralsController : MonoBehaviour
         if (TempCurrentObject == null)
             return;
 
-        RefreshDetailsUI(
+        _=RefreshDetailsUIAsync(
             cardAdmiral,
             TempCurrentObject);
     }

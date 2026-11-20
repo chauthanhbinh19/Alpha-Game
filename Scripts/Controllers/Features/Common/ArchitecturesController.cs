@@ -689,8 +689,8 @@ public class ArchitecturesController : MonoBehaviour
                 {
                     // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
                     PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.PERCENT_ARCHITECTURES,
-                        PowerHelper.GetPercentArchitecturesPowerAsync
+                        (AppConstants.Power.PERCENT_ARCHITECTURES, PowerHelper.GetPercentArchitecturesPowerAsync),
+                        (AppConstants.Power.USER_ARCHITECTURES, PowerHelper.GetUserArchitecturesPowerAsync)
                     );
 
                     // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được

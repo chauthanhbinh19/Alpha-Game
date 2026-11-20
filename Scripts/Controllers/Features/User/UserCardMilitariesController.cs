@@ -182,11 +182,11 @@ public class UserCardMilitariesController : MonoBehaviour
     }
     public void CreateDetailsUI(CardMilitaries cardMilitary, GameObject currentObject)
     {
-        RefreshDetailsUI(cardMilitary, currentObject);
+        _=RefreshDetailsUIAsync(cardMilitary, currentObject);
 
         BindButton(cardMilitary, currentObject);
     }
-    public void RefreshDetailsUI(CardMilitaries cardMilitary, GameObject currentObject)
+    public async Task RefreshDetailsUIAsync(CardMilitaries cardMilitary, GameObject currentObject)
     {
         Transform transform = currentObject.transform;
         RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
@@ -207,8 +207,15 @@ public class UserCardMilitariesController : MonoBehaviour
         levelText.text = cardMilitary.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group1/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardMilitary.Rarity}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"{QualityEvaluatorHelper.CheckRareImage(cardMilitary.Rarity)}");
         rareImage.texture = rareTexture;
+
+        GameConfig gameConfig = await GameConfigService.Create().GetGameConfigAsync(AppConstants.ObjectType.CARD_MILITARIES, "LEVEL");
+        double maxLevel = double.Parse(gameConfig.MaxValue);
+        TextMeshProUGUI nameText2 = transform.Find("DictionaryCards/Name/NameText2").GetComponent<TextMeshProUGUI>();
+        nameText2.text = cardMilitary.Name;
+        TextMeshProUGUI levelTitleText2 = transform.Find("DictionaryCards/DetailsPanel/Group1/Level/LevelTitleText2").GetComponent<TextMeshProUGUI>();
+        levelTitleText2.text = "Lv. " + "<color=yellow>" + cardMilitary.Level.ToString() + "</color>" + "/" + maxLevel.ToString();
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group1/Star/GridLayout");
         TextureHelper.SetupStars(starGridLayout, cardMilitary.Star);
@@ -301,7 +308,7 @@ public class UserCardMilitariesController : MonoBehaviour
         if (TempCurrentObject == null)
             return;
 
-        RefreshDetailsUI(
+        _=RefreshDetailsUIAsync(
             cardMilitary,
             TempCurrentObject);
     }

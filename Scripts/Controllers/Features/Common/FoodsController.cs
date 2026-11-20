@@ -689,8 +689,8 @@ public class FoodsController : MonoBehaviour
                 {
                     // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
                     PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.PERCENT_FOODS,
-                        PowerHelper.GetPercentFoodsPowerAsync
+                        (AppConstants.Power.PERCENT_FOODS, PowerHelper.GetPercentFoodsPowerAsync),
+                        (AppConstants.Power.USER_FOODS, PowerHelper.GetUserFoodsPowerAsync)
                     );
 
                     // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được

@@ -177,11 +177,11 @@ public class UserCardColonelsController : MonoBehaviour
     }
     public void CreateDetailsUI(CardColonels cardColonel, GameObject currentObject)
     {
-        RefreshDetailsUI(cardColonel, currentObject);
+        _=RefreshDetailsUIAsync(cardColonel, currentObject);
 
         BindButton(cardColonel, currentObject);
     }
-    public void RefreshDetailsUI(CardColonels cardColonel, GameObject currentObject)
+    public async Task RefreshDetailsUIAsync(CardColonels cardColonel, GameObject currentObject)
     {
         Transform transform = currentObject.transform;
         RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
@@ -202,8 +202,15 @@ public class UserCardColonelsController : MonoBehaviour
         levelText.text = cardColonel.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group1/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardColonel.Rarity}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"{QualityEvaluatorHelper.CheckRareImage(cardColonel.Rarity)}");
         rareImage.texture = rareTexture;
+
+        GameConfig gameConfig = await GameConfigService.Create().GetGameConfigAsync(AppConstants.ObjectType.CARD_COLONELS, "LEVEL");
+        double maxLevel = double.Parse(gameConfig.MaxValue);
+        TextMeshProUGUI nameText2 = transform.Find("DictionaryCards/Name/NameText2").GetComponent<TextMeshProUGUI>();
+        nameText2.text = cardColonel.Name;
+        TextMeshProUGUI levelTitleText2 = transform.Find("DictionaryCards/DetailsPanel/Group1/Level/LevelTitleText2").GetComponent<TextMeshProUGUI>();
+        levelTitleText2.text = "Lv. " + "<color=yellow>" + cardColonel.Level.ToString() + "</color>" + "/" + maxLevel.ToString();
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group1/Star/GridLayout");
         TextureHelper.SetupStars(starGridLayout, cardColonel.Star);
@@ -296,7 +303,7 @@ public class UserCardColonelsController : MonoBehaviour
         if (TempCurrentObject == null)
             return;
 
-        RefreshDetailsUI(
+        _=RefreshDetailsUIAsync(
             cardColonel,
             TempCurrentObject);
     }

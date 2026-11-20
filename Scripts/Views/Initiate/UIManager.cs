@@ -78,6 +78,7 @@ public class UIManager : MonoBehaviour
         prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/CosmicImprint"));
         prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/PrimordialImprint"));
         prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/PathOfLordImprint"));
+        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/Notification"));
 
         foreach (var prefab in prefabs)
         {

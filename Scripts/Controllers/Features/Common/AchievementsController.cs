@@ -690,8 +690,8 @@ public class AchievementsController : MonoBehaviour
                 {
                     // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
                     PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.PERCENT_ACHIEVEMENTS,
-                        PowerHelper.GetPercentAchievementsPowerAsync
+                        (AppConstants.Power.PERCENT_ACHIEVEMENTS, PowerHelper.GetPercentAchievementsPowerAsync),
+                        (AppConstants.Power.USER_ACHIEVEMENTS, PowerHelper.GetUserAchievementsPowerAsync)
                     );
 
                     // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được

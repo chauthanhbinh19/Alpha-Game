@@ -689,8 +689,8 @@ public class BordersController : MonoBehaviour
                 {
                     // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
                     PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.PERCENT_BORDERS,
-                        PowerHelper.GetPercentBordersPowerAsync
+                        (AppConstants.Power.PERCENT_BORDERS, PowerHelper.GetPercentBordersPowerAsync),
+                        (AppConstants.Power.USER_BORDERS, PowerHelper.GetUserBordersPowerAsync)
                     );
 
                     // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được

@@ -689,8 +689,8 @@ public class BadgesController : MonoBehaviour
                 {
                     // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
                     PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.PERCENT_BADGES,
-                        PowerHelper.GetPercentBadgesPowerAsync
+                        (AppConstants.Power.PERCENT_BADGES, PowerHelper.GetPercentBadgesPowerAsync),
+                        (AppConstants.Power.USER_BADGES, PowerHelper.GetUserBadgesPowerAsync)
                     );
 
                     // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được

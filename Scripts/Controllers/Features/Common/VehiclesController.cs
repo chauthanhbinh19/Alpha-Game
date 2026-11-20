@@ -692,8 +692,8 @@ public class VehiclesController : MonoBehaviour
                 {
                     // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
                     PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.PERCENT_VEHICLES,
-                        PowerHelper.GetPercentVehiclesPowerAsync
+                        (AppConstants.Power.PERCENT_VEHICLES, PowerHelper.GetPercentVehiclesPowerAsync),
+                        (AppConstants.Power.USER_VEHICLES, PowerHelper.GetUserVehiclesPowerAsync)
                     );
 
                     // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được

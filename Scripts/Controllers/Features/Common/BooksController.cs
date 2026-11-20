@@ -712,8 +712,8 @@ public class BooksController : MonoBehaviour
                 {
                     // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
                     PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.PERCENT_BOOKS,
-                        PowerHelper.GetPercentBooksPowerAsync
+                        (AppConstants.Power.PERCENT_BOOKS, PowerHelper.GetPercentBooksPowerAsync),
+                        (AppConstants.Power.USER_BOOKS, PowerHelper.GetUserBooksPowerAsync)
                     );
 
                     // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được

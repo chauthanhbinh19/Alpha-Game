@@ -689,8 +689,8 @@ public class WeaponsController : MonoBehaviour
                 {
                     // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
                     PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.PERCENT_WEAPONS,
-                        PowerHelper.GetPercentWeaponsPowerAsync
+                        (AppConstants.Power.PERCENT_WEAPONS, PowerHelper.GetPercentWeaponsPowerAsync),
+                        (AppConstants.Power.USER_WEAPONS, PowerHelper.GetUserWeaponsPowerAsync)
                     );
 
                     // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được

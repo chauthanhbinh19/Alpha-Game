@@ -692,8 +692,8 @@ public class MagicFormationCirclesController : MonoBehaviour
                 {
                     // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
                     PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.PERCENT_MAGIC_FORMATION_CIRCLES,
-                        PowerHelper.GetPercentMagicFormationCirclesPowerAsync
+                        (AppConstants.Power.PERCENT_MAGIC_FORMATION_CIRCLES, PowerHelper.GetPercentMagicFormationCirclesPowerAsync),
+                        (AppConstants.Power.USER_MAGIC_FORMATION_CIRCLES, PowerHelper.GetUserMagicFormationCirclesPowerAsync)
                     );
 
                     // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được
