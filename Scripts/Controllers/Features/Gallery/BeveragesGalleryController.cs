@@ -118,6 +118,7 @@ public class BeveragesGalleryController : MonoBehaviour
 
                         PowerController.Instance.ShowPower(result.CurrentPower, deltaPower, status);
                     }
+                    NotificationManager.Instance.ShowSuccessNotification(MessageConstants.UNLOCK_SUCCESSFULLY);
                 });
 
                 Button upgradeButton = transform.Find("UpgradeButton").GetComponent<Button>();
@@ -134,6 +135,7 @@ public class BeveragesGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     await BeveragesGalleryService.Create().UpdateBeverageGalleryPowerAsync(User.CurrentUserId, beverage.Id);
+                    NotificationManager.Instance.ShowSuccessNotification(MessageConstants.UPGRADED_SUCCESSFULLY);
                 });
             }
             catch (Exception ex)

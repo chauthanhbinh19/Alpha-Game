@@ -118,6 +118,7 @@ public class EmojisGalleryController : MonoBehaviour
 
                         PowerController.Instance.ShowPower(result.CurrentPower, deltaPower, status);
                     }
+                    NotificationManager.Instance.ShowSuccessNotification(MessageConstants.UNLOCK_SUCCESSFULLY);
                 });
 
                 Button upgradeButton = transform.Find("UpgradeButton").GetComponent<Button>();
@@ -134,6 +135,7 @@ public class EmojisGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     await EmojisGalleryService.Create().UpdateEmojiGalleryPowerAsync(User.CurrentUserId, emoji.Id);
+                    NotificationManager.Instance.ShowSuccessNotification(MessageConstants.UPGRADED_SUCCESSFULLY);
                 });
             }
             catch (Exception ex)

@@ -121,6 +121,7 @@ public class MagicFormationCirclesGalleryController : MonoBehaviour
 
                         PowerController.Instance.ShowPower(result.CurrentPower, deltaPower, status);
                     }
+                    NotificationManager.Instance.ShowSuccessNotification(MessageConstants.UNLOCK_SUCCESSFULLY);
                 });
 
                 Button upgradeButton = transform.Find("UpgradeButton").GetComponent<Button>();
@@ -137,6 +138,7 @@ public class MagicFormationCirclesGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     await MagicFormationCirclesGalleryService.Create().UpdateMagicFormationCircleGalleryPowerAsync(User.CurrentUserId, magicFormationCircle.Id);
+                    NotificationManager.Instance.ShowSuccessNotification(MessageConstants.UPGRADED_SUCCESSFULLY);
                 });
             }
             catch (Exception ex)

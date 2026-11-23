@@ -39,6 +39,7 @@ public class CreateNameHandler
             {
                 PlayClickSound();
                 await OnStartClick(username, password);
+                NotificationManager.Instance.ShowSuccessNotification(MessageConstants.CREATE_NAME_SUCCESSFULLY);
             });
         }
     }

@@ -829,7 +829,7 @@ public class EquipmentManager : MonoBehaviour
 
             if (!hasEnough)
             {
-                FindObjectOfType<NotificationManager>().ShowNotification("Not enough currency!");
+                NotificationManager.Instance.ShowErrorNotification("Not enough currency!");
                 return;
             }
 

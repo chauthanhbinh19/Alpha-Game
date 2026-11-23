@@ -695,6 +695,7 @@ public class SSWNController : MonoBehaviour
                 if (isPreviewSelected)
                 {
                     SetPreviewNotification(MessageConstants.CANNOT_CONFIRM_IN_PREVIEW_MODE, false);
+                    NotificationManager.Instance.ShowErrorNotification(LocalizationManager.Get(MessageConstants.CANNOT_CONFIRM_IN_PREVIEW_MODE));
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
                     return;
                 }
@@ -702,17 +703,19 @@ public class SSWNController : MonoBehaviour
                 if (popupCurrentLevel >= sswnMaxLevel)
                 {
                     SetPreviewNotification(MessageConstants.UPGRADE_ALREADY_MAX, false);
+                    NotificationManager.Instance.ShowErrorNotification(LocalizationManager.Get(MessageConstants.UPGRADE_ALREADY_MAX));
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
                     return;
                 }
 
                 if ((int)quantitySlider.value <= 0)
                 {
+                    SetPreviewNotification(MessageConstants.INVALID_UPGRADE_QUANTITY, false); // Hoặc constant message tương ứng của bạn
+                    NotificationManager.Instance.ShowErrorNotification(LocalizationManager.Get(MessageConstants.INVALID_UPGRADE_QUANTITY));
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
                     return;
                 }
 
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.LEVEL_UP_SOUND);
                 confirmButton.interactable = false;
                 closeButton.interactable = false;
 
@@ -722,42 +725,90 @@ public class SSWNController : MonoBehaviour
                 if (calcResult.GainedLevels <= 0)
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.ALERT_SOUND);
+                    NotificationManager.Instance.ShowErrorNotification(LocalizationManager.Get(MessageConstants.NOT_ENOUGH_MATERIALS));
                     confirmButton.interactable = true;
                     closeButton.interactable = true;
                     return;
                 }
 
-                userSSWN = EnhanceHelper.EnhanceSSWNs(userSSWN, calcResult.GainedLevels, sswn.BaseMultiplier);
+                UserSSWNs updatedSSWN = userSSWN.CloneUserSSWN(userSSWN);
+                EnhanceHelper.EnhanceSSWNs(updatedSSWN, calcResult.GainedLevels, sswn.BaseMultiplier);
 
                 var insertOrUpdateResult = await UserSSWNsService.Create().InsertOrUpdateUserSSWNsAsync(
                     User.CurrentUserId,
-                    userSSWN,
+                    updatedSSWN,
                     featureId,
                     calcResult.TotalDeductions
                 );
 
-                if (insertOrUpdateResult.Data && insertOrUpdateResult.IsChangePower
-                    && (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated || insertOrUpdateResult.OperationType == DatabaseOperationType.Inserted))
+                // 3 biến điều kiện trả về
+                bool isUpgradeSuccess = insertOrUpdateResult != null
+                                        && insertOrUpdateResult.Data
+                                        && (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated || insertOrUpdateResult.OperationType == DatabaseOperationType.Inserted);
+
+                bool isUpgradeNoChange = insertOrUpdateResult != null
+                                         && insertOrUpdateResult.Data
+                                         && insertOrUpdateResult.OperationType == DatabaseOperationType.None;
+
+                bool isUpgradeFailed = insertOrUpdateResult == null || !insertOrUpdateResult.Data;
+
+                // 1. Thành công -> Show notification, đóng popup, refresh và return luôn
+                if (isUpgradeSuccess)
                 {
-                    // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
-                    PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.SSWN,
-                        PowerHelper.GetSumUserSSWNPowersAsync
-                    );
+                    userSSWN = updatedSSWN;
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.LEVEL_UP_SOUND);
 
-                    // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được
-                    if (result.HasChanged)
+                    if (insertOrUpdateResult.IsChangePower)
                     {
-                        double diff = result.Difference;
-                        int status = diff > 0 ? 1 : (diff < 0 ? -1 : 0);
-                        double deltaPower = Math.Abs(diff);
+                        PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
+                            AppConstants.Power.SSWN,
+                            PowerHelper.GetSumUserSSWNPowersAsync
+                        );
 
-                        PowerController.Instance.ShowPower(result.CurrentPower, deltaPower, status);
+                        if (result.HasChanged)
+                        {
+                            double diff = result.Difference;
+                            int status = diff > 0 ? 1 : (diff < 0 ? -1 : 0);
+                            double deltaPower = Math.Abs(diff);
+
+                            PowerController.Instance.ShowPower(result.CurrentPower, deltaPower, status);
+                        }
                     }
+
+                    NotificationManager.Instance.ShowSuccessNotification(LocalizationManager.Get(MessageConstants.UPGRADED_SUCCESSFULLY));
+                    Destroy(gameObject);
+                    await RefreshPanelAsync();
+                    return;
                 }
 
-                Destroy(gameObject);
-                await RefreshPanelAsync();
+                // 2. Không có thay đổi -> Show notification, mở lại nút và return luôn
+                if (isUpgradeNoChange)
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ALERT_SOUND);
+                    string noChangeMsg = LocalizationManager.Get(MessageConstants.UPGRADE_ALREADY_MAX);
+                    SetPreviewNotification(MessageConstants.UPGRADE_ALREADY_MAX, false);
+                    NotificationManager.Instance.ShowWarningNotification(noChangeMsg);
+
+                    confirmButton.interactable = true;
+                    closeButton.interactable = true;
+                    return;
+                }
+
+                // 3. Thất bại / Lỗi -> Show notification, mở lại nút và return luôn
+                if (isUpgradeFailed)
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+                    string errorMsg = !string.IsNullOrEmpty(insertOrUpdateResult?.Message)
+                        ? insertOrUpdateResult.Message
+                        : LocalizationManager.Get(MessageConstants.NOT_ENOUGH_MATERIALS);
+
+                    SetPreviewNotification(errorMsg, false);
+                    NotificationManager.Instance.ShowErrorNotification(errorMsg);
+
+                    confirmButton.interactable = true;
+                    closeButton.interactable = true;
+                    return;
+                }
             });
 
             closeButton.onClick.AddListener(() =>

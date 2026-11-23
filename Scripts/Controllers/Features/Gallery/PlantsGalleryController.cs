@@ -118,6 +118,7 @@ public class PlantsGalleryController : MonoBehaviour
 
                         PowerController.Instance.ShowPower(result.CurrentPower, deltaPower, status);
                     }
+                    NotificationManager.Instance.ShowSuccessNotification(MessageConstants.UNLOCK_SUCCESSFULLY);
                 });
 
                 Button upgradeButton = transform.Find("UpgradeButton").GetComponent<Button>();
@@ -134,6 +135,7 @@ public class PlantsGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     await PlantsGalleryService.Create().UpdatePlantGalleryPowerAsync(User.CurrentUserId, plant.Id);
+                    NotificationManager.Instance.ShowSuccessNotification(MessageConstants.UPGRADED_SUCCESSFULLY);
                 });
             }
             catch (Exception ex)

@@ -190,7 +190,7 @@ public class MasterBoardController : MonoBehaviour
                 }
                 else
                 {
-                    NotificationManager.Instance.ShowNotification(MessageConstants.ITEM_NOT_ENOUGH);
+                    NotificationManager.Instance.ShowErrorNotification(MessageConstants.ITEM_NOT_ENOUGH);
                 }
             }
             else
@@ -210,7 +210,7 @@ public class MasterBoardController : MonoBehaviour
                 }
                 else
                 {
-                    NotificationManager.Instance.ShowNotification(MessageConstants.ITEM_NOT_ENOUGH);
+                    NotificationManager.Instance.ShowErrorNotification(MessageConstants.ITEM_NOT_ENOUGH);
                 }
             }
         });

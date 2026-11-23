@@ -118,6 +118,7 @@ public class MedalsGalleryController : MonoBehaviour
 
                         PowerController.Instance.ShowPower(result.CurrentPower, deltaPower, status);
                     }
+                    NotificationManager.Instance.ShowSuccessNotification(MessageConstants.UNLOCK_SUCCESSFULLY);
                 });
 
                 Button upgradeButton = transform.Find("UpgradeButton").GetComponent<Button>();
@@ -134,6 +135,7 @@ public class MedalsGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     await MedalsGalleryService.Create().UpdateMedalGalleryPowerAsync(User.CurrentUserId, medal.Id);
+                    NotificationManager.Instance.ShowSuccessNotification(MessageConstants.UPGRADED_SUCCESSFULLY);
                 });
             }
             catch (Exception ex)

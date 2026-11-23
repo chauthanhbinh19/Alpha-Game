@@ -19,6 +19,7 @@ public interface IUserCardAdmiralsRepository
     Task<InsertOrUpdateResult<bool>> UpdateUserCardAdmiralLevelAsync(string userId, CardAdmirals cardAdmiral, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardAdmiralStarAsync(string userId, CardAdmirals cardAdmiral);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardAdmiralQuantityAsync(string userId, CardAdmirals cardAdmiral, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserCardAdmiralAffinityAsync(string userId, CardAdmirals cardAdmiral, List<RecipeItemDetailDTO> totalDeductions);
     Task<CardAdmirals> GetUserCardAdmiralByIdAsync(string userId, string Id);
     Task<List<string>> GetTeamIdsAsync(string userId);
     Task<BaseStats> GetTeamTotalStatsAsync(string userId);

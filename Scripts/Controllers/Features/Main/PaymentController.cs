@@ -233,13 +233,13 @@ public class PaymentController : MonoBehaviour
                 if (response.Success)
                 {
                     // Thông báo thành công và đóng Popup
-                    NotificationManager.Instance.ShowNotification(LocalizationManager.Get(response.Message));
+                    NotificationManager.Instance.ShowSuccessNotification(LocalizationManager.Get(response.Message));
                     Destroy(popupTopupPanelObject);
                 }
                 else
                 {
                     // Thông báo thất bại và mở lại tương tác nút
-                    NotificationManager.Instance.ShowNotification(LocalizationManager.Get(response.Message));
+                    NotificationManager.Instance.ShowErrorNotification(LocalizationManager.Get(response.Message));
                     confirmButton.interactable = true;
                     closeButton.interactable = true;
                 }

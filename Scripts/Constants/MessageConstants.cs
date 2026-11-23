@@ -27,6 +27,9 @@ public static class MessageConstants
     public const string PASSWORD_LENGTH_INVALID = "Notification.PasswordLengthInvalid";
     public const string CONFIRM_PASSWORD_IS_EMPTY = "Notification.ConfirmPasswordCanNotBeEmpty";
     public const string PASSWORDS_DO_NOT_MATCH = "Notification.PasswordsDoNotMatch";
+    public const string SIGN_IN_SUCCESSFULLY = "Notification.SignInSuccessfully";
+    public const string SIGN_UP_SUCCESSFULLY = "Notification.SignUpSuccessfully";
+    public const string CREATE_NAME_SUCCESSFULLY = "Notification.CreateNameSuccessfully";
     public const string INSERTED_SUCCESSFULLY = "Notification.InsertedSuccessfully";
     public const string UPDATED_SUCCESSFULLY = "Notification.UpdatedSuccessfully";
     public const string MIXED_SUCCESSFULLY = "Notification.MixedSuccessfully";
@@ -45,6 +48,9 @@ public static class MessageConstants
     public const string PURCHASE_FAILED = "Notification.PurchaseFailed";
     public const string CANNOT_CONFIRM_IN_PREVIEW_MODE = "Notification.CannotConfirmInPreviewMode";
     public const string FEATURE_NOT_APPLIED_MESSAGE = "Notification.FeatureNotAppliedMessage";
+    public const string UPGRADED_SUCCESSFULLY = "Notification.UpgradedSuccessfully";
+    public const string UNLOCK_SUCCESSFULLY = "Notification.UnlockSuccessfully";
+    public const string INVALID_UPGRADE_QUANTITY = "Notification.InvalidUpgradeQuantity";
 
     public const string USER_NOT_FOUND = "Notification.UserNotFound";
     public const string USER_DELETED = "Notification.UserDeleted";

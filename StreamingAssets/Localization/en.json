@@ -1400,6 +1400,9 @@
   { "key": "Notification.PasswordLengthInvalid", "value": "Password must be between 8 and 32 characters!" },
   { "key": "Notification.ConfirmPasswordCanNotBeEmpty", "value": "Confirm password cannot be empty!" },
   { "key": "Notification.PasswordsDoNotMatch", "value": "Passwords do not match!" },
+  { "key": "Notification.SignInSuccessfully", "value": "Sign In Successfully!" },
+  { "key": "Notification.SignUpSuccessfully", "value": "Sign Up Successfully!" },
+  { "key": "Notification.CreateNameSuccessfully", "value": "Create Name Successfully!" },
   { "key": "Notification.InsertedSuccessfully", "value": "Inserted successfully!" },
   { "key": "Notification.UpdatedSuccessfully", "value": "Updated successfully!" },
   { "key": "Notification.MixedSuccessfully", "value": "Mixed successfully!" },
@@ -1431,6 +1434,8 @@
 
   { "key": "Notification.ItemNotFoundOrInactive", "value": "Item not found or inactive." },
   { "key": "Notification.InsufficientBalance", "value": "Insufficient balance." },
+  { "key": "Notification.UpgradedSuccessfully", "value": "Upgraded Successfully." },
+  { "key": "Notification.UnlockSuccessfully", "value": "Unlock Successfully." },
 
   { "key": "Notification.AchievementsNotFound", "value": "Achievements not found." },
   { "key": "Notification.CardHeroesNotFound", "value": "Hero cards not found." },

@@ -315,7 +315,7 @@ public class CosmicImprintController : MonoBehaviour
 
         AnimationController.Instance.CreateCosmicImprintAnimation(currentObject);
 
-        CosmicImprints hisn = await CosmicImprintsService.Create().GetCosmicImprintByIdAsync(featureId);
+        CosmicImprints cosmicImprint = await CosmicImprintsService.Create().GetCosmicImprintByIdAsync(featureId);
         UserCosmicImprints userCosmicImprint = await UserCosmicImprintsService.Create().GetUserCosmicImprintsAsync(User.CurrentUserId, featureId);
 
         int currentLevel = userCosmicImprint?.Level ?? 0;
@@ -407,13 +407,13 @@ public class CosmicImprintController : MonoBehaviour
                 : popupCurrentLevel;
 
             // Max level của CosmicImprint hiển thị lên UI
-            double hisnMaxLevel = hisn != null ? hisn.MaxLevel : recipeMaxLevel;
+            double cosmicImprintMaxLevel = cosmicImprint != null ? cosmicImprint.MaxLevel : recipeMaxLevel;
 
             double maxSliderValue = Math.Max(0.0, recipeMaxLevel - popupCurrentLevel);
 
             currentLevelText.text = popupCurrentLevel.ToString();
             nextLevelText.text = popupCurrentLevel.ToString();
-            if (maxLevelText != null) maxLevelText.text = hisnMaxLevel.ToString(); // YÊU CẦU 1: Lấy từ hisn.MaxLevel
+            if (maxLevelText != null) maxLevelText.text = cosmicImprintMaxLevel.ToString(); // YÊU CẦU 1: Lấy từ cosmicImprint.MaxLevel
 
             if (userCosmicImprint != null)
             {
@@ -519,7 +519,7 @@ public class CosmicImprintController : MonoBehaviour
             {
                 int requested = (int)quantitySlider.value;
 
-                if (popupCurrentLevel >= hisnMaxLevel)
+                if (popupCurrentLevel >= cosmicImprintMaxLevel)
                 {
                     var backgroundImage = confirmButton.transform.Find("Background2")?.GetComponent<RawImage>();
                     if (backgroundImage != null)
@@ -573,7 +573,7 @@ public class CosmicImprintController : MonoBehaviour
                 if (displayGained > 0 && userCosmicImprint != null)
                 {
                     UserCosmicImprints previewCosmicImprint = userCosmicImprint.CloneUserCosmicImprint(userCosmicImprint);
-                    EnhanceHelper.EnhanceCosmicImprints(previewCosmicImprint, displayGained, hisn.BaseMultiplier);
+                    EnhanceHelper.EnhanceCosmicImprints(previewCosmicImprint, displayGained, cosmicImprint.BaseMultiplier);
                     StatsManager.Instance.CreateStatsManager(previewCosmicImprint, nextStatsContent);
                 }
                 else if (userCosmicImprint != null)
@@ -695,24 +695,27 @@ public class CosmicImprintController : MonoBehaviour
                 if (isPreviewSelected)
                 {
                     SetPreviewNotification(MessageConstants.CANNOT_CONFIRM_IN_PREVIEW_MODE, false);
+                    NotificationManager.Instance.ShowErrorNotification(LocalizationManager.Get(MessageConstants.CANNOT_CONFIRM_IN_PREVIEW_MODE));
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
                     return;
                 }
 
-                if (popupCurrentLevel >= hisnMaxLevel)
+                if (popupCurrentLevel >= cosmicImprintMaxLevel)
                 {
                     SetPreviewNotification(MessageConstants.UPGRADE_ALREADY_MAX, false);
+                    NotificationManager.Instance.ShowErrorNotification(LocalizationManager.Get(MessageConstants.UPGRADE_ALREADY_MAX));
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
                     return;
                 }
 
                 if ((int)quantitySlider.value <= 0)
                 {
+                    SetPreviewNotification(MessageConstants.INVALID_UPGRADE_QUANTITY, false); // Hoặc constant message tương ứng của bạn
+                    NotificationManager.Instance.ShowErrorNotification(LocalizationManager.Get(MessageConstants.INVALID_UPGRADE_QUANTITY));
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
                     return;
                 }
 
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.LEVEL_UP_SOUND);
                 confirmButton.interactable = false;
                 closeButton.interactable = false;
 
@@ -722,42 +725,90 @@ public class CosmicImprintController : MonoBehaviour
                 if (calcResult.GainedLevels <= 0)
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.ALERT_SOUND);
+                    NotificationManager.Instance.ShowErrorNotification(LocalizationManager.Get(MessageConstants.NOT_ENOUGH_MATERIALS));
                     confirmButton.interactable = true;
                     closeButton.interactable = true;
                     return;
                 }
 
-                userCosmicImprint = EnhanceHelper.EnhanceCosmicImprints(userCosmicImprint, calcResult.GainedLevels, hisn.BaseMultiplier);
+                UserCosmicImprints updatedCosmicImprint = userCosmicImprint.CloneUserCosmicImprint(userCosmicImprint);
+                EnhanceHelper.EnhanceCosmicImprints(updatedCosmicImprint, calcResult.GainedLevels, cosmicImprint.BaseMultiplier);
 
                 var insertOrUpdateResult = await UserCosmicImprintsService.Create().InsertOrUpdateUserCosmicImprintsAsync(
                     User.CurrentUserId,
-                    userCosmicImprint,
+                    updatedCosmicImprint,
                     featureId,
                     calcResult.TotalDeductions
                 );
 
-                if (insertOrUpdateResult.Data && insertOrUpdateResult.IsChangePower
-                    && (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated || insertOrUpdateResult.OperationType == DatabaseOperationType.Inserted))
+                // 3 biến điều kiện trả về
+                bool isUpgradeSuccess = insertOrUpdateResult != null
+                                        && insertOrUpdateResult.Data
+                                        && (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated || insertOrUpdateResult.OperationType == DatabaseOperationType.Inserted);
+
+                bool isUpgradeNoChange = insertOrUpdateResult != null
+                                         && insertOrUpdateResult.Data
+                                         && insertOrUpdateResult.OperationType == DatabaseOperationType.None;
+
+                bool isUpgradeFailed = insertOrUpdateResult == null || !insertOrUpdateResult.Data;
+
+                // 1. Thành công -> Show notification, đóng popup, refresh và return luôn
+                if (isUpgradeSuccess)
                 {
-                    // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
-                    PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.COSMIC_IMPRINT,
-                        PowerHelper.GetSumUserCosmicImprintPowersAsync
-                    );
+                    userCosmicImprint = updatedCosmicImprint;
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.LEVEL_UP_SOUND);
 
-                    // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được
-                    if (result.HasChanged)
+                    if (insertOrUpdateResult.IsChangePower)
                     {
-                        double diff = result.Difference;
-                        int status = diff > 0 ? 1 : (diff < 0 ? -1 : 0);
-                        double deltaPower = Math.Abs(diff);
+                        PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
+                            AppConstants.Power.COSMIC_IMPRINT,
+                            PowerHelper.GetSumUserCosmicImprintPowersAsync
+                        );
 
-                        PowerController.Instance.ShowPower(result.CurrentPower, deltaPower, status);
+                        if (result.HasChanged)
+                        {
+                            double diff = result.Difference;
+                            int status = diff > 0 ? 1 : (diff < 0 ? -1 : 0);
+                            double deltaPower = Math.Abs(diff);
+
+                            PowerController.Instance.ShowPower(result.CurrentPower, deltaPower, status);
+                        }
                     }
+
+                    NotificationManager.Instance.ShowSuccessNotification(LocalizationManager.Get(MessageConstants.UPGRADED_SUCCESSFULLY));
+                    Destroy(gameObject);
+                    await RefreshPanelAsync();
+                    return;
                 }
 
-                Destroy(gameObject);
-                await RefreshPanelAsync();
+                // 2. Không có thay đổi -> Show notification, mở lại nút và return luôn
+                if (isUpgradeNoChange)
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ALERT_SOUND);
+                    string noChangeMsg = LocalizationManager.Get(MessageConstants.UPGRADE_ALREADY_MAX);
+                    SetPreviewNotification(MessageConstants.UPGRADE_ALREADY_MAX, false);
+                    NotificationManager.Instance.ShowWarningNotification(noChangeMsg);
+
+                    confirmButton.interactable = true;
+                    closeButton.interactable = true;
+                    return;
+                }
+
+                // 3. Thất bại / Lỗi -> Show notification, mở lại nút và return luôn
+                if (isUpgradeFailed)
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+                    string errorMsg = !string.IsNullOrEmpty(insertOrUpdateResult?.Message)
+                        ? insertOrUpdateResult.Message
+                        : LocalizationManager.Get(MessageConstants.NOT_ENOUGH_MATERIALS);
+
+                    SetPreviewNotification(errorMsg, false);
+                    NotificationManager.Instance.ShowErrorNotification(errorMsg);
+
+                    confirmButton.interactable = true;
+                    closeButton.interactable = true;
+                    return;
+                }
             });
 
             closeButton.onClick.AddListener(() =>

@@ -119,6 +119,7 @@ public class CardMonstersGalleryController : MonoBehaviour
 
                     PowerController.Instance.ShowPower(result.CurrentPower, deltaPower, status);
                 }
+                NotificationManager.Instance.ShowSuccessNotification(MessageConstants.UNLOCK_SUCCESSFULLY);
             });
 
             Button upgradeButton = transform.Find("UpgradeButton").GetComponent<Button>();
@@ -135,6 +136,7 @@ public class CardMonstersGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 await CardMonstersGalleryService.Create().UpdateCardMonsterGalleryPowerAsync(User.CurrentUserId, cardMonster.Id);
+                NotificationManager.Instance.ShowSuccessNotification(MessageConstants.UPGRADED_SUCCESSFULLY);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

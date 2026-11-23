@@ -83,6 +83,7 @@ public class SignUpHandler
             {
                 PlayClickSound();
                 await OnSignUpClick();
+                NotificationManager.Instance.ShowSuccessNotification(MessageConstants.SIGN_UP_SUCCESSFULLY);
             });
         }
 

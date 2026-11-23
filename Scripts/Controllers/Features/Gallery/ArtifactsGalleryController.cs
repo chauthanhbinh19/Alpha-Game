@@ -115,6 +115,7 @@ public class ArtifactsGalleryController : MonoBehaviour
 
                     PowerController.Instance.ShowPower(result.CurrentPower, deltaPower, status);
                 }
+                NotificationManager.Instance.ShowSuccessNotification(MessageConstants.UNLOCK_SUCCESSFULLY);
             });
 
             Button upgradeButton = transform.Find("UpgradeButton").GetComponent<Button>();
@@ -131,6 +132,7 @@ public class ArtifactsGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 await ArtifactsGalleryService.Create().UpdateArtifactGalleryPowerAsync(User.CurrentUserId, artifact.Id);
+                NotificationManager.Instance.ShowSuccessNotification(MessageConstants.UPGRADED_SUCCESSFULLY);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

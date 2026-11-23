@@ -688,7 +688,7 @@ public class CardHeroesController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.PURCHASE_SOUND);
                 // Mua thành công: Hiện thông báo, cập nhật lại Tiền tệ/Tài sản User trên UI và đóng Popup
-                NotificationManager.Instance.ShowNotification(LocalizationManager.Get(MessageConstants.CARD_HEROES_PURCHASED_SUCCESSFULLY));
+                NotificationManager.Instance.ShowSuccessNotification(LocalizationManager.Get(MessageConstants.CARD_HEROES_PURCHASED_SUCCESSFULLY));
                 if (resultData.Data && resultData.IsChangePower)
                 {
                     // PowerResultDTO powerResult = await UserService.Create().UpdateUserPowerAsync();
@@ -712,7 +712,7 @@ public class CardHeroesController : MonoBehaviour
             {
                 // Mua thất bại: Hiện thông báo lỗi và mở lại tương tác cho nút mua
                 string errorMsg = resultData != null ? resultData.Message : MessageConstants.PURCHASE_FAILED;
-                NotificationManager.Instance.ShowNotification(LocalizationManager.Get(errorMsg));
+                NotificationManager.Instance.ShowErrorNotification(LocalizationManager.Get(errorMsg));
 
                 confirmButton.interactable = true;
             }

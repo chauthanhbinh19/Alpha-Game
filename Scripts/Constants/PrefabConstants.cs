@@ -231,6 +231,8 @@ public static class PrefabConstants
     {
         public const string SUCCESS_NOTIFICATION_PREFAB = "SuccessNotificationPrefab";
         public const string ERROR_NOTIFICATION_PREFAB = "ErrorNotificationPrefab";
+        public const string WARNING_NOTIFICATION_PREFAB = "WarningNotificationPrefab";
+        public const string INFORMATION_NOTIFICATION_PREFAB = "InformationNotificationPrefab";
     }
     public static class HICA
     {

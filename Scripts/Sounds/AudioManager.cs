@@ -8,18 +8,48 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance;
     public Sound[] MusicSounds, SfXSounds;
     public AudioSource MusicSource, SFXSource;
+
+    // Thêm Dictionary để tra cứu O(1) thay vì Array.Find mỗi lần bấm nút
+    private Dictionary<string, AudioClip> _musicDict;
+    private Dictionary<string, AudioClip> _sfxDict;
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             // DontDestroyOnLoad(gameObject);
+            InitAudioDictionaries();
         }
         else
         {
             Destroy(gameObject);
         }
     }
+
+    private void InitAudioDictionaries()
+    {
+        _musicDict = new Dictionary<string, AudioClip>();
+        if (MusicSounds != null)
+        {
+            foreach (var s in MusicSounds)
+            {
+                if (s != null && !string.IsNullOrEmpty(s.name) && s.clip != null)
+                    _musicDict[s.name] = s.clip;
+            }
+        }
+
+        _sfxDict = new Dictionary<string, AudioClip>();
+        if (SfXSounds != null)
+        {
+            foreach (var s in SfXSounds)
+            {
+                if (s != null && !string.IsNullOrEmpty(s.name) && s.clip != null)
+                    _sfxDict[s.name] = s.clip;
+            }
+        }
+    }
+
     public void PlayMusic(string name)
     {
         if (string.IsNullOrEmpty(name) || MusicSource == null || MusicSounds == null)
@@ -28,14 +58,18 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        Sound s = Array.Find(MusicSounds, x => x.name == name);
-        if (s == null)
+        if (_musicDict == null) InitAudioDictionaries();
+
+        if (!_musicDict.TryGetValue(name, out AudioClip clip))
         {
             Debug.Log("Music Not Found");
             return;
         }
 
-        MusicSource.clip = s.clip;
+        // Buộc dừng và phát lại từ đầu (0s) bất kể đang phát hay không
+        MusicSource.Stop();
+        MusicSource.clip = clip;
+        MusicSource.time = 0f;
         MusicSource.Play();
     }
 
@@ -44,26 +78,21 @@ public class AudioManager : MonoBehaviour
         if (MusicSource == null || !MusicSource.isPlaying)
             return;
 
-        if (string.IsNullOrEmpty(name) || MusicSource.clip == null)
+        if (string.IsNullOrEmpty(name) || MusicSource.clip == null || MusicSounds == null)
         {
             MusicSource.Stop();
             return;
         }
 
-        if (MusicSounds == null)
-        {
-            MusicSource.Stop();
-            return;
-        }
+        if (_musicDict == null) InitAudioDictionaries();
 
-        Sound s = Array.Find(MusicSounds, x => x.name == name);
-        if (s == null)
+        if (!_musicDict.TryGetValue(name, out AudioClip clip))
         {
             Debug.Log("Music Not Found");
             return;
         }
 
-        if (MusicSource.clip == s.clip)
+        if (MusicSource.clip == clip)
         {
             MusicSource.Stop();
         }
@@ -77,16 +106,20 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        Sound s = Array.Find(SfXSounds, x => x.name == name);
-        if (s == null)
+        if (_sfxDict == null) InitAudioDictionaries();
+
+        if (!_sfxDict.TryGetValue(name, out AudioClip clip))
         {
             Debug.Log("SFX Not Found");
             return;
         }
 
-        SFXSource.clip = s.clip;
-        if (!SFXSource.isPlaying)
-            SFXSource.Play();
+        // Bỏ điều kiện if (!SFXSource.isPlaying)
+        // Buộc ngắt đoạn im lặng/âm thanh cũ và phát lại ngay lập tức từ đầu
+        SFXSource.Stop();
+        SFXSource.clip = clip;
+        SFXSource.time = 0f;
+        SFXSource.Play();
     }
 
     public void StopSFX(string name = null)
@@ -94,26 +127,21 @@ public class AudioManager : MonoBehaviour
         if (SFXSource == null || !SFXSource.isPlaying)
             return;
 
-        if (string.IsNullOrEmpty(name) || SFXSource.clip == null)
+        if (string.IsNullOrEmpty(name) || SFXSource.clip == null || SfXSounds == null)
         {
             SFXSource.Stop();
             return;
         }
 
-        if (SfXSounds == null)
-        {
-            SFXSource.Stop();
-            return;
-        }
+        if (_sfxDict == null) InitAudioDictionaries();
 
-        Sound s = Array.Find(SfXSounds, x => x.name == name);
-        if (s == null)
+        if (!_sfxDict.TryGetValue(name, out AudioClip clip))
         {
             Debug.Log("SFX Not Found");
             return;
         }
 
-        if (SFXSource.clip == s.clip)
+        if (SFXSource.clip == clip)
         {
             SFXSource.Stop();
         }

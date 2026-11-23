@@ -104,20 +104,21 @@ public class EquipmentsGalleryController : MonoBehaviour
                 image.color = Color.white;
 
                 // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
-                    PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.GALLERY_EQUIPMENTS,
-                        PowerHelper.GetEquipmentsGalleryPowerAsync
-                    );
+                PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
+                    AppConstants.Power.GALLERY_EQUIPMENTS,
+                    PowerHelper.GetEquipmentsGalleryPowerAsync
+                );
 
-                    // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được
-                    if (result.HasChanged)
-                    {
-                        double diff = result.Difference;
-                        int status = diff > 0 ? 1 : (diff < 0 ? -1 : 0);
-                        double deltaPower = Math.Abs(diff);
+                // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được
+                if (result.HasChanged)
+                {
+                    double diff = result.Difference;
+                    int status = diff > 0 ? 1 : (diff < 0 ? -1 : 0);
+                    double deltaPower = Math.Abs(diff);
 
-                        PowerController.Instance.ShowPower(result.CurrentPower, deltaPower, status);
-                    }
+                    PowerController.Instance.ShowPower(result.CurrentPower, deltaPower, status);
+                }
+                NotificationManager.Instance.ShowSuccessNotification(MessageConstants.UNLOCK_SUCCESSFULLY);
             });
 
             Button upgradeButton = transform.Find("UpgradeButton").GetComponent<Button>();
@@ -134,6 +135,7 @@ public class EquipmentsGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 await EquipmentsGalleryService.Create().UpdateEquipmentGalleryPowerAsync(User.CurrentUserId, equipment.Id);
+                NotificationManager.Instance.ShowSuccessNotification(MessageConstants.UPGRADED_SUCCESSFULLY);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

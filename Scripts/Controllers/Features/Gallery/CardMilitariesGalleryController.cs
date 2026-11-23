@@ -120,6 +120,7 @@ public class CardMilitariesGalleryController : MonoBehaviour
 
                     PowerController.Instance.ShowPower(result.CurrentPower, deltaPower, status);
                 }
+                NotificationManager.Instance.ShowSuccessNotification(MessageConstants.UNLOCK_SUCCESSFULLY);
             });
 
             Button upgradeButton = transform.Find("UpgradeButton").GetComponent<Button>();
@@ -136,6 +137,7 @@ public class CardMilitariesGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 await CardMilitariesGalleryService.Create().UpdateCardMilitaryGalleryPowerAsync(User.CurrentUserId, cardMilitary.Id);
+                NotificationManager.Instance.ShowSuccessNotification(MessageConstants.UPGRADED_SUCCESSFULLY);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

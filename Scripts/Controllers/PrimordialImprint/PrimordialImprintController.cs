@@ -315,7 +315,7 @@ public class PrimordialImprintController : MonoBehaviour
 
         AnimationController.Instance.CreatePrimordialImprintAnimation(currentObject);
 
-        PrimordialImprints hisn = await PrimordialImprintsService.Create().GetPrimordialImprintByIdAsync(featureId);
+        PrimordialImprints primordialImprint = await PrimordialImprintsService.Create().GetPrimordialImprintByIdAsync(featureId);
         UserPrimordialImprints userPrimordialImprint = await UserPrimordialImprintsService.Create().GetUserPrimordialImprintsAsync(User.CurrentUserId, featureId);
 
         int currentLevel = userPrimordialImprint?.Level ?? 0;
@@ -407,13 +407,13 @@ public class PrimordialImprintController : MonoBehaviour
                 : popupCurrentLevel;
 
             // Max level của PrimordialImprint hiển thị lên UI
-            double hisnMaxLevel = hisn != null ? hisn.MaxLevel : recipeMaxLevel;
+            double primordialImprintMaxLevel = primordialImprint != null ? primordialImprint.MaxLevel : recipeMaxLevel;
 
             double maxSliderValue = Math.Max(0, recipeMaxLevel - popupCurrentLevel);
 
             currentLevelText.text = popupCurrentLevel.ToString();
             nextLevelText.text = popupCurrentLevel.ToString();
-            if (maxLevelText != null) maxLevelText.text = hisnMaxLevel.ToString(); // YÊU CẦU 1: Lấy từ hisn.MaxLevel
+            if (maxLevelText != null) maxLevelText.text = primordialImprintMaxLevel.ToString(); // YÊU CẦU 1: Lấy từ hisn.MaxLevel
 
             if (userPrimordialImprint != null)
             {
@@ -519,7 +519,7 @@ public class PrimordialImprintController : MonoBehaviour
             {
                 int requested = (int)quantitySlider.value;
 
-                if (popupCurrentLevel >= hisnMaxLevel)
+                if (popupCurrentLevel >= primordialImprintMaxLevel)
                 {
                     var backgroundImage = confirmButton.transform.Find("Background2")?.GetComponent<RawImage>();
                     if (backgroundImage != null)
@@ -573,7 +573,7 @@ public class PrimordialImprintController : MonoBehaviour
                 if (displayGained > 0 && userPrimordialImprint != null)
                 {
                     UserPrimordialImprints previewPrimordialImprint = userPrimordialImprint.CloneUserPrimordialImprint(userPrimordialImprint);
-                    EnhanceHelper.EnhancePrimordialImprints(previewPrimordialImprint, displayGained, hisn.BaseMultiplier);
+                    EnhanceHelper.EnhancePrimordialImprints(previewPrimordialImprint, displayGained, primordialImprint.BaseMultiplier);
                     StatsManager.Instance.CreateStatsManager(previewPrimordialImprint, nextStatsContent);
                 }
                 else if (userPrimordialImprint != null)
@@ -695,24 +695,27 @@ public class PrimordialImprintController : MonoBehaviour
                 if (isPreviewSelected)
                 {
                     SetPreviewNotification(MessageConstants.CANNOT_CONFIRM_IN_PREVIEW_MODE, false);
+                    NotificationManager.Instance.ShowErrorNotification(LocalizationManager.Get(MessageConstants.CANNOT_CONFIRM_IN_PREVIEW_MODE));
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
                     return;
                 }
 
-                if (popupCurrentLevel >= hisnMaxLevel)
+                if (popupCurrentLevel >= primordialImprintMaxLevel)
                 {
                     SetPreviewNotification(MessageConstants.UPGRADE_ALREADY_MAX, false);
+                    NotificationManager.Instance.ShowErrorNotification(LocalizationManager.Get(MessageConstants.UPGRADE_ALREADY_MAX));
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
                     return;
                 }
 
                 if ((int)quantitySlider.value <= 0)
                 {
+                    SetPreviewNotification(MessageConstants.INVALID_UPGRADE_QUANTITY, false); // Hoặc constant message tương ứng của bạn
+                    NotificationManager.Instance.ShowErrorNotification(LocalizationManager.Get(MessageConstants.INVALID_UPGRADE_QUANTITY));
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
                     return;
                 }
 
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.LEVEL_UP_SOUND);
                 confirmButton.interactable = false;
                 closeButton.interactable = false;
 
@@ -722,42 +725,90 @@ public class PrimordialImprintController : MonoBehaviour
                 if (calcResult.GainedLevels <= 0)
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.ALERT_SOUND);
+                    NotificationManager.Instance.ShowErrorNotification(LocalizationManager.Get(MessageConstants.NOT_ENOUGH_MATERIALS));
                     confirmButton.interactable = true;
                     closeButton.interactable = true;
                     return;
                 }
 
-                userPrimordialImprint = EnhanceHelper.EnhancePrimordialImprints(userPrimordialImprint, calcResult.GainedLevels, hisn.BaseMultiplier);
+                UserPrimordialImprints updatedPrimordialImprint = userPrimordialImprint.CloneUserPrimordialImprint(userPrimordialImprint);
+                EnhanceHelper.EnhancePrimordialImprints(updatedPrimordialImprint, calcResult.GainedLevels, primordialImprint.BaseMultiplier);
 
                 var insertOrUpdateResult = await UserPrimordialImprintsService.Create().InsertOrUpdateUserPrimordialImprintsAsync(
                     User.CurrentUserId,
-                    userPrimordialImprint,
+                    updatedPrimordialImprint,
                     featureId,
                     calcResult.TotalDeductions
                 );
 
-                if (insertOrUpdateResult.Data && insertOrUpdateResult.IsChangePower
-                    && (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated || insertOrUpdateResult.OperationType == DatabaseOperationType.Inserted))
+                // 3 biến điều kiện trả về
+                bool isUpgradeSuccess = insertOrUpdateResult != null
+                                        && insertOrUpdateResult.Data
+                                        && (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated || insertOrUpdateResult.OperationType == DatabaseOperationType.Inserted);
+
+                bool isUpgradeNoChange = insertOrUpdateResult != null
+                                         && insertOrUpdateResult.Data
+                                         && insertOrUpdateResult.OperationType == DatabaseOperationType.None;
+
+                bool isUpgradeFailed = insertOrUpdateResult == null || !insertOrUpdateResult.Data;
+
+                // 1. Thành công -> Show notification, đóng popup, refresh và return luôn
+                if (isUpgradeSuccess)
                 {
-                    // 1. Gọi helper xử lý ngầm toàn bộ logic dữ liệu & DB
-                    PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
-                        AppConstants.Power.PRIMORDIAL_IMPRINT,
-                        PowerHelper.GetSumUserPrimordialImprintPowersAsync
-                    );
+                    userPrimordialImprint = updatedPrimordialImprint;
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.LEVEL_UP_SOUND);
 
-                    // 2. Tầng UI tự lo việc hiển thị hiệu ứng dựa trên kết quả nhận được
-                    if (result.HasChanged)
+                    if (insertOrUpdateResult.IsChangePower)
                     {
-                        double diff = result.Difference;
-                        int status = diff > 0 ? 1 : (diff < 0 ? -1 : 0);
-                        double deltaPower = Math.Abs(diff);
+                        PowerResultDTO result = await PowerHelper.RefreshAndSyncTotalPowerAsync(
+                            AppConstants.Power.PRIMORDIAL_IMPRINT,
+                            PowerHelper.GetSumUserPrimordialImprintPowersAsync
+                        );
 
-                        PowerController.Instance.ShowPower(result.CurrentPower, deltaPower, status);
+                        if (result.HasChanged)
+                        {
+                            double diff = result.Difference;
+                            int status = diff > 0 ? 1 : (diff < 0 ? -1 : 0);
+                            double deltaPower = Math.Abs(diff);
+
+                            PowerController.Instance.ShowPower(result.CurrentPower, deltaPower, status);
+                        }
                     }
+
+                    NotificationManager.Instance.ShowSuccessNotification(LocalizationManager.Get(MessageConstants.UPGRADED_SUCCESSFULLY));
+                    Destroy(gameObject);
+                    await RefreshPanelAsync();
+                    return;
                 }
 
-                Destroy(gameObject);
-                await RefreshPanelAsync();
+                // 2. Không có thay đổi -> Show notification, mở lại nút và return luôn
+                if (isUpgradeNoChange)
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ALERT_SOUND);
+                    string noChangeMsg = LocalizationManager.Get(MessageConstants.UPGRADE_ALREADY_MAX);
+                    SetPreviewNotification(MessageConstants.UPGRADE_ALREADY_MAX, false);
+                    NotificationManager.Instance.ShowWarningNotification(noChangeMsg);
+
+                    confirmButton.interactable = true;
+                    closeButton.interactable = true;
+                    return;
+                }
+
+                // 3. Thất bại / Lỗi -> Show notification, mở lại nút và return luôn
+                if (isUpgradeFailed)
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+                    string errorMsg = !string.IsNullOrEmpty(insertOrUpdateResult?.Message)
+                        ? insertOrUpdateResult.Message
+                        : LocalizationManager.Get(MessageConstants.NOT_ENOUGH_MATERIALS);
+
+                    SetPreviewNotification(errorMsg, false);
+                    NotificationManager.Instance.ShowErrorNotification(errorMsg);
+
+                    confirmButton.interactable = true;
+                    closeButton.interactable = true;
+                    return;
+                }
             });
 
             closeButton.onClick.AddListener(() =>

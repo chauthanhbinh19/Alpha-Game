@@ -72,6 +72,7 @@ public class SignInHandler
             {
                 PlayClickSound();
                 await OnSignInClick();
+                NotificationManager.Instance.ShowSuccessNotification(MessageConstants.SIGN_IN_SUCCESSFULLY);
             });
         }
 
@@ -86,6 +87,7 @@ public class SignInHandler
                 PlayClickSound();
                 Close();
                 AuthenticationManager.Instance.OpenSignUpPanel();
+                // NotificationManager.Instance.ShowSuccessNotification(MessageConstants.SIGN_UP_SUCCESSFULLY);
             });
         }
 

@@ -554,6 +554,7 @@ public class LevelController : MonoBehaviour
             stat.Level = calcResult.TargetLevel;
 
             await ExecuteServiceInsertAsync(stat, calcResult.TotalDeductions);
+            NotificationManager.Instance.ShowSuccessNotification(MessageConstants.UPGRADED_SUCCESSFULLY);
 
             Destroy(gameObject);
             await RefreshPanelAsync(stat);
