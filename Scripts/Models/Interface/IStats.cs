@@ -9,6 +9,8 @@ public interface IStats
     public int CurrentStar { get; set; }
     public int Level { get; set; }
     public double Experience { get; set; }
+    public int AffinityLevel { get; set; }
+    public double AffinityExperience { get; set; }
     public double Quality { get; set; }
     public int Quantity { get; set; }
     public double Power { get; set; }

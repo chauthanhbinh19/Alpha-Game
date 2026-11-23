@@ -21,6 +21,7 @@ public interface IUserCardSpellsService
     Task<InsertOrUpdateResult<bool>> UpdateUserCardSpellLevelAsync(string userId, CardSpells cardSpell, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardSpellStarAsync(string userId, CardSpells cardSpell);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardSpellQuantityAsync(string userId, CardSpells cardSpell, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserCardSpellAffinityAsync(string userId, CardSpells cardSpell, List<RecipeItemDetailDTO> totalDeductions);
     Task<CardSpells> GetUserCardSpellByIdAsync(string userId, string Id);
     Task<BaseStats> GetTeamTotalStatsAsync(string userId);
 }

@@ -200,7 +200,7 @@ public class MainMenuManager : MonoBehaviour
         CreateMainMenuButtonUI(27, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_23_WORLD, TextureHelper.LoadTexture2DCached(ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_23_WORLD_URL), playTransform);
         CreateMainMenuButtonUI(28, AppDisplayConstants.Title.Play.ALLITERIA_PATH_NUMBER_24_WORLD, TextureHelper.LoadTexture2DCached(ImageConstants.Campaign.ALLITERIA_PATH_NUMBER_24_WORLD_URL), playTransform);
 
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", playTransform, async () =>
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", playTransform, () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
@@ -250,7 +250,7 @@ public class MainMenuManager : MonoBehaviour
             });
             await ArenaManager.Instance.CreateArenaButtonAsync(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
         });
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", playTransform, async () =>
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", playTransform, () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             GameObject popupButtonPanel = Instantiate(PopupButtonPanelPrefab, MainPanel);

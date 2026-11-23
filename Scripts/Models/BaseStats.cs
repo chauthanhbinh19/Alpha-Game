@@ -11,6 +11,8 @@ public class BaseStats : IStats
     public int CurrentStar { get; set; } = 0;
     public int Level { get; set; } = 0;
     public double Experience { get; set; } = 0;
+    public int AffinityLevel { get; set; } = 0;
+    public double AffinityExperience { get; set; } = 0;
     public double Quality { get; set; } = 0;
     public int Quantity { get; set; } = 0;
     public double Power { get; set; } = 0;

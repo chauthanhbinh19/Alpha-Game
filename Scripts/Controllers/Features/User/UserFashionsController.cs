@@ -250,7 +250,7 @@ public class UserFashionsController : MonoBehaviour
 
         Button equipmentButton = transform.Find("DictionaryCards/DetailsPanel/Group5/Equipment").GetComponent<Button>();
         equipmentButton.gameObject.SetActive(false);
-        equipmentButton.onClick.AddListener(async () =>
+        equipmentButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
         });

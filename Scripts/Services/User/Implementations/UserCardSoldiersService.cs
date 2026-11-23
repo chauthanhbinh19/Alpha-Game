@@ -372,13 +372,7 @@ public class UserCardSoldiersService : IUserCardSoldiersService
         {
             item.BaseStats = new BaseStats(item);
         }
-        // result = await GetAllSpiritBeastPowerAsync(userId, result);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        // result = StatsHelper.GetAllEquipmentPower(result, equipments);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         foreach (var card in result)
         {
             if (card == null) continue; // Phòng hờ phần tử trong result bị null
@@ -409,13 +403,7 @@ public class UserCardSoldiersService : IUserCardSoldiersService
         TotalBuffs totalBuffs = new TotalBuffs();
         totalBuffs.AddBuff(User.UserPower);
 
-        // result = await GetAllSpiritBeastPowerAsync(userId, result);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        // result = StatsHelper.GetAllEquipmentPower(result, equipments);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         foreach (var card in result)
         {
             if (card == null) continue; // Phòng hờ phần tử trong result bị null
@@ -446,16 +434,7 @@ public class UserCardSoldiersService : IUserCardSoldiersService
         TotalBuffs totalBuffs = new TotalBuffs();
         totalBuffs.AddBuff(User.UserPower);
 
-        // result = await GetAllSpiritBeastPowerAsync(userId, result);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        // result = await GetAllEquipmentPowerAsync(userId, result);
-        // result = await GetAllRankPowerAsync(userId, result);
-        // result = await GetAllMasterPowerAsync(userId, result);
-        // result = await GetSkillsAsync(userId, result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         foreach (var card in result)
         {
             if (card == null) continue; // Phòng hờ phần tử trong result bị null
@@ -486,13 +465,7 @@ public class UserCardSoldiersService : IUserCardSoldiersService
         TotalBuffs totalBuffs = new TotalBuffs();
         totalBuffs.AddBuff(User.UserPower);
 
-        // result = await GetAllSpiritBeastPowerAsync(userId, result);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        // result = StatsHelper.GetAllEquipmentPower(result, equipments);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         foreach (var card in result)
         {
             if (card == null) continue; // Phòng hờ phần tử trong result bị null
@@ -718,6 +691,42 @@ public class UserCardSoldiersService : IUserCardSoldiersService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardSoldierAffinityAsync(string userId, CardSoldiers cardSoldier, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var checkCardSoldierResult = await _cardSoldiersService.IsCardSoldierDeletedOrInactiveAsync(cardSoldier.Id);
+        if (checkCardSoldierResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userCardSoldiersRepository.UpdateUserCardSoldierAffinityAsync(userId, cardSoldier, totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<CardSoldiers> GetUserCardSoldierByIdAsync(string userId, string Id)
     {
         CardSoldiers cardAdmiral = await _userCardSoldiersRepository.GetUserCardSoldierByIdAsync(userId, Id);
@@ -765,13 +774,7 @@ public class UserCardSoldiersService : IUserCardSoldiersService
         {
             item.BaseStats = new BaseStats(item);
         }
-        // result = await GetAllSpiritBeastPowerAsync(userId, result);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        result = StatsHelper.GetAllEquipmentPower(result, equipments);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         foreach (var card in result)
         {
             if (card == null) continue; // Phòng hờ phần tử trong result bị null

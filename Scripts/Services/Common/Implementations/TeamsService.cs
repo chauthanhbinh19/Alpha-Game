@@ -83,11 +83,7 @@ public class TeamsService : ITeamsService
     {
         if (cards == null || cards.Count == 0) return cards;
 
-        cards = QualityEvaluatorHelper.GetQualityPower(cards);
-        cards = LevelEvaluatorHelper.GetLevelPower(cards);
-        cards = StarEvaluatorHelper.GetStarPower(cards);
-        cards = ModuleEvaluatorHelper.GetModulePower(cards);
-        cards = UpgradeEvaluatorHelper.GetUpgradePower(cards);
+        cards = PowerEvaluatorHelper.EvaluatePower(cards);
 
         foreach (var card in cards)
         {
@@ -150,12 +146,7 @@ public class TeamsService : ITeamsService
         // totalBuffs.AddBuff(context.HisnData);
         // totalBuffs.AddBuff(context.AnimeStatsData);
 
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        // result = StatsHelper.GetAllEquipmentPower(result, equipments);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
 
         foreach (var card in result)
         {

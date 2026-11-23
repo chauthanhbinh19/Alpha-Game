@@ -6,8 +6,6 @@ public class CardHeroes : BaseEntity, IPowerSortable, ICard, IStats
     public string Id { get; set; }
     public string Name { get; set; }
     public string Image { get; set; }
-    public int AffinityLevel { get; set; } = 0;
-    public double AffinityExperience { get; set; } = 0;
     
     public double Quality { get; set; }
     public string Type { get; set; }

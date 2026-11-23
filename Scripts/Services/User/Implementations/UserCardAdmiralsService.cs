@@ -374,13 +374,7 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
             item.BaseStats = new BaseStats(item);
         }
 
-        // result = await GetAllSpiritBeastPowerAsync(userId, result);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        // result = StatsHelper.GetAllEquipmentPower(result, equipments);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         foreach (var card in result)
         {
             if (card == null) continue; // Phòng hờ phần tử trong result bị null
@@ -411,13 +405,7 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         TotalBuffs totalBuffs = new TotalBuffs();
         totalBuffs.AddBuff(User.UserPower);
 
-        // result = await GetAllSpiritBeastPowerAsync(userId, result);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        // result = StatsHelper.GetAllEquipmentPower(result, equipments);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         foreach (var card in result)
         {
             if (card == null) continue; // Phòng hờ phần tử trong result bị null
@@ -448,13 +436,7 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         TotalBuffs totalBuffs = new TotalBuffs();
         totalBuffs.AddBuff(User.UserPower);
 
-        // result = await GetAllSpiritBeastPowerAsync(userId, result);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        // result = StatsHelper.GetAllEquipmentPower(result, equipments);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         foreach (var card in result)
         {
             if (card == null) continue; // Phòng hờ phần tử trong result bị null
@@ -485,13 +467,7 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         TotalBuffs totalBuffs = new TotalBuffs();
         totalBuffs.AddBuff(User.UserPower);
 
-        // result = await GetAllSpiritBeastPowerAsync(userId, result);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        // result = StatsHelper.GetAllEquipmentPower(result, equipments);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         foreach (var card in result)
         {
             if (card == null) continue; // Phòng hờ phần tử trong result bị null
@@ -715,6 +691,42 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardAdmiralAffinityAsync(string userId, CardAdmirals cardAdmiral, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var checkCardAdmiralResult = await _cardAdmiralsService.IsCardAdmiralDeletedOrInactiveAsync(cardAdmiral.Id);
+        if (checkCardAdmiralResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userCardAdmiralsRepository.UpdateUserCardAdmiralAffinityAsync(userId, cardAdmiral, totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<CardAdmirals> GetUserCardAdmiralByIdAsync(string userId, string Id)
     {
         CardAdmirals cardAdmiral = await _userCardAdmiralsRepository.GetUserCardAdmiralByIdAsync(userId, Id);
@@ -762,13 +774,7 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         {
             item.BaseStats = new BaseStats(item);
         }
-        // result = await GetAllSpiritBeastPowerAsync(userId, result);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        result = StatsHelper.GetAllEquipmentPower(result, equipments);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         foreach (var card in result)
         {
             if (card == null) continue; // Phòng hờ phần tử trong result bị null

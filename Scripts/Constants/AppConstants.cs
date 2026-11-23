@@ -2331,6 +2331,65 @@ public static class AppConstants
             public const string UPGRADE_OUTFITS_STAR = "upgrade_outfits_star_feature";
         }
     }
+    public static class Affinity
+    {
+        public static class CodeName
+        {
+            // ========================================================
+            // UPGRADE STAR FEATURES (UPGSF1 -> UPGSF50)
+            // ========================================================
+            public const string UPGRADE_USERS_AFFINITY = "upgrade_users_affinity_feature";
+            public const string UPGRADE_ACHIEVEMENTS_AFFINITY = "upgrade_achievements_affinity_feature";
+            public const string UPGRADE_CARD_HEROES_AFFINITY = "upgrade_card_heroes_affinity_feature";
+            public const string UPGRADE_BOOKS_AFFINITY = "upgrade_books_affinity_feature";
+            public const string UPGRADE_PETS_AFFINITY = "upgrade_pets_affinity_feature";
+            public const string UPGRADE_CARD_CAPTAINS_AFFINITY = "upgrade_card_captains_affinity_feature";
+            public const string UPGRADE_COLLABORATION_EQUIPMENTS_AFFINITY = "upgrade_collaboration_equipments_affinity_feature";
+            public const string UPGRADE_CARD_MILITARIES_AFFINITY = "upgrade_card_militaries_affinity_feature";
+            public const string UPGRADE_CARD_SPELLS_AFFINITY = "upgrade_card_spells_affinity_feature";
+            public const string UPGRADE_COLLABORATIONS_AFFINITY = "upgrade_collaborations_affinity_feature";
+            public const string UPGRADE_CARD_MONSTERS_AFFINITY = "upgrade_card_monsters_affinity_feature";
+            public const string UPGRADE_EQUIPMENTS_AFFINITY = "upgrade_equipments_affinity_feature";
+            public const string UPGRADE_MEDALS_AFFINITY = "upgrade_medals_affinity_feature";
+            public const string UPGRADE_SKILLS_AFFINITY = "upgrade_skills_affinity_feature";
+            public const string UPGRADE_SYMBOLS_AFFINITY = "upgrade_symbols_affinity_feature";
+            public const string UPGRADE_TITLES_AFFINITY = "upgrade_titles_affinity_feature";
+            public const string UPGRADE_MAGIC_FORMATION_CIRCLES_AFFINITY = "upgrade_magic_formation_circles_affinity_feature";
+            public const string UPGRADE_RELICS_AFFINITY = "upgrade_relics_affinity_feature";
+            public const string UPGRADE_CARD_COLONELS_AFFINITY = "upgrade_card_colonels_affinity_feature";
+            public const string UPGRADE_CARD_GENERALS_AFFINITY = "upgrade_card_generals_affinity_feature";
+            public const string UPGRADE_CARD_ADMIRALS_AFFINITY = "upgrade_card_admirals_affinity_feature";
+            public const string UPGRADE_CARD_SOLDIERS_AFFINITY = "upgrade_card_soldiers_affinity_feature";
+            public const string UPGRADE_BORDERS_AFFINITY = "upgrade_borders_affinity_feature";
+            public const string UPGRADE_TALISMANS_AFFINITY = "upgrade_talismans_affinity_feature";
+            public const string UPGRADE_PUPPETS_AFFINITY = "upgrade_puppets_affinity_feature";
+            public const string UPGRADE_ALCHEMIES_AFFINITY = "upgrade_alchemies_affinity_feature";
+            public const string UPGRADE_FORGES_AFFINITY = "upgrade_forges_affinity_feature";
+            public const string UPGRADE_CARD_LIVES_AFFINITY = "upgrade_card_lives_affinity_feature";
+            public const string UPGRADE_ARTWORKS_AFFINITY = "upgrade_artworks_affinity_feature";
+            public const string UPGRADE_SPIRIT_BEASTS_AFFINITY = "upgrade_spirit_beasts_affinity_feature";
+            public const string UPGRADE_AVATARS_AFFINITY = "upgrade_avatars_affinity_feature";
+            public const string UPGRADE_SPIRIT_CARDS_AFFINITY = "upgrade_spirit_cards_affinity_feature";
+            public const string UPGRADE_ARTIFACTS_AFFINITY = "upgrade_artifacts_affinity_feature";
+            public const string UPGRADE_ARCHITECTURES_AFFINITY = "upgrade_architectures_affinity_feature";
+            public const string UPGRADE_TECHNOLOGIES_AFFINITY = "upgrade_technologies_affinity_feature";
+            public const string UPGRADE_VEHICLES_AFFINITY = "upgrade_vehicles_affinity_feature";
+            public const string UPGRADE_CORES_AFFINITY = "upgrade_cores_affinity_feature";
+            public const string UPGRADE_WEAPONS_AFFINITY = "upgrade_weapons_affinity_feature";
+            public const string UPGRADE_ROBOTS_AFFINITY = "upgrade_robots_affinity_feature";
+            public const string UPGRADE_BADGES_AFFINITY = "upgrade_badges_affinity_feature";
+            public const string UPGRADE_MECHA_BEASTS_AFFINITY = "upgrade_mecha_beasts_affinity_feature";
+            public const string UPGRADE_RUNES_AFFINITY = "upgrade_runes_affinity_feature";
+            public const string UPGRADE_FURNITURES_AFFINITY = "upgrade_furnitures_affinity_feature";
+            public const string UPGRADE_FOODS_AFFINITY = "upgrade_foods_affinity_feature";
+            public const string UPGRADE_BEVERAGES_AFFINITY = "upgrade_beverages_affinity_feature";
+            public const string UPGRADE_BUILDINGS_AFFINITY = "upgrade_buildings_affinity_feature";
+            public const string UPGRADE_PLANTS_AFFINITY = "upgrade_plants_affinity_feature";
+            public const string UPGRADE_FASHIONS_AFFINITY = "upgrade_fashions_affinity_feature";
+            public const string UPGRADE_EMOJIS_AFFINITY = "upgrade_emojis_affinity_feature";
+            public const string UPGRADE_OUTFITS_AFFINITY = "upgrade_outfits_affinity_feature";
+        }
+    }
     public static class Anime
     {
         public const string ONE_PIECE = "One Piece";

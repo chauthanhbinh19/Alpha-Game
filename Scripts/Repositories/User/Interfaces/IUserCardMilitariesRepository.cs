@@ -19,6 +19,7 @@ public interface IUserCardMilitariesRepository
     Task<InsertOrUpdateResult<bool>> UpdateUserCardMilitaryLevelAsync(string userId, CardMilitaries cardMilitary, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardMilitaryStarAsync(string userId, CardMilitaries cardMilitary);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardMilitaryQuantityAsync(string userId, CardMilitaries cardMilitary, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserCardMilitaryAffinityAsync(string userId, CardMilitaries cardMilitary, List<RecipeItemDetailDTO> totalDeductions);
     Task<CardMilitaries> GetUserCardMilitaryByIdAsync(string userId, string Id);
     Task<List<string>> GetTeamIdsAsync(string userId);
     Task<BaseStats> GetTeamTotalStatsAsync(string userId);

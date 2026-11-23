@@ -20,6 +20,7 @@ public interface IUserCardHeroesService
     Task<InsertOrUpdateResult<bool>> UpdateUserCardHeroLevelAsync(string userId, CardHeroes cardHero, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardHeroStarAsync(string userId, CardHeroes cardHero);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardHeroQuantityAsync(string userId, CardHeroes cardHero, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserCardHeroAffinityAsync(string userId, CardHeroes cardHero, List<RecipeItemDetailDTO> totalDeductions);
     Task<CardHeroes> GetUserCardHeroByIdAsync(string userId, string Id);
     Task<BaseStats> GetTeamTotalStatsAsync(string userId);
 }

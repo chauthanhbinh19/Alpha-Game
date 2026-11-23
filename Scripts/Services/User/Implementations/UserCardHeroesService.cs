@@ -210,12 +210,7 @@ public class UserCardHeroesService : IUserCardHeroesService
             item.BaseStats = new BaseStats(item);
         }
 
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        // result = StatsHelper.GetAllEquipmentPower(result, equipments);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
 
         foreach (var card in result)
         {
@@ -247,12 +242,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         TotalBuffs totalBuffs = new TotalBuffs();
         totalBuffs.AddBuff(User.UserPower);
 
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        // result = StatsHelper.GetAllEquipmentPower(result, equipments);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
 
         foreach (var card in result)
         {
@@ -284,12 +274,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         TotalBuffs totalBuffs = new TotalBuffs();
         totalBuffs.AddBuff(User.UserPower);
 
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        // result = StatsHelper.GetAllEquipmentPower(result, equipments);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
 
         foreach (var card in result)
         {
@@ -321,12 +306,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         TotalBuffs totalBuffs = new TotalBuffs();
         totalBuffs.AddBuff(User.UserPower);
 
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        // result = StatsHelper.GetAllEquipmentPower(result, equipments);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
 
         foreach (var card in result)
         {
@@ -541,6 +521,42 @@ public class UserCardHeroesService : IUserCardHeroesService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardHeroAffinityAsync(string userId, CardHeroes cardHero, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var checkCardHeroResult = await _cardHeroesService.IsCardHeroDeletedOrInactiveAsync(cardHero.Id);
+        if (checkCardHeroResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userCardHeroesRepository.UpdateUserCardHeroAffinityAsync(userId, cardHero, totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<InsertOrUpdateResult<bool>> UpdateTeamUserCardHeroAsync(string userId, string teamId, string position, string cardId)
     {
         await _userCardHeroesRepository.UpdateTeamUserCardHeroAsync(userId, teamId, position, cardId);
@@ -586,12 +602,7 @@ public class UserCardHeroesService : IUserCardHeroesService
             item.BaseStats = new BaseStats(item);
         }
 
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        result = StatsHelper.GetAllEquipmentPower(result, equipments);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
 
         foreach (var card in result)
         {

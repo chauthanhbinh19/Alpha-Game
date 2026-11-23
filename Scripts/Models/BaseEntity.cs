@@ -10,7 +10,9 @@ public abstract class BaseEntity: FullAuditedEntity
     public string Rarity { get; set; }
     public int Star { get; set; } = 0;
     public int Level { get; set; } = 0;
-    public double Experience { get; set; }
+    public double Experience { get; set; } = 0;
+    public int AffinityLevel { get; set; } = 0;
+    public double AffinityExperience { get; set; } = 0;
     public double Power { get; set; } = 0;
     public double Health { get; set; } = 0;
     public double PhysicalAttack { get; set; } = 0;

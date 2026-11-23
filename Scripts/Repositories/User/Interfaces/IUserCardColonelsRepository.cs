@@ -19,6 +19,7 @@ public interface IUserCardColonelsRepository
     Task<InsertOrUpdateResult<bool>> UpdateUserCardColonelLevelAsync(string userId, CardColonels cardColonel, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardColonelStarAsync(string userId, CardColonels cardColonel);
     Task<InsertOrUpdateResult<bool>> UpdateUserCardColonelQuantityAsync(string userId, CardColonels cardColonel, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserCardColonelAffinityAsync(string userId, CardColonels cardColonel, List<RecipeItemDetailDTO> totalDeductions);
     Task<CardColonels> GetUserCardColonelByIdAsync(string userId, string Id);
     Task<List<string>> GetTeamIdsAsync(string userId);
     Task<BaseStats> GetTeamTotalStatsAsync(string userId);

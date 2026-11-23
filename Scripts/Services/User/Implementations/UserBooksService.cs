@@ -313,15 +313,7 @@ public class UserBooksService : IUserBooksService
             item.BaseStats = new BaseStats(item);
         }
 
-        // result = await GetAllSpiritBeastPowerAsync(userId, result);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        // result = await GetAllEquipmentPowerAsync(userId, result);
-        // result = await GetAllRankPowerAsync(userId, result);
-        // result = await GetAllMasterPowerAsync(userId, result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         foreach (var book in result)
         {
             // book.ApplyPowerStats(powerManagerData);
@@ -388,15 +380,7 @@ public class UserBooksService : IUserBooksService
         // var hisnData = await hisnTask;
         // var animeStatsData = await animeStatsTask;
 
-        // result = await GetAllSpiritBeastPowerAsync(userId, result);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
-        // result = await GetAllEquipmentPowerAsync(userId, result);
-        // result = await GetAllRankPowerAsync(userId, result);
-        // result = await GetAllMasterPowerAsync(userId, result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         foreach (var book in result)
         {
             // book.ApplyPowerStats(powerManagerData);
@@ -626,11 +610,7 @@ public class UserBooksService : IUserBooksService
 
         result.BaseStats = new BaseStats(result);
 
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
 
         return result;
     }

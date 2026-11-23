@@ -28,11 +28,7 @@ public class UserRobotsService : IUserRobotsService
             item.BaseStats = new BaseStats(item);
         }
 
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         ListSortHelper.SortByPower(result);
         return result;
     }
@@ -221,11 +217,7 @@ public class UserRobotsService : IUserRobotsService
 
         result.BaseStats = new BaseStats(result);
 
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
 
         return result;
     }

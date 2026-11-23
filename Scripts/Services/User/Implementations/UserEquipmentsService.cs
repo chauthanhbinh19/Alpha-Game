@@ -92,11 +92,7 @@ public class UserEquipmentsService : IUserEquipmentsService
             item.BaseStats = new BaseStats(item);
         }
 
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         ListSortHelper.SortByPower(result);
         return result;
     }
@@ -110,11 +106,7 @@ public class UserEquipmentsService : IUserEquipmentsService
             item.BaseStats = new BaseStats(item);
         }
 
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         ListSortHelper.SortByPower(result);
         return result;
     }
@@ -130,11 +122,7 @@ public class UserEquipmentsService : IUserEquipmentsService
 
         result.BaseStats = new BaseStats(result);
 
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
 
         return result;
     }
@@ -372,242 +360,154 @@ public class UserEquipmentsService : IUserEquipmentsService
     public async Task<List<Equipments>> GetUserCardHeroesEquipmentsAsync(string userId, List<string> cardIdList, string type)
     {
         List<Equipments> result = await _userEquipmentsRepository.GetUserCardHeroesEquipmentsAsync(userId, cardIdList, type);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         return result;
     }
 
     public async Task<List<Equipments>> GetUserCardCaptainsEquipmentsAsync(string userId, List<string> cardIdList, string type)
     {
         List<Equipments> result = await _userEquipmentsRepository.GetUserCardCaptainsEquipmentsAsync(userId, cardIdList, type);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         return result;
     }
 
     public async Task<List<Equipments>> GetUserCardColonelsEquipmentsAsync(string userId, List<string> cardIdList, string type)
     {
         List<Equipments> result = await _userEquipmentsRepository.GetUserCardColonelsEquipmentsAsync(userId, cardIdList, type);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         return result;
     }
 
     public async Task<List<Equipments>> GetUserCardGeneralsEquipmentsAsync(string userId, List<string> cardIdList, string type)
     {
         List<Equipments> result = await _userEquipmentsRepository.GetUserCardGeneralsEquipmentsAsync(userId, cardIdList, type);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         return result;
     }
 
     public async Task<List<Equipments>> GetUserCardAdmiralsEquipmentsAsync(string userId, List<string> cardIdList, string type)
     {
         List<Equipments> result = await _userEquipmentsRepository.GetUserCardAdmiralsEquipmentsAsync(userId, cardIdList, type);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         return result;
     }
 
     public async Task<List<Equipments>> GetUserCardMonstersEquipmentsAsync(string userId, List<string> cardIdList, string type)
     {
         List<Equipments> result = await _userEquipmentsRepository.GetUserCardMonstersEquipmentsAsync(userId, cardIdList, type);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         return result;
     }
 
     public async Task<List<Equipments>> GetUserCardMilitariesEquipmentsAsync(string userId, List<string> cardIdList, string type)
     {
         List<Equipments> result = await _userEquipmentsRepository.GetUserCardMilitariesEquipmentsAsync(userId, cardIdList, type);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         return result;
     }
 
     public async Task<List<Equipments>> GetUserCardSpellsEquipmentsAsync(string userId, List<string> cardIdList, string type)
     {
         List<Equipments> result = await _userEquipmentsRepository.GetUserCardSpellsEquipmentsAsync(userId, cardIdList, type);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         return result;
     }
 
     public async Task<List<Equipments>> GetUserBooksEquipmentsAsync(string userId, List<string> cardIdList, string type)
     {
         List<Equipments> result = await _userEquipmentsRepository.GetUserBooksEquipmentsAsync(userId, cardIdList, type);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         return result;
     }
 
     public async Task<List<Equipments>> GetUserPetsEquipmentsAsync(string userId, List<string> cardIdList, string type)
     {
         List<Equipments> result = await _userEquipmentsRepository.GetUserPetsEquipmentsAsync(userId, cardIdList, type);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         return result;
     }
 
     public async Task<List<Equipments>> GetUserCardSoldiersEquipmentsAsync(string userId, List<string> cardIdList, string type)
     {
         List<Equipments> result = await _userEquipmentsRepository.GetUserCardSoldiersEquipmentsAsync(userId, cardIdList, type);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         return result;
     }
 
     public async Task<List<Equipments>> GetAllUserCardHeroesEquipmentsAsync(string userId, string search, string type, string rare, string set, int limit, int offset, string status)
     {
         List<Equipments> result = await _userEquipmentsRepository.GetAllUserCardHeroesEquipmentsAsync(userId, search, type, rare, set, limit, offset, status);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         return result;
     }
 
     public async Task<List<Equipments>> GetAllUserCardCaptainsEquipmentsAsync(string userId, string search, string type, string rare, string set, int limit, int offset, string status)
     {
         List<Equipments> result = await _userEquipmentsRepository.GetAllUserCardCaptainsEquipmentsAsync(userId, search, type, rare, set, limit, offset, status);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         return result;
     }
 
     public async Task<List<Equipments>> GetAllUserCardColonelsEquipmentsAsync(string userId, string search, string type, string rare, string set, int limit, int offset, string status)
     {
         List<Equipments> result = await _userEquipmentsRepository.GetAllUserCardColonelsEquipmentsAsync(userId, search, type, rare, set, limit, offset, status);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         return result;
     }
 
     public async Task<List<Equipments>> GetAllUserCardGeneralsEquipmentsAsync(string userId, string search, string type, string rare, string set, int limit, int offset, string status)
     {
         List<Equipments> result = await _userEquipmentsRepository.GetAllUserCardGeneralsEquipmentsAsync(userId, search, type, rare, set, limit, offset, status);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         return result;
     }
 
     public async Task<List<Equipments>> GetAllUserCardAdmiralsEquipmentsAsync(string userId, string search, string type, string rare, string set, int limit, int offset, string status)
     {
         List<Equipments> result = await _userEquipmentsRepository.GetAllUserCardAdmiralsEquipmentsAsync(userId, search, type, rare, set, limit, offset, status);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         return result;
     }
 
     public async Task<List<Equipments>> GetAllUserCardMonstersEquipmentsAsync(string userId, string search, string type, string rare, string set, int limit, int offset, string status)
     {
         List<Equipments> result = await _userEquipmentsRepository.GetAllUserCardMonstersEquipmentsAsync(userId, search, type, rare, set, limit, offset, status);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         return result;
     }
 
     public async Task<List<Equipments>> GetAllUserCardMilitariesEquipmentsAsync(string userId, string search, string type, string rare, string set, int limit, int offset, string status)
     {
         List<Equipments> result = await _userEquipmentsRepository.GetAllUserCardMilitariesEquipmentsAsync(userId, search, type, rare, set, limit, offset, status);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         return result;
     }
 
     public async Task<List<Equipments>> GetAllUserCardSpellsEquipmentsAsync(string userId, string search, string type, string rare, string set, int limit, int offset, string status)
     {
         List<Equipments> result = await _userEquipmentsRepository.GetAllUserCardSpellsEquipmentsAsync(userId, search, type, rare, set, limit, offset, status);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         return result;
     }
 
     public async Task<List<Equipments>> GetAllUserBooksEquipmentsAsync(string userId, string search, string type, string rare, string set, int limit, int offset, string status)
     {
         List<Equipments> result = await _userEquipmentsRepository.GetAllUserBooksEquipmentsAsync(userId, search, type, rare, set, limit, offset, status);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         return result;
     }
 
     public async Task<List<Equipments>> GetAllUserPetsEquipmentsAsync(string userId, string search, string type, string rare, string set, int limit, int offset, string status)
     {
         List<Equipments> result = await _userEquipmentsRepository.GetAllUserPetsEquipmentsAsync(userId, search, type, rare, set, limit, offset, status);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         return result;
     }
 
     public async Task<List<Equipments>> GetAllUserCardSoldiersEquipmentsAsync(string userId, string search, string type, string rare, string set, int limit, int offset, string status)
     {
         List<Equipments> result = await _userEquipmentsRepository.GetAllUserCardSoldiersEquipmentsAsync(userId, search, type, rare, set, limit, offset, status);
-        result = QualityEvaluatorHelper.GetQualityPower(result);
-        result = LevelEvaluatorHelper.GetLevelPower(result);
-        result = StarEvaluatorHelper.GetStarPower(result);
-        result = ModuleEvaluatorHelper.GetModulePower(result);
-        result = UpgradeEvaluatorHelper.GetUpgradePower(result);
+        result = PowerEvaluatorHelper.EvaluatePower(result);
         return result;
     }
 

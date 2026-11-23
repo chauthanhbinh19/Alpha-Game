@@ -1172,20 +1172,12 @@ public class UserSkillsRepository : IUserSkillsRepository
                     SELECT 
                         c.*,
                         (
-                            -- Quality: 0 -> 1.0, 1 -> 1.1
-                            (1 + COALESCE(uc.quality, 0) / 10.0) 
-                            
-                            -- Star: 0 -> 1.0, 1 -> 2.0, 2 -> 3.0
-                            * (1 + COALESCE(uc.star, 0)) 
-                            
-                            -- Level: 0 -> 1.0, 10 -> 1.1
-                            * (1 + COALESCE(uc.level, 0) / 100.0) 
-                            
-                            -- Module: 0/NULL -> 1.0
-                            * (1 + COALESCE(ubm.current_multiplier, 0) / 100.0) 
-                            
-                            -- Upgrade: 0/NULL -> 1.0
-                            * (1 + COALESCE(ubu.current_multiplier, 0) / 100.0)
+                            1.0
+                            + COALESCE(uc.quality, 0) / 10.0
+                            + COALESCE(uc.star, 0)
+                            + COALESCE(uc.level, 0) / 100.0
+                            + COALESCE(ubm.current_multiplier, 0) / 100.0
+                            + COALESCE(ubu.current_multiplier, 0) / 100.0
                         ) AS total_multiplier
                     FROM user_skills uc
                     INNER JOIN skills c ON uc.skill_id = c.id
