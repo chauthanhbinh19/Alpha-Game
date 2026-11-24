@@ -214,6 +214,50 @@ public class UserTalismansService : IUserTalismansService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserTalismanAffinityAsync(string userId, Talismans talisman, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (talisman == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Talisman is required.");
+        }
+
+        var checkResult = await _talismansService.IsTalismanDeletedOrInactiveAsync(talisman.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userTalismansRepository.UpdateUserTalismanAffinityAsync(
+            userId,
+            talisman,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<Talismans> GetUserTalismanByIdAsync(string userId, string Id)
     {
         var result = await _userTalismansRepository.GetUserTalismanByIdAsync(userId, Id);

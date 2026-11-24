@@ -10,6 +10,7 @@ public interface IUserMagicFormationCirclesService
     Task<InsertOrUpdateResult<bool>> UpdateUserMagicFormationCircleLevelAsync(string userId, MagicFormationCircles magicFormationCircle, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserMagicFormationCircleStarAsync(string userId, MagicFormationCircles magicFormationCircle);
     Task<InsertOrUpdateResult<bool>> UpdateUserMagicFormationCircleQuantityAsync(string userId, MagicFormationCircles magicFormationCircle, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserMagicFormationCircleAffinityAsync(string userId, MagicFormationCircles magicFormationCircle, List<RecipeItemDetailDTO> totalDeductions);
     Task<MagicFormationCircles> GetUserMagicFormationCircleByIdAsync(string userId, string Id);
     Task<MagicFormationCircles> SumPowerUserMagicFormationCirclesAsync(string userId);
 }

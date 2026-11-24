@@ -10,6 +10,7 @@ public interface IUserCoresService
     Task<InsertOrUpdateResult<bool>> UpdateUserCoreLevelAsync(string userId, Cores core, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserCoreStarAsync(string userId, Cores core);
     Task<InsertOrUpdateResult<bool>> UpdateUserCoreQuantityAsync(string userId, Cores core, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserCoreAffinityAsync(string userId, Cores core, List<RecipeItemDetailDTO> totalDeductions);
     Task<Cores> GetUserCoreByIdAsync(string userId, string Id);
     Task<Cores> SumPowerUserCoresAsync(string userId);
 }

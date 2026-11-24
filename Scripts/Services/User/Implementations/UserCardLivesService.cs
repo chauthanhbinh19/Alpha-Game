@@ -214,6 +214,50 @@ public class UserCardLivesService : IUserCardLivesService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCardLifeAffinityAsync(string userId, CardLives cardLife, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (cardLife == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("CardLive is required.");
+        }
+
+        var checkResult = await _cardLivesService.IsCardLifeDeletedOrInactiveAsync(cardLife.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeAffinityAsync(
+            userId,
+            cardLife,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<CardLives> GetUserCardLifeByIdAsync(string userId, string Id)
     {
         var result = await _userCardLivesRepository.GetUserCardLifeByIdAsync(userId, Id);

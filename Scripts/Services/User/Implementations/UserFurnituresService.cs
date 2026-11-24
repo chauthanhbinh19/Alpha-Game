@@ -214,6 +214,50 @@ public class UserFurnituresService : IUserFurnituresService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserFurnitureAffinityAsync(string userId, Furnitures furniture, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (furniture == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Furniture is required.");
+        }
+
+        var checkResult = await _furnituresService.IsFurnitureDeletedOrInactiveAsync(furniture.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userFurnituresRepository.UpdateUserFurnitureAffinityAsync(
+            userId,
+            furniture,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<Furnitures> GetUserFurnitureByIdAsync(string userId, string Id)
     {
         var result = await _userFurnituresRepository.GetUserFurnitureByIdAsync(userId, Id);

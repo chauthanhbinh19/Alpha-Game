@@ -211,6 +211,50 @@ public class UserRobotsService : IUserRobotsService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserRobotAffinityAsync(string userId, Robots robot, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (robot == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Robot is required.");
+        }
+
+        var checkResult = await _robotsService.IsRobotDeletedOrInactiveAsync(robot.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userRobotsRepository.UpdateUserRobotAffinityAsync(
+            userId,
+            robot,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<Robots> GetUserRobotByIdAsync(string userId, string Id)
     {
         var result = await _userRobotsRepository.GetUserRobotByIdAsync(userId, Id);

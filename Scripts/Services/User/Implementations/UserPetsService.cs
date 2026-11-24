@@ -591,6 +591,50 @@ public class UserPetsService : IUserPetsService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserPetAffinityAsync(string userId, Pets pet, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (pet == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Pet is required.");
+        }
+
+        var checkResult = await _petsService.IsPetDeletedOrInactiveAsync(pet.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userPetsRepository.UpdateUserPetAffinityAsync(
+            userId,
+            pet,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<InsertOrUpdateResult<bool>> UpdateTeamUserPetAsync(string userId, string teamId, string cardId)
     {
         await _userPetsRepository.UpdateTeamUserPetAsync(userId, teamId, cardId);

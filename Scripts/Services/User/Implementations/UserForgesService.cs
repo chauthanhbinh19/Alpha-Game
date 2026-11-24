@@ -214,6 +214,50 @@ public class UserForgesService : IUserForgesService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserForgeAffinityAsync(string userId, Forges forge, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (forge == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Forge is required.");
+        }
+
+        var checkResult = await _forgesService.IsForgeDeletedOrInactiveAsync(forge.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userForgesRepository.UpdateUserForgeAffinityAsync(
+            userId,
+            forge,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<Forges> GetUserForgeByIdAsync(string userId, string Id)
     {
         var result = await _userForgesRepository.GetUserForgeByIdAsync(userId, Id);

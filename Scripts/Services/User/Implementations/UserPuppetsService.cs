@@ -214,6 +214,50 @@ public class UserPuppetsService : IUserPuppetsService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserPuppetAffinityAsync(string userId, Puppets puppet, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (puppet == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Puppet is required.");
+        }
+
+        var checkResult = await _puppetsService.IsPuppetDeletedOrInactiveAsync(puppet.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userPuppetsRepository.UpdateUserPuppetAffinityAsync(
+            userId,
+            puppet,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<Puppets> GetUserPuppetByIdAsync(string userId, string Id)
     {
         var result = await _userPuppetsRepository.GetUserPuppetByIdAsync(userId, Id);

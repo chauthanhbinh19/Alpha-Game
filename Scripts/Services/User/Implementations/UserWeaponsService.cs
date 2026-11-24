@@ -214,6 +214,50 @@ public class UserWeaponsService : IUserWeaponsService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserWeaponAffinityAsync(string userId, Weapons weapon, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (weapon == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Weapon is required.");
+        }
+
+        var checkResult = await _weaponsService.IsWeaponDeletedOrInactiveAsync(weapon.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userWeaponsRepository.UpdateUserWeaponAffinityAsync(
+            userId,
+            weapon,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<Weapons> GetUserWeaponByIdAsync(string userId, string Id)
     {
         var result = await _userWeaponsRepository.GetUserWeaponByIdAsync(userId, Id);

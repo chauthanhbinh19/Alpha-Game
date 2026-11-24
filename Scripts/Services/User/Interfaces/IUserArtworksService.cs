@@ -13,6 +13,7 @@ public interface IUserArtworksService
     Task<InsertOrUpdateResult<bool>> UpdateUserArtworkLevelAsync(string userId, Artworks artwork, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserArtworkStarAsync(string userId, Artworks artwork);
     Task<InsertOrUpdateResult<bool>> UpdateUserArtworkQuantityAsync(string userId, Artworks artwork, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserArtworkAffinityAsync(string userId, Artworks artwork, List<RecipeItemDetailDTO> totalDeductions);
     Task<Artworks> GetUserArtworkByIdAsync(string userId, string Id);
     Task<Artworks> SumPowerUserArtworksAsync(string userId);
 }

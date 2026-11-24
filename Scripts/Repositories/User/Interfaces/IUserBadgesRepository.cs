@@ -10,6 +10,7 @@ public interface IUserBadgesRepository
     Task<InsertOrUpdateResult<bool>> UpdateUserBadgeLevelAsync(string userId, Badges badge, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserBadgeStarAsync(string userId, Badges badge);
     Task<InsertOrUpdateResult<bool>> UpdateUserBadgeQuantityAsync(string userId, Badges badge, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserBadgeAffinityAsync(string userId, Badges badge, List<RecipeItemDetailDTO> totalDeductions);
     Task<Badges> GetUserBadgeByIdAsync(string userId, string Id);
     Task<Badges> SumPowerUserBadgesAsync(string userId);
 }

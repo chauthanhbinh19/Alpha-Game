@@ -214,6 +214,50 @@ public class UserMechaBeastsService : IUserMechaBeastsService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserMechaBeastAffinityAsync(string userId, MechaBeasts mechaBeast, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (mechaBeast == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("MechaBeast is required.");
+        }
+
+        var checkResult = await _mechaBeastsService.IsMechaBeastDeletedOrInactiveAsync(mechaBeast.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userMechaBeastsRepository.UpdateUserMechaBeastAffinityAsync(
+            userId,
+            mechaBeast,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<MechaBeasts> GetUserMechaBeastByIdAsync(string userId, string Id)
     {
         var result = await _userMechaBeastsRepository.GetUserMechaBeastByIdAsync(userId, Id);

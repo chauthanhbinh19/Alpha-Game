@@ -10,6 +10,7 @@ public interface IUserTechnologiesRepository
     Task<InsertOrUpdateResult<bool>> UpdateUserTechnologyLevelAsync(string userId, Technologies technology, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserTechnologyStarAsync(string userId, Technologies technology);
     Task<InsertOrUpdateResult<bool>> UpdateUserTechnologyQuantityAsync(string userId, Technologies technology, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserTechnologyAffinityAsync(string userId, Technologies technology, List<RecipeItemDetailDTO> totalDeductions);
     Task<Technologies> GetUserTechnologyByIdAsync(string userId, string Id);
     Task<Technologies> SumPowerUserTechnologiesAsync(string userId);
 }

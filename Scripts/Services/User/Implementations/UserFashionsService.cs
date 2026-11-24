@@ -214,6 +214,50 @@ public class UserFashionsService : IUserFashionsService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserFashionAffinityAsync(string userId, Fashions fashion, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (fashion == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Fashion is required.");
+        }
+
+        var checkResult = await _fashionsService.IsFashionDeletedOrInactiveAsync(fashion.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userFashionsRepository.UpdateUserFashionAffinityAsync(
+            userId,
+            fashion,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<Fashions> GetUserFashionByIdAsync(string userId, string Id)
     {
         var result = await _userFashionsRepository.GetUserFashionByIdAsync(userId, Id);

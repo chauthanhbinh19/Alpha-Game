@@ -214,6 +214,50 @@ public class UserFoodsService : IUserFoodsService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserFoodAffinityAsync(string userId, Foods food, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (food == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Food is required.");
+        }
+
+        var checkResult = await _foodsService.IsFoodDeletedOrInactiveAsync(food.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userFoodsRepository.UpdateUserFoodAffinityAsync(
+            userId,
+            food,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<Foods> GetUserFoodByIdAsync(string userId, string Id)
     {
         var result = await _userFoodsRepository.GetUserFoodByIdAsync(userId, Id);

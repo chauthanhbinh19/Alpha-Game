@@ -10,6 +10,7 @@ public interface IUserSpiritBeastsService
     Task<InsertOrUpdateResult<bool>> UpdateUserSpiritBeastLevelAsync(string userId, SpiritBeasts spiritBeast, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserSpiritBeastStarAsync(string userId, SpiritBeasts spiritBeast);
     Task<InsertOrUpdateResult<bool>> UpdateUserSpiritBeastQuantityAsync(string userId, SpiritBeasts spiritBeast, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserSpiritBeastAffinityAsync(string userId, SpiritBeasts spiritBeast, List<RecipeItemDetailDTO> totalDeductions);
     Task<SpiritBeasts> GetUserSpiritBeastByIdAsync(string userId, string Id);
     Task<SpiritBeasts> SumPowerUserSpiritBeastsAsync(string userId);
 }

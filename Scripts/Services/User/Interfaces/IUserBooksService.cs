@@ -15,6 +15,7 @@ public interface IUserBooksService
     Task<InsertOrUpdateResult<bool>> UpdateUserBookLevelAsync(string userId, Books book, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserBookStarAsync(string userId, Books book);
     Task<InsertOrUpdateResult<bool>> UpdateUserBookQuantityAsync(string userId, Books book, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserBookAffinityAsync(string userId, Books book, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateTeamUserBookAsync(string userId, string teamId, string position, string bookId);
     Task<Books> GetUserBookByIdAsync(string userId, string Id);
     Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null);

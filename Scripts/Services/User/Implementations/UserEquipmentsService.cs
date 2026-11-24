@@ -297,6 +297,42 @@ public class UserEquipmentsService : IUserEquipmentsService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserEquipmentAffinityAsync(string userId, Equipments equipment, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        var checkEquipmentResult = await _equipmentsService.IsEquipmentDeletedOrInactiveAsync(equipment.Id);
+        if (checkEquipmentResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userEquipmentsRepository.UpdateUserEquipmentAffinityAsync(userId, equipment, totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Inserted,
+            IsChangePower = false,
+            Message = MessageConstants.INSERTED_SUCCESSFULLY
+        };
+    }
+
     public async Task UpdateUserCurrencyAsync(string userId, string Id, double quantity)
     {
         await _userEquipmentsRepository.UpdateUserCurrencyAsync(userId, Id, quantity);

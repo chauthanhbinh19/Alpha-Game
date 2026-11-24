@@ -222,6 +222,50 @@ public class UserSkillsService : IUserSkillsService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserSkillAffinityAsync(string userId, Skills skill, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (skill == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Skill is required.");
+        }
+
+        var checkResult = await _skillsService.IsSkillDeletedOrInactiveAsync(skill.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userSkillsRepository.UpdateUserSkillAffinityAsync(
+            userId,
+            skill,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<Skills> GetUserSkillsByIdAsync(string userId, string Id)
     {
         var result = await _userSkillsRepository.GetUserSkillsByIdAsync(userId, Id);

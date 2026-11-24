@@ -216,6 +216,50 @@ public class UserAchievementsService : IUserAchievementsService
 
         return result;
     }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserAchievementAffinityAsync(string userId, Achievements achievement, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (achievement == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Achievement is required.");
+        }
+
+        var checkResult = await _achievementsService.IsAchievementDeletedOrInactiveAsync(achievement.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userAchievementsRepository.UpdateUserAchievementAffinityAsync(
+            userId,
+            achievement,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
     
     public async Task<Achievements> GetUserAchievementByIdAsync(string userId, string Id)
     {

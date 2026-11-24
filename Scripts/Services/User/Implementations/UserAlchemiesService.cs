@@ -214,6 +214,50 @@ public class UserAlchemiesService : IUserAlchemiesService
 
         return result;
     }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserAlchemyAffinityAsync(string userId, Alchemies alchemy, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (alchemy == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Alchemy is required.");
+        }
+
+        var checkResult = await _alchemiesService.IsAlchemyDeletedOrInactiveAsync(alchemy.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userAlchemiesRepository.UpdateUserAlchemyAffinityAsync(
+            userId,
+            alchemy,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
     
     public async Task<Alchemies> GetUserAlchemyByIdAsync(string userId, string Id)
     {

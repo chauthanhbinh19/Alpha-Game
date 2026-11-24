@@ -10,6 +10,7 @@ public interface IUserFashionsRepository
     Task<InsertOrUpdateResult<bool>> UpdateUserFashionLevelAsync(string userId, Fashions fashion, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserFashionStarAsync(string userId, Fashions fashion);
     Task<InsertOrUpdateResult<bool>> UpdateUserFashionQuantityAsync(string userId, Fashions fashion, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserFashionAffinityAsync(string userId, Fashions fashion, List<RecipeItemDetailDTO> totalDeductions);
     Task<Fashions> GetUserFashionByIdAsync(string userId, string Id);
     Task<Fashions> SumPowerUserFashionsAsync(string userId);
 }

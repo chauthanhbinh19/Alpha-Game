@@ -213,6 +213,50 @@ public class UserBeveragesService : IUserBeveragesService
 
         return result;
     }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserBeverageAffinityAsync(string userId, Beverages beverage, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (beverage == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Beverage is required.");
+        }
+
+        var checkResult = await _beveragesService.IsBeverageDeletedOrInactiveAsync(beverage.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userBeveragesRepository.UpdateUserBeverageAffinityAsync(
+            userId,
+            beverage,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
     
     public async Task<Beverages> GetUserBeverageByIdAsync(string userId, string Id)
     {

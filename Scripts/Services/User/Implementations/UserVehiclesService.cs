@@ -214,6 +214,50 @@ public class UserVehiclesService : IUserVehiclesService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserVehicleAffinityAsync(string userId, Vehicles vehicle, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (vehicle == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Vehicle is required.");
+        }
+
+        var checkResult = await _vehiclesService.IsVehicleDeletedOrInactiveAsync(vehicle.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userVehiclesRepository.UpdateUserVehicleAffinityAsync(
+            userId,
+            vehicle,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<Vehicles> GetUserVehicleByIdAsync(string userId, string Id)
     {
         var result = await _userVehiclesRepository.GetUserVehicleByIdAsync(userId, Id);

@@ -10,6 +10,7 @@ public interface IUserTalismansRepository
     Task<InsertOrUpdateResult<bool>> UpdateUserTalismanLevelAsync(string userId, Talismans talisman, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserTalismanStarAsync(string userId, Talismans talisman);
     Task<InsertOrUpdateResult<bool>> UpdateUserTalismanQuantityAsync(string userId, Talismans talisman, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserTalismanAffinityAsync(string userId, Talismans talisman, List<RecipeItemDetailDTO> totalDeductions);
     Task<Talismans> GetUserTalismanByIdAsync(string userId, string Id);
     Task<Talismans> SumPowerUserTalismansAsync(string userId);
 

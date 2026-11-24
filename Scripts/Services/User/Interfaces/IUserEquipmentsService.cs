@@ -13,6 +13,7 @@ public interface IUserEquipmentsService
     Task<InsertOrUpdateResult<bool>> UpdateUserEquipmentLevelAsync(string userId, Equipments equipment, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserEquipmentStarAsync(string userId, Equipments equipment);
     Task<InsertOrUpdateResult<bool>> UpdateUserEquipmentQuantityAsync(string userId, Equipments equipment, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserEquipmentAffinityAsync(string userId, Equipments equipment, List<RecipeItemDetailDTO> totalDeductions);
     Task UpdateUserCurrencyAsync(string userId, string Id, double amount);
     Task InsertUserCardHeroEquipmentsAsync(string userId, string Id, Equipments equipment, int position);
     Task InsertUserCardCaptainEquipmentsAsync(string userId, string Id, Equipments equipment, int position);

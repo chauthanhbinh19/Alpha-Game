@@ -10,6 +10,7 @@ public interface IUserPlantsService
     Task<InsertOrUpdateResult<bool>> UpdateUserPlantLevelAsync(string userId, Plants plant, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserPlantStarAsync(string userId, Plants plant);
     Task<InsertOrUpdateResult<bool>> UpdateUserPlantQuantityAsync(string userId, Plants plant, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserPlantAffinityAsync(string userId, Plants plant, List<RecipeItemDetailDTO> totalDeductions);
     Task<Plants> GetUserPlantByIdAsync(string userId, string Id);
     Task<Plants> SumPowerUserPlantsAsync(string userId);
 }

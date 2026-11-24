@@ -214,6 +214,50 @@ public class UserSpiritCardsService : IUserSpiritCardsService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserSpiritCardAffinityAsync(string userId, SpiritCards spiritCard, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (spiritCard == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("SpiritCard is required.");
+        }
+
+        var checkResult = await _spiritCardsService.IsSpiritCardDeletedOrInactiveAsync(spiritCard.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userSpiritCardsRepository.UpdateUserSpiritCardAffinityAsync(
+            userId,
+            spiritCard,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<SpiritCards> GetUserSpiritCardByIdAsync(string userId, string Id)
     {
         var result = await _userSpiritCardsRepository.GetUserSpiritCardByIdAsync(userId, Id);

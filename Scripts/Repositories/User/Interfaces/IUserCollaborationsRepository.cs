@@ -10,6 +10,7 @@ public interface IUserCollaborationsRepository
     Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationLevelAsync(string userId, Collaborations collaboration, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationStarAsync(string userId, Collaborations collaboration);
     Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationQuantityAsync(string userId, Collaborations collaboration, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationAffinityAsync(string userId, Collaborations collaboration, List<RecipeItemDetailDTO> totalDeductions);
     Task<Collaborations> GetUserCollaborationByIdAsync(string userId, string Id);
     Task<Collaborations> SumPowerUserCollaborationsAsync(string userId);
 }

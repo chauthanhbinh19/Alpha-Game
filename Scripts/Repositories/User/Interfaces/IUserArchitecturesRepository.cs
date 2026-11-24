@@ -10,6 +10,7 @@ public interface IUserArchitecturesRepository
     Task<InsertOrUpdateResult<bool>> UpdateUserArchitectureLevelAsync(string userId, Architectures architecture, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserArchitectureStarAsync(string userId, Architectures architecture);
     Task<InsertOrUpdateResult<bool>> UpdateUserArchitectureQuantityAsync(string userId, Architectures architecture, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserArchitectureAffinityAsync(string userId, Architectures architecture, List<RecipeItemDetailDTO> totalDeductions);
     Task<Architectures> GetUserArchitectureByIdAsync(string userId, string Id);
     Task<Architectures> SumPowerUserArchitecturesAsync(string userId);
 }

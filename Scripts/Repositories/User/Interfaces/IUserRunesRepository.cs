@@ -10,6 +10,7 @@ public interface IUserRunesRepository
     Task<InsertOrUpdateResult<bool>> UpdateUserRuneLevelAsync(string userId, Runes rune, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserRuneStarAsync(string userId, Runes rune);
     Task<InsertOrUpdateResult<bool>> UpdateUserRuneQuantityAsync(string userId, Runes rune, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserRuneAffinityAsync(string userId, Runes rune, List<RecipeItemDetailDTO> totalDeductions);
     Task<Runes> GetUserRuneByIdAsync(string userId, string Id);
     Task<Runes> SumPowerUserRunesAsync(string userId);
 }

@@ -213,6 +213,50 @@ public class UserArtifactsService : IUserArtifactsService
 
         return result;
     }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserArtifactAffinityAsync(string userId, Artifacts artifact, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (artifact == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Artifact is required.");
+        }
+
+        var checkResult = await _artifactsService.IsArtifactDeletedOrInactiveAsync(artifact.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userArtifactsRepository.UpdateUserArtifactAffinityAsync(
+            userId,
+            artifact,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
     
     public async Task<Artifacts> GetUserArtifactByIdAsync(string userId, string Id)
     {

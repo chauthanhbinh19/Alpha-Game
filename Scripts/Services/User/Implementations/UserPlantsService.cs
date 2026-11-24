@@ -214,6 +214,50 @@ public class UserPlantsService : IUserPlantsService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserPlantAffinityAsync(string userId, Plants plant, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (plant == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Plant is required.");
+        }
+
+        var checkResult = await _plantsService.IsPlantDeletedOrInactiveAsync(plant.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userPlantsRepository.UpdateUserPlantAffinityAsync(
+            userId,
+            plant,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<Plants> GetUserPlantByIdAsync(string userId, string Id)
     {
         var result = await _userPlantsRepository.GetUserPlantByIdAsync(userId, Id);

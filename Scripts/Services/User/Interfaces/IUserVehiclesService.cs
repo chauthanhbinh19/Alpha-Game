@@ -10,6 +10,7 @@ public interface IUserVehiclesService
     Task<InsertOrUpdateResult<bool>> UpdateUserVehicleLevelAsync(string userId, Vehicles vehicle, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserVehicleStarAsync(string userId, Vehicles vehicle);
     Task<InsertOrUpdateResult<bool>> UpdateUserVehicleQuantityAsync(string userId, Vehicles vehicle, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserVehicleAffinityAsync(string userId, Vehicles vehicle, List<RecipeItemDetailDTO> totalDeductions);
     Task<Vehicles> GetUserVehicleByIdAsync(string userId, string Id);
     Task<Vehicles> SumPowerUserVehiclesAsync(string userId);
 }

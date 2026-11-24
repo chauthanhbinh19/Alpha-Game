@@ -214,6 +214,50 @@ public class UserTechnologiesService : IUserTechnologiesService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserTechnologyAffinityAsync(string userId, Technologies technology, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (technology == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Technology is required.");
+        }
+
+        var checkResult = await _technologiesService.IsTechnologyDeletedOrInactiveAsync(technology.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userTechnologiesRepository.UpdateUserTechnologyAffinityAsync(
+            userId,
+            technology,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<Technologies> GetUserTechnologyByIdAsync(string userId, string Id)
     {
         var result = await _userTechnologiesRepository.GetUserTechnologyByIdAsync(userId, Id);

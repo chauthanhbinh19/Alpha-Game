@@ -214,6 +214,50 @@ public class UserRelicsService : IUserRelicsService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserRelicAffinityAsync(string userId, Relics relic, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (relic == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Relic is required.");
+        }
+
+        var checkResult = await _relicsService.IsRelicDeletedOrInactiveAsync(relic.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userRelicsRepository.UpdateUserRelicAffinityAsync(
+            userId,
+            relic,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<Relics> GetUserRelicByIdAsync(string userId, string Id)
     {
         var result = await _userRelicsRepository.GetUserRelicByIdAsync(userId, Id);

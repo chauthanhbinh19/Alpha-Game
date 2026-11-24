@@ -214,6 +214,50 @@ public class UserArtworksService : IUserArtworksService
 
         return result;
     }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserArtworkAffinityAsync(string userId, Artworks artwork, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (artwork == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Artwork is required.");
+        }
+
+        var checkResult = await _artworksService.IsArtworkDeletedOrInactiveAsync(artwork.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userArtworksRepository.UpdateUserArtworkAffinityAsync(
+            userId,
+            artwork,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
     
     public async Task<Artworks> GetUserArtworkByIdAsync(string userId, string Id)
     {

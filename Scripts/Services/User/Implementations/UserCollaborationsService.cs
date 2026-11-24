@@ -214,6 +214,50 @@ public class UserCollaborationsService : IUserCollaborationsService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationAffinityAsync(string userId, Collaborations collaboration, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (collaboration == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Collaboration is required.");
+        }
+
+        var checkResult = await _collaborationsService.IsCollaborationDeletedOrInactiveAsync(collaboration.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userCollaborationsRepository.UpdateUserCollaborationAffinityAsync(
+            userId,
+            collaboration,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<Collaborations> GetUserCollaborationByIdAsync(string userId, string Id)
     {
         var result = await _userCollaborationsRepository.GetUserCollaborationByIdAsync(userId, Id);

@@ -264,6 +264,50 @@ public class UserAvatarsService : IUserAvatarsService
 
         return result;
     }
+
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserAvatarAffinityAsync(string userId, Avatars avatar, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (avatar == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Avatar is required.");
+        }
+
+        var checkResult = await _avatarsService.IsAvatarDeletedOrInactiveAsync(avatar.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userAvatarsRepository.UpdateUserAvatarAffinityAsync(
+            userId,
+            avatar,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
     
     public async Task<Avatars> GetUserAvatarByUsedAsync(string userId)
     {

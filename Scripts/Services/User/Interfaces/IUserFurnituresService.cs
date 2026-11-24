@@ -10,6 +10,7 @@ public interface IUserFurnituresService
     Task<InsertOrUpdateResult<bool>> UpdateUserFurnitureLevelAsync(string userId, Furnitures furniture, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserFurnitureStarAsync(string userId, Furnitures furniture);
     Task<InsertOrUpdateResult<bool>> UpdateUserFurnitureQuantityAsync(string userId, Furnitures furniture, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserFurnitureAffinityAsync(string userId, Furnitures furniture, List<RecipeItemDetailDTO> totalDeductions);
     Task<Furnitures> GetUserFurnitureByIdAsync(string userId, string Id);
     Task<Furnitures> SumPowerUserFurnituresAsync(string userId);
 }

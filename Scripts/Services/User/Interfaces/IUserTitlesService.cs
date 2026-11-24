@@ -10,6 +10,7 @@ public interface IUserTitlesService
     Task<InsertOrUpdateResult<bool>> UpdateUserTitleLevelAsync(string userId, Titles title, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserTitleStarAsync(string userId, Titles title);
     Task<InsertOrUpdateResult<bool>> UpdateUserTitleQuantityAsync(string userId, Titles title, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserTitleAffinityAsync(string userId, Titles title, List<RecipeItemDetailDTO> totalDeductions);
     Task<Titles> GetUserTitleByIdAsync(string userId, string Id);
     Task<Titles> SumPowerUserTitlesAsync(string userId);
 }

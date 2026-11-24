@@ -10,6 +10,7 @@ public interface IUserSkillsRepository
     Task<InsertOrUpdateResult<bool>> UpdateUserSkillLevelAsync(string userId, Skills skill, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserSkillStarAsync(string userId, Skills skill);
     Task<InsertOrUpdateResult<bool>> UpdateUserSkillQuantityAsync(string userId, Skills skill, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserSkillAffinityAsync(string userId, Skills skill, List<RecipeItemDetailDTO> totalDeductions);
     Task<Skills> GetUserSkillsByIdAsync(string userId, string Id);
     Task<Skills> SumPowerUserSkillsAsync(string userId);
     Task<List<Skills>> GetUserCardHeroesSkillsAsync(string userId, string cardId);

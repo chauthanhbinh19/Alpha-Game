@@ -214,6 +214,50 @@ public class UserBuildingsService : IUserBuildingsService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserBuildingAffinityAsync(string userId, Buildings building, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (building == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Building is required.");
+        }
+
+        var checkResult = await _buildingsService.IsBuildingDeletedOrInactiveAsync(building.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userBuildingsRepository.UpdateUserBuildingAffinityAsync(
+            userId,
+            building,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<Buildings> GetUserBuildingByIdAsync(string userId, string Id)
     {
         var result = await _userBuildingsRepository.GetUserBuildingByIdAsync(userId, Id);

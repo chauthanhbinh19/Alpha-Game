@@ -214,6 +214,50 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationEquipmentAffinityAsync(string userId, CollaborationEquipments collaborationEquipment, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (collaborationEquipment == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("CollaborationEquipment is required.");
+        }
+
+        var checkResult = await _collaborationEquipmentsService.IsCollaborationEquipmentDeletedOrInactiveAsync(collaborationEquipment.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userCollaborationEquipmentsRepository.UpdateUserCollaborationEquipmentAffinityAsync(
+            userId,
+            collaborationEquipment,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<CollaborationEquipments> GetUserCollaborationEquipmentByIdAsync(string userId, string Id)
     {
         var result = await _userCollaborationEquipmentsRepository.GetUserCollaborationEquipmentByIdAsync(userId, Id);

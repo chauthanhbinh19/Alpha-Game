@@ -214,6 +214,50 @@ public class UserTitlesService : IUserTitlesService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserTitleAffinityAsync(string userId, Titles title, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (title == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Title is required.");
+        }
+
+        var checkResult = await _titlesService.IsTitleDeletedOrInactiveAsync(title.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userTitlesRepository.UpdateUserTitleAffinityAsync(
+            userId,
+            title,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<Titles> GetUserTitleByIdAsync(string userId, string Id)
     {
         var result = await _userTitlesRepository.GetUserTitleByIdAsync(userId, Id);

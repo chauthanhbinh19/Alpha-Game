@@ -12,6 +12,7 @@ public interface IUserBooksRepository
     Task<InsertOrUpdateResult<bool>> UpdateUserBookLevelAsync(string userId, Books book, List<RecipeItemDetailDTO> totalDeductions);
     Task<InsertOrUpdateResult<bool>> UpdateUserBookStarAsync(string userId, Books book);
     Task<InsertOrUpdateResult<bool>> UpdateUserBookQuantityAsync(string userId, Books book, List<RecipeItemDetailDTO> totalDeductions);
+    Task<InsertOrUpdateResult<bool>> UpdateUserBookAffinityAsync(string userId, Books book, List<RecipeItemDetailDTO> totalDeductions);
     Task<bool> UpdateTeamUserBookAsync(string userId, string team_id, string position, string book_id);
     Task<Books> GetUserBookByIdAsync(string userId, string Id);
     Task<List<string>> GetTeamIdsAsync(string userId);

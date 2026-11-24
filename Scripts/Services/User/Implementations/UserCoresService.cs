@@ -214,6 +214,50 @@ public class UserCoresService : IUserCoresService
         return result;
     }
 
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCoreAffinityAsync(string userId, Cores core, List<RecipeItemDetailDTO> totalDeductions)
+    {
+        if (core == null)
+        {
+            return InsertOrUpdateResult<bool>.Failure("Core is required.");
+        }
+
+        var checkResult = await _coresService.IsCoreDeletedOrInactiveAsync(core.Id);
+        if (checkResult)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = MessageConstants.THE_DATA_WAS_DELETED_OR_INACTIVE
+            };
+        }
+
+        var updateResult = await _userCoresRepository.UpdateUserCoreAffinityAsync(
+            userId,
+            core,
+            totalDeductions);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                IsChangePower = false,
+                Message = updateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        return new InsertOrUpdateResult<bool>
+        {
+            Data = true,
+            OperationType = DatabaseOperationType.Updated,
+            IsChangePower = false,
+            Message = MessageConstants.UPDATED_SUCCESSFULLY
+        };
+    }
+
     public async Task<Cores> GetUserCoreByIdAsync(string userId, string Id)
     {
         var result = await _userCoresRepository.GetUserCoreByIdAsync(userId, Id);
